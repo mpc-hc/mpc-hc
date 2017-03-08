@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -145,7 +145,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         CString info = MI.Inform().c_str();
 
         if (info.IsEmpty() || !info.Find(_T("Unable to load"))) {
-            info = ResStr(IDS_MEDIAINFO_NO_INFO_AVAILABLE);
+            info.LoadString(IDS_MEDIAINFO_NO_INFO_AVAILABLE);
         }
 
         return info;
@@ -191,12 +191,13 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     // The empty string will fall back to the first font that matches the other specified attributes.
     LPCTSTR fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
     // Use a negative value to match the character height instead of the cell height.
-    int fonts_size[] = { -10, -11, -11 };
+    const int fonts_size[] = { 10, 11, 11 };
     size_t i = 0;
     bool bSuccess;
+    DpiHelper dpi;
     do {
         _tcscpy_s(lf.lfFaceName, fonts[i]);
-        lf.lfHeight = fonts_size[i];
+        lf.lfHeight = -dpi.ScaleY(fonts_size[i]);
         bSuccess = IsFontInstalled(fonts[i]) && m_font.CreateFontIndirect(&lf);
         i++;
     } while (!bSuccess && i < _countof(fonts));

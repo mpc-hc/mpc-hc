@@ -1,8 +1,9 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # 洪嘉鴻 <jerry9030@gmail.com>, 2015
+# Chien Wei Lin <cwlin0416@gmail.com>, 2016
 # kenelin <kenelin@gmail.com>, 2013
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-29 07:46+0000\n"
-"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
+"PO-Revision-Date: 2016-06-12 21:19+0000\n"
+"Last-Translator: Chien Wei Lin <cwlin0416@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,19 +143,19 @@ msgstr "導覽(&V)"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "著色器 (Shader) 偵錯(&D)"
+msgstr "著色器除錯(&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "先前設定(&P)..."
+msgstr "初始設定(&P)..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "最小(&M)"
+msgstr "極簡(&M)"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "輕巧(&C)"
+msgstr "簡潔(&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -190,11 +191,11 @@ msgstr "自動調整 (僅限解像度過大時) (&L)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "繪製器設定(&E)"
+msgstr "繪製器 (Renderer) 設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "抖動測試(&T)"
+msgstr "撕裂測試(&T)"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
@@ -374,7 +375,7 @@ msgstr "重設為最佳的繪製器設定(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "視訊畫面(&V)"
+msgstr "視訊影格(&F)"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
@@ -410,7 +411,7 @@ msgstr "由外貼齊視窗(&O)"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "長寬比(&A)"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
@@ -438,7 +439,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "假設正方型像素 (SAR) (&s)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -454,7 +455,7 @@ msgstr "增加大小(&I)"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "降低大小(&D)"
+msgstr "減少大小(&D)"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
@@ -462,7 +463,7 @@ msgstr "增加寬度(&N)"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "降低寬度(&E)"
+msgstr "減少寬度(&E)"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
@@ -470,7 +471,7 @@ msgstr "增加高度(&C)"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "降低高度(&A)"
+msgstr "減少高度(&A)"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
@@ -518,7 +519,7 @@ msgstr "當播放影片時(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "設定選項(&O)..."
+msgstr "選項(&O)..."
 
 msgctxt "POPUP"
 msgid "&Play"
@@ -566,11 +567,11 @@ msgstr "重設頻率(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "篩選器(&F)"
+msgstr "篩選器 (Filter) (&F)"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "著色器 (Shaders) (&H)"
+msgstr "著色器 (Shader) (&H)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"

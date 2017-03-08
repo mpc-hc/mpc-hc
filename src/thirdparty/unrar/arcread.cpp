@@ -53,9 +53,11 @@ size_t Archive::SearchBlock(HEADER_TYPE HeaderType)
 
 size_t Archive::SearchSubBlock(const wchar *Type)
 {
-  size_t Size;
+  size_t Size,Count=0;
   while ((Size=ReadHeader())!=0 && GetHeaderType()!=HEAD_ENDARC)
   {
+    if ((++Count & 127)==0)
+      Wait();
     if (GetHeaderType()==HEAD_SERVICE && SubHead.CmpName(Type))
       return Size;
     SeekToNext();
@@ -318,9 +320,8 @@ size_t Archive::ReadHeader15()
           else
             *hd->FileName=0;
 
-          char AnsiName[NM];
-          IntToExt(FileName,AnsiName,ASIZE(AnsiName));
-          GetWideName(AnsiName,hd->FileName,hd->FileName,ASIZE(hd->FileName));
+          if (*hd->FileName==0)
+            ArcCharToWide(FileName,hd->FileName,ASIZE(hd->FileName),ACTW_OEM);
 
 #ifndef SFX_MODULE
           ConvertNameCase(hd->FileName);

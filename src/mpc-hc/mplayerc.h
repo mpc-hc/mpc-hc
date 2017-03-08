@@ -27,6 +27,7 @@
 
 #include "EventDispatcher.h"
 #include "DpiHelper.h"
+#include "AppSettings.h"
 #include "RenderersSettings.h"
 #include "resource.h"
 
@@ -193,6 +194,5 @@ public:
 
 #define AfxGetAppSettings() (*static_cast<CMPlayerCApp*>(AfxGetApp())->m_s.get())
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
-#define AfxGetMainFrame()   dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
 #define GetEventd() AfxGetMyApp()->m_eventd

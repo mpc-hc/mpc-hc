@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug Lite|Win32">
       <Configuration>Debug Lite</Configuration>
@@ -66,16 +66,6 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin\mpc-hc_x64 Lite\</OutDir>
     <TargetName Condition="'$(Platform)'=='x64'">$(ProjectName)64</TargetName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)bin15\mpc-hc_x86_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">$(SolutionDir)bin15\mpc-hc_x86_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)bin15\mpc-hc_x64_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">$(SolutionDir)bin15\mpc-hc_x64_$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin15\mpc-hc_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">$(SolutionDir)bin15\mpc-hc_x86 Lite\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin15\mpc-hc_x64\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin15\mpc-hc_x64 Lite\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -107,24 +97,17 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Release'))">
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'!='140'">$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='140'">$(SolutionDir)bin15\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Debug'))">
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'!='140'">$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(PlatformToolsetVersion)'=='140'">$(SolutionDir)bin15\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="$(Configuration.Contains('Debug')) and '$(Platform)'=='Win32'">
-    <Link>
-      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Lite'))">
     <Link>
-      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;MathLibFix.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;mhook.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;mhook.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -171,6 +154,7 @@
     <ClCompile Include="FileAssoc.cpp" />
     <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
+    <ClCompile Include="ImageGrayer.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
     <ClCompile Include="MediaPositionList.cpp" />
     <ClCompile Include="FloatEdit.cpp" />
@@ -250,6 +234,7 @@
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShockwaveGraph.cpp" />
     <ClCompile Include="SkypeMoodMsgHandler.cpp" />
+    <ClCompile Include="SVGImage.cpp" />
     <ClCompile Include="Translations.cpp" />
     <ClCompile Include="StaticLink.cpp" />
     <ClCompile Include="StatusLabel.cpp" />
@@ -314,6 +299,7 @@
     <ClInclude Include="GraphThread.h" />
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
+    <ClInclude Include="ImageGrayer.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
@@ -402,6 +388,7 @@
     <ClInclude Include="SubtitlesProviders.h" />
     <ClInclude Include="SubtitlesProvidersUtils.h" />
     <ClInclude Include="SubtitleUpDlg.h" />
+    <ClInclude Include="SVGImage.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
     <ClInclude Include="Translations.h" />
@@ -533,9 +520,6 @@
     <ProjectReference Include="..\DSUtil\DSUtil.vcxproj">
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MathLibFix\MathLibFix.vcxproj">
-      <Project>{fc9fc17f-70bf-4aca-8285-c24d1889bacb}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
     </ProjectReference>
@@ -625,9 +609,6 @@
     <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
       <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\mhook\mhook.vcxproj">
-      <Project>{f841363c-a630-4716-8941-cddc1f32cfc3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
@@ -703,6 +684,9 @@
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\minhook\minhook.vcxproj">
+      <Project>{303B855A-137D-45E9-AF6D-B7241C6E66D6}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

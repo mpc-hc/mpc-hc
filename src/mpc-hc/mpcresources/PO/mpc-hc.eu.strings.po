@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Xabier Aramendi <azpidatziak@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 16:28+0000\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-29 16:39+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/mpc-hc/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -812,6 +812,18 @@ msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Hauspena murrizten du D3D barne eraikitako berezko ZAldb-tik igaro gabe."
 
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Sintonizagailu mihaketa"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Azpidatziak ez dira geratatu edo aurkezle sostengugabea."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Bildutako itzalak tokiko AppDatan biltegiratzen ditu gertatze denbora bizkortzeko."
+
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
 msgstr "Ireki VTS_xx_0.ifo VTS_xx_x.vob agiriak atal bakarrean gertatzeko"
@@ -949,12 +961,12 @@ msgid "&Organize Favorites..."
 msgstr "&Antolatu Gogokoenak..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Nahastu"
+msgid "Sh&uffle"
+msgstr "Na&hastu"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "Ireki agiri kokalekua"
+msgid "Ope&n file location"
+msgstr "Ireki agiri &kokalekua"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1037,8 +1049,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "&Zooma Ultra-Ikusleiho-zabalera,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "Ezkutatu Ikusleiho-osoan"
+msgid "&Hide on Fullscreen"
+msgstr "E&zkutatu Ikusleiho-osoan"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1225,8 +1237,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "Gehitu edukiaren agiritegia"
+msgid "Add containing &folder"
+msgstr "Gehitu &edukiaren agiritegia"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1428,13 +1440,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Irudia ongi gorde da"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Gertatu Azpidatzia"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Gertatu Azpidatziak..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Gorde Azpidatzia"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Gorde Azpidatziak..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -2553,8 +2565,8 @@ msgid "Volume boost Max"
 msgstr "Bolumen bultzada Gehiena"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Erabilpena: mpc-hc.exe \"helburu-izena\" [aldagailuak]\n\n\"pathname\"\tGertatzeko agiri edo zuzenbide nagusia\n\t\t(ordezhizkiak ahal dira, \"-\"-k sarrera estandarra adierazten du)\n/dub \"dubname\"\tGertatu audio agiri gehigarri bat\n/dubdelay \"file\"\tGertatu audio agiri gehigarri bat XXsm aldatuta\n\t\t(baldin agiriak baditu \"...ATZERAPENA XXsM...\")\n/d3dfs\t\tHasi aurkezpena D3D ikusleiho-osoko moduan\n/sub \"subname\"\tGertatu azpidatzi agiri gehigarri bat\n/filter \"filtername\"\tGertatu DirectShow iragazkiak lotura dinamiko\n\t\tliburutegi batetik (ordezhizkiak ahal dira)\n/dvd\t\tEkin dvd moduan, \"helburu-izena\" esanahi du\n\t\tdvd agiritegia (aukerazkoa)\n/dvdpos T#C\tHasi irakurketa I izenburuan, A atalean\n/dvdpos T#hh:mm\tHasi irakurketa I izenburuan, kokapena oo:mn:sg\n/cd\t\tGertatu cd edo (s)vcd audio bide guztiak,\n\t\t\"helburu-izena\" esanahi du gidagailu helburua\n\t\t(aukerazkoa)\n/device\t\tIreki berezko bideo gailua\n/open\t\tIreki agiria, ez hasi irakurketa berezgaitasunez\n/play\t\tHasi agiriaren irakurketa irakurgailua abiaraziz\n\t\tbezain laister\n/close\t\tItxi irakurgailua irakurketaren ondoren\n\t\t(bakarrik lan egiten du /irakurri erabiltzen denean)\n/shutdown\tItzali sistema eragilea irakurketaren ondoren\n/standby\t\tJarri sistema eragilea egonean irakurketaren ondoren\n/hibernate\tNeguratu sistema eragilea irakurketaren ondoren\n/logoff\t\tAmaitu saioa irakurketaren ondoren\n/lock\t\tBlokeatu langunea irakurketaren ondoren\n/monitoroff\tItzali monitorea irakurketaren ondoren\n/playnext\t\tIreki agiritegiko hurrengo agiria irakurketaren ondoren\n/fullscreen\tHasi ikusleiho-osoko moduan\n/minimized\tHasi txikien moduan\n/new\t\tErabili irakurgailuaren eskabide berri bat\n/add\t\tGehitu \"helburu-izena\" irakur-zerrendara,\n\t\tnahastu daiteke /ireki eta /irakurrirekin\n/randomize\tRandomize the playlist\n/regvid\t\tSortu agiri elkarketak bideo agirientzat\n/regaud\t\tSortu agiri elkarketak audio agirientzat\n/regpl\t\tSortu agiri elkarketak irakur-zerrendentzat\n/regall\t\tSortu agiri elkarketak sostengatutako\n\t\tagiri mota guztientzat\n/unregall\t\tKendu agiri elkarketa guztiak\n/start ms\t\tHasi irakurketa \"sm\" (= segundumilaenetan)\n/startpos hh:mm:ss\tHasi irakurketa kokapen honetan oo:mn:sg\n/fixedsize w,h\tEzarri zuzendutako leiho neurria\n/monitor N\tHasi irakurketa N monitorean,\n\t\tnon N hasten den 1-etik\n/audiorenderer N\tHasi N audio-aurkezlea erabiliz,\n\t\tnon N hasten den 1-etik (ikusi \"Irteera\" ezarpenak)\n/shaderpreset \"Pr\"\tHasi \"Pr\" itzal aurrezarpena erabiliz\n/pns \"name\"\tAdierazi erabiltzeko Pan-Scan aurrezarpen izena\n/iconsassoc\tBerrelkartu heuskarri ikurrak\n/nofocus\t\tIreki MPC-HC barrenean\n/webport N\tHasi web interfazea adierazitako atakan\n/debug\t\tErakutsi garbiketa argibideak IGE-n\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tErabili MPC-HC esklabu bezala\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tBerrezarri berezko ezarpenak\n/help /h /?\tErakutsi komando lerro aldaketa laguntza\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Erabilpena: mpc-hc.exe \"helburu-izena\" [aldagaiak]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2639,14 +2651,6 @@ msgstr "BidFrm Aldatu Zooma"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Gaitu iragazki guztiak"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Sintonizagailu mihaketa"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Azpidatziak ez dira geratatu edo aurkezle sostengugabea."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -3588,6 +3592,10 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Hornitzailea"
@@ -3653,7 +3661,7 @@ msgid "Uploading..."
 msgstr "Igotzen..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Azpidatzia ongi igo da."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
@@ -3739,4 +3747,220 @@ msgstr "Igo azpidatziak"
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
 msgstr "Zihur zaude \"%s\" azpidatzi agiria igotzea nahi duzula?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Sostengatutako hizkuntzak lortzen..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Hutsegitea \"%S\" saioa hasterakoan \"%S\" erabiltzaile-izenarekin.\n\nMesedez sartu erabiltzaile-izen eta sarhitz zuzena edo berrezarri ezagutarazleak izengabeko erabiltzaile bezala hasteko saioa."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Berezgaitasunez bilatu eta jeitsi ezgaitu egingo da multimedia agiri guztientzat helburuak hemen sartutako ereduetako bat duenean.\nAdibidez, honelakoak: \"pribatua dir\\bideoak|lana\\\"."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"pathname\"\tGertatzeko agiri nagusia edo zuzenbidea\n\t\t(ordez-hizkiak ahalbidetuta, \"-\" sarrera estandarra adierazten du)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dubname\"\tGertatu audio agiri gehigarri bat"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"file\"\tGertatu audio agiri gehigarri bat XXms-rekin aldatuta\n\t\t(Agiriak \"...ATZERPENA XXms...\" badu)"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tHasi aurkezpena D3D ikusleiho-osoko moduan"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"subname\"\tGertatu azpidatzi agiri gehigarri bat"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filtername\"\tGertatu DirectShow iragazkiak lotura dinamikoko liburutegi batetik (ordez-hizkiak ahalbidetuta)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tEkin DVD moduan, \"helburu-izena\" DVD agiritegia esanahi du (aukerazkoa)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tHasi irakurketa T izenburuko, C atalean"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tHasi irakurketa T izenburuan, P kokapenean (oo:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tGertatu cd edo (S)VCD bateko audio bide guztiak,\n\t\t\"helburu-izena\"-k gidagailu helburua esanahi du esanahi du (aukerazkoa)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tIreki berezo bideo gailua"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tIreki agiria, ez hasi irakurketa berezgaitasunez"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tHasi agiria irakurtzen irakurgailua abiarazi bezain laister"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tItxi irakurgailua irakurketaren ondoren (\\play-rekin erabiltzen denean bakarrik jarduten du)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tItzali sistema eragilea irakurketaren ondoren"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tJarri sistema eragilea egonean moduan irakurketaren ondoren"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tNeguratu sistema eragilea irakurketaren ondoren"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tAmaitu saioa irakurketaren ondoren"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tBlokeatu lan-estazioa irakurketaren ondoren"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tItzali monitorea irakurketaren ondoren"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tIreki agiritegiko hurrengo agiria irakurketaren ondoren"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tHasi ikusleiho-osoko moduan"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tHasi modu txikienduan"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tErabili irakurgailuaren eskabide berri bat"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tGehitu \"helburu-izena\" irakur-zerrendara, /open eta /play-rekin batera erabili daiteke"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tZorizkotu irakur-zerrenda"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tSortu agiri elkarketak bideo agirientzat"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tSortu agiri elkarketak audio agirientzat"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tSortu agiri elkarketak irakur-zerrenda agirientzat"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tSortu agiri elkarketak sostengatutako agiri mota guztientzat"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tKenndu agiri elkarketa guztiak"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tHasi irakurketa hemen \"sm\" (= segundumilaen)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tHasi irakurketa oo:mm:ss kokapenean"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\tEzarri leiho neurri finko bat"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tHasi irakurgailua N monitorean, non N 1-etaik hasten da"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tHasi N audio-aurkezlea erabiliz, non N 1-etatik hasten da (Ikusi \"Irteera\" ezarpenak)"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\tHasi \"Pr\" itzal aurrezarpena erabiliz"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"name\"\tAdierazi erabiliko den Pan&Scan aurrezarpen izena"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tBerrelkartu heuskarri ikurrak"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tIreki MPC-HC barrenean"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tHasi web interfazea adierazitako atakan"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tErakutsi garbiketa argibideak IGE-an"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tEzgaitu matxura jakinarazpenak"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tErabili MPC-HC esklabu bezala"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tEzarri hardware dekodeaketarako erabilitako GPU aurkibidea.\n\t\tEskuragarri bakarrik CUVID eta DXVA2-rako (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tLeheneratu berezko ezarpenak"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tErakutsi agindu lerro aldaketa buruzko laguntza"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Berezgaitasunez jeitsiko diren azpidatzientzako muga balioa. Balio handiagoak zehaztasun gehien duten azpidatziak gertatuko direla esanahi du, balio txikiagoek azpidatzi okerrak gertatzea eragin dezakete, baina ez dago balio ezinhobe bat. Hautatu zuretzat hobekien lan egiten duen bat."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Audio Atzerapena (sm)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Berezko tresnabarraren neurria pixeletan."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Erabili ondorena tresnabarra bektorizatutako berri baten ordez."
 

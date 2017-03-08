@@ -54,6 +54,7 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
+    virtual void OnCancel();
 
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 

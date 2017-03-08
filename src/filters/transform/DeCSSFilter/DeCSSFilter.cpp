@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,6 +27,9 @@
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef STANDALONE_FILTER
+
+#include <initguid.h>
+#include "moreuuids.h"
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_NULL},

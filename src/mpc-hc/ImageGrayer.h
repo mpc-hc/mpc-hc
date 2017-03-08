@@ -1,5 +1,5 @@
 /*
-* (C) 2015 see Authors.txt
+* (C) 2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,8 +20,7 @@
 
 #pragma once
 
-#if (_MSC_VER >= 1900)
-#define MPCHC_CONSTEXPR constexpr
-#else
-#define MPCHC_CONSTEXPR const
-#endif
+namespace ImageGrayer
+{
+    bool Gray(const CImage& imgSource, CImage& imgDest);
+}

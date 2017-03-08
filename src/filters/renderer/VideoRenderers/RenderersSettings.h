@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -109,6 +109,10 @@ public:
         double  fTargetSyncOffset;
         double  fControlLimit;
 
+        // Other settings
+        bool    bCacheShaders;
+        CString sShaderCachePath;
+
         void    SetDefault();
         void    SetOptimal();
     };
@@ -130,7 +134,7 @@ public:
 class CRenderersData
 {
     HINSTANCE     m_hD3DX9Dll;
-    UINT          m_nDXSdkRelease;
+    const UINT    m_nDXSdkRelease;
     LARGE_INTEGER llPerfFrequency;
 
 public:

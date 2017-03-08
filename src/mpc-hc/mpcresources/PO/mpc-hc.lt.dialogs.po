@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # linasmi <linasmi@mail.ru>, 2014-2015
-# Linas Tamašauskas, 2015
+# Linas Tamašauskas, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-17 11:12+0000\n"
+"Last-Translator: Linas Tamašauskas\n"
 "Language-Team: Lithuanian (http://www.transifex.com/mpc-hc/mpc-hc/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "Gerai"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
 msgid "Cancel"
-msgstr "Ašaukti"
+msgstr "Atšaukti"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
 msgid "Video"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Apie"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Autorinės teisės © 2002-2016 skaitykite Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Autorinės teisės © 2002-2017 skaitykite Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -430,8 +430,8 @@ msgid "After Playback"
 msgstr "Baigus groti"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Išvestis"
+msgid "Default zoom"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -570,7 +570,7 @@ msgid "Warning"
 msgstr "Įspėjimas"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Jei jūs pakeisite padėtį ir įjungsite pilnaekranį išlyginimą vaizdo plokštės nustatymuose, subtitrai neatrodys geriau, bet papildomai eikvos procesorių."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1189,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Subtitrų renderis"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Klausyti prievadą:"
@@ -1590,7 +1594,7 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
+msgid "Languages in order of preference:"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"

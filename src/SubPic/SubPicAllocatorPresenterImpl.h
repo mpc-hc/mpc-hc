@@ -70,8 +70,14 @@ protected:
     void AlphaBltSubPic(const CRect& windowRect,
                         const CRect& videoRect,
                         SubPicDesc* pTarget = nullptr,
-                        const double videoStretchFactor = 1.0);
+                        const double videoStretchFactor = 1.0,
+                        int xOffsetInPixels = 0);
 
+    void UpdateXForm();
+    HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;
+
+    Vector m_defaultVideoAngle, m_videoAngle;
+    bool m_bDefaultVideoAngleSwitchAR;
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
 
@@ -120,6 +126,8 @@ public:
     }
 
     STDMETHODIMP SetIsRendering(bool bIsRendering) { return E_NOTIMPL; }
+
+    STDMETHODIMP SetDefaultVideoAngle(Vector v);
 
     // ISubRenderOptions
 

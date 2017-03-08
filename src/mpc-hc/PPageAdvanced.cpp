@@ -1,5 +1,5 @@
 /*
-* (C) 2014-2015 see Authors.txt
+* (C) 2014-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -19,15 +19,18 @@
 */
 
 #include "stdafx.h"
-#include <strsafe.h>
 #include "PPageAdvanced.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "SettingsDefines.h"
+#include "EventDispatcher.h"
+#include <strsafe.h>
 
 CPPageAdvanced::CPPageAdvanced()
     : CPPageBase(IDD, IDD)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+    GetEventd().Connect(m_eventc, fires);
 }
 
 void CPPageAdvanced::DoDataExchange(CDataExchange* pDX)
@@ -35,6 +38,7 @@ void CPPageAdvanced::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Control(pDX, IDC_COMBO1, m_comboBox);
+    DDX_Control(pDX, IDC_SPIN1, m_spinButtonCtrl);
 }
 
 BOOL CPPageAdvanced::OnInitDialog()
@@ -58,11 +62,14 @@ BOOL CPPageAdvanced::OnInitDialog()
         pToolTip->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
     }
 
+    m_spinButtonCtrl.SetBuddy(GetDlgItem(IDC_EDIT1));
+
     GetDlgItem(IDC_EDIT1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_COMBO1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
+    GetDlgItem(IDC_SPIN1)->ShowWindow(SW_HIDE);
 
     GetDlgItemText(IDC_RADIO1, m_strTrue);
     GetDlgItemText(IDC_RADIO2, m_strFalse);
@@ -122,23 +129,32 @@ void CPPageAdvanced::InitSettings()
         m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
-    addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
-    addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
-    addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
-    addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_FILE_POS_LONGER));
-    addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, ResStr(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
-    addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
-    addBoolItem(LOGGING, IDS_RS_LOGGING, false, s.bEnableLogging, ResStr(IDS_PPAGEADVANCED_LOGGER));
+    addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, StrRes(IDS_PPAGEADVANCED_HIDE_WINDOWED));
+    addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, StrRes(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
+    addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 20, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
+    addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
+    addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
+    addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
+    addBoolItem(LOGGING, IDS_RS_LOGGING, false, s.bEnableLogging, StrRes(IDS_PPAGEADVANCED_LOGGER));
+    addIntItem(AUTO_DOWNLOAD_SCORE_MOVIES, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16, s.nAutoDownloadScoreMovies,
+               std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
+    addIntItem(AUTO_DOWNLOAD_SCORE_SERIES, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18, s.nAutoDownloadScoreSeries,
+               std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
+    addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
+               std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
+    addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
 }
 
 BOOL CPPageAdvanced::OnApply()
 {
+    auto& s = AfxGetAppSettings();
+
+    int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
+
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(i));
         m_hiddenOptions.at(eSetting)->Apply();
     }
-
-    auto& s = AfxGetAppSettings();
 
     s.MRU.SetSize(s.iRecentFilesNumber);
     s.MRUDub.SetSize(s.iRecentFilesNumber);
@@ -148,6 +164,13 @@ BOOL CPPageAdvanced::OnApply()
     // There is no main frame when the option dialog is displayed stand-alone
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    }
+
+    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {
+        m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+            pMainFrame->RecalcLayout();
+        }
     }
 
     return __super::OnApply();
@@ -177,7 +200,6 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
 
     const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
-        SetRedraw(FALSE);
         CString str;
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -202,14 +224,12 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
             str = pItemCString->GetValue();
             SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
         } else {
-            ASSERT(FALSE);
-            return;
+            UNREACHABLE_CODE();
         }
 
         m_list.SetItemText(iItem, COL_VALUE, str);
         UpdateData(FALSE);
-        SetRedraw(TRUE);
-        Invalidate();
+        m_list.Update(iItem);
         SetModified();
     }
 }
@@ -232,7 +252,6 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMItemActivate->iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->Toggle();
             m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE,
                                pItemBool->GetValue() ? m_strTrue : m_strFalse);
@@ -242,8 +261,7 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
             }
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(pNMItemActivate->iItem);
             SetModified();
         }
     }
@@ -289,12 +307,12 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
     if ((pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVNI_SELECTED)) {
-        SetRedraw(FALSE);
-        GetDlgItem(IDC_EDIT1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_COMBO1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
+        auto setDialogItemsVisibility = [this](std::initializer_list<int> && ids, int nCmdShow) {
+            for (const auto& nID : ids) {
+                GetDlgItem(nID)->ShowWindow(nCmdShow);
+            }
+        };
+
         if (pNMLV->iItem >= 0) {
             m_lastSelectedItem = pNMLV->iItem;
             auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMLV->iItem));
@@ -302,14 +320,15 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
             GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
 
             if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
+                setDialogItemsVisibility({ IDC_EDIT1, IDC_COMBO1, IDC_SPIN1 }, SW_HIDE);
                 if (pItemBool->GetValue()) {
                     CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
                 } else {
                     CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
                 }
-                GetDlgItem(IDC_RADIO1)->ShowWindow(SW_SHOW);
-                GetDlgItem(IDC_RADIO2)->ShowWindow(SW_SHOW);
+                setDialogItemsVisibility({ IDC_RADIO1, IDC_RADIO2 }, SW_SHOW);
             } else if (auto pItemCombo = std::dynamic_pointer_cast<SettingsCombo>(pItem)) {
+                setDialogItemsVisibility({ IDC_EDIT1, IDC_RADIO1, IDC_RADIO2, IDC_SPIN1 }, SW_HIDE);
                 m_comboBox.ResetContent();
                 for (const auto& str : pItemCombo->GetList()) {
                     m_comboBox.AddString(str);
@@ -317,17 +336,24 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_comboBox.SetCurSel(pItemCombo->GetValue());
                 m_comboBox.ShowWindow(SW_SHOW);
             } else if (auto pItemInt = std::dynamic_pointer_cast<SettingsInt>(pItem)) {
+                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(0, ES_NUMBER, 0);
-                SetDlgItemInt(IDC_EDIT1, pItemInt->GetValue());
+                const auto& range = pItemInt->GetRange();
+                m_spinButtonCtrl.SetRange32(range.first, range.second);
+                m_spinButtonCtrl.SetPos32(pItemInt->GetValue());
+                m_spinButtonCtrl.ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else if (auto pItemCString = std::dynamic_pointer_cast<SettingsCString>(pItem)) {
+                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
                 SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
+            } else {
+                UNREACHABLE_CODE();
             }
+        } else {
+            setDialogItemsVisibility({ IDC_EDIT1, IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
         }
-        SetRedraw(TRUE);
-        Invalidate();
     }
 
     *pResult = 0;
@@ -341,12 +367,10 @@ void CPPageAdvanced::OnBnClickedRadio1()
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->SetValue(true);
             m_list.SetItemText(iItem, COL_VALUE, m_strTrue);
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(iItem);
             SetModified();
         }
     }
@@ -360,12 +384,10 @@ void CPPageAdvanced::OnBnClickedRadio2()
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->SetValue(false);
             m_list.SetItemText(iItem, COL_VALUE, m_strFalse);
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(iItem);
             SetModified();
         }
     }
@@ -384,7 +406,7 @@ void CPPageAdvanced::OnCbnSelchangeCombobox()
             pItemCombo->SetValue(iItem);
             m_list.SetItemText(nItem, COL_VALUE, list.at(iItem));
             UpdateData(FALSE);
-            Invalidate();
+            m_list.Update(nItem);
             if (m_comboBox.IsWindowVisible()) {
                 SetModified();
             }
@@ -428,8 +450,8 @@ void CPPageAdvanced::OnEnChangeEdit()
 
         if (bChanged) {
             m_list.SetItemText(iItem, COL_VALUE, str);
+            m_list.Update(iItem);
             UpdateData(FALSE);
-            Invalidate();
             SetModified();
         }
     }

@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,8 +20,6 @@
 
 #pragma once
 
-#include <atlbase.h>
-#include <d3d9.h>
 #include <evr9.h>
 #include <vmr9.h>
 

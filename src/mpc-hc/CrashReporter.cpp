@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,12 +21,10 @@
 #include "stdafx.h"
 #include "CrashReporter.h"
 #ifndef _DEBUG
-#include <DbgHelp.h>
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
 #include "DoctorDump/CrashRpt.h"
 #include "mplayerc.h"
-#include "translations.h"
 
 
 using namespace crash_rpt;

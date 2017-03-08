@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,32 +20,37 @@
  */
 
 #include "stdafx.h"
-#include <mpconfig.h>
-#include "mplayerc.h"
 #include "FGManager.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "PathUtils.h"
+#include "../DeCSS/VobFile.h"
 #include "../filters/Filters.h"
 #include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
-#include "../DeCSS/VobFile.h"
-#include <InitGuid.h>
-#include <dmodshow.h>
+#include "FakeFilterMapper2.h"
+#include "FileVersionInfo.h"
+#include "IPinHook.h"
+#include "NullRenderers.h"
+#include "PathUtils.h"
+#include "SyncAllocatorPresenter.h"
+#include "mplayerc.h"
+#include "sanear/sanear/src/Factory.h"
 #include <d3d9.h>
-#include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
+#include <vmr9.h>
+#include <ks.h>
 #include <ksproxy.h>
-#include "IPinHook.h"
-#include "moreuuids.h"
+#include <mpconfig.h>
 #include <mvrInterfaces.h>
-#include "../thirdparty/sanear/sanear/src/Factory.h"
+
+#include <initguid.h>
+#include "moreuuids.h"
+#include <dmodshow.h>
 
 //
 // CFGManager
 //
+
+class CNullAudioRenderer;
 
 CFGManager::CFGManager(LPCTSTR pName, LPUNKNOWN pUnk)
     : CUnknown(pName, pUnk)
@@ -154,7 +159,7 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 
         // LAME
         while (maskstr.GetLength() < valstr.GetLength()) {
-            maskstr += 'F';
+            maskstr += _T('F');
         }
 
         CAtlArray<BYTE> mask, val;
@@ -2130,6 +2135,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF = tra[TRA_FLIC] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLIC);
 #endif
+#if INTERNAL_DECODER_MSVIDEO
+    pFGF = tra[TRA_MSVIDEO] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CRAM);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WHAM);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MSVC);
+#endif
 #if INTERNAL_DECODER_V210_V410
     pFGF = tra[TRA_V210_V410] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_v210);
@@ -2218,13 +2229,24 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             case CAppSettings::SubtitleRenderer::VS_FILTER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                break;
+            case CAppSettings::SubtitleRenderer::ASS_FILTER:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             default:
                 ASSERT(FALSE);
@@ -2407,36 +2429,36 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, m_vrmerit));
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, StrRes(IDS_PPAGE_OUTPUT_OVERLAYMIXER), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR9WINDOWED:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, StrRes(IDS_PPAGE_OUTPUT_VMR9WINDOWED), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), m_vrmerit));
             break;
         case VIDRNDT_DS_EVR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, ResStr(IDS_PPAGE_OUTPUT_EVR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), m_vrmerit));
             break;
         case VIDRNDT_DS_EVR_CUSTOM:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_EVR_CUSTOM), m_vrmerit));
             break;
         case VIDRNDT_DS_DXR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_DXR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_DXR), m_vrmerit));
             break;
         case VIDRNDT_DS_MADVR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_MADVR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MADVR), m_vrmerit));
             break;
         case VIDRNDT_DS_SYNC:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_SYNC), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_SYNC), m_vrmerit));
             break;
         case VIDRNDT_DS_NULL_COMP:
-            pFGF = DEBUG_NEW CFGFilterInternal<CNullVideoRenderer>(ResStr(IDS_PPAGE_OUTPUT_NULL_COMP), MERIT64_ABOVE_DSHOW + 2);
+            pFGF = DEBUG_NEW CFGFilterInternal<CNullVideoRenderer>(StrRes(IDS_PPAGE_OUTPUT_NULL_COMP), MERIT64_ABOVE_DSHOW + 2);
             pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
             break;
         case VIDRNDT_DS_NULL_UNCOMP:
-            pFGF = DEBUG_NEW CFGFilterInternal<CNullUVideoRenderer>(ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP), MERIT64_ABOVE_DSHOW + 2);
+            pFGF = DEBUG_NEW CFGFilterInternal<CNullUVideoRenderer>(StrRes(IDS_PPAGE_OUTPUT_NULL_UNCOMP), MERIT64_ABOVE_DSHOW + 2);
             pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
             break;

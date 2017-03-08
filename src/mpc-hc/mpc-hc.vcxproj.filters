@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Player Config">
       <UniqueIdentifier>{43c75f5f-5e94-4d15-8f45-b39b7c36bd62}</UniqueIdentifier>
@@ -461,6 +461,12 @@
     <ClCompile Include="..\thirdparty\XmlRpc4Win\TimXmlRpc.cpp">
       <Filter>Subtitles</Filter>
     </ClCompile>
+    <ClCompile Include="SVGImage.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageGrayer.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -860,6 +866,12 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\XmlRpc4Win\timxmlrpc.h">
       <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGImage.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGrayer.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

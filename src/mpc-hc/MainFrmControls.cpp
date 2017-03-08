@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "MainFrmControls.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 #include <mvrInterfaces.h>
 
 #define DELAY_SHOW_NOT_LOADED_TIME_MS 3000
@@ -323,8 +324,14 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     struct {
         int maskShow, maskHide;
-        void show(int mask) { maskShow |= mask; maskHide &= ~mask; }
-        void hide(int mask) { maskHide |= mask; maskShow &= ~mask; }
+        void show(int mask) {
+            maskShow |= mask;
+            maskHide &= ~mask;
+        }
+        void hide(int mask) {
+            maskHide |= mask;
+            maskShow &= ~mask;
+        }
     } mask = { 0, 0 };
     const int maskAll = DOCK_LEFT | DOCK_RIGHT | DOCK_TOP | DOCK_BOTTOM;
 

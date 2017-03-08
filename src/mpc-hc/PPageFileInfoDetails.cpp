@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,11 +39,11 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
     , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
-    , m_type(ResStr(IDS_AG_NOT_KNOWN))
-    , m_size(ResStr(IDS_AG_NOT_KNOWN))
-    , m_duration(ResStr(IDS_AG_NOT_KNOWN))
-    , m_resolution(ResStr(IDS_AG_NOT_KNOWN))
-    , m_creationDate(ResStr(IDS_AG_NOT_KNOWN))
+    , m_type(StrRes(IDS_AG_NOT_KNOWN))
+    , m_size(StrRes(IDS_AG_NOT_KNOWN))
+    , m_duration(StrRes(IDS_AG_NOT_KNOWN))
+    , m_resolution(StrRes(IDS_AG_NOT_KNOWN))
+    , m_creationDate(StrRes(IDS_AG_NOT_KNOWN))
 {
     if (pFSF) {
         CComHeapPtr<OLECHAR> pFN;

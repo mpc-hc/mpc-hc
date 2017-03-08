@@ -38,8 +38,8 @@ class ComprDataIO
     int64 *SubHeadPos;
 
 #ifndef RAR_NOCRYPT
-    CryptData Crypt;
-    CryptData Decrypt;
+    CryptData *Crypt;
+    CryptData *Decrypt;
 #endif
 
 
@@ -49,6 +49,7 @@ class ComprDataIO
 
   public:
     ComprDataIO();
+    ~ComprDataIO();
     void Init();
     int UnpRead(byte *Addr,size_t Count);
     void UnpWrite(byte *Addr,size_t Count);

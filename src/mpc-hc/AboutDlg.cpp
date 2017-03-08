@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2015 see Authors.txt
+ * (C) 2012-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -95,33 +95,30 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1900)                // 2015
-#if (_MSC_FULL_VER == 190023506)
+#if (_MSC_FULL_VER == 190024210)
+    m_MPCCompiler = _T("MSVC 2015 Update 3");
+#elif (_MSC_FULL_VER == 190023918)
+    m_MPCCompiler = _T("MSVC 2015 Update 2");
+#elif (_MSC_FULL_VER == 190023506)
     m_MPCCompiler = _T("MSVC 2015 Update 1");
-#else
+#elif (_MSC_FULL_VER == 190023026)
     m_MPCCompiler = _T("MSVC 2015");
-#endif
-#elif (_MSC_VER == 1800)              // 2013
-#if (_MSC_FULL_VER == 180040629)
-    m_MPCCompiler = _T("MSVC 2013 Update 5");
-#elif (_MSC_FULL_VER == 180031101)
-    m_MPCCompiler = _T("MSVC 2013 Update 4");
-#elif (_MSC_FULL_VER == 180030723)
-    m_MPCCompiler = _T("MSVC 2013 Update 3");
-#elif (_MSC_FULL_VER == 180030501)
-    m_MPCCompiler = _T("MSVC 2013 Update 2");
-#elif (_MSC_FULL_VER < 180021005)
-    m_MPCCompiler = _T("MSVC 2013 Preview/Beta/RC");
 #else
-    m_MPCCompiler = _T("MSVC 2013");
+    m_MPCCompiler.Format(_T("MSVC v%.2d.%.2d.%.5d"), _MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 100000);
+#if _MSC_BUILD
+    m_MPCCompiler.AppendFormat(_T(".%.2d"), _MSC_BUILD);
 #endif
-#elif (_MSC_VER <= 1700)
+#endif
+#elif (_MSC_VER <= 1800)
 #error Compiler is not supported!
 #endif
 #else
 #error Please add support for your compiler
 #endif
 
-#if (__AVX__)
+#if (__AVX2__)
+    m_MPCCompiler += _T(" (AVX2)");
+#elif (__AVX__)
     m_MPCCompiler += _T(" (AVX)");
 #elif (__SSSE3__)
     m_MPCCompiler += _T(" (SSSE3)");

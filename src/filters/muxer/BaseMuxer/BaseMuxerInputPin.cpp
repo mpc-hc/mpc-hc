@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,6 @@
 #include <MMReg.h>
 #include "BaseMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <InitGuid.h>
 #include "moreuuids.h"
 
 #define MAXQUEUESIZE 100
@@ -95,7 +94,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerInputPin::PopPacket()
     CAutoLock cAutoLock(&m_csQueue);
 
     if (m_queue.GetCount()) {
-        pPacket = m_queue.RemoveHead();
+        pPacket.Attach(m_queue.RemoveHead().Detach());
     }
 
     if (m_queue.GetCount() < MAXQUEUESIZE) {

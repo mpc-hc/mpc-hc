@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hrant Ohanyan <h.ohanyan@haysoft.org>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-26 08:46+0000\n"
-"Last-Translator: Hrant Ohanyan <h.ohanyan@haysoft.org>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Armenian (http://www.transifex.com/mpc-hc/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,15 +182,15 @@ msgstr "Մերժել"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Միայն ավելացնել խաղացանկին"
+msgstr "Միայն ավելացնել նվագացանկին"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
 msgstr "Ծրագրի մասին"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Copyright © 2002-2016, կարդացե՛ք Authors.txt ֆայլը"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017, կարդացե՛ք Authors.txt ֆայլը"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -318,7 +318,7 @@ msgstr "Պահպանել բացված ֆայլերի պատ-ը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Հիշել վերջին խաղացանկը"
+msgstr "Հիշել վերջին նվագացանկը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -422,15 +422,15 @@ msgstr "անգամ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Կրկնելու կերպը՝"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Նվագարկումից հետո"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Արտածում"
+msgid "Default zoom"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -569,7 +569,7 @@ msgid "Warning"
 msgstr "Ուշադրություն"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Եթե փոխեք դիրքը և կարգավորեք տեսաքարտի էկրանային լղոզումը, ապա տողագրերը ավելի լավ չեն երևա, այլ փոխարենը կխլեն մեծ ռեսուրսներ։"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -682,7 +682,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Բացել հաջորդ/նախորդ ֆայլը թղթապանակում \"Հետ/Առաջ\"-ի միջոցով, եթե խաղացանկում առկա է մեկ ֆայլ։"
+msgstr "Բացել հաջորդ/նախորդ ֆայլը թղթապանակում \"Հետ/Առաջ\"-ի միջոցով, եթե նվագացանկում առկա է մեկ ֆայլ։"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -818,7 +818,7 @@ msgstr "Դասավորել ընտրյալները"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
-msgstr "Անվանափոխել"
+msgstr "Վերանվանել"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
@@ -1186,6 +1186,10 @@ msgstr "Շրջել"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
@@ -1570,7 +1574,7 @@ msgstr "Տողագրերի ճանապարհը"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Ետարկել"
+msgstr "Վերակայել "
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
@@ -1589,7 +1593,7 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
+msgid "Languages in order of preference:"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"

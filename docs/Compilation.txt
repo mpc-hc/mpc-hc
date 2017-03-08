@@ -5,11 +5,6 @@ https://trac.mpc-hc.org/wiki/How_to_compile_the_MPC
 
 Part A: Preparing the Visual Studio environment
 
- Visual Studio 2013 (WARNING: this compiler is now deprecated and support for it will be removed soon)
-  1. Install Visual C++ 2013, part of Visual Studio 2013 Professional (Express won't work, other editions work fine)
-  2. Make sure you install all available updates from Microsoft Update
-  3. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
-
  Visual Studio 2015
   1. Install Visual C++ 2015, part of Visual Studio 2015 (any edition will work fine)
   2. Make sure you install all available updates from Microsoft Update
@@ -17,15 +12,16 @@ Part A: Preparing the Visual Studio environment
 
 
 Part B: Preparing the GCC environment
+
  NOTES:
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
   * If you don't have Git installed then the revision number will be a hard-coded one, like 1.6.3.0.
 
- 1. Download and extract MSYS_MinGW-w64_GCC_530_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_530_x86-x64.7z
-    For the components and their version see: http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_530_x86-x64_components.txt
- 2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path. This is optional.
+ 1. Download and extract MSYS_MinGW-w64_GCC_630_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_630_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_630_x86-x64_components.txt
+ 2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path. This step is optional.
     Add this to it: C:\MSYS\mingw	\mingw
-    Note the tab-space between "mingw" and "\mingw"
+    Note the tab between "mingw" and "\mingw"
  3. Create a file named "build.user.bat" in "C:\mpc-hc" containing the following entries, adapted for your system:
 
 @ECHO OFF
@@ -74,7 +70,7 @@ Alternatively, you can use "build.bat" that can build everything for you
 
 Part D: Building the installer
 
-Download Inno Setup Unicode v5.5.7 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.5.9 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup,
 read the first comments in the script and compile it.
 Notes:

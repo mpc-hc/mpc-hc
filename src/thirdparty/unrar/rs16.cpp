@@ -215,6 +215,7 @@ void RSCoder16::InvertDecoderMatrix()
 }
 
 
+#if 0
 // Multiply matrix to data vector. When encoding, it contains data in Data
 // and stores error correction codes in Out. When decoding it contains
 // broken data followed by ECC in Data and stores recovered data to Out.
@@ -252,6 +253,7 @@ void RSCoder16::Process(const uint *Data, uint *Out)
     Out[I] = R;
   }
 }
+#endif
 
 
 // We update ECC in blocks by applying every data block to all ECC blocks.

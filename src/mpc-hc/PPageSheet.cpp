@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -56,7 +56,9 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     AddPage(&m_internalfilters);
 #endif
     AddPage(&m_audioswitcher);
-    if (SysVersion::IsVistaOrLater()) { AddPage(&m_audiorenderer); }
+    if (SysVersion::IsVistaOrLater()) {
+        AddPage(&m_audiorenderer);
+    }
     AddPage(&m_externalfilters);
     AddPage(&m_subtitles);
     AddPage(&m_substyle);

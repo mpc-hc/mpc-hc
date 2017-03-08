@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 10:20+0000\n"
+"PO-Revision-Date: 2016-02-01 13:35+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "保存缩略图(&T)..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
-msgstr "字幕"
+msgstr "字幕(&U)"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
@@ -533,11 +533,11 @@ msgstr "停止(&S)"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Fra&me Step"
-msgstr "帧步进(&R)"
+msgstr "帧步进(&M)"
 
 msgctxt "POPUP"
 msgid "&Repeat"
-msgstr "重复"
+msgstr "重复(&R)"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
@@ -581,7 +581,7 @@ msgstr "字幕轨(&B)"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
-msgstr "视频轨(&V)"
+msgstr "视频轨(&O)"
 
 msgctxt "POPUP"
 msgid "&Volume"

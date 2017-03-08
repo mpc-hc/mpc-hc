@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,7 +41,7 @@ CPGSSub::CPGSSub(CCritSec* pLock, const CString& name, LCID lcid)
     , m_nSegSize(0)
 {
     if (m_name.IsEmpty() || m_name == _T("Unknown")) {
-        m_name = "PGS Embedded Subtitle";
+        m_name = _T("PGS Embedded Subtitle");
     }
 }
 
@@ -496,8 +496,9 @@ bool CPGSSubFile::Open(CString fn, CString name /*= _T("")*/, CString videoName 
 {
     bool bOpened = false;
 
+    CString guessed = Subtitle::GuessSubtitleName(fn, videoName, m_lcid, m_eHearingImpaired);
     if (name.IsEmpty()) {
-        m_name = Subtitle::GuessSubtitleName(fn, videoName);
+        m_name = guessed;
     } else {
         m_name = name;
     }

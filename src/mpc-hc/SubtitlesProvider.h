@@ -39,11 +39,11 @@ public:                                                                         
         return std::make_shared<P>(pOwner);                                            \
     }                                                                                  \
 private:                                                                               \
-    virtual std::string Name() override { return #P; }                                 \
-    virtual std::string Url() override { return U; }                                   \
+    virtual std::string Name() const override { return #P; }                           \
+    virtual std::string Url() const override { return U; }                             \
     virtual const std::set<std::string>& Languages() const override;                   \
-    virtual bool Flags(DWORD dwFlags) override { return (dwFlags & (F)) == dwFlags; }  \
-    virtual int Icon() override { return I; }                                          \
+    virtual bool Flags(DWORD dwFlags) const override { return (dwFlags & (F)) == dwFlags; }  \
+    virtual int Icon() const override { return I; }                                    \
 private:                                                                               \
     virtual SRESULT Search(const SubtitlesInfo& pFileInfo) override;                   \
     virtual SRESULT Download(SubtitlesInfo& pSubtitlesInfo) override;
@@ -52,7 +52,9 @@ private:                                                                        
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 void Initialize() override;
+bool NeedLogin() override;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
+SRESULT LogOut() override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::unique_ptr<XmlRpcClient> xmlrpc;
@@ -84,7 +86,10 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "http://napisy24.pl/", IDI_N24, SPF_HAS
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
-static const struct { const char* code; const char* name; } podnapisi_languages[] = {
+static const struct {
+    const char* code;
+    const char* name;
+} podnapisi_languages[] = {
     { /* 0*/ "",   "" },                        { /* 1*/ "sl", "Slovenian" },              { /* 2*/ "en", "English" },
     { /* 3*/ "no", "Norwegian" },               { /* 4*/ "ko", "Korean" },                 { /* 5*/ "de", "German" },
     { /* 6*/ "is", "Icelandic" },               { /* 7*/ "cs", "Czech" },                  { /* 8*/ "fr", "French" },
@@ -107,11 +112,17 @@ static const struct { const char* code; const char* name; } podnapisi_languages[
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
 };
 
-static const struct { const char* code; const char* name; } titlovi_languages[] = {
+static const struct {
+    const char* code;
+    const char* name;
+} titlovi_languages[] = {
     { "hr", "hr" }, { "sr", "sr" }, { "rs", "sr" }, { "si", "sl" }, { "ba", "bs" }, { "en", "en" }, { "mk", "mk" },
 };
 
-static const struct { const char* code; const char* name; } ysubs_languages[] = {
+static const struct {
+    const char* code;
+    const char* name;
+} ysubs_languages[] = {
     { "sq", "albanian" },                       { "ar", "arabic" },                        { "bn", "bengali" },
     { "pb", "brazilian-portuguese" },           { "bg", "bulgarian" },                     { "zh", "chinese" },
     { "hr", "croatian" },                       { "cs", "czech" },                         { "da", "danish" },

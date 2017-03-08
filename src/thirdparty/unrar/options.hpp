@@ -114,6 +114,7 @@ class RAROptions
     bool DisablePercentage;
     bool DisableCopyright;
     bool DisableDone;
+    bool PrintVersion;
     int Solid;
     int SolidCount;
     bool ClearArc;
@@ -139,6 +140,10 @@ class RAROptions
     bool KeepBroken;
     bool OpenShared;
     bool DeleteFiles;
+
+#ifdef _WIN_ALL
+    bool AllowIncompatNames; // Allow names with trailing dots and spaces.
+#endif
 
 
 #ifndef SFX_MODULE

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,7 @@
 struct lang_type {
     unsigned short id;
     LPCSTR lang_long;
-} lang_tbl[] = {
+} static constexpr lang_tbl[] = {
     {'--', "(Not detected)"},
     {'cc', "Closed Caption"},
     {'aa', "Afar"},
@@ -2373,7 +2373,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
     m_name = name;
 
     CAtlList<CString> lines;
-    Explode(CString(CStringA((CHAR*)pData, len)), lines, '\n');
+    Explode(CString(CStringA((CHAR*)pData, len)), lines, _T('\n'));
     while (lines.GetCount()) {
         CAtlList<CString> sl;
         Explode(lines.RemoveHead(), sl, ':', 2);

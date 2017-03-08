@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,15 +21,16 @@
 
 #pragma once
 
-#include <afxcview.h>
-#include <vector>
-#include <map>
-#include "EventDispatcher.h"
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
-#include "../Subtitles/RTS.h"
+#include "../Subtitles/STS.h"
 #include "../Subtitles/VobSubFile.h"
+#include <map>
+#include <vector>
 
+
+class CMainFrame;
+interface ISubStream;
 
 // CPlayerSubresyncBar
 

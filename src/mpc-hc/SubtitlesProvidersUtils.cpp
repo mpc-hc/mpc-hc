@@ -22,6 +22,7 @@
 #include "SubtitlesProvidersUtils.h"
 #include "SubtitlesProviders.h"
 #include "mplayerc.h"
+#include "ISOLang.h"
 
 #if !USE_STATIC_UNRAR
 #include "unrar.h"
@@ -42,9 +43,15 @@ int SubtitlesProvidersUtils::LevenshteinDistance(std::string s, std::string t)
     s = CStringA(s.c_str()).MakeLower();
     t = CStringA(t.c_str()).MakeLower();
     // degenerate cases
-    if (s == t) { return 0; }
-    if (s.length() == size_t(0)) { return (int)t.length(); }
-    if (t.length() == size_t(0)) { return (int)s.length(); }
+    if (s == t) {
+        return 0;
+    }
+    if (s.length() == size_t(0)) {
+        return (int)t.length();
+    }
+    if (t.length() == size_t(0)) {
+        return (int)s.length();
+    }
 
     // create two work vectors of integer distances
     std::vector<int> v0(t.length() + 1);
@@ -209,17 +216,24 @@ std::string SubtitlesProvidersUtils::StringDecrypt(const std::string& data, cons
     return result;
 }
 
-std::string SubtitlesProvidersUtils::StringFormat(const char* fmt, ...)
+std::string SubtitlesProvidersUtils::StringFormat(_In_z_ _Printf_format_string_ char const* const fmt, ...)
 {
-    int nSize = 0x400;
-    std::vector<char> buffer(nSize);
-    va_list vl;
-    va_start(vl, fmt);
-    while ((nSize = vsnprintf_s(&buffer[0], buffer.size(), _TRUNCATE, fmt, vl)) == _TRUNCATE) {
-        buffer.resize(buffer.size() * 2);
+    std::string str;
+    va_list args;
+    va_start(args, fmt);
+    auto len = _vscprintf(fmt, args);
+    ASSERT(len > 0);
+    if (len > 0) {
+        str.resize(len);
+#if _HAS_CXX17
+        auto data = str.data();
+#else
+        auto data = str._Myptr();
+#endif
+        VERIFY(len == vsnprintf_s(data, len + 1, len, fmt, args));
     }
-    va_end(vl);
-    return std::string(&buffer[0], nSize);
+    va_end(args);
+    return str;
 }
 
 size_t SubtitlesProvidersUtils::stringMatch(const std::string& pattern, const std::string& text, regexResults& results)
@@ -285,7 +299,9 @@ std::string SubtitlesProvidersUtils::StringGzipDeflate(const std::string& data)
             deflate_stream.avail_out = buffer_len;
             if ((ret = deflate(&deflate_stream, Z_FINISH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - deflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (deflate_stream.avail_out == 0);
         ret = deflateEnd(&deflate_stream);
     }
@@ -311,7 +327,9 @@ std::string SubtitlesProvidersUtils::StringGzipCompress(const std::string& data)
             deflate_stream.avail_out = buffer_len;
             if ((ret = deflate(&deflate_stream, Z_FINISH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - deflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (deflate_stream.avail_out == 0);
         ret = deflateEnd(&deflate_stream);
     }
@@ -335,7 +353,9 @@ std::string SubtitlesProvidersUtils::StringGzipInflate(const std::string& data)
             inflate_stream.avail_out = buffer_len;
             if (inflate(&inflate_stream, Z_NO_FLUSH) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - inflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (inflate_stream.avail_out == 0);
         inflateEnd(&inflate_stream);
     }
@@ -361,7 +381,9 @@ std::string SubtitlesProvidersUtils::StringGzipUncompress(const std::string& dat
             inflate_stream.avail_out = buffer_len;
             if ((ret = inflate(&inflate_stream, Z_NO_FLUSH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - inflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (inflate_stream.avail_out == 0);
         ret = inflateEnd(&inflate_stream);
     }
@@ -558,7 +580,7 @@ SubtitlesProvidersUtils::stringMap SubtitlesProvidersUtils::StringUncompress(con
             f.Close();
         }
 
-        FileUnzip(CStringA(file), result);
+        FileUnzip(file, result);
         DeleteFile(file);
     } else if ((data.compare(0, sizeof(rar4), rar4, sizeof(rar4)) == 0) || (data.compare(0, sizeof(rar5), rar5, sizeof(rar5)) == 0)) {
         TCHAR path[MAX_PATH], file[MAX_PATH];
@@ -706,7 +728,7 @@ SubtitlesProvidersUtils::stringArray SubtitlesProvidersUtils::StringTokenize(con
         if (delimiters.find(iter) != std::string::npos) {
             if (!next.empty() || blank) {
                 // Add them to the result vector
-                result.push_back(next);
+                result.push_back(StringTrim(next));
                 next.clear();
             }
         } else {
@@ -714,7 +736,7 @@ SubtitlesProvidersUtils::stringArray SubtitlesProvidersUtils::StringTokenize(con
         }
     }
     if (!next.empty()) {
-        result.push_back(next);
+        result.push_back(StringTrim(next));
     }
     return result;
 }
@@ -752,7 +774,7 @@ std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6391()
 {
     std::list<std::string> result;
     for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
-        result.push_back(iter.length() > 2 ? CStringA(ISO6392To6391(iter.c_str())).GetString() : iter);
+        result.push_back(iter.length() > 2 ? CStringA(ISOLang::ISO6392To6391(iter.c_str())).GetString() : iter);
     }
     return result;
 }
@@ -761,7 +783,7 @@ std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6392()
 {
     std::list<std::string> result;
     for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
-        result.push_back(iter.length() < 3 ? ISO6391To6392(iter.c_str()).GetString() : iter);
+        result.push_back(iter.length() < 3 ? ISOLang::ISO6391To6392(iter.c_str()).GetString() : iter);
     }
     return result;
 }

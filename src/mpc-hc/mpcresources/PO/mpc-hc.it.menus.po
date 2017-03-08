@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Gabrix <inactive+Gabrix@transifex.com>, 2014
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 22:01+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Italian (http://www.transifex.com/mpc-hc/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"

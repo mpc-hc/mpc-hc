@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 12:52+0000\n"
+"PO-Revision-Date: 2016-02-04 22:27+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Küçük &Resim Kaydet..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
-msgstr "Alt yazılar"
+msgstr "A&lt Yazılar"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
@@ -538,7 +538,7 @@ msgstr "G&örüntü Atlaması"
 
 msgctxt "POPUP"
 msgid "&Repeat"
-msgstr "Tekrarla"
+msgstr "&Tekrarla"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
@@ -582,7 +582,7 @@ msgstr "Al&t Yazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
-msgstr "&Video Parçası"
+msgstr "Vide&o Parçası"
 
 msgctxt "POPUP"
 msgid "&Volume"

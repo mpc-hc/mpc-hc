@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -137,7 +137,7 @@ bool CFileAssoc::RegisterApp()
     bool success = false;
 
     if (m_pAAR) {
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         // Register MPC-HC for the windows "Default application" manager
         CRegKey key;
@@ -191,7 +191,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             key.DeleteValue(_T("NoRecentDocs"));
         }
 
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         // Add to playlist option
         if (bRegisterContextMenuEntries) {
@@ -281,11 +281,10 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 return false;
             }
 
-            LPTSTR pszCurrentAssociation;
+            CComHeapPtr<WCHAR> pszCurrentAssociation;
             // Save the application currently associated
             if (SUCCEEDED(m_pAAR->QueryCurrentDefault(strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation))) {
                 if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-                    CoTaskMemFree(pszCurrentAssociation);
                     return false;
                 }
 
@@ -304,7 +303,6 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                     }
                 }
                 */
-                CoTaskMemFree(pszCurrentAssociation);
             }
             strNewApp = m_strRegisteredAppName;
         } else {
@@ -436,7 +434,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt) const
     bool    registered = false;
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
-        CString strCommand = ResStr(IDS_OPEN_WITH_MPC);
+        CString strCommand(StrRes(IDS_OPEN_WITH_MPC));
         if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)) {
             registered = (strCommand.CompareNoCase(CString(buff)) == 0);
         }
@@ -526,7 +524,7 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
     if (bRegister) {
         success = false;
 
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
             key.SetStringValue(nullptr, ResStr(IDS_ADD_TO_PLAYLIST));
@@ -614,7 +612,7 @@ bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
                                         _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + m_handlers[i].verb + _T("OnArrival"))) {
             return false;
         }
-        key.SetStringValue(CString("MPCPlay") + m_handlers[i].verb + _T("OnArrival"), _T(""));
+        key.SetStringValue(_T("MPCPlay") + m_handlers[i].verb + _T("OnArrival"), _T(""));
         key.Close();
     } else {
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
@@ -746,7 +744,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
 
         /* no icon was found for the file extension, so use MPC-HC's icon */
         if (appIcon.IsEmpty()) {
-            appIcon = "\"" + progPath + "\",0";
+            appIcon = _T("\"") + progPath + _T("\",0");
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
@@ -775,11 +773,11 @@ void CFileAssoc::CheckIconsAssocThread()
 
     if (auto iconLib = GetIconLib()) {
         UINT nCurrentVersion = iconLib->GetVersion();
-        iconLib->SaveVersion(); // Ensure we don't try to fix the icons more than once
 
         CAtlList<CString> registeredExts;
 
         if (nCurrentVersion != nLastVersion && GetAssociatedExtensionsFromRegistry(registeredExts)) {
+            iconLib->SaveVersion();
             if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
                 TASKDIALOGCONFIG config;
                 ZeroMemory(&config, sizeof(TASKDIALOGCONFIG));
@@ -818,7 +816,7 @@ void CFileAssoc::CheckIconsAssocThread()
         }
     }
 
-    m_checkIconsAssocInactiveEvent.SetEvent();
+    m_checkIconsAssocInactiveEvent.Set();
 }
 
 void CFileAssoc::CheckIconsAssoc()
@@ -827,7 +825,7 @@ void CFileAssoc::CheckIconsAssoc()
     HANDLE hEvent = m_checkIconsAssocInactiveEvent;
     DWORD dwEvent;
     VERIFY(CoWaitForMultipleHandles(0, INFINITE, 1, &hEvent, &dwEvent) == S_OK);
-    m_checkIconsAssocInactiveEvent.ResetEvent();
+    m_checkIconsAssocInactiveEvent.Reset();
     std::thread(
         [this] { CheckIconsAssocThread(); }
     ).detach();

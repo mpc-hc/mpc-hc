@@ -17,6 +17,8 @@ struct RarLocalTime
 
 class RarTime
 {
+  public:
+    static const uint TICKS_PER_SECOND = 10000000; // Raw time items per second.
   private:
     // Internal FILETIME like time representation in 100 nanoseconds
     // since 01.01.1601.
@@ -39,6 +41,7 @@ class RarTime
     bool operator >= (RarTime &rt) {return itime>rt.itime || itime==rt.itime;}
     void GetLocal(RarLocalTime *lt);
     void SetLocal(RarLocalTime *lt);
+    void SetUTC(RarLocalTime *lt);
     uint64 GetRaw();
     void SetRaw(uint64 RawTime);
     uint GetDos();

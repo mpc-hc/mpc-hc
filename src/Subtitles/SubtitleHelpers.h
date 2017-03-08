@@ -45,6 +45,12 @@ namespace Subtitle
         SUP
     };
 
+    enum HearingImpairedType {
+        HI_UNKNOWN = -1,
+        HI_NO = 0,
+        HI_YES = 1
+    };
+
     LPCTSTR GetSubtitleFileExt(SubType type);
     bool IsTextSubtitleFileName(CString filename);
 
@@ -54,5 +60,5 @@ namespace Subtitle
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);
 
-    CString GuessSubtitleName(CString fn, CString videoName);
+    CString GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi);
 };

@@ -20,6 +20,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 
 ## Main Features:
+
 * Option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing)
 * Support for Windows Vista/7/8, including a 64-bit build
 * Support for [EVR/EVR CP](https://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
@@ -31,15 +32,17 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * Multi-Monitor support
 * Various [pixel shaders](https://en.wikipedia.org/wiki/Shader#Pixel_shaders)
 * [Color management](https://en.wikipedia.org/wiki/Color_management)
-* 41 translations available
+* 42 translations available
 
 
 ## System Requirements:
+
 * An SSE capable CPU
 * Windows XP SP3, Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
 ## Links:
+
 * [Website](https://mpc-hc.org/)
 * [Source code](https://github.com/mpc-hc)
 * [Support Trac](https://trac.mpc-hc.org/)
@@ -63,29 +66,30 @@ MPC-HC makes use of the following third-party code:
 
 | Project           | License                   | Website           |
 | ----------------- | ------------------------- | ----------------- |
-| bs2b              | MIT License               | http://bs2b.sourceforge.net |
-| CSizingControlBar | -                         | http://www.datamekanix.com/sizecbar/ |
-| LAV Filters       | GPLv2+                    | https://github.com/Nevcairiel/LAVFilters |
-| libdivide         | zlib License              | http://libdivide.com/ |
-| Little CMS        | MIT License               | http://www.littlecms.com/ |
+| bs2b              | MIT License               | <http://bs2b.sourceforge.net> |
+| CSizingControlBar | -                         | <http://www.datamekanix.com/sizecbar/> |
+| LAV Filters       | GPLv2+                    | <https://github.com/Nevcairiel/LAVFilters> |
+| libdivide         | zlib License              | <http://libdivide.com/> |
+| Little CMS        | MIT License               | <http://www.littlecms.com/> |
 | Logitech SDK      | -                         | - |
-| MediaInfoLib      | Simplified BSD License    | https://mediaarea.net/MediaInfo |
-| Mhook             | MIT License               | https://github.com/martona/mhook |
-| MultiMon          | CPOL                      | http://www.codeproject.com/Articles/3690/ |
-| QuickTime SDK     | -                         | https://developer.apple.com/quicktime/ |
-| RapidJSON         | MIT License               | https://github.com/miloyip/rapidjson |
-| RARFileSource     | GPLv2+                    | http://www.v12pwr.com/RARFileSource/ |
+| MediaInfoLib      | Simplified BSD License    | <https://mediaarea.net/MediaInfo> |
+| Mhook             | MIT License               | <https://github.com/martona/mhook> |
+| MultiMon          | CPOL                      | <http://www.codeproject.com/Articles/3690/> |
+| NanoSVG           | zlib License              | <https://github.com/memononen/nanosvg> |
+| QuickTime SDK     | -                         | <https://developer.apple.com/quicktime/> |
+| RapidJSON         | MIT License               | <https://github.com/miloyip/rapidjson> |
+| RARFileSource     | GPLv2+                    | <http://www.v12pwr.com/RARFileSource/> |
 | RealMedia SDK     | -                         | - |
-| ResizableLib      | Artistic License          | https://sourceforge.net/projects/resizablelib/ |
-| sanear            | LGPLv2.1                  | https://github.com/alexmarsev/sanear |
-| Silk Icons        | CC Attribution 2.5        | http://www.famfamfam.com/lab/icons/silk/ |
-| SoundTouch        | LGPLv2.1                  | http://www.surina.net/soundtouch/ |
-| soxr              | LGPLv2.1+                 | https://sourceforge.net/projects/soxr/ |
-| tinyxml2          | zlib License              | http://www.grinninglizard.com/tinyxml2/ |
-| TreePropSheet     | -                         | http://www.codeproject.com/Articles/3709/ |
-| UnRAR             | freeware                  | http://www.rarlab.com/rar_add.htm |
-| VirtualDub        | GPLv2+                    | http://www.virtualdub.org/ |
-| XmlRpcC4Win       | LGPLv2                    | https://github.com/drtimcooper/XmlRpc4Win |
-| ZenLib            | zlib License              | https://sourceforge.net/projects/zenlib/ |
-| zita-resampler    | GPLv3                     | http://kokkinizita.linuxaudio.org/linuxaudio/ |
-| zlib              | zlib License              | http://zlib.net/ |
+| ResizableLib      | Artistic License          | <https://github.com/ppescher/resizablelib> |
+| sanear            | LGPLv2.1                  | <https://github.com/alexmarsev/sanear> |
+| Silk Icons        | CC Attribution 2.5        | <http://www.famfamfam.com/lab/icons/silk/> |
+| SoundTouch        | LGPLv2.1                  | <http://www.surina.net/soundtouch/> |
+| soxr              | LGPLv2.1+                 | <https://sourceforge.net/projects/soxr/> |
+| tinyxml2          | zlib License              | <http://www.grinninglizard.com/tinyxml2/> |
+| TreePropSheet     | -                         | <http://www.codeproject.com/Articles/3709/> |
+| UnRAR             | freeware                  | <http://www.rarlab.com/rar_add.htm> |
+| VirtualDub        | GPLv2+                    | <http://www.virtualdub.org/> |
+| XmlRpc4Win        | LGPLv2                    | <https://github.com/drtimcooper/XmlRpc4Win> |
+| ZenLib            | zlib License              | <https://github.com/MediaArea/ZenLib> |
+| zita-resampler    | GPLv3                     | <http://kokkinizita.linuxaudio.org/linuxaudio/> |
+| zlib              | zlib License              | <http://zlib.net/> |

@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014-2015
+# ever_green, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-09-26 22:46+0000\n"
+"PO-Revision-Date: 2016-08-23 05:11+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -38,11 +38,11 @@ msgstr "MPC-HC の設定を削除してもよろしいですか？\n\nMPC-HC を
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。\n\nご使用の CPU はこれらの機能を満たしていません。"
+msgstr "MPC-HC のこのビルドには SSE 拡張機能をサポートする CPU が必要です。\n\nご使用の CPU はこれらの機能を備えていません。"
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。\n\nご使用の CPU はこれらの機能を満たしていません。"
+msgstr "MPC-HC のこのビルドには SSE2 拡張機能をサポートする CPU が必要です。\n\nご使用の CPU はこれらの機能を備えていません。"
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -58,7 +58,7 @@ msgstr "現在実行しているユーザーにのみインストールする"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
-msgstr "他のタスク:"
+msgstr "その他のタスク:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"

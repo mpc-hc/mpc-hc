@@ -38,7 +38,7 @@ void BitInput::faddbits(uint Bits)
 uint BitInput::fgetbits()
 {
   // Function wrapped version of inline getbits to save code size.
-  return(getbits());
+  return getbits();
 }
 
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,11 +37,11 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
-    , m_clip(ResStr(IDS_AG_NONE))
-    , m_author(ResStr(IDS_AG_NONE))
-    , m_copyright(ResStr(IDS_AG_NONE))
-    , m_rating(ResStr(IDS_AG_NONE))
-    , m_location(ResStr(IDS_AG_NONE))
+    , m_clip(StrRes(IDS_AG_NONE))
+    , m_author(StrRes(IDS_AG_NONE))
+    , m_copyright(StrRes(IDS_AG_NONE))
+    , m_rating(StrRes(IDS_AG_NONE))
+    , m_location(StrRes(IDS_AG_NONE))
 {
     if (pFSF) {
         CComHeapPtr<OLECHAR> pFN;
@@ -147,7 +147,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
         m_fn = m_fn.Mid(i + 1);
 
         if (m_location.GetLength() == 2 && m_location[1] == ':') {
-            m_location += '\\';
+            m_location += _T('\\');
         }
     }
 

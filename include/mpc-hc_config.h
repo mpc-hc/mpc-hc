@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,5 +49,12 @@
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters
 #define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 0
+
+#define DO_MAKE_STR(x)          _T(#x)
+#define MAKE_STR(x)             DO_MAKE_STR(x)
+
+#define MPC_DX_SDK_MONTH  _T("June")
+#define MPC_DX_SDK_YEAR   2010
+#define MPC_DX_SDK_NUMBER 43
 
 #endif // MPC_HC_CONFIG_H

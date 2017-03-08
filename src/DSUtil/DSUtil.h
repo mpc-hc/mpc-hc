@@ -21,15 +21,13 @@
 
 #pragma once
 
-#include <afxstr.h>
-#include <atlpath.h>
-#include "Constexpr.h"
-#include "NullRenderers.h"
 #include "HdmvClipInfo.h"
-#include "H264Nalu.h"
 #include "MediaTypeEx.h"
-#include "vd.h"
 #include "text.h"
+#include "vd.h"
+#include "BaseClasses/streams.h"
+#include <atlcoll.h>
+#include <atlpath.h>
 
 #define LCID_NOSUBTITLES -1
 
@@ -105,15 +103,6 @@ extern CStringW UTF8To16(LPCSTR utf8);
 extern CStringA UTF16To8(LPCWSTR utf16);
 extern CStringW UTF8ToStringW(const char* S);
 extern CStringW LocalToStringW(const char* S);
-extern CString ISO6391ToLanguage(LPCSTR code);
-extern CString ISO6392ToLanguage(LPCSTR code);
-extern bool IsISO639Language(LPCSTR code);
-extern CString ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName = false);
-extern LCID ISO6391ToLcid(LPCSTR code);
-extern LCID ISO6392ToLcid(LPCSTR code);
-extern CStringA ISO6391To6392(LPCSTR code);
-extern CString ISO6392To6391(LPCSTR code);
-extern CString LanguageToISO6392(LPCTSTR lang);
 extern BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status);
 extern bool DeleteRegKey(LPCTSTR pszKey, LPCTSTR pszSubkey);
 extern bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPCTSTR pszValue);
@@ -249,7 +238,14 @@ public:
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 #define SAFE_CLOSE_HANDLE(p) { if (p) { if ((p) != INVALID_HANDLE_VALUE) VERIFY(CloseHandle(p)); (p) = nullptr; } }
 
-#define ResStr(id)  CString(MAKEINTRESOURCE(id))
+#define StrRes(id)  MAKEINTRESOURCE(id)
+#define ResStr(id)  CString(StrRes(id))
+
+#define UNREACHABLE_CODE()  \
+    do {                    \
+        ASSERT(false);      \
+        __assume(false);    \
+    } while (false)
 
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
@@ -288,31 +284,37 @@ typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
 }
 
 template<class T>
-MPCHC_CONSTEXPR typename std::enable_if<std::is_integral<T>::value, bool>::type IsEqual(T a, T b)
+constexpr typename std::enable_if<std::is_integral<T>::value, bool>::type IsEqual(T a, T b)
 {
     return a == b;
 }
 
 template<class T>
-MPCHC_CONSTEXPR typename std::enable_if<std::is_floating_point<T>::value, bool>::type IsEqual(T a, T b)
+constexpr typename std::enable_if<std::is_floating_point<T>::value, bool>::type IsEqual(T a, T b)
 {
     return std::abs(a - b) < std::numeric_limits<T>::epsilon();
 }
 
+template<class T>
+constexpr typename std::enable_if<std::is_floating_point<T>::value, bool>::type IsNearlyEqual(T a, T b, T epsilon)
+{
+    return std::abs(a - b) < epsilon;
+}
+
 template <class T>
-MPCHC_CONSTEXPR typename std::enable_if < std::is_integral<T>::value&& std::is_unsigned<T>::value, int >::type SGN(T n)
+constexpr typename std::enable_if < std::is_integral<T>::value&& std::is_unsigned<T>::value, int >::type SGN(T n)
 {
     return T(0) < n;
 }
 
 template <typename T>
-MPCHC_CONSTEXPR typename std::enable_if < std::is_integral<T>::value&& std::is_signed<T>::value, int >::type SGN(T n)
+constexpr typename std::enable_if < std::is_integral<T>::value&& std::is_signed<T>::value, int >::type SGN(T n)
 {
     return (T(0) < n) - (n < T(0));
 }
 
 template <typename T>
-MPCHC_CONSTEXPR typename std::enable_if <std::is_floating_point<T>::value, int>::type SGN(T n)
+constexpr typename std::enable_if <std::is_floating_point<T>::value, int>::type SGN(T n)
 {
     return IsEqual(n, T(0)) ? 0 : (n > 0 ? 1 : -1);
 }

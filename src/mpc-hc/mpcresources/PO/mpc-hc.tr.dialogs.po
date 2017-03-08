@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 12:52+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-11 20:33+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -192,8 +192,8 @@ msgid "About"
 msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Telif Hakkı © 2002-2016, Authors.txt dosyasına bakınız"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Telif Hakkı © 2002-2017, Authors.txt dosyasına bakınız"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -432,8 +432,8 @@ msgid "After Playback"
 msgstr "Oynatmadan Sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Çıkış"
+msgid "Default zoom"
+msgstr "Varsayılan yakınlaştırma"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -572,7 +572,7 @@ msgid "Warning"
 msgstr "Uyarı"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Ekran kartınızın ayarlarından Tam ekran keskinlik yumuşatması seçeneğini açarsanız, alt yazılar düzgün görülmeyecek ve daha fazla işlemci kullanımına neden olacaktır."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1191,6 +1191,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Alt Yazı İşleyicisi"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Derlenmiş Tonlayıcıları önbellekle"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Bağlantı noktasını dinle:"
@@ -1592,8 +1596,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Belirtilen kelime(leri) içeren dosyaları göz ardı et:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Tercih edilen dil sıralaması (Ör: \"tur eng spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Tercih edilen dil sıralaması:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

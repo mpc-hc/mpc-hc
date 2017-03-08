@@ -1,23 +1,24 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # Arkady Shapkin <arkadiy_s@inbox.ru>, 2015
 # birkoff <birkoff.anarchist@gmail.com>, 2015
+# Evgeniy Kupras <zheka20012@yandex.ru>, 2016
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
-# stryaponoff <stryaponoff@gmail.com>, 2014,2016
+# Kirill <stryaponoff@gmail.com>, 2014,2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 # Victor Bychek, 2015-2016
 # Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-24 14:29+0000\n"
-"Last-Translator: stryaponoff <stryaponoff@gmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,7 +128,7 @@ msgstr "входных каналов:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Удерживайте shift для немедленного принятия изменений при нажатии."
+msgstr "Удерживайте shift для немедленных изменений при нажатии."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -198,8 +199,8 @@ msgid "About"
 msgstr "О программе"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Copyright © 2002-2016, смотрите файл Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017, смотрите файл Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -438,8 +439,8 @@ msgid "After Playback"
 msgstr "По окончании воспроизведения"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Вывод"
+msgid "Default zoom"
+msgstr "Масштаб по умолчанию"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -479,7 +480,7 @@ msgstr "Использовать рабочий поток для построе
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Сообщать об ошибках рендеринга дорожек"
+msgstr "Сообщать об ошибках рендеринга потоков"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -578,7 +579,7 @@ msgid "Warning"
 msgstr "Предупреждение"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "От изменения положения и полноэкранного сглаживания субтитры не станут выглядеть лучше, но это будет чрезмерно нагружать ваш процессор."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -679,7 +680,7 @@ msgstr "Показывать метки глав на ползунке"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Отправлять «Сейчас играет» в Skype"
+msgstr "Отображать имя воспроизводимого файла в настроении Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -907,7 +908,7 @@ msgstr "MPC-HC не смог воспроизвести некоторые до�
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Для данных дорожек не найден подходящий фильтр:"
+msgstr "Для данных потоков не найден подходящий фильтр:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -1091,7 +1092,7 @@ msgstr "Фильтры-преобразователи"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Внутренние настройки LAV-фильтров"
+msgstr "Внутренние настройки LAV filters"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1147,7 +1148,7 @@ msgstr "Интерполяция:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Выбрать устройство D3D9-рендеринга"
+msgstr "Выбрать D3D9-устройство рендеринга"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
@@ -1197,6 +1198,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Рендер субтитров"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Кешировать скомпилированные шейдеры"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Слушать порт:"
@@ -1211,7 +1216,7 @@ msgstr "Использовать сжатие"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Разрешить доступ только с локального компьютера"
+msgstr "Разрешить доступ только с локального хоста"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
@@ -1251,7 +1256,7 @@ msgstr "Заменить уже открытые субтитры"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr "Скачать"
+msgstr "Загрузить"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
@@ -1267,11 +1272,11 @@ msgstr "Настройки"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr "Загрузить субтитры"
+msgstr "Разместить субтитры"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr "Загрузить"
+msgstr "Разместить"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
@@ -1583,27 +1588,27 @@ msgstr "Сброс"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr "Онлайн поиск, скачивание и загрузка субтитров"
+msgstr "Онлайн-поиск, загрузка и размещение субтитров"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "Автоматически искать и скачивать субтитры, если не найдены локально"
+msgstr "Автоматически искать и загружать субтитры, если они не найдены локально"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "Предпочитать субтитры для людей с нарушениями слуха (если указано источником субтитров)"
+msgstr "Приоритет субтитров для людей с нарушениями слуха (если указано источником субтитров)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr "Игнорировать файлы содержащие любое из следующих слов:"
+msgstr "Игнорировать файлы, содержащие любое из следующих слов:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Языки в порядке предпочтения (напр. \"rus eng spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Языки в порядке предпочтения:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr "Автоматически выгружать выбранные субтитры после окончания воспроизведения"
+msgstr "Автоматически размещать активные субтитры после окончания воспроизведения"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

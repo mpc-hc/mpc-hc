@@ -70,6 +70,7 @@ void GenerateArchiveName(wchar *ArcName,size_t MaxSize,const wchar *GenerateMask
 #ifdef _WIN_ALL
 bool GetWinLongPath(const wchar *Src,wchar *Dest,size_t MaxSize);
 void ConvertToPrecomposed(wchar *Name,size_t NameSize);
+void MakeNameCompatible(wchar *Name);
 #endif
 
 #endif

@@ -1,20 +1,23 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Andy Martino <thegamers788@gmail.com>, 2015
 # Dwi Cahyono <dwexz_cie@yahoo.com>, 2015
 # Hatta.z, 2014
+# Hatta.z, 2014
 # yoga.mardia <made.yoga12@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015-2016
-# zk <zamani.karmana@gmail.com>, 2015
+# yoga.mardia <made.yoga12@gmail.com>, 2014
+# zk, 2015-2016
+# zk, 2015
+# zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 12:03+0000\n"
-"Last-Translator: zk <zamani.karmana@gmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,8 +198,8 @@ msgid "About"
 msgstr "Tentang"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Hak Cipta 2002-2016 lihat Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Hak Cipta 2002-2017 lihat Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -424,7 +427,7 @@ msgstr "Ulangi selamanya"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "waktu"
+msgstr "kali"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
@@ -435,8 +438,8 @@ msgid "After Playback"
 msgstr "Setelah Pemutaran"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Keluaran"
+msgid "Default zoom"
+msgstr "Zum bawaan"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -524,7 +527,7 @@ msgstr "Tahap tundaan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "md"
+msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -575,7 +578,7 @@ msgid "Warning"
 msgstr "Peringatan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Jika Anda menimpa dan memfungsikan anti-alias layar penuh pada pengaturan kartu video Anda, subtitel tidak akan nampak lebih baik tetapi pastinya akan meningkatkan kinerja CPU Anda."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -624,7 +627,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Periksa dulu berkas ekstensi"
+msgstr "Periksa dulu ekstensi berkas"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -716,7 +719,7 @@ msgstr "Buang"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
-msgstr "DIutamakan"
+msgstr "Diutamakan"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
@@ -740,7 +743,7 @@ msgstr "Tambah Jenis Media..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Tambah Jenis Subtitel..."
+msgstr "Tambah Sub Jenis..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -1194,6 +1197,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Perender Subtitel"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Simpan tembolok kompilasi Shader"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Dengarkan di port:"
@@ -1308,7 +1315,7 @@ msgstr "Setel Ulang"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Perika pemutakhiran"
+msgstr "Periksa pemutakhiran"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
@@ -1595,8 +1602,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Abaikan berkas yang memuat kata-kata berikut:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Bahasa dengan urutan sesuai pilihan (mis. \"eng ell spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Bahasa dengan urutan sesuai pilihan:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

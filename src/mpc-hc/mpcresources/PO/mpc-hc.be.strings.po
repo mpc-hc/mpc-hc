@@ -1,14 +1,17 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Elijah Shymanski <bealphi@gmail.com>, 2016
+# Haxyc, 2016
+# Underground78, 2014
 # Underground78, 2014
 # Yauhen Bugamol <haxycgm@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-29 17:11+0000\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-11-06 02:47+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +34,7 @@ msgstr "Аўдыя"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
-msgstr "Субтытры"
+msgstr "Субцітры"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
@@ -123,7 +126,7 @@ msgstr "Стылі"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Калі цэль апрацоўкі вызначыць немагчыма, SSA/ASS субтытры будуць апрацаваны адносна відэакадра, а ўсе астатнія субтытры адносна акна."
+msgstr "Калі цэль апрацоўкі вызначыць немагчыма, SSA/ASS субцітры будуць апрацаваны адносна відэакадра, а ўсе астатнія субцітры адносна акна."
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
@@ -159,11 +162,11 @@ msgstr "Заўсёды (самы павольны)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Не падтрымліваецца некаторымі прыладамі. Два декодары відэа заўсёды ў графе фільтраў."
+msgstr "Не падтрымліваецца некаторымі прыладамі. Два дэкодары відэа заўсёды ў графе фільтраў."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Хуткі, акрамя момантаў пераключэння паміж рознымі патокамі відэа. Толькі адзін декодар відэа ў графе фільтраў."
+msgstr "Хуткі, акрамя момантаў пераключэння паміж рознымі патокамі відэа. Толькі адзін дэкодар відэа ў графе фільтраў."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -227,7 +230,7 @@ msgstr "Панэль навігацыі"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Сінхранізацыя субтытраў"
+msgstr "Сінхранізацыя субцітраў"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -287,7 +290,7 @@ msgstr "Немагчыма дадаць аўдыяфільтр захопу да
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Немагчыма адкрыць прыладу захопу."
+msgstr "Не атрымалася адкрыць прыладу захопу."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -363,7 +366,7 @@ msgstr "Да (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Рэжым (Hz)"
+msgstr "Рэжым (Гц)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -383,7 +386,7 @@ msgstr "Не атрымалася запытаць неабходныя для �
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr ""
+msgstr "Не атрымалася стварыць акно для вываду графу"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
@@ -427,11 +430,11 @@ msgstr "З&мяшаць"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "А&днавiць"
+msgstr "А&днавіць"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr "&Падзельнік"
+msgstr "&Раздзяляльнік"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
@@ -447,15 +450,15 @@ msgstr "&Скінуць"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Затрымка субтытраў -"
+msgstr "Затрымка субцітраў —"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Затрымка субтытраў +"
+msgstr "Затрымка субцітраў +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
-msgstr "Захаваць мiнiяцюры"
+msgstr "Захаваць мінiяцюры"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -471,7 +474,7 @@ msgstr "Прайграванне::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
-msgstr "Субтытры"
+msgstr "Субцітры"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
@@ -583,7 +586,7 @@ msgstr "Прайгравальнік::Клавішы"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Субтытры::Стыль"
+msgstr "Субцітры::Стыль"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -619,15 +622,15 @@ msgstr "Стандартны апрацоўшчык відэа для Windows 9x
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Апрацоўка заўсёды адбываецца ў аверлэі. Звычайна даступны толькі YUV-фарматы, але яны прадстаўляюцца напрамую, без пераўтварэння ў RGB. Гэта самы хуткі метад з усіх і толькі ў ім заўжды працуе поўнаэкранны адлюстраваны вывад відэа (на TV-OUT)."
+msgstr "Апрацоўка заўсёды адбываецца ў аверлеі. Звычайна даступны толькі YUV-фарматы, але яны прадстаўляюцца напрамую, без пераўтварэння ў RGB. Гэта самы хуткі метад з усіх і толькі ў ім заўжды працуе поўнаэкранны адлюстраваны вывад відэа (на TV-OUT)."
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr "Даступны толькі пры ўсталяваным DirectX 9. Вельмі стабільны, але ніколі не выкарыстоўвае аверлэй, таму можа быць трохі павольней чым Overlay mixer."
+msgstr "Даступны толькі пры ўсталяваным DirectX 9. Вельмі стабільны, але ніколі не выкарыстоўвае аверлей, таму можа быць трохі павольней чым Overlay mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Тое ж што і VMR-9 (windowed) але з плагінам MPC-HC Allocator-Presenter для вываду субтытраў. Адлюстраванне відэанакладання МОЖА працаваць. Рэкамендавана выкарыстоўваць глыбіню колеру «True Color»"
+msgstr "Тое ж што і VMR-9 (windowed) але з плагінам MPC-HC Allocator-Presenter для вываду субцітраў. Адлюстраванне відэанакладання МОЖА працаваць. Рэкамендавана выкарыстоўваць глыбіню колеру «True Color»"
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -647,7 +650,7 @@ msgstr "Даступна толькі на Vista і пазнейшых сіст�
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Тое ж што  EVR, але выкарыстоўвае Allocator-Presenter для субтытраў і постапрацоўкі. Рэкамендуецца для Windows Vista і навейшых."
+msgstr "Тое ж што  EVR, але выкарыстоўвае Allocator-Presenter для субцітраў і постапрацоўкі. Рэкамендуецца для Windows Vista і навейшых."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -659,7 +662,7 @@ msgstr "Тое ж, што EVR (СР), але прапануе некалькі �
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Уласны рэндэр RealMedia. Скрыпты SMIL будуць працаваць але без інтэрактыўнасці. Выкарыстоўвае DirectDraw і па-магчымасці запускаецца ў аверлэі."
+msgstr "Уласны рэндэр RealMedia. Скрыпты SMIL будуць працаваць але без інтэрактыўнасці. Выкарыстоўвае DirectDraw і па-магчымасці запускаецца ў аверлеі."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -667,7 +670,7 @@ msgstr "Вывад RealMedia апрацоўваецца з дапамогай п
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "Уласны рэндэр QuickTime. Запавольваецца пры змене памеру відэакадра або калі акно часткова закрыта іншым акном. Калі аверлэй недаступны вяртаецца да метаду GDI."
+msgstr "Уласны рэндэр QuickTime. Запавольваецца пры змене памеру відэакадра або калі акно часткова закрыта іншым акном. Калі аверлей недаступны вяртаецца да метаду GDI."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -699,23 +702,23 @@ msgstr "Бліжэйшы сусед"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Білінейны"
+msgstr "Білінейная"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Білінейны (PS 2.0)"
+msgstr "Білінейная (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Бікубічны A=-0.60 (PS 2.0)"
+msgstr "Бікубічная A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Бікубічны A=-0.75 (PS 2.0)"
+msgstr "Бікубічная A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Бікубічны A=-1.00 (PS 2.0)"
+msgstr "Бікубічная A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -747,15 +750,15 @@ msgstr "MIME-тып"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Каб праглядзець убудаваны рэсурс у вашым браўзеры, трэба уключыць вэб-інтэрфейс.\n\nСкарыстайце кнопку «Захаваць як», калі вы хочаце толькі захаваць звесткі."
+msgstr "Каб праглядзець убудаваны рэсурс у вашым браўзеры, трэба ўключыць вэб-інтэрфейс.\n\nСкарыстайце кнопку «Захаваць як», калі вы хочаце толькі захаваць звесткі."
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr "Спампаваць субтытры"
+msgstr "Спампаваць субцітры"
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr "Запампаваць субтытры..."
+msgstr "Запампаваць субцітры..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -791,7 +794,7 @@ msgstr "Паверхня для відэа вылучаецца як тэкст�
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Паверхня для відэа вылучаецца як тэкстура і малюецца як два трыкутніка ў 3D. Уключэнне антыальясінгу ў наладах відэакарты можа істотна замарудзіць хуткасць рэндэрынгу."
+msgstr "Паверхня відэа вылучаецца як тэкстура і адрысоўваецца ў 3D як два трыкутніка. Уключэнне згладжвання ў наладах відэакарты можа істотна замарудзіць хуткасць апрацоўкі."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
@@ -811,7 +814,19 @@ msgstr "Паменшае разрывы, але не паказваецца па
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Паменшае разрывы праз абыход убудаванай VSync у D3D."
+msgstr "Памяншае разрывы праз абыход вертыкальнай сінхранізацыі ўбудаванай у D3D."
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Налады цюнера"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Субцітры не загружаны або не падтрымліваемы відэа-рэндэр."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Захоўваць скампіляваныя шэйдары ў папцы AppData каб паскорыць іх загрузку."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -835,7 +850,7 @@ msgstr "Укл/Адкл панэль навігацыі"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "Акуратны VSync"
+msgstr "Дакладная вертыкальная сінхранізацыя"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
@@ -843,11 +858,11 @@ msgstr "Калі цэль апрацоўкі нявызначана, яна бя
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "Забараніць анімацыю субтытраў. Уключэнне гэтага параметра запавольвае працу CPU, але можа дапамагчы пры мігценні субтытраў."
+msgstr "Забараніць анімацыю субцітраў. Уключэнне гэтага параметра запавольвае працу CPU, але можа дапамагчы пры мігценні субцітраў."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Павелічэнне колькасці фрагментаў выяў у буферы павінна палепшыць прадукцыйнасць апрацоўкі ў выніку большага выкарыстання аператыўнай памяці графічнага працэсара."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -855,7 +870,7 @@ msgstr "Пасля націскання гэтай кнопкі, правера�
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr "Адключэнне гэтага параметра прадухіляе мігценне субтытраў, але можа прывесці да пропуску некаторых відэакадраў."
+msgstr "Адключэнне гэтага параметра прадухіляе мігценне субцітраў, але можа прывесці да пропуску некаторых відэакадраў."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -871,7 +886,7 @@ msgstr "Стоп\nСтоп"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
-msgstr "Крок\nКрок"
+msgstr "Шаг\nШаг"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
@@ -950,11 +965,11 @@ msgid "&Organize Favorites..."
 msgstr "&Спарадкаваць..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Перамяшаць"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Адкрыць папку з файлам"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1038,7 +1053,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Маштабаваць у Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Схаваць у поўнаэкранным рэжыме"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1055,7 +1070,7 @@ msgstr "Ідзе захоп..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
-msgstr "Адкрываецца..."
+msgstr "Адкрыццё..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
@@ -1091,7 +1106,7 @@ msgstr "Аўтар"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Правы"
+msgstr "Аўтарскае права"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1111,11 +1126,11 @@ msgstr "Закрыць"
 
 msgctxt "IDS_AG_NONE"
 msgid "None"
-msgstr "Адсутнічае"
+msgstr "Няма"
 
 msgctxt "IDS_AG_COMMAND"
 msgid "Command"
-msgstr "Каманда"
+msgstr "Дзеянне"
 
 msgctxt "IDS_AG_KEY"
 msgid "Key"
@@ -1123,15 +1138,15 @@ msgstr "Клавіша"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "Курсор мышы ў аконным рэжыме"
+msgstr "Мыш (аконны рэжым)"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Курсор мышы ў поўнаэкранным рэжыме"
+msgstr "Мыш (поўнаэкранны рэжым)"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
-msgstr "Каманда прыкладання"
+msgstr "Каманда праграмы"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -1171,7 +1186,7 @@ msgstr "Не атрымалася ўстанавіць шэйдары pre-resize
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Шэйдары перакампілююца аўтаматычна, пасля змены адпаведных файлаў."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
@@ -1179,7 +1194,7 @@ msgstr "Немагчыма загрузіць %s, піксельныя шэйд�
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Не атрымліваецца знайсці пункты ўваходу неабходнай функцыі %s, піксельныя шэйдары працаваць не будуць. "
+msgstr "Не атрымліваецца знайсці пункты ўваходу неабходнай функцыі ў %s, піксельныя шэйдары працаваць не будуць. "
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
@@ -1226,7 +1241,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Дадаць папку, якая іх змяшчае"
 
 msgctxt "IDS_HW_INDICATOR"
@@ -1267,7 +1282,7 @@ msgstr "Хаваць элементы кіравання ў аконным рэ�
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Забараніць знешнія апрацоўшчыкі субтытраў калі выкарыстоўваецца ўбудаваны."
+msgstr "Забараніць знешнія апрацоўшчыкі субцітраў калі выкарыстоўваецца ўбудаваны."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1311,7 +1326,7 @@ msgstr "Выйсці"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Выключыць манітор"
+msgstr "Адключыць манітор"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1327,7 +1342,7 @@ msgstr "Максімальны памер (NxN пкс) вокладкі ў аў�
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr "Затрымка субтытраў паменшыцца/павялічыцца на гэтае значэнне пры націсканні адпаведных клавіш (%s/%s)."
+msgstr "Затрымка субцітраў паменшыцца/павялічыцца на гэтае значэнне пры націсканні адпаведных клавіш (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
@@ -1391,7 +1406,7 @@ msgstr "Па сканчэнні прайгравання: закрыць"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr "Падчас ініцыалізацыі MPC-HC сутыкнуўся з праблемай. Вы можаце дапамагчы нам вырашыць яе.\n\nПаведаміць пра гэту праблему?"
+msgstr "Падчас ініцыялізацыі MPC-HC сутыкнуўся з праблемай. Вы можаце дапамагчы нам вырашыць яе.\n\nПаведаміць пра гэту праблему?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
@@ -1407,7 +1422,7 @@ msgstr "Гэты параметр выкарыстоўваюць для адда
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Убудаваны апрацоўшчык субтытраў"
+msgstr "Убудаваны апрацоўшчык субцітраў"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1429,13 +1444,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Кадр захаваны"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Загрузіць субтытры"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Адкрыць субцітры..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Захаваць субтытры"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Захаваць субцітры..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1543,7 +1558,7 @@ msgstr "Карэкцыя часу кадра: Укл"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "Карэкцыя часу кадра: Выкл"
+msgstr "Карэкцыя часу кадра: Адкл"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -1587,7 +1602,7 @@ msgstr "Экспартаваць налады"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr "Некаторыя змены не захаваны.\nЦі жадаеце захаваць іх перад экспартам?"
+msgstr "Некаторыя змены не захаваны.\nЗахаваць іх перад экспартам?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
@@ -1671,19 +1686,19 @@ msgstr "Укл/Адкл поўнаэкранны Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Перайсці да папярэдніх субтытраў"
+msgstr "Перайсці да папярэдніх субцітраў"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Перайсці да наступных субтытраў"
+msgstr "Перайсці да наступных субцітраў"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "Ссунуць субтытры ўлева"
+msgstr "Ссунуць субцітры ўлева"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "Ссунуць субтытры ўправа"
+msgstr "Ссунуць субцітры ўправа"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1711,7 +1726,7 @@ msgstr "OSD: Скінуць статыстыку апрацоўшчыка"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Субтытры::Рознае"
+msgstr "Субцітры::Рознае"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -1807,11 +1822,11 @@ msgstr "Аналіз спісу..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Субтытры ня знойдзены."
+msgstr "Субцітры не знойдзены."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
-msgstr "%d субтытраў даступна."
+msgstr "%d субцітраў даступна."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1911,55 +1926,55 @@ msgstr "Адключыць гук"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "DVD - загалоўнае меню"
+msgstr "DVD — загалоўнае меню"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "DVD - каранёвае меню"
+msgstr "DVD — каранёвае меню"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "DVD - меню субтытраў"
+msgstr "DVD — меню субцітраў"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "DVD - меню аўдыя"
+msgstr "DVD — меню аўдыя"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "DVD - меню вуглоў"
+msgstr "DVD — меню вуглоў"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "DVD - меню сцэн"
+msgstr "DVD — меню сцэн"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
-msgstr "DVD меню - улева"
+msgstr "DVD меню — улева"
 
 msgctxt "IDS_MPLAYERC_70"
 msgid "DVD Menu Right"
-msgstr "DVD меню - управа"
+msgstr "DVD меню — управа"
 
 msgctxt "IDS_AG_DVD_MENU_UP"
 msgid "DVD Menu Up"
-msgstr "DVD меню - уверх"
+msgstr "DVD меню — уверх"
 
 msgctxt "IDS_AG_DVD_MENU_DOWN"
 msgid "DVD Menu Down"
-msgstr "DVD меню - уніз"
+msgstr "DVD меню — уніз"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "DVD меню - актываваць"
+msgstr "DVD меню — актываваць"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "DVD меню - назад"
+msgstr "DVD меню — назад"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "DVD меню - пакінуць"
+msgstr "DVD меню — пакінуць"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -1979,7 +1994,7 @@ msgstr "Меню фільтраў"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
-msgstr "Параметры"
+msgstr "Налады"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
@@ -1991,19 +2006,19 @@ msgstr "Папярэдняя гукавая дарожка"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr "Наступныя субтытры"
+msgstr "Наступныя субцітры"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr "Папярэднія субтытры"
+msgstr "Папярэднія субцітры"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Укл/Адкл субтытры"
+msgstr "Укл/Адкл субцітры"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Перазагрузіць субтытры"
+msgstr "Перазагрузіць субцітры"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2023,15 +2038,15 @@ msgstr "Папярэдняя гукавая дарожка (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "Наступныя субтытры (DVD)"
+msgstr "Наступныя субцітры (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Папярэднія субтытры  (DVD)"
+msgstr "Папярэднія субцітры  (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr " Укл/Адкл субтытры (DVD)"
+msgstr " Укл/Адкл субцітры (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
@@ -2095,11 +2110,11 @@ msgstr "Фокус перайшоў да: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "Субтытры захаваныя"
+msgstr "Субцітры захаваныя"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Не атрымліваецца захаваць субтытры."
+msgstr "Не атрымліваецца захаваць субцітры."
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
@@ -2143,7 +2158,7 @@ msgstr "У MPC-HC недастаткова правоў для змены аса
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC - гэта надзвычайна лёгкі прайгравальнік медыя для Windows з адкрытым зыходным кодам. Ён падтрымлівае прайграванне ўсіх распаўсюджаных фарматаў аўдыя і відэа. Мы на 100% гарантуем адсутнасць шпіёнскіх і рэкламных праграм або панеляў інструментаў."
+msgstr "MPC-HC - гэта надзвычайна лёгкі прайгравальнік медыя для Windows з адкрытым зыходным кодам. Ён падтрымлівае прайграванне ўсіх распаўсюджаных фарматаў аўдыя і відэа. Мы на 100% гарантуем адсутнасць шпіёнскіх і рэкламных праграм або панэляў інструментаў."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2191,11 +2206,11 @@ msgstr "DVD: Несумяшчальныя рэгіёны дэкодэра і д�
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Гэтая опцыя служыць для ўхілення дрыгацення але ў гэтым рэжыме, калі відэа загружана, MPC-HC не можа адлюстроўваць кантэкстнае меню і дыялогі.\n\nПрацягнуць?"
+msgstr "Гэтая опцыя служыць для ўхілення дрыгацення, але ў гэтым рэжыме, калі відэа загружана, MPC-HC не можа адлюстроўваць кантэкстнае меню і дыялогі.\n\nПрацягнуць?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Затрымка субтытраў: %ld мс"
+msgstr "Затрымка субцітраў: %ld мс"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2251,11 +2266,11 @@ msgstr "Памылка"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Субтытры: адключаны"
+msgstr "Субцітры: адключаны"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Субтытры: %s"
+msgstr "Субцітры: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
@@ -2287,7 +2302,7 @@ msgstr "Немагчыма стварыць мініяцюры для файла
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Не атрымліваецца атрымаць памер відэакадра"
+msgstr "Не атрымалася вызначыць памер відэакадра"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -2307,15 +2322,15 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Імя файла: %s\\N%sР
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Замалы памер мініяцюр, немагчыма стварыць файл.\n\nПаменшыце колькасць мініяцюр або павялічце агульны памер выявы."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Каб загрузіць субтытры, неабходна змяніць тып апрацоўшчыка відэа і зноў адкрыць файл.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Каб загрузіць субцітры, неабходна змяніць тып апрацоўшчыка відэа і зноў адкрыць файл.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr "Файлы субтытраў"
+msgstr "Файлы субцітраў"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2359,7 +2374,7 @@ msgstr "Адкрыццё перапынена"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Не атрымліваецца прайграць файл"
+msgstr "Не атрымалася апрацаваць файл"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2435,11 +2450,11 @@ msgstr "Невядомы тып файла"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Непадтрымліваемы струмень"
+msgstr "Непадтрымліваемы паток"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
-msgstr "Не атрымліваецца знайсці каталог DVD"
+msgstr "Вызначаная для DVD/BD папка не знойдзена"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
@@ -2487,7 +2502,7 @@ msgstr " (pin) уласцівасці..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Невядомы струмень"
+msgstr "Невядомы паток"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2507,7 +2522,7 @@ msgstr " (Каментарыі рэжысёра 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr "Уключыць DVD-субтытры"
+msgstr "Уключыць DVD-субцітры"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -2535,31 +2550,31 @@ msgstr "Невядомы фармат"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Зрушэнне субтытраў: %ld"
+msgstr "Зрух субцітраў: %ld"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Узмацненне гучнасці - павялічыць"
+msgstr "Узмацненне гучнасці — павялічыць"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Узмацненне гучнасці - паменшыць"
+msgstr "Узмацненне гучнасці — паменшыць"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Узмацненне гучнасці - мінімальнае"
+msgstr "Узмацненне гучнасці — мінімальнае"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Узмацненне гучнасці - максімальнае"
+msgstr "Узмацненне гучнасці — максімальнае"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Выкарыстанне: mpc-hc.exe \"шлях\" [параметры]\n\n\t\t\"шлях\"\tФайл або папка для загрузкі \n\t\t(дазволеныя маскі: \"-\" denotes standard input)\n/dub \"dubname\"\tЗагрузiць дадатковы гукавы файл\n/dubdelay \"file\"\tЗагрузiць гукавы файл з затрымкай XX мс\n\t\tкалі файл утрымлівае \"...DELAY XXms...\")\n/d3dfs\t\tСтартаваць у поўнаэкранным D3D рэжыме\n/sub \"subname\"\tЗагрузiць дадатковыя субтытры з файла\n/filter \"filtername\"\tЗагрузiць фільтры DirectShow з \n\t\tбібліятэкі (дазволены маскі)\n/dvd\t\tЗапуск у рэжыме DVD\n\t\t\"шлях\" - папка з DVD (неабавязкова)\n/dvdpos T#C\tПачаць прайграванне з загалоўка T, сцэны C\n/dvdpos T#hh:mm\tПачаць прайграванне з загалоўка T,\n\t\tпазіцыіі hh:mm:ss (гадз:хв:сек)\n/cd\t\tЗагрузіць усе дарожкі аўдыядыску або (S)VCD \n\t\t\"шлях\" - шлях да дыску (неабавязковы)\n/device\t\tАдкрыць відэапрыладу па змаўчанні\n/open\t\tТолькі адкрыць файл, не прайграваць\n/play\t\tПачаць прайграванне адразу пасля запуску\n/close\t\tПа сканчэнні прайгравання выйсці\n\t\t(працуе толькі з ключом /play)\n/shutdown\tВыключыць кампутар па сканчэнні прайгравання\n/standby\t\tПа сканчэнні прайгравання перайсці ў рэжым чакання\n/hibernate\tПа сканчэнні прайгравання перайсці ў рэжым сну\n/logoff\t\tПа сканчэнні прайгравання завяршыць сеанс\n/lock\t\tПа сканчэнні прайгравання заблакаваць кампутар\n/monitoroff\tПа сканчэнні прайгравання выключыць манітор\n/playnext\t\tПа сканчэнні прайгравання: прайграць наступны файл ў папцы\n/fullscreen\tЗапуск у поўнаэкранным рэжыме\n/minimized\tЗапуск у згорнутым выглядзе\n/new\t\tЗапуск у новым акне прайгравальніка\n/add\t\tДадаць \"шлях\" у плэйліст\n\t\tможна сумешчаць з /open і /play\n/randomize\tПерамяшаць спіс прайгравання\n/regvid\t\tАсацыяваць з відэафарматамі\n/regaud\t\tАсацыяваць з аўдыяфарматамі\n/regpl\t\tАсацыяваць са спісамі прайграфвання\n/regall\t\tАсацыяваць з усімі падтрымліваемымі файламі\n/unregall\t\tСкасаваць усе асацыяцыі з файламі\n/start ms\t\tПрайграваць з пазіцыі \"ms\" (мілісекунд)\n/fixedsize wh\tУстанавіць фіксаваны памер акна\n/monitor N\tЗапускацца на маніторы нумар N (1,2,3...)\n/audiorenderer N\tСкарыстаць аўдыярэндар N (1,2,3...)\n\t\t(глядзіце налады \"Вывад\")\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tАдкрыць MPC-HC у фоне\n/webport N\tStart web interface on specified port\n/debug\t\tВывесці інфармацыю адладчыка ў OSD\n/nocrashreporter\tАдключыць справаздачы пра збоі\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tСкінуць усе налады\n/help /h /?\tПаказвае гэтую даведку\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Выкарыстанне: mpc-hc.exe \"шлях\" [ключы]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "У камандным радку знойдзены нераспазнаныя перамыкачы: \n\n"
+msgstr "У камандным радку знойдзены нераспазнаныя ключы: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -2575,7 +2590,7 @@ msgstr "Укл/Адкл радок стану"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Укл/Адкл акно сінхранізацыі субтытраў"
+msgstr "Укл/Адкл акно сінхранізацыі субцітраў"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
@@ -2607,11 +2622,11 @@ msgstr "Наступная перадусталёўка прапорцый"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "Відэакадр расцягнуць да памераў акна"
+msgstr "Расцягнуць відэакадр да памераў акна"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr "Відэакадр упісаць унутр вакна"
+msgstr "Упісаць відэакадр у акно"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
@@ -2641,21 +2656,13 @@ msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Уключыць усе фільтры"
 
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Налады цюнера"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Субтытры не загружаны або не падтрымліваемы відэа-рэндэр."
-
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
 msgstr "Аўтар невядомы. Паведаміце нам, калі гэта вы зрабілі лагатып!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Прайграванне медыя-файлаў з каталога скончана"
+msgstr "Прайграванне медыяфайлаў з папкі скончана"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -2799,7 +2806,7 @@ msgstr "Расцягнуць да памераў акна"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr "Упісаць відэакадр унутр вакна"
+msgstr "Упісаць відэакадр у акно"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
@@ -3031,19 +3038,19 @@ msgstr "Прапорцыі"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "VSync: Укл"
+msgstr "Вертыкальная сінхранізацыя: Укл"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: Выкл"
+msgstr "Вертыкальная сінхранізацыя: Адкл"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Дакладная VSync: Укл"
+msgstr "Дакладная вертыкальная сінхранізацыя: Укл"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "Дакладная VSync: Выкл"
+msgstr "Дакладная вертыкальная сінхранізацыя: Адкл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3051,7 +3058,7 @@ msgstr "Сінхранізацыя відэа да дысплэя: Укл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Сінхранізацыя відэа да дысплэя: Выкл"
+msgstr "Сінхранізацыя відэа да дысплэя: Адкл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
@@ -3059,15 +3066,15 @@ msgstr "Сінхранізацыя дысплэя да відэа: Укл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "Сінхранізацыя дысплэя да відэа: Выкл"
+msgstr "Сінхранізацыя дысплэя да відэа: Адкл"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Паказ пры бліжэшай VSync пры бліжэшай VSync: Укл"
+msgstr "Паказ пры найбліжэйшай вертыкальнай сінхранізацыі: Укл"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Паказ пры бліжэшай VSync: Выкл"
+msgstr "Паказ пры найбліжэйшай вертыкальнай сінхранізацыі: Адкл"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3075,7 +3082,7 @@ msgstr "Кіраванне колерам: Укл"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Кіраванне колерам: Выкл"
+msgstr "Кіраванне колерам: Адкл"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3107,47 +3114,47 @@ msgstr "Вонкавае святло: Цёмнае (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Прызначэнне Рэндэрэнгу: Па ўспрыманне"
+msgstr "Мэта апрацоўкі: Зрокавае ўспрыманне"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Метад апрацоўкі: Адносны каларыметрычны"
+msgstr "Мэта апрацоўкі: Адносная колераметрыя"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Прызначэнне Рэндэрэнгу: Насычанасць"
+msgstr "Мэта апрацоўкі: Насычанасць"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Прызначэнне Рэндэрэнгу: Абсалютная каларыметрыя"
+msgstr "Мэта апрацоўкі: Абсалютная колераметрыя"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Выходны дыяпазонe: %s"
+msgstr "Дыяпазон вываду: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Напаўняць GPU перад VSync: Укл"
+msgstr "Ачышчаць буфер GPU да верт. сінхранізацыі: Укл"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Напаўняць GPU перад VSync: Выкл"
+msgstr "Ачышчаць буфер GPU да верт. сінхранізацыі: Адкл"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Напаўняць GPU пасля Present: Укл"
+msgstr "Ачышчаць буфер GPU пасля паказу: Укл"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Напаўняць GPU пасля Present: Выкл"
+msgstr "Ачышчаць буфер GPU пасля паказу: Адкл"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Чаканне запаўнення GPU: Укл"
+msgstr "Чакаць ачышчэння буфера: Укл"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Чаканне запаўнення GPU: Выкл"
+msgstr "Чакаць ачышчэння буфера: Адкл"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
@@ -3155,7 +3162,7 @@ msgstr "Поўнаэкранны D3D: Укл"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Поўнаэкранны D3D: Выкл"
+msgstr "Поўнаэкранны D3D: Адкл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3163,15 +3170,15 @@ msgstr "Адключыць эфект прац. сталу: Укл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Адключыць эфект прац. сталу: Выкл"
+msgstr "Адключыць эфект прац. сталу: Адкл"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Альтэрнатыўная VSync: Укл"
+msgstr "Альтэрнатыўная вертыкальная сінхранізацыя: Укл"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Альтэрнатыўная VSync: Выкл"
+msgstr "Альтэрнатыўная вертыкальная сінхранізацыя: Адкл"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3187,7 +3194,7 @@ msgstr "Поўнаэкранны D3D з падтрымкай GUI: Укл"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Поўнаэкранны D3D з падтрымкай GUI: Выкл"
+msgstr "Поўнаэкранны D3D з падтрымкай GUI: Адкл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3195,7 +3202,7 @@ msgstr "10-бітны RGB вывад: Укл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10-бітны RGB вывад: Выкл"
+msgstr "10-бітны RGB вывад: Адкл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
@@ -3203,23 +3210,23 @@ msgstr "Прымусовы 10-бітны RGB увод: Укл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "Прымусовы 10-бітны RGB увод: Выкл"
+msgstr "Прымусовы 10-бітны RGB увод: Адкл"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Поўная апрацоўка плыўнай кропкі: Укл"
+msgstr "Поўная апрацоўка лікаў з нефіксаванай коскай: Укл"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr "Поўная апрацоўка плыўнай кропкі: Выкл"
+msgstr "Поўная апрацоўка лікаў з нефіксаванай коскай: Адкл"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Палавінная апрацоўка плыўнай кропкі: Укл"
+msgstr "Палавінная апрацоўка лікаў з нефіксаванай коскай: Укл"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr "Палавінная апрацоўка плыўнай кропкі: Выкл"
+msgstr "Палавінная апрацоўка лікаў з нефіксаванай коскай: Адкл"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
@@ -3343,27 +3350,27 @@ msgstr "Мб/с"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Немагчыма стварыць цюнер."
+msgstr "Не атрымалася стварыць цюнер."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr "Немагчыма падлучыцца да рэсівера."
+msgstr "Не атрымалася стварыць прыёмнік."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "Немагчыма падлучыцца да сеткі і цюнера."
+msgstr "Не атрымалася злучыць сетку і цюнер."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "Немагчыма падлучыцца да цюнера і рэсівера."
+msgstr "Не атрымалася злучыць цюнер і прыёмнік."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr "Немагчыма падлучыцца да цюнера."
+msgstr "Не атрымалася падлучыць цюнер."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "Немагчыма стварыць дэмультыплексар."
+msgstr "Не атрымалася стварыць дэмультыплексар."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
@@ -3399,7 +3406,7 @@ msgstr "Функцыі «Захаваць кадр» і «Захаваць мі�
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr "Хочаце актывіраваць рэдактар EDL?"
+msgstr "Актываваць рэдактар EDL?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3423,11 +3430,11 @@ msgstr "Немагчыма падлучыць буферны фільтр %s д�
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Немагчыма дадаць фільтр-энкодер %s да графа."
+msgstr "Немагчыма дадаць фільтр-энкодар %s да графа."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Немагчыма падлучыць фільтр-энкодер %s да графа."
+msgstr "Немагчыма падлучыць фільтр-энкодар %s да графа."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
@@ -3435,7 +3442,7 @@ msgstr "Не атрымоўваецца ўсталяваць фармат сці
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Немагчыма падлучыць струмень %s фільтру-мультыплексару."
+msgstr "Немагчыма падлучыць паток %s фільтру-мультыплексару."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
@@ -3479,7 +3486,7 @@ msgstr "Па сканчэнні прайгравання: перайсці ў р
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Па сканчэнні прайгравання: выключыць кампутар"
+msgstr "Па сканчэнні прайгравання: выключыць камп'ютар"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
@@ -3487,7 +3494,7 @@ msgstr "Па сканчэнні прайгравання: завяршыць с�
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Па сканчэнні прайгравання: заблакаваць кампутар"
+msgstr "Па сканчэнні прайгравання: заблакаваць камп'ютар"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
@@ -3535,7 +3542,7 @@ msgstr "Увядзіце сюды пажаданыя мовы.\nНапрыкла
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Знешнія сплітары могуць мець уласныя моўныя налады, таму пераважныя мовы з MPC-HC для іх не будуць ужыты.\nУключыце гэты параметр, калі вы хочаце, каб MPC-HC мог кіраваць знешнімі сплітарамі."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3567,7 +3574,7 @@ msgstr "Асацыяваць з усімі фарматамі"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr "Асацыяваць толькі з відеафарматамі"
+msgstr "Асацыяваць толькі з відэафарматамі"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
@@ -3589,6 +3596,10 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Пастаўшчык"
@@ -3603,35 +3614,35 @@ msgstr "Спамповак"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "Лік"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr "Збой пошука субтытраў."
+msgstr "Збой пошука субцітраў."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr "Пошук субтытраў у Інтэрнэце спынены."
+msgstr "Пошук субцітраў у Інтэрнэце спынены."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr "Пошук завершаны, знойдзена субтытраў: %d"
+msgstr "Пошук завершаны, знойдзена субцітраў: %d"
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr "Пошук завершаны, субтытраў не знойдзена."
+msgstr "Пошук завершаны, субцітраў не знойдзена."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
-msgstr "Спампаваць субтытры"
+msgstr "Спампаваць субцітры"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr "Ідзе пошук субтытраў у Інтэрнэце..."
+msgstr "Ідзе пошук субцітраў у Інтэрнэце..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "Спыненне пошуку субтытраў у Інтэрнэце..."
+msgstr "Спыненне пошуку субцітраў у Інтэрнэце..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
@@ -3654,24 +3665,24 @@ msgid "Uploading..."
 msgstr "Запампоўка..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
-msgstr "Субтытры запампаваныя."
+msgid "Subtitles uploaded successfully."
+msgstr "Субцітры запампаваныя."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr "Збой запампавання субтытраў."
+msgstr "Збой запампавання субцітраў."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr "Запампаванне субтытраў спынена."
+msgstr "Запампаванне субцітраў спынена."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr "Такія субтытры ўжо ёсць."
+msgstr "Такія субцітры ўжо ёсць."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr "Ідзе запампаванне субтытраў..."
+msgstr "Ідзе запампаванне субцітраў..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
@@ -3735,9 +3746,225 @@ msgstr "Спампаваны [%s] «%s»"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr "Запампаваць субтытры"
+msgstr "Запампаваць субцітры"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "Сапраўды запампаваць файл субтытраў «%s»?"
+msgstr "Сапраўды запампаваць файл субцітраў «%s»?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Запыт даступных моў"
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Не атрымалася ўвасці ў \"%S\" пад уліковым запісам \"%S\".\n\nУвядзіце правільна імя карыстальніка і пароль або скіньце ўліковыя дадзеныя, каб увайсці ананімна."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Аўтаматычны пошук і спампоўванне будуць адключаныя для ўсіх медыя-файлаў, чый шлях ўтрымлівае ўведзеныя шаблоны.\nУзор: \"прыватная папка\\відэа|праца\\\"."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"шлях\"\tФайл або каталог для загрузкі\n\t\t(дазволены маскі, \"-\" азначае стандартны)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dubname\"\tЗагрузiць дадатковы гукавы файл"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"file\"\tЗагрузiць дадатковы гукавы файл са зрушэннем XXмс\n\t\t(калі файл утрымлівае ў назве \"...DELAY XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tЗапуск у поўнаэкранным D3D-рэжыме"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"subname\"\tЗагрузiць дадатковыя субцітры"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filtername\"\tЗагрузiць фільтры DirectShow з бібліятэкі (дазволены маскі)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tЗапуск у рэжыме DVD, \"шлях\" азначае каталог з DVD (неабавязковы)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tПрайграць загаловак T, са сцэны C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tПрайграць загаловак T, сцэну C, з пазіцыі P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tЗагрузіць усе дарожкі Audio CD або (S)VCD,\n\t\t\"шлях\" азначае шлях да дыска (неабавязкавы)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tАдкрыць відэапрыладу па змаўчанні"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tТолькі адкрыць файл, не пачынаць прайграванне"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tПачынаць прайграванне адразу пасля запуску"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tЗакрыць па сканчэнні прайгравання (працуе толькі з ключом /play)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tВыключыць камп'ютар па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tПерайсці ў рэжым чакання па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tПерайсці ў рэжым сну па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tЗавяршыць сеанс па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tЗаблакаваць камп'ютар па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tВыключыць манітор па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tПрайграць наступны файл ў папцы па сканчэнні прайгравання"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tЗапуск у поўнаэкранным рэжыме"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tЗапуск у згорнутым выглядзе"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tВыкарыстаць новае акно прайгравальніка"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tДадаць \"шлях\" у спіс прайгравання, можна сумяшчаць з /open і /play"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tВыпадковы парадак прайгравання"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tСтварыць асацыяцыі файлаў для відэафарматаў"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tСтварыць асацыяцыі файлаў для аўдыяфарматаў"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tСтварыць асацыяцыі файлаў для плэйлістоў"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tСтварыць асацыяцыі файлаў для ўсіх падтрымліваемых фарматаў"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tСцерці ўсе створаныя асацыяцыі файлаў"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tПрайграваць з пазіцыі \"ms\" (= мілісекунды)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos\tПрайграваць з пазіцыі  hh:mm:ss (дзе h — гадзіна, m — хвіліна, s — секунда)"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\tУстанавіць фіксаваны памер акна (w - шырыня,h- вышыня)"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tЗапуск на маніторы N, дзе N адлічваецца з 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tВыкарыстаць аўдыярэндар N, дзе N адлічваецца з 1 (глядзіце налады \"Вывад\")"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Назва\"\tЗапуск з вызначанымі наладамі шэйдараў"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"назва\"\tPan&Scan — назва перадусталёўкі памеру і становішча"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tПаўторнае асацыяванне значкоў для файлаў"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tАдкрыць MPC-HC у фонавым рэжыме"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tЗапуск вэб-інтэрфейсу праз порт N"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tПаказваць у OSD адладачныя звесткі"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tАдключыць справаздачы пра збоі"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tЗапуск MPC-HC у вядомым рэжыме"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tЗадаць нумар графічнага працэсара для апаратнага дэкадавання.\n\t\tДаступна толькі для CUVID і DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tАднавіць налады па змаўчанні"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tПаказвае гэтую даведку"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Мінімальнае значэнне рэйтынгу субцітраў для аўтаматычнага спампоўвання. Вышэйшае значэнне вядзе да спампоўвання больш дакладных субцітраў, ніжэйшае — таксама і недакладных. Універсальнага значэння не існуе, выберыце тое, якое больш падыходзіць для вас."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Аўтазатрымка (мс)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Памер ў пікселях па змаўчанні для панэлі навігацыі."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Выкарыстанне старой панэлі навігацыі, замест новай — вектарнай."
 

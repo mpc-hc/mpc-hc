@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -202,7 +202,7 @@ void CEditListEditor::CloseFile()
     m_editList.RemoveAll();
     m_list.DeleteAllItems();
     m_curPos = nullptr;
-    m_strFileName = "";
+    m_strFileName.Empty();
     m_bFileOpen = false;
     m_cbHotFolders.SetCurSel(0);
 }

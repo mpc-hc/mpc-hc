@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
+#include <string>
 
 template<class T, typename SEP>
 T Explode(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)

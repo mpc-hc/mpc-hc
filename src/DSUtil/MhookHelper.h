@@ -20,16 +20,11 @@
 
 #pragma once
 
-#include "mhook/mhook-lib/mhook.h"
+#include "minhook/minhook/include/MinHook.h"
 
 template <typename T>
 inline BOOL Mhook_SetHookEx(T** ppSystemFunction, PVOID pHookFunction)
 {
-    return Mhook_SetHook(reinterpret_cast<PVOID*>(ppSystemFunction), pHookFunction);
-}
+    return MH_CreateHook(*ppSystemFunction, pHookFunction, reinterpret_cast<LPVOID*>(ppSystemFunction)) == MH_OK;
 
-template <typename T>
-inline BOOL Mhook_UnhookEx(T** ppHookedFunction)
-{
-    return Mhook_Unhook(reinterpret_cast<PVOID*>(ppHookedFunction));
 }

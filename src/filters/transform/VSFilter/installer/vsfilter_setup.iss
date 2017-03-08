@@ -1,4 +1,4 @@
-; (C) 2012-2016 see Authors.txt
+; (C) 2012-2017 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -26,7 +26,6 @@
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
 #define sse_required
-;#define VS2015
 ;#define x64Build
 
 
@@ -37,18 +36,14 @@
 #include AddBackslash(top_dir) + "include\mpc-hc_config.h"
 #include AddBackslash(top_dir) + "include\version.h"
 
-#define copyright_str   "2001-2016"
+#define copyright_str   "2001-2017"
 #define app_name        "VSFilter"
 
 #define app_version     str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 #define app_vername     = app_name + " " + app_version
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2015)
-  #define base_bindir   = AddBackslash(top_dir) + "bin15"
-#else
-  #define base_bindir   = AddBackslash(top_dir) + "bin"
-#endif
+#define base_bindir     = AddBackslash(top_dir) + "bin"
 
 #ifdef x64Build
   #define bindir        = AddBackslash(base_bindir) + "Filters_x64"
@@ -66,10 +61,6 @@
   #define FullAppNameVer = app_vername + " " + "(" + str(MPCHC_HASH) + ")"
 #else
   #define FullAppNameVer = app_vername
-#endif
-
-#if defined(VS2015)
-  #define FullAppNameVer = FullAppNameVer + " VS2015"
 #endif
 
 #if MPC_NIGHTLY_RELEASE

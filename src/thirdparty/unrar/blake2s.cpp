@@ -162,7 +162,7 @@ void blake2s_update( blake2s_state *S, const byte *in, size_t inlen )
       memcpy( S->buf + left, in, (size_t)inlen );
       S->buflen += (size_t)inlen; // Be lazy, do not compress
       in += inlen;
-      inlen -= inlen;
+      inlen = 0;
     }
   }
 }

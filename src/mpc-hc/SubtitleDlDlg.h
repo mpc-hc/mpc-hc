@@ -30,8 +30,17 @@ struct SubtitlesInfo;
 using SubtitlesList = std::list<SubtitlesInfo>;
 enum SRESULT;
 
+class CSubtitleDlDlgListCtrl final : public CListCtrl
+{
+    void PreSubclassWindow() override;
+
+    DECLARE_MESSAGE_MAP();
+    afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+};
+
 class CSubtitleDlDlg : public CResizableDialog
 {
+public:
     enum {
         COL_PROVIDER,
         COL_FILENAME,
@@ -47,6 +56,7 @@ class CSubtitleDlDlg : public CResizableDialog
         COL_TOTAL_COLUMNS
     };
 
+private:
     struct PARAMSORT {
         PARAMSORT(HWND hWnd, int nSortColumn, int fSortOrder)
             : m_hWnd(hWnd), m_nSortColumn(nSortColumn), m_fSortOrder(fSortOrder) {}
@@ -57,10 +67,9 @@ class CSubtitleDlDlg : public CResizableDialog
     typedef PARAMSORT* PPARAMSORT;
 
     PARAMSORT m_ps;
-    bool m_bReplaceSubs;
     bool m_bIsRefreshed;
 
-    CListCtrl m_list;
+    CSubtitleDlDlgListCtrl m_list;
     CProgressCtrl m_progress;
     CStatusBarCtrl m_status;
     CMainFrame* m_pMainFrame;
@@ -82,7 +91,7 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
-
+    virtual void OnCancel();
 
     DECLARE_MESSAGE_MAP()
 

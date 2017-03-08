@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2016 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -80,9 +80,11 @@ class TranslationDataIS(TranslationData):
                     s = self.strings.get((section + '_' + match.group(1), match.group(2).replace(u'%n', ur'\n')))
                     if not s:
                         s = match.group(2)
-                    line = '%s.%s=%s\r\n' % (config.get('Info', 'langShortName'), match.group(1), s.replace(ur'\n', u'%n'))
+                    line = '%s.%s=%s\r\n' % (
+                        config.get('Info', 'langShortName'), match.group(1), s.replace(ur'\n', u'%n'))
                 else:
-                    line = '%s.langid=%0.8d\r\n' % (config.get('Info', 'langShortName'), config.getint('Info', 'langId'))
+                    line = '%s.langid=%0.8d\r\n' % (
+                        config.get('Info', 'langShortName'), config.getint('Info', 'langId'))
 
                 fOut.write(line)
             elif line == u'; English\r\n':

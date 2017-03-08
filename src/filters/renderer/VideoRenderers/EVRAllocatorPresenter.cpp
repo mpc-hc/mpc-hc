@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,6 @@
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
 #include "IMPCVideoDecFilter.h"
-#include "../../../DSUtil/ArrayUtils.h"
 
 #if (0)     // Set to 1 to activate EVR traces
 #define TRACE_EVR   TRACE
@@ -105,13 +104,13 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_bSignaledStarvation(false)
     , m_StarvationClock(0)
     , m_SampleFreeCallback(this, &CEVRAllocatorPresenter::OnSampleFree)
-    , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
-    , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
-    , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
-    , fnMFCreateMediaType("mfplat.dll", "MFCreateMediaType")
-    , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
-    , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
-    , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
+    , fnDXVA2CreateDirect3DDeviceManager9(_T("dxva2.dll"), "DXVA2CreateDirect3DDeviceManager9")
+    , fnMFCreateDXSurfaceBuffer(_T("evr.dll"), "MFCreateDXSurfaceBuffer")
+    , fnMFCreateVideoSampleFromSurface(_T("evr.dll"), "MFCreateVideoSampleFromSurface")
+    , fnMFCreateMediaType(_T("mfplat.dll"), "MFCreateMediaType")
+    , fnAvSetMmThreadCharacteristicsW(_T("avrt.dll"), "AvSetMmThreadCharacteristicsW")
+    , fnAvSetMmThreadPriority(_T("avrt.dll"), "AvSetMmThreadPriority")
+    , fnAvRevertMmThreadCharacteristics(_T("avrt.dll"), "AvRevertMmThreadCharacteristics")
 {
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -703,13 +702,13 @@ HRESULT CEVRAllocatorPresenter::CreateOptimalOutputType(IMFMediaType* pMixerProp
     CHECK_HR(fnMFCreateMediaType(&pOptimalMediaType));
     CHECK_HR(pMixerProposedType->CopyAllItems(pOptimalMediaType));
 
-    auto colorAttributes = make_array(
-                               MF_MT_VIDEO_LIGHTING,
-                               MF_MT_VIDEO_PRIMARIES,
-                               MF_MT_TRANSFER_FUNCTION,
-                               MF_MT_YUV_MATRIX,
-                               MF_MT_VIDEO_CHROMA_SITING
-                           );
+    const GUID colorAttributes[] = {
+        MF_MT_VIDEO_LIGHTING,
+        MF_MT_VIDEO_PRIMARIES,
+        MF_MT_TRANSFER_FUNCTION,
+        MF_MT_YUV_MATRIX,
+        MF_MT_VIDEO_CHROMA_SITING
+    };
 
     auto copyAttribute = [](IMFAttributes * pFrom, IMFAttributes * pTo, REFGUID guidKey) {
         PROPVARIANT val;

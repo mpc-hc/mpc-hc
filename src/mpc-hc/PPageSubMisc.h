@@ -38,6 +38,10 @@ private:
         COL_TOTAL_COLUMNS
     };
 
+    SubtitlesProviders* m_pSubtitlesProviders;
+
+    std::thread m_threadFetchSupportedLanguages;
+
 public:
     CPPageSubMisc();
     virtual ~CPPageSubMisc();
@@ -46,6 +50,10 @@ public:
     enum { IDD = IDD_PPAGESUBMISC };
 
 protected:
+    enum {
+        WM_SUPPORTED_LANGUAGES_READY = WM_APP + 1
+    };
+
     BOOL m_fPreferDefaultForcedSubtitles;
     BOOL m_fPrioritizeExternalSubtitles;
     BOOL m_fDisableInternalSubtitles;
@@ -66,11 +74,10 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
+    afx_msg void OnSupportedLanguagesReady();
+    afx_msg void OnDestroy();
     afx_msg void OnBnClickedResetSubsPath();
     afx_msg void OnAutoDownloadSubtitlesClicked();
     afx_msg void OnRightClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
-
-private:
-    SubtitlesProviders& m_subtitlesProviders;
 };

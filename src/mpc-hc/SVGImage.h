@@ -1,5 +1,5 @@
 /*
-* (C) 2015 see Authors.txt
+* (C) 2016-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,10 +20,13 @@
 
 #pragma once
 
-#include "Constexpr.h"
-
-template <typename... T>
-MPCHC_CONSTEXPR std::array<typename std::common_type<T...>::type, sizeof...(T)> make_array(T&& ... values)
+namespace ATL
 {
-    return { std::forward<T>(values)... };
+    class CImage;
+}
+
+namespace SVGImage
+{
+    HRESULT Load(LPCTSTR filename, ATL::CImage& image, float scale = 1.0f);
+    HRESULT Load(UINT uResId, ATL::CImage& image, float scale = 1.0f);
 }

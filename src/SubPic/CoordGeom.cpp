@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "CoordGeom.h"
 #include "../DSUtil/DSUtil.h"
-#include <math.h>
+#include <cmath>
 
 static bool IsZero(float d)
 {
@@ -33,16 +33,16 @@ static bool IsZero(float d)
 // Vector
 //
 
-Vector::Vector(float x, float y, float z)
-    : x(x), y(y), z(z)
+Vector::Vector(float _x, float _y, float _z)
+    : x(_x), y(_y), z(_z)
 {
 }
 
-void Vector::Set(float x, float y, float z)
+void Vector::Set(float _x, float _y, float _z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    x = _x;
+    y = _y;
+    z = _z;
 }
 
 float Vector::Length() const
@@ -349,16 +349,16 @@ Vector& Vector::operator /= (const Vector& v)
 // Ray
 //
 
-Ray::Ray(const Vector& p, const Vector& d)
-    : p(p)
-    , d(d)
+Ray::Ray(const Vector& _p, const Vector& _d)
+    : p(_p)
+    , d(_d)
 {
 }
 
-void Ray::Set(const Vector& p, const Vector& d)
+void Ray::Set(const Vector& _p, const Vector& _d)
 {
-    this->p = p;
-    this->d = d;
+    p = _p;
+    d = _d;
 }
 
 float Ray::GetDistanceFrom(const Ray& r) const

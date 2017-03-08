@@ -77,6 +77,7 @@
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
 //#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
+#define IDS_RS_DEFAULTTOOLBARSIZE           _T("DefaultToolbarSize")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -232,6 +233,7 @@
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED         _T("Checked")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART  _T("FrameRateStart")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP   _T("FrameRateStop")
+#define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_AUDIODELAY      _T("AudioDelay")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP          _T("BPP")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FREQ         _T("Freq")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEX        _T("SizeX")
@@ -303,10 +305,13 @@
 #define IDS_RS_DEBUG_SHADERS_LASTVERSION    _T("LastVersion")
 #define IDS_RS_DEBUG_SHADERS_LASTFILE       _T("LastFile")
 #define IDS_RS_DEBUG_SHADERS_FIRSTRUN       _T("FirstRun")
+#define IDS_RS_CACHESHADERS                 _T("CacheShaders")
+#define IDS_R_SHADER_CACHE                  _T("ShaderCache")
 
 #define IDS_RS_COVER_ART                    _T("EnableCoverArt")
 #define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")
 #define IDS_RS_LOGGING                      _T("EnableLogging")
+#define IDS_RS_USE_LEGACY_TOOLBAR           _T("UseLegacyToolbar")
 
 #define IDS_RS_SUBTITLE_RENDERER            _T("SubtitleRenderer")
 

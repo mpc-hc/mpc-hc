@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -42,11 +42,6 @@
     <NMakeBuildCommandLine>build_lavfilters.bat Build $(Platform) $(Configuration) Silent Nocolors</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>build_lavfilters.bat Rebuild $(Platform) $(Configuration) Silent Nocolors</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>build_lavfilters.bat Clean $(Platform) $(Configuration) Silent Nocolors</NMakeCleanCommandLine>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <NMakeBuildCommandLine>build_lavfilters.bat Build $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>build_lavfilters.bat Rebuild $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>build_lavfilters.bat Clean $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeCleanCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>

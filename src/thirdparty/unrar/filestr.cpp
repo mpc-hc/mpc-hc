@@ -1,7 +1,5 @@
 #include "rar.hpp"
 
-static bool IsUnicode(byte *Data,int Size);
-
 bool ReadTextFile(
   const wchar *Name,
   StringList *List,
@@ -36,7 +34,7 @@ bool ReadTextFile(
   else
     SrcFile.SetHandleType(FILE_HANDLESTD);
 
-  unsigned int DataSize=0,ReadSize;
+  uint DataSize=0,ReadSize;
   const int ReadBlock=4096;
 
   // Our algorithm below needs at least two trailing zeroes after data.
@@ -44,7 +42,7 @@ bool ReadTextFile(
   // in case read Unicode data contains uneven number of bytes.
   const size_t ZeroPadding=5;
 
-  Array<char> Data(ReadBlock+ZeroPadding);
+  Array<byte> Data(ReadBlock+ZeroPadding);
   while ((ReadSize=SrcFile.Read(&Data[DataSize],ReadBlock))!=0)
   {
     DataSize+=ReadSize;
@@ -55,17 +53,30 @@ bool ReadTextFile(
 
   Array<wchar> WideStr;
 
-  if (SrcCharset==RCH_UNICODE ||
-      SrcCharset==RCH_DEFAULT && IsUnicode((byte *)&Data[0],DataSize))
+  int LowEndian=Data[0]==255 && Data[1]==254 ? 1:0;
+  int BigEndian=Data[0]==254 && Data[1]==255 ? 1:0;
+
+  bool IsUnicode=false;
+  if (LowEndian || BigEndian)  
+    for (size_t I=2;I<DataSize;I++)
+      if (Data[I]<32 && Data[I]!='\r' && Data[I]!='\n')
+      {
+        IsUnicode=true; // High byte in UTF-16 char is found.
+        break;
+      }
+
+  if (SrcCharset==RCH_UNICODE || SrcCharset==RCH_DEFAULT && IsUnicode)
   {
-    // Unicode in native system format, can be more than 2 bytes per character.
-    Array<wchar> DataW(Data.Size()/2+1);
-    for (size_t I=2;I<Data.Size()-1;I+=2)
+    size_t Start=2; // Skip byte order mark.
+    if (!LowEndian && !BigEndian) // No byte order mask.
     {
-      // Need to convert Data to (byte) first to prevent the sign extension
-      // to higher bytes.
-      DataW[(I-2)/2]=(wchar)((byte)Data[I])+(wchar)((byte)Data[I+1])*256;
+      Start=0;
+      LowEndian=1;
     }
+    
+    Array<wchar> DataW(Data.Size()/2+1);
+    for (size_t I=Start;I<Data.Size()-1;I+=2)
+      DataW[(I-Start)/2]=Data[I+BigEndian]+Data[I+LowEndian]*256;
 
     wchar *CurStr=&DataW[0];
 
@@ -122,7 +133,7 @@ bool ReadTextFile(
   }
   else
   {
-    char *CurStr=&Data[0];
+    char *CurStr=(char *)&Data[0];
     while (*CurStr!=0)
     {
       char *NextStr=CurStr,*CmtPtr=NULL;
@@ -182,15 +193,4 @@ bool ReadTextFile(
     }
   }
   return true;
-}
-
-
-bool IsUnicode(byte *Data,int Size)
-{
-  if (Size<4 || Data[0]!=0xff || Data[1]!=0xfe)
-    return false;
-  for (int I=2;I<Size;I++)
-    if (Data[I]<32 && Data[I]!='\r' && Data[I]!='\n')
-      return true;
-  return false;
 }

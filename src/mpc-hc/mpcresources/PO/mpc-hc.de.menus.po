@@ -1,19 +1,19 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Gaugg_Markus, 2016
 # Gaugg_Markus, 2016
 # JellyFrog, 2014
 # JellyFrog, 2014
-# Luan <luanmail@gmx.net>, 2014-2015
+# Luan <luanmail@gmx.net>, 2014-2016
 # Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-29 16:56+0000\n"
+"PO-Revision-Date: 2016-12-03 15:27+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "&Verzeichnis öffnen..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Disc-&Wiedergabe"
+msgstr "Dis&c-Wiedergabe"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
@@ -56,11 +56,11 @@ msgstr "&Zuletzt geöffnete Dateien"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "S&chließen"
+msgstr "&Schließen"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Kopie speichern unter..."
+msgstr "&Kopie speichern..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -68,7 +68,7 @@ msgstr "B&ild speichern..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Miniatur&ansichten speichern..."
+msgstr "Mi&niaturbilder speichern..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
@@ -232,7 +232,7 @@ msgstr "&Direct3D-Vollbildmodus"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "&GUI-Unterstützung bei Direct3D-Vollbildmodus"
+msgstr "&GUI bei Direct3D-Vollbildmodus"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -244,15 +244,15 @@ msgstr "10-Bit-RGB-&Eingabe erzwingen"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Gleitkommaverarbeitung mit &voller Genauigkeit"
+msgstr "&Volle Gleitkommagenauigkeit"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Gleitkommaverarbeitung mit &halber Genauigkeit"
+msgstr "&Halbe Gleitkommagenauigkeit"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "&Windows-Desktopgestaltung (Aero) deaktivieren"
+msgstr "De&sktopgestaltung deaktivieren"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -260,11 +260,11 @@ msgstr "&Bildzeitkorrektur"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "&Farbmanagement"
+msgstr "&Farbabstimmung"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "&Aktivieren"
+msgstr "&Farbmanagement"
 
 msgctxt "POPUP"
 msgid "&Input Type"
@@ -328,7 +328,7 @@ msgstr "&VSync-Kontrolle"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&VSync-Kontrolle"
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
@@ -364,7 +364,7 @@ msgstr "&Auf geleerte GPU warten"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "&Einstellungen"
+msgstr "Vor&einstellungen"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
@@ -624,7 +624,7 @@ msgstr "&Programm beenden"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "&Energie sparen"
+msgstr "&Standby-Modus"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
@@ -640,7 +640,7 @@ msgstr "&Benutzer abmelden"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Computer &sperren"
+msgstr "Computer s&perren"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -656,7 +656,7 @@ msgstr "&Vorwärts"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Gehe zu..."
+msgstr "&Springen zu..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
@@ -680,7 +680,7 @@ msgstr "&Blickwinkelmenü"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Ka&pitelmenü"
+msgstr "&Kapitelmenü"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -700,11 +700,11 @@ msgstr "&Auf Update prüfen"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "H&ilfe für Befehlszeile"
+msgstr "&Kommandozeile"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Toolbar-Bilder herunterladen"
+msgstr "&Toolbar-Bilder"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

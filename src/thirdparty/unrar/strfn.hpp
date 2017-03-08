@@ -4,6 +4,10 @@
 const char* NullToEmpty(const char *Str);
 const wchar* NullToEmpty(const wchar *Str);
 void IntToExt(const char *Src,char *Dest,size_t DestSize);
+
+enum ACTW_ENCODING { ACTW_DEFAULT, ACTW_OEM, ACTW_UTF8};
+void ArcCharToWide(const char *Src,wchar *Dest,size_t DestSize,ACTW_ENCODING Encoding);
+
 int stricomp(const char *s1,const char *s2);
 int strnicomp(const char *s1,const char *s2,size_t n);
 wchar* RemoveEOL(wchar *Str);

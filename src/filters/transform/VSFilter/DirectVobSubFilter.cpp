@@ -34,7 +34,6 @@
 #include "../../../Subtitles/RLECodedSubtitle.h"
 #include "../../../Subtitles/PGSSub.h"
 
-#include <InitGuid.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include "moreuuids.h"
@@ -743,7 +742,7 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 
     // move "Hide subtitles" to the last position if it wasn't our selection
 
-    CString hidesubs = ResStr(IDS_M_HIDESUBTITLES);
+    CString hidesubs(StrRes(IDS_M_HIDESUBTITLES));
 
     for (k = 1; k < j; k++) {
         if (!langs[k].CompareNoCase(hidesubs)) {
@@ -1355,18 +1354,22 @@ bool CDirectVobSubFilter2::IsAppBlackListed()
         _T("wm8eutil."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
         _T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
         _T("producer."), // this is real's producer
-        _T("googledesktopindex."), // Google Desktop
-        _T("googledesktopdisplay."), // Google Desktop
-        _T("googledesktopcrawl."), // Google Desktop
-        _T("subtitleworkshop."), // Subtitle Workshop
-        _T("subtitleworkshop4."),
+        _T("googledesktop"), // Google Desktop
+        _T("subtitleworkshop"), // Subtitle Workshop
         _T("darksouls."), // Dark Souls (Game)
         _T("rometw."), // Rome Total War (Game)
         _T("everquest2."), // EverQuest II (Game)
         _T("yso_win."), // Ys Origin (Game)
         _T("launcher_main."), // Logitech WebCam Software
-        _T("webcamdell2."), // Dell WebCam Software
+        _T("webcamdell"), // Dell WebCam Software
         _T("data."), // Dark Souls 1 (Game)
+        _T("unravel"), // Unravel (Game)
+        _T("mshta"), // MS Scripting Host
+#if WIN64
+        _T("ridex64.exe"), // Ride (Game)
+#else
+        _T("ride.exe"), // Ride (Game)
+#endif
     };
 
     for (size_t i = 0; i < _countof(blacklistedapps); i++) {
@@ -1592,10 +1595,10 @@ void CDirectVobSubFilter::UpdateSubtitle()
 
 void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 {
-    CAutoLock cAutolock(&m_csQueueLock);
+    CAutoLock cQueueLock(&m_csQueueLock);
 
     if (pSubStream) {
-        CAutoLock cAutolock(&m_csSubLock);
+        CAutoLock cSubLock(&m_csSubLock);
 
         CLSID clsid;
         pSubStream->GetClassID(&clsid);

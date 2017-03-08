@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014-2015
-# Dean Lee <xslidian@gmail.com>, 2015
+# Dean Lee <xslidian@gmail.com>, 2015-2016
+# kongfl888 <kongfl888@outlook.com>, 2016
 # Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 10:19+0000\n"
-"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-10-20 12:51+0000\n"
+"Last-Translator: Dean Lee <xslidian@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,8 +192,8 @@ msgid "About"
 msgstr "关于"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "版权所有 © 2002-2016 请查看 Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "版权所有 © 2002-2017 请查看 Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -431,8 +432,8 @@ msgid "After Playback"
 msgstr "回放结束后"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "输出"
+msgid "Default zoom"
+msgstr "默认缩放"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -571,7 +572,7 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "如果您在显卡设置的某处开启了全屏抗锯齿功能并覆盖程序本身设置的话，字幕并不会变得比以前好看但是却会一定大量吞噬您的 CPU 资源。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1136,7 +1137,7 @@ msgstr "表面:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "重设尺寸:"
+msgstr "缩放算法:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
@@ -1189,6 +1190,10 @@ msgstr "旋转"
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "字幕渲染器"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "缓存已编译的着色器"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1591,8 +1596,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "忽略包含以下任何字词的文件:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "语言偏好顺序 (如 \"eng ell spa\"):"
+msgid "Languages in order of preference:"
+msgstr "语言偏好顺序:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

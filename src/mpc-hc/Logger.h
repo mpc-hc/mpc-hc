@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,72 +20,85 @@
 
 #pragma once
 
-#include <mutex>
-#include <sys/timeb.h>
-#include "AppSettings.h"
+#include "PathUtils.h"
 #include "mplayerc.h"
 
 enum class LogTargets {
-    BDA
+    BDA,
+    SUBTITLES
 };
 
-template <LogTargets>
-struct LoggerFile;
-
-template<>
-struct LoggerFile<LogTargets::BDA> {
-protected:
-    const LPCTSTR filename = _T("bda.log");
-    virtual ~LoggerFile() = default;
-};
-
-template<LogTargets TARGET>
-class Logger final : public LoggerFile<TARGET>
+namespace
 {
-public:
-    static void LOG(LPCTSTR fmt...) {
-        static Logger logger;
+    template<LogTargets TARGET>
+    constexpr LPCTSTR GetFileName();
 
-        va_list args;
-        va_start(args, fmt);
-        logger.WriteToFile(fmt, args);
-        va_end(args);
-    };
-
-private:
-    const bool m_bLogging = AfxGetAppSettings().bEnableLogging;
-    std::mutex m_mutex;
-
-    Logger() {
-        // Check if logging is enabled only during initialization
-        // to avoid incomplete logs
-        ASSERT(AfxGetAppSettings().IsInitialized());
+    template<>
+    constexpr LPCTSTR GetFileName<LogTargets::BDA>()
+    {
+        return _T("bda.log");
     }
 
-    void WriteToFile(LPCTSTR fmt, va_list& args) {
-        if (!m_bLogging) {
+    template<>
+    constexpr LPCTSTR GetFileName<LogTargets::SUBTITLES>()
+    {
+        return _T("subtitles.log");
+    }
+
+    void WriteToFile(FILE* f, LPCSTR function, LPCSTR file, int line, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
+    {
+        SYSTEMTIME local_time;
+        GetLocalTime(&local_time);
+
+        _ftprintf_s(f, _T("%.2hu:%.2hu:%.2hu.%.3hu - %S: "), local_time.wHour, local_time.wMinute,
+                    local_time.wSecond, local_time.wMilliseconds, function);
+        _vftprintf_s(f, fmt, args);
+        _ftprintf_s(f, _T(" (%S:%d)\n"), file, line);
+    }
+}
+
+template<LogTargets TARGET>
+struct Logger final {
+    static void Log(LPCSTR function, LPCSTR file, int line, LPCTSTR fmt...) {
+        static Logger logger;
+
+        if (!logger.m_file) {
             return;
         }
 
-        TCHAR buff[3000];
-        FILE* f;
-        _timeb timebuffer;
-        TCHAR time1[8];
-        TCHAR wbuf[26];
+        va_list args;
+        va_start(args, fmt);
+        WriteToFile(logger.m_file, function, file, line, fmt, args);
+        va_end(args);
+    }
 
-        _ftime_s(&timebuffer);
-        _tctime_s(wbuf, _countof(wbuf), &timebuffer.time);
-
-        for (size_t i = 0; i < _countof(time1); i++) {
-            time1[i] = wbuf[i + 11];
+private:
+    Logger() {
+        const auto& s = AfxGetAppSettings();
+        // Check if logging is enabled only during initialization to avoid incomplete logs
+        ASSERT(s.IsInitialized());
+        CString savePath;
+        if (s.bEnableLogging && AfxGetMyApp()->GetAppSavePath(savePath)) {
+            if (!PathUtils::Exists(savePath)) {
+                ::CreateDirectory(savePath, nullptr);
+            }
+            m_file = _tfsopen(PathUtils::CombinePaths(savePath, GetFileName<TARGET>()), _T("at"), SH_DENYWR);
+        } else {
+            m_file = nullptr;
         }
+        ASSERT(!s.bEnableLogging || m_file);
+    }
 
-        _vstprintf_s(buff, _countof(buff), fmt, args);
-
-        std::lock_guard<std::mutex> lock(m_mutex);
-        if (_tfopen_s(&f, filename, _T("at")) == 0) {
-            _ftprintf_s(f, _T("%.8s.%03hu - %s\n"), time1, timebuffer.millitm, buff);
-            fclose(f);
+    ~Logger() {
+        if (m_file) {
+            fclose(m_file);
         }
     }
+
+    FILE* m_file;
 };
+
+
+#define MPCHC_LOG(TARGET, fmt, ...) Logger<LogTargets::TARGET>::Log(__FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
+#define BDA_LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)
+#define SUBTITLES_LOG(...) MPCHC_LOG(SUBTITLES, __VA_ARGS__)

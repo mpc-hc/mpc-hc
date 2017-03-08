@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -481,7 +481,7 @@ bool CCDXAStream::LookForMediaSubType()
                 }
 
                 CString p = pattern;
-                p += ',';
+                p += _T(',');
 
                 __int64 offset = 0;
                 DWORD cb = 0;

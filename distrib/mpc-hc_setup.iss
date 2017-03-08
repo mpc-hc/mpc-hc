@@ -20,8 +20,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,7)
-  #error Update your Inno Setup version (5.5.7 or newer)
+#if VER < EncodeVer(5,5,9)
+  #error Update your Inno Setup version (5.5.9 or newer)
 #endif
 
 #ifndef UNICODE
@@ -29,7 +29,6 @@
 #endif
 
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define VS2015
 ;#define x64Build
 ;#define MPCHC_LITE
 
@@ -61,11 +60,7 @@
 #define app_vername     = app_name + " " + app_ver
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2015)
-  #define base_bindir   = "..\bin15"
-#else
-  #define base_bindir   = "..\bin"
-#endif
+#define base_bindir     = "..\bin"
 
 #ifdef x64Build
   #define bindir        = AddBackslash(base_bindir) + "mpc-hc_x64"
@@ -97,10 +92,6 @@
   #else
     #define OutFilename  = OutFilename + ".en"
   #endif
-#endif
-
-#if defined(VS2015)
-  #define OutFilename    = OutFilename + ".VS2015"
 #endif
 
 #if MPC_NIGHTLY_RELEASE
@@ -172,6 +163,7 @@ Name: en;    MessagesFile: compiler:Default.isl
 Name: ar;    MessagesFile: Languages\Arabic.isl
 Name: be;    MessagesFile: Languages\Belarusian.isl
 Name: bn;    MessagesFile: Languages\Bengali.islu
+Name: bs_BA; MessagesFile: Languages\Bosnian.isl
 Name: ca;    MessagesFile: compiler:Languages\Catalan.isl
 Name: cs;    MessagesFile: compiler:Languages\Czech.isl
 Name: da;    MessagesFile: compiler:Languages\Danish.isl
@@ -186,7 +178,7 @@ Name: gl;    MessagesFile: Languages\Galician.isl
 Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
 Name: hr;    MessagesFile: Languages\Croatian.isl
 Name: hu;    MessagesFile: compiler:Languages\Hungarian.isl
-Name: hy;    MessagesFile: Languages\Armenian.islu
+Name: hy;    MessagesFile: compiler:Languages\Armenian.islu
 Name: id;    MessagesFile: Languages\Indonesian.isl
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
 Name: ja;    MessagesFile: compiler:Languages\Japanese.isl
@@ -444,6 +436,7 @@ end;
 procedure CleanUpSettingsAndFiles();
 begin
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
+  DelTree(ExpandConstant('{userappdata}\MPC-HC\ShaderCache'), True, True, True);  
   DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\MPC-HC'));
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Filters');

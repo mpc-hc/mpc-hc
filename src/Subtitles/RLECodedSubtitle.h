@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2015 see Authors.txt
+ * (C) 2008-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 
 #include "../SubPic/SubPicProviderImpl.h"
 #include "ColorConvTable.h"
+#include "SubtitleHelpers.h"
 
 
 class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
@@ -60,6 +61,7 @@ protected:
 
     CString         m_name;
     LCID            m_lcid;
+    Subtitle::HearingImpairedType m_eHearingImpaired;
 
     ColorConvTable::YuvMatrixType m_eSourceMatrix = ColorConvTable::NONE;
 };

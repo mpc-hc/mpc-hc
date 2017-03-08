@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release Arabic|Win32">
       <Configuration>Release Arabic</Configuration>
@@ -39,6 +39,14 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release Bengali|x64">
       <Configuration>Release Bengali</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Bosnian|Win32">
+      <Configuration>Release Bosnian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Bosnian|x64">
+      <Configuration>Release Bosnian</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release Catalan|Win32">
@@ -359,6 +367,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).be</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Bengali'">$(ProjectName).bn</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Bosnian'">$(ProjectName).bs_BA</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Catalan'">$(ProjectName).ca</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).zh_CN</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Chinese Traditional'">$(ProjectName).zh_TW</TargetName>
@@ -396,11 +405,6 @@
     <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).uk</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Vietnamese'">$(ProjectName).vi</TargetName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin15\mpc-hc_x86\Lang\</OutDir>
-    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin15\mpc-hc_x64\Lang\</OutDir>
-    <IntDir>$(SolutionDir)bin15\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <Lib>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
@@ -425,6 +429,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.bn.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Bengali'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.bs_BA.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Bosnian'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.ca.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Catalan'">true</ExcludedFromBuild>
@@ -547,6 +554,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\toolbar.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SyncTranslations.vcxproj">
+      <Project>{904017f7-ee7a-49b6-a000-0d2fe5d5809a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

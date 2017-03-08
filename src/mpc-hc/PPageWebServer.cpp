@@ -26,6 +26,7 @@
 #include "SysVersion.h"
 #include "PathUtils.h"
 #include <afxglobals.h>
+#include "WebServer.h"
 
 
 // CPPageWebServer dialog
@@ -171,7 +172,7 @@ static int __stdcall BrowseCtrlCallback(HWND hwnd, UINT uMsg, LPARAM lParam, LPA
 
 bool CPPageWebServer::PickDir(CString& dir)
 {
-    CString strTitle = ResStr(IDS_PPAGEWEBSERVER_0);
+    CString strTitle(StrRes(IDS_PPAGEWEBSERVER_0));
     bool success = false;
 
     if (SysVersion::IsVistaOrLater()) {

@@ -24,6 +24,54 @@
 #include "SubtitlesProvider.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
+#include "ISOLang.h"
+#include "PPageSubMisc.h"
+
+BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CListCtrl)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolNeedText)
+END_MESSAGE_MAP()
+
+void CSubtitleDlDlgListCtrl::PreSubclassWindow()
+{
+    __super::PreSubclassWindow();
+    GetToolTips()->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
+}
+
+BOOL CSubtitleDlDlgListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT*)
+{
+    CPoint pt(GetMessagePos());
+    ScreenToClient(&pt);
+
+    LVHITTESTINFO lvhti = { pt };
+    int nItem = SubItemHitTest(&lvhti);
+    int nSubItem = lvhti.iSubItem;
+
+    if (nItem == -1 || !(lvhti.flags & LVHT_ONITEMLABEL) || nSubItem != CSubtitleDlDlg::COL_FILENAME) {
+        return FALSE;
+    }
+
+    auto subtitleInfo = reinterpret_cast<SubtitlesInfo*>(GetItemData(nItem));
+    if (!subtitleInfo || subtitleInfo->releaseNames.empty()) {
+        return FALSE;
+    }
+
+    static CString tooltipText;
+    tooltipText = SubtitlesProvidersUtils::JoinContainer(subtitleInfo->releaseNames, "\n").c_str();
+    ASSERT(!tooltipText.IsEmpty());
+
+    auto pTTT = reinterpret_cast<TOOLTIPTEXT*>(pNMHDR);
+    pTTT->lpszText = tooltipText.GetBuffer();
+
+    // Needed for multiline tooltips.
+    GetToolTips()->SetMaxTipWidth(1000);
+
+    // Force ListView internal variables related to LABELTIP to invalidate. This is needed to use both custom tooltip and LABELTIP.
+    // When LABELTIP is enabled ListView internally changes tooltip to be draw in-place of text. Unfortunately it doesn't
+    // clear few variables when someone else handles TTN_NEEDTEXT.
+    SetColumnWidth(CSubtitleDlDlg::COL_FILENAME, GetColumnWidth(CSubtitleDlDlg::COL_FILENAME));
+
+    return TRUE;
+}
 
 // User Defined Window Messages
 enum {
@@ -40,7 +88,6 @@ enum {
 CSubtitleDlDlg::CSubtitleDlDlg(CMainFrame* pParentWnd)
     : CResizableDialog(IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
-    , m_bReplaceSubs(false)
     , m_bIsRefreshed(false)
     , m_pMainFrame(pParentWnd)
 {
@@ -119,11 +166,11 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
 
     CString left(list->GetItemText((int)lParam1, ps->m_nSortColumn));
     CString right(list->GetItemText((int)lParam2, ps->m_nSortColumn));
-    if (left == "-" && right != "-") {
+    if (left == _T("-") && right != _T("-")) {
         return 1;
     }
 
-    if (left != "-" && right == "-") {
+    if (left != _T("-") && right == _T("-")) {
         return -1;
     }
 
@@ -216,13 +263,17 @@ BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
 
 void CSubtitleDlDlg::OnOK()
 {
-    SetStatusText(ResStr(IDS_SUBDL_DLG_DOWNLOADING));
-
-    m_bReplaceSubs = IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED;
-
-    if (m_bReplaceSubs) {
+    if (IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED) {
+        m_pMainFrame->SetSubtitle(SubtitleInput(nullptr));
         CAutoLock cAutoLock(&m_pMainFrame->m_csSubLock);
-        m_pMainFrame->m_pSubStreams.RemoveAll();
+        auto& subStreams = m_pMainFrame->m_pSubStreams;
+        POSITION pos = subStreams.GetHeadPosition();
+        while (pos) {
+            POSITION currentPos = pos;
+            if (!subStreams.GetNext(pos).pSourceFilter) {
+                subStreams.RemoveAt(currentPos);
+            }
+        }
     }
 
     bool bActivate = true;
@@ -237,7 +288,15 @@ void CSubtitleDlDlg::OnOK()
         }
     }
 
-    __super::OnOK();
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
+}
+
+
+void CSubtitleDlDlg::OnCancel()
+{
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
 }
 
 void CSubtitleDlDlg::OnRefresh()
@@ -469,7 +528,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 {
     INT _nCount = (INT)wParam;
 
-    SetStatusText(ResStr(IDS_SUBDL_DLG_SEARCHING));
+    SetStatusText(StrRes(IDS_SUBDL_DLG_SEARCHING));
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(FALSE);
     GetDlgItem(IDC_BUTTON2)->ShowWindow(TRUE);
@@ -494,7 +553,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADING), CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADING, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
     SetStatusText(statusMessage);
 
     return S_OK;
@@ -505,7 +564,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADED), CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADED, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
     SetStatusText(statusMessage);
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
@@ -527,14 +586,14 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
     m_progress.StepIt();
 
     if (_result == SR_ABORTED) {
-        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTING));
+        SetStatusText(StrRes(IDS_SUBDL_DLG_ABORTING));
     } else if (!_subtitlesList.empty()) {
         m_list.SetRedraw(FALSE);
 
         for (const auto& subInfo : _subtitlesList) {
             int iItem = m_list.InsertItem(0, UTF8To16(subInfo.Provider()->Name().c_str()), subInfo.Provider()->GetIconIndex());
             m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(subInfo.fileName.c_str()));
-            m_list.SetItemText(iItem, COL_LANGUAGE, ISO639XToLanguage(subInfo.languageCode.c_str()));
+            m_list.SetItemText(iItem, COL_LANGUAGE, ISOLang::ISO639XToLanguage(subInfo.languageCode.c_str()));
             CString disc;
             disc.Format(_T("%d/%d"), subInfo.discNumber, subInfo.discCount);
             m_list.SetItemText(iItem, COL_DISC, disc);
@@ -580,13 +639,13 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
             }
 
             CString message;
-            message.Format(ResStr(IDS_SUBDL_DLG_FOUND), (int)m_Subtitles.size());
+            message.Format(IDS_SUBDL_DLG_FOUND, (int)m_Subtitles.size());
             SetStatusText(message);
         } else {
-            SetStatusText(ResStr(IDS_SUBDL_DLG_NOTFOUND));
+            SetStatusText(StrRes(IDS_SUBDL_DLG_NOTFOUND));
         }
     } else {
-        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTED));
+        SetStatusText(StrRes(IDS_SUBDL_DLG_ABORTED));
     }
 
     int nLower = 0, nUpper = 0;
@@ -603,7 +662,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText(ResStr(IDS_SUBDL_DLG_FAILED));
+    SetStatusText(StrRes(IDS_SUBDL_DLG_FAILED));
 
     return S_OK;
 }
@@ -611,11 +670,11 @@ afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    CString title = ResStr(IDS_SUBDL_DLG_TITLE);
+    CString title(StrRes(IDS_SUBDL_DLG_TITLE));
     SetWindowText(title);
 
     m_progress.SetPos(0);
-    SetStatusText("");
+    SetStatusText(_T(""));
     m_list.DeleteAllItems();
     m_Subtitles.clear();
 

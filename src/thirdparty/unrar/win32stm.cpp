@@ -89,9 +89,6 @@ void ExtractStreams(Archive &Arc,const wchar *FileName,bool TestMode)
   else
     wcsncpyz(FullName,FileName,ASIZE(FullName));
 
-  byte *Data=&Arc.SubHead.SubData[0];
-  size_t DataSize=Arc.SubHead.SubData.Size();
-
   wchar StreamName[NM];
   GetStreamNameNTFS(Arc,StreamName,ASIZE(StreamName));
   if (*StreamName!=':')

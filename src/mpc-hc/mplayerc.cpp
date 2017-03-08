@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,32 +22,29 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AboutDlg.h"
-#include <Tlhelp32.h>
-#include "MainFrm.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "Struct.h"
-#include "SysVersion.h"
-#include <winternl.h>
-#include <psapi.h>
-#include "Ifo.h"
-#include "Monitors.h"
-#include "WinAPIUtils.h"
-#include "PathUtils.h"
-#include "FileAssoc.h"
-#include "UpdateChecker.h"
-#include "winddk/ntddcdvd.h"
-#include "MhookHelper.h"
-#include <afxsock.h>
-#include <atlsync.h>
-#include <atlutil.h>
-#include <regex>
-#include <share.h>
-#include "mpc-hc_config.h"
-#include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
 #include "CrashReporter.h"
-
+#include "DSUtil.h"
+#include "FakeFilterMapper2.h"
+#include "FileAssoc.h"
+#include "FileVersionInfo.h"
+#include "SysVersion.h"
+#include "Ifo.h"
+#include "MainFrm.h"
+#include "MhookHelper.h"
+#include "PPageFormats.h"
+#include "PPageSheet.h"
+#include "PathUtils.h"
+#include "Struct.h"
+#include "UpdateChecker.h"
+#include "WebServer.h"
+#include "WinAPIUtils.h"
+#include "mpc-hc_config.h"
+#include "winddk/ntddcdvd.h"
+#include <afxsock.h>
+#include <atlsync.h>
+#include <winternl.h>
+#include <regex>
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
@@ -381,8 +378,9 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         if (s.Connect(
                     ProxyEnable ? ProxyServer : url.GetHostName(),
                     ProxyEnable ? ProxyPort : url.GetPortNumber())) {
-            CStringA host = CStringA(url.GetHostName());
-            CStringA path = CStringA(url.GetUrlPath()) + CStringA(url.GetExtraInfo());
+            CStringA host = url.GetHostName();
+            CStringA path = url.GetUrlPath();
+            path += url.GetExtraInfo();
 
             if (ProxyEnable) {
                 path = "http://" + host + path;
@@ -1462,15 +1460,13 @@ BOOL CMPlayerCApp::InitInstance()
     if (!IsDebuggerPresent()) {
         CrashReporter::Enable();
     }
-    WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
         TRACE(_T("Failed to enable \"terminate on corruption\" heap option, error %u\n"), GetLastError());
         ASSERT(FALSE);
     }
 
-    // At this point only main thread should be present, mhook is custom-hacked accordingly
-    bool bHookingSuccessful = true;
+    bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
@@ -1488,6 +1484,8 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_CreateFileW, Mine_CreateFileW);
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_DeviceIoControl, Mine_DeviceIoControl);
 
+    bHookingSuccessful &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
+
     if (!bHookingSuccessful) {
         if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
             ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
@@ -1500,6 +1498,8 @@ BOOL CMPlayerCApp::InitInstance()
     VERIFY(Mhook_SetHookEx(&Real_CreateFileA, Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
     VERIFY(Mhook_SetHookEx(&Real_LockWindowUpdate, Mine_LockWindowUpdate));
     VERIFY(Mhook_SetHookEx(&Real_mixerSetControlDetails, Mine_mixerSetControlDetails));
+
+    MH_EnableHook(MH_ALL_HOOKS);
 
     CFilterMapper2::Init();
 
@@ -1953,7 +1953,7 @@ void CMPlayerCApp::RegisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand(wc.appcmd));
             }
@@ -1967,7 +1967,7 @@ void CMPlayerCApp::UnregisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
             }
@@ -2021,11 +2021,15 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 
 int CMPlayerCApp::ExitInstance()
 {
-    m_s->SaveSettings();
-
-    m_s = nullptr;
+    // We might be exiting before m_s is initialized.
+    if (m_s) {
+        m_s->SaveSettings();
+        m_s = nullptr;
+    }
 
     CMPCPngImage::CleanUp();
+
+    MH_Uninitialize();
 
     OleUninitialize();
 
@@ -2145,7 +2149,7 @@ void CRemoteCtrlClient::OnReceive(int nErrorCode)
     }
     str.ReleaseBuffer(ret);
 
-    TRACE(_T("CRemoteCtrlClient (OnReceive): %s\n"), CString(str));
+    TRACE(_T("CRemoteCtrlClient (OnReceive): %S\n"), str);
 
     OnCommand(str);
 
@@ -2164,7 +2168,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
-        wmcmd wc = s.wmcmds.GetNext(pos);
+        const wmcmd& wc = s.wmcmds.GetNext(pos);
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
                 && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);
@@ -2183,7 +2187,7 @@ CWinLircClient::CWinLircClient()
 
 void CWinLircClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CWinLircClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CWinLircClient (OnCommand): %S\n"), str);
 
     int i = 0, j = 0, repcnt = 0;
     for (CStringA token = str.Tokenize(" ", i);
@@ -2205,7 +2209,7 @@ CUIceClient::CUIceClient()
 
 void CUIceClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CUIceClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CUIceClient (OnCommand): %S\n"), str);
 
     CStringA cmd;
     int i = 0, j = 0;

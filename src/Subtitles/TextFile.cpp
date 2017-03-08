@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -223,7 +223,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
         __super::WriteString(WToT(str));
     } else if (m_encoding == ANSI) {
         str.Replace(L"\n", L"\r\n");
-        CStringA stra = CStringA(CString(str)); // TODO: codepage
+        CStringA stra(str); // TODO: codepage
         Write((LPCSTR)stra, stra.GetLength());
     } else if (m_encoding == UTF8) {
         str.Replace(L"\n", L"\r\n");

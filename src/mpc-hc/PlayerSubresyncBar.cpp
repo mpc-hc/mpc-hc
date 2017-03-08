@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,11 +20,12 @@
  */
 
 #include "stdafx.h"
+#include "PlayerSubresyncBar.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "PlayerSubresyncBar.h"
 #include "WinAPIUtils.h"
-
+#include "PPageSubStyle.h"
+#include "../Subtitles/RTS.h"
 
 // CPlayerSubresyncBar
 
@@ -62,7 +63,6 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
     ScaleFont();
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
-
     m_strYes = m_strYesMenu = ResStr(IDS_SUBRESYNC_YES);
     m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);
     m_strYes.Remove(_T('&'));
@@ -110,25 +110,25 @@ void CPlayerSubresyncBar::ReloadTranslatableResources()
             VERIFY(pHeaderCtrl->SetItem(nPos, &item));
         };
 
-        setColumnHeaderText(COL_START, ResStr(IDS_SUBRESYNC_CLN_TIME));
-        setColumnHeaderText(COL_END, ResStr(IDS_SUBRESYNC_CLN_END));
-        setColumnHeaderText(COL_PREVSTART, ResStr(IDS_SUBRESYNC_CLN_PREVIEW));
-        setColumnHeaderText(COL_PREVEND, ResStr(IDS_SUBRESYNC_CLN_END));
+        setColumnHeaderText(COL_START, StrRes(IDS_SUBRESYNC_CLN_TIME));
+        setColumnHeaderText(COL_END, StrRes(IDS_SUBRESYNC_CLN_END));
+        setColumnHeaderText(COL_PREVSTART, StrRes(IDS_SUBRESYNC_CLN_PREVIEW));
+        setColumnHeaderText(COL_PREVEND, StrRes(IDS_SUBRESYNC_CLN_END));
         if (m_mode == VOBSUB) {
             ASSERT(pHeaderCtrl->GetItemCount() == COL_COUNT_VOBSUB);
-            setColumnHeaderText(COL_VOBID, ResStr(IDS_SUBRESYNC_CLN_VOB_ID));
-            setColumnHeaderText(COL_CELLID, ResStr(IDS_SUBRESYNC_CLN_CELL_ID));
-            setColumnHeaderText(COL_FORCED, ResStr(IDS_SUBRESYNC_CLN_FORCED));
+            setColumnHeaderText(COL_VOBID, StrRes(IDS_SUBRESYNC_CLN_VOB_ID));
+            setColumnHeaderText(COL_CELLID, StrRes(IDS_SUBRESYNC_CLN_CELL_ID));
+            setColumnHeaderText(COL_FORCED, StrRes(IDS_SUBRESYNC_CLN_FORCED));
         } else if (m_mode == TEXTSUB) {
             ASSERT(pHeaderCtrl->GetItemCount() == COL_COUNT_TEXTSUB);
-            setColumnHeaderText(COL_TEXT, ResStr(IDS_SUBRESYNC_CLN_TEXT));
-            setColumnHeaderText(COL_STYLE, ResStr(IDS_SUBRESYNC_CLN_STYLE));
-            setColumnHeaderText(COL_FONT, ResStr(IDS_SUBRESYNC_CLN_FONT));
-            setColumnHeaderText(COL_CHARSET, ResStr(IDS_SUBRESYNC_CLN_CHARSET));
-            setColumnHeaderText(COL_UNICODE, ResStr(IDS_SUBRESYNC_CLN_UNICODE));
-            setColumnHeaderText(COL_LAYER, ResStr(IDS_SUBRESYNC_CLN_LAYER));
-            setColumnHeaderText(COL_ACTOR, ResStr(IDS_SUBRESYNC_CLN_ACTOR));
-            setColumnHeaderText(COL_EFFECT, ResStr(IDS_SUBRESYNC_CLN_EFFECT));
+            setColumnHeaderText(COL_TEXT, StrRes(IDS_SUBRESYNC_CLN_TEXT));
+            setColumnHeaderText(COL_STYLE, StrRes(IDS_SUBRESYNC_CLN_STYLE));
+            setColumnHeaderText(COL_FONT, StrRes(IDS_SUBRESYNC_CLN_FONT));
+            setColumnHeaderText(COL_CHARSET, StrRes(IDS_SUBRESYNC_CLN_CHARSET));
+            setColumnHeaderText(COL_UNICODE, StrRes(IDS_SUBRESYNC_CLN_UNICODE));
+            setColumnHeaderText(COL_LAYER, StrRes(IDS_SUBRESYNC_CLN_LAYER));
+            setColumnHeaderText(COL_ACTOR, StrRes(IDS_SUBRESYNC_CLN_ACTOR));
+            setColumnHeaderText(COL_EFFECT, StrRes(IDS_SUBRESYNC_CLN_EFFECT));
         }
     }
 }

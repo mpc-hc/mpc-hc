@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ enum class MpcEvent {
     CHANGING_UI_LANGUAGE,
     STREAM_POS_UPDATE_REQUEST,
     DPI_CHANGED,
+    DEFAULT_TOOLBAR_SIZE_CHANGED,
 };
 
 class EventClient;

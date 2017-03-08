@@ -33,7 +33,7 @@ DWORD CharSetToCodePage(DWORD dwCharSet)
     }
     CHARSETINFO cs;
     ZeroMemory(&cs, sizeof(CHARSETINFO));
-    ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
+    ::TranslateCharsetInfo((DWORD*)(DWORD_PTR)dwCharSet, &cs, TCI_SRCCHARSET);
     return cs.ciACP;
 }
 

@@ -182,7 +182,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
     LTEXT           "",IDC_STATIC1,60,8,200,8
-    CONTROL         "Copyright © 2002-2016 see Authors.txt",IDC_AUTHORS_LINK,
+    CONTROL         "Copyright © 2002-2017 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
@@ -303,7 +303,7 @@ BEGIN
     EDITTEXT        IDC_EDIT2,190,115,94,13,ES_AUTOHSCROLL
     GROUPBOX        "After Playback",IDC_STATIC,5,160,126,27
     COMBOBOX        IDC_COMBO2,10,170,116,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Output",IDC_STATIC,137,55,154,46
+    GROUPBOX        "Default zoom",IDC_STATIC,137,55,154,46
     CONTROL         "Auto-zoom:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,67,75,8
     COMBOBOX        IDC_COMBO1,219,65,65,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Auto fit factor:",IDC_STATIC2,142,84,94,8
@@ -371,7 +371,7 @@ BEGIN
     CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,277,8
     GROUPBOX        "Warning",IDC_STATIC,5,165,286,43
-    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU.",IDC_STATIC,10,176,267,27
+    LTEXT           "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU.",IDC_STATIC,10,176,267,27
 END
 
 IDD_PPAGEFORMATS DIALOGEX 0, 0, 296, 241
@@ -756,7 +756,7 @@ BEGIN
     PUSHBUTTON      "Browse...",IDC_BUTTON2,241,222,50,14
 END
 
-IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 236
+IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -768,7 +768,7 @@ BEGIN
     COMBOBOX        IDC_QTRND_COMBO,155,59,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Audio Renderer",IDC_STATIC,5,90,285,30
     COMBOBOX        IDC_AUDRND_COMBO,10,102,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,153,285,83
+    GROUPBOX        "VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,153,285,93
     RTEXT           "Surface:",IDC_STATIC,118,184,60,8
     COMBOBOX        IDC_DX_SURFACE,181,181,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "Resizer:",IDC_STATIC,118,200,60,8
@@ -803,6 +803,7 @@ BEGIN
     ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,75,20,20
     GROUPBOX        "Subtitle Renderer",IDC_STATIC,5,121,285,30
     COMBOBOX        IDC_COMBO1,10,133,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Cache compiled Shaders",IDC_CACHESHADERS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,232,171,10
 END
 
 IDD_PPAGEWEBSERVER DIALOGEX 0, 0, 296, 241
@@ -834,7 +835,7 @@ CAPTION "Download subtitles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
-    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,145,8
+    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,290,8
     DEFPUSHBUTTON   "Download",IDOK,341,166,50,14
     PUSHBUTTON      "Refresh",IDC_BUTTON1,393,166,50,14
     PUSHBUTTON      "Abort",IDC_BUTTON2,393,166,50,14
@@ -945,10 +946,10 @@ BEGIN
     LTEXT           "Receiver",IDC_STATIC6,10,140,74,8
     COMBOBOX        IDC_COMBO3,84,138,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Channel switching approach:",IDC_PPAGECAPTURE_ST10,10,158,260,8
-    LTEXT           "Rebuild filter graph",IDC_PPAGECAPTURE_ST11,10,172,74,8
+    LTEXT           "Rebuild filter graph",IDC_PPAGECAPTURE_ST11,10,172,74,16
     EDITTEXT        IDC_PPAGECAPTURE_DESC1,84,184,202,20,ES_MULTILINE | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     COMBOBOX        IDC_COMBO6,84,170,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Stop filter graph",IDC_PPAGECAPTURE_ST12,10,206,74,8
+    LTEXT           "Stop filter graph",IDC_PPAGECAPTURE_ST12,10,206,74,16
     COMBOBOX        IDC_COMBO7,84,204,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -968,13 +969,13 @@ BEGIN
     LTEXT           "columns",IDC_STATIC4,231,60,30,8
     CONTROL         "Present at nearest VSync",IDC_SYNCNEAREST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,280,8
     GROUPBOX        "",IDC_STATIC,5,91,286,43
-    LTEXT           "Target sync offset:",IDC_STATIC5,10,105,100,8
-    EDITTEXT        IDC_TARGETSYNCOFFSET,114,103,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC6,158,105,24,8
-    LTEXT           "Control limits:",IDC_STATIC7,10,119,86,8
-    LTEXT           "+/-",IDC_STATIC8,100,119,10,8
-    EDITTEXT        IDC_CONTROLLIMIT,114,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC9,158,119,24,8
+    LTEXT           "Target sync offset:",IDC_STATIC5,10,105,120,8
+    EDITTEXT        IDC_TARGETSYNCOFFSET,134,103,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
+    LTEXT           "ms",IDC_STATIC6,178,105,24,8
+    LTEXT           "Control limits:",IDC_STATIC7,10,119,110,8
+    LTEXT           "+/-",IDC_STATIC8,120,119,10,8
+    EDITTEXT        IDC_CONTROLLIMIT,134,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
+    LTEXT           "ms",IDC_STATIC9,178,119,24,8
     LTEXT           "Changes take effect after the playback has been closed and restarted.",IDC_STATIC10,10,138,276,18
 END
 
@@ -985,8 +986,8 @@ BEGIN
     CONTROL         "Launch files in fullscreen",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,26,280,8
     GROUPBOX        "",IDC_STATIC,4,51,288,36
     CONTROL         "Hide controls in fullscreen",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,51,280,8
-    LTEXT           "ms",IDC_STATIC1,266,63,23,8
-    COMBOBOX        IDC_COMBO2,8,61,224,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ms",IDC_STATIC1,276,63,15,8
+    COMBOBOX        IDC_COMBO2,8,61,233,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Hide docked panels",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,76,280,8
     CONTROL         "Exit fullscreen at the end of playback",IDC_CHECK5,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,37,280,8
@@ -995,20 +996,20 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,4,90,288,148
     CONTROL         "Use autochange fullscreen monitor mode",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,90,280,8
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,101,224,112
-    PUSHBUTTON      "Add",IDC_BUTTON1,235,101,53,16
-    PUSHBUTTON      "Del",IDC_BUTTON2,235,119,53,16
-    PUSHBUTTON      "Up",IDC_BUTTON3,235,143,53,16
-    PUSHBUTTON      "Down",IDC_BUTTON4,235,161,53,16
-    EDITTEXT        IDC_EDIT1,235,61,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,101,233,112
+    PUSHBUTTON      "Add",IDC_BUTTON1,244,101,45,16
+    PUSHBUTTON      "Del",IDC_BUTTON2,244,119,45,16
+    PUSHBUTTON      "Up",IDC_BUTTON3,244,143,45,16
+    PUSHBUTTON      "Down",IDC_BUTTON4,244,161,45,16
+    EDITTEXT        IDC_EDIT1,244,61,28,13,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Apply default monitor mode on fullscreen exit",IDC_CHECK3,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,216,271,8
     CONTROL         "Restore resolution on program exit",IDC_RESTORERESCHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,227,271,8
-    GROUPBOX        "Delay",IDC_STATIC,235,187,53,25
-    EDITTEXT        IDC_EDIT2,240,197,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Delay",IDC_STATIC,244,187,45,25
+    EDITTEXT        IDC_EDIT2,249,197,24,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,267,180,10,8
-    LTEXT           "s",IDC_STATIC2,267,199,19,8
+    LTEXT           "s",IDC_STATIC2,276,199,12,8
 END
 
 IDD_NAVIGATION_DLG DIALOGEX 0, 0, 93, 60
@@ -1040,7 +1041,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,102,255,8
     LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC1,22,117,170,8
     EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
-    LTEXT           "Languages in order of preference (e.g. ""eng ell spa""):",IDC_STATIC,12,133,180,8
+    LTEXT           "Languages in order of preference:",IDC_STATIC,12,133,180,8
     EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
     CONTROL         "Automatically upload active subtitles at the end of video playback",IDC_CHECK6,
@@ -1107,11 +1108,12 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Advanced Settings, do not edit unless you know what you are doing.",IDC_STATIC,10,4,276,16
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,22,276,192
-    EDITTEXT        IDC_EDIT1,10,218,217,13,ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMBO1,10,218,217,13,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,55,218,31,13
-    CONTROL         "False",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,129,218,33,13
-    PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,13
+    EDITTEXT        IDC_EDIT1,10,218,217,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,217,218,11,14
+    COMBOBOX        IDC_COMBO1,10,218,217,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,55,218,31,14
+    CONTROL         "False",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,129,218,33,14
+    PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,14
 END
 
 IDD_PPAGEAUDIORENDERER DIALOGEX 0, 0, 296, 241
@@ -1334,7 +1336,7 @@ BEGIN
 
     IDD_PPAGEFULLSCREEN, DIALOG
     BEGIN
-        VERTGUIDE, 235
+        VERTGUIDE, 244
         VERTGUIDE, 288
         HORZGUIDE, 204
     END
@@ -2532,6 +2534,13 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
+    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
+    IDC_CACHESHADERS        "Stores compiled shaders in local AppData to speed up load time."
+END
+
+STRINGTABLE
+BEGIN
     IDS_SRC_VTS             "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_RFS             "Based on RARFileSource, doesn't support compressed files"
     IDS_INTERNAL_LAVF       "Uses LAV Filters"
@@ -2595,8 +2604,8 @@ STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
     IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
-    IDS_PLAYLIST_SHUFFLE    "Shuffle"
-    IDS_PLAYLIST_SHOWFOLDER "Open file location"
+    IDS_PLAYLIST_SHUFFLE    "Sh&uffle"
+    IDS_PLAYLIST_SHOWFOLDER "Ope&n file location"
     IDS_CONTROLS_CLOSING    "Closing..."
     IDS_CONTROLS_PLAYING    "Playing"
     IDS_CONTROLS_PAUSED     "Paused"
@@ -2630,7 +2639,7 @@ BEGIN
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-    IDS_PLAYLIST_HIDEFS     "Hide on Fullscreen"
+    IDS_PLAYLIST_HIDEFS     "&Hide on Fullscreen"
 END
 
 STRINGTABLE
@@ -2703,7 +2712,7 @@ STRINGTABLE
 BEGIN
     IDS_VOLUME              "%d%%"
     IDS_BOOST               "+%d%%"
-    IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
+    IDS_PLAYLIST_ADDFOLDER  "Add containing &folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
     IDS_STATSBAR_PLAYBACK_RATE "Playback rate"
@@ -2776,8 +2785,8 @@ BEGIN
     IDS_AG_SAVE_IMAGE       "Save Image"
     IDS_MPLAYERC_6          "Save Image (auto)"
     IDS_OSD_IMAGE_SAVED     "Image saved successfully"
-    IDS_AG_LOAD_SUBTITLE    "Load Subtitle"
-    IDS_AG_SAVE_SUBTITLE    "Save Subtitle"
+    IDS_AG_LOAD_SUBTITLES   "Load Subtitles..."
+    IDS_AG_SAVE_SUBTITLES   "Save Subtitles..."
     IDS_AG_PROPERTIES       "Properties"
     IDS_AG_EXIT             "Exit"
     IDS_AG_PLAYPAUSE        "Play/Pause"
@@ -3160,7 +3169,7 @@ BEGIN
     IDS_VOLUME_BOOST_DEC    "Volume boost decrease"
     IDS_VOLUME_BOOST_MIN    "Volume boost Min"
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
-    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/pns ""name""\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave ""hWnd""\tUse MPC-HC as slave\n/hwgpu ""index""\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
 END
 
@@ -3190,12 +3199,6 @@ BEGIN
     IDS_AG_VIDFRM_ZOOM2     "VidFrm Zoom 2"
     IDS_AG_VIDFRM_SWITCHZOOM "VidFrm Switch Zoom"
     IDS_ENABLE_ALL_FILTERS  "&Enable all filters"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
-    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
 END
 
 STRINGTABLE
@@ -3547,6 +3550,7 @@ STRINGTABLE
 BEGIN
     IDS_SUBTITLE_RENDERER_VS_FILTER "VSFilter / DirectVobSub"
     IDS_SUBTITLE_RENDERER_XY_SUB_FILTER "XySubFilter"
+    IDS_SUBTITLE_RENDERER_ASS_FILTER "AssFilter"
     IDS_SUBDL_DLG_PROVIDER_COL "Provider"
     IDS_SUBDL_DLG_HI_COL    "Hearing Impaired"
     IDS_SUBDL_DLG_DOWNLOADS_COL "Downloads"
@@ -3567,7 +3571,7 @@ STRINGTABLE
 BEGIN
     IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED "Not implemented."
     IDS_SUBUL_DLG_STATUS_UPLOADING "Uploading..."
-    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded succeessfuly."
+    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded successfully."
     IDS_SUBUL_DLG_STATUS_FAILED "Subtitles upload failed."
     IDS_SUBUL_DLG_STATUS_ABORTED "Subtitles upload aborted."
     IDS_SUBUL_DLG_STATUS_ALREADYEXISTS "Subtitles already exist."
@@ -3594,6 +3598,76 @@ BEGIN
     IDS_SUBDL_DLG_DOWNLOADED "Downloaded [%s] ""%s"""
     IDS_SUBUL_DLG_TITLE     "Upload subtitles"
     IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
+    IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
+    IDS_SUB_CREDENTIALS_ERROR 
+                            "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+    IDS_SUB_AUTODL_IGNORE_TOOLTIP 
+                            "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
+    IDS_CMD_PATHNAME        """pathname""\tThe main file or directory to be loaded\n\t\t(wildcards allowed, ""-"" denotes standard input)"
+    IDS_CMD_DUB             "/dub ""dubname""\tLoad an additional audio file"
+    IDS_CMD_DUBDELAY        "/dubdelay ""file""\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains ""...DELAY XXms..."")"
+    IDS_CMD_D3DFS           "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+    IDS_CMD_SUB             "/sub ""subname""\tLoad an additional subtitle file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FILTER          "/filter ""filtername""\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+    IDS_CMD_DVD             "/dvd\t\tRun in DVD mode, ""pathname"" means the DVD folder (optional)"
+    IDS_CMD_DVDPOS_TC       "/dvdpos T#C\tStart playback at title T, chapter C"
+    IDS_CMD_DVDPOS_TIME     "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+    IDS_CMD_CD              "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t""pathname"" means the drive path (optional)"
+    IDS_CMD_DEVICE          "/device\t\tOpen the default video device"
+    IDS_CMD_OPEN            "/open\t\tOpen the file, don't automatically start playback"
+    IDS_CMD_PLAY            "/play\t\tStart playing the file as soon the player is launched"
+    IDS_CMD_CLOSE           "/close\t\tClose the player after playback (only works when used with /play)"
+    IDS_CMD_SHUTDOWN        "/shutdown\tShutdown the operating system after playback"
+    IDS_CMD_STANDBY         "/standby\t\tPut the operating system in standby mode after playback"
+    IDS_CMD_HIBERNATE       "/hibernate\tHibernate operating system after playback"
+    IDS_CMD_LOGOFF          "/logoff\t\tLog off after playback"
+    IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
+    IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
+    IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FULLSCREEN      "/fullscreen\tStart in fullscreen mode"
+    IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
+    IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
+    IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"
+    IDS_CMD_RANDOMIZE       "/randomize\tRandomize the playlist"
+    IDS_CMD_REGVID          "/regvid\t\tCreate file associations for video files"
+    IDS_CMD_REGAUD          "/regaud\t\tCreate file associations for audio files"
+    IDS_CMD_REGPL           "/regpl\t\tCreate file associations for playlist files"
+    IDS_CMD_REGALL          "/regall\t\tCreate file associations for all supported file types"
+    IDS_CMD_UNREGALL        "/unregall\t\tRemove all file associations"
+    IDS_CMD_START           "/start ms\t\tStart playing at ""ms"" (= milliseconds)"
+    IDS_CMD_STARTPOS        "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+    IDS_CMD_FIXEDSIZE       "/fixedsize w,h\tSet a fixed window size"
+    IDS_CMD_MONITOR         "/monitor N\tStart player on monitor N, where N starts from 1"
+    IDS_CMD_AUDIORENDERER   "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see ""Output"" settings)"
+    IDS_CMD_SHADERPRESET    "/shaderpreset ""Pr""\tStart using ""Pr"" shader preset"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan&Scan preset name to use"
+    IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
+    IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
+    IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
+    IDS_CMD_DEBUG           "/debug\t\tShow debug information in OSD"
+    IDS_CMD_NOCRASHREPORTER "/nocrashreporter\tDisable the crash reporter"
+    IDS_CMD_SLAVE           "/slave ""hWnd""\tUse MPC-HC as slave"
+    IDS_CMD_HWGPU           "/hwgpu ""index""\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+    IDS_CMD_RESET           "/reset\t\tRestore default settings"
+    IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
+    IDS_PPAGEADVANCED_SCORE "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay (ms)"
+    IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 
+                            "Size in pixels of the default toolbar."
+    IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
+                            "Use legacy toolbar instead of new vectorized one."
 END
 
 #endif    // English (United States) resources

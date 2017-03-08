@@ -40,7 +40,7 @@ namespace SubtitlesProvidersUtils
     using stringMap = std::unordered_map<std::string, std::string>;
     using stringArray = std::vector<std::string>;
 
-    const std::regex::flag_type RegexFlags(std::regex_constants::ECMAScript | std::regex_constants::icase | std::regex_constants::optimize);
+    static constexpr std::regex::flag_type RegexFlags(std::regex_constants::ECMAScript | std::regex_constants::icase | std::regex_constants::optimize);
 
     int LevenshteinDistance(std::string s, std::string t);
 
@@ -52,7 +52,7 @@ namespace SubtitlesProvidersUtils
     std::string StringEncrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
     std::string StringDecrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
 
-    std::string StringFormat(char const* fmt, ...);
+    std::string StringFormat(_In_z_ _Printf_format_string_ char const* const fmt, ...);
 
     size_t stringMatch(const std::string& pattern, const std::string& text, regexResults& results);
     size_t stringMatch(const std::string& pattern, const std::string& text, regexResult& result);

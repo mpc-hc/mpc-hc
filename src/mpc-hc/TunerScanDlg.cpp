@@ -244,8 +244,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
             strTemp.Format(_T("%lu"), channel.GetFrequency());
             m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
 
-            strTemp = channel.IsEncrypted() ? ResStr(IDS_YES) : ResStr(IDS_NO);
-            m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
+            m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, ResStr(channel.IsEncrypted() ? IDS_YES : IDS_NO));
             if (channel.GetVideoType() == DVB_H264) {
                 strTemp = _T("H.264");
             } else if (channel.GetVideoType() == DVB_HEVC) {

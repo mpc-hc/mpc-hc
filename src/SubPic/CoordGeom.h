@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <array>
 
 class Vector

@@ -23,6 +23,8 @@
 #include "SubtitlesProvider.h"
 #include "MainFrm.h"
 #include "AuthDlg.h"
+#include "PPageSubMisc.h"
+#include "mplayerc.h"
 
 // User Defined Window Messages
 enum {
@@ -142,6 +144,12 @@ BOOL CSubtitleUpDlg::PreTranslateMessage(MSG* pMsg)
 void CSubtitleUpDlg::OnOK()
 {
     m_pMainFrame->m_pSubtitlesProviders->Upload(true);
+}
+
+void CSubtitleUpDlg::OnCancel()
+{
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
 }
 
 void CSubtitleUpDlg::OnAbort()
@@ -443,9 +451,9 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
     BOOL _bAborted = (BOOL)wParam;
 
     if (_bAborted == FALSE) {
-        SetStatusText(ResStr(IDS_SUBUL_DLG_UPLOADED));
+        SetStatusText(StrRes(IDS_SUBUL_DLG_UPLOADED));
     } else {
-        SetStatusText(ResStr(IDS_SUBUL_DLG_ABORTED));
+        SetStatusText(StrRes(IDS_SUBUL_DLG_ABORTED));
     }
 
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
@@ -456,7 +464,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleUpDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText(ResStr(IDS_SUBUL_DLG_FAILED));
+    SetStatusText(StrRes(IDS_SUBUL_DLG_FAILED));
 
     return S_OK;
 }
@@ -464,7 +472,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 afx_msg LRESULT CSubtitleUpDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     m_progress.SetPos(0);
-    SetStatusText("");
+    SetStatusText(_T(""));
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
         SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);

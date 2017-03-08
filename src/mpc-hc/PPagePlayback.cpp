@@ -276,14 +276,14 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
         CString strTipText;
         if (nID == IDC_SLIDER1) {
-            strTipText.Format(ResStr(IDS_VOLUME), m_nVolume);
+            strTipText.Format(IDS_VOLUME, m_nVolume);
         } else if (nID == IDC_SLIDER2) {
             if (m_nBalance > 0) {
-                strTipText.Format(ResStr(IDS_BALANCE_R), m_nBalance);
+                strTipText.Format(IDS_BALANCE_R, m_nBalance);
             } else if (m_nBalance < 0) {
-                strTipText.Format(ResStr(IDS_BALANCE_L), -m_nBalance);
+                strTipText.Format(IDS_BALANCE_L, -m_nBalance);
             } else { //if (m_nBalance == 0)
-                strTipText = ResStr(IDS_BALANCE);
+                strTipText.LoadString(IDS_BALANCE);
             }
         }
 

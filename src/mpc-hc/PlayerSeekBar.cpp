@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "PlayerSeekBar.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 
 #define TOOLTIP_SHOW_DELAY 100
 #define TOOLTIP_HIDE_TIMEOUT 3000
@@ -129,7 +130,7 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
 
 void CPlayerSeekBar::SyncVideoToThumb()
 {
-    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_rtPos, SB_THUMBTRACK), (LPARAM)m_hWnd);
+    GetParent()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_hWnd));
 }
 
 long CPlayerSeekBar::ChannelPointFromPosition(REFERENCE_TIME rtPos) const

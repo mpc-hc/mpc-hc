@@ -41,6 +41,7 @@ bool HashValue::operator == (const HashValue &cmp)
 
 DataHash::DataHash()
 {
+  blake2ctx=NULL;
   HashType=HASH_NONE;
 #ifdef RAR_SMP
   ThPool=NULL;
@@ -54,20 +55,26 @@ DataHash::~DataHash()
 #ifdef RAR_SMP
   DestroyThreadPool(ThPool);
 #endif
-  cleandata(&blake2ctx, sizeof(blake2ctx));
   cleandata(&CurCRC32, sizeof(CurCRC32));
+  if (blake2ctx!=NULL)
+  {
+    cleandata(blake2ctx, sizeof(blake2sp_state));
+    delete blake2ctx;
+  }
 }
 
 
 void DataHash::Init(HASH_TYPE Type,uint MaxThreads)
 {
+  if (blake2ctx==NULL)
+    blake2ctx=new blake2sp_state;
   HashType=Type;
   if (Type==HASH_RAR14)
     CurCRC32=0;
   if (Type==HASH_CRC32)
     CurCRC32=0xffffffff; // Initial CRC32 value.
   if (Type==HASH_BLAKE2)
-    blake2sp_init( &blake2ctx );
+    blake2sp_init(blake2ctx);
 #ifdef RAR_SMP
   DataHash::MaxThreads=Min(MaxThreads,MaxHashThreads);
 #endif
@@ -88,10 +95,10 @@ void DataHash::Update(const void *Data,size_t DataSize)
 #ifdef RAR_SMP
     if (MaxThreads>1 && ThPool==NULL)
       ThPool=CreateThreadPool();
-    blake2ctx.ThPool=ThPool;
-    blake2ctx.MaxThreads=MaxThreads;
+    blake2ctx->ThPool=ThPool;
+    blake2ctx->MaxThreads=MaxThreads;
 #endif
-    blake2sp_update( &blake2ctx, (byte *)Data, DataSize);
+    blake2sp_update( blake2ctx, (byte *)Data, DataSize);
   }
 }
 
@@ -106,8 +113,8 @@ void DataHash::Result(HashValue *Result)
   if (HashType==HASH_BLAKE2)
   {
     // Preserve the original context, so we can continue hashing if necessary.
-    blake2sp_state res=blake2ctx;
-    blake2sp_final( &res, Result->Digest );
+    blake2sp_state res=*blake2ctx;
+    blake2sp_final(&res,Result->Digest);
   }
 }
 

@@ -1,21 +1,23 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
 # Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2015
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
+# Khaled Saleem Baleesh <Kbaleesh@gmail.com>, 2016
 # manxx55 <w6txz2@gmail.com>, 2014
-# Omar Anwar <omaraglan91@yahoo.com>, 2015
+# Mubarak Qahtani <abu-q76@hotmail.com>, 2016
+# Omar Anwar <omaraglan91@yahoo.com>, 2015,2017
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # manxx55 <w6txz2@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-19 16:41+0000\n"
+"Last-Translator: Omar Anwar <omaraglan91@yahoo.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,8 +198,8 @@ msgid "About"
 msgstr "حول"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Authors.txt حقوق طبع © 2002-2016 انظر"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Authors.txt حقوق طبع © 2002-2017 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -429,15 +431,15 @@ msgstr "مرة (مرات)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "وضع الإعادة:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "بعد التشغيل"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "المخرجات"
+msgid "Default zoom"
+msgstr "التقريب الافتراضى"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -576,7 +578,7 @@ msgid "Warning"
 msgstr "تحذير"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "إذا كنت ستتجاوز وتمكّن الشاشة الكاملة ضدّ التعرّج في مكان ضبط كرت الفيديو الخاص بك، فالترجمة لن تشاهدها بفرق أفضل لكنّه سيستهلك وحدة المعالجة المركزية بالتأكيد"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -685,7 +687,7 @@ msgstr "منع تصغير المشغل عندما يكون في الشاشة ا�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "استخدام ميزات شريط المهام المحسنة"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1177,7 +1179,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "الترجمات"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1193,6 +1195,10 @@ msgstr "التدوير"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
+msgstr "إعادة طباعة الترجمة"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
@@ -1213,7 +1219,7 @@ msgstr "السماح بالوصول من المضيف المحلي فقط"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "تمكين المعانيه"
+msgstr "تمكين المعاينة"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1249,15 +1255,15 @@ msgstr "استبدال الترجمة المحملة حاليا"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "تحميل"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "تنشيط"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "إلغاء"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1265,15 +1271,15 @@ msgstr "اعدادات"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "رفع الترجمة"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "رفع"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "إلغاء"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1581,27 +1587,27 @@ msgstr "إعادة ضبط"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "البحث في الانترنت عن الترجمات وتنزيلها ورفعها"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "ابحث بشكل آلي عن الترجمات وحملها إذا لم تكن متوفرة محليا"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "يفضل استخدام الترجمة لِضعاف السمع"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "تجاهل الملفات التي تحتوي على الكلمات التالية:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr ""
+msgid "Languages in order of preference:"
+msgstr "اللغات بالترتيب حسب تفضيلها (مثل \"eng ell spa\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "ارفع الترجمات النشطة عند نهاية مقطع الفيديو"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

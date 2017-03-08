@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,16 +21,14 @@
 
 #pragma once
 
-#include <afxwin.h>
-#include <afxcmn.h>
-#include <dvdmedia.h>
-#include "../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
-#include "resource.h"
 #include "ResizableLib/ResizableDialog.h"
+#include "resource.h"
+#include <atlcoll.h>
+#include <dvdmedia.h>
 
 
-//
+class CMainFrame;
 
 template<class T>
 struct CFormatElem {

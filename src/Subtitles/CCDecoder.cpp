@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,7 +88,7 @@ void CCDecoder::SaveDisp(__int64 time)
             if (m_disp[row][col]) {
                 CStringW str2(&m_disp[row][col]);
                 if (fNonEmptyRow) {
-                    str += ' ';
+                    str += L' ';
                 }
                 str += str2;
                 col += str2.GetLength();
@@ -97,7 +97,7 @@ void CCDecoder::SaveDisp(__int64 time)
         }
 
         if (fNonEmptyRow) {
-            str += '\n';
+            str += L'\n';
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,10 @@
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
+
+#ifndef STRICT_TYPED_ITEMIDS
+#define STRICT_TYPED_ITEMIDS
+#endif
 
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC   // include Microsoft memory leak detection procedures

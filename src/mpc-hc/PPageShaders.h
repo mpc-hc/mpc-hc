@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 
 #include "EventDispatcher.h"
 #include "PPageBase.h"
+#include "Shaders.h"
 
 class CShaderListBox : public CListBox
 {

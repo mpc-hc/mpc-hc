@@ -1,22 +1,30 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Asep Suparman <asep.suparman@outlook.com>, 2014
 # Bahasa Fansub <joshua.siagian.hidden1234@gmail.com>, 2014
+# Dody Prayuto <dodzaguila@gmail.com>, 2016
+# Dody Prayuto <dodzaguila@gmail.com>, 2016
+# DyarPerdana <hysteria27@gmail.com>, 2014
 # DyarPerdana <hysteria27@gmail.com>, 2014
 # yoga.mardia <made.yoga12@gmail.com>, 2014
 # Mulia Arifandi Nasution, 2014
+# Mulia Arifandi Nasution, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
 # rizqiromadhon <rizqi-romadhon@outlook.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015-2016
-# zk <zamani.karmana@gmail.com>, 2015
+# rizqiromadhon <rizqi-romadhon@outlook.com>, 2014
+# yoga.mardia <made.yoga12@gmail.com>, 2014
+# zk, 2015-2016
+# zk, 2015
+# zk, 2015
+# zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 12:04+0000\n"
-"Last-Translator: zk <zamani.karmana@gmail.com>\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-20 05:19+0000\n"
+"Last-Translator: Rachman <blackarcher21@yahoo.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,7 +174,7 @@ msgstr "Selalu (pilihan terlambat)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Tidak didukung oleh sebagaian perangkat. Dua dekoder video selalu tersedia di grafik filter."
+msgstr "Tidak didukung oleh sebagian perangkat. Dua dekoder video selalu tersedia di grafik filter."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -510,7 +518,7 @@ msgstr "Bermacam-lainnya"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr "InfoMedia"
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -820,6 +828,18 @@ msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Mengurangi tearing dengan melewati seluruhnya VSync bawaan dalam D3D."
 
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Pindaian pelaras"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Subtitel tidak dimuat atau perender tidak didukung."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Simpan kompilasi shader di AppData lokal untuk mempercepat waktu muat."
+
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
 msgstr "Buka VTS_xx_0.ifo untuk memuat berkas VTS_xx_x.vob dalam satu bagian"
@@ -830,7 +850,7 @@ msgstr "Berbasis RARFileSource, tidak mendukung berkas yang dimampatkan"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "Gunakan LAV Filters"
+msgstr "Menggunakan LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
@@ -938,7 +958,7 @@ msgstr "Na&ikkan"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
-msgstr "Opsi"
+msgstr "Pilihan"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
@@ -950,18 +970,18 @@ msgstr "Awakutu Sha&der..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
-msgstr "T&ambah ke Favorit..."
+msgstr "&Tambah ke Favorit..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
 msgid "&Organize Favorites..."
-msgstr "Kel&ola Favorit..."
+msgstr "&Kelola Favorit..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Karau"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Buka lokasi berkas"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1045,7 +1065,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zum ke Layar Ultra Lebar,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Sembunyikan pada Layar Penuh"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1233,7 +1253,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Tambah folder bermuatan"
 
 msgctxt "IDS_HW_INDICATOR"
@@ -1436,13 +1456,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Gambar berhasil disimpan"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Muat Subtitel"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Muat Subtitel..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Simpan Subtitel"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Simpan Subtitel..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -2561,8 +2581,8 @@ msgid "Volume boost Max"
 msgstr "Penggalak volume Maks"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Penggunaan: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tBerkas atau direktori utama yang akan dimuat (wildcard\n\t\tdiperbolehkan, \"-\" menandakan masukan standar)\n/dub \"dubname\"\tMuat berkas audio tambahan\n/dubdelay \"file\"\tMuat berkas audio tambahan dengan tundaan XXms (jika\n\t\tberkas mengandung \"...DELAY XXms...\")\n/d3dfs\t\tMulai merender dalam mode layar penuh D3D\n/sub \"subname\"\tMuat berkas subtitel tambahan\n/filter \"filtername\"\tMuat filter DirectShow dari pustaka tautan\n\t\tdinamis (wildcard diperbolehkan)\n/dvd\t\tBerjalan dalam mode dvd, \"pathname\" berarti folder\n\t\tdvd (opsional)\n/dvdpos T#C\tMulai pemutaran pada judul T, babak C\n/dvdpos T#hh:mm\tMulai pemutaran pada judul T, posisi hh:mm:ss\n/cd\t\tMuat semua trek cd audio atau (s)vcd,\n\t\t\"pathname\" berarti jalur penggerak (opsional)\n/device\t\tBuka perangkat video bawaan\n/open\t\tBuka berkas, jangan otomatis memulai pemutaran\n/play\t\tMulai memutar berkas segera setelah pemutar\n\t\tdiluncurkan\n/close\t\tTutup pemutar setelah pemutaran (hanya bekerja saat\n\t\tdigunakan dengan /play)\n/shutdown\tMatikan sistem operasi setelah pemutaran\n/standby\t\tSistem operasi dalam mode standby mode setelah pemutaran\n/hibernate\tHibernasi sistem operasi setelah pemutaran\n/logoff\t\tKeluar setelah pemutaran\n/lock\t\tKunci setelah pemutaran\n/monitoroff\tMatikan monitor setelah pemutaran\n/playnext\t\tBuka berkas berikutnya dalam folder setelah pemutaran\n/fullscreen\tMulai dalam mode layar penuh\n/minimized\tMulai dalam mode diminimalkan\n/new\t\tGunakan pemutar baru\n/add\t\tTambahkan \"pathname\" ke daftar putar, bisa dikombinasikan\n\t\tdengan /open dan /play\n/randomize\tAcak daftar putar\n/regvid\t\tTerapkan asosiasi berkas untuk berkas video\n/regaud\t\tTerapkan asosiasi berkas untuk berkas audio\n/regpl\t\tTerapkan asosiasi berkas untuk berkas daftar putar\n/regall\t\tTerapkan asosiasi berkas untuk semua berkas yang didukung\n/unregall\t\tBuang semua asosiasi berkas\n/start ms\t\tMulai memutar pada \"ms\" (= milidetik)\n/startpos hh:mm:ss\tMulai memutar pada posisi hh:mm:ss\n/fixedsize w,h\tTetapkan ukuran tetap jendela\n/monitor N\tJalankan pemutar pada monitor N, dan N dimulai dari 1\n/audiorenderer N\tJalankan dengan perender audio N, dan N dimulai dari 1\n\t\t(lihat pengaturan \"Keluaran\")\n/shaderpreset \"Pr\"\tJalankan menggunakan prasetel shader \"Pr\"\n/pns \"name\"\tTetapkan nama prasetel Pan&Scan untuk digunakan\n/iconsassoc\tAsosiasi ulang format ikon\n/nofocus\t\tBuka MPC-HC di latar belakang\n/webport N\tJalankan antarmuka web pada port yang ditetapkan\n/debug\t\tTampilkan informasi awakutu di OSD\n/nocrashreporter\tNonfungsikan pelapor tumbukan\n/slave \"hWnd\"\tGunakan MPC-HC sebagai slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tKembalikan ke pengaturan bawaan\n/help /h /?\tTampilkan bantuan tentang parameter perintah baris\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Penggunaan: mpc-hc.exe \"pathname\" [saklar]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2647,14 +2667,6 @@ msgstr "VidFrm Zum Alihan"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Fungsikan semua filter"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Pindaian pelaras"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Subtitel tidak dimuat atau perender tidak didukung."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -3596,6 +3608,10 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Penyedia"
@@ -3661,7 +3677,7 @@ msgid "Uploading..."
 msgstr "Mengunggah..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Subtitel berhasil diunggah."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
@@ -3747,4 +3763,220 @@ msgstr "Unggah subtitel"
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
 msgstr "Apakah Anda yakin ingin mengunggah berkas subtitel \"%s\"?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Mengambil bahasa yang didukung..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Gagal masuk ke \"%S\" dengan nama pengguna \"%S\".\n\nHarap masukkan nama pengguna dan sandi yang benar atau setel ulang kredensial untuk masuk sebagai anonim."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Pencarian dan pengunduhan otomatis akan dinonaktifkan untuk semua berkas media yang jalur berkasnya memuat semua atau salah satu pola kata berikut ini.\nContoh, ketik: \"pribadi\\video|kerja\\\"."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"pathname\"\tBerkas atau direktori utama untuk dimuat\n\t\t(wildcard diperbolehkan, \"-\" menunjukkan input standar)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dubname\"\tMuat berkas audio tambahan"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"file\"\tMuat berkas audio tambahan digeser dengan XXms\n\t\t(Jika berkas berisi \"...TUNDAAN XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tMulai render dalam mode layar penuh D3D"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"subname\"\tMuat berkas subtitel tambahan"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filtername\"\tMuat filter DirectShow dari sebuah pustaka link dinamis (wildcard diperbolehkan)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tJalankan pada mode DVD, \"pathname\" berarti folder DVD (pilihan)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tMulai pemutaran pada judul T, bab C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tMulai pemutaran pada judul T, posisi P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tMuat semua trek dari CD or (S)VCD audio,\n\t\t\"pathname\" berarti jalur disk (pilihan)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tBuka perangkat video bawaan"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tBuka berkas, tidak otomatis memulai pemutaran"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tMulai memutar berkas segera ketika pemutar diluncurkan"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tTutup pemutar setelah pemutaran (hanya bekerja ketika digunakan dengan /play)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tShutdown sistem operasi setelah pemutaran"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tMenempatkan sistem operasi dalam mode standby setelah pemutaran"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tHibernate sistem operasi setelah pemutaran"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tLog off setelah pemutaran"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tKunci workstation setelah pemutaran"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tMatikan monitor setelah pemutaran"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tBuka berkas selanjutnya dalam folder setelah pemutaran"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tMulai dalam mode layar penuh"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tMulai dalam mode minimized"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tGunakan instansi baru dari pemutar"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tTambahkan \"pathname\" ke daftar putar, dapat dikombinasikan dengan /open dan /play"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tAcak daftar putar"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tBuat asosiasi berkas untuk berkas video"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tBuat asosiasi berkas untuk berkas audio"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tBuat asosiasi berkas untuk berkas daftar putar"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tBuat asosiasi berkas untuk semua tipe berkas yang didukung"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tHapus semua asosiasi berkas"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tMulai memutar pada \"ms\" (= milidetik)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tMulai memutar pada posisi hh:mm:ss"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\tSetel sebuah ukuran tetap jendela"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tMulai pemutar pada monitor N, dimana N dimulai dari 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tMulai menggunakan perender audio N, dimana N dimulai dari 1 (lihat pengaturan \"Output\")"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\tMulai menggunakan prasetel shader \"Pr\""
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"name\"\tTetapkan nama prasetel Geser&Pindai untuk digunakan"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tSatukan ulang ikon format"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tBuka MPC-HC pada latar belakang"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tMulai antarmuka web pada port yang ditentukan"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tTampilkan informasi debug di OSD"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tMatikan pelapor kerusakan"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tGunakan MPC-HC sebagai slave"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tSetel indeks dari GPU yang digunakan untuk hardware decoding.\n\t\tHanya tersedia untuk CUVID and DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tKembalikan pengaturan bawaan"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tTampilkan bantuan untuk switch perintah baris"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Nilai dari skor subtitel yang akan terunduh otomatis. Nilai yang lebih tinggi berarti semakin cocok subtitel yang dapat digunakan, semakin rendah nilainya kemungkinan subtitel untuk cocok juga rendah, tetapi sesungguhnya tidak ada nilai yang benar-benar sempurna. Pilihlah yang sesuai bagi anda."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Tundaan Audio (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Ukuran bilah alat bawaan dalam piksel."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Gunakan bilah alat lawas bukan yang tervektorisasi yang baru."
 

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # schop <aprcel00@fesb.hr>, 2014-2015
@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-24 00:05+0000\n"
+"PO-Revision-Date: 2016-07-03 17:20+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "O&tvori disk"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Zadnje &datoteke"
+msgstr "Prijašnje &datoteke"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -128,7 +128,7 @@ msgstr "Resinkronizacija titlova"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Pla&ylist"
+msgstr "&Lista izvođenja"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
@@ -148,7 +148,7 @@ msgstr "&Profili"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&Najmanje"
+msgstr "&Minimalno"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
@@ -188,11 +188,11 @@ msgstr "Auto podešavanje (&Samo veliko)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "P&ostavke renderera"
+msgstr "P&ostavke prikazivača"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Test razdvajanja"
+msgstr "&Test kidanja"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
@@ -200,11 +200,11 @@ msgstr "&Prikaži statistiku"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr "Prikaži trenutno &vrijeme"
+msgstr "Prikaži trenutno vr&ijeme"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr "Prikaži &ime datoteke"
+msgstr "Prikaži naziv &datoteke"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -284,7 +284,7 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Svjetlo &ambijenta"
+msgstr "Ambijentalno svjet&lo"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -312,7 +312,7 @@ msgstr "&Relativno kolormetrično"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "&Zasićenje"
+msgstr "Za&sićenje"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
@@ -364,11 +364,11 @@ msgstr "R&esetiranje"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Učitaj &početne postavke renderiranja"
+msgstr "Učitaj za&dane postavke prikazivanja"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Učitaj &optimalne postavke renderiranja"
+msgstr "Učitaj &optimalne postavke prikazivanja"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -532,7 +532,7 @@ msgstr "&Stop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Fra&me Step"
-msgstr "K&orak okvira"
+msgstr "Slijedeći &kadar"
 
 msgctxt "POPUP"
 msgid "&Repeat"
@@ -604,7 +604,7 @@ msgstr "Na&kon reprodukcije"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr "Ne čini &ništa"
+msgstr "Ne čini niš&ta"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
@@ -632,11 +632,11 @@ msgstr "Isključi &računalo"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Odjavi &korisnika"
+msgstr "&Odjavi korisnika"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Zaključaj korisnika"
+msgstr "Zak&ljučaj korisnika"
 
 msgctxt "POPUP"
 msgid "&Navigate"

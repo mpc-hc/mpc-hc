@@ -49,7 +49,7 @@ void ExtractACL20(Archive &Arc,const wchar *FileName)
     si|=SACL_SECURITY_INFORMATION;
   SECURITY_DESCRIPTOR *sd=(SECURITY_DESCRIPTOR *)&UnpData[0];
 
-  int SetCode=SetFileSecurityW(FileName,si,sd);
+  int SetCode=SetFileSecurity(FileName,si,sd);
 
   if (!SetCode)
   {

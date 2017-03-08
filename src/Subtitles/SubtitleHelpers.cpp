@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,18 +22,17 @@
 #include "stdafx.h"
 #include "SubtitleHelpers.h"
 #include "TextFile.h"
-#include "../DSUtil/ArrayUtils.h"
-#include "../DSUtil/Constexpr.h"
 #include "../DSUtil/PathUtils.h"
+#include "../DSUtil/ISOLang.h"
 #include <regex>
 
 namespace
 {
-    MPCHC_CONSTEXPR auto subTypesExt = make_array(
-                                           _T("srt"), _T("sub"), _T("smi"), _T("psb"),
-                                           _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
-                                           _T("xss"), _T("txt"), _T("rt"), _T("sup")
-                                       );
+    constexpr std::array<LPCTSTR, 12> subTypesExt = {
+        _T("srt"), _T("sub"), _T("smi"), _T("psb"),
+        _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
+        _T("xss"), _T("txt"), _T("rt"), _T("sup")
+    };
 
     LPCTSTR separators = _T(".\\-_");
     LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");
@@ -52,7 +51,9 @@ LPCTSTR Subtitle::GetSubtitleFileExt(SubType type)
 bool Subtitle::IsTextSubtitleFileName(CString fileName)
 {
     auto fileExt = PathUtils::FileExt(fileName).TrimLeft('.');
-    return std::any_of(subTypesExt.cbegin(), subTypesExt.cend(), [&](LPCTSTR ext) { return fileExt == ext; });
+    return std::any_of(subTypesExt.cbegin(), subTypesExt.cend(), [&](LPCTSTR ext) {
+        return fileExt == ext;
+    });
 }
 
 void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)
@@ -104,7 +105,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
             l = path.GetLength();
             if (l > 0 && path[l - 1] != '/') {
-                path += '/';
+                path += _T('/');
             }
 
             if (path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {
@@ -171,10 +172,9 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
     qsort(ret.GetData(), ret.GetCount(), sizeof(SubFile), SubFileCompare);
 }
 
-CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
+CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi)
 {
     CString name, lang;
-    bool bHearingImpaired = false;
 
     // The filename of the subtitle file
     int iExtStart = fn.ReverseFind('.');
@@ -210,10 +210,20 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
             if (std::regex_search((LPCTSTR)subName, mc, re)) {
                 ASSERT(mc.size() == 3);
                 ASSERT(mc[1].matched);
-                lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+                lang = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
 
-                if (!lang.IsEmpty() && mc[2].matched) {
-                    bHearingImpaired = (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0);
+                if (!lang.IsEmpty()) {
+                    size_t len = mc[1].str().size();
+                    if (len == 3) {
+                        lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                    } else if (len == 2) {
+                        lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                    }
+                    if (mc[2].matched) {
+                        if (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0) {
+                            hi = HI_YES;
+                        }
+                    }
                 }
             }
         }
@@ -226,7 +236,15 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
         if (std::regex_search((LPCTSTR)subName, mc, re)) {
             ASSERT(mc.size() == 3);
             ASSERT(mc[1].matched);
-            lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+            lang = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+            if (!lang.IsEmpty()) {
+                size_t len = mc[1].str().size();
+                if (len == 3) {
+                    lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                } else if (len == 2) {
+                    lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                }
+            }
 
             CStringA str;
             if (mc[2].matched) {
@@ -234,9 +252,17 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
             }
 
             if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
-                bHearingImpaired = true;
+                hi = HI_YES;
             } else {
-                lang = ISO639XToLanguage(str, true);
+                lang = ISOLang::ISO639XToLanguage(str, true);
+                if (!lang.IsEmpty()) {
+                    size_t len = str.GetLength();
+                    if (len == 3) {
+                        lcid = ISOLang::ISO6392ToLcid(str.GetString());
+                    } else if (len == 2) {
+                        lcid = ISOLang::ISO6391ToLcid(str.GetString());
+                    }
+                }
             }
         }
     }
@@ -244,12 +270,6 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
     name = fn.Mid(fn.ReverseFind('\\') + 1);
     if (name.GetLength() > 100) { // Cut some part of the filename if it's too long
         name.Format(_T("%s...%s"), name.Left(50).TrimRight(_T(".-_ ")), name.Right(50).TrimLeft(_T(".-_ ")));
-    }
-    if (!lang.IsEmpty()) {
-        name.AppendFormat(_T(" [%s]"), lang);
-        if (bHearingImpaired) {
-            name.Append(_T(" [hearing impaired]"));
-        }
     }
 
     return name;

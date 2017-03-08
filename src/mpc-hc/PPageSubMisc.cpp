@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "AuthDlg.h"
 #include "PPageSubMisc.h"
 #include "SubtitlesProviders.h"
@@ -30,6 +31,7 @@ IMPLEMENT_DYNAMIC(CPPageSubMisc, CPPageBase)
 
 CPPageSubMisc::CPPageSubMisc()
     : CPPageBase(CPPageSubMisc::IDD, CPPageSubMisc::IDD)
+    , m_pSubtitlesProviders(nullptr)
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
     , m_fDisableInternalSubtitles(FALSE)
@@ -40,7 +42,6 @@ CPPageSubMisc::CPPageSubMisc()
     , m_strSubtitlesProviders()
     , m_strSubtitlesLanguageOrder()
     , m_strAutoloadPaths()
-    , m_subtitlesProviders(SubtitlesProviders::Instance())
 {
 }
 
@@ -88,7 +89,13 @@ BOOL CPPageSubMisc::OnInitDialog()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 
-    m_list.SetImageList(&m_subtitlesProviders.GetImageList(), LVSIL_SMALL);
+    // Do not check dynamic_cast, because if it fails we cannot recover from the error anyway.
+    const CMainFrame* pMainFrame = AfxGetMainFrame();
+    ASSERT(pMainFrame);
+    m_pSubtitlesProviders = pMainFrame->m_pSubtitlesProviders.get();
+    ASSERT(m_pSubtitlesProviders);
+
+    m_list.SetImageList(&m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
 
     CArray<int> columnWidth;
     if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
@@ -107,11 +114,10 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.DeleteAllItems();
 
     int i = 0;
-    for (const auto& iter : m_subtitlesProviders.Providers()) {
-        int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
+    for (const auto& iter : m_pSubtitlesProviders->Providers()) {
+        int iItem = m_list.InsertItem(i++, CString(iter->Name().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
-        CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
-        m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR));
+        m_list.SetItemText(iItem, COL_LANGUAGES, ResStr(IDS_SUBPP_DLG_FETCHING_LANGUAGES));
         m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
         m_list.SetItemData(iItem, (DWORD_PTR)(iter.get()));
     }
@@ -120,9 +126,21 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.Invalidate();
     m_list.UpdateWindow();
 
+    m_threadFetchSupportedLanguages = std::thread([this]() {
+        for (const auto& iter : m_pSubtitlesProviders->Providers()) {
+            iter->Languages();
+        }
+        PostMessage(WM_SUPPORTED_LANGUAGES_READY); // Notify the window that languages have been fetched
+    });
+
     //TODO: Remove when Auto Upload is finalised
     CheckDlgButton(IDC_CHECK6, FALSE);
     GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
+
+    EnableToolTips(TRUE);
+    CreateToolTip();
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_SUB_AUTODL_IGNORE_TOOLTIP));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
 
     UpdateData(FALSE);
 
@@ -150,18 +168,36 @@ BOOL CPPageSubMisc::OnApply()
         provider->Enabled(SPF_SEARCH, m_list.GetCheck(i));
     }
 
-    s.strSubtitlesProviders = CString(m_subtitlesProviders.WriteSettings().c_str());
+    s.strSubtitlesProviders = m_pSubtitlesProviders->WriteSettings().c_str();
 
     return __super::OnApply();
 }
 
 
 BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
+    ON_MESSAGE_VOID(WM_SUPPORTED_LANGUAGES_READY, OnSupportedLanguagesReady)
+    ON_WM_DESTROY()
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedResetSubsPath)
     ON_BN_CLICKED(IDC_CHECK4, OnAutoDownloadSubtitlesClicked)
     ON_NOTIFY(NM_RCLICK, IDC_LIST1, OnRightClick)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
 END_MESSAGE_MAP()
+
+void CPPageSubMisc::OnSupportedLanguagesReady()
+{
+    int i = 0;
+    for (const auto& iter : m_pSubtitlesProviders->Providers()) {
+        CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
+        m_list.SetItemText(i++, COL_LANGUAGES, languages.IsEmpty() ? ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR) : languages);
+    }
+}
+
+void CPPageSubMisc::OnDestroy()
+{
+    if (m_threadFetchSupportedLanguages.joinable()) {
+        m_threadFetchSupportedLanguages.join();
+    }
+}
 
 void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -202,6 +238,7 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
                                                           ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) + CString(provider.Url().c_str()),
                                                           szDomain, szUser, szPass, /*&bSave*/nullptr)) {
+                    provider.LogOut();
                     provider.UserName(static_cast<const char*>(UTF16To8(szUser)));
                     provider.Password(static_cast<const char*>(UTF16To8(szPass)));
                     m_list.SetItemText(lpnmlv->iItem, 1, szUser);
@@ -210,18 +247,19 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
             }
             case RESET_CREDENTIALS:
+                provider.LogOut();
                 provider.UserName("");
                 provider.Password("");
                 m_list.SetItemText(lpnmlv->iItem, 1, _T(""));
                 SetModified();
                 break;
             case MOVE_UP:
-                m_subtitlesProviders.MoveUp(lpnmlv->iItem);
+                m_pSubtitlesProviders->MoveUp(lpnmlv->iItem);
                 ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
                 SetModified();
                 break;
             case MOVE_DOWN:
-                m_subtitlesProviders.MoveDown(lpnmlv->iItem);
+                m_pSubtitlesProviders->MoveDown(lpnmlv->iItem);
                 ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
                 SetModified();
                 break;

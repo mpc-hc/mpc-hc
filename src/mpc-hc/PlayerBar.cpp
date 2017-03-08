@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2015 see Authors.txt
+ * (C) 2012-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "PlayerBar.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()

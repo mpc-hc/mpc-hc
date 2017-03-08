@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,7 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
-#include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
+#include "Logger.h"
 #include <wininet.h>
 
 #if USE_STATIC_MEDIAINFO
@@ -56,55 +56,53 @@ void SubtitlesInfo::OpenUrl() const
 }
 
 
-#define RE_ITE(_cond, _true, _false)  "(?(" _cond ")" _true "|" _false ")"
-#define RE_IT(_cond, _true)  "(?(" _cond ")" _true ")"
-#define RE_O(_expr)  _expr "?"
-#define RE_CG(_expr)  "(" _expr ")"
-#define RE_OCG(_expr)  RE_O(RE_CG(_expr))
-#define RE_NCG(_expr)  "(?:" _expr ")"
-#define RE_ONCG(_expr) RE_O(RE_NCG(_expr))
-#define RE_PLA(_cond, _expr)  "(?=" _cond ")" _expr
-#define RE_NLA(_cond, _expr)  "(?!" _cond ")" _expr
+#define RE_ITE(cond, re_true, re_false) "(?(" cond ")" re_true "|" re_false ")"
+#define RE_IT(cond, re_true) "(?(" cond ")" re_true ")"
+#define RE_O(expr) expr "?"
+#define RE_CG(expr) "(" expr ")"
+#define RE_OCG(expr) RE_O(RE_CG(expr))
+#define RE_NCG(expr) "(?:" expr ")"
+#define RE_ONCG(expr) RE_O(RE_NCG(expr))
+#define RE_PLA(cond, expr) "(?=" cond ")" expr
+#define RE_NLA(cond, expr) "(?!" cond ")" expr
 
 
-#define _RE_DEAD                                                              \
+#define REGEX_DEAD                                                              \
     "[-\\[('*:;.,_ /!@#$%?)\\]]"
 
-#define _RE_NOTDEAD                                                           \
+#define REGEX_NOTDEAD                                                           \
     "[^-\\[('*:;.,_ /!@#$%?)\\]\\\\]"
 
-#define _RE_CAPTURE_TITLE                                                     \
-    "([^\\\\]*?)(?:"_RE_DEAD"+(AU|CA|FR|JP|UK|US))??"_RE_DEAD"+"
-//    "([^\\\\]*?)"_RE_DEAD"+"
-//_RE_CG("[^\\\\]*?")_RE_OCG("AU|CA|FR|JP|UK|US")
+#define REGEX_CAPTURE_TITLE                                                     \
+    "([^\\\\]*?)(?:" REGEX_DEAD "+(AU|CA|FR|JP|UK|US))??" REGEX_DEAD "+"
 
-#define _RE_YEAR                                                              \
+#define REGEX_YEAR                                                              \
     "\\d{4}"
 
-#define _RE_SEASONEPISODE                                                     \
-    "S\\d{1,2}"RE_ONCG("E\\d{1,2}"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}"))         \
-    "|E\\d{1,2}"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                            \
-    "|\\d{1,2}[x#]\\d{1,2}"                                                   \
-    "|\\d{3}"                                                                 \
-    "|Part"_RE_DEAD"*\\d{1,2}"                                                \
-    "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"\\d{1,2}"_RE_DEAD)"\\d{1,2}of\\d{1,2}"
+#define REGEX_SEASONEPISODE                                                     \
+    "S\\d{1,2}" RE_ONCG("E\\d{1,2}" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}"))      \
+    "|E\\d{1,2}" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}")                          \
+    "|\\d{1,2}[x#]\\d{1,2}"                                                     \
+    "|\\d{3}"                                                                   \
+    "|Part" REGEX_DEAD "*\\d{1,2}"                                              \
+    "|" RE_ONCG("Season|Series" RE_O(REGEX_DEAD) "\\d{1,2}" REGEX_DEAD) "\\d{1,2}of\\d{1,2}"
 
-#define _RE_CAPTURE_SEASONEPISODE                                             \
-    "S(\\d{1,2})"RE_ONCG("E(\\d{1,2})"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}"))     \
-    "|E(\\d{1,2})"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                          \
-    "|(\\d{1,2})[x#](\\d{1,2})"                                               \
-    "|(\\d)(\\d{2})"                                                          \
-    "|Part"_RE_DEAD"*()(\\d{1,2})"                                            \
-    "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"(\\d{1,2})"_RE_DEAD)"(\\d{1,2})of\\d{1,2}"
+#define REGEX_CAPTURE_SEASONEPISODE                                             \
+    "S(\\d{1,2})" RE_ONCG("E(\\d{1,2})" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}"))  \
+    "|E(\\d{1,2})" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}")                        \
+    "|(\\d{1,2})[x#](\\d{1,2})"                                                 \
+    "|(\\d)(\\d{2})"                                                            \
+    "|Part" REGEX_DEAD "*()(\\d{1,2})"                                          \
+    "|" RE_ONCG("Season|Series" RE_O(REGEX_DEAD) "(\\d{1,2})" REGEX_DEAD) "(\\d{1,2})of\\d{1,2}"
 
-#define _RE_CAPTURE_TITLE2                                                    \
-    "(?:([^\\\\]+?)??"_RE_DEAD"+)??"
-//"(?:([^\\\\]+?)"_RE_DEAD "+)?"
+#define REGEX_CAPTURE_TITLE2                                                    \
+    "(?:([^\\\\]+?)??" REGEX_DEAD "+)??"
+//"(?:([^\\\\]+?)"REGEX_DEAD "+)?"
 
-#define _RE_RESOLUTION                                                        \
-    "(?:480|720|1080)[pi]?"
+#define REGEX_RESOLUTION                                                        \
+    "(?:360|480|576|720|1080|2160)[pi]?"
 
-#define _RE_FORMAT                                                            \
+#define REGEX_FORMAT                                                          \
     "HD-?Rip|HD-?DVD(?:-?Rip)?"                                               \
     "|HD-?TV|PD-?TV|DVTV|DVB(?:-?Rip)?|TV-?Rip"                               \
     "|B[DR]Rip|Blu-?Ray"                                                      \
@@ -115,116 +113,138 @@ void SubtitlesInfo::OpenUrl() const
     "|CAM|TS"                                                                 \
     "|R5(?:[-._ ]?LiNE)?"
 
-#define _RE_AUDIOCODEC                                                        \
+#define REGEX_AUDIOCODEC                                                        \
     "AC3|DTS(?:[-._ ]?ES)?|He-AAC|AAC-He|AAC"
 
-#define _RE_VIDEOCODEC                                                        \
-    "XviD|DivX|DVDivX|[hx][-._ ]?264|Rv10|Mpeg2"
+#define REGEX_VIDEOCODEC                                                        \
+    "XviD|DivX|DVDivX|[hx][-._ ]?26[45]|HEVC|Rv10|Mpeg2"
 
-#define _RE_CAPTURE_RELEASEGROUP                                              \
-    "("_RE_NOTDEAD"+)[\\[(-._ )\\]\\\\]+"
+#define REGEX_CAPTURE_RELEASEGROUP                                              \
+    "(" REGEX_NOTDEAD "+)[\\[(-._ )\\]\\\\]+"
 
-#define _RE_CAPTURE_LANGUAGE                                                  \
-    "(?:("_RE_NOTDEAD"+)[\\[(-._ )\\]\\\\]+)?"
+#define REGEX_CAPTURE_LANGUAGE                                                  \
+    "(?:(" REGEX_NOTDEAD "+)[\\[(-._ )\\]\\\\]+)?"
 
-#define _RE_CAPTURE_DISC                                                      \
-    "(?:CD|DIS[CK])[-._ ]?(\\d)"_RE_DEAD "+"
+#define REGEX_CAPTURE_DISC                                                      \
+    "(?:CD|DIS[CK])[-._ ]?(\\d)" REGEX_DEAD "+"
 
-#define _RE_IGNORE                                                            \
-    "(?:DD)?5[-._ ]1|[AS]E|[WF]S|\\d{3}MB|5CH|AUDIO[-._ ]?FIXED|CHRONO|COLORIZED|DC|DUAL[-._ ]?AUDIO|DUBBED|DUPE|DVD[-._ ]?[59]|EXTENDED|FESTIVAL|FINAL|INTERNAL|LIMITED|NFO|PROPER|RATED|READ|REAL|REMASTERED|REMUX|REPACK|RERIP|R[1-6]|RETAIL|RETORRENT|S?TV|SUBBED|THEATRICAL|UNCUT|UNRATED"
+#define REGEX_IGNORE                                                            \
+    "(?:DD)?5[-._ ]1|[AS]E|[WF]S|\\d{3}MB|5CH|AUDIO[-._ ]?FIXED|CHRONO|COLORIZED|DC|DUAL[-._ ]?AUDIO|DUBBED|DUPE|DVD[-._ ]?[59]|EXTENDED|FESTIVAL|FINAL|INTERNAL|LIMITED|NFO|PROPER|RATED|READ|REAL|REMASTERED|REMUX|REPACK|RERIP|R[1-6]|RETAIL|RETORRENT|S?TV|SUBBED|THEATRICAL|UNCUT|UNRATED|MPEG4"
 
-#define _RE_CAPTURE_HEARINGIMPAIRED                                           \
-    _RE_DEAD"(HI)"_RE_DEAD".*(srt|idx|sub|ssa)$"
+#define REGEX_CAPTURE_HEARINGIMPAIRED                                           \
+    REGEX_DEAD "(HI)" REGEX_DEAD ".*(srt|idx|sub|ssa)$"
 
-#define _RE_CAPTURE_MEDIAEXTENSIONS                                           \
-    _RE_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|ts|wav|webm|wm[av])$"
+#define REGEX_CAPTURE_MEDIAEXTENSIONS                                           \
+    REGEX_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m2ts|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|rmvb|ts|wav|webm|wm[av])$"
 
-#define _RE_CAPTURE_SUBTITLESEXTENSION                                        \
-    _RE_DEAD "(srt|idx|sub|ssa)$"
+#define REGEX_CAPTURE_SUBTITLESEXTENSION                                        \
+    REGEX_DEAD "(srt|idx|sub|ssa)$"
 
-#define _RE_ADDICT7ED_LANGUAGE                                                \
+#define REGEX_ADDICT7ED_LANGUAGE                                                \
     "Albanian|Arabic|Armenian|Azerbaijani|Bengali|Bosnian|Bulgarian|" + UTF16To8(_T("Català")) + "|Chinese \\(Simplified\\)|Chinese \\(Traditional\\)|Croatian|Czech|Danish|Dutch|English|Euskera|Finnish|French|Galego|German|Greek|Hebrew|Hungarian|Indonesian|Italian|Japanese|Korean|Macedonian|Malay|Norwegian|Persian|Polish|Portuguese|Portuguese \\(Brazilian\\)|Romanian|Russian|Serbian \\(Cyrillic\\)|Serbian \\(Latin\\)|Slovak|Slovenian|Spanish|Spanish \\(Latin America\\)|Spanish \\(Spain\\)|Swedish|Thai|Turkish|Urainian|Vietnamese"
 
-#define _RE_ADDICT7ED_CORRECTED                                               \
+#define REGEX_ADDICT7ED_CORRECTED                                               \
     "C[.]"
 
-#define _RE_ADDICT7ED_HEARINGIMPAIRED                                         \
+#define REGEX_ADDICT7ED_HEARINGIMPAIRED                                         \
     "HI[.]"
 
-#define _RE_ADDICT7ED_VERSION                                                 \
+#define REGEX_ADDICT7ED_VERSION                                                 \
     "(?:updated|orig)[.]"
 
-#define _RE_ADDICT7ED_SIGNATURE                                               \
+#define REGEX_ADDICT7ED_SIGNATURE                                               \
     "Addic[t7]ed[.]com"
 
 
-#define _RE_PLA(_expr, _group) "(?=(" _expr "))\\" #_group _RE_DEAD"+"
-#define _RE_OPLA(_expr, _group) "(?:(?=(" _expr "))\\" #_group _RE_DEAD"+)?"
-#define _RE_CG(_expr)  "(" _expr ")" _RE_DEAD "+"
-#define _RE_OCG(_expr)  RE_ONCG(RE_CG(_expr) _RE_DEAD "+")
-#define _RE_NCG(_expr)  "(?:" _expr ")" _RE_DEAD "+"
+#define REGEX_PLA(expr, group) "(?=(" expr "))\\" #group REGEX_DEAD "+"
+#define REGEX_OPLA(expr, group) "(?:(?=(" expr "))\\" #group REGEX_DEAD "+)?"
+#define REGEX_CG(expr)  "(" expr ")" REGEX_DEAD "+"
+#define REGEX_OCG(expr)  RE_ONCG(RE_CG(expr) REGEX_DEAD "+")
+#define REGEX_NCG(expr)  "(?:" expr ")" REGEX_DEAD "+"
 
-#define _RE_ONCG(_expr)  "(?:" _RE_NCG(_expr) ")?"
-#define _RE_ORNCG(_expr)  "(?:(?:" _RE_NCG(_expr) ")+)?"
+#define REGEX_ONCG(expr)  "(?:" REGEX_NCG(expr) ")?"
+#define REGEX_ORNCG(expr)  "(?:(?:" REGEX_NCG(expr) ")+)?"
 
-
-std::regex regex_pattern[] = {
+static const std::regex regex_pattern[] = {
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE _RE_ORNCG(_RE_IGNORE)
+        REGEX_CAPTURE_TITLE REGEX_ORNCG(REGEX_IGNORE)
         RE_ONCG(
-            RE_NCG(_RE_CG(_RE_YEAR) _RE_OCG(_RE_SEASONEPISODE) "|" _RE_CG(_RE_SEASONEPISODE))
-            _RE_ORNCG(_RE_IGNORE) _RE_CAPTURE_TITLE2
+            RE_NCG(REGEX_CG(REGEX_YEAR) REGEX_OCG(REGEX_SEASONEPISODE) "|" REGEX_CG(REGEX_SEASONEPISODE))
+            REGEX_ORNCG(REGEX_IGNORE) REGEX_CAPTURE_TITLE2
         )
-        RE_NCG(_RE_CG(_RE_RESOLUTION) "|" _RE_CG(_RE_FORMAT) "|" _RE_CG(_RE_AUDIOCODEC) "|" _RE_CG(_RE_VIDEOCODEC) "|" _RE_NCG(_RE_IGNORE))"+"
-        _RE_CAPTURE_RELEASEGROUP
-        //_RE_CAPTURE_LANGUAGE
+        RE_NCG(REGEX_CG(REGEX_RESOLUTION) "|" REGEX_CG(REGEX_FORMAT) "|" REGEX_CG(REGEX_AUDIOCODEC) "|" REGEX_CG(REGEX_VIDEOCODEC) "|" REGEX_NCG(REGEX_IGNORE)) "+"
+        REGEX_CAPTURE_RELEASEGROUP
+        //REGEX_CAPTURE_LANGUAGE
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE
-        RE_NCG(_RE_CG(_RE_YEAR) _RE_OCG(_RE_SEASONEPISODE) "|" _RE_CG(_RE_SEASONEPISODE))
+        REGEX_CAPTURE_TITLE
+        RE_NCG(REGEX_CG(REGEX_YEAR) REGEX_OCG(REGEX_SEASONEPISODE) "|" REGEX_CG(REGEX_SEASONEPISODE))
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_SEASONEPISODE
+        REGEX_CAPTURE_SEASONEPISODE
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_DISC
+        REGEX_CAPTURE_DISC
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_HEARINGIMPAIRED
+        REGEX_CAPTURE_HEARINGIMPAIRED
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        "([^\\\\]+?)(?: (AU|CA|FR|JP|UK|US))?(?: [(](\\d{4})[)])? - (\\d{1,2})x(\\d{1,2}) - ([^.]+?)[.](.+?)[.]" _RE_CG(_RE_ADDICT7ED_LANGUAGE) RE_OCG(_RE_ADDICT7ED_HEARINGIMPAIRED) RE_OCG(_RE_ADDICT7ED_CORRECTED) _RE_ADDICT7ED_VERSION _RE_ADDICT7ED_SIGNATURE
+        "([^\\\\]+?)(?: (AU|CA|FR|JP|UK|US))?(?: [(](\\d{4})[)])? - (\\d{1,2})x(\\d{1,2}) - ([^.]+?)[.](.+?)[.]" REGEX_CG(REGEX_ADDICT7ED_LANGUAGE) RE_OCG(REGEX_ADDICT7ED_HEARINGIMPAIRED) RE_OCG(REGEX_ADDICT7ED_CORRECTED) REGEX_ADDICT7ED_VERSION REGEX_ADDICT7ED_SIGNATURE
         , RegexFlags),
     //--------------------------------------
-    std::regex(_RE_DEAD "+", RegexFlags),
+    std::regex(REGEX_DEAD "+", RegexFlags),
 
     //--------------------------------------
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE
+        REGEX_CAPTURE_TITLE
         RE_ONCG(
             RE_NCG(
-                _RE_PLA(_RE_YEAR, 2) _RE_OPLA(_RE_SEASONEPISODE, 3)
-                "|"_RE_PLA(_RE_SEASONEPISODE, 4)
+                REGEX_PLA(REGEX_YEAR, 2) REGEX_OPLA(REGEX_SEASONEPISODE, 3)
+                "|" REGEX_PLA(REGEX_SEASONEPISODE, 4)
             )
-            _RE_CAPTURE_TITLE2
+            REGEX_CAPTURE_TITLE2
         )
         RE_NCG(
-            _RE_PLA(_RE_RESOLUTION, 6)
-            "|"_RE_PLA(_RE_FORMAT, 7)
-            "|"_RE_PLA(_RE_AUDIOCODEC, 8)
-            "|"_RE_PLA(_RE_VIDEOCODEC, 9)
-        )"+"
-        _RE_CAPTURE_RELEASEGROUP
+            REGEX_PLA(REGEX_RESOLUTION, 6)
+            "|" REGEX_PLA(REGEX_FORMAT, 7)
+            "|" REGEX_PLA(REGEX_AUDIOCODEC, 8)
+            "|" REGEX_PLA(REGEX_VIDEOCODEC, 9)
+        ) "+"
+        REGEX_CAPTURE_RELEASEGROUP
         , RegexFlags),
     //--------------------------------------
 };
+
+static constexpr LPCTSTR log_format =
+    _T("GetFileInfo(): Deducing video information from file path\n")  \
+    // file properties
+    _T("filePath=\"%S\"\n")                                           \
+    _T("fileName=\"%S\"\n")                                           \
+    _T("fileExtension=\"%S\"\n")                                      \
+    _T("fileSize=%llu\n")                                             \
+    // file name properties
+    _T("matchPattern=%d\n")                                           \
+    _T("title=\"%S\"\n")                                              \
+    _T("country=\"%S\"\n")                                            \
+    _T("year=%d\n")                                                   \
+    _T("episode=\"%S\"\n")                                            \
+    _T("seasonNumber=%d\n")                                           \
+    _T("episodeNumber=%d\n")                                          \
+    _T("title2=\"%S\"\n")                                             \
+    _T("resolution=\"%S\"\n")                                         \
+    _T("format=\"%S\"\n")                                             \
+    _T("audioCodec=\"%S\"\n")                                         \
+    _T("videoCodec=\"%S\"\n")                                         \
+    _T("releaseGroup=\"%S\"\n")                                       \
+    _T("discNumber=%d");
 
 HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string()*/)
 {
@@ -272,7 +292,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
                 CFileException fileException;
                 if (file.Open(p, CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary, &fileException)) {
                     std::string buffer;
-                    buffer.resize((std::string::size_type)file.GetLength());
+                    buffer.resize(static_cast<std::string::size_type>(file.GetLength()));
                     file.Read(&buffer[0], (UINT)buffer.size());
 
                     std::smatch match_pieces;
@@ -290,45 +310,103 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
     fileExtension = UTF16To8(PathUtils::FileExt(fPath).TrimLeft('.'));
     fileName = UTF16To8(PathUtils::FileName(fPath));
 
+    int matchPattern = -1;
     regexResult result;
 
     if (std::regex_search(fileName, std::regex("addic[7t]ed", RegexFlags)) && stringMatch(regex_pattern[5], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (seasonNumber == -1) { seasonNumber = atoi(result[3].c_str()); }
-        if (episodeNumber == -1) { episodeNumber = atoi(result[4].c_str()); }
-        if (title2.empty()) { title2 = result[5]; }
-        if (releaseGroup.empty()) { releaseGroup = result[6]; }
-        if (languageName.empty()) { languageName = result[7]; }
-        if (hearingImpaired == -1) { hearingImpaired = result[8].empty() ? FALSE : TRUE; }
+        matchPattern = 5;
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (seasonNumber == -1) {
+            seasonNumber = atoi(result[3].c_str());
+        }
+        if (episodeNumber == -1) {
+            episodeNumber = atoi(result[4].c_str());
+        }
+        if (title2.empty()) {
+            title2 = result[5];
+        }
+        if (releaseGroup.empty()) {
+            releaseGroup = result[6];
+        }
+        if (languageName.empty()) {
+            languageName = result[7];
+        }
+        if (hearingImpaired == -1) {
+            hearingImpaired = result[8].empty() ? FALSE : TRUE;
+        }
     } else if (stringMatch(regex_pattern[0], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (episode.empty()) { episode = result[3] + result[4]; }
+        matchPattern = 0;
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (episode.empty()) {
+            episode = result[3] + result[4];
+        }
         //bool b = IsISO639Language(match_pieces[5].str().c_str());
         //bool b1 = IsISO639Language("french");
         //CString lang = LanguageToISO6392(CString(match_pieces[5].str().c_str()));
         //std::string tt = match_pieces[5].str();
-        if (title2.empty()) { title2 = result[5]; }
-        if (resolution.empty()) { resolution = result[6]; }
-        if (format.empty()) { format = result[7]; }
-        if (audioCodec.empty()) { audioCodec = result[8]; }
-        if (videoCodec.empty()) { videoCodec = result[9]; }
-        if (releaseGroup.empty()) { releaseGroup = result[10]; }
+        if (title2.empty()) {
+            title2 = result[5];
+        }
+        if (resolution.empty()) {
+            resolution = result[6];
+        }
+        if (format.empty()) {
+            format = result[7];
+        }
+        if (audioCodec.empty()) {
+            audioCodec = result[8];
+        }
+        if (videoCodec.empty()) {
+            videoCodec = result[9];
+        }
+        if (releaseGroup.empty()) {
+            releaseGroup = result[10];
+        }
         //if (languageCode.empty()) languageCode = result[11];
     } else if (stringMatch(regex_pattern[1], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (episode.empty()) { episode = result[3] + result[4]; }
+        matchPattern = 1;
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (episode.empty()) {
+            episode = result[3] + result[4];
+        }
     }
 
-    if (!title.empty()) { title = std::regex_replace(title, regex_pattern[6], " "); }
-    if (!title2.empty()) { title2 = std::regex_replace(title2, regex_pattern[6], " "); }
+    // Use the filename as title if we couldn't do better
+    if (title.empty()) {
+        matchPattern = -1;
+        title = fileName;
+    }
+    title = std::regex_replace(title, regex_pattern[6], " ");
 
-    if ((seasonNumber == -1) && (episodeNumber == -1) && !episode.empty()) {
+    if (!title2.empty()) {
+        title2 = std::regex_replace(title2, regex_pattern[6], " ");
+    }
+
+    if (seasonNumber == -1 && episodeNumber == -1 && !episode.empty()) {
         if (stringMatch(regex_pattern[2], episode, result)) {
             std::string _seasonNumber(result[0] + result[3] + result[5] + result[7]);
             seasonNumber = atoi(_seasonNumber.c_str());
@@ -347,6 +425,15 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
     if ((hearingImpaired == -1) && stringMatch(regex_pattern[4], filePath, result)) {
         hearingImpaired = TRUE;
     }
+
+    // Enable logging for the video filename detection
+    if (sFileName.empty()) {
+        SUBTITLES_LOG(log_format, filePath.c_str(), fileName.c_str(), fileExtension.c_str(), fileSize,
+                      matchPattern, title.c_str(), country.c_str(), year, episode.c_str(),
+                      seasonNumber, episodeNumber, title2.c_str(), resolution.c_str(),
+                      format.c_str(), audioCodec.c_str(), videoCodec.c_str(), releaseGroup.c_str(),
+                      discNumber);
+    }
     return S_OK;
 }
 
@@ -355,11 +442,11 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 ******************************************************************************/
 
 SubtitlesProvider::SubtitlesProvider(SubtitlesProviders* pOwner)
-    : m_bSearch(FALSE), m_bUpload(FALSE), m_pOwner(pOwner), m_nLoggedIn(SPL_UNDEFINED), m_nIconIndex(0)
+    : m_bSearch(FALSE), m_bUpload(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED)
 {
 }
 
-void SubtitlesProvider::OpenUrl()
+void SubtitlesProvider::OpenUrl() const
 {
     ShellExecute((HWND)AfxGetMyApp()->GetMainWnd(), _T("open"), UTF8To16(Url().c_str()), nullptr, nullptr, SW_SHOWDEFAULT);
 }
@@ -383,7 +470,7 @@ std::list<std::string> SubtitlesProvider::GetLanguagesIntersection() const
 
 bool SubtitlesProvider::LoginInternal()
 {
-    if (!(m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS))) {
+    if (NeedLogin()) {
         SRESULT result = Login(UserName(), Password());
         m_nLoggedIn = (result == SR_SUCCEEDED) ? (!UserName().empty() ? SPL_REGISTERED : SPL_ANONYMOUS) :
                       (result == SR_UNDEFINED) ? SPL_ANONYMOUS : SPL_FAILED;
@@ -399,7 +486,7 @@ bool SubtitlesProvider::CheckLanguage(const std::string& sLanguageCode)
            || (std::find(selectedLanguages.cbegin(), selectedLanguages.cend(), sLanguageCode) != selectedLanguages.cend());
 }
 
-bool SubtitlesProvider::SupportsUserSelectedLanguages()
+bool SubtitlesProvider::SupportsUserSelectedLanguages() const
 {
     auto&& selectedLanguages = LanguagesISO6391();
     return !selectedLanguages.size() || GetLanguagesIntersection(std::move(selectedLanguages)).size();
@@ -457,8 +544,8 @@ bool SubtitlesProvider::CheckInternetConnection()
 ** SubtitlesProviders
 ******************************************************************************/
 
-SubtitlesProviders::SubtitlesProviders()
-    : m_MainFrame(*(CMainFrame*)(AfxGetMyApp()->GetMainWnd()))
+SubtitlesProviders::SubtitlesProviders(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
 {
     m_himl.Create(16, 16, ILC_COLOR32, 0, 0);
     RegisterProviders();
@@ -479,19 +566,19 @@ BOOL SubtitlesProviders::CheckInternetConnection()
 void SubtitlesProviders::Search(bool bAutoDownload)
 {
     Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
-    m_MainFrame.m_wndSubtitlesDownloadDialog.DoClear();
+    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
 
     if (CheckInternetConnection()) {
-        InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, bAutoDownload, LanguagesISO6391()));
+        InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391()));
     } else if (bAutoDownload == FALSE) {
-        m_MainFrame.m_wndSubtitlesDownloadDialog.DoFailed();
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
     }
 }
 
 void SubtitlesProviders::Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate)
 {
     if (CheckInternetConnection()) {
-        InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo, bActivate));
+        InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo, bActivate));
     }
 }
 
@@ -501,15 +588,15 @@ void SubtitlesProviders::Upload(bool bShowConfirm)
         // We get all the information we need within the main thread, to delay closing the file
         // until we have everything we need.
         SubtitlesInfo pSubtitlesInfo;
-        m_MainFrame.SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
+        m_pMainFrame->SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
         //pSubtitlesInfo.GetCurrentSubtitles();
 
         if (!pSubtitlesInfo.fileContents.empty()) {
             CString msg;
-            msg.Format(ResStr(IDS_SUBUL_DLG_CONFIRM), UTF8To16(pSubtitlesInfo.releaseName.c_str()));
+            msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()));
             if (!bShowConfirm
-                    || IDYES == MessageBox(m_MainFrame.m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
-                InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo));
+                    || IDYES == MessageBox(m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
+                InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo));
             }
         }
     }
@@ -538,7 +625,7 @@ void SubtitlesProviders::ReadSettings()
             if (iter[0] == iter1->Name()) {
                 bFound = true;
                 iter1->UserName(iter[1]);
-                iter1->Password(Base64::decode(iter[2]).c_str(), false);
+                iter1->Password(iter[2].c_str(), false);
                 iter1->Enabled(SPF_SEARCH, atoi(iter[3].c_str()));
                 iter1->Enabled(SPF_UPLOAD, atoi(iter[4].c_str()));
                 std::iter_swap(&iter1, m_pProviders.begin() + std::min(index, m_pProviders.size() - 1));
@@ -554,7 +641,7 @@ std::string SubtitlesProviders::WriteSettings()
 {
     std::string result;
     for (const auto& iter : m_pProviders) {
-        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + Base64::encode(iter->Password(false)) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|" + std::to_string(iter->Enabled(SPF_UPLOAD)) + "|>";
+        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + iter->Password(false) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|" + std::to_string(iter->Enabled(SPF_UPLOAD)) + "|>";
     }
     return result;
 }
@@ -582,9 +669,9 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate)
     : m_pMainFrame(pMainFrame)
-    , m_nType(STT_DOWNLOAD)
     , m_pFileInfo(pSubtitlesInfo)
     , m_bActivate(bActivate)
+    , m_nType(STT_DOWNLOAD)
     , m_bAutoDownload(false)
 {
     VERIFY(CreateThread());
@@ -592,9 +679,9 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesIn
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
     : m_pMainFrame(pMainFrame)
-    , m_nType(STT_UPLOAD)
     , m_pFileInfo(pSubtitlesInfo)
     , m_bActivate(false)
+    , m_nType(STT_UPLOAD)
     , m_bAutoDownload(false)
 {
     VERIFY(CreateThread());
@@ -609,8 +696,8 @@ void SubtitlesTask::ThreadProc()
         pFileInfo.GetFileInfo();
 
         const auto& s = AfxGetAppSettings();
-        std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude);
-        stringArray exclude_array = StringTokenize(exclude, "|;, ");
+        std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude).GetString();
+        stringArray exclude_array = StringTokenize(exclude, "|");
 
         if (!pFileInfo.title.empty()
         && std::none_of(exclude_array.cbegin(), exclude_array.cend(), [&](const std::string & str) {
@@ -654,7 +741,9 @@ void SubtitlesTask::ThreadProc()
     }
 
     // Wait here until all threads have finished
-    while (!m_pThreads.empty()) { Sleep(0); }
+    while (!m_pThreads.empty()) {
+        Sleep(0);
+    }
 
     if (m_nType & STT_SEARCH) {
         BOOL bShowDialog = !m_AutoDownload.empty() || m_bAutoDownload;
@@ -710,7 +799,9 @@ void SubtitlesThread::ThreadProc()
 void SubtitlesThread::Search()
 {
     CheckAbortAndThrow();
-    if (!m_pFileInfo.Provider()->SupportsUserSelectedLanguages()) { return; }
+    if (!m_pFileInfo.Provider()->SupportsUserSelectedLanguages()) {
+        return;
+    }
     CheckAbortAndThrow();
     m_pFileInfo.Provider()->Hash(m_pFileInfo);
     CheckAbortAndThrow();
@@ -791,10 +882,14 @@ void SubtitlesThread::Upload()
 
 void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
 {
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     std::string _title = pSubtitlesInfo.title;
-    if (!_title.empty()) { pSubtitlesInfo.title.clear(); }
+    if (!_title.empty()) {
+        pSubtitlesInfo.title.clear();
+    }
     pSubtitlesInfo.GetFileInfo(pSubtitlesInfo.fileName);
 
     //iter.score = 0; //LevenshteinDistance(m_pFileInfo.fileName, string_(subtitlesName)) * 100;
@@ -804,7 +899,9 @@ void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
               ((!_title.empty() && _stricmp(m_pFileInfo.NormalizeTitle().c_str(), pSubtitlesInfo.NormalizeString(_title).c_str()) == 0)))
              ? 3 : !m_pFileInfo.title.empty() || !_title.empty() ? -3 : 0;
 
-    if (!_title.empty()) { pSubtitlesInfo.title = _title; }
+    if (!_title.empty()) {
+        pSubtitlesInfo.title = _title;
+    }
 
     score += (!m_pFileInfo.country.empty() && _stricmp(m_pFileInfo.country.c_str(), pSubtitlesInfo.country.c_str()) == 0) ? 2 : !m_pFileInfo.country.empty() ? -2 : 0;
     score += (m_pFileInfo.year != -1 && m_pFileInfo.year == pSubtitlesInfo.year) ? 1 : 0;
@@ -818,14 +915,18 @@ void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
     score += (!m_pFileInfo.releaseGroup.empty() && _stricmp(m_pFileInfo.releaseGroup.c_str(), pSubtitlesInfo.releaseGroup.c_str()) == 0) ? 1 : 0;
     const auto& s = AfxGetAppSettings();
 
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     pSubtitlesInfo.Set(m_pFileInfo.Provider(),
                        m_pTask->GetLangPriority(pSubtitlesInfo.languageCode),
                        (BYTE)(pSubtitlesInfo.hearingImpaired == (int)s.bPreferHearingImpairedSubtitles),
                        score);
 
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     m_pSubtitlesList.push_back(pSubtitlesInfo);
 }

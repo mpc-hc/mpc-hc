@@ -467,6 +467,11 @@ void CommandData::ProcessSwitch(const wchar *Switch)
         Shutdown=true;
         break;
       }
+      if (wcsicomp(Switch+1,L"VER")==0)
+      {
+        PrintVersion=true;
+        break;
+      }
       break;
     case 'K':
       switch(toupperw(Switch[1]))
@@ -619,6 +624,12 @@ void CommandData::ProcessSwitch(const wchar *Switch)
           SaveSymLinks=true;
           if (toupperw(Switch[2])=='A')
             AbsoluteLinks=true;
+          break;
+#endif
+#ifdef _WIN_ALL
+        case 'N':
+          if (toupperw(Switch[2])=='I')
+            AllowIncompatNames=true;
           break;
 #endif
         case 'R':
@@ -920,12 +931,26 @@ void CommandData::OutTitle()
   if (TitleShown)
     return;
   TitleShown=true;
-  wchar Version[50];
-  int Beta=RARVER_BETA;
-  if (Beta!=0)
+
+  wchar Version[80];
+  if (RARVER_BETA!=0)
     swprintf(Version,ASIZE(Version),L"%d.%02d %ls %d",RARVER_MAJOR,RARVER_MINOR,St(MBeta),RARVER_BETA);
   else
     swprintf(Version,ASIZE(Version),L"%d.%02d",RARVER_MAJOR,RARVER_MINOR);
+#if defined(_WIN_32) || defined(_WIN_64)
+  wcsncatz(Version,L" ",ASIZE(Version));
+#endif
+#ifdef _WIN_32
+  wcsncatz(Version,St(Mx86),ASIZE(Version));
+#endif
+#ifdef _WIN_64
+  wcsncatz(Version,St(Mx64),ASIZE(Version));
+#endif
+  if (PrintVersion)
+  {
+    mprintf(L"%s",Version);
+    exit(0);
+  }
 #ifdef UNRAR
   mprintf(St(MUCopyright),Version,RARVER_YEAR);
 #else
@@ -981,7 +1006,7 @@ void CommandData::OutHelp(RAR_EXIT ExitCode)
 #ifndef _WIN_ALL
     static MSGID Win32Only[]={
       MCHelpSwIEML,MCHelpSwVD,MCHelpSwAO,MCHelpSwOS,MCHelpSwIOFF,
-      MCHelpSwEP2,MCHelpSwOC,MCHelpSwDR,MCHelpSwRI
+      MCHelpSwEP2,MCHelpSwOC,MCHelpSwONI,MCHelpSwDR,MCHelpSwRI
     };
     bool Found=false;
     for (int J=0;J<sizeof(Win32Only)/sizeof(Win32Only[0]);J++)
@@ -1037,10 +1062,10 @@ bool CommandData::CheckArgs(StringList *Args,bool Dir,const wchar *CheckName,boo
 {
   wchar *Name=ConvertPath(CheckName,NULL);
   wchar FullName[NM];
-  wchar CurMask[NM+1]; // We reserve the space to append "*" to mask.
+  wchar CurMask[NM];
   *FullName=0;
   Args->Rewind();
-  while (Args->GetString(CurMask,ASIZE(CurMask)-1))
+  while (Args->GetString(CurMask,ASIZE(CurMask)))
   {
     wchar *LastMaskChar=PointToLastChar(CurMask);
     bool DirMask=IsPathDiv(*LastMaskChar); // Mask for directories only.
@@ -1057,11 +1082,12 @@ bool CommandData::CheckArgs(StringList *Args,bool Dir,const wchar *CheckName,boo
       }
       else
       {
+        // REMOVED, we want -npath\* to match empty folders too.
         // If mask has wildcards in name part and does not have the trailing
         // '\' character, we cannot use it for directories.
       
-        if (IsWildcard(PointToName(CurMask)))
-          continue;
+        // if (IsWildcard(PointToName(CurMask)))
+        //  continue;
       }
     }
     else
@@ -1073,7 +1099,7 @@ bool CommandData::CheckArgs(StringList *Args,bool Dir,const wchar *CheckName,boo
       // is excluded from further scanning.
 
       if (DirMask)
-        wcscat(CurMask,L"*");
+        wcsncatz(CurMask,L"*",ASIZE(CurMask));
     }
 
 #ifndef SFX_MODULE
@@ -1210,13 +1236,24 @@ void CommandData::ProcessCommand()
   if (Command[0]!=0 && Command[1]!=0 && wcschr(SingleCharCommands,Command[0])!=NULL || *ArcName==0)
     OutHelp(*Command==0 ? RARX_SUCCESS:RARX_USERERROR); // Return 'success' for 'rar' without parameters.
 
+  const wchar *ArcExt=GetExt(ArcName);
 #ifdef _UNIX
-  if (GetExt(ArcName)==NULL && (!FileExist(ArcName) || IsDir(GetFileAttr(ArcName))))
+  if (ArcExt==NULL && (!FileExist(ArcName) || IsDir(GetFileAttr(ArcName))))
     wcsncatz(ArcName,L".rar",ASIZE(ArcName));
 #else
-  if (GetExt(ArcName)==NULL)
+  if (ArcExt==NULL)
     wcsncatz(ArcName,L".rar",ASIZE(ArcName));
 #endif
+  // Treat arcname.part1 as arcname.part1.rar.
+  if (ArcExt!=NULL && wcsnicomp(ArcExt,L".part",5)==0 && IsDigit(ArcExt[5]) &&
+      !FileExist(ArcName))
+  {
+    wchar Name[NM];
+    wcsncpyz(Name,ArcName,ASIZE(Name));
+    wcsncatz(Name,L".rar",ASIZE(Name));
+    if (FileExist(Name))
+      wcsncpyz(ArcName,Name,ASIZE(ArcName));
+  }
 
   if (wcschr(L"AFUMD",*Command)==NULL)
   {

@@ -34,7 +34,7 @@ struct SubPicDesc {
     BYTE* bitsV;
     RECT vidrect; // video rectangle
 
-    struct SubPicDesc()
+    SubPicDesc()
         : type(0)
         , w(0)
         , h(0)
@@ -87,7 +87,8 @@ public IUnknown {
     STDMETHOD(AlphaBlt)(RECT * pSrc, RECT * pDst, SubPicDesc* pTarget = nullptr /*[in]*/) PURE;
     STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/,
                                 RECT* pRcSource /*[out]*/,  RECT* pRcDest /*[out]*/,
-                                const double videoStretchFactor = 1.0 /*[in]*/) const PURE;
+                                const double videoStretchFactor = 1.0 /*[in]*/,
+                                int xOffsetInPixels = 1 /*[in]*/) const PURE;
     STDMETHOD(SetVirtualTextureSize)(const SIZE pSize, const POINT pTopLeft) PURE;
     STDMETHOD(GetRelativeTo)(RelativeTo* pRelativeTo /*[out]*/) const PURE;
     STDMETHOD(SetRelativeTo)(RelativeTo relativeTo /*[in]*/) PURE;
@@ -208,6 +209,8 @@ public ISubPicAllocatorPresenter {
 
     STDMETHOD_(bool, IsRendering)() PURE;
     STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
+
+    STDMETHOD(SetDefaultVideoAngle)(Vector v) PURE;
 };
 
 //

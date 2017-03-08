@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,21 +21,22 @@
 
 #pragma once
 
-#include "SettingsDefines.h"
-#include "FilterEnum.h"
-#include "RenderersSettings.h"
 #include "../Subtitles/STS.h"
-#include "MediaFormats.h"
-#include "DVBChannel.h"
-#include "MediaPositionList.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "Shaders.h"
-#include "FileAssoc.h"
-#include "FakeFilterMapper2.h"
 #include "../thirdparty/sanear/sanear/src/Interfaces.h"
+#include "DVBChannel.h"
+#include "FileAssoc.h"
+#include "FilterEnum.h"
+#include "MediaFormats.h"
+#include "MediaPositionList.h"
+#include "RenderersSettings.h"
+#include "SettingsDefines.h"
+#include "Shaders.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
+
+class FilterOverride;
 
 // flags for CAppSettings::nCS
 enum {
@@ -217,16 +218,18 @@ struct DisplayMode {
 };
 
 struct AutoChangeMode {
-    AutoChangeMode(bool bChecked, double dFrameRateStart, double dFrameRateStop, DisplayMode dm)
-        : bChecked(bChecked)
-        , dFrameRateStart(dFrameRateStart)
-        , dFrameRateStop(dFrameRateStop)
-        , dm(dm) {
-    };
+    AutoChangeMode(bool _bChecked, double _dFrameRateStart, double _dFrameRateStop, int _msAudioDelay, DisplayMode _dm)
+        : bChecked(_bChecked)
+        , dFrameRateStart(_dFrameRateStart)
+        , dFrameRateStop(_dFrameRateStop)
+        , msAudioDelay(_msAudioDelay)
+        , dm(std::move(_dm)) {
+    }
 
     bool        bChecked;
     double      dFrameRateStart;
     double      dFrameRateStop;
+    int         msAudioDelay;
     DisplayMode dm;
 };
 
@@ -238,17 +241,13 @@ struct AutoChangeFullscreenMode {
     unsigned                    uDelay = 0u;
 };
 
-class wmcmd : public ACCEL
-{
-    ACCEL backup;
-    UINT appcmdorg;
-    UINT mouseorg;
-    UINT mouseFSorg;
-
-public:
+struct wmcmd_base : public ACCEL {
+    BYTE mouse;
+    BYTE mouseFS;
     DWORD dwname;
     UINT appcmd;
-    enum {
+
+    enum : BYTE {
         NONE,
         LDOWN,
         LUP,
@@ -269,55 +268,69 @@ public:
         WDOWN,
         LAST
     };
-    UINT mouse;
-    UINT mouseFS;
-    CStringA rmcmd;
-    int rmrepcnt;
 
-    explicit wmcmd(WORD cmd = 0)
-        : ACCEL( { 0, 0, cmd })
-    , backup({ 0, 0, cmd })
-    , appcmdorg(0)
-    , mouseorg(NONE)
-    , mouseFSorg(NONE)
+    wmcmd_base()
+        : ACCEL( { 0, 0, 0 })
     , dwname(0)
     , appcmd(0)
     , mouse(NONE)
-    , mouseFS(NONE)
-    , rmrepcnt(0) {
-    }
+    , mouseFS(NONE) {}
 
-    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-        : ACCEL( { fVirt, key, cmd })
-    , backup({ fVirt, key, cmd })
-    , appcmdorg(appcmd)
-    , mouseorg(mouse)
-    , mouseFSorg(mouseFS)
-    , dwname(dwname)
-    , appcmd(appcmd)
-    , mouse(mouse)
-    , mouseFS(mouseFS)
-    , rmcmd(rmcmd)
-    , rmrepcnt(rmrepcnt) {
+    constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE)
+        : ACCEL{ _fVirt, _key, _cmd }
+        , dwname(_dwname)
+        , appcmd(_appcmd)
+        , mouse(_mouse)
+        , mouseFS(_mouseFS) {}
+
+    constexpr wmcmd_base(const wmcmd_base&) = default;
+    constexpr wmcmd_base(wmcmd_base&&) = default;
+    wmcmd_base& operator=(const wmcmd_base&) = default;
+    wmcmd_base& operator=(wmcmd_base&&) = default;
+};
+
+class wmcmd : public wmcmd_base
+{
+    const wmcmd_base* default_cmd = nullptr;
+
+public:
+    CStringA rmcmd;
+    int rmrepcnt = 5;
+
+    wmcmd() = default;
+    wmcmd& operator=(const wmcmd&) = default;
+    wmcmd& operator=(wmcmd&&) = default;
+
+    explicit wmcmd(const wmcmd_base& cmd)
+        : wmcmd_base(cmd)
+        , default_cmd(&cmd)
+        , rmrepcnt(5) {
     }
 
     bool operator == (const wmcmd& wc) const {
-        return (cmd > 0 && cmd == wc.cmd);
+        return cmd > 0 && cmd == wc.cmd;
     }
 
     CString GetName() const { return ResStr(dwname); }
 
     void Restore() {
-        *(ACCEL*)this = backup;
-        appcmd = appcmdorg;
-        mouse = mouseorg;
-        mouseFS = mouseFSorg;
+        ASSERT(default_cmd);
+        *static_cast<ACCEL*>(this) = *static_cast<const ACCEL*>(default_cmd);
+        appcmd = default_cmd->appcmd;
+        mouse = default_cmd->mouse;
+        mouseFS = default_cmd->mouseFS;
         rmcmd.Empty();
         rmrepcnt = 5;
     }
 
     bool IsModified() const {
-        return (memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || mouseFS != mouseFSorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
+        ASSERT(default_cmd);
+        return memcmp(static_cast<const ACCEL*>(this), static_cast<const ACCEL*>(default_cmd), sizeof(ACCEL)) ||
+               appcmd != default_cmd->appcmd ||
+               mouse != default_cmd->mouse ||
+               mouseFS != default_cmd->mouseFS ||
+               !rmcmd.IsEmpty() ||
+               rmrepcnt != 5;
     }
 };
 
@@ -492,6 +505,7 @@ public:
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
+    int             nDefaultToolbarSize;
 
     enum class AfterPlayback {
         DO_NOTHING,
@@ -662,7 +676,7 @@ public:
     // OTHER STATES
     CStringW        strLastOpenDir;
     UINT            nLastWindowType;
-    UINT            nLastUsedPage;
+    WORD            nLastUsedPage;
     bool            fRemainingTime;
     bool            bHighPrecisionTimer;
     bool            fLastFullScreen;
@@ -680,6 +694,7 @@ public:
     int             nCoverArtSizeLimit;
 
     bool            bEnableLogging;
+    bool            bUseLegacyToolbar;
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
@@ -697,6 +712,7 @@ public:
         INTERNAL,
         VS_FILTER,
         XY_SUB_FILTER,
+        ASS_FILTER,
     };
 
     SubtitleRenderer GetSubtitleRenderer() const;

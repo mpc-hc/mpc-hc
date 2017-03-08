@@ -21,7 +21,8 @@
 #include "LCDUI.h"
 
 // Add the lgLcd.lib to the linker
-#pragma comment(lib, "lgLcd.lib")
+
+// #pragma comment(lib, "lgLcd.lib")
 
 // to keep track of clients that use multiple CLCDOutput instances
 // within the same app

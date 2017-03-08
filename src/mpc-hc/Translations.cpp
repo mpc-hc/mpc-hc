@@ -1,5 +1,5 @@
 /*
-* (C) 2014-2015 see Authors.txt
+* (C) 2014-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,7 +20,6 @@
 
 #include "stdafx.h"
 #include "Translations.h"
-#include "Constexpr.h"
 #include "FileVersionInfo.h"
 #include "PathUtils.h"
 #include "VersionInfo.h"
@@ -29,12 +28,13 @@ namespace
 {
     static_assert(std::is_pod<Translations::LanguageResource>::value, "POD type is expected.");
 
-    MPCHC_CONSTEXPR Translations::LanguageResource languageResources[] = {
+    constexpr Translations::LanguageResource languageResources[] = {
         { 1025,   _T("Arabic"),                   _T("Lang\\mpcresources.ar.dll")    },
         { 1067,   _T("Armenian"),                 _T("Lang\\mpcresources.hy.dll")    },
         { 1069,   _T("Basque"),                   _T("Lang\\mpcresources.eu.dll")    },
         { 1059,   _T("Belarusian"),               _T("Lang\\mpcresources.be.dll")    },
         { 1093,   _T("Bengali"),                  _T("Lang\\mpcresources.bn.dll")    },
+        { 5146,   _T("Bosnian"),                  _T("Lang\\mpcresources.bs_BA.dll") },
         { 1027,   _T("Catalan"),                  _T("Lang\\mpcresources.ca.dll")    },
         { 2052,   _T("Chinese (Simplified)"),     _T("Lang\\mpcresources.zh_CN.dll") },
         { 1028,   _T("Chinese (Traditional)"),    _T("Lang\\mpcresources.zh_TW.dll") },

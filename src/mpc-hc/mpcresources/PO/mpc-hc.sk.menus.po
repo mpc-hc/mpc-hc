@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-19 11:18+0000\n"
+"PO-Revision-Date: 2016-02-01 21:39+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr "Uložiť &náhľady obrázkov..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
-msgstr "Titulky"
+msgstr "Tit&ulky"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
@@ -535,7 +535,7 @@ msgstr "K&rokovanie obrazu"
 
 msgctxt "POPUP"
 msgid "&Repeat"
-msgstr "Opakovať"
+msgstr "O&pakovať"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"

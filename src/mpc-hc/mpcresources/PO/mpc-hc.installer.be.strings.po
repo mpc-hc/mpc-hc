@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Yauhen Bugamol <haxycgm@gmail.com>, 2015-2016
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2016-01-25 21:02+0000\n"
+"PO-Revision-Date: 2016-10-23 22:19+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Зараз на ваш кампутар будзе ўсталявана праграма [name].\n\nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы."
+msgstr "Зараз на ваш камп'ютар будзе ўсталявана праграма [name].\n\nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -46,7 +46,7 @@ msgstr "Гэта зборка MPC-HC патрабуе працэсар, з па�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Наведаць нашу Wiki-старонку каб спампаваць выявы для панелі навігацыі"
+msgstr "Наведаць нашу Wiki-старонку каб спампаваць выявы для панэлі навігацыі"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
