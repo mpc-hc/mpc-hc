@@ -182,7 +182,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
     LTEXT           "",IDC_STATIC1,60,8,200,8
-    CONTROL         "Copyright © 2002-2017 see Authors.txt",IDC_AUTHORS_LINK,
+    CONTROL         "Copyright Â© 2002-2017 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
@@ -258,7 +258,7 @@ BEGIN
     CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,180,160,8
     CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,193,160,8
     CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,206,160,8
-    CONTROL         "Remember last Pan-n-Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
+    CONTROL         "Remember last Pan&Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 241
@@ -668,7 +668,7 @@ BEGIN
     LTEXT           "Spacing",IDC_STATIC,10,51,56,8
     EDITTEXT        IDC_EDIT3,70,49,35,13,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,49,12,13
-    LTEXT           "Angle (z,°)",IDC_STATIC,10,68,56,8
+    LTEXT           "Angle (z,Â°)",IDC_STATIC,10,68,56,8
     EDITTEXT        IDC_EDIT4,70,66,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,66,12,13
     LTEXT           "Scale (x,%)",IDC_STATIC,10,85,56,8
@@ -2637,8 +2637,8 @@ BEGIN
     IDS_AG_PNS_ROTATEZ_M    "PnS Rotate Z-"
     IDS_AG_TEARING_TEST     "Tearing Test"
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
-    IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
-    IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+    IDS_SCALE_WIDESCREEN    "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
+    IDS_SCALE_ULTRAWIDE     "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_PLAYLIST_HIDEFS     "&Hide on Fullscreen"
 END
 
@@ -3513,7 +3513,7 @@ BEGIN
     IDS_AFTERPLAYBACK_DONOTHING "After Playback: Do nothing"
     IDS_OSD_BRIGHTNESS      "Brightness: %s"
     IDS_OSD_CONTRAST        "Contrast: %s"
-    IDS_OSD_HUE             "Hue: %s°"
+    IDS_OSD_HUE             "Hue: %sÂ°"
     IDS_OSD_SATURATION      "Saturation: %s"
     IDS_OSD_RESET_COLOR     "Color settings restored"
     IDS_OSD_NO_COLORCONTROL "Color control is not supported"
