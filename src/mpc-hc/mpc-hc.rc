@@ -258,7 +258,7 @@ BEGIN
     CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,180,160,8
     CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,193,160,8
     CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,206,160,8
-    CONTROL         "Remember last Pan-n-Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
+    CONTROL         "Remember last Pan&Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 241
@@ -2634,8 +2634,8 @@ BEGIN
     IDS_AG_PNS_ROTATEZ_M    "PnS Rotate Z-"
     IDS_AG_TEARING_TEST     "Tearing Test"
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
-    IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
-    IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+    IDS_SCALE_WIDESCREEN    "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
+    IDS_SCALE_ULTRAWIDE     "Zoom to Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_PLAYLIST_HIDEFS     "&Hide on Fullscreen"
 END
 
