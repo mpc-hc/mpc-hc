@@ -1,4 +1,4 @@
-Media Player Classic - Home Cinema (MPC-HC) is a free and open source audio
+Media Player Classic - Home Cinema (MPC-HC) is a free and open-source audio
 and video player for Windows. MPC-HC is based on the original Guliverkli project
 and contains many additional features and bug fixes.
 
@@ -13,8 +13,8 @@ We care about keeping an open project open and free for contributions
 wherever they may come from.
 
 
-Main Features:
---------------
+Main Features
+-------------
 * Option to remove tearing
 * Better support for Windows Vista/7, including a 64-bit build
 * Support for EVR/EVR CP (Enhanced Video Renderer)
@@ -27,14 +27,14 @@ Main Features:
 * 42 translations available
 
 
-System Requirements:
---------------------
+System Requirements
+-------------------
 * An SSE capable CPU
 * Windows XP SP3, Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
-Links:
-------
+Links
+-----
 Website:            https://mpc-hc.org/
 Source code:        https://github.com/mpc-hc
 Support Trac:       https://trac.mpc-hc.org/
@@ -75,7 +75,7 @@ tinyxml2            zlib License                http://www.grinninglizard.com/ti
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2+                      http://www.virtualdub.org/
-XmlRpc4Win          LGPLv2                      https://github.com/drtimcooper/XmlRpc4Win
+XmlRpc4Win          MIT License                 https://github.com/drtimcooper/XmlRpc4Win
 ZenLib              zlib License                https://github.com/MediaArea/ZenLib
 zita-resampler      GPLv3                       http://kokkinizita.linuxaudio.org/linuxaudio/
 zlib                zlib License                http://zlib.net/

@@ -1,13 +1,13 @@
-Active (sorted by name):
-------------------------
+Active (sorted by name)
+-----------------------
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 JellyFrog               -                                       Server and Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
-XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Project manager
+XhmikosR                <xhmikosr@gmail.com>                    Various stuff, Project manager
 
 
-Inactive:
----------
+Inactive
+--------
 _xxl                    <drevil_xxl@users.sourceforge.net>      FFmpeg
 Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 alexmarsev              <alexmarsev@users.sourceforge.net>      Code
@@ -36,13 +36,13 @@ Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 
-Translators:
-------------
+Translators
+-----------
 Translations are now handled using Transifex, a web-based translation platform. An up-to-date list
 of translators involved for each language can be found on https://www.transifex.com/mpc-hc/mpc-hc/.
 
-Translators (pre-Transifex era):
-------------
+Translators (pre-Transifex era)
+-------------------------------
 Armenian                hrant77                 <hrant77@users.sourceforge.net>
 Basque                  Xabier Aramendi         <azpidatziak@users.sourceforge.net>
 Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
@@ -77,10 +77,9 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net> (http://www.eleks.com)
 
 
-Contributors:
--------------
-Alexx999, foxx1337, heksesang, judelaw, m0viefreak, madshi, mtrz, nielsm,
-skaarj1, VSFilterMod Team, X-Dron
+Contributors
+------------
+Alexx999, foxx1337, heksesang, judelaw, m0viefreak, madshi, mtrz, nielsm, skaarj1, VSFilterMod Team, X-Dron
 
 
 https://github.com/mpc-hc/mpc-hc/graphs/contributors

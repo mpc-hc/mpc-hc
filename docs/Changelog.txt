@@ -8,8 +8,14 @@ Legend:
 ! Fixed
 
 
-1.7.11 - 6 March 2017
+next version - not released yet
 ===============================
+* Switched from mhook to MinHook since it's more actively maintained
+! Scale MediaInfo properties tab text properly on high DPI
+
+
+1.7.11 - 06 March 2017
+======================
 + Ability to control playback repeat mode
 + Add a cache to avoid recompiling pixel shaders when possible
 + Add SVG support for custom toolbars
