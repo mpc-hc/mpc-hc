@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -11188,6 +11188,10 @@ void CMainFrame::OpenSetupVideo()
 void CMainFrame::OpenSetupAudio()
 {
     m_pBA->put_Volume(m_wndToolBar.Volume);
+
+    if (AfxGetAppSettings().nCLSwitches & CLSW_VOLUME) {
+        m_wndToolBar.m_volctrl.SetPos(AfxGetAppSettings().nVolume);
+    }
 
     // FIXME
     int balance = AfxGetAppSettings().nBalance;
