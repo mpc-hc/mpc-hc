@@ -4015,18 +4015,24 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 s.rtStart = 0;
             }
         }
-    } else if (s.nCLSwitches & CLSW_PRESET1) {
+    } else {
+        applyRandomizeSwitch();
+    }
+
+    if (s.nCLSwitches & CLSW_PRESET1) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_MINIMAL);
     } else if (s.nCLSwitches & CLSW_PRESET2) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
-    } else if (s.nCLSwitches & CLSW_MUTE) {
+    }
+    if (s.nCLSwitches & CLSW_MUTE) {
         if (!IsMuted()) {
             SendMessage(WM_COMMAND, ID_VOLUME_MUTE);
         }
-    } else {
-        applyRandomizeSwitch();
+    }
+    if (s.nCLSwitches & CLSW_VOLUME) {
+        m_wndToolBar.SetVolume(s.nCmdVolume);
     }
 
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {

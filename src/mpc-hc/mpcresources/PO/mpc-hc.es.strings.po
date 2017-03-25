@@ -3874,6 +3874,10 @@ msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
 msgstr "/randomize\tReproduce en orden aleatorio la lista de reproducción"
 
+msgctxt "IDS_CMD_VOLUME"
+msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
+msgstr ""
+
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
 msgstr "/regvid\t\tCrea asociaciones de archivo para archivos de vídeo"

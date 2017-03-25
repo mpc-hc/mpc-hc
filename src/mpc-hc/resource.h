@@ -1571,7 +1571,7 @@
 #define IDS_SUBMENU_COPYURL             57535
 #define IDS_CMD_VIEWPRESET              57536
 #define IDS_CMD_MUTE                    57537
-
+#define IDS_CMD_VOLUME                  57538
 
 // Next default values for new objects
 // 

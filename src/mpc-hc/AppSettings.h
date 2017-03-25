@@ -90,7 +90,8 @@ enum : UINT64 {
     CLSW_PRESET2 = CLSW_PRESET1 << 1,
     CLSW_PRESET3 = CLSW_PRESET2 << 1,
     CLSW_MUTE = CLSW_PRESET3 << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_MUTE << 1 // 39
+    CLSW_VOLUME = CLSW_MUTE << 1,
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1 // 40
 };
 
 enum MpcCaptionState {
@@ -711,6 +712,7 @@ public:
     CComPtr<SaneAudioRenderer::ISettings> sanear;
 
     DWORD           iLAVGPUDevice;
+    unsigned        nCmdVolume;
 
     enum class SubtitleRenderer {
         INTERNAL,
