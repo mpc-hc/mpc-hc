@@ -2158,6 +2158,15 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                         nCLSwitches |= CLSW_FIXEDSIZE;
                     }
                 }
+            } else if (sw == _T("viewpreset") && pos) {
+                int viewPreset = _ttoi(cmdln.GetNext(pos));
+                if (viewPreset == 1) {
+                    nCS = CS_NONE;
+                } else if (viewPreset == 2) {
+                    nCS = CS_SEEKBAR;
+                } else if (viewPreset == 3) {
+                    nCS = CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR;
+                }                
             } else if (sw == _T("monitor") && pos) {
                 iMonitor = _tcstol(cmdln.GetNext(pos), nullptr, 10);
                 nCLSwitches |= CLSW_MONITOR;
