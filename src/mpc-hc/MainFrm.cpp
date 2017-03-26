@@ -4015,16 +4015,21 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 s.rtStart = 0;
             }
         }
+    } else if (s.nCLSwitches & CLSW_PRESET1) {
+        SendMessage(WM_COMMAND, ID_VIEW_PRESETS_MINIMAL);
+    } else if (s.nCLSwitches & CLSW_PRESET2) {
+        SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
+    } else if (s.nCLSwitches & CLSW_PRESET3) {
+        SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
     } else {
         applyRandomizeSwitch();
-        s.nCLSwitches = CLSW_NONE;
     }
 
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
 
-    s.nCLSwitches &= ~CLSW_NOFOCUS;
+    s.nCLSwitches = CLSW_NONE;
 
     return TRUE;
 }
