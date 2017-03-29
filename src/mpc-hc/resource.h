@@ -1562,7 +1562,6 @@
 #define IDS_CMD_DEBUG                   57524
 #define IDS_CMD_NOCRASHREPORTER         57525
 #define IDS_CMD_SLAVE                   57526
-#define IDS_STRING944                   57527
 #define IDS_CMD_HWGPU                   57527
 #define IDS_CMD_RESET                   57528
 #define IDS_CMD_HELP                    57529
