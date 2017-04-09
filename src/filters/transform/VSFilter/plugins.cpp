@@ -86,7 +86,8 @@ namespace Plugin
 
             if (!m_pSubPicQueue) {
                 CComPtr<ISubPicAllocator> pAllocator = DEBUG_NEW CMemSubPicAllocator(dst.type, size);
-
+                pAllocator->SetCurVidRect(CRect(CPoint(), size));
+                
                 HRESULT hr = E_FAIL;
                 if (!(m_pSubPicQueue = DEBUG_NEW CSubPicQueueNoThread(SubPicQueueSettings(0, 0, false, 50, 100, false), pAllocator, &hr)) || FAILED(hr)) {
                     m_pSubPicQueue = nullptr;
