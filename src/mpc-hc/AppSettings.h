@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -241,17 +241,13 @@ struct AutoChangeFullscreenMode {
     unsigned                    uDelay = 0u;
 };
 
-class wmcmd : public ACCEL
-{
-    ACCEL backup;
-    UINT appcmdorg;
-    UINT mouseorg;
-    UINT mouseFSorg;
-
-public:
+struct wmcmd_base : public ACCEL {
+    BYTE mouse;
+    BYTE mouseFS;
     DWORD dwname;
     UINT appcmd;
-    enum {
+
+    enum : BYTE {
         NONE,
         LDOWN,
         LUP,
@@ -272,55 +268,69 @@ public:
         WDOWN,
         LAST
     };
-    UINT mouse;
-    UINT mouseFS;
-    CStringA rmcmd;
-    int rmrepcnt;
 
-    explicit wmcmd(WORD cmd = 0)
-        : ACCEL( { 0, 0, cmd })
-    , backup({ 0, 0, cmd })
-    , appcmdorg(0)
-    , mouseorg(NONE)
-    , mouseFSorg(NONE)
+    wmcmd_base()
+        : ACCEL( { 0, 0, 0 })
     , dwname(0)
     , appcmd(0)
     , mouse(NONE)
-    , mouseFS(NONE)
-    , rmrepcnt(0) {
-    }
+    , mouseFS(NONE) {}
 
-    wmcmd(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, UINT _mouse = NONE, UINT _mouseFS = NONE, LPCSTR _rmcmd = "", int _rmrepcnt = 5)
-        : ACCEL( { _fVirt, _key, _cmd })
-    , backup({ _fVirt, _key, _cmd })
-    , appcmdorg(_appcmd)
-    , mouseorg(_mouse)
-    , mouseFSorg(_mouseFS)
-    , dwname(_dwname)
-    , appcmd(_appcmd)
-    , mouse(_mouse)
-    , mouseFS(_mouseFS)
-    , rmcmd(_rmcmd)
-    , rmrepcnt(_rmrepcnt) {
+    constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE)
+        : ACCEL{ _fVirt, _key, _cmd }
+        , dwname(_dwname)
+        , appcmd(_appcmd)
+        , mouse(_mouse)
+        , mouseFS(_mouseFS) {}
+
+    constexpr wmcmd_base(const wmcmd_base&) = default;
+    constexpr wmcmd_base(wmcmd_base&&) = default;
+    wmcmd_base& operator=(const wmcmd_base&) = default;
+    wmcmd_base& operator=(wmcmd_base&&) = default;
+};
+
+class wmcmd : public wmcmd_base
+{
+    const wmcmd_base* default_cmd = nullptr;
+
+public:
+    CStringA rmcmd;
+    int rmrepcnt = 5;
+
+    wmcmd() = default;
+    wmcmd& operator=(const wmcmd&) = default;
+    wmcmd& operator=(wmcmd&&) = default;
+
+    explicit wmcmd(const wmcmd_base& cmd)
+        : wmcmd_base(cmd)
+        , default_cmd(&cmd)
+        , rmrepcnt(5) {
     }
 
     bool operator == (const wmcmd& wc) const {
-        return (cmd > 0 && cmd == wc.cmd);
+        return cmd > 0 && cmd == wc.cmd;
     }
 
     CString GetName() const { return ResStr(dwname); }
 
     void Restore() {
-        *(ACCEL*)this = backup;
-        appcmd = appcmdorg;
-        mouse = mouseorg;
-        mouseFS = mouseFSorg;
+        ASSERT(default_cmd);
+        *static_cast<ACCEL*>(this) = *static_cast<const ACCEL*>(default_cmd);
+        appcmd = default_cmd->appcmd;
+        mouse = default_cmd->mouse;
+        mouseFS = default_cmd->mouseFS;
         rmcmd.Empty();
         rmrepcnt = 5;
     }
 
     bool IsModified() const {
-        return (memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || mouseFS != mouseFSorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
+        ASSERT(default_cmd);
+        return memcmp(static_cast<const ACCEL*>(this), static_cast<const ACCEL*>(default_cmd), sizeof(ACCEL)) ||
+               appcmd != default_cmd->appcmd ||
+               mouse != default_cmd->mouse ||
+               mouseFS != default_cmd->mouseFS ||
+               !rmcmd.IsEmpty() ||
+               rmrepcnt != 5;
     }
 };
 
@@ -702,6 +712,7 @@ public:
         INTERNAL,
         VS_FILTER,
         XY_SUB_FILTER,
+        ASS_FILTER,
     };
 
     SubtitleRenderer GetSubtitleRenderer() const;

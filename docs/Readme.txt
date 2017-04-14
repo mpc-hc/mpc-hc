@@ -59,7 +59,7 @@ libdivide           zlib License                http://libdivide.com/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      https://mediaarea.net/MediaInfo
-Mhook               MIT License                 https://github.com/martona/mhook
+MinHook             Simplified BSD License      https://github.com/TsudaKageyu/minhook
 MultiMon            CPOL                        http://www.codeproject.com/Articles/3690/
 NanoSVG             zlib License                https://github.com/memononen/nanosvg
 QuickTime SDK       -                           http://developer.apple.com/quicktime/

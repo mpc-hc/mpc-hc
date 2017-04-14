@@ -1466,8 +1466,7 @@ BOOL CMPlayerCApp::InitInstance()
         ASSERT(FALSE);
     }
 
-    // At this point only main thread should be present, mhook is custom-hacked accordingly
-    bool bHookingSuccessful = true;
+    bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
@@ -1485,6 +1484,8 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_CreateFileW, Mine_CreateFileW);
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_DeviceIoControl, Mine_DeviceIoControl);
 
+    bHookingSuccessful &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
+
     if (!bHookingSuccessful) {
         if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
             ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
@@ -1497,6 +1498,8 @@ BOOL CMPlayerCApp::InitInstance()
     VERIFY(Mhook_SetHookEx(&Real_CreateFileA, Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
     VERIFY(Mhook_SetHookEx(&Real_LockWindowUpdate, Mine_LockWindowUpdate));
     VERIFY(Mhook_SetHookEx(&Real_mixerSetControlDetails, Mine_mixerSetControlDetails));
+
+    MH_EnableHook(MH_ALL_HOOKS);
 
     CFilterMapper2::Init();
 
@@ -1950,7 +1953,7 @@ void CMPlayerCApp::RegisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand(wc.appcmd));
             }
@@ -1964,7 +1967,7 @@ void CMPlayerCApp::UnregisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
             }
@@ -2025,6 +2028,8 @@ int CMPlayerCApp::ExitInstance()
     }
 
     CMPCPngImage::CleanUp();
+
+    MH_Uninitialize();
 
     OleUninitialize();
 
@@ -2163,7 +2168,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
-        wmcmd wc = s.wmcmds.GetNext(pos);
+        const wmcmd& wc = s.wmcmds.GetNext(pos);
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
                 && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);

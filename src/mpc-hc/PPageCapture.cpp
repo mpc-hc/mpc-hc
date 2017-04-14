@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,11 +33,11 @@
 #include "DSUtil.h"
 
 
-static struct cc_t {
+struct cc_t {
     long code;
     AnalogVideoStandard standard;
     const TCHAR* str;
-} s_countrycodes[] = {
+} static constexpr s_countrycodes[] = {
     {1,   AnalogVideo_NTSC_M,   _T("USA")},
     /*
     {1,   AnalogVideo_NTSC_M,   _T("Anguilla")},
@@ -613,7 +613,7 @@ void CPPageCapture::FindAnalogDevices()
         str.Format(_T("%ld - %s - %s"), s_countrycodes[j].code, s_countrycodes[j].str, standard);
 
         int i = m_cbAnalogCountry.AddString(str);
-        m_cbAnalogCountry.SetItemDataPtr(i, &s_countrycodes[j]);
+        m_cbAnalogCountry.SetItemDataPtr(i, (void*)&s_countrycodes[j]);
         if (s.iAnalogCountry == s_countrycodes[j].code) {
             iSel = i;
         }

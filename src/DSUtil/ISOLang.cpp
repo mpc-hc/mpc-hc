@@ -1,5 +1,5 @@
 /*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,7 @@
 
 namespace
 {
-    ISOLang s_isolangs[] = {  // TODO : fill LCID !!!
+    constexpr ISOLang s_isolangs[] = {  // TODO : fill LCID !!!
         //   {"Auxiliary Language Association)", "", ""},
         //   {"English-based (Other)", "", ""},
         //   {"French-based (Other)", "", ""},

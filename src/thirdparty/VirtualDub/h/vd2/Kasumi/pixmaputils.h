@@ -20,7 +20,7 @@ struct VDPixmapFormatInfo {
 	int subformats;			// number of subformats for this format
 };
 
-extern VDPixmapFormatInfo g_vdPixmapFormats[];
+extern const VDPixmapFormatInfo g_vdPixmapFormats[];
 
 inline const VDPixmapFormatInfo& VDPixmapGetInfo(sint32 format) {
 	VDASSERT((uint32)format < nsVDPixmap::kPixFormat_Max_Standard);

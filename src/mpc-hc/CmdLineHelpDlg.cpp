@@ -1,5 +1,5 @@
 /*
- * (C) 2014, 2016 see Authors.txt
+ * (C) 2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,9 +21,7 @@
 
 #include "stdafx.h"
 #include "CmdLineHelpDlg.h"
-#include <ArrayUtils.h>
 #include "SettingsDefines.h"
-#include <array>
 
 CmdLineHelpDlg::CmdLineHelpDlg(const CString& cmdLine /*= _T("")*/)
     : CResizableDialog(CmdLineHelpDlg::IDD)
@@ -58,18 +56,18 @@ BOOL CmdLineHelpDlg::OnInitDialog()
     }
     m_text.AppendFormat(_T("%s\n"), ResStr(IDS_USAGE));
 
-    constexpr auto cmdArgs = make_array(
-                                 IDS_CMD_PATHNAME, IDS_CMD_DUB, IDS_CMD_DUBDELAY, IDS_CMD_D3DFS, IDS_CMD_SUB,
-                                 IDS_CMD_FILTER, IDS_CMD_DVD, IDS_CMD_DVDPOS_TC, IDS_CMD_DVDPOS_TIME, IDS_CMD_CD,
-                                 IDS_CMD_DEVICE, IDS_CMD_OPEN, IDS_CMD_PLAY, IDS_CMD_CLOSE, IDS_CMD_SHUTDOWN,
-                                 IDS_CMD_STANDBY, IDS_CMD_HIBERNATE, IDS_CMD_LOGOFF, IDS_CMD_LOCK, IDS_CMD_MONITOROFF,
-                                 IDS_CMD_PLAYNEXT, IDS_CMD_FULLSCREEN, IDS_CMD_MINIMIZED, IDS_CMD_NEW, IDS_CMD_ADD,
-                                 IDS_CMD_RANDOMIZE, IDS_CMD_REGVID, IDS_CMD_REGAUD, IDS_CMD_REGPL, IDS_CMD_REGALL,
-                                 IDS_CMD_UNREGALL, IDS_CMD_START, IDS_CMD_STARTPOS, IDS_CMD_FIXEDSIZE, IDS_CMD_MONITOR,
-                                 IDS_CMD_AUDIORENDERER, IDS_CMD_SHADERPRESET, IDS_CMD_PNS, IDS_CMD_ICONASSOC,
-                                 IDS_CMD_NOFOCUS, IDS_CMD_WEBPORT, IDS_CMD_DEBUG, IDS_CMD_NOCRASHREPORTER,
-                                 IDS_CMD_SLAVE, IDS_CMD_HWGPU, IDS_CMD_RESET, IDS_CMD_HELP
-                             );
+    constexpr int cmdArgs[] = {
+        IDS_CMD_PATHNAME, IDS_CMD_DUB, IDS_CMD_DUBDELAY, IDS_CMD_D3DFS, IDS_CMD_SUB,
+        IDS_CMD_FILTER, IDS_CMD_DVD, IDS_CMD_DVDPOS_TC, IDS_CMD_DVDPOS_TIME, IDS_CMD_CD,
+        IDS_CMD_DEVICE, IDS_CMD_OPEN, IDS_CMD_PLAY, IDS_CMD_CLOSE, IDS_CMD_SHUTDOWN,
+        IDS_CMD_STANDBY, IDS_CMD_HIBERNATE, IDS_CMD_LOGOFF, IDS_CMD_LOCK, IDS_CMD_MONITOROFF,
+        IDS_CMD_PLAYNEXT, IDS_CMD_FULLSCREEN, IDS_CMD_MINIMIZED, IDS_CMD_NEW, IDS_CMD_ADD,
+        IDS_CMD_RANDOMIZE, IDS_CMD_REGVID, IDS_CMD_REGAUD, IDS_CMD_REGPL, IDS_CMD_REGALL,
+        IDS_CMD_UNREGALL, IDS_CMD_START, IDS_CMD_STARTPOS, IDS_CMD_FIXEDSIZE, IDS_CMD_MONITOR,
+        IDS_CMD_AUDIORENDERER, IDS_CMD_SHADERPRESET, IDS_CMD_PNS, IDS_CMD_ICONASSOC,
+        IDS_CMD_NOFOCUS, IDS_CMD_WEBPORT, IDS_CMD_DEBUG, IDS_CMD_NOCRASHREPORTER,
+        IDS_CMD_SLAVE, IDS_CMD_HWGPU, IDS_CMD_RESET, IDS_CMD_HELP
+    };
 
     for (const auto& cmdArg : cmdArgs) {
         m_text.AppendFormat(_T("\n%s"), ResStr(cmdArg).GetString());

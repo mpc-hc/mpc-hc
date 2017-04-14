@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012, 2016 see Authors.txt
+ * (C) 2006-2012, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@
 #define VIH2_BITFIELDS (sizeof(VIDEOINFOHEADER2) + 3 * sizeof(RGBQUAD))
 #define BIH_SIZE       (sizeof(BITMAPINFOHEADER))
 
-VIH vihs[] = {
+const VIH vihs[] = {
     // VYUY
     {
         {
@@ -213,7 +213,7 @@ VIH vihs[] = {
     },
 };
 
-VIH2 vih2s[] = {
+const VIH2 vih2s[] = {
     // VYUY
     {
         {
@@ -396,7 +396,7 @@ VIH2 vih2s[] = {
     },
 };
 
-UINT VIHSIZE = _countof(vihs);
+extern const UINT VIHSIZE = _countof(vihs);
 
 CString VIH2String(int i)
 {

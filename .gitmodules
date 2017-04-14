@@ -38,3 +38,6 @@
 [submodule "ZenLib"]
     path = src/thirdparty/ZenLib/library
     url = https://github.com/MediaArea/ZenLib.git
+[submodule "src/thirdparty/minhook/minhook"]
+    path = src/thirdparty/minhook/minhook
+    url = https://github.com/TsudaKageyu/minhook.git

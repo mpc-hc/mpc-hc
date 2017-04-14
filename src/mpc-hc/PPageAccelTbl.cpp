@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@ struct APP_COMMAND {
     LPCTSTR cmdname;
 };
 
-APP_COMMAND g_CommandList[] = {
+static constexpr APP_COMMAND g_CommandList[] = {
     {0,                                 _T("")},
     {APPCOMMAND_BROWSER_BACKWARD,       _T("BROWSER_BACKWARD")},
     {APPCOMMAND_BROWSER_FORWARD,        _T("BROWSER_FORWARD")},
@@ -1189,12 +1189,12 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
         }
         break;
         case COL_MOUSE:
-            wc.mouse = (UINT)pItem->lParam;
+            wc.mouse = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
             *pResult = TRUE;
             break;
         case COL_MOUSE_FS:
-            wc.mouseFS = (UINT)pItem->lParam;
+            wc.mouseFS = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
             *pResult = TRUE;
             break;

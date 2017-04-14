@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -220,9 +220,9 @@ public:
     void SetStr(int i, CStringW str, bool fUnicode);
 };
 
-extern BYTE CharSetList[];
-extern TCHAR* CharSetNames[];
-extern int CharSetLen;
+extern const BYTE CharSetList[];
+extern const TCHAR* CharSetNames[];
+extern const int CharSetLen;
 
 class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString>>
 {
@@ -230,4 +230,4 @@ public:
     CHtmlColorMap();
 };
 
-extern CHtmlColorMap g_colors;
+extern const CHtmlColorMap g_colors;
