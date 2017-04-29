@@ -146,10 +146,8 @@
     <ClInclude Include="library\Source\MediaInfo\MediaInfo_Internal.h" />
     <ClInclude Include="library\Source\MediaInfo\MediaInfo_Internal_Const.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper.h" />
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Common.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Resource.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence.h" />
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence_Common.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ancillary.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Bdmv.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Cdxa.h" />
@@ -185,6 +183,7 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Umf.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Vbi.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wm.h" />
+    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wtv.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.h" />
     <ClInclude Include="library\Source\MediaInfo\PreComp.h" />
     <ClInclude Include="library\Source\MediaInfo\XmlUtils.h" />
@@ -374,6 +373,7 @@
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Vbi.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm_Elements.cpp" />
+    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wtv.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Reader\Reader_File.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Tag\File_ApeTag.cpp" />
