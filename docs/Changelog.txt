@@ -12,6 +12,7 @@ next version - not released yet
 ===============================
 * Switched from mhook to MinHook since it's more actively maintained
 * Updated MediaInfoLib to v0.7.95
+* Updated ZenLib to v0.4.35
 ! Scale MediaInfo properties tab text properly on high DPI
 
 
