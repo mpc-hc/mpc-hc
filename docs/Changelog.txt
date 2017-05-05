@@ -15,6 +15,7 @@ next version - not released yet
 * Updated Little CMS to v2.8 (edf0be4)
 * Updated MediaInfoLib to v0.7.95
 * Updated ZenLib to v0.4.35
+* Updated Unrar to v5.5.3
 ! Scale MediaInfo properties tab text properly on high DPI
 
 

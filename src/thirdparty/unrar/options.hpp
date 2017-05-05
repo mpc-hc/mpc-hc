@@ -52,7 +52,7 @@ enum OVERWRITE_MODE
 
 enum QOPEN_MODE { QOPEN_NONE, QOPEN_AUTO, QOPEN_ALWAYS };
 
-enum RAR_CHARSET { RCH_DEFAULT=0,RCH_ANSI,RCH_OEM,RCH_UNICODE };
+enum RAR_CHARSET { RCH_DEFAULT=0,RCH_ANSI,RCH_OEM,RCH_UNICODE,RCH_UTF8 };
 
 #define     MAX_FILTER_TYPES           16
 enum FilterState {FILTER_DEFAULT=0,FILTER_AUTO,FILTER_FORCE,FILTER_DISABLE};
@@ -175,9 +175,6 @@ class RAROptions
     uint Threads; // We use it to init hash even if RAR_SMP is not defined.
 
 
-#ifdef _ANDROID
-    int64 FreeMem;
-#endif
 
 
 

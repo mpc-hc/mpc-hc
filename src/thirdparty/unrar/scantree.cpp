@@ -295,7 +295,11 @@ SCAN_CODE ScanTree::FindProc(FindData *FD)
           if (Cmd!=NULL && Cmd->ExclCheck(CurMask,false,true,true))
             RetCode=SCAN_NEXT;
           else
+          {
             ErrHandler.OpenErrorMsg(ErrArcName,CurMask);
+            // User asked to return RARX_NOFILES and not RARX_OPEN here.
+            ErrHandler.SetErrorCode(RARX_NOFILES);
+          }
         }
 
         // If we searched only for one file or directory in "fast find" 

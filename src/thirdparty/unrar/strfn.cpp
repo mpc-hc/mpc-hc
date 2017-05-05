@@ -21,10 +21,6 @@ void IntToExt(const char *Src,char *Dest,size_t DestSize)
     DestSize=SrcLength;
   OemToCharBuffA(Src,Dest,(DWORD)DestSize);
   Dest[DestSize-1]=0;
-#elif defined(_ANDROID)
-  wchar DestW[NM];
-  JniCharToWide(Src,DestW,ASIZE(DestW),true);
-  WideToChar(DestW,Dest,DestSize);
 #else
   if (Dest!=Src)
     strncpyz(Dest,Src,DestSize);
@@ -35,10 +31,25 @@ void IntToExt(const char *Src,char *Dest,size_t DestSize)
 // Convert archived names to Unicode. Allow user to select a code page in GUI.
 void ArcCharToWide(const char *Src,wchar *Dest,size_t DestSize,ACTW_ENCODING Encoding)
 {
+#if defined(_WIN_ALL) // Console Windows RAR.
+  if (Encoding==ACTW_UTF8)
+    UtfToWide(Src,Dest,DestSize);
+  else
+  {
+    char NameA[NM];
+    if (Encoding==ACTW_OEM)
+    {
+      IntToExt(Src,NameA,ASIZE(NameA));
+      Src=NameA;
+    }
+    CharToWide(Src,Dest,DestSize);
+  }
+#else // RAR for Unix.
   if (Encoding==ACTW_UTF8)
     UtfToWide(Src,Dest,DestSize);
   else
     CharToWide(Src,Dest,DestSize);
+#endif
   // Ensure that we return a zero terminate string for security reason.
   // While [Jni]CharToWide might already do it, be protected in case of future
   // changes in these functions.
@@ -108,7 +119,7 @@ wchar* RemoveLF(wchar *Str)
 
 unsigned char loctolower(unsigned char ch)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   // Convert to LPARAM first to avoid a warning in 64 bit mode.
   return (int)(LPARAM)CharLowerA((LPSTR)ch);
 #else
@@ -119,7 +130,7 @@ unsigned char loctolower(unsigned char ch)
 
 unsigned char loctoupper(unsigned char ch)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   // Convert to LPARAM first to avoid a warning in 64 bit mode.
   return (int)(LPARAM)CharUpperA((LPSTR)ch);
 #else
@@ -244,17 +255,27 @@ bool LowAscii(const wchar *Str)
 }
 
 
-int wcsicompc(const wchar *Str1,const wchar *Str2)
+int wcsicompc(const wchar *s1,const wchar *s2) // For path comparison.
 {
 #if defined(_UNIX)
-  return wcscmp(Str1,Str2);
+  return wcscmp(s1,s2);
 #else
-  return wcsicomp(Str1,Str2);
+  return wcsicomp(s1,s2);
 #endif
 }
 
 
-// safe strncpy: copies maxlen-1 max and always returns zero terminated dest
+int wcsnicompc(const wchar *s1,const wchar *s2,size_t n)
+{
+#if defined(_UNIX)
+  return wcsncmp(s1,s2,n);
+#else
+  return wcsnicomp(s1,s2,n);
+#endif
+}
+
+
+// Safe strncpy: copies maxlen-1 max and always returns zero terminated dest.
 char* strncpyz(char *dest, const char *src, size_t maxlen)
 {
   if (maxlen>0)

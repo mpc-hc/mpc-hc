@@ -7,7 +7,7 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
 
 bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize);
 
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
 bool UpdateExistingShortName(const wchar *Name);
 #endif
 

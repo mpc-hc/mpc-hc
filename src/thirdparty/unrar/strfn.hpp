@@ -36,7 +36,8 @@ uint GetDigits(uint Number);
 bool LowAscii(const char *Str);
 bool LowAscii(const wchar *Str);
 
-int wcsicompc(const wchar *Str1,const wchar *Str2);
+int wcsicompc(const wchar *s1,const wchar *s2);
+int wcsnicompc(const wchar *s1,const wchar *s2,size_t n);
 
 void itoa(int64 n,char *Str,size_t MaxSize);
 void itoa(int64 n,wchar *Str,size_t MaxSize);

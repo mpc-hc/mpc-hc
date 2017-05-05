@@ -21,19 +21,16 @@ static const uint32 K[64] =
   0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
-#define ROTL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
-#define ROTR(x, n) (((x) >> (n)) | ((x) << (32 - (n))))
-
 // SHA-256 functions. We could optimize Ch and Maj a little,
 // but with no visible speed benefit.
 #define Ch(x, y, z)  ((x & y) ^ (~x & z))
 #define Maj(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
 
 // Sigma functions.
-#define Sg0(x) (ROTR(x, 2) ^ ROTR(x,13) ^ ROTR(x, 22))
-#define Sg1(x) (ROTR(x, 6) ^ ROTR(x,11) ^ ROTR(x, 25))
-#define sg0(x) (ROTR(x, 7) ^ ROTR(x,18) ^ (x >> 3))
-#define sg1(x) (ROTR(x,17) ^ ROTR(x,19) ^ (x >> 10))
+#define Sg0(x) (rotr32(x, 2) ^ rotr32(x,13) ^ rotr32(x, 22))
+#define Sg1(x) (rotr32(x, 6) ^ rotr32(x,11) ^ rotr32(x, 25))
+#define sg0(x) (rotr32(x, 7) ^ rotr32(x,18) ^ (x >> 3))
+#define sg1(x) (rotr32(x,17) ^ rotr32(x,19) ^ (x >> 10))
 
 void sha256_init(sha256_context *ctx)
 {
@@ -49,40 +46,14 @@ void sha256_init(sha256_context *ctx)
 }
 
 
-inline uint32 b2i(const byte *b) // Big endian bytes to integer.
-{
-#if defined(_MSC_VER)/* && defined(LITTLE_ENDIAN)*/
-  return _byteswap_ulong(*(uint32 *)b);
-#elif (__GNUC__ > 3) && (__GNUC_MINOR__ > 2)
-  return __builtin_bswap32(*(uint32 *)b);
-#else
-  return uint32(b[0]<<24) | uint32(b[1]<<16) | uint32(b[2]<<8) | b[3];
-#endif
-}
-
-
 static void sha256_transform(sha256_context *ctx)
 {
   uint32 W[64]; // Words of message schedule.
   uint32 v[8];  // FIPS a, b, c, d, e, f, g, h working variables.
 
-  if (ctx == NULL) // Clean variables and return.
-  {
-    cleandata(v,sizeof(v));
-    cleandata(W,sizeof(W));
-    return;
-  }
-
-  // Prepare message schedule. Loop unrolling provides some small gain here.
-  W[0] =  b2i(ctx->Data + 0 * 4 );   W[1] =  b2i(ctx->Data + 1 * 4 );
-  W[2] =  b2i(ctx->Data + 2 * 4 );   W[3] =  b2i(ctx->Data + 3 * 4 );
-  W[4] =  b2i(ctx->Data + 4 * 4 );   W[5] =  b2i(ctx->Data + 5 * 4 );
-  W[6] =  b2i(ctx->Data + 6 * 4 );   W[7] =  b2i(ctx->Data + 7 * 4 );
-  W[8] =  b2i(ctx->Data + 8 * 4 );   W[9] =  b2i(ctx->Data + 9 * 4 );
-  W[10] = b2i(ctx->Data + 10 * 4 );  W[11] = b2i(ctx->Data + 11 * 4 );
-  W[12] = b2i(ctx->Data + 12 * 4 );  W[13] = b2i(ctx->Data + 13 * 4 );
-  W[14] = b2i(ctx->Data + 14 * 4 );  W[15] = b2i(ctx->Data + 15 * 4 );
-
+  // Prepare message schedule.
+  for (uint I = 0; I < 16; I++)
+    W[I] = RawGetBE4(ctx->Buffer + I * 4);
   for (uint I = 16; I < 64; I++)
     W[I] = sg1(W[I-2]) + W[I-7] + sg0(W[I-15]) + W[I-16];
 
@@ -90,7 +61,6 @@ static void sha256_transform(sha256_context *ctx)
   v[0]=H[0]; v[1]=H[1]; v[2]=H[2]; v[3]=H[3];
   v[4]=H[4]; v[5]=H[5]; v[6]=H[6]; v[7]=H[7];
 
-  // MSVC -O2 partially unrolls this loop automatically.
   for (uint I = 0; I < 64; I++)
   {
     uint T1 = v[7] + Sg1(v[4]) + Ch(v[4], v[5], v[6]) + K[I] + W[I];
@@ -127,13 +97,8 @@ void sha256_process(sha256_context *ctx, const void *Data, size_t Size)
     size_t BufSpace=sizeof(ctx->Buffer)-BufPos;
     size_t CopySize=Size>BufSpace ? BufSpace:Size;
 
-    if (CopySize == 64)
-      ctx->Data=Src; // Point to source data instead of copying it to buffer.
-    else
-    {
-      ctx->Data=ctx->Buffer;
-      memcpy(ctx->Buffer+BufPos,Src,CopySize);
-    }
+    memcpy(ctx->Buffer+BufPos,Src,CopySize);
+
     Src+=CopySize;
     BufPos+=CopySize;
     Size-=CopySize;
@@ -143,35 +108,41 @@ void sha256_process(sha256_context *ctx, const void *Data, size_t Size)
       sha256_transform(ctx);
     }
   }
-  sha256_transform(NULL);
 }
 
 
 void sha256_done(sha256_context *ctx, byte *Digest)
 {
-  ctx->Data = ctx->Buffer;
   uint64 BitLength = ctx->Count * 8;
   uint BufPos = (uint)ctx->Count & 0x3f;
   ctx->Buffer[BufPos++] = 0x80; // Padding the message with "1" bit.
-  while (BufPos != 56) // We need 56 bytes block followed by 8 byte length.
+
+  if (BufPos!=56) // We need 56 bytes block followed by 8 byte length.
   {
-    BufPos &= 0x3f;
-    if (BufPos == 0)
+    if (BufPos>56)
+    {
+      while (BufPos<64)
+        ctx->Buffer[BufPos++] = 0;
+      BufPos=0;
+    }
+    if (BufPos==0)
       sha256_transform(ctx);
-    ctx->Buffer[BufPos++] = 0;
+    memset(ctx->Buffer+BufPos,0,56-BufPos);
   }
 
-  for (uint i = 0; i < 8; i++) // Store bit length of entire message.
-  {
-    ctx->Buffer[BufPos++] = (byte)(BitLength >> 56);
-    BitLength <<= 8;
-  }
+  RawPutBE4((uint32)(BitLength>>32), ctx->Buffer + 56);
+  RawPutBE4((uint32)(BitLength), ctx->Buffer + 60);
+
   sha256_transform(ctx);
 
-  for (uint i = 0; i < 32; i++)
-    Digest[i] = byte(ctx->H[i / 4] >> ((3 - i % 4) * 8));
+  RawPutBE4(ctx->H[0], Digest +  0);
+  RawPutBE4(ctx->H[1], Digest +  4);
+  RawPutBE4(ctx->H[2], Digest +  8);
+  RawPutBE4(ctx->H[3], Digest + 12);
+  RawPutBE4(ctx->H[4], Digest + 16);
+  RawPutBE4(ctx->H[5], Digest + 20);
+  RawPutBE4(ctx->H[6], Digest + 24);
+  RawPutBE4(ctx->H[7], Digest + 28);
 
   sha256_init(ctx);
-  sha256_transform(NULL);
-  cleandata(ctx->Buffer, sizeof(ctx->Buffer));
 }

@@ -142,9 +142,17 @@ bool FindFile::FastFind(const wchar *FindMask,FindData *fd,bool GetSymLink)
     }
   fd->FileAttr=st.st_mode;
   fd->Size=st.st_size;
-  fd->mtime=st.st_mtime;
-  fd->atime=st.st_atime;
-  fd->ctime=st.st_ctime;
+
+#ifdef UNIX_TIME_NS
+  fd->mtime.SetUnixNS(st.st_mtim.tv_sec*(uint64)1000000000+st.st_mtim.tv_nsec);
+  fd->atime.SetUnixNS(st.st_atim.tv_sec*(uint64)1000000000+st.st_atim.tv_nsec);
+  fd->ctime.SetUnixNS(st.st_ctim.tv_sec*(uint64)1000000000+st.st_ctim.tv_nsec);
+#else
+  fd->mtime.SetUnix(st.st_mtime);
+  fd->atime.SetUnix(st.st_atime);
+  fd->ctime.SetUnix(st.st_ctime);
+#endif
+
   wcsncpyz(fd->Name,FindMask,ASIZE(fd->Name));
 #endif
   fd->Flags=0;
@@ -192,9 +200,9 @@ HANDLE FindFile::Win32Find(HANDLE hFind,const wchar *Mask,FindData *fd)
     fd->ftCreationTime=FindData.ftCreationTime;
     fd->ftLastAccessTime=FindData.ftLastAccessTime;
     fd->ftLastWriteTime=FindData.ftLastWriteTime;
-    fd->mtime=FindData.ftLastWriteTime;
-    fd->ctime=FindData.ftCreationTime;
-    fd->atime=FindData.ftLastAccessTime;
+    fd->mtime.SetWinFT(&FindData.ftLastWriteTime);
+    fd->ctime.SetWinFT(&FindData.ftCreationTime);
+    fd->atime.SetWinFT(&FindData.ftLastAccessTime);
 
 
   }

@@ -13,7 +13,7 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
 #endif
   while (FileExist(Name))
   {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
     if (!ShortNameChanged)
     {
       // Avoid the infinite loop if UpdateExistingShortName returns
@@ -58,25 +58,12 @@ bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
 {
   wchar NewName[NM];
   size_t NameLength=wcslen(Name);
-#ifdef _ANDROID
-  if (NameLength>ASIZE(NewName)-10)
-    return false;
-#endif
   wchar *Ext=GetExt(Name);
   if (Ext==NULL)
     Ext=Name+NameLength;
   for (uint FileVer=1;;FileVer++)
   {
-#ifdef _ANDROID // No swprintf in Android prior to Android 5.0.
-    uint NamePrefixLength=Ext-Name;
-    wcsncpy(NewName,Name,NamePrefixLength);
-    wcscpy(NewName+NamePrefixLength,L"(");
-    itoa(FileVer,NewName+NamePrefixLength+1,ASIZE(NewName)-NamePrefixLength-1);
-    wcsncatz(NewName,L")",ASIZE(NewName));
-    wcsncatz(NewName,Ext,ASIZE(NewName));
-#else
     swprintf(NewName,ASIZE(NewName),L"%.*ls(%u)%ls",uint(Ext-Name),Name,FileVer,Ext);
-#endif
     if (!FileExist(NewName))
     {
       wcsncpyz(Name,NewName,MaxNameSize);
@@ -89,7 +76,7 @@ bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
 }
 
 
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
 // If we find a file, which short name is equal to 'Name', we try to change
 // its short name, while preserving the long name. It helps when unpacking
 // an archived file, which long name is equal to short name of already

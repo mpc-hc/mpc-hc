@@ -9,7 +9,7 @@ struct RarLocalTime
   uint Hour;
   uint Minute;
   uint Second;
-  uint Reminder; // Part of time smaller than 1 second, represented in 100-nanosecond intervals.
+  uint Reminder; // Part of time smaller than 1 second, represented in 1/REMINDER_PRECISION intervals.
   uint wDay;
   uint yDay;
 };
@@ -17,33 +17,37 @@ struct RarLocalTime
 
 class RarTime
 {
-  public:
-    static const uint TICKS_PER_SECOND = 10000000; // Raw time items per second.
   private:
-    // Internal FILETIME like time representation in 100 nanoseconds
-    // since 01.01.1601.
+    static const uint TICKS_PER_SECOND = 1000000000; // Internal precision.
+
+    // Internal time representation in 1/TICKS_PER_SECOND since 01.01.1601.
+    // We use nanoseconds here to handle the high precision Unix time.
     uint64 itime;
   public:
+    // RarLocalTime::Reminder precision. Must be equal to TICKS_PER_SECOND.
+    // Unlike TICKS_PER_SECOND, it is a public field.
+    static const uint REMINDER_PRECISION = TICKS_PER_SECOND;
+  public:
     RarTime() {Reset();}
-#ifdef _WIN_ALL
-    RarTime(FILETIME &ft) {*this=ft;}
-    RarTime& operator =(FILETIME &ft);
-    void GetWin32(FILETIME *ft);
-#endif
-    RarTime(time_t ut) {*this=ut;}
-    RarTime& operator =(time_t ut);
-    time_t GetUnix();
     bool operator == (RarTime &rt) {return itime==rt.itime;}
     bool operator != (RarTime &rt) {return itime!=rt.itime;}
     bool operator < (RarTime &rt)  {return itime<rt.itime;}
     bool operator <= (RarTime &rt) {return itime<rt.itime || itime==rt.itime;}
     bool operator > (RarTime &rt)  {return itime>rt.itime;}
     bool operator >= (RarTime &rt) {return itime>rt.itime || itime==rt.itime;}
+
     void GetLocal(RarLocalTime *lt);
     void SetLocal(RarLocalTime *lt);
-    void SetUTC(RarLocalTime *lt);
-    uint64 GetRaw();
-    void SetRaw(uint64 RawTime);
+#ifdef _WIN_ALL
+    void GetWinFT(FILETIME *ft);
+    void SetWinFT(FILETIME *ft);
+#endif
+    uint64 GetWin();
+    void SetWin(uint64 WinTime);
+    time_t GetUnix();
+    void SetUnix(time_t ut);
+    uint64 GetUnixNS();
+    void SetUnixNS(uint64 ns);
     uint GetDos();
     void SetDos(uint DosTime);
     void GetText(wchar *DateStr,size_t MaxSize,bool FullMS);
@@ -52,6 +56,7 @@ class RarTime
     void SetCurrentTime();
     void Reset() {itime=0;}
     bool IsSet() {return itime!=0;}
+    void Adjust(int64 ns);
 };
 
 const wchar *GetMonthName(int Month);

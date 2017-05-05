@@ -458,7 +458,7 @@ bool Unpack::ProcessDecoded(UnpackThreadData &D)
 
     if (Item->Type==UNPDT_LITERAL)
     {
-#if defined(LITTLE_ENDIAN) && defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
+#if defined(LITTLE_ENDIAN) && defined(ALLOW_MISALIGNED)
       if (Item->Length==3 && UnpPtr<MaxWinSize-4)
       {
         *(uint32 *)(Window+UnpPtr)=*(uint32 *)Item->Literal;

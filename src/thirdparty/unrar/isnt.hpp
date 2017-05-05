@@ -9,4 +9,5 @@ enum WINNT_VERSION {
 
 DWORD WinNT();
 
+
 #endif

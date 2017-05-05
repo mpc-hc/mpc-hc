@@ -313,6 +313,7 @@ void RSCoder16::UpdateECC(uint DataNum, uint ECCNum, const byte *Data, byte *ECC
 
 #ifdef USE_SSE
 // Data and ECC addresses must be properly aligned for SSE.
+// AVX2 did not provide a noticeable speed gain on i7-6700K here.
 bool RSCoder16::SSE_UpdateECC(uint DataNum, uint ECCNum, const byte *Data, byte *ECC, size_t BlockSize)
 {
   // Check data alignment and SSSE3 support.

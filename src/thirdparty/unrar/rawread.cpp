@@ -19,16 +19,14 @@ void RawRead::Reset()
   Data.SoftReset();
   ReadPos=0;
   DataSize=0;
-#ifndef SHELL_EXT
   Crypt=NULL;
-#endif
 }
 
 
 size_t RawRead::Read(size_t Size)
 {
   size_t ReadSize=0;
-#if !defined(SHELL_EXT) && !defined(RAR_NOCRYPT)
+#if !defined(RAR_NOCRYPT)
   if (Crypt!=NULL)
   {
     // Full size of buffer with already read data including data read 

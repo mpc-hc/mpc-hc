@@ -147,7 +147,6 @@ struct UnpackFilter30
 {
   unsigned int BlockStart;
   unsigned int BlockLength;
-  unsigned int ExecCount;
   bool NextWindow;
 
   // Position of parent filter in Filters array used as prototype for filter

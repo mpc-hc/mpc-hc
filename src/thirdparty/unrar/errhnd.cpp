@@ -102,11 +102,9 @@ bool ErrorHandler::AskRepeatWrite(const wchar *FileName,bool DiskFull)
 #ifndef SILENT
   if (!Silent)
   {
-#ifndef _ANDROID
     // We do not display "repeat write" prompt in Android, so we do not
     // need the matching system error message.
     SysErrMsg();
-#endif
     bool Repeat=uiAskRepeatWrite(FileName,DiskFull);
     if (!Repeat) // Disable shutdown if user pressed Cancel in error dialog.
       DisableShutdown=true;
@@ -135,16 +133,7 @@ void ErrorHandler::GeneralErrMsg(const wchar *fmt,...)
   va_list arglist;
   va_start(arglist,fmt);
   wchar Msg[1024];
-#ifdef _ANDROID
-  // vswprintf does not work in Android NDK. Conversion below should be ok
-  // as long as we do not pass Unicode strings in arguments.
-  char fmtA[NM],MsgA[ASIZE(Msg)];
-  WideToChar(fmt,fmtA,ASIZE(fmtA));
-  vsnprintf(MsgA,ASIZE(MsgA),fmtA,arglist);
-  CharToWide(MsgA,Msg,ASIZE(Msg));
-#else
   vswprintf(Msg,ASIZE(Msg),fmt,arglist);
-#endif
   uiMsg(UIERROR_GENERALERRMSG,Msg);
   SysErrMsg();
   va_end(arglist);
@@ -231,9 +220,7 @@ void ErrorHandler::UnknownMethodMsg(const wchar *ArcName,const wchar *FileName)
 
 void ErrorHandler::Exit(RAR_EXIT ExitCode)
 {
-#ifndef GUI
   uiAlarm(UIALARM_ERROR);
-#endif
   Throw(ExitCode);
 }
 
@@ -263,7 +250,6 @@ void ErrorHandler::SetErrorCode(RAR_EXIT Code)
 }
 
 
-#ifndef GUI
 #ifdef _WIN_ALL
 BOOL __stdcall ProcessSignal(DWORD SigType)
 #else
@@ -308,19 +294,16 @@ void _stdfunction ProcessSignal(int SigType)
   return TRUE;
 #endif
 }
-#endif
 
 
 void ErrorHandler::SetSignalHandlers(bool Enable)
 {
   EnableBreak=Enable;
-#ifndef GUI
 #ifdef _WIN_ALL
   SetConsoleCtrlHandler(Enable ? ProcessSignal:NULL,TRUE);
 #else
   signal(SIGINT,Enable ? ProcessSignal:SIG_IGN);
   signal(SIGTERM,Enable ? ProcessSignal:SIG_IGN);
-#endif
 #endif
 }
 
@@ -329,7 +312,7 @@ void ErrorHandler::Throw(RAR_EXIT Code)
 {
   if (Code==RARX_USERBREAK && !EnableBreak)
     return;
-#if !defined(GUI) && !defined(SILENT)
+#if !defined(SILENT)
   // Do not write "aborted" when just displaying online help.
   if (Code!=RARX_SUCCESS && Code!=RARX_USERERROR)
     mprintf(L"\n%s\n",St(MProgAborted));
@@ -374,12 +357,6 @@ void ErrorHandler::SysErrMsg()
 #if defined(_UNIX) || defined(_EMX)
   if (errno!=0)
   {
-#ifdef _ANDROID
-    // Android NDK sets errno to confusing "not a typewriter" ENOTTY code
-    // after write error reported by write().
-    if (errno == ENOTTY)
-      return;
-#endif
     char *err=strerror(errno);
     if (err!=NULL)
     {

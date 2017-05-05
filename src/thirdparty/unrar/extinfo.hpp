@@ -17,5 +17,7 @@ bool SetPrivilege(LPCTSTR PrivName);
 
 void SetExtraInfo20(CommandData *Cmd,Archive &Arc,wchar *Name);
 void SetExtraInfo(CommandData *Cmd,Archive &Arc,wchar *Name);
+void SetFileHeaderExtra(CommandData *Cmd,Archive &Arc,wchar *Name);
+
 
 #endif

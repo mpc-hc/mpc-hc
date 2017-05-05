@@ -145,7 +145,10 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   { 
     CloseHandle(hFile);
     uiMsg(UIERROR_SLINKCREATE,UINULL,Name);
-    if (GetLastError()==ERROR_PRIVILEGE_NOT_HELD)
+
+    DWORD LastError=GetLastError();
+    if ((LastError==ERROR_ACCESS_DENIED || LastError==ERROR_PRIVILEGE_NOT_HELD) &&
+        !IsUserAdmin())
       uiMsg(UIERROR_NEEDADMIN);
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);
