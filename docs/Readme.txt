@@ -38,7 +38,7 @@ Links
 Website:            https://mpc-hc.org/
 Source code:        https://github.com/mpc-hc
 Support Trac:       https://trac.mpc-hc.org/
-IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
+IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (https://webchat.freenode.net/)
 Donations:          https://mpc-hc.org/donate/
 
 
@@ -60,7 +60,7 @@ Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      https://mediaarea.net/MediaInfo
 MinHook             Simplified BSD License      https://github.com/TsudaKageyu/minhook
-MultiMon            CPOL                        http://www.codeproject.com/Articles/3690/
+MultiMon            CPOL                        https://www.codeproject.com/Articles/3690/
 NanoSVG             zlib License                https://github.com/memononen/nanosvg
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RapidJSON           MIT License                 https://github.com/miloyip/rapidjson
@@ -72,7 +72,7 @@ Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/ico
 SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch/
 soxr                LGPLv2.1+                   https://sourceforge.net/projects/soxr/
 tinyxml2            zlib License                http://www.grinninglizard.com/tinyxml2/
-TreePropSheet       -                           http://www.codeproject.com/Articles/3709/
+TreePropSheet       -                           https://www.codeproject.com/Articles/3709/
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2+                      http://www.virtualdub.org/
 XmlRpc4Win          MIT License                 https://github.com/drtimcooper/XmlRpc4Win

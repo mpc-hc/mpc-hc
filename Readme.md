@@ -72,7 +72,7 @@ MPC-HC makes use of the following third-party code:
 | Logitech SDK      | -                         | - |
 | MediaInfoLib      | Simplified BSD License    | <https://mediaarea.net/MediaInfo> |
 | MinHook           | Simplified BSD License    | <https://github.com/TsudaKageyu/minhook> |
-| MultiMon          | CPOL                      | <http://www.codeproject.com/Articles/3690/> |
+| MultiMon          | CPOL                      | <https://www.codeproject.com/Articles/3690/> |
 | NanoSVG           | zlib License              | <https://github.com/memononen/nanosvg> |
 | QuickTime SDK     | -                         | <https://developer.apple.com/quicktime/> |
 | RapidJSON         | MIT License               | <https://github.com/miloyip/rapidjson> |
@@ -84,7 +84,7 @@ MPC-HC makes use of the following third-party code:
 | SoundTouch        | LGPLv2.1                  | <http://www.surina.net/soundtouch/> |
 | soxr              | LGPLv2.1+                 | <https://sourceforge.net/projects/soxr/> |
 | tinyxml2          | zlib License              | <http://www.grinninglizard.com/tinyxml2/> |
-| TreePropSheet     | -                         | <http://www.codeproject.com/Articles/3709/> |
+| TreePropSheet     | -                         | <https://www.codeproject.com/Articles/3709/> |
 | UnRAR             | freeware                  | <http://www.rarlab.com/rar_add.htm> |
 | VirtualDub        | GPLv2+                    | <http://www.virtualdub.org/> |
 | XmlRpc4Win        | MIT License               | <https://github.com/drtimcooper/XmlRpc4Win> |
