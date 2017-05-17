@@ -38,6 +38,12 @@
 #define GUESSED_NAME_POSTFIX " (*)"
 #define CheckAbortAndReturn() { if (IsAborting()) return SR_ABORTED; }
 
+// Uncomment define to compile the temporarily disabled subtitles providers.
+// Subtitles providers are disabled in case their API ceases to work.
+// In case the API is not restored in due time, the provider will eventually
+// be removed from mpc-hc. Upon removal, also remove icon resources.
+//#define MPCHC_DISABLED_SUBTITLES_PROVIDER
+
 using namespace SubtitlesProvidersUtils;
 
 class LanguageDownloadException : public std::exception
@@ -52,9 +58,13 @@ void SubtitlesProviders::RegisterProviders()
 {
     Register<OpenSubtitles>(this);
     Register<podnapisi>(this);
+#ifdef MPCHC_DISABLED_SUBTITLES_PROVIDER
     Register<titlovi>(this);
+#endif // MPCHC_DISABLED_SUBTITLES_PROVIDER
     Register<SubDB>(this);
+#ifdef MPCHC_DISABLED_SUBTITLES_PROVIDER
     Register<ysubs>(this);
+#endif // MPCHC_DISABLED_SUBTITLES_PROVIDER
     Register<Napisy24>(this);
 }
 
@@ -753,6 +763,7 @@ const std::set<std::string>& podnapisi::Languages() const
     return result;
 }
 
+#ifdef MPCHC_DISABLED_SUBTITLES_PROVIDER
 /******************************************************************************
 ** titlovi
 ******************************************************************************/
@@ -1016,6 +1027,7 @@ const std::set<std::string>& ysubs::Languages() const
     });
     return result;
 }
+#endif // MPCHC_DISABLED_SUBTITLES_PROVIDER
 
 /******************************************************************************
 ** Napisy24
