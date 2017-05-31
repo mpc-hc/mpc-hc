@@ -45,6 +45,7 @@ class CAboutDlg : public CDialog
 
 public:
     CAboutDlg();
+    virtual ~CAboutDlg();
 
     virtual BOOL OnInitDialog();
 
