@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 * Switched from mhook to MinHook since it's more actively maintained
+* Require a CPU processor with SSE2 instructions
 * Updated LAV Filters to v0.69-77-gc3452dc2
 * Updated Little CMS to v2.8 (edf0be4)
 * Updated MediaInfoLib to v0.7.95
