@@ -803,7 +803,7 @@ UINT64 SubtitlesProvidersUtils::GenerateOSHash(SubtitlesInfo& pFileInfo)
     } else {
         CFile file;
         CFileException fileException;
-        if (file.Open(CString(pFileInfo.filePath.c_str()),
+        if (file.Open(CString(pFileInfo.filePathW.c_str()),
                       CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary, &fileException)) {
             for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
             file.Seek(std::max(0ui64, pFileInfo.fileSize - PROBE_SIZE), CFile::begin);
