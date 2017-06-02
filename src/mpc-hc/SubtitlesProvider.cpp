@@ -434,7 +434,7 @@ SRESULT SubDB::Hash(SubtitlesInfo& pFileInfo)
     } else {
         CFile file;
         CFileException fileException;
-        if (file.Open(CString(pFileInfo.filePath.c_str()),
+        if (file.Open(CString(pFileInfo.filePathW.c_str()),
                       CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary,
                       &fileException)) {
             file.Read(&buffer[0], PROBE_SIZE);
