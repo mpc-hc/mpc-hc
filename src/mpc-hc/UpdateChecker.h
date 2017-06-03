@@ -71,6 +71,7 @@ public:
     static bool IsAutoUpdateEnabled();
     static bool IsTimeToAutoUpdate();
     static void CheckForUpdate(bool autoCheck = false);
+    static bool IsRunningInstalled();
 
 private:
     static bool bIsCheckingForUpdate;
