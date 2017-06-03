@@ -14,8 +14,8 @@ For up to date instructions on how to compile mpc-hc visit the wiki page: <https
 
 ## Part B: Preparing the GCC environment
 
-1. Download and extract **MSYS_MinGW-w64_GCC_630_x86-x64.7z** to **C:\MSYS** → <http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_630_x86-x64.7z>.
-   For the components and their version see <http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_630_x86-x64_components.txt>
+1. Download and extract **MSYS_MinGW-w64_GCC_710_x86-x64.7z** to **C:\MSYS** → <http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_710_x86-x64.7z>.
+   For the components and their version see <http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_710_x86-x64_components.txt>
 2. Create a file named **build.user.bat** in **C:\mpc-hc** containing the following entries, adapted for your system:
 
     ```bat
