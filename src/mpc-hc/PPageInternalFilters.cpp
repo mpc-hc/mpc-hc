@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -389,7 +389,8 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("MPEG PS/PVA"), SOURCE_FILTER, SRC_MPEG,   IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("MPEG TS"),     SOURCE_FILTER, SRC_MPEGTS, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_ASF

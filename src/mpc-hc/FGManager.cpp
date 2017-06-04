@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1522,16 +1522,21 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_MPEG]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,16,FFFFFFFFF100010001800001FFFFFFFF,000001BA2100010001800001000001BB"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,5,FFFFFFFFC0,000001BA40"));
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,1,,47,188,1,,47,376,1,,47"));
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,1,,47,196,1,,47,388,1,,47"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,54467263,1660,1,,47"));
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,fffffc00ffe00000,4156000055000000"));
+        pFGLAVSplitterSource->AddEnabledFormat("mpeg");
+        pFGLAVSplitterSource->AddEnabledFormat("mpegraw");
+    }
+    if (src[SRC_MPEGTS]) {
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,1,,47,188,1,,47,376,1,,47"));
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,1,,47,196,1,,47,388,1,,47"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ts")); // for some broken .ts
+        pFGLAVSplitterSource->AddEnabledFormat("mpegts");
+    }
+    if (src[SRC_MPEG] || src[SRC_MPEGTS]) {
+        // for Blu-ray playback
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330323030"));  // MPLS0200
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330313030"));  // MPLS0100
-        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ts")); // for some broken .ts
-        pFGLAVSplitterSource->AddEnabledFormat("mpeg");
-        pFGLAVSplitterSource->AddEnabledFormat("mpegts");
-        pFGLAVSplitterSource->AddEnabledFormat("mpegraw");
     }
 #endif
 
@@ -1685,11 +1690,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (src[SRC_MPEG]) {
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
-        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
         pFGLAVSplitter->AddEnabledFormat("mpeg");
-        pFGLAVSplitter->AddEnabledFormat("mpegts");
         pFGLAVSplitter->AddEnabledFormat("mpegraw");
+    }
+    if (src[SRC_MPEGTS]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
+        pFGLAVSplitter->AddEnabledFormat("mpegts");
     }
 #endif
 

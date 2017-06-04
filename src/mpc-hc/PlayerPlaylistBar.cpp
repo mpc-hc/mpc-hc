@@ -307,7 +307,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     } else {
 #if INTERNAL_SOURCEFILTER_MPEG
-        if (ct == "application/x-bdmv-playlist" && s.SrcFilters[SRC_MPEG]) {
+        if (ct == "application/x-bdmv-playlist" && (s.SrcFilters[SRC_MPEG] || s.SrcFilters[SRC_MPEGTS])) {
             ParseBDMVPlayList(fns.GetHead());
             return;
         }

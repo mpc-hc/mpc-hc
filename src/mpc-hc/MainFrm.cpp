@@ -16495,7 +16495,7 @@ bool CMainFrame::OpenBD(CString Path)
 
 #if INTERNAL_SOURCEFILTER_MPEG
     const CAppSettings& s = AfxGetAppSettings();
-    bool InternalMpegSplitter = s.SrcFilters[SRC_MPEG];
+    bool InternalMpegSplitter = s.SrcFilters[SRC_MPEG] || s.SrcFilters[SRC_MPEGTS];
 #else
     bool InternalMpegSplitter = false;
 #endif

@@ -267,6 +267,7 @@ CAppSettings::CAppSettings()
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
     SrcFiltersKeys[SRC_MPEG] = FilterKey(_T("SRC_MPEG"), true);
+    SrcFiltersKeys[SRC_MPEGTS] = FilterKey(_T("SRC_MPEGTS"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
     SrcFiltersKeys[SRC_MPA] = FilterKey(_T("SRC_MPA"), true);
