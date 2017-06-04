@@ -1,6 +1,6 @@
 /*
 * (C) 2007 Niels Martin Hansen
-* (C) 2013-2016 see Authors.txt
+* (C) 2013-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -364,6 +364,7 @@ struct GaussianKernel {
             kernel[x] = val;
             kernel[width - x - 1] = val;
         }
+        if (divisor == 0) { divisor = 1; } // workaround to prevent crash
     }
 
     inline ~GaussianKernel() {
