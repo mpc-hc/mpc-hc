@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rubén <feiticeiro2010@hotmail.es>, 2014-2016
+# Rubén <feiticeiro2010@hotmail.es>, 2014-2017
 # Toño Calo <enfeitizador@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-21 17:58+0000\n"
-"Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-03 15:00+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Galician (http://www.transifex.com/mpc-hc/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -491,7 +491,7 @@ msgstr "Filtros Externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Reprodución::Sombras"
+msgstr "Reprodución::Sombreadores"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -523,7 +523,7 @@ msgstr "Filtros internos::Renderizador de audio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Cambia Audio"
+msgstr "Opcións de audio"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -583,7 +583,7 @@ msgstr "Reprodutor::Teclas"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Subtítulos::Estilo por Defecto"
+msgstr "Subtítulos::Estilo predefinido"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -1359,23 +1359,23 @@ msgstr "Baixar"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr "Agrupar por LCN"
+msgstr ""
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr "Eliminar todos"
+msgstr ""
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Estas seguro de que desexas eliminar todas as canles da lista?"
+msgstr ""
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr "Non hai información dispoñible"
+msgstr ""
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr "Por favor, agarde. Análise en progreso..."
+msgstr ""
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
@@ -1723,7 +1723,7 @@ msgstr "Sobreimpresión: Reiniciar estadísticas do renderizador"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Subtítulos::Outras Opcións"
+msgstr "Subtítulos::Outras opcións"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -3595,7 +3595,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"

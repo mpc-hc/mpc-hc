@@ -4,7 +4,7 @@
 # Translators:
 # Gaugg_Markus, 2014-2016
 # Gaugg_Markus, 2014
-# Luan <luanmail@gmx.net>, 2014-2016
+# Luan <luanmail@gmx.net>, 2014-2017
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013-2014
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-12-31 22:10+0000\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-03 20:15+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -3601,7 +3601,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3721,7 +3721,7 @@ msgstr "Nach &unten"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr "UR&L öffnen"
+msgstr "URL öffnen"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
@@ -3973,5 +3973,5 @@ msgstr "Verwendet wieder die nicht-vektorisierte Standard-Toolbar (Neustart erfo
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "URL kopieren"
 

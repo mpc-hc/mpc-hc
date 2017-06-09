@@ -5,12 +5,13 @@
 # fubuzz <knedlc@gmail.com>, 2014
 # shvala <simon.hvala@hotmail.com>, 2013-2017
 # Underground78, 2014
+# XhmikosR, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2017-01-28 18:27+0000\n"
-"Last-Translator: shvala <simon.hvala@hotmail.com>\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-09 22:30+0000\n"
+"Last-Translator: XhmikosR\n"
 "Language-Team: Slovenian (http://www.transifex.com/mpc-hc/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1148,7 +1149,7 @@ msgstr "Aplik. ukaz"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Multimedijske datoteke (vse vrste)|"
+msgstr "Multimedijske datoteke (vse vrste)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
@@ -1156,7 +1157,7 @@ msgstr "Vse datoteke (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Zvočne datoteke (vse vrste)|"
+msgstr "Zvočne datoteke (vse vrste)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"

@@ -9,7 +9,7 @@
 # Edgar Peres <edgarvperes@gmail.com>, 2015
 # Eduardo Addad de Oliveira <duduaddad@gmail.com>, 2016
 # Erick Simões <erick.simoes@yahoo.com.br>, 2014-2015
-# Everton Leite <etcholeite@gmail.com>, 2015-2016
+# Everton Leite <etcholeite@gmail.com>, 2015-2017
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe Barros <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-03 00:52+0000\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-03 17:28+0000\n"
 "Last-Translator: Everton Leite <etcholeite@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1373,7 +1373,7 @@ msgstr "Descer"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr "Agrupar por LCN"
+msgstr "Ordenar por LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
@@ -1381,7 +1381,7 @@ msgstr "Remover todos"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Tem certeza de que deseja remover todos os canais da lista?"
+msgstr "Tem certeza que deseja remover todos os canais da lista?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1389,7 +1389,7 @@ msgstr "Nenhuma informação disponível"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr "Por favor, aguarde. Análise em andamento..."
+msgstr "Por favor aguarde, análise em progresso..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
@@ -3609,7 +3609,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3981,5 +3981,5 @@ msgstr "Usar barra de ferramentas antiga no lugar da nova vetorizada."
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Copiar URL"
 

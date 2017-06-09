@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2014-2015
-# Adolfo Jayme-Barrientos, 2015
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2014
 # Katabi, 2015
-# papu, 2014-2016
-# Roger <roger.espolet@gmail.com>, 2016
+# papu, 2014-2017
+# Roger <roger.espolet@gmail.com>, 2016-2017
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2017
 # Roger <roger.espolet@gmail.com>, 2016
@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2017-02-17 12:22+0000\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-09 10:38+0000\n"
 "Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -3603,7 +3603,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3975,5 +3975,5 @@ msgstr "Utilitza la barra antiga d'eines en lloc de la nova vectoritzada."
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Copia l'URL"
 

@@ -6,13 +6,13 @@
 # Haxyc, 2016
 # Underground78, 2014
 # Underground78, 2014
-# Yauhen Bugamol <haxycgm@gmail.com>, 2015-2016
+# Yauhen Bugamol <haxycgm@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-06 02:47+0000\n"
-"Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-03 15:01+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2170,7 +2170,7 @@ msgstr "каналаў"
 
 msgctxt "IDS_AG_TITLE"
 msgid "Title %u"
-msgstr "Назва %u"
+msgstr "Загаловак %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2214,7 +2214,7 @@ msgstr "Затрымка субцітраў: %ld мс"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "Назва: %02d/%02d"
+msgstr "Загаловак: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
@@ -3558,7 +3558,7 @@ msgstr "С&цэны"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr "&Назвы"
+msgstr "&Загалоўкі"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
@@ -3598,7 +3598,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
