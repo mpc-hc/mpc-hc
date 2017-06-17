@@ -231,7 +231,7 @@ void uiMsgStore::Msg()
       Log(Str[0],St(MUnknownExtra),Str[1]);
       break;
     case UIERROR_CORRUPTEXTRA:
-      Log(Str[0],St(MUnknownExtra),Str[1],Str[2]);
+      Log(Str[0],St(MCorruptExtra),Str[1],Str[2]);
       break;
 #endif
 #if !defined(SFX_MODULE) && defined(_WIN_ALL)

@@ -259,7 +259,7 @@ void Unpack::MakeDecodeTables(byte *LengthTable,DecodeTable *Dec,uint Size)
 
   // Prepare the copy of DecodePos. We'll modify this copy below,
   // so we cannot use the original DecodePos.
-  uint CopyDecodePos[16];
+  uint CopyDecodePos[ASIZE(Dec->DecodePos)];
   memcpy(CopyDecodePos,Dec->DecodePos,sizeof(CopyDecodePos));
 
   // For every bit length in the bit length table and so for every item
@@ -337,14 +337,17 @@ void Unpack::MakeDecodeTables(byte *LengthTable,DecodeTable *Dec,uint Size)
     // Now we can calculate the position in the code list. It is the sum
     // of first position for current bit length and right aligned distance
     // between our bit field and start code for current bit length.
-    uint Pos=Dec->DecodePos[CurBitLength]+Dist;
-
-    if (Pos<Size) // Safety check for damaged archives.
+    uint Pos;
+    if (CurBitLength<ASIZE(Dec->DecodePos) &&
+        (Pos=Dec->DecodePos[CurBitLength]+Dist)<Size)
     {
       // Define the code to alphabet number translation.
       Dec->QuickNum[Code]=Dec->DecodeNum[Pos];
     }
     else
+    {
+      // Can be here for length table filled with zeroes only (empty).
       Dec->QuickNum[Code]=0;
+    }
   }
 }

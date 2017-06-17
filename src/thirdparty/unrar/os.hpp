@@ -226,9 +226,9 @@
 #if !defined(LITTLE_ENDIAN) && !defined(BIG_ENDIAN)
   #if defined(__i386) || defined(i386) || defined(__i386__) || defined(__x86_64)
     #define LITTLE_ENDIAN
-  #elif defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN
+  #elif defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN || defined(__LITTLE_ENDIAN__)
     #define LITTLE_ENDIAN
-  #elif defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN
+  #elif defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN || defined(__BIG_ENDIAN__)
     #define BIG_ENDIAN
   #else
     #error "Neither LITTLE_ENDIAN nor BIG_ENDIAN are defined. Define one of them."

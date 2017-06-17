@@ -179,9 +179,14 @@ HANDLE FindFile::Win32Find(HANDLE hFind,const wchar *Mask,FindData *fd)
     if (hFind==INVALID_HANDLE_VALUE)
     {
       int SysErr=GetLastError();
-      fd->Error=(SysErr!=ERROR_FILE_NOT_FOUND &&
-                 SysErr!=ERROR_PATH_NOT_FOUND &&
-                 SysErr!=ERROR_NO_MORE_FILES);
+      // We must not issue an error for "file not found" and "path not found",
+      // because it is normal to not find anything for wildcard mask when
+      // archiving. Also searching for non-existent file is normal in some
+      // other modules, like WinRAR scanning for winrar_theme_description.txt
+      // to check if any themes are available.
+      fd->Error=SysErr!=ERROR_FILE_NOT_FOUND && 
+                SysErr!=ERROR_PATH_NOT_FOUND &&
+                SysErr!=ERROR_NO_MORE_FILES;
     }
   }
   else

@@ -63,8 +63,14 @@ bool ExtractUnixLink30(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const w
     if (!DataIO.UnpHash.Cmp(&Arc.FileHead.FileHash,Arc.FileHead.UseHashKey ? Arc.FileHead.HashKey:NULL))
       return true;
 
-    if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
-        !IsRelativeSymlinkSafe(Arc.FileHead.FileName,Arc.FileHead.RedirName)))
+    wchar TargetW[NM];
+    CharToWide(Target,TargetW,ASIZE(TargetW));
+    // Check for *TargetW==0 to catch CharToWide failure.
+    // Use Arc.FileHead.FileName instead of LinkName, since LinkName
+    // can include the destination path as a prefix, which can
+    // confuse IsRelativeSymlinkSafe algorithm.
+    if (!Cmd->AbsoluteLinks && (*TargetW==0 || IsFullPath(TargetW) ||
+        !IsRelativeSymlinkSafe(Cmd,Arc.FileHead.FileName,LinkName,TargetW)))
       return false;
     return UnixSymlink(Target,LinkName,&Arc.FileHead.mtime,&Arc.FileHead.atime);
   }
@@ -86,8 +92,11 @@ bool ExtractUnixLink50(CommandData *Cmd,const wchar *Name,FileHeader *hd)
       return false;
     DosSlashToUnix(Target,Target,ASIZE(Target));
   }
+  // Use hd->FileName instead of LinkName, since LinkName can include
+  // the destination path as a prefix, which can confuse
+  // IsRelativeSymlinkSafe algorithm.
   if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
-      !IsRelativeSymlinkSafe(hd->FileName,hd->RedirName)))
+      !IsRelativeSymlinkSafe(Cmd,hd->FileName,Name,hd->RedirName)))
     return false;
   return UnixSymlink(Target,Name,&hd->mtime,&hd->atime);
 }

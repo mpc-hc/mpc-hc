@@ -343,7 +343,7 @@
 #define   MFAT32Size         L"\nWARNING: FAT32 file system does not support 4 GB or larger files"
 #define   MErrChangeAttr     L"\nWARNING: Cannot change attributes of %s"
 #define   MWrongSFXVer       L"\nERROR: default SFX module does not support RAR %d.%d archives"
-#define   MCannotEncName     L"\nCannot encrypt archive already contained encrypted files"
+#define   MCannotEncName     L"\nCannot encrypt archive already containing encrypted files"
 #define   MCannotEmail       L"\nCannot email the file %s"
 #define   MCopyrightS        L"\nRAR SFX archive" 
 #define   MSHelpCmd          L"\n\n<Commands>" 

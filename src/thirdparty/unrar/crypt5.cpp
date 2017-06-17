@@ -67,10 +67,10 @@ static void hmac_sha256(const byte *Key,size_t KeyLength,const byte *Data,
     sha256_process(&RCtx, KeyBuf, Sha256BlockSize); // Hash padded key.
   }
 
-  if (ICtxOpt!=NULL && !*SetROpt) // Store constant context for further reuse.
+  if (RCtxOpt!=NULL && !*SetROpt) // Store constant context for further reuse.
   {
     *RCtxOpt=RCtx;
-    *SetIOpt=true;
+    *SetROpt=true;
   }
 
   sha256_process(&RCtx, IDig, SHA256_DIGEST_SIZE); // Hash internal digest.
