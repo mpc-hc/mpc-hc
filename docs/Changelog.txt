@@ -15,7 +15,7 @@ next version - not released yet
 * Ticket #5865, Add context menu option to copy subtitle URL
 * Updated LAV Filters to v0.70.1
 * Updated Little CMS to v2.8 (d41071e)
-* Updated MediaInfoLib to v0.7.96
+* Updated MediaInfoLib to v0.7.97
 * Updated ZenLib to v0.4.35
 * Updated Unrar to v5.5.6
 ! Scale MediaInfo properties tab text properly on high DPI
