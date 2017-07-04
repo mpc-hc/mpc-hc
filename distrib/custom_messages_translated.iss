@@ -727,16 +727,16 @@ pt_BR.ViewChangelog=Ver registro de alterações
 ro.langid=00001048
 ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
-ro.msg_DeleteSettings=Doriţi de asemenea să ștergeți stabilirile MPC-HC?%n%nDacă doriţi să reinstalați MPC-HC, atunci nu este necesar să le ștergeți.
+ro.msg_DeleteSettings=Doriți de asemenea să ștergeți stabilirile MPC-HC?%n%nDacă doriți să reinstalați MPC-HC, atunci nu este necesar să le ștergeți.
 #if defined(sse_required)
-ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
+ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacități.
 #elif defined(sse2_required)
-ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
+ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacități.
 #endif
 ro.run_DownloadToolbarImages=Vizitați pagina noastră Wiki pentru a descărca imagini pentru bara de instrumente
-ro.tsk_AllUsers=Pentru toţi utilizatorii
+ro.tsk_AllUsers=Pentru toți utilizatorii
 ro.tsk_CurrentUser=Doar pentru utilizatorul actual
-ro.tsk_Other=Alte activităţi:
+ro.tsk_Other=Alte activități:
 ro.tsk_ResetSettings=Restabilește stabilirile
 ro.types_DefaultInstallation=Instalare implicită
 ro.types_CustomInstallation=Instalare personalizată

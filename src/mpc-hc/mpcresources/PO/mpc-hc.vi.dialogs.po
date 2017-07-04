@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # DatSoft, 2014
-# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2016
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-11-01 01:24+0000\n"
+"PO-Revision-Date: 2017-06-22 07:17+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Chương trình này là phần mềm miễn phí và phát hành theo g
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Được dịch bởi Trần Anh Minh - anhminhvks"
+msgstr "Được dịch bởi Trần Anh Minh - https://www.facebook.com/anhminhvks"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"

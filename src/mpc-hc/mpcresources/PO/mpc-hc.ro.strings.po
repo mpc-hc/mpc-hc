@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Daniel <danny3@tutanota.com>, 2014-2016
-# lordkag <lord.kagula@gmail.com>, 2014-2016
+# lordkag <lord.kagula@gmail.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-03 15:00+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2017-06-12 20:11+0000\n"
+"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -103,7 +103,7 @@ msgstr "Fluctuații"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Rată de biţi"
+msgstr "Rată de biți"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
@@ -123,7 +123,7 @@ msgstr "Stiluri"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Dacă zona ţintă pentru randare este nedefinită, subtitlurile SSA/ASS vor fi randate relativ la cadrul video, în timp ce toate celelalte subtitlurii text vor fi randate relativ la fereastră."
+msgstr "Dacă zona țintă pentru randare este nedefinită, subtitlurile SSA/ASS vor fi randate relativ la cadrul video, în timp ce toate celelalte subtitluri text vor fi randate relativ la fereastră."
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
@@ -163,7 +163,7 @@ msgstr "Nu este sprijinită de unele dispozitive. Două decodoare video sunt în
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Rapid, cu excepţia cazului când se schimbă fluxuri video diferite. Doar un decodor video este prezent în graficul filtrelor."
+msgstr "Rapid, cu excepția cazului când se schimbă fluxuri video diferite. Doar un decodor video este prezent în graficul filtrelor."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -195,7 +195,7 @@ msgstr "Fără evaluare"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
-msgstr "Conţinut"
+msgstr "Conținut"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
@@ -251,7 +251,7 @@ msgstr "ID celulă"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
-msgstr "Forţat"
+msgstr "Forțat"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
@@ -271,7 +271,7 @@ msgstr "Eșuare la randarea unora dintre pinii filtrului navigator DVD"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Eșuare la interogarea interfeţelor necesare pentru redarea discului DVD"
+msgstr "Eșuare la interogarea interfețelor necesare pentru redarea discului DVD"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -303,7 +303,7 @@ msgstr "Timpul introdus este mai mare decât durata fișierului."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Biblioteca de pictograme „mpciconlib.dll” lipsește.\nPictograma implicită a playerului va fi folosită pentru asocierile fișierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
+msgstr "Biblioteca de pictograme „mpciconlib.dll” lipsește.\nPictograma implicită a playerului va fi folosită pentru asocierile fișierelor.\nVă rugăm să reinstalați MPC-HC pentru a obține „mpciconlib.dll”."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -379,11 +379,11 @@ msgstr "Implicit al sistemului"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Eșuare la interogarea interfeţelor necesare pentru redare"
+msgstr "Eșuare la interogarea interfețelor necesare pentru redare"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "Nu se poate seta fereastra ţintă pentru notificările graficului"
+msgstr "Nu se poate seta fereastra țintă pentru notificările graficului"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
@@ -531,7 +531,7 @@ msgstr "Versiune nouă a bibliotecii de pictograme"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Doriţi să reasociaţi pictogramele?"
+msgstr "Doriți să reasociați pictogramele?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -555,11 +555,11 @@ msgstr "VMR-9 - Randor amestecare video 9 (fără randare)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "EVR - Randor video îmbunătăţit"
+msgstr "EVR - Randor video îmbunătățit"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "EVR (CP) - Randor video îmbunătăţit (prezentator special)"
+msgstr "EVR (CP) - Randor video îmbunătățit (prezentator special)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
@@ -607,7 +607,7 @@ msgstr "Detalii"
 
 msgctxt "IDD_FILEPROPCLIP"
 msgid "Clip"
-msgstr "Informaţii"
+msgstr "Informații"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
@@ -643,7 +643,7 @@ msgstr "La fel ca randorul normal Null, dar acesta se va conecta doar la tipuril
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Disponibil doar pentru Vista sau mai nou, sau pentru XP cu cel puţin .NET Framework 3.5 instalat."
+msgstr "Disponibil doar pentru Vista sau mai nou, sau pentru XP cu cel puțin .NET Framework 3.5 instalat."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
@@ -655,7 +655,7 @@ msgstr "Randor de calitate ridicată, necesită o placă grafică ce sprijină D
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Asemănător cu EVR (CP), dar oferă câteva opţiuni pentru a sincroniza rata cadrelor video cu rata de reîmprospătare a dispozitivului de afișare pentru a elimina cadrele video sărite sau duplicate."
+msgstr "Asemănător cu EVR (CP), dar oferă câteva opțiuni pentru a sincroniza rata cadrelor video cu rata de reîmprospătare a dispozitivului de afișare pentru a elimina cadrele video sărite sau duplicate."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -683,15 +683,15 @@ msgstr "Randor Sincronizare"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Suprafaţă netedă offscreen obișnuită"
+msgstr "Suprafață netedă offscreen obișnuită"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
-msgstr "suprafeţe 2D"
+msgstr "suprafețe 2D"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr "suprafeţe 3D (recomandat)"
+msgstr "suprafețe 3D (recomandat)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
@@ -747,7 +747,7 @@ msgstr "Tip MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Pentru a vedea o resursă încorporată în browser-ul dumneavoastră trebuie să activaţi interfaţa web.\n\nFolosiţi butonul „Salvează ca” dacă doriţi doar să salvaţi infomaţia."
+msgstr "Pentru a vedea o resursă încorporată în browser-ul dumneavoastră trebuie să activați interfața web.\n\nFolosiți butonul „Salvează ca” dacă doriți doar să salvați informația."
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
@@ -799,11 +799,11 @@ msgstr "Dacă nu există sprijin pentru Nuanțatorul de pixeli 2.0, biliniară s
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pune VMR-9 (fără randare) în modul amestecător, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuţie secundar separat pentru randarea cadrelor."
+msgstr "Pune VMR-9 (fără randare) în modul amestecător, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuție secundar separat pentru randarea cadrelor."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Îmbunătăţeste performanţa cu costul unei compatibilităţi cu randorul."
+msgstr "Îmbunătățește performanta cu costul unei compatibilități cu randorul."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -851,7 +851,7 @@ msgstr "Sincronizare verticală precisă"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Dacă zona ţintă pentru randare este nedefinită, aceasta va fi moștenită din stilul implicit."
+msgstr "Dacă zona țintă pentru randare este nedefinită, aceasta va fi moștenită din stilul implicit."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -1271,7 +1271,7 @@ msgstr "Salvează stil personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "Educaţie/Știinţă/Subiecte actuale"
+msgstr "Educație/Știință/Subiecte actuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
@@ -1279,7 +1279,7 @@ msgstr "Ascunde controalele și panourile și în modul fereastră."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Împiedică încărcarea randorului extern de subtitluri când cel intern este în folosinţă."
+msgstr "Împiedică încărcarea randorului extern de subtitluri când cel intern este în folosință."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1291,7 +1291,7 @@ msgstr "Valoare"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Numărul maxim de fișiere afișate în meniul „Fișiere recente” și a căror poziţie este posibil să fie salvată."
+msgstr "Numărul maxim de fișiere afișate în meniul „Fișiere recente” și a căror poziție este posibil să fie salvată."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1511,7 +1511,7 @@ msgstr "Social/Probleme politice/Economie"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
-msgstr "Activităţi pentru timpul liber"
+msgstr "Activități pentru timpul liber"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
@@ -1827,7 +1827,7 @@ msgstr "Nr. de subtitluri disponibile: %d"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Doriţi să verificaţi periodic pentru actualizări ale MPC-HC?\n\nAceastă caracteristică poate fi dezactivată mai târziu din pagina de opţiuni Diverse."
+msgstr "Doriți să verificați periodic pentru actualizări ale MPC-HC?\n\nAceastă caracteristică poate fi dezactivată mai târziu din pagina de opțiuni Diverse."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -1871,7 +1871,7 @@ msgstr "Întârzierea nu este validă"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Introduceţi un număr între 1 și 365."
+msgstr "Introduceți un număr între 1 și 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -2191,7 +2191,7 @@ msgstr "DVD: Nivel parental scăzut"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr "DVD: Eșuare la protecţie copiere Macrovision"
+msgstr "DVD: Eșuare la protecție copiere Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
@@ -2287,7 +2287,7 @@ msgstr "GetDIB a eșuat, hr = %08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "Obţinerea cadrului actual a eșuat, hr = %08x"
+msgstr "Obținerea cadrului actual a eșuat, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
@@ -3111,19 +3111,19 @@ msgstr "Lumină ambientală: Întunecată (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Intenţie de randare: Perceptual"
+msgstr "Intenție de randare: Perceptual"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Intenţie de randare: Colorimetrică relativă"
+msgstr "Intenție de randare: Colorimetrică relativă"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Intenţie de randare: Saturație"
+msgstr "Intenție de randare: Saturație"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Intenţie de randare: Colorimetrică absolută"
+msgstr "Intenție de randare: Colorimetrică absolută"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3211,19 +3211,19 @@ msgstr "Forțare intrare RGB pe 10 biți: Dezactivată"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Procesare completă în virgulă mobilă (32 biţi): Activată"
+msgstr "Procesare completă în virgulă mobilă (32 biți): Activată"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr "Procesare completă în virgulă mobilă (32 biţi): Dezactivată"
+msgstr "Procesare completă în virgulă mobilă (32 biți): Dezactivată"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Procesare pe jumătate în virgulă mobilă (16 biţi): Activată"
+msgstr "Procesare pe jumătate în virgulă mobilă (16 biți): Activată"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr "Procesare pe jumătate în virgulă mobilă (16 biţi): Dezactivată"
+msgstr "Procesare pe jumătate în virgulă mobilă (16 biți): Dezactivată"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
@@ -3259,7 +3259,7 @@ msgstr "Restabilește stabilirile de culoare"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr "\nFolosiţi deja ultima versiune stabilă."
+msgstr "\nFolosiți deja ultima versiune stabilă."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
@@ -3267,11 +3267,11 @@ msgstr "Versiunea dumneavoastră actuală este v%s.\n\nUltima versiune stabilă 
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s este disponibil acum. Folosiţi v%s.\n\nDoriţi să vizitaţi site-ul MPC-HC pentru a descărca ultima versiune?"
+msgstr "MPC-HC v%s este disponibil acum. Folosiți v%s.\n\nDoriți să vizitați site-ul MPC-HC pentru a descărca ultima versiune?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Servitorul de actualizări nu a fost găsit.\n\nVerificaţi conexiunea la internet sau încercaţi mai târziu."
+msgstr "Servitorul de actualizări nu a fost găsit.\n\nVerificați conexiunea la internet sau încercați mai târziu."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3595,7 +3595,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3967,5 +3967,5 @@ msgstr "Folosește bara de instrumente tradițională în locul celei noi vector
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Copiază URL-ul"
 
