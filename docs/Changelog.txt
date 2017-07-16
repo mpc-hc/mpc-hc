@@ -8,12 +8,12 @@ Legend:
 ! Fixed
 
 
-1.7.12 - 16 July 2017
+1.7.13 - 16 July 2017
 =====================
 * Switched from mhook to MinHook since it's more actively maintained
 * Require a CPU processor with SSE2 instructions
 * Ticket #5865, Add context menu option to copy subtitle URL
-* Updated LAV Filters to v0.70.1
+* Updated LAV Filters to v0.70.2
 * Updated Little CMS to v2.8 (d41071e)
 * Updated MediaInfoLib to v0.7.97
 * Updated ZenLib to v0.4.35
