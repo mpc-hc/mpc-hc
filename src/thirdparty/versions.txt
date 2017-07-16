@@ -2,7 +2,7 @@ Project             Version
 ----------------------------------------
 bs2b                3.1.0 (modified)
 CSizingControlBar   2.45 (modified)
-LAV Filters         0.70.1 (custom build based on stable v0.70.1)
+LAV Filters         0.70.2 (custom build based on stable v0.70.2)
 Little CMS          2.8 (d41071e)
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.97
