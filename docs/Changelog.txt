@@ -8,7 +8,7 @@ Legend:
 ! Fixed
 
 
-1.7.12 - 16 July 2017
+1.7.13 - 16 July 2017
 =====================
 * Switched from mhook to MinHook since it's more actively maintained
 * Require a CPU processor with SSE2 instructions
