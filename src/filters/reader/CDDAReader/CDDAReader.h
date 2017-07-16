@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <vector>
 #include <atlbase.h>
 #include "winddk/devioctl.h"
 #include "winddk/ntddcdrm.h"
@@ -69,9 +70,11 @@ private:
     HANDLE m_hDrive;
     CDROM_TOC m_TOC;
     UINT m_nFirstSector, m_nStartSector, m_nStopSector;
+    bool m_bDTS;
 
     WAVEChunck m_header;
 
+    std::vector<BYTE> m_buff;
 public:
     CCDDAStream();
     virtual ~CCDDAStream();
@@ -80,6 +83,8 @@ public:
     CString m_discArtist, m_trackArtist;
 
     bool Load(const WCHAR* fnw);
+
+    bool IsDTS() const { return m_bDTS; };
 
     // overrides
     HRESULT SetPointer(LONGLONG llPos);

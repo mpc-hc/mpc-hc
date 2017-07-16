@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageSubtitles.h"
+#include "PPageAccelTbl.h"
 
 
 // CPPageSubtitles dialog
@@ -209,7 +210,7 @@ BOOL CPPageSubtitles::OnApply()
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;
-        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->UpdateSubAspectRatioCompensation();
         }
     }
@@ -220,7 +221,7 @@ BOOL CPPageSubtitles::OnApply()
         s.fOverridePlacement = !!m_bOverridePlacement;
         s.nHorPos = m_nHorPos;
         s.nVerPos = m_nVerPos;
-        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->UpdateSubOverridePlacement();
         }
     }
@@ -274,11 +275,12 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     switch (nID) {
         case IDC_EDIT4:
-            auto& substituteEmpty = [](CString & hotkey) {
-                if (hotkey.IsEmpty()) {
+            auto substituteEmpty = [](CString && hotkey) -> CString && {
+                if (hotkey.IsEmpty())
+                {
                     hotkey.LoadString(IDS_HOTKEY_NOT_DEFINED);
                 }
-                return hotkey;
+                return std::move(hotkey);
             };
             ::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 320);
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,

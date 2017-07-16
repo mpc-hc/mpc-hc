@@ -126,7 +126,7 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
                     if (vol_valid) {
                         // extract vol->FileSetDescriptorSequence
                         FileDescriptorSequence_lba = vol->FileSetDescriptorSequence.Location.Location;
-                        DWORD FileDescriptorSequence_lba_end = FileDescriptorSequence_lba + ((vol->FileSetDescriptorSequence.Length & udf_LengthMask) - 1) / sec_size;
+                        // DWORD FileDescriptorSequence_lba_end = FileDescriptorSequence_lba + ((vol->FileSetDescriptorSequence.Length & udf_LengthMask) - 1) / sec_size;
                     }
                 }
             } else {

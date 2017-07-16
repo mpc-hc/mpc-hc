@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,35 +30,38 @@
 class COpenDlg : public CResizableDialog
 {
     //  DECLARE_DYNAMIC(COpenDlg)
+private:
+    CStatic m_icon;
+    CComboBox m_cbMRU;
+    CString m_path;
+    CComboBox m_cbMRUDub;
+    CString m_pathDub;
+    CStatic m_labelDub;
+    BOOL m_bAppendToPlaylist;
+
+    bool m_bMultipleFiles;
+    CAtlList<CString> m_fns;
 
 public:
-    COpenDlg(CWnd* pParent = nullptr);   // standard constructor
+    COpenDlg(CWnd* pParent = nullptr);
     virtual ~COpenDlg();
-
-    bool m_fMultipleFiles;
-    CAtlList<CString> m_fns;
 
     // Dialog Data
     enum { IDD = IDD_OPEN_DLG };
-    CComboBox m_mrucombo;
-    CString m_path;
-    CComboBox m_mrucombo2;
-    CString m_path2;
-    CStatic m_label2;
-    BOOL m_fAppendPlaylist;
+
+    const CAtlList<CString>& GetFileNames() const { return m_fns; }
+    bool HasMultipleFiles() const { return m_bMultipleFiles; }
+    bool GetAppendToPlaylist() const { return !!m_bAppendToPlaylist; }
 
 protected:
-    CStatic m_icon;
-
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 
     DECLARE_MESSAGE_MAP()
 
-public:
-    afx_msg void OnBnClickedBrowsebutton();
-    afx_msg void OnBnClickedBrowsebutton2();
-    afx_msg void OnBnClickedOk();
+    afx_msg void OnBrowseFile();
+    afx_msg void OnBrowseDubFile();
+    afx_msg void OnOk();
     afx_msg void OnUpdateDub(CCmdUI* pCmdUI);
     afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
 };

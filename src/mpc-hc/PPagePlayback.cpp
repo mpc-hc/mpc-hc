@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,24 +32,22 @@
 IMPLEMENT_DYNAMIC(CPPagePlayback, CPPageBase)
 CPPagePlayback::CPPagePlayback()
     : CPPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
+    , m_oldVolume(0)
+    , m_nVolume(0)
+    , m_nBalance(0)
+    , m_nVolumeStep(0)
+    , m_nSpeedStep(0)
     , m_iLoopForever(0)
+    , m_iLoopMode(0)
     , m_nLoops(0)
     , m_iAfterPlayback(0)
     , m_iZoomLevel(0)
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
-    , m_nVolume(0)
-    , m_oldVolume(0)
-    , m_nBalance(0)
     , m_fAutoloadAudio(FALSE)
-    , m_fAutoloadSubtitles(FALSE)
     , m_fEnableWorkerThreadForOpening(FALSE)
     , m_fReportFailedPins(FALSE)
-    , m_subtitlesLanguageOrder(_T(""))
-    , m_audiosLanguageOrder(_T(""))
     , m_fAllowOverridingExternalSplitterChoice(FALSE)
-    , m_nSpeedStep(0)
-    , m_nVolumeStep(0)
 {
 }
 
@@ -73,7 +71,6 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
     DDX_Check(pDX, IDC_CHECK5, m_iRememberZoomLevel);
     DDX_Check(pDX, IDC_CHECK2, m_fAutoloadAudio);
-    DDX_Check(pDX, IDC_CHECK3, m_fAutoloadSubtitles);
     DDX_Check(pDX, IDC_CHECK7, m_fEnableWorkerThreadForOpening);
     DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
     DDX_Text(pDX, IDC_EDIT2, m_subtitlesLanguageOrder);
@@ -84,6 +81,8 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
     DDX_Control(pDX, IDC_SPEEDSTEP_SPIN, m_SpeedStepCtrl);
     DDX_Control(pDX, IDC_SPIN1, m_AutoFitFactorCtrl);
+    DDX_Control(pDX, IDC_COMBO3, m_LoopMode);
+    DDX_CBIndex(pDX, IDC_COMBO3, m_iLoopMode);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
@@ -92,12 +91,8 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateAfterPlayback)
     ON_UPDATE_COMMAND_UI(IDC_SPEEDSTEP_SPIN, OnUpdateSpeedStep)
-    ON_UPDATE_COMMAND_UI(IDC_EDIT4, OnUpdateAutoZoomFactor)
-    ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateAutoZoomFactor)
-    ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateAutoZoomFactor)
-    ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateISREnabled)
-
     ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
@@ -125,6 +120,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_SpeedStepCtrl.SetPos32(m_nSpeedStep);
     m_SpeedStepCtrl.SetRange32(0, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
+    m_iLoopMode = static_cast<int>(s.eLoopMode);
     m_nLoops = s.nLoops;
     m_iAfterPlayback = static_cast<int>(s.eAfterPlayback);
     m_iZoomLevel = s.iZoomLevel;
@@ -133,7 +129,6 @@ BOOL CPPagePlayback::OnInitDialog()
     m_AutoFitFactorCtrl.SetPos32(m_nAutoFitFactor);
     m_AutoFitFactorCtrl.SetRange32(25, 100);
     m_fAutoloadAudio = s.fAutoloadAudio;
-    m_fAutoloadSubtitles = s.fAutoloadSubtitles;
     m_fEnableWorkerThreadForOpening = s.fEnableWorkerThreadForOpening;
     m_fReportFailedPins = s.fReportFailedPins;
     m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
@@ -154,6 +149,10 @@ BOOL CPPagePlayback::OnInitDialog()
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_CLOSE));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_EXIT));
     CorrectComboListWidth(m_afterPlayback);
+
+    m_LoopMode.AddString(ResStr(IDS_PLAY_LOOPMODE_FILE));
+    m_LoopMode.AddString(ResStr(IDS_PLAY_LOOPMODE_PLAYLIST));
+    CorrectComboListWidth(m_LoopMode);
 
     // set the spinner acceleration value
     UDACCEL accel = { 0, 10 };
@@ -180,16 +179,16 @@ BOOL CPPagePlayback::OnApply()
 
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
-    s.nVolumeStep = min(max(m_nVolumeStep, 1), 100);
+    s.nVolumeStep = std::min(std::max(m_nVolumeStep, 1), 100);
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
+    s.eLoopMode = static_cast<CAppSettings::LoopMode>(m_iLoopMode);
     s.nLoops = m_nLoops;
     s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
-    s.nAutoFitFactor = m_nAutoFitFactor = min(max(m_nAutoFitFactor, 25), 100);
+    s.nAutoFitFactor = m_nAutoFitFactor = std::min(std::max(m_nAutoFitFactor, 25), 100);
     s.fAutoloadAudio = !!m_fAutoloadAudio;
-    s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
     s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
     s.fReportFailedPins = !!m_fReportFailedPins;
     s.strSubtitlesLanguageOrder = m_subtitlesLanguageOrder;
@@ -234,15 +233,9 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
     pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
 }
 
-void CPPagePlayback::OnUpdateAutoZoomFactor(CCmdUI* pCmdUI)
+void CPPagePlayback::OnUpdateAfterPlayback(CCmdUI* pCmdUI)
 {
-    int iZoomLevel = m_zoomlevelctrl.GetCurSel();
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5) && (iZoomLevel == 3 || iZoomLevel == 4));
-}
-
-void CPPagePlayback::OnUpdateISREnabled(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(AfxGetAppSettings().IsISRAvailable());
+    pCmdUI->Enable(!IsDlgButtonChecked(IDC_RADIO2));
 }
 
 void CPPagePlayback::OnUpdateSpeedStep(CCmdUI* pCmdUI)
@@ -283,14 +276,14 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
         CString strTipText;
         if (nID == IDC_SLIDER1) {
-            strTipText.Format(ResStr(IDS_VOLUME), m_nVolume);
+            strTipText.Format(IDS_VOLUME, m_nVolume);
         } else if (nID == IDC_SLIDER2) {
             if (m_nBalance > 0) {
-                strTipText.Format(ResStr(IDS_BALANCE_R), m_nBalance);
+                strTipText.Format(IDS_BALANCE_R, m_nBalance);
             } else if (m_nBalance < 0) {
-                strTipText.Format(ResStr(IDS_BALANCE_L), -m_nBalance);
+                strTipText.Format(IDS_BALANCE_L, -m_nBalance);
             } else { //if (m_nBalance == 0)
-                strTipText = ResStr(IDS_BALANCE);
+                strTipText.LoadString(IDS_BALANCE);
             }
         }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,8 +32,8 @@
 CMediaTypesDlg::CMediaTypesDlg(IGraphBuilderDeadEnd* pGBDE, CWnd* pParent /*=nullptr*/)
     : CResizableDialog(CMediaTypesDlg::IDD, pParent)
     , m_pGBDE(pGBDE)
-    , m_subtype(GUID_NULL)
     , m_type(UNKNOWN)
+    , m_subtype(GUID_NULL)
 {
 }
 

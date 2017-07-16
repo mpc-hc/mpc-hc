@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+#include <cmath>
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageAudioSwitcher.h"
@@ -37,18 +37,18 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
 #else
     : CPPageBase(CPPageAudioSwitcher::IDD, CPPageAudioSwitcher::IDD)
 #endif
+    , m_pSpeakerToChannelMap()
+    , m_dwChannelMask(0)
+    , m_fEnableAudioSwitcher(FALSE)
     , m_fAudioNormalize(FALSE)
+    , m_nAudioMaxNormFactor(400)
     , m_fAudioNormalizeRecover(FALSE)
+    , m_AudioBoostPos(0)
     , m_fDownSampleTo441(FALSE)
     , m_fCustomChannelMapping(FALSE)
     , m_nChannels(0)
-    , m_fEnableAudioSwitcher(FALSE)
-    , m_dwChannelMask(0)
     , m_tAudioTimeShift(0)
     , m_fAudioTimeShift(FALSE)
-    , m_AudioBoostPos(0)
-    , m_nAudioMaxNormFactor(400)
-    , m_pSpeakerToChannelMap()
 {
     CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
 
@@ -173,7 +173,8 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
         //      m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
     }
 
-    m_tooltip.Create(GetDlgItem(IDC_SLIDER1));
+    EnableToolTips(TRUE);
+    m_tooltip.Create(this);
     m_tooltip.Activate(TRUE);
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
@@ -377,26 +378,34 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
         nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    if (nID != IDC_SLIDER1) {
-        return FALSE;
+    bool bRet = false;
+
+    static CString strTipText;
+
+    switch (nID) {
+        case IDC_SLIDER1:
+            strTipText.Format(IDS_BOOST, m_AudioBoostCtrl.GetPos());
+            bRet = true;
+            break;
+        case IDC_EDIT2:
+        case IDC_SPIN2:
+            strTipText.LoadString(IDS_TIME_SHIFT_TOOLTIP);
+            bRet = true;
+            break;
     }
 
-    static CString strTipText; // static string
+    if (bRet) {
+        pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
+    }
 
-    strTipText.Format(ResStr(IDS_BOOST), m_AudioBoostCtrl.GetPos());
-
-    pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
-
-    *pResult = 0;
-
-    return TRUE;    // message was handled
+    return bRet;
 }
 
 void CPPageAudioSwitcher::OnCancel()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (m_AudioBoostPos != s.nAudioBoost) {
+    if ((UINT)m_AudioBoostPos != s.nAudioBoost) {
         ((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.nAudioBoost);
     }
 

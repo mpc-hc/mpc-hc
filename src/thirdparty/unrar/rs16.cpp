@@ -215,6 +215,7 @@ void RSCoder16::InvertDecoderMatrix()
 }
 
 
+#if 0
 // Multiply matrix to data vector. When encoding, it contains data in Data
 // and stores error correction codes in Out. When decoding it contains
 // broken data followed by ECC in Data and stores recovered data to Out.
@@ -252,6 +253,7 @@ void RSCoder16::Process(const uint *Data, uint *Out)
     Out[I] = R;
   }
 }
+#endif
 
 
 // We update ECC in blocks by applying every data block to all ECC blocks.
@@ -311,6 +313,7 @@ void RSCoder16::UpdateECC(uint DataNum, uint ECCNum, const byte *Data, byte *ECC
 
 #ifdef USE_SSE
 // Data and ECC addresses must be properly aligned for SSE.
+// AVX2 did not provide a noticeable speed gain on i7-6700K here.
 bool RSCoder16::SSE_UpdateECC(uint DataNum, uint ECCNum, const byte *Data, byte *ECC, size_t BlockSize)
 {
   // Check data alignment and SSSE3 support.

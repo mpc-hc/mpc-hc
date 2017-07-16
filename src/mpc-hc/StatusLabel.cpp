@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,14 +29,25 @@
 // CStatusLabel
 
 IMPLEMENT_DYNAMIC(CStatusLabel, CStatic)
-CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
+CStatusLabel::CStatusLabel(const DpiHelper& dpiHelper, bool fRightAlign, bool fAddEllipses)
     : m_fRightAlign(fRightAlign)
     , m_fAddEllipses(fAddEllipses)
 {
-    m_font.m_hObject = nullptr;
+    ScaleFont(dpiHelper);
+}
+
+CStatusLabel::~CStatusLabel()
+{
+}
+
+void CStatusLabel::ScaleFont(const DpiHelper& dpiHelper)
+{
+    m_font.DeleteObject();
+
     if (SysVersion::IsVistaOrLater()) {
         LOGFONT lf;
         GetStatusFont(&lf);
+        lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
         VERIFY(m_font.CreateFontIndirect(&lf));
     } else {
         HDC hdc = ::GetDC(nullptr);
@@ -46,10 +57,6 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
                                  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
                                  _T("Microsoft Sans Serif")));
     }
-}
-
-CStatusLabel::~CStatusLabel()
-{
 }
 
 BEGIN_MESSAGE_MAP(CStatusLabel, CStatic)

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -114,6 +114,8 @@ HRESULT CBaseMuxerFilter::CreateRawOutput(CStringW name, CBaseMuxerRawOutputPin*
 
 //
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CBaseMuxerFilter::ThreadProc()
 {
     SetThreadPriority(m_hThread, THREAD_PRIORITY_ABOVE_NORMAL);
@@ -158,7 +160,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
                             continue;
                         }
 
-                        CAutoPtr<MuxerPacket> pPacket = GetPacket();
+                        CAutoPtr<MuxerPacket> pPacket(GetPacket().Detach());
                         if (!pPacket) {
                             Sleep(1);
                             continue;
@@ -193,11 +195,8 @@ DWORD CBaseMuxerFilter::ThreadProc()
                 break;
         }
     }
-
-    ASSERT(0); // this function should only return via CMD_EXIT
-
-    CAMThread::m_hThread = nullptr;
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 void CBaseMuxerFilter::MuxHeaderInternal()
@@ -298,7 +297,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
     CAutoPtr<MuxerPacket> pPacket;
 
     if (pPinMin && i == 0) {
-        pPacket = pPinMin->PopPacket();
+        pPacket.Attach(pPinMin->PopPacket().Detach());
     } else {
         pos = m_pActivePins.GetHeadPosition();
         while (pos) {

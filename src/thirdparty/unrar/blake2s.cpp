@@ -72,12 +72,6 @@ void blake2s_init_param( blake2s_state *S, uint32 node_offset, uint32 node_depth
 }
 
 
-static _forceinline uint32 rotr32( const uint32 w, const unsigned c )
-{
-  return ( w >> c ) | ( w << ( 32 - c ) );
-}
-
-
 #define G(r,i,m,a,b,c,d) \
   a = a + b + m[blake2s_sigma[r][2*i+0]]; \
   d = rotr32(d ^ a, 16); \
@@ -162,7 +156,7 @@ void blake2s_update( blake2s_state *S, const byte *in, size_t inlen )
       memcpy( S->buf + left, in, (size_t)inlen );
       S->buflen += (size_t)inlen; // Be lazy, do not compress
       in += inlen;
-      inlen -= inlen;
+      inlen = 0;
     }
   }
 }

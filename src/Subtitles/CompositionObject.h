@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Rasterizer.h"
+#include "ColorConvTable.h"
 
 
 struct HDMV_PALETTE {
@@ -68,7 +69,7 @@ public:
     void RenderHdmv(SubPicDesc& spd);
     void RenderDvb(SubPicDesc& spd, short nX, short nY);
     void WriteSeg(SubPicDesc& spd, short nX, short nY, short nCount, short nPaletteIndex);
-    void SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel);
+    void SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, ColorConvTable::YuvMatrixType currentMatrix);
     bool HavePalette() const { return m_nColorNumber > 0; };
 
     // Forbid the use of direct affectation for now, it would be dangerous because

@@ -1,0 +1,1 @@
+Generates git-describe and environment info through custom nmake command.

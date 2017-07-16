@@ -15,16 +15,46 @@ const wchar *NullToEmpty(const wchar *Str)
 void IntToExt(const char *Src,char *Dest,size_t DestSize)
 {
 #ifdef _WIN_ALL
+  // OemToCharBuff does not stop at 0, so let's check source length.
+  size_t SrcLength=strlen(Src)+1;
+  if (DestSize>SrcLength)
+    DestSize=SrcLength;
   OemToCharBuffA(Src,Dest,(DWORD)DestSize);
   Dest[DestSize-1]=0;
-#elif defined(_ANDROID)
-  wchar DestW[NM];
-  UnkToWide(Src,DestW,ASIZE(DestW));
-  WideToChar(DestW,Dest,DestSize);
 #else
   if (Dest!=Src)
     strncpyz(Dest,Src,DestSize);
 #endif
+}
+
+
+// Convert archived names to Unicode. Allow user to select a code page in GUI.
+void ArcCharToWide(const char *Src,wchar *Dest,size_t DestSize,ACTW_ENCODING Encoding)
+{
+#if defined(_WIN_ALL) // Console Windows RAR.
+  if (Encoding==ACTW_UTF8)
+    UtfToWide(Src,Dest,DestSize);
+  else
+  {
+    char NameA[NM];
+    if (Encoding==ACTW_OEM)
+    {
+      IntToExt(Src,NameA,ASIZE(NameA));
+      Src=NameA;
+    }
+    CharToWide(Src,Dest,DestSize);
+  }
+#else // RAR for Unix.
+  if (Encoding==ACTW_UTF8)
+    UtfToWide(Src,Dest,DestSize);
+  else
+    CharToWide(Src,Dest,DestSize);
+#endif
+  // Ensure that we return a zero terminate string for security reason.
+  // While [Jni]CharToWide might already do it, be protected in case of future
+  // changes in these functions.
+  if (DestSize>0)
+    Dest[DestSize-1]=0;
 }
 
 
@@ -83,28 +113,28 @@ wchar* RemoveLF(wchar *Str)
 {
   for (int I=(int)wcslen(Str)-1;I>=0 && (Str[I]=='\r' || Str[I]=='\n');I--)
     Str[I]=0;
-  return(Str);
+  return Str;
 }
 
 
 unsigned char loctolower(unsigned char ch)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   // Convert to LPARAM first to avoid a warning in 64 bit mode.
-  return((int)(LPARAM)CharLowerA((LPSTR)ch));
+  return (int)(LPARAM)CharLowerA((LPSTR)ch);
 #else
-  return(tolower(ch));
+  return tolower(ch);
 #endif
 }
 
 
 unsigned char loctoupper(unsigned char ch)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   // Convert to LPARAM first to avoid a warning in 64 bit mode.
-  return((int)(LPARAM)CharUpperA((LPSTR)ch));
+  return (int)(LPARAM)CharUpperA((LPSTR)ch);
 #else
-  return(toupper(ch));
+  return toupper(ch);
 #endif
 }
 
@@ -116,8 +146,8 @@ unsigned char loctoupper(unsigned char ch)
 unsigned char etoupper(unsigned char ch)
 {
   if (ch=='i')
-    return('I');
-  return(toupper(ch));
+    return 'I';
+  return toupper(ch);
 }
 
 
@@ -125,8 +155,8 @@ unsigned char etoupper(unsigned char ch)
 wchar etoupperw(wchar ch)
 {
   if (ch=='i')
-    return('I');
-  return(toupperw(ch));
+    return 'I';
+  return toupperw(ch);
 }
 
 
@@ -136,7 +166,7 @@ wchar etoupperw(wchar ch)
 // values, resulting in undefined behavior in standard isdigit.
 bool IsDigit(int ch)
 {
-  return(ch>='0' && ch<='9');
+  return ch>='0' && ch<='9';
 }
 
 
@@ -146,7 +176,7 @@ bool IsDigit(int ch)
 // values, resulting in undefined behavior in standard isspace.
 bool IsSpace(int ch)
 {
-  return(ch==' ' || ch=='\t');
+  return ch==' ' || ch=='\t';
 }
 
 
@@ -156,7 +186,7 @@ bool IsSpace(int ch)
 // values, resulting in undefined behavior in standard function.
 bool IsAlpha(int ch)
 {
-  return(ch>='A' && ch<='Z' || ch>='a' && ch<='z');
+  return ch>='A' && ch<='Z' || ch>='a' && ch<='z';
 }
 
 
@@ -225,17 +255,27 @@ bool LowAscii(const wchar *Str)
 }
 
 
-int wcsicompc(const wchar *Str1,const wchar *Str2)
+int wcsicompc(const wchar *s1,const wchar *s2) // For path comparison.
 {
 #if defined(_UNIX)
-  return wcscmp(Str1,Str2);
+  return wcscmp(s1,s2);
 #else
-  return wcsicomp(Str1,Str2);
+  return wcsicomp(s1,s2);
 #endif
 }
 
 
-// safe strncpy: copies maxlen-1 max and always returns zero terminated dest
+int wcsnicompc(const wchar *s1,const wchar *s2,size_t n)
+{
+#if defined(_UNIX)
+  return wcsncmp(s1,s2,n);
+#else
+  return wcsnicomp(s1,s2,n);
+#endif
+}
+
+
+// Safe strncpy: copies maxlen-1 max and always returns zero terminated dest.
 char* strncpyz(char *dest, const char *src, size_t maxlen)
 {
   if (maxlen>0)
@@ -265,8 +305,9 @@ wchar* wcsncpyz(wchar *dest, const wchar *src, size_t maxlen)
 char* strncatz(char* dest, const char* src, size_t maxlen)
 {
   size_t Length = strlen(dest);
-  if (Length + 1 < maxlen)
-    strncat(dest, src, maxlen - Length - 1);
+  int avail=int(maxlen - Length - 1);
+  if (avail > 0)
+    strncat(dest, src, avail);
   return dest;
 }
 
@@ -277,22 +318,32 @@ char* strncatz(char* dest, const char* src, size_t maxlen)
 wchar* wcsncatz(wchar* dest, const wchar* src, size_t maxlen)
 {
   size_t Length = wcslen(dest);
-  if (Length + 1 < maxlen)
-    wcsncat(dest, src, maxlen - Length - 1);
+  int avail=int(maxlen - Length - 1);
+  if (avail > 0)
+    wcsncat(dest, src, avail);
   return dest;
 }
 
 
-void itoa(int64 n,char *Str)
+void itoa(int64 n,char *Str,size_t MaxSize)
 {
   char NumStr[50];
   size_t Pos=0;
 
+  int Neg=n < 0 ? 1 : 0;
+  if (Neg)
+    n=-n;
+
   do
   {
+    if (Pos+1>=MaxSize-Neg)
+      break;
     NumStr[Pos++]=char(n%10)+'0';
     n=n/10;
   } while (n!=0);
+
+  if (Neg)
+    NumStr[Pos++]='-';
 
   for (size_t I=0;I<Pos;I++)
     Str[I]=NumStr[Pos-I-1];
@@ -300,16 +351,25 @@ void itoa(int64 n,char *Str)
 }
 
 
-void itoa(int64 n,wchar *Str)
+void itoa(int64 n,wchar *Str,size_t MaxSize)
 {
   wchar NumStr[50];
   size_t Pos=0;
 
+  int Neg=n < 0 ? 1 : 0;
+  if (Neg)
+    n=-n;
+
   do
   {
+    if (Pos+1>=MaxSize-Neg)
+      break;
     NumStr[Pos++]=wchar(n%10)+'0';
     n=n/10;
   } while (n!=0);
+
+  if (Neg)
+    NumStr[Pos++]='-';
 
   for (size_t I=0;I<Pos;I++)
     Str[I]=NumStr[Pos-I-1];

@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -94,6 +94,10 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
     } else if (_tcsicmp(ext, _T(".dsv")) == 0) {
         iconIndex = IDI_DSM_ICON;
     } else if (_tcsicmp(ext, _T(".dts")) == 0) {
+        iconIndex = IDI_DTS_ICON;
+    } else if (_tcsicmp(ext, _T(".dtshd")) == 0) {
+        iconIndex = IDI_DTS_ICON;
+    } else if (_tcsicmp(ext, _T(".dtsma")) == 0) {
         iconIndex = IDI_DTS_ICON;
     } else if (_tcsicmp(ext, _T(".evo")) == 0) {
         iconIndex = IDI_MPEG_ICON;

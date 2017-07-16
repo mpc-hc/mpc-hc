@@ -1,7 +1,5 @@
 #include "rar.hpp"
 
-static bool IsUnicode(byte *Data,int Size);
-
 bool ReadTextFile(
   const wchar *Name,
   StringList *List,
@@ -36,155 +34,129 @@ bool ReadTextFile(
   else
     SrcFile.SetHandleType(FILE_HANDLESTD);
 
-  unsigned int DataSize=0,ReadSize;
-  const int ReadBlock=1024;
-  Array<char> Data(ReadBlock+5);
+  uint DataSize=0,ReadSize;
+  const int ReadBlock=4096;
+
+  Array<byte> Data(ReadBlock);
   while ((ReadSize=SrcFile.Read(&Data[DataSize],ReadBlock))!=0)
   {
     DataSize+=ReadSize;
-    Data.Add(ReadSize);
+    Data.Add(ReadSize); // Always have ReadBlock available for next data.
   }
+  // Set to really read size, so we can zero terminate it correctly.
+  Data.Alloc(DataSize);
 
-  memset(&Data[DataSize],0,5);
+  int LowEndian=DataSize>=2 && Data[0]==255 && Data[1]==254 ? 1:0;
+  int BigEndian=DataSize>=2 && Data[0]==254 && Data[1]==255 ? 1:0;
+  bool Utf8=DataSize>=3 && Data[0]==0xef && Data[1]==0xbb && Data[2]==0xbf;
 
-  Array<wchar> WideStr;
-
-  if (SrcCharset==RCH_UNICODE ||
-      SrcCharset==RCH_DEFAULT && IsUnicode((byte *)&Data[0],DataSize))
+  if (SrcCharset==RCH_DEFAULT)
   {
-    // Unicode in native system format, can be more than 2 bytes per character.
-    Array<wchar> DataW(Data.Size()/2+1);
-    for (size_t I=2;I<Data.Size()-1;I+=2)
-    {
-      // Need to convert Data to (byte) first to prevent the sign extension
-      // to higher bytes.
-      DataW[(I-2)/2]=(wchar)((byte)Data[I])+(wchar)((byte)Data[I+1])*256;
-    }
-
-    wchar *CurStr=&DataW[0];
-
-    while (*CurStr!=0)
-    {
-      wchar *NextStr=CurStr,*CmtPtr=NULL;
-      while (*NextStr!='\r' && *NextStr!='\n' && *NextStr!=0)
-      {
-        if (SkipComments && NextStr[0]=='/' && NextStr[1]=='/')
+    if (LowEndian || BigEndian)  
+      for (size_t I=2;I<DataSize;I++)
+        if (Data[I]<32 && Data[I]!='\r' && Data[I]!='\n')
         {
-          *NextStr=0;
-          CmtPtr=NextStr;
-        }
-        NextStr++;
-      }
-      *NextStr=0;
-      for (wchar *SpacePtr=(CmtPtr ? CmtPtr:NextStr)-1;SpacePtr>=CurStr;SpacePtr--)
-      {
-        if (*SpacePtr!=' ' && *SpacePtr!='\t')
+          SrcCharset=RCH_UNICODE; // High byte in UTF-16 char is found.
           break;
-        *SpacePtr=0;
-      }
-      if (*CurStr!=0)
-      {
-        size_t Length=wcslen(CurStr);
-
-        if (Unquote && *CurStr=='\"' && CurStr[Length-1]=='\"')
-        {
-          CurStr[Length-1]=0;
-          CurStr++;
         }
-
-        bool Expanded=false;
-#ifdef _WIN_ALL
-        if (ExpandEnvStr && *CurStr=='%')
-        {
-          // Expanding environment variables in Windows version.
-
-          wchar ExpName[NM];
-          *ExpName=0;
-          DWORD Result=ExpandEnvironmentStrings(CurStr,ExpName,ASIZE(ExpName));
-          Expanded=Result!=0 && Result<ASIZE(ExpName);
-          if (Expanded)
-            List->AddString(ExpName);
-        }
-#endif
-        if (!Expanded)
-          List->AddString(CurStr);
-      }
-      CurStr=NextStr+1;
-      while (*CurStr=='\r' || *CurStr=='\n')
-        CurStr++;
+    if (Utf8)
+    {
+      Data.Push(0); // Need a zero terminated string for UtfToWide.
+      if (IsTextUtf8((const char *)(Data+3)))
+        SrcCharset=RCH_UTF8;
     }
   }
-  else
+
+  Array<wchar> DataW;
+
+  if (SrcCharset==RCH_DEFAULT || SrcCharset==RCH_OEM || SrcCharset==RCH_ANSI)
   {
-    char *CurStr=&Data[0];
-    while (*CurStr!=0)
-    {
-      char *NextStr=CurStr,*CmtPtr=NULL;
-      while (*NextStr!='\r' && *NextStr!='\n' && *NextStr!=0)
-      {
-        if (SkipComments && NextStr[0]=='/' && NextStr[1]=='/')
-        {
-          *NextStr=0;
-          CmtPtr=NextStr;
-        }
-        NextStr++;
-      }
-      *NextStr=0;
-      for (char *SpacePtr=(CmtPtr ? CmtPtr:NextStr)-1;SpacePtr>=CurStr;SpacePtr--)
-      {
-        if (*SpacePtr!=' ' && *SpacePtr!='\t')
-          break;
-        *SpacePtr=0;
-      }
-      if (*CurStr)
-      {
-        if (Unquote && *CurStr=='\"')
-        {
-          size_t Length=strlen(CurStr);
-          if (CurStr[Length-1]=='\"')
-          {
-            CurStr[Length-1]=0;
-            CurStr++;
-          }
-        }
+    Data.Push(0); // Zero terminate.
 #if defined(_WIN_ALL)
-        if (SrcCharset==RCH_OEM)
-          OemToCharA(CurStr,CurStr);
+    if (SrcCharset==RCH_OEM)
+      OemToCharA((char *)&Data[0],(char *)&Data[0]);
 #endif
+    DataW.Alloc(Data.Size());
+    CharToWide((char *)&Data[0],&DataW[0],DataW.Size());
+  }
 
-        bool Expanded=false;
-
-        WideStr.Alloc(strlen(CurStr)+1);
-        CharToWide(CurStr,&WideStr[0],WideStr.Size());
-#ifdef _WIN_ALL
-        if (ExpandEnvStr && *CurStr=='%')
-        {
-          // Expanding environment variables in Windows version.
-          wchar ExpName[NM];
-          DWORD Result=ExpandEnvironmentStringsW(&WideStr[0],ExpName,ASIZE(ExpName));
-          Expanded=Result!=0 && Result<ASIZE(ExpName);
-          if (Expanded)
-            List->AddString(ExpName);
-        }
-#endif
-        if (!Expanded)
-          List->AddString(&WideStr[0]);
-      }
-      CurStr=NextStr+1;
-      while (*CurStr=='\r' || *CurStr=='\n')
-        CurStr++;
+  if (SrcCharset==RCH_UNICODE)
+  {
+    size_t Start=2; // Skip byte order mark.
+    if (!LowEndian && !BigEndian) // No byte order mask.
+    {
+      Start=0;
+      LowEndian=1;
     }
+    
+    DataW.Alloc(Data.Size()/2+1);
+    size_t End=Data.Size() & ~1; // We need even bytes number for UTF-16.
+    for (size_t I=Start;I<End;I+=2)
+      DataW[(I-Start)/2]=Data[I+BigEndian]+Data[I+LowEndian]*256;
+    DataW[(End-Start)/2]=0;
+  }
+
+  if (SrcCharset==RCH_UTF8)
+  {
+    Data.Push(0); // Zero terminate data.
+    DataW.Alloc(Data.Size());
+    UtfToWide((const char *)(Data+(Utf8 ? 3:0)),&DataW[0],DataW.Size());
+  }
+
+  wchar *CurStr=&DataW[0];
+
+  while (*CurStr!=0)
+  {
+    wchar *NextStr=CurStr,*CmtPtr=NULL;
+    while (*NextStr!='\r' && *NextStr!='\n' && *NextStr!=0)
+    {
+      if (SkipComments && NextStr[0]=='/' && NextStr[1]=='/')
+      {
+        *NextStr=0;
+        CmtPtr=NextStr;
+      }
+      NextStr++;
+    }
+    bool Done=*NextStr==0;
+
+    *NextStr=0;
+    for (wchar *SpacePtr=(CmtPtr!=NULL ? CmtPtr:NextStr)-1;SpacePtr>=CurStr;SpacePtr--)
+    {
+      if (*SpacePtr!=' ' && *SpacePtr!='\t')
+        break;
+      *SpacePtr=0;
+    }
+    
+    if (Unquote && *CurStr=='\"')
+    {
+      size_t Length=wcslen(CurStr);
+      if (CurStr[Length-1]=='\"')
+      {
+        CurStr[Length-1]=0;
+        CurStr++;
+      }
+    }
+
+    bool Expanded=false;
+#if defined(_WIN_ALL)
+    if (ExpandEnvStr && *CurStr=='%') // Expand environment variables in Windows.
+    {
+      wchar ExpName[NM];
+      *ExpName=0;
+      DWORD Result=ExpandEnvironmentStrings(CurStr,ExpName,ASIZE(ExpName));
+      Expanded=Result!=0 && Result<ASIZE(ExpName);
+      if (Expanded && *ExpName!=0)
+        List->AddString(ExpName);
+    }
+#endif
+    if (!Expanded && *CurStr!=0)
+      List->AddString(CurStr);
+
+    if (Done)
+      break;
+    CurStr=NextStr+1;
+    while (*CurStr=='\r' || *CurStr=='\n')
+      CurStr++;
   }
   return true;
-}
-
-
-bool IsUnicode(byte *Data,int Size)
-{
-  if (Size<4 || Data[0]!=0xff || Data[1]!=0xfe)
-    return false;
-  for (int I=2;I<Size;I++)
-    if (Data[I]<32 && Data[I]!='\r' && Data[I]!='\n')
-      return true;
-  return false;
 }

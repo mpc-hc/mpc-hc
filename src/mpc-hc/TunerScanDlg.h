@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,10 +28,12 @@
 
 class CTunerScanDlg : public CDialog
 {
+    CMainFrame* m_pMainFrame;
+
     DECLARE_DYNAMIC(CTunerScanDlg)
 
 public:
-    CTunerScanDlg(CWnd* pParent = nullptr);   // standard constructor
+    CTunerScanDlg(CMainFrame* pMainFrame);   // standard constructor
     virtual ~CTunerScanDlg();
 
     // Dialog Data

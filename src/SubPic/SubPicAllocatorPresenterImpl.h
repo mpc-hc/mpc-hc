@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
+#include <condition_variable>
 #include "ISubPic.h"
 #include "CoordGeom.h"
 #include "SubRenderIntf.h"
@@ -54,6 +55,8 @@ protected:
     CComPtr<ISubPicAllocator> m_pAllocator;
     CComPtr<ISubPicQueue> m_pSubPicQueue;
 
+    std::condition_variable m_condAllocatorReady;
+
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 
@@ -63,8 +66,17 @@ protected:
     SubtitleTextureLimit m_SubtitleTextureLimit;
     void InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize);
 
-    void AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget = nullptr);
+    void AlphaBltSubPic(const CRect& windowRect,
+                        const CRect& videoRect,
+                        SubPicDesc* pTarget = nullptr,
+                        const double videoStretchFactor = 1.0,
+                        int xOffsetInPixels = 0);
 
+    void UpdateXForm();
+    HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;
+
+    Vector m_defaultVideoAngle, m_videoAngle;
+    bool m_bDefaultVideoAngleSwitchAR;
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
 
@@ -112,6 +124,8 @@ public:
     }
 
     STDMETHODIMP SetIsRendering(bool bIsRendering) { return E_NOTIMPL; }
+
+    STDMETHODIMP SetDefaultVideoAngle(Vector v);
 
     // ISubRenderOptions
 

@@ -19,7 +19,7 @@ static byte U1[256][4],U2[256][4],U3[256][4],U4[256][4];
 
 inline void Xor128(void *dest,const void *arg1,const void *arg2)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
+#ifdef ALLOW_MISALIGNED
   ((uint32*)dest)[0]=((uint32*)arg1)[0]^((uint32*)arg2)[0];
   ((uint32*)dest)[1]=((uint32*)arg1)[1]^((uint32*)arg2)[1];
   ((uint32*)dest)[2]=((uint32*)arg1)[2]^((uint32*)arg2)[2];
@@ -34,7 +34,7 @@ inline void Xor128(void *dest,const void *arg1,const void *arg2)
 inline void Xor128(byte *dest,const byte *arg1,const byte *arg2,
                    const byte *arg3,const byte *arg4)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
+#ifdef ALLOW_MISALIGNED
   (*(uint32*)dest)=(*(uint32*)arg1)^(*(uint32*)arg2)^(*(uint32*)arg3)^(*(uint32*)arg4);
 #else
   for (int I=0;I<4;I++)
@@ -45,7 +45,7 @@ inline void Xor128(byte *dest,const byte *arg1,const byte *arg2,
 
 inline void Copy128(byte *dest,const byte *src)
 {
-#if defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
+#ifdef ALLOW_MISALIGNED
   ((uint32*)dest)[0]=((uint32*)src)[0];
   ((uint32*)dest)[1]=((uint32*)src)[1];
   ((uint32*)dest)[2]=((uint32*)src)[2];
@@ -113,6 +113,103 @@ void Rijndael::Init(bool Encrypt,const byte *key,uint keyLen,const byte * initVe
     keyEncToDec();
 }
 
+void Rijndael::blockEncrypt(const byte *input,size_t inputLen,byte *outBuffer)
+{
+  if (inputLen <= 0)
+    return;
+
+  size_t numBlocks = inputLen/16;
+#ifdef USE_SSE
+  if (AES_NI)
+  {
+    blockEncryptSSE(input,numBlocks,outBuffer);
+    return;
+  }
+#endif
+  
+  byte *prevBlock = m_initVector;
+  for(size_t i = numBlocks;i > 0;i--)
+  {
+    byte block[16];
+    if (CBCMode)
+      Xor128(block,prevBlock,input);
+    else
+      Copy128(block,input);
+
+    byte temp[4][4];
+
+    Xor128(temp,block,m_expandedKey[0]);
+    Xor128(outBuffer,   T1[temp[0][0]],T2[temp[1][1]],T3[temp[2][2]],T4[temp[3][3]]);
+    Xor128(outBuffer+4, T1[temp[1][0]],T2[temp[2][1]],T3[temp[3][2]],T4[temp[0][3]]);
+    Xor128(outBuffer+8, T1[temp[2][0]],T2[temp[3][1]],T3[temp[0][2]],T4[temp[1][3]]);
+    Xor128(outBuffer+12,T1[temp[3][0]],T2[temp[0][1]],T3[temp[1][2]],T4[temp[2][3]]);
+
+    for(int r = 1; r < m_uRounds-1; r++)
+    {
+      Xor128(temp,outBuffer,m_expandedKey[r]);
+      Xor128(outBuffer,   T1[temp[0][0]],T2[temp[1][1]],T3[temp[2][2]],T4[temp[3][3]]);
+      Xor128(outBuffer+4, T1[temp[1][0]],T2[temp[2][1]],T3[temp[3][2]],T4[temp[0][3]]);
+      Xor128(outBuffer+8, T1[temp[2][0]],T2[temp[3][1]],T3[temp[0][2]],T4[temp[1][3]]);
+      Xor128(outBuffer+12,T1[temp[3][0]],T2[temp[0][1]],T3[temp[1][2]],T4[temp[2][3]]);
+    }
+    Xor128(temp,outBuffer,m_expandedKey[m_uRounds-1]);
+    outBuffer[ 0] = T1[temp[0][0]][1];
+    outBuffer[ 1] = T1[temp[1][1]][1];
+    outBuffer[ 2] = T1[temp[2][2]][1];
+    outBuffer[ 3] = T1[temp[3][3]][1];
+    outBuffer[ 4] = T1[temp[1][0]][1];
+    outBuffer[ 5] = T1[temp[2][1]][1];
+    outBuffer[ 6] = T1[temp[3][2]][1];
+    outBuffer[ 7] = T1[temp[0][3]][1];
+    outBuffer[ 8] = T1[temp[2][0]][1];
+    outBuffer[ 9] = T1[temp[3][1]][1];
+    outBuffer[10] = T1[temp[0][2]][1];
+    outBuffer[11] = T1[temp[1][3]][1];
+    outBuffer[12] = T1[temp[3][0]][1];
+    outBuffer[13] = T1[temp[0][1]][1];
+    outBuffer[14] = T1[temp[1][2]][1];
+    outBuffer[15] = T1[temp[2][3]][1];
+    Xor128(outBuffer,outBuffer,m_expandedKey[m_uRounds]);
+    prevBlock=outBuffer;
+
+    outBuffer += 16;
+    input += 16;
+  }
+  Copy128(m_initVector,prevBlock);
+}
+
+
+#ifdef USE_SSE
+void Rijndael::blockEncryptSSE(const byte *input,size_t numBlocks,byte *outBuffer)
+{
+  __m128i v = _mm_loadu_si128((__m128i*)m_initVector);
+  __m128i *src=(__m128i*)input;
+  __m128i *dest=(__m128i*)outBuffer;
+  __m128i *rkey=(__m128i*)m_expandedKey;
+  while (numBlocks > 0)
+  {
+    __m128i d = _mm_loadu_si128(src++);
+    if (CBCMode)
+      v = _mm_xor_si128(v, d);
+    else
+      v = d;
+    __m128i r0 = _mm_loadu_si128(rkey);
+    v = _mm_xor_si128(v, r0);
+    
+    for (int i=1; i<m_uRounds; i++)
+    {
+      __m128i ri = _mm_loadu_si128(rkey + i);
+      v = _mm_aesenc_si128(v, ri);
+    }
+
+    __m128i rl = _mm_loadu_si128(rkey + m_uRounds);
+    v = _mm_aesenclast_si128(v, rl);
+    _mm_storeu_si128(dest++,v);
+    numBlocks--;
+  }
+  _mm_storeu_si128((__m128i*)m_initVector,v);
+}
+#endif
 
   
 void Rijndael::blockDecrypt(const byte *input, size_t inputLen, byte *outBuffer)

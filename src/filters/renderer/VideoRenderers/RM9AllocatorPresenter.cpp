@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "RM9AllocatorPresenter.h"
+#include "../../../DSUtil/vd.h"
 
 using namespace DSObjects;
 
@@ -47,6 +48,8 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
+
+    CheckPointer(m_pD3DDev, E_POINTER);
 
     m_pVideoSurfaceOff  = nullptr;
     m_pVideoSurfaceYUY2 = nullptr;

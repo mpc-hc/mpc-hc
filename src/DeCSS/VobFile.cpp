@@ -8,6 +8,7 @@
 
 #include "../DSUtil/GolombBuffer.h"
 #include "../DSUtil/DSUtil.h"
+#include "../DSUtil/ISOLang.h"
 
 #define AUDIO_BLOCK_SIZE    66
 #define SUBTITLE_BLOCK_SIZE 194
@@ -20,8 +21,8 @@
 //
 
 CDVDSession::CDVDSession()
-    : m_session(DVD_END_ALL_SESSIONS)
-    , m_hDrive(INVALID_HANDLE_VALUE)
+    : m_hDrive(INVALID_HANDLE_VALUE)
+    , m_session(DVD_END_ALL_SESSIONS)
 {
     ZeroMemory(m_SessionKey, sizeof(m_SessionKey));
     ZeroMemory(m_DiscKey, sizeof(m_DiscKey));
@@ -97,7 +98,7 @@ bool CDVDSession::Authenticate()
 
     BYTE Challenge[10], Key[10];
 
-    for (int i = 0; i < 10; i++) {
+    for (BYTE i = 0; i < 10; i++) {
         Challenge[i] = i;
     }
 
@@ -205,74 +206,94 @@ static void Reverse(BYTE* d, BYTE* s, int len)
 
 bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 {
-    CAutoPtr<DVD_COPY_PROTECT_KEY> key;
+    CAutoVectorPtr<BYTE> key;
+    DVD_COPY_PROTECT_KEY* pKey = nullptr;
+
+    auto allocateKey = [&](ULONG len) {
+        bool bSuccess = key.Allocate(len);
+        if (bSuccess) {
+            pKey = (DVD_COPY_PROTECT_KEY*)(BYTE*)key;
+            pKey->KeyLength = len;
+        }
+        return bSuccess;
+    };
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
-            key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
-            Reverse(key->KeyData, pKeyData, 10);
+            if (allocateKey(DVD_CHALLENGE_KEY_LENGTH)) {
+                Reverse(pKey->KeyData, pKeyData, 10);
+            }
             break;
         case DvdBusKey2:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
-            key->KeyLength = DVD_BUS_KEY_LENGTH;
-            Reverse(key->KeyData, pKeyData, 5);
+            if (allocateKey(DVD_BUS_KEY_LENGTH)) {
+                Reverse(pKey->KeyData, pKeyData, 5);
+            }
             break;
         default:
             break;
     }
 
-    if (!key) {
+    if (!pKey) {
         return false;
     }
 
-    key->SessionId = m_session;
-    key->KeyType = KeyType;
-    key->KeyFlags = 0;
+    pKey->SessionId = m_session;
+    pKey->KeyType = KeyType;
+    pKey->KeyFlags = 0;
 
-    DWORD BytesReturned;
-    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, nullptr, 0, &BytesReturned, nullptr);
+    DWORD dwBytesReturned;
+    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, pKey, pKey->KeyLength, nullptr, 0, &dwBytesReturned, nullptr);
 }
 
 bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 {
-    CAutoPtr<DVD_COPY_PROTECT_KEY> key;
+    CAutoVectorPtr<BYTE> key;
+    DVD_COPY_PROTECT_KEY* pKey = nullptr;
+
+    auto allocateKey = [&](ULONG len) {
+        bool bSuccess = key.Allocate(len);
+        if (bSuccess) {
+            pKey = (DVD_COPY_PROTECT_KEY*)(BYTE*)key;
+            pKey->KeyLength = len;
+        }
+        return bSuccess;
+    };
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
-            key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_CHALLENGE_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdBusKey1:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
-            key->KeyLength = DVD_BUS_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_BUS_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdDiskKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_DISK_KEY_LENGTH]);
-            key->KeyLength = DVD_DISK_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_DISK_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdTitleKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_TITLE_KEY_LENGTH]);
-            key->KeyLength = DVD_TITLE_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 2048i64 * lba;
+            if (allocateKey(DVD_TITLE_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 2048i64 * lba;
+            }
             break;
         default:
             break;
     }
 
-    if (!key) {
+    if (!pKey) {
         return false;
     }
 
-    key->SessionId = m_session;
-    key->KeyType = KeyType;
-    key->KeyFlags = 0;
+    pKey->SessionId = m_session;
+    pKey->KeyType = KeyType;
+    pKey->KeyFlags = 0;
 
-    DWORD BytesReturned;
-    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, nullptr)) {
+    DWORD dwBytesReturned;
+    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, pKey, pKey->KeyLength, pKey, pKey->KeyLength, &dwBytesReturned, nullptr)) {
         DWORD err = GetLastError();
         UNREFERENCED_PARAMETER(err);
         return false;
@@ -280,19 +301,19 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 
     switch (KeyType) {
         case DvdChallengeKey:
-            Reverse(pKeyData, key->KeyData, 10);
+            Reverse(pKeyData, pKey->KeyData, 10);
             break;
         case DvdBusKey1:
-            Reverse(pKeyData, key->KeyData, 5);
+            Reverse(pKeyData, pKey->KeyData, 5);
             break;
         case DvdDiskKey:
-            memcpy(pKeyData, key->KeyData, 2048);
+            memcpy(pKeyData, pKey->KeyData, 2048);
             for (int i = 0; i < 2048 / 5; i++) {
                 pKeyData[i] ^= m_SessionKey[4 - (i % 5)];
             }
             break;
         case DvdTitleKey:
-            memcpy(pKeyData, key->KeyData, 5);
+            memcpy(pKeyData, pKey->KeyData, 5);
             for (int i = 0; i < 5; i++) {
                 pKeyData[i] ^= m_SessionKey[4 - (i % 5)];
             }
@@ -456,7 +477,7 @@ bool CVobFile::GetTitleInfo(LPCTSTR fn, ULONG nTitleNum, ULONG& VTSN, ULONG& TTN
     return true;
 }
 
-bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
+bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/, bool bAuthenticate /*= true*/)
 {
     if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
@@ -497,7 +518,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         gb.ReadBuffer((BYTE*)lang, 2);
         gb.ReadDword();// skip
         if (ToAdd) {
-            m_pStream_Lang[ToAdd + i] = ISO6391ToLanguage(lang);
+            m_pStream_Lang[ToAdd + i] = ISOLang::ISO6391ToLanguage(lang);
         }
     }
 
@@ -511,7 +532,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         char lang[2];
         gb_s.ReadBuffer((BYTE*)lang, 2);
         gb_s.ReadShort();
-        m_pStream_Lang[0x20 + i] = ISO6391ToLanguage(lang);
+        m_pStream_Lang[0x20 + i] = ISOLang::ISO6391ToLanguage(lang);
     }
 
     // Chapters ...
@@ -533,7 +554,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
     int cellTableOffset = ReadShort();
     REFERENCE_TIME rtDuration = 0;
     m_pChapters[0] = 0;
-    for (int currentProgram = 0; currentProgram < programChainPrograms; currentProgram++) {
+    for (BYTE currentProgram = 0; currentProgram < programChainPrograms; currentProgram++) {
         m_ifoFile.Seek(pcgITPosition + chainOffset + programMapOffset + currentProgram, CFile::begin);
         byte entryCell = ReadByte();
         byte exitCell = entryCell;
@@ -613,10 +634,10 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         }
     }
 
-    return Open(vobs, offset);
+    return Open(vobs, offset, bAuthenticate);
 }
 
-bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
+bool CVobFile::Open(const CAtlList<CString>& vobs, int offset /*= -1*/, bool bAuthenticate /*= true*/)
 {
     Close();
 
@@ -624,11 +645,11 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
         return false;
     }
 
+    m_offsetAuth = offset;
     if (vobs.GetCount() == 1) {
-        offset = -1;
+        m_offsetAuth = -1;
     }
-
-    m_offset = offset;
+    m_offset = std::max(m_offsetAuth, 0);
 
     POSITION pos = vobs.GetHeadPosition();
     while (pos) {
@@ -650,11 +671,18 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
         m_size += f.size;
     }
 
+    return bAuthenticate ? Authenticate() : true;
+}
+
+bool CVobFile::Authenticate()
+{
+    m_fDVD = m_fHasDiscKey = m_fHasTitleKey = false;
+
     if (!m_files.IsEmpty() && CDVDSession::Open(m_files[0].fn)) {
         for (size_t i = 0; !m_fHasTitleKey && i < m_files.GetCount(); i++) {
             if (BeginSession()) {
                 m_fDVD = true;
-                Authenticate();
+                CDVDSession::Authenticate();
                 m_fHasDiscKey = GetDiscKey();
                 EndSession();
             } else {
@@ -668,11 +696,11 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
                 break;
             }
 
-            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                 DWORD start, end;
                 if (udf_get_lba(m_hDrive, f, &start, &end)) {
                     if (BeginSession()) {
-                        Authenticate();
+                        CDVDSession::Authenticate();
                         m_fHasTitleKey = GetTitleKey(start + f->partition_lba, m_TitleKey);
                         EndSession();
                     }
@@ -682,23 +710,23 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
             }
 
             BYTE key[5];
-            if (HasTitleKey(key) && i == 0 && offset >= 0) {
+            if (HasTitleKey(key) && i == 0 && m_offsetAuth >= 0) {
                 i++;
 
                 if (BeginSession()) {
                     m_fDVD = true;
-                    Authenticate();
+                    CDVDSession::Authenticate();
                     m_fHasDiscKey = GetDiscKey();
                     EndSession();
                 } else {
                     break;
                 }
 
-                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                     DWORD start, end;
                     if (udf_get_lba(m_hDrive, f, &start, &end)) {
                         if (BeginSession()) {
-                            Authenticate();
+                            CDVDSession::Authenticate();
                             m_fHasTitleKey = GetTitleKey(start + f->partition_lba, m_TitleKey);
                             EndSession();
                         }
@@ -714,19 +742,16 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
             }
         }
     }
-    /*
-        if(!m_files.IsEmpty() && !m_fDVD)
-        {
-            CString fn = m_files[0].fn;
-            fn.MakeLower();
 
-            if(fn.Find(_T(":\\video_ts")) == 1 && GetDriveType(fn.Left(3)) == DRIVE_CDROM)
-            {
-                m_fDVD = true;
-            }
+    /*if(!m_files.IsEmpty() && !m_fDVD) {
+        CString fn = m_files[0].fn;
+        fn.MakeLower();
+
+        if(fn.Find(_T(":\\video_ts")) == 1 && GetDriveType(fn.Left(3)) == DRIVE_CDROM)
+        {
+        m_fDVD = true;
         }
-    */
-    m_offset = std::max(offset, 0);
+    }*/
 
     return true;
 }
@@ -736,7 +761,7 @@ void CVobFile::Close()
     CDVDSession::Close();
     m_files.RemoveAll();
     m_iFile = -1;
-    m_pos = m_size = m_offset = 0;
+    m_pos = m_size = m_offset = m_offsetAuth = 0;
     m_file.Close();
     m_fDVD = m_fHasDiscKey = m_fHasTitleKey = false;
 }
@@ -830,6 +855,7 @@ BSTR CVobFile::GetTrackName(UINT aTrackIdx) const
 REFERENCE_TIME CVobFile::GetChapterOffset(UINT ChapterNumber) const
 {
     REFERENCE_TIME rtChapterOffset = 0;
-    m_pChapters.Lookup(ChapterNumber, rtChapterOffset);
+    ASSERT(ChapterNumber < BYTE_MAX);
+    m_pChapters.Lookup((BYTE)ChapterNumber, rtChapterOffset);
     return rtChapterOffset;
 }

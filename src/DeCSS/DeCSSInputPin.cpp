@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,7 +31,6 @@
 #include "CSSauth.h"
 #include "CSSscramble.h"
 
-#include <InitGuid.h>
 #include "moreuuids.h"
 
 //
@@ -289,7 +288,7 @@ STDMETHODIMP CDeCSSInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
     switch (Id) {
         case AM_PROPERTY_DVDCOPY_CHLG_KEY: { // 1. auth: send our nonce word
             AM_DVDCOPY_CHLGKEY* pChlgKey = (AM_DVDCOPY_CHLGKEY*)pPropertyData;
-            for (int i = 0; i < 10; i++) {
+            for (BYTE i = 0; i < 10; i++) {
                 pChlgKey->ChlgKey[i] = 9 - (m_Challenge[i] = i);
             }
             *pBytesReturned = sizeof(AM_DVDCOPY_CHLGKEY);

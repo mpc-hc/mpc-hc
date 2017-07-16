@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2013 see Authors.txt
+REM (C) 2012-2016 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -18,19 +18,20 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
-PUSHD %~dp0
-
-SET "AStyleVerMin=2.04"
+SET "AStyleVerReq=2.05.1"
 astyle --version 2>NUL || (ECHO. & ECHO ERROR: AStyle not found & GOTO End)
 CALL :SubCheckVer || GOTO End
 
 
 :Start
-TITLE Running astyle using %~dp0astyle.ini
+TITLE Running astyle using %FILE_DIR%astyle.ini
 
 IF "%~1" == "" (
-  astyle -r --options=astyle.ini ..\*.h ..\*.cpp
+  astyle -r --options=astyle.ini ..\*.cpp
+  astyle -r --options=astyle.ini --keep-one-line-blocks ..\*.h
 ) ELSE (
   FOR %%G IN (%*) DO astyle --options=astyle.ini %%G
 )
@@ -52,8 +53,8 @@ FOR /F "tokens=4 delims= " %%A IN ('astyle --version 2^>^&1 NUL') DO (
   SET "AStyleVer=%%A"
 )
 
-IF %AStyleVer% LSS %AStyleVerMin% (
-  ECHO. & ECHO ERROR: AStyle v%AStyleVer% is too old, please update AStyle to v%AStyleVerMin% or newer.
+IF %AStyleVer% NEQ %AStyleVerReq% (
+  ECHO. & ECHO ERROR: AStyle v%AStyleVerReq% is required.
   EXIT /B 1
 )
 EXIT /B

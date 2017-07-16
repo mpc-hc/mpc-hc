@@ -1,21 +1,24 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
-# Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2014
+# Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2015
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
+# Khaled Saleem Baleesh <Kbaleesh@gmail.com>, 2016
 # manxx55 <w6txz2@gmail.com>, 2014
+# Mubarak Qahtani <abu-q76@hotmail.com>, 2016
+# Omar Anwar <omaraglan91@yahoo.com>, 2015,2017
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
-# manxx55 <w6txz2@gmail.com>, 2014
+# manxx55 <w6txz2@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-02 18:20+0000\n"
-"Last-Translator: manxx55 <w6txz2@gmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-19 16:41+0000\n"
+"Last-Translator: Omar Anwar <omaraglan91@yahoo.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +71,7 @@ msgstr "معاينة"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "V/A Buffers:"
+msgstr "V/A المؤقتة:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
@@ -115,7 +118,7 @@ msgid "Enable custom channel mapping"
 msgstr "تمكين تخطيط القنوات المخصص"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "إعداد السماعات لـ"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -123,7 +126,7 @@ msgid "input channels:"
 msgstr "قنوات إدخال"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "استمر بالضغط على shift لجعل التغييرات فورية بعد النقر على شيء"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -195,12 +198,12 @@ msgid "About"
 msgstr "حول"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Authors.txt حقوق طبع © 2002-2014 انظر"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Authors.txt حقوق طبع © 2002-2017 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr " هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
+msgstr "هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -427,12 +430,16 @@ msgid "time(s)"
 msgstr "مرة (مرات)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "وضع الإعادة:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "بعد التشغيل"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "المخرجات"
+msgid "Default zoom"
+msgstr "التقريب الافتراضى"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -472,15 +479,11 @@ msgstr "استعمل خيط العامل لبناء مخطط الفلاتر"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Report pins which fail to render"
+msgstr "عمل تقرير للهويات التي فشلت بالعارض"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "تحميل ملفات الصوت تلقائياً"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "renderer إستعمل الترجمة الداخلية لـ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -520,7 +523,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr ""
+msgstr "تأخير الخطوة"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -575,7 +578,7 @@ msgid "Warning"
 msgstr "تحذير"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "إذا كنت ستتجاوز وتمكّن الشاشة الكاملة ضدّ التعرّج في مكان ضبط كرت الفيديو الخاص بك، فالترجمة لن تشاهدها بفرق أفضل لكنّه سيستهلك وحدة المعالجة المركزية بالتأكيد"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -596,7 +599,7 @@ msgstr "تشغيل مع"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "استخدام إيقونة صيغة محددة"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
@@ -604,7 +607,7 @@ msgstr "تشغيل كمسؤول"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "تطبيق كإفتراضي للبرنامج"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -682,16 +685,16 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "منع تصغير المشغل عندما يكون في الشاشة الكاملة على غير الضبط الأفتراضي"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "إستعمال مميزّات شريط المهام لويندوز 7"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "استخدام ميزات شريط المهام المحسنة"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة  في قائمة التشغيل"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة في قائمة التشغيل"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "استخدام أداة طرف الوقت:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -900,7 +903,7 @@ msgstr "تحذير"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك  المطلوب أو أن الفلاتر غير مثبته على النظام"
+msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك المطلوب أو أن الفلاتر غير مثبته على النظام"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -992,11 +995,11 @@ msgstr "المساحات"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "الزاوية  (z,°)"
+msgstr "الزاوية (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "المقياس  (x,%)"
+msgstr "المقياس (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"
@@ -1131,8 +1134,8 @@ msgid "Audio Renderer"
 msgstr "عارض الصوت"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "ضبط VMR-7/VMR-9 (عارض أقل) و EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "ضبط VMR-9 (عارض أقل) و EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1175,8 +1178,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "الترجمات *"
+msgid "Subtitles"
+msgstr "الترجمات"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1191,8 +1194,12 @@ msgid "Rotation"
 msgstr "التدوير"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "المرشحات الخارجية مثل (Vsfilter) يمكن أن تعرض الترجمة على كلّ العوارض *"
+msgid "Subtitle Renderer"
+msgstr "إعادة طباعة الترجمة"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1209,6 +1216,10 @@ msgstr "تمكين الضغط"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "السماح بالوصول من المضيف المحلي فقط"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "تمكين المعاينة"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1235,16 +1246,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI عوامل: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "الترجمات متوفرة على الانترنت"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "تنزيل وفتح"
+msgid "Download subtitles"
+msgstr "تحميل الترجمات"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "استبدال الترجمة المحملة حاليا"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "تحميل"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "تنشيط"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "إلغاء"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "اعدادات"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "رفع الترجمة"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "رفع"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "إلغاء"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "اعدادات"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1283,8 +1322,8 @@ msgid "Enable automatic update check"
 msgstr "تمكين الفحص التلقائي للتحديثات"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "التأخير بين كل فحص:"
+msgid "Check every:"
+msgstr "افحص كل:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1547,16 +1586,28 @@ msgid "Reset"
 msgstr "إعادة ضبط"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "قاعدة البيانات على الانترنت"
+msgid "Online search, download and upload subtitles"
+msgstr "البحث في الانترنت عن الترجمات وتنزيلها ورفعها"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "ابحث بشكل آلي عن الترجمات وحملها إذا لم تكن متوفرة محليا"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "يفضل استخدام الترجمة لِضعاف السمع"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "تجاهل الملفات التي تحتوي على الكلمات التالية:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "الرابط الأساسي لقاعدة البيانات على الانترنت"
+msgid "Languages in order of preference:"
+msgstr "اللغات بالترتيب حسب تفضيلها (مثل \"eng ell spa\"):"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "فحص"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "ارفع الترجمات النشطة عند نهاية مقطع الفيديو"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1658,6 +1709,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "الأفتراضي"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "جهاز"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "وضع خاص"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "تمكين التدفق"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "اعدادات"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "تمكين التغذيه عبر موحة الاستريو(من اجل سماعات الرأس)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "قطع:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "مستوى:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "ملحوظه"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "لتقليل التشويه فى الصوت،من المفضل ان تبقى صوت المشغل فى حدود 85% \nعندما يتم تشغيل صوت صاخب-محتوى مرمز."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "دقة الصورة:"
@@ -1669,4 +1764,40 @@ msgstr "سطر الأوامر للمساعدة"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "حسناً"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "إرسال انهيار"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "نحن اسفون، يبدو ان المشغل قد تعطل. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "ارسل تقرير عن العله لمساعدتنا فحص المشكله وايجاد الحل."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "معلومات اختياريه."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "الإيميل:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "وضع عنوان بريدك الإلكتروني هو اختياري، سوف يستخدم فقط للإتصال بك من قبل المطورين للمزيد من المعلومات."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "وصف المشكلة (استخدام اللغة الإنجليزية فقط):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "اعاده تشغيل المشغل."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "اغلق المشغل"
 

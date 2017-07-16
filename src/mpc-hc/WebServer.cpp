@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,7 +29,7 @@
 #include "WebClientSocket.h"
 #include "WebServer.h"
 #include "VersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 
 CAtlStringMap<CWebServer::RequestHandler, CStringA> CWebServer::m_internalpages;
@@ -40,7 +40,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     : m_pMainFrame(pMainFrame)
     , m_nPort(nPort)
 {
-    m_webroot = CPath(GetProgramPath());
+    m_webroot = CPath(PathUtils::GetProgramPath());
     const CAppSettings& s = AfxGetAppSettings();
 
     CString WebRoot = s.strWebRoot;
@@ -147,7 +147,7 @@ void CWebServer::Init()
             ULONG len2 = _countof(ext);
             if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
                     && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
-                m_mimes[CStringA(CString(ext).MakeLower())] = CStringA(CString(buff).MakeLower());
+                m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
             }
         }
     }
@@ -257,7 +257,7 @@ bool CWebServer::ToLocalPath(CString& path, CString& redir)
                     p = p2;
                     redir = path;
                     if (redir.GetAt(redir.GetLength() - 1) != '/') {
-                        redir += '/';
+                        redir += _T('/');
                     }
                     redir += str;
                     break;
@@ -656,7 +656,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     }
 
     TCHAR* cmdln = DEBUG_NEW TCHAR[32768];
-    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi, path);
+    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi.GetString(), path.GetString());
 
     if (hChildStdinRd && hChildStdoutWr)
         if (CreateProcess(
@@ -664,14 +664,14 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
                     envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : nullptr,
                     dir, &siStartInfo, &piProcInfo)) {
             DWORD ThreadId;
-            CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId);
+            VERIFY(CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId));
 
             static const int BUFFSIZE = 1024;
             DWORD dwRead, dwWritten = 0;
 
             int i = 0, len = pClient->m_data.GetLength();
             for (; i < len; i += dwWritten) {
-                if (!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, min(len - i, BUFFSIZE), &dwWritten, nullptr)) {
+                if (!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, std::min(len - i, BUFFSIZE), &dwWritten, nullptr)) {
                     break;
                 }
             }
@@ -699,7 +699,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
             CloseHandle(piProcInfo.hProcess);
             CloseHandle(piProcInfo.hThread);
         } else {
-            body = _T("CGI Error");
+            body = "CGI Error";
         }
 
     delete [] cmdln;

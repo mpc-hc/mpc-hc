@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -657,7 +657,13 @@ void CMPC_Lcd::SetVolume(__int64 nVol)
     //handle 64bit integers LCDUI only supports int for Range
     //Since it also supports floats for position,
     //This will always work in percentage
-    float fVol = ((float)(nVol - m_nVolumeStart) * 100) / (float)(m_nVolumeStop - m_nVolumeStart);
+    float fVol;
+    if (m_nVolumeStart != m_nVolumeStop) {
+        fVol = float(nVol - m_nVolumeStart) * 100.0f / float(m_nVolumeStop - m_nVolumeStart);
+    } else {
+        fVol = 0.0f;
+        ASSERT(FALSE); // This isn't supposed to happen
+    }
 
     EnterCriticalSection(&cs);
     m_MonoPage.m_ProgBar[0].SetPos(fVol);
@@ -681,7 +687,12 @@ void CMPC_Lcd::SetMediaPos(__int64 nPos)
     //handle 64bit integers LCDUI only supports int for Range
     //Since it also supports floats for position,
     //This will always work in percentage
-    float fPos = ((float)(nPos - m_nMediaStart) * 100) / (float)(m_nMediaStop - m_nMediaStart);
+    float fPos;
+    if (m_nMediaStart != m_nMediaStop) {
+        fPos = float(nPos - m_nMediaStart) * 100.0f / float(m_nMediaStop - m_nMediaStart);
+    } else { // The duration might be unknown
+        fPos = 0.0f;
+    }
 
     EnterCriticalSection(&cs);
     m_MonoPage.m_ProgBar[1].SetPos(fPos);

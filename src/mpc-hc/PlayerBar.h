@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "sizecbar/scbarg.h"
+#include "EventDispatcher.h"
 
 
 class CPlayerBar : public CSizingControlBarG
@@ -44,6 +45,8 @@ protected:
     afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
     afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
     afx_msg void OnExitMenuLoop(BOOL bIsTrackPopupMenu);
+
+    virtual void OnBarStyleChange(DWORD dwOldStyle, DWORD dwNewStyle);
 
     void SetAutohidden(bool bValue);
 

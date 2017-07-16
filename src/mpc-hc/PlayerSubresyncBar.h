@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,12 +21,16 @@
 
 #pragma once
 
-#include <afxcview.h>
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
-#include "../Subtitles/RTS.h"
+#include "../Subtitles/STS.h"
 #include "../Subtitles/VobSubFile.h"
+#include <map>
+#include <vector>
 
+
+class CMainFrame;
+interface ISubStream;
 
 // CPlayerSubresyncBar
 
@@ -40,7 +44,14 @@ private:
 
     CPlayerListCtrl m_list;
 
+    CMainFrame* m_pMainFrame;
+
     CFont m_font;
+    void ScaleFont();
+
+    int m_itemHeight = 0;
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
     CCritSec* m_pSubLock;
     CComPtr<ISubStream> m_pSubStream;
@@ -78,25 +89,22 @@ private:
     };
     MODE m_mode;
 
-    //bool m_bUnlink;
-
+    std::multimap<REFERENCE_TIME, size_t> m_newStartsIndex;
     struct SubTime {
-        int orgStart, newStart, orgEnd, newEnd;
+        REFERENCE_TIME orgStart, newStart, orgEnd, newEnd;
+        std::multimap<REFERENCE_TIME, size_t>::iterator itIndex;
     };
-    CAtlArray<SubTime> m_subtimes;
+    std::vector<SubTime> m_subtimes;
 
     CSimpleTextSubtitle m_sts;
     CAtlArray<CVobSubFile::SubPos> m_vobSub;
 
     struct DisplayData {
-        int tStart, tPrevStart, tEnd, tPrevEnd;
+        REFERENCE_TIME tStart, tPrevStart, tEnd, tPrevEnd;
         int flags;
     };
-    CAtlArray<DisplayData> m_displayData;
+    std::vector<DisplayData> m_displayData;
     CString m_displayBuffer;
-
-    int GetStartTime(int iItem);
-    int GetEndTime(int iItem);
 
     void UpdatePreview();
 
@@ -108,20 +116,20 @@ private:
         TSEP  = 0x80000000
     };
 
-    void SetSTS0(int& start, int end, int ti0);
-    void SetSTS1(int& start, int end, int ti0, double m, int i0);
+    void SetSTS0(int& start, int end, REFERENCE_TIME ti0);
+    void SetSTS1(int& start, int end, REFERENCE_TIME ti0, double m, int i0);
 
     void GetCheck(int iItem, bool& fStartMod, bool& fEndMod, bool& fStartAdj, bool& fEndAdj) const;
     void SetCheck(int iItem, bool fStart, bool fEnd);
 
-    bool ModStart(int iItem, int t, bool fReset = false);
-    bool ModEnd(int iItem, int t, bool fReset = false);
+    bool ModStart(int iItem, REFERENCE_TIME t, bool fReset = false);
+    bool ModEnd(int iItem, REFERENCE_TIME t, bool fReset = false);
 
     void OnGetDisplayInfoTextSub(LV_ITEM* pItem);
     void OnGetDisplayInfoVobSub(LV_ITEM* pItem);
 
 public:
-    CPlayerSubresyncBar();
+    CPlayerSubresyncBar(CMainFrame* pMainFrame);
     virtual ~CPlayerSubresyncBar();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
@@ -148,6 +156,7 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
+    void OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnGetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);

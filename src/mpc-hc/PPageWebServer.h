@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -47,9 +47,10 @@ public:
     int m_nWebServerPort;
     CIntEdit m_nWebServerPortCtrl;
     CStaticLink m_launch;
-    BOOL m_fWebServerPrintDebugInfo;
     BOOL m_fWebServerUseCompression;
     BOOL m_fWebServerLocalhostOnly;
+    BOOL m_fWebServerPrintDebugInfo;
+    BOOL m_bWebUIEnablePreview;
     BOOL m_fWebRoot;
     CString m_WebRoot;
     CString m_WebServerCGI;
@@ -68,4 +69,5 @@ public:
     afx_msg void OnBnClickedButton1();
     afx_msg void OnBnClickedButton2();
     afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
+    afx_msg void OnEnablePreviewChecked();
 };

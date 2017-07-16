@@ -1,6 +1,6 @@
 /*
 * (C) 2007 Niels Martin Hansen
-* (C) 2013-2014 see Authors.txt
+* (C) 2013-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -21,10 +21,13 @@
 
 #pragma once
 
-#include <math.h>
+#include <cmath>
 
 #define LIBDIVIDE_USE_SSE2 1
+#pragma warning(push)
+#pragma warning(disable: 4244 4702)
 #include "libdivide.h"
+#pragma warning(pop)
 
 // Filter an image in horizontal direction with a one-dimensional filter
 // PixelWidth is the distance in bytes between pixels

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,8 @@
 #pragma once
 
 #include "InternalPropertyPage.h"
-#include <afxcmn.h>
+#include "../mpc-hc/DpiHelper.h"
+#include <atlcoll.h>
 
 class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
     CPinInfoWnd : public CInternalPropertyPageWnd
@@ -38,6 +39,8 @@ class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
     CComboBox m_pin_combo;
     CEdit m_info_edit;
 
+    DpiHelper m_dpi;
+
     void AddLine(CString str);
 
 public:
@@ -50,11 +53,11 @@ public:
     bool OnApply();
 
     static LPCTSTR GetWindowTitle() { return _T("Pin Info"); }
-    static CSize GetWindowSize() { return CSize(500, 300); }
+    static CSize GetWindowSize() { return { 0, 0 }; }
 
     DECLARE_MESSAGE_MAP()
 
-    void OnCbnSelchangeCombo1();
+    void OnSelectedPinChange();
 
 protected:
     virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);

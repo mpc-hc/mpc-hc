@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,15 +24,14 @@
 #include "MacrovisionKicker.h"
 #include "DSUtil.h"
 
-#include <InitGuid.h>
-#include "mhook/mhook-lib/mhook.h"
+#include "MhookHelper.h"
 
 
 HRESULT(__stdcall* Real_CoCreateInstance)(CONST IID& a0,
-        LPUNKNOWN a1,
-        DWORD a2,
-        CONST IID& a3,
-        LPVOID* a4)
+                                          LPUNKNOWN a1,
+                                          DWORD a2,
+                                          CONST IID& a3,
+                                          LPVOID* a4)
     = CoCreateInstance;
 
 LONG(WINAPI* Real_RegCreateKeyExA)(HKEY a0,
@@ -535,35 +534,36 @@ void CFilterMapper2::Init()
 {
     if (!s_bInitialized) {
         // In case of error, we don't report the failure immediately since the hooks might not be needed
-        s_bInitialized = Mhook_SetHook(&(PVOID&)Real_CoCreateInstance, (PVOID)Mine_CoCreateInstance)
-                         && Mhook_SetHook(&(PVOID&)Real_RegCloseKey, (PVOID)Mine_RegCloseKey)
-                         && Mhook_SetHook(&(PVOID&)Real_RegFlushKey, (PVOID)Mine_RegFlushKey)
-                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyA, (PVOID)Mine_RegCreateKeyA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyW, (PVOID)Mine_RegCreateKeyW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExA, (PVOID)Mine_RegCreateKeyExA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegCreateKeyExW, (PVOID)Mine_RegCreateKeyExW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyA, (PVOID)Mine_RegDeleteKeyA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteKeyW, (PVOID)Mine_RegDeleteKeyW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteValueA, (PVOID)Mine_RegDeleteValueA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegDeleteValueW, (PVOID)Mine_RegDeleteValueW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExA, (PVOID)Mine_RegEnumKeyExA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegEnumKeyExW, (PVOID)Mine_RegEnumKeyExW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegEnumValueA, (PVOID)Mine_RegEnumValueA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegEnumValueW, (PVOID)Mine_RegEnumValueW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyA, (PVOID)Mine_RegOpenKeyA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyW, (PVOID)Mine_RegOpenKeyW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExA, (PVOID)Mine_RegOpenKeyExA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegOpenKeyExW, (PVOID)Mine_RegOpenKeyExW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyA, (PVOID)Mine_RegQueryInfoKeyA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryInfoKeyW, (PVOID)Mine_RegQueryInfoKeyW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueA, (PVOID)Mine_RegQueryValueA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueW, (PVOID)Mine_RegQueryValueW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueExA, (PVOID)Mine_RegQueryValueExA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegQueryValueExW, (PVOID)Mine_RegQueryValueExW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueA, (PVOID)Mine_RegSetValueA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueW, (PVOID)Mine_RegSetValueW)
-                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueExA, (PVOID)Mine_RegSetValueExA)
-                         && Mhook_SetHook(&(PVOID&)Real_RegSetValueExW, (PVOID)Mine_RegSetValueExW);
+        s_bInitialized = Mhook_SetHookEx(&Real_CoCreateInstance, Mine_CoCreateInstance)
+                         && Mhook_SetHookEx(&Real_RegCloseKey, Mine_RegCloseKey)
+                         && Mhook_SetHookEx(&Real_RegFlushKey, Mine_RegFlushKey)
+                         && Mhook_SetHookEx(&Real_RegCreateKeyA, Mine_RegCreateKeyA)
+                         && Mhook_SetHookEx(&Real_RegCreateKeyW, Mine_RegCreateKeyW)
+                         && Mhook_SetHookEx(&Real_RegCreateKeyExA, Mine_RegCreateKeyExA)
+                         && Mhook_SetHookEx(&Real_RegCreateKeyExW, Mine_RegCreateKeyExW)
+                         && Mhook_SetHookEx(&Real_RegDeleteKeyA, Mine_RegDeleteKeyA)
+                         && Mhook_SetHookEx(&Real_RegDeleteKeyW, Mine_RegDeleteKeyW)
+                         && Mhook_SetHookEx(&Real_RegDeleteValueA, Mine_RegDeleteValueA)
+                         && Mhook_SetHookEx(&Real_RegDeleteValueW, Mine_RegDeleteValueW)
+                         && Mhook_SetHookEx(&Real_RegEnumKeyExA, Mine_RegEnumKeyExA)
+                         && Mhook_SetHookEx(&Real_RegEnumKeyExW, Mine_RegEnumKeyExW)
+                         && Mhook_SetHookEx(&Real_RegEnumValueA, Mine_RegEnumValueA)
+                         && Mhook_SetHookEx(&Real_RegEnumValueW, Mine_RegEnumValueW)
+                         && Mhook_SetHookEx(&Real_RegOpenKeyA, Mine_RegOpenKeyA)
+                         && Mhook_SetHookEx(&Real_RegOpenKeyW, Mine_RegOpenKeyW)
+                         && Mhook_SetHookEx(&Real_RegOpenKeyExA, Mine_RegOpenKeyExA)
+                         && Mhook_SetHookEx(&Real_RegOpenKeyExW, Mine_RegOpenKeyExW)
+                         && Mhook_SetHookEx(&Real_RegQueryInfoKeyA, Mine_RegQueryInfoKeyA)
+                         && Mhook_SetHookEx(&Real_RegQueryInfoKeyW, Mine_RegQueryInfoKeyW)
+                         && Mhook_SetHookEx(&Real_RegQueryValueA, Mine_RegQueryValueA)
+                         && Mhook_SetHookEx(&Real_RegQueryValueW, Mine_RegQueryValueW)
+                         && Mhook_SetHookEx(&Real_RegQueryValueExA, Mine_RegQueryValueExA)
+                         && Mhook_SetHookEx(&Real_RegQueryValueExW, Mine_RegQueryValueExW)
+                         && Mhook_SetHookEx(&Real_RegSetValueA, Mine_RegSetValueA)
+                         && Mhook_SetHookEx(&Real_RegSetValueW, Mine_RegSetValueW)
+                         && Mhook_SetHookEx(&Real_RegSetValueExA, Mine_RegSetValueExA)
+                         && Mhook_SetHookEx(&Real_RegSetValueExW, Mine_RegSetValueExW);
+        s_bInitialized &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
     }
 }
 
@@ -705,8 +705,8 @@ STDMETHODIMP CFilterMapper2::RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, 
 }
 
 STDMETHODIMP CFilterMapper2::EnumMatchingFilters(IEnumMoniker** ppEnum, DWORD dwFlags, BOOL bExactMatch, DWORD dwMerit,
-        BOOL bInputNeeded, DWORD cInputTypes, const GUID* pInputTypes, const REGPINMEDIUM* pMedIn, const CLSID* pPinCategoryIn, BOOL bRender,
-        BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut)
+                                                 BOOL bInputNeeded, DWORD cInputTypes, const GUID* pInputTypes, const REGPINMEDIUM* pMedIn, const CLSID* pPinCategoryIn, BOOL bRender,
+                                                 BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut)
 {
     if (CComQIPtr<IFilterMapper2> pFM2 = m_pFM2) {
         return pFM2->EnumMatchingFilters(ppEnum, dwFlags, bExactMatch, dwMerit,

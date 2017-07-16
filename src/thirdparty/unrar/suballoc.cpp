@@ -66,8 +66,6 @@ inline void SubAllocator::SplitBlock(void* pv,int OldIndx,int NewIndx)
 }
 
 
-
-
 void SubAllocator::StopSubAllocator()
 {
   if ( SubAllocatorSize ) 

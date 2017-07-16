@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,18 +39,18 @@ CFocusThread::CFocusThread()
     : m_hWnd(nullptr)
     , m_hEvtInit(nullptr)
 {
-    WNDCLASS wndclass;
-
-    wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
-    wndclass.lpfnWndProc = FocusWndProc;
-    wndclass.cbClsExtra = 0;
-    wndclass.cbWndExtra = 0;
-    wndclass.hInstance = nullptr;
-    wndclass.hIcon = nullptr;
-    wndclass.hCursor = nullptr;
-    wndclass.hbrBackground = nullptr;
-    wndclass.lpszMenuName = nullptr;
-    wndclass.lpszClassName = _T("D3DFocusClass");
+    WNDCLASS wndclass {
+        CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE,
+        FocusWndProc,
+        0,
+        0,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        _T("D3DFocusClass")
+    };
 
     if (!RegisterClass(&wndclass)) {
         TRACE("Registering focus window failed");
@@ -82,6 +82,11 @@ int CFocusThread::ExitInstance()
     if (m_hWnd) {
         DestroyWindow(m_hWnd);
         m_hWnd = nullptr;
+
+        CWnd* pMainWnd = AfxGetApp()->GetMainWnd();
+        if (pMainWnd) {
+            pMainWnd->SetActiveWindow();
+        }
     }
     return __super::ExitInstance();
 }

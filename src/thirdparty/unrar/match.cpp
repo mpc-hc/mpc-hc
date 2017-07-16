@@ -128,18 +128,18 @@ bool match(const wchar *pattern,const wchar *string,bool ForceCase)
 int mwcsicompc(const wchar *Str1,const wchar *Str2,bool ForceCase)
 {
   if (ForceCase)
-    return(wcscmp(Str1,Str2));
-  return(wcsicompc(Str1,Str2));
+    return wcscmp(Str1,Str2);
+  return wcsicompc(Str1,Str2);
 }
 
 
 int mwcsnicompc(const wchar *Str1,const wchar *Str2,size_t N,bool ForceCase)
 {
   if (ForceCase)
-    return(wcsncmp(Str1,Str2,N));
+    return wcsncmp(Str1,Str2,N);
 #if defined(_UNIX)
-  return(wcsncmp(Str1,Str2,N));
+  return wcsncmp(Str1,Str2,N);
 #else
-  return(wcsnicomp(Str1,Str2,N));
+  return wcsnicomp(Str1,Str2,N);
 #endif
 }

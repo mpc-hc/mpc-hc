@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,16 +21,14 @@
 
 #pragma once
 
-#include <afxwin.h>
-#include <afxcmn.h>
-#include <dvdmedia.h>
-#include "../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
-#include "resource.h"
 #include "ResizableLib/ResizableDialog.h"
+#include "resource.h"
+#include <atlcoll.h>
+#include <dvdmedia.h>
 
 
-//
+class CMainFrame;
 
 template<class T>
 struct CFormatElem {
@@ -353,6 +351,7 @@ class CPlayerCaptureDialog : public CResizableDialog
     //DECLARE_DYNAMIC(CPlayerCaptureDialog)
 
 private:
+    CMainFrame* m_pMainFrame;
     bool m_bInitialized;
 
     CComboBox m_vidinput;
@@ -437,7 +436,7 @@ public:
     CComPtr<IBaseFilter> m_pVidEnc, m_pAudEnc, m_pMux, m_pDst, m_pAudMux, m_pAudDst;
     CComPtr<IBaseFilter> m_pVidBuffer, m_pAudBuffer;
 
-    CPlayerCaptureDialog();
+    CPlayerCaptureDialog(CMainFrame* pMainFrame);
     virtual ~CPlayerCaptureDialog();
 
     BOOL Create(CWnd* pParent = nullptr);

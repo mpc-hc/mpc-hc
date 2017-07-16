@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "QT9AllocatorPresenter.h"
+#include "../../../DSUtil/vd.h"
 
 using namespace DSObjects;
 
@@ -43,6 +44,8 @@ STDMETHODIMP CQT9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 
 HRESULT CQT9AllocatorPresenter::AllocSurfaces()
 {
+    CheckPointer(m_pD3DDev, E_POINTER);
+
     HRESULT hr;
 
     m_pVideoSurfaceOff = nullptr;

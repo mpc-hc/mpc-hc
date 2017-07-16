@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,12 +22,6 @@
 #include "RenderingCache.h"
 #include "RTS.h"
 
-template<typename T>
-bool NEARLY_EQ(T a, T b, T tol)
-{
-    return (abs(a - b) < tol);
-}
-
 CTextDimsKey::CTextDimsKey(const CStringW& str, const STSStyle& style)
     : m_str(str)
     , m_style(DEBUG_NEW STSStyle(style))
@@ -36,9 +30,9 @@ CTextDimsKey::CTextDimsKey(const CStringW& str, const STSStyle& style)
 }
 
 CTextDimsKey::CTextDimsKey(const CTextDimsKey& textDimsKey)
-    : m_str(textDimsKey.m_str)
+    : m_hash(textDimsKey.m_hash)
+    , m_str(textDimsKey.m_str)
     , m_style(DEBUG_NEW STSStyle(*textDimsKey.m_style))
-    , m_hash(textDimsKey.m_hash)
 {
 }
 
@@ -68,8 +62,8 @@ bool CTextDimsKey::operator==(const CTextDimsKey& textDimsKey) const
     return m_str == textDimsKey.m_str
            && m_style->charSet == textDimsKey.m_style->charSet
            && m_style->fontName == textDimsKey.m_style->fontName
-           && NEARLY_EQ(m_style->fontSize, textDimsKey.m_style->fontSize, 1e-6)
-           && NEARLY_EQ(m_style->fontSpacing, textDimsKey.m_style->fontSpacing, 1e-6)
+           && IsNearlyEqual(m_style->fontSize, textDimsKey.m_style->fontSize, 1e-6)
+           && IsNearlyEqual(m_style->fontSpacing, textDimsKey.m_style->fontSpacing, 1e-6)
            && m_style->fontWeight == textDimsKey.m_style->fontWeight
            && m_style->fItalic == textDimsKey.m_style->fItalic
            && m_style->fUnderline == textDimsKey.m_style->fUnderline
@@ -85,10 +79,10 @@ CPolygonPathKey::CPolygonPathKey(const CStringW& str, double scalex, double scal
 }
 
 CPolygonPathKey::CPolygonPathKey(const CPolygonPathKey& polygonPathKey)
-    : m_str(polygonPathKey.m_str)
+    : m_hash(polygonPathKey.m_hash)
+    , m_str(polygonPathKey.m_str)
     , m_scalex(polygonPathKey.m_scalex)
     , m_scaley(polygonPathKey.m_scaley)
-    , m_hash(polygonPathKey.m_hash)
 {
 }
 
@@ -104,8 +98,8 @@ void CPolygonPathKey::UpdateHash()
 bool CPolygonPathKey::operator==(const CPolygonPathKey& polygonPathKey) const
 {
     return m_str == polygonPathKey.m_str
-           && NEARLY_EQ(m_scalex, polygonPathKey.m_scalex, 1e-6)
-           && NEARLY_EQ(m_scaley, polygonPathKey.m_scaley, 1e-6);
+           && IsNearlyEqual(m_scalex, polygonPathKey.m_scalex, 1e-6)
+           && IsNearlyEqual(m_scaley, polygonPathKey.m_scaley, 1e-6);
 }
 
 COutlineKey::COutlineKey(const CWord* word, CPoint org)
@@ -119,10 +113,10 @@ COutlineKey::COutlineKey(const CWord* word, CPoint org)
 
 COutlineKey::COutlineKey(const COutlineKey& outLineKey)
     : CTextDimsKey(outLineKey.m_str, *outLineKey.m_style)
+    , m_hash(outLineKey.m_hash)
     , m_scalex(outLineKey.m_scalex)
     , m_scaley(outLineKey.m_scaley)
     , m_org(outLineKey.m_org)
-    , m_hash(outLineKey.m_hash)
 {
 }
 
@@ -163,21 +157,21 @@ void COutlineKey::UpdateHash()
 bool COutlineKey::operator==(const COutlineKey& outLineKey) const
 {
     return __super::operator==(outLineKey) // CreatePath
-           && NEARLY_EQ(m_scalex, outLineKey.m_scalex, 1e-6)
-           && NEARLY_EQ(m_scaley, outLineKey.m_scaley, 1e-6)
+           && IsNearlyEqual(m_scalex, outLineKey.m_scalex, 1e-6)
+           && IsNearlyEqual(m_scaley, outLineKey.m_scaley, 1e-6)
            // Transform
-           && NEARLY_EQ(m_style->fontScaleX, outLineKey.m_style->fontScaleX, 1e-6)
-           && NEARLY_EQ(m_style->fontScaleY, outLineKey.m_style->fontScaleY, 1e-6)
-           && NEARLY_EQ(m_style->fontAngleX, outLineKey.m_style->fontAngleX, 1e-6)
-           && NEARLY_EQ(m_style->fontAngleY, outLineKey.m_style->fontAngleY, 1e-6)
-           && NEARLY_EQ(m_style->fontAngleZ, outLineKey.m_style->fontAngleZ, 1e-6)
-           && NEARLY_EQ(m_style->fontShiftX, outLineKey.m_style->fontShiftX, 1e-6)
-           && NEARLY_EQ(m_style->fontShiftY, outLineKey.m_style->fontShiftY, 1e-6)
+           && IsNearlyEqual(m_style->fontScaleX, outLineKey.m_style->fontScaleX, 1e-6)
+           && IsNearlyEqual(m_style->fontScaleY, outLineKey.m_style->fontScaleY, 1e-6)
+           && IsNearlyEqual(m_style->fontAngleX, outLineKey.m_style->fontAngleX, 1e-6)
+           && IsNearlyEqual(m_style->fontAngleY, outLineKey.m_style->fontAngleY, 1e-6)
+           && IsNearlyEqual(m_style->fontAngleZ, outLineKey.m_style->fontAngleZ, 1e-6)
+           && IsNearlyEqual(m_style->fontShiftX, outLineKey.m_style->fontShiftX, 1e-6)
+           && IsNearlyEqual(m_style->fontShiftY, outLineKey.m_style->fontShiftY, 1e-6)
            && m_org == outLineKey.m_org
            // CreateWidenedRegion
            && m_style->borderStyle == outLineKey.m_style->borderStyle
-           && NEARLY_EQ(m_style->outlineWidthX, outLineKey.m_style->outlineWidthX, 1e-6)
-           && NEARLY_EQ(m_style->outlineWidthY, outLineKey.m_style->outlineWidthY, 1e-6);
+           && IsNearlyEqual(m_style->outlineWidthX, outLineKey.m_style->outlineWidthX, 1e-6)
+           && IsNearlyEqual(m_style->outlineWidthY, outLineKey.m_style->outlineWidthY, 1e-6);
 }
 
 COverlayKey::COverlayKey(const CWord* word, CPoint p, CPoint org)
@@ -210,5 +204,5 @@ bool COverlayKey::operator==(const COverlayKey& overlayKey) const
     return __super::operator==(overlayKey)
            && m_subp == overlayKey.m_subp
            && m_style->fBlur == overlayKey.m_style->fBlur
-           && NEARLY_EQ(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
+           && IsNearlyEqual(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
 }

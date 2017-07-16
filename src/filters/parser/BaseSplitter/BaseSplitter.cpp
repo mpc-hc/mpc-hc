@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 
 #include "stdafx.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <InitGuid.h>
 #include "moreuuids.h"
 #include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"
@@ -65,7 +64,7 @@ CAutoPtr<Packet> CPacketQueue::Remove()
 {
     CAutoLock cAutoLock(this);
     ASSERT(__super::GetCount() > 0);
-    CAutoPtr<Packet> p = RemoveHead();
+    CAutoPtr<Packet> p(RemoveHead().Detach());
     if (p) {
         m_size -= p->GetDataSize();
     }
@@ -388,7 +387,8 @@ int CBaseSplitterOutputPin::QueueSize()
 
 HRESULT CBaseSplitterOutputPin::QueueEndOfStream()
 {
-    return QueuePacket(CAutoPtr<Packet>()); // NULL means EndOfStream
+    CAutoPtr<Packet> p;
+    return QueuePacket(p); // NULL means EndOfStream
 }
 
 HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
@@ -480,7 +480,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
             {
                 CAutoLock cAutoLock(&m_queue);
                 if ((cnt = m_queue.GetCount()) > 0) {
-                    p = m_queue.Remove();
+                    p.Attach(m_queue.Remove().Detach());
                 }
             }
 
@@ -773,17 +773,20 @@ STDMETHODIMP CBaseSplitterOutputPin::GetPreroll(LONGLONG* pllPreroll)
 
 CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid, int QueueMaxPackets)
     : CBaseFilter(pName, pUnk, this, clsid)
-    , m_rtDuration(0), m_rtStart(0), m_rtStop(0), m_rtCurrent(0)
-    , m_dRate(1.0)
     , m_nOpenProgress(100)
     , m_fAbort(false)
-    , m_rtLastStart(_I64_MIN)
-    , m_rtLastStop(_I64_MIN)
-    , m_priority(THREAD_PRIORITY_NORMAL)
-    , m_QueueMaxPackets(QueueMaxPackets)
+    , m_rtDuration(0)
+    , m_rtStart(0)
+    , m_rtStop(0)
+    , m_rtCurrent(0)
     , m_rtNewStart(0)
     , m_rtNewStop(0)
+    , m_dRate(1.0)
     , m_fFlushing(false)
+    , m_priority(THREAD_PRIORITY_NORMAL)
+    , m_QueueMaxPackets(QueueMaxPackets)
+    , m_rtLastStart(_I64_MIN)
+    , m_rtLastStop(_I64_MIN)
 {
     if (phr) {
         *phr = S_OK;
@@ -902,7 +905,7 @@ HRESULT CBaseSplitterFilter::DeleteOutputs()
     }
 
     while (m_pOutputs.GetCount()) {
-        CAutoPtr<CBaseSplitterOutputPin> pPin = m_pOutputs.RemoveHead();
+        CAutoPtr<CBaseSplitterOutputPin> pPin(m_pOutputs.RemoveHead().Detach());
         if (IPin* pPinTo = pPin->GetConnected()) {
             pPinTo->Disconnect();
         }
@@ -947,6 +950,8 @@ void CBaseSplitterFilter::DeliverEndFlush()
     m_eEndFlush.Set();
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CBaseSplitterFilter::ThreadProc()
 {
     if (m_pSyncReader) {
@@ -1009,11 +1014,8 @@ DWORD CBaseSplitterFilter::ThreadProc()
             m_pActivePins.GetNext(pos)->QueueEndOfStream();
         }
     }
-
-    ASSERT(0); // we should only exit via CMD_EXIT
-
-    m_hThread = nullptr;
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
@@ -1092,9 +1094,9 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
             //          if (m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
             if (m_priority != THREAD_PRIORITY_BELOW_NORMAL && (count < MINPACKETS / 3 || size < MINPACKETSIZE / 3)) {
                 // SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_ABOVE_NORMAL);
-                POSITION pos = m_pOutputs.GetHeadPosition();
-                while (pos) {
-                    m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
+                POSITION pos2 = m_pOutputs.GetHeadPosition();
+                while (pos2) {
+                    m_pOutputs.GetNext(pos2)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
                 }
                 m_priority = THREAD_PRIORITY_BELOW_NORMAL;
             }
@@ -1106,9 +1108,9 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 
     if (m_priority != THREAD_PRIORITY_NORMAL && (totalcount > m_QueueMaxPackets * 2 / 3 || totalsize > MAXPACKETSIZE * 2 / 3)) {
         //      SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_NORMAL);
-        POSITION pos = m_pOutputs.GetHeadPosition();
-        while (pos) {
-            m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
+        POSITION pos2 = m_pOutputs.GetHeadPosition();
+        while (pos2) {
+            m_pOutputs.GetNext(pos2)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
         }
         m_priority = THREAD_PRIORITY_NORMAL;
     }
@@ -1251,7 +1253,7 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
     if (FAILED(hr)
             || FAILED(hr = DeleteOutputs())
             || FAILED(hr = CreateOutputs(pAsyncReader))) {
-        m_fn = "";
+        m_fn.Empty();
         return hr;
     }
 

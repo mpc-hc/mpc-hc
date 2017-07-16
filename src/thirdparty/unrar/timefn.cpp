@@ -1,45 +1,10 @@
 #include "rar.hpp"
 
-#ifdef _WIN_ALL
-RarTime& RarTime::operator =(FILETIME &ft)
-{
-  _ULARGE_INTEGER ul = {ft.dwLowDateTime, ft.dwHighDateTime};
-  itime=ul.QuadPart;
-  return *this;
-}
-
-
-void RarTime::GetWin32(FILETIME *ft)
-{
-  _ULARGE_INTEGER ul;
-  ul.QuadPart=itime;
-  ft->dwLowDateTime=ul.LowPart;
-  ft->dwHighDateTime=ul.HighPart;
-}
-#endif
-
-
-RarTime& RarTime::operator =(time_t ut)
-{
-  uint64 ushift=INT32TO64(0x19DB1DE,0xD53E8000); // 116444736000000000.
-  itime=uint64(ut)*10000000+ushift;
-  return *this;
-}
-
-
-time_t RarTime::GetUnix()
-{
-  uint64 ushift=INT32TO64(0x19DB1DE,0xD53E8000); // 116444736000000000.
-  time_t ut=(itime-ushift)/10000000;
-  return ut;
-}
-
-
 void RarTime::GetLocal(RarLocalTime *lt)
 {
 #ifdef _WIN_ALL
   FILETIME ft;
-  GetWin32(&ft);
+  GetWinFT(&ft);
   FILETIME lft;
 
   if (WinNT() < WNT_VISTA)
@@ -84,15 +49,6 @@ void RarTime::GetLocal(RarLocalTime *lt)
 
   if (lt->Month>2 && IsLeapYear(lt->Year))
     lt->yDay++;
-
-  st.wMilliseconds=0;
-  FILETIME zft;
-  SystemTimeToFileTime(&st,&zft);
-
-  // Calculate the time reminder, which is the part of time smaller
-  // than 1 second, represented in 100-nanosecond intervals.
-  lt->Reminder=INT32TO64(lft.dwHighDateTime,lft.dwLowDateTime)-
-               INT32TO64(zft.dwHighDateTime,zft.dwLowDateTime);
 #else
   time_t ut=GetUnix();
   struct tm *t;
@@ -104,10 +60,10 @@ void RarTime::GetLocal(RarLocalTime *lt)
   lt->Hour=t->tm_hour;
   lt->Minute=t->tm_min;
   lt->Second=t->tm_sec;
-  lt->Reminder=itime % 10000000;
   lt->wDay=t->tm_wday;
   lt->yDay=t->tm_yday;
 #endif
+  lt->Reminder=(itime % TICKS_PER_SECOND);
 }
 
 
@@ -122,13 +78,10 @@ void RarTime::SetLocal(RarLocalTime *lt)
   st.wMinute=lt->Minute;
   st.wSecond=lt->Second;
   st.wMilliseconds=0;
+  st.wDayOfWeek=0;
   FILETIME lft;
   if (SystemTimeToFileTime(&st,&lft))
   {
-    lft.dwLowDateTime+=lt->Reminder;
-    if (lft.dwLowDateTime<lt->Reminder)
-      lft.dwHighDateTime++;
-
     FILETIME ft;
 
     if (WinNT() < WNT_VISTA)
@@ -140,7 +93,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
     {
       // Reverse procedure which we do in GetLocal.
       SYSTEMTIME st1,st2;
-      FileTimeToSystemTime(&lft,&st2);
+      FileTimeToSystemTime(&lft,&st2); // st2 might be unequal to st, because we added lt->Reminder to lft.
       TzSpecificLocalTimeToSystemTime(NULL,&st2,&st1);
       SystemTimeToFileTime(&st1,&ft);
 
@@ -154,7 +107,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
       ft.dwHighDateTime=(DWORD)(Corrected>>32);
     }
 
-    *this=ft;
+    SetWinFT(&ft);
   }
   else
     Reset();
@@ -168,26 +121,80 @@ void RarTime::SetLocal(RarLocalTime *lt)
   t.tm_mon=lt->Month-1;
   t.tm_year=lt->Year-1900;
   t.tm_isdst=-1;
-  *this=mktime(&t);
-  itime+=lt->Reminder;
+  SetUnix(mktime(&t));
 #endif
+  itime+=lt->Reminder;
 }
 
 
-// Return the stored time as 64-bit number of 100-nanosecond intervals since 
-// 01.01.1601. Actually we do not care since which date this time starts from
-// as long as this date is the same for GetRaw and SetRaw. We use the value
-// returned by GetRaw() for time comparisons, for relative operations
-// like SetRaw(GetRaw()-C) and for compact time storage when necessary.
-uint64 RarTime::GetRaw()
+
+
+#ifdef _WIN_ALL
+void RarTime::GetWinFT(FILETIME *ft)
 {
-  return itime;
+  _ULARGE_INTEGER ul;
+  ul.QuadPart=GetWin();
+  ft->dwLowDateTime=ul.LowPart;
+  ft->dwHighDateTime=ul.HighPart;
 }
 
 
-void RarTime::SetRaw(uint64 RawTime)
+void RarTime::SetWinFT(FILETIME *ft)
 {
-  itime=RawTime;
+  _ULARGE_INTEGER ul = {ft->dwLowDateTime, ft->dwHighDateTime};
+  SetWin(ul.QuadPart);
+}
+#endif
+
+
+// Get 64-bit representation of Windows FILETIME (100ns since 01.01.1601).
+uint64 RarTime::GetWin()
+{
+  return itime/(TICKS_PER_SECOND/10000000);
+}
+
+
+// Set 64-bit representation of Windows FILETIME (100ns since 01.01.1601).
+void RarTime::SetWin(uint64 WinTime)
+{
+  itime=WinTime*(TICKS_PER_SECOND/10000000);
+}
+
+
+time_t RarTime::GetUnix()
+{
+  return time_t(GetUnixNS()/1000000000);
+}
+
+
+void RarTime::SetUnix(time_t ut)
+{
+  if (sizeof(ut)>4)
+    SetUnixNS(uint64(ut)*1000000000);
+  else
+  {
+    // Convert 32-bit and possibly signed time_t to uint32 first,
+    // uint64 cast is not enough. Otherwise sign can expand to 64 bits.
+    SetUnixNS(uint64(uint32(ut))*1000000000);
+  }
+}
+
+
+// Get the high precision Unix time in nanoseconds since 01-01-1970.
+uint64 RarTime::GetUnixNS()
+{
+  // 11644473600000000000 - number of ns between 01-01-1601 and 01-01-1970.
+  uint64 ushift=INT32TO64(0xA1997B0B,0x4C6A0000);
+  return itime*(1000000000/TICKS_PER_SECOND)-ushift;
+}
+
+
+// Set the high precision Unix time in nanoseconds since 01-01-1970.
+void RarTime::SetUnixNS(uint64 ns)
+{
+  // 11644473600000000000 - number of ns between 01-01-1601 and 01-01-1970.
+  uint64 ushift=INT32TO64(0xA1997B0B,0x4C6A0000);
+  itime=(ns+ushift)/(1000000000/TICKS_PER_SECOND);
 }
 
 
@@ -215,28 +222,23 @@ void RarTime::SetDos(uint DosTime)
 }
 
 
-#if !defined(GUI) || !defined(SFX_MODULE)
-void RarTime::GetText(wchar *DateStr,size_t MaxSize,bool FullYear,bool FullMS)
+void RarTime::GetText(wchar *DateStr,size_t MaxSize,bool FullMS)
 {
   if (IsSet())
   {
     RarLocalTime lt;
     GetLocal(&lt);
     if (FullMS)
-      swprintf(DateStr,MaxSize,L"%u-%02u-%02u %02u:%02u,%03u",lt.Year,lt.Month,lt.Day,lt.Hour,lt.Minute,lt.Reminder/10000);
+      swprintf(DateStr,MaxSize,L"%u-%02u-%02u %02u:%02u:%02u,%09u",lt.Year,lt.Month,lt.Day,lt.Hour,lt.Minute,lt.Second,lt.Reminder*(1000000000/TICKS_PER_SECOND));
     else
-      if (FullYear)
-        swprintf(DateStr,MaxSize,L"%02u-%02u-%u %02u:%02u",lt.Day,lt.Month,lt.Year,lt.Hour,lt.Minute);
-      else
-        swprintf(DateStr,MaxSize,L"%02u-%02u-%02u %02u:%02u",lt.Day,lt.Month,lt.Year%100,lt.Hour,lt.Minute);
+      swprintf(DateStr,MaxSize,L"%u-%02u-%02u %02u:%02u",lt.Year,lt.Month,lt.Day,lt.Hour,lt.Minute);
   }
   else
   {
     // We use escape before '?' to avoid weird C trigraph characters.
-    wcscpy(DateStr,FullYear ? L"\?\?-\?\?-\?\?\?\? \?\?:\?\?":L"\?\?-\?\?-\?\? \?\?:\?\?");
+    wcscpy(DateStr,L"\?\?\?\?-\?\?-\?\? \?\?:\?\?");
   }
 }
-#endif
 
 
 #ifndef SFX_MODULE
@@ -295,7 +297,7 @@ void RarTime::SetAgeText(const wchar *TimeText)
     }
   }
   SetCurrentTime();
-  SetRaw(itime-uint64(Seconds)*10000000);
+  itime-=uint64(Seconds)*TICKS_PER_SECOND;
 }
 #endif
 
@@ -307,12 +309,20 @@ void RarTime::SetCurrentTime()
   SYSTEMTIME st;
   GetSystemTime(&st);
   SystemTimeToFileTime(&st,&ft);
-  *this=ft;
+  SetWinFT(&ft);
 #else
   time_t st;
   time(&st);
-  *this=st;
+  SetUnix(st);
 #endif
+}
+
+
+// Add the specified signed number of nanoseconds.
+void RarTime::Adjust(int64 ns)
+{
+  ns/=1000000000/TICKS_PER_SECOND; // Convert ns to internal ticks.
+  itime+=(uint64)ns;
 }
 
 

@@ -134,12 +134,12 @@ BEGIN
     EDITTEXT        IDC_EDIT2,124,77,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,158,77,12,13
     CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,93,286,8
-    LTEXT           "Speaker configuration for ",IDC_STATIC1,5,107,115,8
+    LTEXT           "Speaker configuration for",IDC_STATIC1,5,107,115,8
     EDITTEXT        IDC_EDIT1,124,105,29,13,ES_CENTER | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,141,105,12,13
     LTEXT           "input channels:",IDC_STATIC2,157,107,134,8
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,5,121,286,103
-    CTEXT           "Hold shift for immediate changes when clicking something ",IDC_STATIC3,5,228,286,8
+    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC3,5,228,286,8
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 186, 120
@@ -182,7 +182,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
     LTEXT           "",IDC_STATIC1,60,8,200,8
-    CONTROL         "Copyright © 2002-2014 see Authors.txt",IDC_AUTHORS_LINK,
+    CONTROL         "Copyright © 2002-2017 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
@@ -293,33 +293,34 @@ BEGIN
     RTEXT           "L",IDC_STATIC,145,31,30,8
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_TOOLTIPS | WS_TABSTOP | 0x400,175,23,85,24
     LTEXT           "R",IDC_STATIC,261,31,27,8
-    GROUPBOX        "Playback",IDC_STATIC,5,104,126,36
-    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,117,55,8
-    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,10,129,116,8
+    GROUPBOX        "Playback",IDC_STATIC,5,104,126,54
+    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,117,55,8
+    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,129,116,8
     EDITTEXT        IDC_EDIT1,65,115,20,13,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "time(s)",IDC_STATIC1,90,117,40,8
-    GROUPBOX        "After Playback",IDC_STATIC,5,143,126,27
-    COMBOBOX        IDC_COMBO2,10,153,116,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Output",IDC_STATIC,137,55,154,46
+    LTEXT           "Repeat mode:",IDC_STATIC,10,143,48,8
+    COMBOBOX        IDC_COMBO3,65,141,60,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT2,190,115,94,13,ES_AUTOHSCROLL
+    GROUPBOX        "After Playback",IDC_STATIC,5,160,126,27
+    COMBOBOX        IDC_COMBO2,10,170,116,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Default zoom",IDC_STATIC,137,55,154,46
     CONTROL         "Auto-zoom:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,67,75,8
     COMBOBOX        IDC_COMBO1,219,65,65,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Auto fit factor:",IDC_STATIC2,142,84,94,8
     EDITTEXT        IDC_EDIT4,238,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,273,81,11,14
     LTEXT           "%",IDC_STATIC3,277,84,8,8
-    GROUPBOX        "Default track preference",IDC_STATIC,137,104,154,66
+    GROUPBOX        "Default track preference",IDC_STATIC,137,104,154,83
     LTEXT           "Subtitles:",IDC_STATIC,142,117,44,8
-    EDITTEXT        IDC_EDIT2,190,115,94,13,ES_AUTOHSCROLL
     LTEXT           "Audio:",IDC_STATIC,142,134,44,8
     EDITTEXT        IDC_EDIT3,190,132,94,13,ES_AUTOHSCROLL
     CONTROL         "Allow overriding external splitter choice",IDC_CHECK4,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,142,150,142,18
-    GROUPBOX        "Open settings",IDC_STATIC,5,173,286,63
+    GROUPBOX        "Open settings",IDC_STATIC,5,190,286,46
     CONTROL         "Use worker thread to construct the filter graph",IDC_CHECK7,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,185,276,8
-    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,197,276,8
-    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,209,276,8
-    CONTROL         "Use the built-in subtitle renderer",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,221,276,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,200,276,8
+    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,212,276,8
+    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,224,276,8
     GROUPBOX        "Control",IDC_STATIC,5,55,126,46
     LTEXT           "Volume step:",IDC_STATIC,11,67,68,8
     EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
@@ -370,7 +371,7 @@ BEGIN
     CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,277,8
     GROUPBOX        "Warning",IDC_STATIC,5,165,286,43
-    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",IDC_STATIC,10,176,267,27
+    LTEXT           "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU.",IDC_STATIC,10,176,267,27
 END
 
 IDD_PPAGEFORMATS DIALOGEX 0, 0, 296, 241
@@ -421,10 +422,11 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,286,8
     CONTROL         "Prevent minimizing the player when in fullscreen on a non default monitor",IDC_CHECK6,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,90,290,8
-    CONTROL         "Use Windows 7 Taskbar features",IDC_CHECK_WIN7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,8
-    CONTROL         "Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
+    CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,8
+    CONTROL         "Open previous/next file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,5,125,290,18
-    CONTROL         "Use time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,149,135,8
+    CONTROL         "Show time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,149,135,8
     COMBOBOX        IDC_COMBO3,145,147,113,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "OSD font:",IDC_STATIC,5,167,82,8
     COMBOBOX        IDC_COMBO1,89,165,140,64,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -439,7 +441,7 @@ IDD_PPAGEEXTERNALFILTERS DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,5,5,208,128,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,5,5,208,128
     PUSHBUTTON      "Add Filter...",IDC_BUTTON1,221,5,70,14
     PUSHBUTTON      "Remove",IDC_BUTTON2,221,21,70,14
     CONTROL         "Prefer",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,221,39,70,8
@@ -462,7 +464,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,211,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
     LTEXT           "Type:",IDC_STATIC,10,36,60,8
     EDITTEXT        IDC_EDIT4,72,36,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Size:",IDC_STATIC,10,51,60,8
@@ -732,9 +734,9 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "If you would like to use the stand-alone versions of these filters or another replacement, disable them here.",IDC_STATIC,5,5,285,18
     GROUPBOX        "Source Filters",IDC_STATIC,5,24,141,186
-    LISTBOX         IDC_LIST1,10,36,131,168,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,10,36,131,168
     GROUPBOX        "Transform Filters",IDC_STATIC,150,24,141,186
-    LISTBOX         IDC_LIST2,155,36,131,168,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST2,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,155,36,131,168
     GROUPBOX        "Internal LAV Filters settings",IDC_STATIC,5,212,286,28
     PUSHBUTTON      "Splitter",IDC_SPLITTER_CONF,10,222,86,14
     PUSHBUTTON      "Video decoder",IDC_VIDEO_DEC_CONF,105,222,86,14
@@ -754,52 +756,54 @@ BEGIN
     PUSHBUTTON      "Browse...",IDC_BUTTON2,241,222,50,14
 END
 
-IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 236
+IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "DirectShow Video",IDC_STATIC,5,5,285,43
     COMBOBOX        IDC_VIDRND_COMBO,10,16,276,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "RealMedia Video",IDC_STATIC,5,52,139,40
-    COMBOBOX        IDC_RMRND_COMBO,10,62,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "QuickTime Video",IDC_STATIC,151,52,139,40
-    COMBOBOX        IDC_QTRND_COMBO,155,62,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Audio Renderer",IDC_STATIC,5,96,285,30
-    COMBOBOX        IDC_AUDRND_COMBO,10,108,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "VMR-7/VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,131,285,91
-    RTEXT           "Surface:",IDC_STATIC,118,164,60,8
-    COMBOBOX        IDC_DX_SURFACE,181,161,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Resizer:",IDC_STATIC,118,180,60,8
-    COMBOBOX        IDC_DX9RESIZER_COMBO,181,179,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Select D3D9 Render Device",IDC_D3D9DEVICE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,144,137,10
-    COMBOBOX        IDC_D3D9DEVICE_COMBO,147,143,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "RealMedia Video",IDC_STATIC,5,49,139,40
+    COMBOBOX        IDC_RMRND_COMBO,10,59,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "QuickTime Video",IDC_STATIC,151,49,139,40
+    COMBOBOX        IDC_QTRND_COMBO,155,59,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Audio Renderer",IDC_STATIC,5,90,285,30
+    COMBOBOX        IDC_AUDRND_COMBO,10,102,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,153,285,93
+    RTEXT           "Surface:",IDC_STATIC,118,184,60,8
+    COMBOBOX        IDC_DX_SURFACE,181,181,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Resizer:",IDC_STATIC,118,200,60,8
+    COMBOBOX        IDC_DX9RESIZER_COMBO,181,197,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Select D3D9 Render Device",IDC_D3D9DEVICE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,166,137,10
+    COMBOBOX        IDC_D3D9DEVICE_COMBO,147,165,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Reinitialize when changing display",IDC_RESETDEVICE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,204,171,10
-    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,192,171,10
-    CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,180,108,10
-    CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,156,108,10
-    CONTROL         "YUV Mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,168,108,10
-    RTEXT           "EVR Buffers:",IDC_EVR_BUFFERS_TXT,168,199,81,8
-    COMBOBOX        IDC_EVR_BUFFERS,252,196,34,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,221,171,10
+    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,210,171,10
+    CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,199,108,10
+    CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,177,108,10
+    CONTROL         "YUV Mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,188,108,10
+    RTEXT           "EVR Buffers:",IDC_EVR_BUFFERS_TXT,168,216,81,8
+    COMBOBOX        IDC_EVR_BUFFERS,252,213,34,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "DXVA",IDC_STATIC,24,34,30,8
-    ICON            "",IDC_VIDRND_DXVA_SUPPORT,10,33,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,69,34,45,8
-    ICON            "",IDC_VIDRND_SUBTITLE_SUPPORT,54,33,21,20
+    ICON            "",IDC_VIDRND_DXVA_SUPPORT,10,33,20,20
+    LTEXT           "Subtitles",IDC_STATIC,69,34,45,8
+    ICON            "",IDC_VIDRND_SUBTITLE_SUPPORT,54,33,20,20
     LTEXT           "Screenshot",IDC_STATIC,129,34,45,8
-    ICON            "",IDC_VIDRND_SAVEIMAGE_SUPPORT,114,33,21,20
+    ICON            "",IDC_VIDRND_SAVEIMAGE_SUPPORT,114,33,20,20
     LTEXT           "Shaders",IDC_STATIC,189,34,35,8
-    ICON            "",IDC_VIDRND_SHADER_SUPPORT,174,33,21,20
+    ICON            "",IDC_VIDRND_SHADER_SUPPORT,174,33,20,20
     LTEXT           "Rotation",IDC_STATIC,240,34,45,8
-    ICON            "",IDC_VIDRND_ROTATION_SUPPORT,225,33,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,24,79,50,8
-    ICON            "",IDC_RMRND_SUBTITLE_SUPPORT,10,78,21,20
-    LTEXT           "Screenshot",IDC_STATIC,88,79,50,8
-    ICON            "",IDC_RMRND_SAVEIMAGE_SUPPORT,74,78,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,170,79,50,8
-    ICON            "",IDC_QTRND_SUBTITLE_SUPPORT,155,78,21,20
-    LTEXT           "Screenshot",IDC_STATIC,235,79,50,8
-    ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,78,21,20
-    LTEXT           "* External filters (such as VSFilter) can display subtitles on all renderers.",IDC_STATIC,10,224,276,16
+    ICON            "",IDC_VIDRND_ROTATION_SUPPORT,225,33,20,20
+    LTEXT           "Subtitles",IDC_STATIC,24,76,50,8
+    ICON            "",IDC_RMRND_SUBTITLE_SUPPORT,10,75,20,20
+    LTEXT           "Screenshot",IDC_STATIC,88,76,50,8
+    ICON            "",IDC_RMRND_SAVEIMAGE_SUPPORT,74,75,20,20
+    LTEXT           "Subtitles",IDC_STATIC,170,76,50,8
+    ICON            "",IDC_QTRND_SUBTITLE_SUPPORT,155,75,20,20
+    LTEXT           "Screenshot",IDC_STATIC,235,76,50,8
+    ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,75,20,20
+    GROUPBOX        "Subtitle Renderer",IDC_STATIC,5,121,285,30
+    COMBOBOX        IDC_COMBO1,10,133,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Cache compiled Shaders",IDC_CACHESHADERS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,232,171,10
 END
 
 IDD_PPAGEWEBSERVER DIALOGEX 0, 0, 296, 241
@@ -812,26 +816,45 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,22,284,1
     CONTROL         "Enable compression",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,26,285,8
     CONTROL         "Allow access from localhost only",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,38,285,8
-    CONTROL         "Print debug information",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,50,285,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,62,284,1
-    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,66,285,8
-    EDITTEXT        IDC_EDIT2,15,78,167,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse...",IDC_BUTTON1,186,78,50,14
-    PUSHBUTTON      "Deploy...",IDC_BUTTON2,240,78,50,14
-    LTEXT           "Default page:",IDC_STATIC,5,96,285,8
-    EDITTEXT        IDC_EDIT9,15,108,275,14,ES_AUTOHSCROLL
-    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,5,126,285,8
-    EDITTEXT        IDC_EDIT3,15,138,275,14,ES_AUTOHSCROLL
+    CONTROL         "Enable preview",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,50,285,8
+    CONTROL         "Print debug information",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,62,284,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,74,284,1
+    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,285,8
+    EDITTEXT        IDC_EDIT2,15,90,167,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BUTTON1,186,90,50,14
+    PUSHBUTTON      "Deploy...",IDC_BUTTON2,240,90,50,14
+    LTEXT           "Default page:",IDC_STATIC,5,108,285,8
+    EDITTEXT        IDC_EDIT9,15,120,275,14,ES_AUTOHSCROLL
+    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,5,138,285,8
+    EDITTEXT        IDC_EDIT3,15,150,275,14,ES_AUTOHSCROLL
 END
 
 IDD_SUBTITLEDL_DLG DIALOGEX 0, 0, 500, 200
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Subtitles available online"
+CAPTION "Download subtitles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "Download && Open",IDOK,397,166,98,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
-    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,200,8
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,290,8
+    DEFPUSHBUTTON   "Download",IDOK,341,166,50,14
+    PUSHBUTTON      "Refresh",IDC_BUTTON1,393,166,50,14
+    PUSHBUTTON      "Abort",IDC_BUTTON2,393,166,50,14
+    PUSHBUTTON      "Options",IDC_BUTTON3,445,166,50,14
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x103,0,184,499,16
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH,213,166,82,14
+END
+
+IDD_SUBTITLEUP_DLG DIALOGEX 0, 0, 500, 200
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Upload subtitles"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    DEFPUSHBUTTON   "Upload",IDOK,341,166,50,14
+    PUSHBUTTON      "Abort",IDC_BUTTON1,393,166,50,14,WS_DISABLED
+    PUSHBUTTON      "Options",IDC_BUTTON2,445,166,50,14
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x103,0,184,499,16
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH,213,166,82,14
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
@@ -839,10 +862,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,30,12,199,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,29,222,1
+    EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,35,221,144
     PUSHBUTTON      "Save As...",IDC_BUTTON1,5,183,64,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,33,224,146
 END
 
 IDD_PPAGEMISC DIALOGEX 0, 0, 296, 241
@@ -865,7 +888,7 @@ BEGIN
     PUSHBUTTON      "Reset",IDC_RESET,231,80,50,14
     GROUPBOX        "Update check",IDC_STATIC,5,106,286,40
     CONTROL         "Enable automatic update check",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,118,250,8
-    LTEXT           "Delay between each check:",IDC_STATIC5,10,131,110,8
+    LTEXT           "Check every:",IDC_STATIC5,10,131,110,8
     EDITTEXT        IDC_EDIT1,120,129,30,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,150,129,13,14
     LTEXT           "day(s)",IDC_STATIC6,155,131,50,8
@@ -923,10 +946,10 @@ BEGIN
     LTEXT           "Receiver",IDC_STATIC6,10,140,74,8
     COMBOBOX        IDC_COMBO3,84,138,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Channel switching approach:",IDC_PPAGECAPTURE_ST10,10,158,260,8
-    LTEXT           "Rebuild filter graph",IDC_PPAGECAPTURE_ST11,10,172,74,8
+    LTEXT           "Rebuild filter graph",IDC_PPAGECAPTURE_ST11,10,172,74,16
     EDITTEXT        IDC_PPAGECAPTURE_DESC1,84,184,202,20,ES_MULTILINE | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     COMBOBOX        IDC_COMBO6,84,170,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Stop filter graph",IDC_PPAGECAPTURE_ST12,10,206,74,8
+    LTEXT           "Stop filter graph",IDC_PPAGECAPTURE_ST12,10,206,74,16
     COMBOBOX        IDC_COMBO7,84,204,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -946,13 +969,13 @@ BEGIN
     LTEXT           "columns",IDC_STATIC4,231,60,30,8
     CONTROL         "Present at nearest VSync",IDC_SYNCNEAREST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,280,8
     GROUPBOX        "",IDC_STATIC,5,91,286,43
-    LTEXT           "Target sync offset:",IDC_STATIC5,10,105,100,8
-    EDITTEXT        IDC_TARGETSYNCOFFSET,114,103,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC6,158,105,24,8
-    LTEXT           "Control limits:",IDC_STATIC7,10,119,86,8
-    LTEXT           "+/-",IDC_STATIC8,100,119,10,8
-    EDITTEXT        IDC_CONTROLLIMIT,114,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
-    LTEXT           "ms",IDC_STATIC9,158,119,24,8
+    LTEXT           "Target sync offset:",IDC_STATIC5,10,105,120,8
+    EDITTEXT        IDC_TARGETSYNCOFFSET,134,103,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
+    LTEXT           "ms",IDC_STATIC6,178,105,24,8
+    LTEXT           "Control limits:",IDC_STATIC7,10,119,110,8
+    LTEXT           "+/-",IDC_STATIC8,120,119,10,8
+    EDITTEXT        IDC_CONTROLLIMIT,134,117,40,13,ES_RIGHT | ES_AUTOHSCROLL,WS_EX_RIGHT
+    LTEXT           "ms",IDC_STATIC9,178,119,24,8
     LTEXT           "Changes take effect after the playback has been closed and restarted.",IDC_STATIC10,10,138,276,18
 END
 
@@ -963,8 +986,8 @@ BEGIN
     CONTROL         "Launch files in fullscreen",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,26,280,8
     GROUPBOX        "",IDC_STATIC,4,51,288,36
     CONTROL         "Hide controls in fullscreen",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,51,280,8
-    LTEXT           "ms",IDC_STATIC1,266,63,23,8
-    COMBOBOX        IDC_COMBO2,8,61,224,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ms",IDC_STATIC1,276,63,15,8
+    COMBOBOX        IDC_COMBO2,8,61,233,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Hide docked panels",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,76,280,8
     CONTROL         "Exit fullscreen at the end of playback",IDC_CHECK5,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,37,280,8
@@ -973,20 +996,20 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,4,90,288,148
     CONTROL         "Use autochange fullscreen monitor mode",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,90,280,8
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,101,224,112
-    PUSHBUTTON      "Add",IDC_BUTTON1,235,101,53,16
-    PUSHBUTTON      "Del",IDC_BUTTON2,235,119,53,16
-    PUSHBUTTON      "Up",IDC_BUTTON3,235,143,53,16
-    PUSHBUTTON      "Down",IDC_BUTTON4,235,161,53,16
-    EDITTEXT        IDC_EDIT1,235,61,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,101,233,112
+    PUSHBUTTON      "Add",IDC_BUTTON1,244,101,45,16
+    PUSHBUTTON      "Del",IDC_BUTTON2,244,119,45,16
+    PUSHBUTTON      "Up",IDC_BUTTON3,244,143,45,16
+    PUSHBUTTON      "Down",IDC_BUTTON4,244,161,45,16
+    EDITTEXT        IDC_EDIT1,244,61,28,13,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Apply default monitor mode on fullscreen exit",IDC_CHECK3,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,216,271,8
     CONTROL         "Restore resolution on program exit",IDC_RESTORERESCHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,227,271,8
-    GROUPBOX        "Delay",IDC_STATIC,235,187,53,25
-    EDITTEXT        IDC_EDIT2,240,197,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Delay",IDC_STATIC,244,187,45,25
+    EDITTEXT        IDC_EDIT2,249,197,24,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,267,180,10,8
-    LTEXT           "s",IDC_STATIC2,267,199,19,8
+    LTEXT           "s",IDC_STATIC2,276,199,12,8
 END
 
 IDD_NAVIGATION_DLG DIALOGEX 0, 0, 93, 60
@@ -1008,14 +1031,21 @@ BEGIN
     CONTROL         "Prefer external subtitles over embedded subtitles",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,17,285,8
     CONTROL         "Ignore embedded subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,29,285,8
-    GROUPBOX        "Autoload paths",IDC_STATIC,5,41,287,31
-    EDITTEXT        IDC_EDIT1,10,53,224,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Reset",IDC_BUTTON1,237,53,50,14
-    GROUPBOX        "Online database",IDC_STATIC,6,78,286,45
-    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,10,89,222,8
-    LTEXT           "http://",IDC_STATIC,10,103,22,8
-    COMBOBOX        IDC_COMBO1,35,101,199,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Test",IDC_BUTTON2,237,100,50,14
+    GROUPBOX        "Autoload paths",IDC_STATIC,5,41,285,32
+    EDITTEXT        IDC_EDIT1,12,53,220,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Reset",IDC_BUTTON1,234,53,50,14
+    GROUPBOX        "Online search, download and upload subtitles",IDC_STATIC,6,76,285,160
+    CONTROL         "Automatically search and download subtitles if none are found locally",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,270,8
+    CONTROL         "Prefer subtitles for hearing impaired (when indicated by subtitles provider)",IDC_CHECK5,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,102,255,8
+    LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC1,22,117,170,8
+    EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
+    LTEXT           "Languages in order of preference:",IDC_STATIC,12,133,180,8
+    EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
+    CONTROL         "Automatically upload active subtitles at the end of video playback",IDC_CHECK6,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,222,270,8
 END
 
 IDD_UPDATE_DIALOG DIALOGEX 0, 0, 300, 60
@@ -1078,11 +1108,36 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Advanced Settings, do not edit unless you know what you are doing.",IDC_STATIC,10,4,276,16
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,22,276,192
-    EDITTEXT        IDC_EDIT1,10,218,217,13,ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMBO1,10,218,217,13,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,55,218,31,13
-    CONTROL         "False",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,129,218,33,13
-    PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,13
+    EDITTEXT        IDC_EDIT1,10,218,217,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,217,218,11,14
+    COMBOBOX        IDC_COMBO1,10,218,217,14,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "True",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,55,218,31,14
+    CONTROL         "False",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,129,218,33,14
+    PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,14
+END
+
+IDD_PPAGEAUDIORENDERER DIALOGEX 0, 0, 296, 241
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Device",IDC_STATIC,7,7,282,54
+    COMBOBOX        IDC_COMBO1,20,20,262,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Exclusive mode",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,41,105,10
+    CONTROL         "Allow bitstreaming",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,41,125,10
+    GROUPBOX        "Options",IDC_STATIC,7,67,282,69
+    GROUPBOX        "",IDC_STATIC,13,76,269,52
+    CONTROL         "Enable stereo crossfeed (for headphones)",IDC_CHECK3,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,260,10
+    PUSHBUTTON      "C. Moy",IDC_BUTTON1,20,103,54,14
+    PUSHBUTTON      "J. Meier",IDC_BUTTON2,79,103,56,14
+    LTEXT           "Cut-off:",IDC_STATIC1,157,97,47,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,96,42,12
+    LTEXT           "",IDC_STATIC2,250,97,30,8
+    LTEXT           "Level:",IDC_STATIC3,157,113,47,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,111,42,12
+    LTEXT           "",IDC_STATIC4,250,113,30,8
+    GROUPBOX        "Note",IDC_STATIC,7,141,282,48
+    LTEXT           "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content.",IDC_STATIC,20,152,262,33
 END
 
 IDD_SAVEIMAGEDIALOGTEMPL DIALOGEX 0, 0, 304, 20
@@ -1102,6 +1157,25 @@ BEGIN
     ICON            "",IDC_STATIC1,7,7,20,20
     EDITTEXT        IDC_EDIT1,35,7,265,146,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
     DEFPUSHBUTTON   "OK",IDOK,252,156,50,14
+END
+
+IDD_CRASH_REPORTER DIALOGEX 0, 0, 300, 240
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Crash reporter"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "We are sorry, it seems MPC-HC just crashed. :(",IDC_STATIC,5,5,290,8
+    CONTROL         "Send a bug report to help us diagnose and fix the problem.",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,19,290,8
+    GROUPBOX        "Optional information",IDC_STATIC1,5,33,290,182
+    LTEXT           "Email:",IDC_STATIC2,10,45,280,8
+    EDITTEXT        IDC_EDIT1,10,57,280,13,ES_AUTOHSCROLL
+    LTEXT           "Your email address is optional and will only be used if the developers need to contact you for more information.",IDC_STATIC3,10,71,280,16
+    LTEXT           "Problem description (use English only):",IDC_STATIC4,10,93,280,8
+    EDITTEXT        IDC_EDIT2,10,105,280,104,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    DEFPUSHBUTTON   "Restart MPC-HC",IDC_BUTTON1,45,220,120,14
+    PUSHBUTTON      "Quit MPC-HC",IDC_BUTTON2,175,220,120,14
 END
 
 
@@ -1235,6 +1309,14 @@ BEGIN
     BEGIN
     END
 
+    IDD_SUBTITLEDL_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_SUBTITLEUP_DLG, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEMISC, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1254,7 +1336,7 @@ BEGIN
 
     IDD_PPAGEFULLSCREEN, DIALOG
     BEGIN
-        VERTGUIDE, 235
+        VERTGUIDE, 244
         VERTGUIDE, 288
         HORZGUIDE, 204
     END
@@ -1271,12 +1353,35 @@ BEGIN
         HORZGUIDE, 231
     END
 
+    IDD_PPAGEAUDIORENDERER, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 13
+        VERTGUIDE, 20
+        VERTGUIDE, 154
+        VERTGUIDE, 157
+        VERTGUIDE, 204
+        VERTGUIDE, 208
+        VERTGUIDE, 250
+        VERTGUIDE, 280
+        VERTGUIDE, 282
+        VERTGUIDE, 289
+        HORZGUIDE, 46
+        HORZGUIDE, 67
+        HORZGUIDE, 136
+    END
+
     IDD_CMD_LINE_HELP, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 302
         TOPMARGIN, 7
         BOTTOMMARGIN, 170
+    END
+
+    IDD_CRASH_REPORTER, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 200
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1288,6 +1393,7 @@ END
 //
 
 IDB_PLAYERTOOLBAR       BITMAP                  "res\\toolbar.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1309,7 +1415,7 @@ BEGIN
     BUTTON      ID_BUTTONSEP
     BUTTON      ID_DUMMYSEPARATOR
     BUTTON      ID_VOLUME_MUTE
-    BUTTON      ID_VOLUME_MUTE_ON
+    BUTTON      ID_VOLUME_MUTE_OFF
     BUTTON      ID_VOLUME_MUTE_DISABLED
 END
 
@@ -1337,13 +1443,13 @@ BEGIN
         MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
         MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
         MENUITEM SEPARATOR
-        MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-        MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-        POPUP "Subtitle Data&base"
+        POPUP "S&ubtitles"
         BEGIN
-            MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-            MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-            MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+            MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+            MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+            MENUITEM SEPARATOR
+            MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+            MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
         END
         MENUITEM SEPARATOR
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -1383,8 +1489,9 @@ BEGIN
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1458,15 +1565,15 @@ BEGIN
             MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-            POPUP "Override &Aspect Ratio"
+            POPUP "&Aspect Ratio"
             BEGIN
-                MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                 MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                 MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                 MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                 MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                 MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
@@ -1501,7 +1608,14 @@ BEGIN
     BEGIN
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
-        MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
+        MENUITEM "Fra&me Step",                 ID_PLAY_FRAMESTEP
+        POPUP "&Repeat"
+        BEGIN
+            MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+            MENUITEM SEPARATOR
+            MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+            MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -1510,9 +1624,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "Vide&o Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1522,13 +1636,15 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
         END
     END
     POPUP "&Navigate"
@@ -1577,13 +1693,13 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-            POPUP "Subtitle Data&base"
+            POPUP "S&ubtitles"
             BEGIN
-                MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-                MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-                MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+                MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+                MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+                MENUITEM SEPARATOR
+                MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+                MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -1593,6 +1709,13 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
+        POPUP "&Repeat"
+        BEGIN
+            MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+            MENUITEM SEPARATOR
+            MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+            MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+        END
         MENUITEM SEPARATOR
         MENUITEM "F&ull Screen",                ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
@@ -1615,15 +1738,15 @@ BEGIN
             MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-            POPUP "Override &Aspect Ratio"
+            POPUP "&Aspect Ratio"
             BEGIN
-                MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                 MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                 MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                 MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                 MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                 MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
@@ -1663,9 +1786,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "Vide&o Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1675,13 +1798,15 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
         END
         MENUITEM SEPARATOR
         POPUP "&View"
@@ -1715,8 +1840,9 @@ BEGIN
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1806,13 +1932,13 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "&Load Subtitle...",           ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Save S&ubtitle...",           ID_FILE_SAVE_SUBTITLE
-            POPUP "Subtitle Data&base"
+            POPUP "S&ubtitles"
             BEGIN
-                MENUITEM "&Search...",                  ID_FILE_ISDB_SEARCH
-                MENUITEM "&Upload...",                  ID_FILE_ISDB_UPLOAD
-                MENUITEM "&Download...",                ID_FILE_ISDB_DOWNLOAD
+                MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
+                MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
+                MENUITEM SEPARATOR
+                MENUITEM "&Download Subtitles...",      ID_FILE_SUBTITLES_DOWNLOAD
+                MENUITEM "&Upload Subtitles...",        ID_FILE_SUBTITLES_UPLOAD
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -1850,8 +1976,9 @@ BEGIN
             POPUP "R&enderer Settings"
             BEGIN
                 MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-                MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-                MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+                MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
+                MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
+                MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
                 MENUITEM SEPARATOR
                 POPUP "&Output Range"
                 BEGIN
@@ -1925,15 +2052,15 @@ BEGIN
                 MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
                 MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
                 MENUITEM SEPARATOR
-                MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-                POPUP "Override &Aspect Ratio"
+                POPUP "&Aspect Ratio"
                 BEGIN
-                    MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                    MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                     MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                     MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                     MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                     MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                     MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                    MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
                 END
                 MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
@@ -1968,7 +2095,14 @@ BEGIN
         BEGIN
             MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
             MENUITEM "&Stop",                       ID_PLAY_STOP
-            MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
+            MENUITEM "Fra&me Step",                 ID_PLAY_FRAMESTEP
+            POPUP "&Repeat"
+            BEGIN
+                MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+                MENUITEM SEPARATOR
+                MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+                MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+            END
             MENUITEM SEPARATOR
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -2002,9 +2136,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "Vide&o Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -2014,20 +2148,23 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
         END
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -2116,7 +2253,9 @@ BEGIN
     IDS_AUTOPLAY_PLAYAUDIOCD "Play Audio CD"
     IDS_AUTOPLAY_PLAYDVDMOVIE "Play DVD Movie"
     IDS_PROPSHEET_PROPERTIES "Properties"
+    IDS_PLAY_LOOPMODE_FILE  "File"
     IDS_SUBTITLES_DEFAULT_STYLE "&Default Style"
+    IDS_PLAY_LOOPMODE_PLAYLIST "Playlist"
     IDS_FAVFILES            "Files"
     IDS_FAVDVDS             "DVDs"
 END
@@ -2135,6 +2274,11 @@ BEGIN
     IDS_SUBTITLES_STYLES_CAPTION "Styles"
     IDS_TEXT_SUB_RENDERING_TARGET 
                             "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
+    IDS_PLAYLOOPMODE_PLAYLIST "Repeat Mode: Playlist"
+    IDS_PLAYLOOPMODE_FILE   "Repeat Mode: File"
+    IDS_PLAYLOOP_FOREVER_ON "Repeat Forever: On"
+    IDS_PLAYLOOP_FOREVER_OFF "Repeat Forever: Off"
+    IDS_PLAYLOOP_FOREVER    "Repeat Forever"
 END
 
 STRINGTABLE
@@ -2208,8 +2352,8 @@ BEGIN
     IDS_SUBRESYNC_CLN_EFFECT "Effect"
     IDS_PLAYLIST_CAPTION    "Playlist"
     IDS_PPAGE_FS_CLN_ON_OFF "On/Off"
-    IDS_PPAGE_FS_CLN_FROM_FPS "From fps"
-    IDS_PPAGE_FS_CLN_TO_FPS "To fps"
+    IDS_PPAGE_FS_CLN_FROM_FPS "From (FPS)"
+    IDS_PPAGE_FS_CLN_TO_FPS "To (FPS)"
     IDS_PPAGE_FS_CLN_DISPLAY_MODE "Display mode (Hz)"
     IDS_PPAGE_FS_DEFAULT    "Default"
     IDS_PPAGE_FS_OTHER      "Other"
@@ -2262,6 +2406,17 @@ END
 
 STRINGTABLE
 BEGIN
+    IDD_FILEPROPRES         "Resources"
+    IDD_PPAGEMISC           "Miscellaneous"
+    IDD_FILEMEDIAINFO       "MediaInfo"
+    IDD_PPAGECAPTURE        "Playback::Capture"
+    IDD_PPAGESYNC           "Playback::Sync Renderer Settings"
+    IDD_PPAGEFULLSCREEN     "Playback::Fullscreen"
+    IDD_PPAGEAUDIORENDERER  "Internal Filters::Audio Renderer"
+END
+
+STRINGTABLE
+BEGIN
     IDS_AUDIOSWITCHER       "Audio Switcher"
     IDS_ICONS_REASSOC_DLG_TITLE "New version of the icon library"
     IDS_ICONS_REASSOC_DLG_INSTR "Do you want to reassociate the icons?"
@@ -2269,9 +2424,7 @@ BEGIN
                             "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
     IDS_PPAGE_OUTPUT_OLDRENDERER "Old Video Renderer"
     IDS_PPAGE_OUTPUT_OVERLAYMIXER "Overlay Mixer Renderer"
-    IDS_PPAGE_OUTPUT_VMR7WINDOWED "Video Mixing Renderer 7 (windowed)"
     IDS_PPAGE_OUTPUT_VMR9WINDOWED "Video Mixing Renderer 9 (windowed)"
-    IDS_PPAGE_OUTPUT_VMR7RENDERLESS "Video Mixing Renderer 7 (renderless)"
     IDS_PPAGE_OUTPUT_VMR9RENDERLESS "Video Mixing Renderer 9 (renderless)"
     IDS_PPAGE_OUTPUT_EVR    "Enhanced Video Renderer"
     IDS_PPAGE_OUTPUT_EVR_CUSTOM "Enhanced Video Renderer (custom presenter)"
@@ -2289,17 +2442,6 @@ BEGIN
     IDD_PPAGELOGO           "Player::Logo"
     IDD_PPAGEOUTPUT         "Playback::Output"
     IDD_PPAGEWEBSERVER      "Player::Web Interface"
-    IDD_PPAGESUBDB          "Subtitles::Database"
-END
-
-STRINGTABLE
-BEGIN
-    IDD_FILEPROPRES         "Resources"
-    IDD_PPAGEMISC           "Miscellaneous"
-    IDD_FILEMEDIAINFO       "MediaInfo"
-    IDD_PPAGECAPTURE        "Playback::Capture"
-    IDD_PPAGESYNC           "Playback::Sync Renderer Settings"
-    IDD_PPAGEFULLSCREEN     "Playback::Fullscreen"
 END
 
 STRINGTABLE
@@ -2313,12 +2455,10 @@ BEGIN
     IDC_DSSYSDEF            "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
     IDC_DSOLD               "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
     IDC_DSOVERLAYMIXER      "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-    IDC_DSVMR7WIN           "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-    IDC_DSVMR9WIN           "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-    IDC_DSVMR7REN           "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. ""True Color"" desktop color space recommended."
+    IDC_DSVMR9WIN           "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
     IDC_DSVMR9REN           "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. ""True Color"" desktop color space recommended. Recommended for Windows XP."
     IDC_DSDXR               "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-    IDC_DSNULL_COMP         "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+    IDC_DSNULL_COMP         "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
     IDC_DSNULL_UNCOMP       "Same as the normal Null renderer, but this will only connect to uncompressed types."
     IDC_DSEVR               "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
     IDC_DSEVR_CUSTOM        "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
@@ -2329,24 +2469,15 @@ BEGIN
     IDC_DSMADVR             "High-quality renderer, requires a GPU that supports D3D9 or later."
     IDC_DSSYNC              "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
     IDC_RMSYSDEF            "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-    IDC_RMDX7               "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
     IDC_RMDX9               "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
     IDC_QTSYSDEF            "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-    IDC_QTDX7               "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
     IDC_QTDX9               "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
     IDC_REGULARSURF         "Video surface will be allocated as a regular offscreen surface."
 END
 
 STRINGTABLE
 BEGIN
-    IDC_AUDRND_COMBO        "MPC Audio Renderer is broken, do not use."
-END
-
-STRINGTABLE
-BEGIN
     IDS_PPAGE_OUTPUT_SYNC   "Sync Renderer"
-    IDS_MPC_BUG_REPORT_TITLE "MPC-HC - Reporting a bug"
-    IDS_MPC_BUG_REPORT      "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
     IDS_PPAGE_OUTPUT_SURF_OFFSCREEN "Regular offscreen plain surface"
     IDS_PPAGE_OUTPUT_SURF_2D "2D surfaces"
     IDS_PPAGE_OUTPUT_SURF_3D "3D surfaces (recommended)"
@@ -2364,12 +2495,13 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND "MPC-HC Audio Renderer"
+    IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND "Internal Audio Renderer"
     IDS_EMB_RESOURCES_VIEWER_NAME "Name"
     IDS_EMB_RESOURCES_VIEWER_TYPE "MIME Type"
     IDS_EMB_RESOURCES_VIEWER_INFO 
                             "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the ""Save As"" button if you only want to save the information."
-    IDS_DOWNLOAD_SUBS       "Download subtitles"
+    IDS_SUBTITLES_DOWNLOAD  "Download Subtitles..."
+    IDS_SUBTITLES_UPLOAD    "Upload Subtitles..."
     IDS_SUBFILE_DELAY       "Delay (ms):"
     IDS_SPEEDSTEP_AUTO      "Auto"
     IDS_EXPORT_SETTINGS_NO_KEYS "There are no customized keys to export."
@@ -2381,7 +2513,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
     IDC_TEXTURESURF3D       "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
     IDC_DX9RESIZER_COMBO    "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
     IDC_DSVMR9LOADMIXER     "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -2398,6 +2530,13 @@ STRINGTABLE
 BEGIN
     IDC_DSVMR9ALTERNATIVEVSYNC 
                             "Reduces tearing by bypassing the default VSync built into D3D."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
+    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
+    IDC_CACHESHADERS        "Stores compiled shaders in local AppData to speed up load time."
 END
 
 STRINGTABLE
@@ -2437,7 +2576,7 @@ END
 STRINGTABLE
 BEGIN
     ID_VOLUME_MUTE          "Mute"
-    ID_VOLUME_MUTE_ON       "Unmute"
+    ID_VOLUME_MUTE_OFF      "Unmute"
     ID_VOLUME_MUTE_DISABLED "No audio"
 END
 
@@ -2465,8 +2604,8 @@ STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
     IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
-    IDS_PLAYLIST_SHUFFLE    "Shuffle"
-    IDS_PLAYLIST_SHOWFOLDER "Open file location"
+    IDS_PLAYLIST_SHUFFLE    "Sh&uffle"
+    IDS_PLAYLIST_SHOWFOLDER "Ope&n file location"
     IDS_CONTROLS_CLOSING    "Closing..."
     IDS_CONTROLS_PLAYING    "Playing"
     IDS_CONTROLS_PAUSED     "Paused"
@@ -2500,7 +2639,7 @@ BEGIN
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-    IDS_PLAYLIST_HIDEFS     "Hide on Fullscreen"
+    IDS_PLAYLIST_HIDEFS     "&Hide on Fullscreen"
 END
 
 STRINGTABLE
@@ -2573,7 +2712,7 @@ STRINGTABLE
 BEGIN
     IDS_VOLUME              "%d%%"
     IDS_BOOST               "+%d%%"
-    IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
+    IDS_PLAYLIST_ADDFOLDER  "Add containing &folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
     IDS_STATSBAR_PLAYBACK_RATE "Playback rate"
@@ -2611,6 +2750,32 @@ BEGIN
     IDS_SUBTITLE_DELAY_STEP_TOOLTIP 
                             "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
     IDS_HOTKEY_NOT_DEFINED  "<not defined>"
+    IDS_NAVIGATION_WATCH    "Watch"
+    IDS_NAVIGATION_MOVE_UP  "Move Up"
+    IDS_NAVIGATION_MOVE_DOWN "Move Down"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NAVIGATION_SORT     "Sort by LCN"
+    IDS_NAVIGATION_REMOVE_ALL "Remove all"
+    IDS_REMOVE_CHANNELS_QUESTION 
+                            "Are you sure you want to remove all channels from the list?"
+    IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
+    IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
+    IDS_ASPECT_RATIO_FMT    "AR %d:%d"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
+    IDS_TIMER_REMAINING_TIME "Remaining time"
+    IDS_TIMER_HIGH_PRECISION "High precision"
+    IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"
+    IDS_AFTERPLAYBACK_CLOSE "After Playback: Close"
+    IDS_FRAME_INIT_FAILED   "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+    IDS_TIME_SHIFT_TOOLTIP  "Enter a positive value if the audio is early, a negative value if it is late."
+    IDS_WEBUI_DISABLED_PREVIEW_MSG 
+                            "Preview is currently disabled. You can enable it in MPC-HC's options."
+    IDS_WEBUI_PREVIEW_WARNING 
+                            "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+    IDS_SUBTITLE_RENDERER_INTERNAL "Internal Subtitle Renderer"
 END
 
 STRINGTABLE
@@ -2620,15 +2785,15 @@ BEGIN
     IDS_AG_SAVE_IMAGE       "Save Image"
     IDS_MPLAYERC_6          "Save Image (auto)"
     IDS_OSD_IMAGE_SAVED     "Image saved successfully"
-    IDS_AG_LOAD_SUBTITLE    "Load Subtitle"
-    IDS_AG_SAVE_SUBTITLE    "Save Subtitle"
+    IDS_AG_LOAD_SUBTITLES   "Load Subtitles..."
+    IDS_AG_SAVE_SUBTITLES   "Save Subtitles..."
     IDS_AG_PROPERTIES       "Properties"
     IDS_AG_EXIT             "Exit"
     IDS_AG_PLAYPAUSE        "Play/Pause"
     IDS_AG_PLAY             "Play"
     IDS_AG_STOP             "Stop"
-    IDS_AG_FRAMESTEP        "Framestep"
-    IDS_MPLAYERC_16         "Framestep back"
+    IDS_AG_FRAMESTEP        "Frame-step"
+    IDS_MPLAYERC_16         "Frame-step back"
     IDS_AG_GO_TO            "Go To"
     IDS_AG_INCREASE_RATE    "Increase Rate"
 END
@@ -2661,7 +2826,7 @@ BEGIN
     IDS_OSD_RS_VSYNC_OFFSET "VSync Offset: %d"
     IDS_OSD_SPEED           "Speed: %.2lfx"
     IDS_OSD_THUMBS_SAVED    "Thumbnails saved successfully"
-    IDS_MENU_VIDEO_STREAM   "&Video Stream"
+    IDS_MENU_VIDEO_STREAM   "Vide&o Track"
     IDS_MENU_VIDEO_ANGLE    "Video Ang&le"
     IDS_RESET_SETTINGS      "Reset settings"
     IDS_RESET_SETTINGS_WARNING 
@@ -2682,8 +2847,8 @@ STRINGTABLE
 BEGIN
     IDS_AG_DECREASE_RATE    "Decrease Rate"
     IDS_AG_RESET_RATE       "Reset Rate"
-    IDS_MPLAYERC_21         "Audio Delay +10ms"
-    IDS_MPLAYERC_22         "Audio Delay -10ms"
+    IDS_MPLAYERC_21         "Audio Delay +10 ms"
+    IDS_MPLAYERC_22         "Audio Delay -10 ms"
     IDS_MPLAYERC_23         "Jump Forward (small)"
     IDS_MPLAYERC_24         "Jump Backward (small)"
     IDS_MPLAYERC_25         "Jump Forward (medium)"
@@ -2705,8 +2870,22 @@ BEGIN
     IDS_MPLAYERC_101        "Goto Next Subtitle"
     IDS_MPLAYERC_102        "Shift Subtitle Left"
     IDS_MPLAYERC_103        "Shift Subtitle Right"
-    IDS_AG_DISPLAY_STATS    "Display Stats"
     IDS_AG_SEEKSET          "Jump to Beginning"
+    IDS_OSD_SHOW_FILENAME   "OSD: Show File Name"
+    IDS_PLAY_DVD            "Play DVD"
+    IDS_PLAY_BD             "Play BD"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OSD_DISPLAY_RENDERER_STATS "OSD: Display Renderer Statistics"
+    IDS_OSD_RESET_RENDERER_STATS "OSD: Reset Renderer Statistics"
+    IDD_PPAGESUBMISC        "Subtitles::Misc"
+    IDS_VIEW_BORDERLESS     "Hide &borders"
+    IDS_VIEW_FRAMEONLY      "Fra&me Only"
+    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
+    IDS_VIEW_HIDEMENU       "Hide &Menu"
+    IDD_PPAGEADVANCED       "Advanced"
 END
 
 STRINGTABLE
@@ -2731,10 +2910,10 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBDL_DLG_DOWNLOADING "Downloading subtitle(s), please wait."
+    IDS_SUBDL_DLG_DOWNLOADING "Downloading [%s] ""%s"""
     IDS_SUBDL_DLG_PARSING   "Parsing list..."
     IDS_SUBDL_DLG_NOT_FOUND "No subtitles found."
-    IDS_SUBDL_DLG_SUBS_AVAIL " %d subtitle(s) available."
+    IDS_SUBDL_DLG_SUBS_AVAIL "%d subtitle(s) available."
     IDS_UPDATE_CONFIG_AUTO_CHECK 
                             "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
     IDS_ZOOM_50             "50%"
@@ -2782,32 +2961,28 @@ BEGIN
     IDS_AG_DVD_MENU_BACK    "DVD Menu Back"
     IDS_MPLAYERC_75         "DVD Menu Leave"
     IDS_AG_BOSS_KEY         "Boss key"
-    IDS_MPLAYERC_77         "Player Menu (short)"
-    IDS_MPLAYERC_78         "Player Menu (long)"
+    IDS_MPLAYERC_77         "Player Menu"
+    IDS_MPLAYERC_78         "Player Menu (full)"
     IDS_AG_FILTERS_MENU     "Filters Menu"
     IDS_AG_OPTIONS          "Options"
-    IDS_AG_NEXT_AUDIO       "Next Audio"
-    IDS_AG_PREV_AUDIO       "Prev Audio"
+    IDS_AG_NEXT_AUDIO       "Next Audio Track"
+    IDS_AG_PREV_AUDIO       "Prev Audio Track"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_AG_NEXT_SUBTITLE    "Next Subtitle"
-    IDS_AG_PREV_SUBTITLE    "Prev Subtitle"
+    IDS_AG_NEXT_SUBTITLE    "Next Subtitle Track"
+    IDS_AG_PREV_SUBTITLE    "Prev Subtitle Track"
     IDS_MPLAYERC_85         "On/Off Subtitle"
     IDS_MPLAYERC_86         "Reload Subtitles"
-    IDS_MPLAYERC_87         "Next Audio (OGM)"
-    IDS_MPLAYERC_88         "Prev Audio (OGM)"
-    IDS_MPLAYERC_89         "Next Subtitle (OGM)"
-    IDS_MPLAYERC_90         "Prev Subtitle (OGM)"
     IDS_MPLAYERC_91         "Next Angle (DVD)"
     IDS_MPLAYERC_92         "Prev Angle (DVD)"
-    IDS_MPLAYERC_93         "Next Audio (DVD)"
-    IDS_MPLAYERC_94         "Prev Audio (DVD)"
-    IDS_MPLAYERC_95         "Next Subtitle (DVD)"
-    IDS_MPLAYERC_96         "Prev Subtitle (DVD)"
+    IDS_MPLAYERC_93         "Next Audio Track (DVD)"
+    IDS_MPLAYERC_94         "Prev Audio Track (DVD)"
+    IDS_MPLAYERC_95         "Next Subtitle Track (DVD)"
+    IDS_MPLAYERC_96         "Prev Subtitle Track (DVD)"
     IDS_MPLAYERC_97         "On/Off Subtitle (DVD)"
-    IDS_MPLAYERC_98         "Remaining Time"
+    IDS_OSD_DISPLAY_CURRENT_TIME "OSD: Display Current Time"
 END
 
 STRINGTABLE
@@ -2822,8 +2997,8 @@ BEGIN
     IDS_DVB_CHANNEL_NAME    "Name"
     IDS_DVB_CHANNEL_FREQUENCY "Frequency"
     IDS_DVB_CHANNEL_ENCRYPTION "Encrypted"
-    IDS_DVB_CHANNEL_ENCRYPTED "Yes"
-    IDS_DVB_CHANNEL_NOT_ENCRYPTED "No"
+    IDS_YES                 "Yes"
+    IDS_NO                  "No"
     IDS_DVB_CHANNEL_START_SCAN "Start"
     IDS_DVB_CHANNEL_STOP_SCAN "Stop"
     IDS_DVB_TVNAV_SEERADIO  "Radio stations"
@@ -2841,8 +3016,8 @@ BEGIN
     IDS_AG_FRAMES           "Frames"
     IDS_AG_BUFFERS          "Buffers"
     IDS_MAINFRM_9           "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
-    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
-    IDS_MAINFRM_11          "%s, %s %uHz %dbits %d %s"
+    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+    IDS_MAINFRM_11          "%s, %s %u Hz %d bits %d %s"
 END
 
 STRINGTABLE
@@ -2879,18 +3054,16 @@ BEGIN
     IDS_THUMB_ROWNUMBER     "Rows:"
     IDS_THUMB_COLNUMBER     "Columns:"
     IDS_THUMB_IMAGE_WIDTH   "Image width"
-    IDS_PPSDB_URLCORRECT    "The URL appears to be correct!"
-    IDS_PPSDB_PROTOCOLERR   "Protocol version mismatch, please upgrade your player or choose a different address!"
 END
 
 STRINGTABLE
 BEGIN
     IDS_AG_ASPECT_RATIO     "Aspect Ratio"
     IDS_MAINFRM_37          ", Total: %ld, Dropped: %ld"
-    IDS_MAINFRM_38          ", Size: %I64dKB"
-    IDS_MAINFRM_39          ", Size: %I64dMB"
-    IDS_MAINFRM_40          ", Free: %I64dKB"
-    IDS_MAINFRM_41          ", Free: %I64dMB"
+    IDS_MAINFRM_38          ", Size: %I64d KB"
+    IDS_MAINFRM_39          ", Size: %I64d MB"
+    IDS_MAINFRM_40          ", Free: %I64d KB"
+    IDS_MAINFRM_41          ", Free: %I64d MB"
     IDS_MAINFRM_42          ", Free V/A Buffers: %03d/%03d"
     IDS_AG_ERROR            "Error"
     IDS_SUBTITLE_STREAM_OFF "Subtitle: off"
@@ -2915,18 +3088,18 @@ BEGIN
     IDS_THUMBNAILS_INFO_HEADER 
                             "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
     IDS_THUMBNAIL_TOO_SMALL "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-    IDS_CANNOT_LOAD_SUB     "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+    IDS_CANNOT_LOAD_SUB     "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
     IDS_SUBTITLE_FILES_FILTER "Subtitle files"
 END
 
 STRINGTABLE
 BEGIN
     IDS_MAINFRM_68          "Aspect Ratio: %ld:%ld"
-    IDS_MAINFRM_69          "Aspect Ratio: Default"
-    IDS_MAINFRM_70          "Audio Delay: %I64dms"
+    IDS_MAINFRM_69          "Aspect Ratio: Default (DAR)"
+    IDS_MAINFRM_70          "Audio delay: %I64d ms"
     IDS_AG_CHAPTER          "Chapter %d"
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
-    IDS_MAINFRM_77          "Error: Flash player for IE is required"
+    IDS_MAINFRM_77          "Error: Adobe Flash Player for Internet Explorer is required"
     IDS_MAINFRM_78          "QuickTime not yet supported for X64 (apple library not available)"
     IDS_MAINFRM_80          "Failed to create the filter graph object"
     IDS_MAINFRM_81          "Invalid argument"
@@ -2936,19 +3109,16 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPSDB_BADURL        "Bad URL, could not locate subtitle database there!"
     IDS_AG_CHAPTER2         "Chapter: "
     IDS_VOLUME_OSD          "Vol: %d%%"
     IDS_BOOST_OSD           "Boost: +%u%%"
     IDS_BALANCE_OSD         "Balance: %s"
     IDS_FULLSCREENMONITOR_CURRENT "Current"
-    IDS_MPC_CRASH           "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file ""%s"" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-    IDS_MPC_MINIDUMP_FAIL   "Failed to create dump file to ""%s"" (error %u)"
     IDS_MAINFRM_DIR_TITLE   "Select Directory"
     IDS_MAINFRM_DIR_CHECK   "Include subdirectories"
     IDS_AG_PAUSE            "Pause"
     IDS_AG_TOGGLE_CAPTION   "Toggle Caption&Menu"
-    IDS_AG_TOGGLE_SEEKER    "Toggle Seeker"
+    IDS_AG_TOGGLE_SEEKER    "Toggle Seek Bar"
     IDS_AG_TOGGLE_CONTROLS  "Toggle Controls"
 END
 
@@ -2999,7 +3169,7 @@ BEGIN
     IDS_VOLUME_BOOST_DEC    "Volume boost decrease"
     IDS_VOLUME_BOOST_MIN    "Volume boost Min"
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
-    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
 END
 
@@ -3029,12 +3199,6 @@ BEGIN
     IDS_AG_VIDFRM_ZOOM2     "VidFrm Zoom 2"
     IDS_AG_VIDFRM_SWITCHZOOM "VidFrm Switch Zoom"
     IDS_ENABLE_ALL_FILTERS  "&Enable all filters"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
-    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
 END
 
 STRINGTABLE
@@ -3073,19 +3237,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_AG_RESET_STATS      "Reset Display Stats"
-    IDD_PPAGESUBMISC        "Subtitles::Misc"
-    IDS_VIEW_BORDERLESS     "Hide &borders"
-    IDS_VIEW_FRAMEONLY      "Frame Only"
-    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
-    IDS_VIEW_HIDEMENU       "Hide &Menu"
-    IDD_PPAGEADVANCED       "Advanced"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_TIME_TOOLTIP_ABOVE  "Above seekbar"
-    IDS_TIME_TOOLTIP_BELOW  "Below seekbar"
+    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
+    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
     IDS_VIDEO_STREAM        "Video: %s"
     IDS_APPLY               "Apply"
     IDS_CLEAR               "Clear"
@@ -3147,9 +3300,18 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_AC3            "AC-3/DTS"
+    IDS_MFMT_AC3            "AC-3"
     IDS_MFMT_AIFF           "AIFF"
     IDS_MFMT_ALAC           "Apple Lossless"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MFMT_WAV            "WAV"
+    IDS_MFMT_WMA            "Windows Media Audio"
+    IDS_MFMT_WV             "WavPack"
+    IDS_MFMT_OPUS           "Opus Audio Codec"
+    IDS_MFMT_DTS            "DTS/DTS-HD"
 END
 
 STRINGTABLE
@@ -3174,14 +3336,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_WAV            "WAV"
-    IDS_MFMT_WMA            "Windows Media Audio"
-    IDS_MFMT_WV             "WavPack"
-    IDS_MFMT_OPUS           "Opus Audio Codec"
-END
-
-STRINGTABLE
-BEGIN
     IDS_MFMT_PLS            "Playlist"
     IDS_MFMT_BDPLS          "Blu-ray playlist"
     IDS_MFMT_RAR            "RAR Archive"
@@ -3192,13 +3346,6 @@ BEGIN
     IDS_DVB_CHANNEL_FPS     "FPS"
     IDS_DVB_CHANNEL_RESOLUTION "Resolution"
     IDS_DVB_CHANNEL_ASPECT_RATIO "Aspect Ratio"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_ARS_WASAPI_MODE     "Use WASAPI (restart playback)"
-    IDS_ARS_MUTE_FAST_FORWARD "Mute on fast forward"
-    IDS_ARS_SOUND_DEVICE    "Sound Device:"
 END
 
 STRINGTABLE
@@ -3292,6 +3439,7 @@ BEGIN
     IDS_REGAIN_VOLUME       "Toggle regain volume"
     IDS_OSD_REGAIN_VOLUME_ON "Regain volume: On"
     IDS_OSD_REGAIN_VOLUME_OFF "Regain volume: Off"
+    IDS_SIZE_UNIT_BYTES     "bytes"
     IDS_SIZE_UNIT_K         "KB"
     IDS_SIZE_UNIT_M         "MB"
     IDS_SIZE_UNIT_G         "GB"
@@ -3313,7 +3461,7 @@ BEGIN
     IDS_GOTO_ERROR_PARSING_TEXT "Error parsing the entered text!"
     IDS_GOTO_ERROR_PARSING_FPS "Error parsing the entered frame rate!"
     IDS_FRAME_STEP_ERROR_RENDERER 
-                            "Cannot frame step, try a different video renderer."
+                            "Cannot frame-step, try a different video renderer."
     IDS_SCREENSHOT_ERROR_REAL 
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
     IDS_SCREENSHOT_ERROR_QT "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
@@ -3321,8 +3469,6 @@ BEGIN
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work for Shockwave files."
     IDS_SCREENSHOT_ERROR_OVERLAY 
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-    IDS_SUBDL_DLG_CONNECT_ERROR 
-                            "Cannot connect to the online subtitles database."
     IDS_MB_SHOW_EDL_EDITOR  "Do you want to activate the EDL editor?"
 END
 
@@ -3356,13 +3502,15 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_AFTERPLAYBACK_CLOSE "After Playback: Exit"
+    IDS_AFTERPLAYBACK_EXIT  "After Playback: Exit"
     IDS_AFTERPLAYBACK_STANDBY "After Playback: Stand By"
     IDS_AFTERPLAYBACK_HIBERNATE "After Playback: Hibernate"
     IDS_AFTERPLAYBACK_SHUTDOWN "After Playback: Shutdown"
     IDS_AFTERPLAYBACK_LOGOFF "After Playback: Log Off"
     IDS_AFTERPLAYBACK_LOCK  "After Playback: Lock"
     IDS_AFTERPLAYBACK_MONITOROFF "After Playback: Turn off the monitor"
+    IDS_AFTERPLAYBACK_PLAYNEXT "After Playback: Play next file in the folder"
+    IDS_AFTERPLAYBACK_DONOTHING "After Playback: Do nothing"
     IDS_OSD_BRIGHTNESS      "Brightness: %s"
     IDS_OSD_CONTRAST        "Contrast: %s"
     IDS_OSD_HUE             "Hue: %s°"
@@ -3396,6 +3544,131 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBTITLE_RENDERER_VS_FILTER "VSFilter / DirectVobSub"
+    IDS_SUBTITLE_RENDERER_XY_SUB_FILTER "XySubFilter"
+    IDS_SUBTITLE_RENDERER_ASS_FILTER "AssFilter"
+    IDS_SUBDL_DLG_PROVIDER_COL "Provider"
+    IDS_SUBDL_DLG_HI_COL    "Hearing Impaired"
+    IDS_SUBDL_DLG_DOWNLOADS_COL "Downloads"
+    IDS_SUBDL_DLG_SCORE_COL "Score"
+    IDS_SUBDL_DLG_FAILED    "Online subtitles search failed."
+    IDS_SUBDL_DLG_ABORTED   "Online subtitles search aborted."
+    IDS_SUBDL_DLG_FOUND     "Online subtitles search completed, %d subtitles found."
+    IDS_SUBDL_DLG_NOTFOUND  "Online subtitles search completed, no subtitles found."
+    IDS_SUBDL_DLG_TITLE     "Download subtitles"
+    IDS_SUBDL_DLG_SEARCHING "Searching for subtitles online, please wait..."
+    IDS_SUBDL_DLG_ABORTING  "Online subtitles search aborting..."
+    IDS_SUBUL_DLG_USERNAME_COL "Username"
+    IDS_SUBUL_DLG_STATUS_COL "Status"
+    IDS_SUBUL_DLG_STATUS_READY "Ready..."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED "Not implemented."
+    IDS_SUBUL_DLG_STATUS_UPLOADING "Uploading..."
+    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded successfully."
+    IDS_SUBUL_DLG_STATUS_FAILED "Subtitles upload failed."
+    IDS_SUBUL_DLG_STATUS_ABORTED "Subtitles upload aborted."
+    IDS_SUBUL_DLG_STATUS_ALREADYEXISTS "Subtitles already exist."
+    IDS_SUBUL_DLG_UPLOADING "Uploading subtitles, please wait..."
+    IDS_SUBUL_DLG_UPLOADED  "Upload finished."
+    IDS_SUBUL_DLG_ABORTED   "Upload aborted."
+    IDS_SUBUL_DLG_FAILED    "Upload failed."
+    IDS_SUBMENU_DOWNLOAD    "Download && Open"
+    IDS_SUBMENU_SETUP       "Setup"
+    IDS_SUBMENU_RESET       "Reset"
+    IDS_SUBMENU_MOVEUP      "Move Up"
+    IDS_SUBMENU_MOVEDOWN    "Move Down"
+    IDS_SUBMENU_OPENURL     "Open URL"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBPP_DLG_LANGUAGES_COL "Languages"
+    IDS_SUBPP_DLG_LANGUAGES_ERROR 
+                            "ERROR: Internet connection could not be established."
+    IDS_SUB_CREDENTIALS_TITLE "Enter website credentials"
+    IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
+    IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
+    IDS_SUBDL_DLG_DOWNLOADED "Downloaded [%s] ""%s"""
+    IDS_SUBUL_DLG_TITLE     "Upload subtitles"
+    IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
+    IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
+    IDS_SUB_CREDENTIALS_ERROR 
+                            "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+    IDS_SUB_AUTODL_IGNORE_TOOLTIP 
+                            "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
+    IDS_CMD_PATHNAME        """pathname""\tThe main file or directory to be loaded\n\t\t(wildcards allowed, ""-"" denotes standard input)"
+    IDS_CMD_DUB             "/dub ""dubname""\tLoad an additional audio file"
+    IDS_CMD_DUBDELAY        "/dubdelay ""file""\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains ""...DELAY XXms..."")"
+    IDS_CMD_D3DFS           "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+    IDS_CMD_SUB             "/sub ""subname""\tLoad an additional subtitle file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FILTER          "/filter ""filtername""\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+    IDS_CMD_DVD             "/dvd\t\tRun in DVD mode, ""pathname"" means the DVD folder (optional)"
+    IDS_CMD_DVDPOS_TC       "/dvdpos T#C\tStart playback at title T, chapter C"
+    IDS_CMD_DVDPOS_TIME     "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+    IDS_CMD_CD              "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t""pathname"" means the drive path (optional)"
+    IDS_CMD_DEVICE          "/device\t\tOpen the default video device"
+    IDS_CMD_OPEN            "/open\t\tOpen the file, don't automatically start playback"
+    IDS_CMD_PLAY            "/play\t\tStart playing the file as soon the player is launched"
+    IDS_CMD_CLOSE           "/close\t\tClose the player after playback (only works when used with /play)"
+    IDS_CMD_SHUTDOWN        "/shutdown\tShutdown the operating system after playback"
+    IDS_CMD_STANDBY         "/standby\t\tPut the operating system in standby mode after playback"
+    IDS_CMD_HIBERNATE       "/hibernate\tHibernate operating system after playback"
+    IDS_CMD_LOGOFF          "/logoff\t\tLog off after playback"
+    IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
+    IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
+    IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FULLSCREEN      "/fullscreen\tStart in fullscreen mode"
+    IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
+    IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
+    IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"
+    IDS_CMD_RANDOMIZE       "/randomize\tRandomize the playlist"
+    IDS_CMD_REGVID          "/regvid\t\tCreate file associations for video files"
+    IDS_CMD_REGAUD          "/regaud\t\tCreate file associations for audio files"
+    IDS_CMD_REGPL           "/regpl\t\tCreate file associations for playlist files"
+    IDS_CMD_REGALL          "/regall\t\tCreate file associations for all supported file types"
+    IDS_CMD_UNREGALL        "/unregall\t\tRemove all file associations"
+    IDS_CMD_START           "/start ms\t\tStart playing at ""ms"" (= milliseconds)"
+    IDS_CMD_STARTPOS        "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+    IDS_CMD_FIXEDSIZE       "/fixedsize w,h\tSet a fixed window size"
+    IDS_CMD_MONITOR         "/monitor N\tStart player on monitor N, where N starts from 1"
+    IDS_CMD_AUDIORENDERER   "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see ""Output"" settings)"
+    IDS_CMD_SHADERPRESET    "/shaderpreset ""Pr""\tStart using ""Pr"" shader preset"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan&Scan preset name to use"
+    IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
+    IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
+    IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
+    IDS_CMD_DEBUG           "/debug\t\tShow debug information in OSD"
+    IDS_CMD_NOCRASHREPORTER "/nocrashreporter\tDisable the crash reporter"
+    IDS_CMD_SLAVE           "/slave ""hWnd""\tUse MPC-HC as slave"
+    IDS_CMD_HWGPU           "/hwgpu ""index""\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+    IDS_CMD_RESET           "/reset\t\tRestore default settings"
+    IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
+    IDS_PPAGEADVANCED_SCORE "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay (ms)"
+    IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 
+                            "Size in pixels of the default toolbar."
+    IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
+                            "Use legacy toolbar instead of new vectorized one."
+    IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
 #endif    // English (United States) resources

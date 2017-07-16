@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,24 +19,20 @@
  */
 
 #include "stdafx.h"
-#include <mpconfig.h>
-#include "FGFilterLAV.h"
-#include "MainFrm.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "WinAPIUtils.h"
+#include "mplayerc.h"
+#include "PathUtils.h"
 #include "SysVersion.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
-#include "moreuuids.h"
 #include "../filters/InternalPropertyPage.h"
 #include "../filters/PinInfoWnd.h"
+#include <FileVersionInfo.h>
+
+#include <initguid.h>
+#include "FGFilterLAV.h"
 
 #define LAV_FILTERS_VERSION_MAJOR      0
-#define LAV_FILTERS_VERSION_MINOR      62
+#define LAV_FILTERS_VERSION_MINOR      67
 #define LAV_FILTERS_VERSION_REVISION   0
-#define LAV_FILTERS_VERSION_COMMIT_NUM 0
+#define LAV_FILTERS_VERSION_COMMIT_NUM 82
 #define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16 | LAV_FILTERS_VERSION_COMMIT_NUM)
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
@@ -65,21 +61,21 @@ CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool
 CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 {
     // Default path
-    CString filterPath = GetProgramPath() + LAVFILTERS_DIR;
+    CString filterPath = PathUtils::CombinePaths(PathUtils::GetProgramPath(), LAVFILTERS_DIR);
     CLSID filterCLSID;
 
     switch (filterType) {
         case SPLITTER:
         case SPLITTER_SOURCE:
-            filterPath += CFGFilterLAVSplitterBase::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVSplitterBase::filename);
             filterCLSID = GUID_LAVSplitter;
             break;
         case VIDEO_DECODER:
-            filterPath += CFGFilterLAVVideo::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVVideo::filename);
             filterCLSID = GUID_LAVVideo;
             break;
         case AUDIO_DECODER:
-            filterPath += CFGFilterLAVAudio::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVAudio::filename);
             filterCLSID = GUID_LAVAudio;
             break;
         default:
@@ -207,7 +203,7 @@ HRESULT CFGFilterLAV::PropertyPageCallback(IBaseFilter* pBF)
 {
     CheckPointer(pBF, E_POINTER);
 
-    CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), AfxGetMyApp()->GetMainWnd());
+    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES, AfxGetMyApp()->GetMainWnd());
 
     // Find out which internal filter we are opening the property page for
     CFGFilterLAV::LAVFILTER_TYPE LAVFilterType = CFGFilterLAV::INVALID;
@@ -231,14 +227,14 @@ HRESULT CFGFilterLAV::PropertyPageCallback(IBaseFilter* pBF)
             if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
                 settings.SaveSettings(); // Save them to the registry/ini
             }
-        } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pBF) {
+        } else if (CComQIPtr<ILAVVideoSettings> pLAVVideoSettings = pBF) {
             CFGFilterLAVVideo::Settings settings;
-            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
+            if (settings.GetSettings(pLAVVideoSettings)) { // Get current settings from LAVVideo
                 settings.SaveSettings(); // Save them to the registry/ini
             }
-        } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pBF) {
+        } else if (CComQIPtr<ILAVAudioSettings> pLAVAudioSettings = pBF) {
             CFGFilterLAVAudio::Settings settings;
-            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
+            if (settings.GetSettings(pLAVAudioSettings)) { // Get current settings from LAVAudio
                 settings.SaveSettings(); // Save them to the registry/ini
             }
         }
@@ -356,7 +352,9 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 
     bImpairedAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
-    dwQueueMaxSize = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+    dwQueueMaxMemSize = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxMemSize);
+
+    dwQueueMaxPackets = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxPackets"), dwQueueMaxPackets);
 
     dwNetworkAnalysisDuration = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
@@ -390,7 +388,9 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxMemSize);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxPackets"), dwQueueMaxPackets);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
@@ -441,7 +441,9 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     bPreferHighQualityAudio = pLAVFSettings->GetPreferHighQualityAudioStreams();
 
-    dwQueueMaxSize = pLAVFSettings->GetMaxQueueMemSize();
+    dwQueueMaxMemSize = pLAVFSettings->GetMaxQueueMemSize();
+
+    dwQueueMaxPackets = pLAVFSettings->GetMaxQueueSize();
 
     dwNetworkAnalysisDuration = pLAVFSettings->GetNetworkStreamAnalysisDuration();
 
@@ -478,7 +480,9 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
 
     pLAVFSettings->SetPreferHighQualityAudioStreams(bPreferHighQualityAudio);
 
-    pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxSize);
+    pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxMemSize);
+
+    pLAVFSettings->SetMaxQueueSize(dwQueueMaxPackets);
 
     pLAVFSettings->SetNetworkStreamAnalysisDuration(dwNetworkAnalysisDuration);
 
@@ -556,11 +560,12 @@ void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
 LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName)
 {
     static std::pair<LPCTSTR, LPCTSTR> userFriendlyDecoderNames[] = {
-        make_pair(_T("avcodec"), _T("FFmpeg")),
-        make_pair(_T("dxva2n"), _T("DXVA2 Native")),
-        make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
-        make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
-        make_pair(_T("quicksync"), _T("Intel QuickSync"))
+        std::make_pair(_T("avcodec"), _T("FFmpeg")),
+        std::make_pair(_T("dxva2n"), _T("DXVA2 Native")),
+        std::make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
+        std::make_pair(_T("dxva2cb direct"), _T("DXVA2 Copy-back (Direct)")),
+        std::make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
+        std::make_pair(_T("quicksync"), _T("Intel QuickSync"))
     };
 
     for (int i = 0; i < _countof(userFriendlyDecoderNames); i++) {
@@ -604,8 +609,6 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     for (int i = 0; i < LAVOutPixFmt_NB; ++i) {
         bPixFmts[i] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_OUTPUTFORMAT, pixFmtSettingsMap[i], bPixFmts[i]);
     }
-    // Force disable, for future use
-    bPixFmts[LAVOutPixFmt_YV16] = FALSE;
 
     dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
     if (dwHWAccel == DWORD(-1)) {
@@ -642,13 +645,17 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     bHWFormats[HWCodec_HEVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
 
+    bHWFormats[HWCodec_VP9] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
+
     dwHWAccelResFlags = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
 
     dwHWDeintMode = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintMode"), dwHWDeintMode);
 
     dwHWDeintOutput = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    bHWDeintHQ = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintHQ"), bHWDeintHQ);
+    dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+
+    dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
 }
 
 void CFGFilterLAVVideo::Settings::SaveSettings()
@@ -692,13 +699,17 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
 
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
+
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintMode"), dwHWDeintMode);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintHQ"), bHWDeintHQ);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
 }
 
 bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings)
@@ -741,7 +752,7 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     dwHWDeintOutput = pLAVFSettings->GetHWAccelDeintOutput();
 
-    bHWDeintHQ = pLAVFSettings->GetHWAccelDeintHQ();
+    dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
 
     return true;
 }
@@ -786,15 +797,22 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintOutput((LAVDeintOutput)dwHWDeintOutput);
 
-    pLAVFSettings->SetHWAccelDeintHQ(bHWDeintHQ);
+    pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
 
     // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
     pLAVFSettings->SetFormatConfiguration(Codec_v210, TRUE);
+    // Enable Cinepack and QPEG so that they can be used in low-merit mode
+    pLAVFSettings->SetFormatConfiguration(Codec_Cinepak, TRUE);
+    pLAVFSettings->SetFormatConfiguration(Codec_QPEG, TRUE);
 
     // Custom interface available only in patched build, will be removed after it's upstreamed
     if (CComQIPtr<ILAVVideoSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {
         pLAVFSettingsMPCHCCustom->SetPropertyPageCallback(PropertyPageCallback);
+    }
+
+    if (AfxGetAppSettings().iLAVGPUDevice != DWORD_MAX) {
+        pLAVFSettings->SetGPUDeviceIndex(AfxGetAppSettings().iLAVGPUDevice);
     }
 
     return true;
@@ -875,6 +893,8 @@ void CFGFilterLAVAudio::Settings::LoadSettings()
 
     bOutputStandardLayout = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("OutputStandardLayout"), bOutputStandardLayout);
 
+    bOutput51Legacy = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Output51Legacy"), bOutput51Legacy);
+
     bMixingEnabled = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Mixing"), bMixingEnabled);
 
     dwMixingLayout = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("MixingLayout"), dwMixingLayout);
@@ -927,6 +947,8 @@ void CFGFilterLAVAudio::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("OutputStandardLayout"), bOutputStandardLayout);
 
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Output51Legacy"), bOutput51Legacy);
+
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Mixing"), bMixingEnabled);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("MixingLayout"), dwMixingLayout);
@@ -978,6 +1000,8 @@ bool CFGFilterLAVAudio::Settings::GetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     bOutputStandardLayout = pLAVFSettings->GetOutputStandardLayout();
 
+    bOutput51Legacy = pLAVFSettings->GetOutput51LegacyLayout();
+
     bMixingEnabled = pLAVFSettings->GetMixingEnabled();
 
     dwMixingLayout = pLAVFSettings->GetMixingLayout();
@@ -1022,6 +1046,8 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
     pLAVFSettings->SetExpand61(bExpand61);
 
     pLAVFSettings->SetOutputStandardLayout(bOutputStandardLayout);
+
+    pLAVFSettings->SetOutput51LegacyLayout(bOutput51Legacy);
 
     pLAVFSettings->SetMixingEnabled(bMixingEnabled);
 

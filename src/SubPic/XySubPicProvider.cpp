@@ -125,12 +125,11 @@ STDMETHODIMP CXySubPicProvider::Render(SubPicDesc& spd, REFERENCE_TIME rt, doubl
 
 STDMETHODIMP CXySubPicProvider::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft)
 {
-    RECT outputRect, clipRect;
+    CRect outputRect, clipRect;
     if (m_pSubFrame && SUCCEEDED(m_pSubFrame->GetOutputRect(&outputRect)) && SUCCEEDED(m_pSubFrame->GetClipRect(&clipRect))) {
-        CRect rcOutput = outputRect, rcClip = clipRect;
-        MaxTextureSize = rcOutput.Size();
-        VirtualSize = rcClip.Size();
-        VirtualTopLeft = rcClip.TopLeft();
+        MaxTextureSize = outputRect.Size();
+        VirtualSize = clipRect.Size();
+        VirtualTopLeft = clipRect.TopLeft();
         return S_OK;
     }
     return E_FAIL;
@@ -138,6 +137,6 @@ STDMETHODIMP CXySubPicProvider::GetTextureSize(POSITION pos, SIZE& MaxTextureSiz
 
 STDMETHODIMP CXySubPicProvider::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
 {
-    relativeTo = VIDEO;
+    relativeTo = BEST_FIT;
     return S_OK;
 }

@@ -12,14 +12,20 @@ bool CmpExt(const wchar *Name,const wchar *Ext);
 bool IsWildcard(const wchar *Str);
 bool IsPathDiv(int Ch);
 bool IsDriveDiv(int Ch);
+bool IsDriveLetter(const wchar *Path);
 int GetPathDisk(const wchar *Path);
 void AddEndSlash(wchar *Path,size_t MaxLength);
 void MakeName(const wchar *Path,const wchar *Name,wchar *Pathname,size_t MaxSize);
 void GetFilePath(const wchar *FullName,wchar *Path,size_t MaxLength);
 void RemoveNameFromPath(wchar *Path);
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
+bool GetAppDataPath(wchar *Path,size_t MaxSize,bool Create);
 void GetRarDataPath(wchar *Path,size_t MaxSize,bool Create);
+#endif
+#ifndef SFX_MODULE
 bool EnumConfigPaths(uint Number,wchar *Path,size_t MaxSize,bool Create);
 void GetConfigName(const wchar *Name,wchar *FullName,size_t MaxSize,bool CheckExist,bool Create);
+#endif
 wchar* GetVolNumPart(const wchar *ArcName);
 void NextVolumeName(wchar *ArcName,uint MaxLength,bool OldNumbering);
 bool IsNameUsable(const wchar *Name);
@@ -51,7 +57,7 @@ inline void SlashToNative(const wchar *SrcName,wchar *DestName,size_t MaxLength)
 
 void ConvertNameToFull(const wchar *Src,wchar *Dest,size_t MaxSize);
 bool IsFullPath(const wchar *Path);
-bool IsDiskLetter(const wchar *Path);
+bool IsFullRootPath(const wchar *Path);
 void GetPathRoot(const wchar *Path,wchar *Root,size_t MaxSize);
 int ParseVersionFileName(wchar *Name,bool Truncate);
 wchar* VolNameToFirstName(const wchar *VolName,wchar *FirstName,size_t MaxSize,bool NewNumbering);
@@ -63,6 +69,8 @@ void GenerateArchiveName(wchar *ArcName,size_t MaxSize,const wchar *GenerateMask
 
 #ifdef _WIN_ALL
 bool GetWinLongPath(const wchar *Src,wchar *Dest,size_t MaxSize);
+void ConvertToPrecomposed(wchar *Name,size_t NameSize);
+void MakeNameCompatible(wchar *Name);
 #endif
 
 #endif

@@ -1,0 +1,3975 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2017 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# linasmi <linasmi@mail.ru>, 2014-2016
+# Linas Tamašauskas, 2014
+# Linas Tamašauskas, 2014-2016
+# Martynas Kybartas <maky@super.lt>, 2014
+# Underground78, 2015
+# XhmikosR, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-09 22:32+0000\n"
+"Last-Translator: XhmikosR\n"
+"Language-Team: Lithuanian (http://www.transifex.com/mpc-hc/mpc-hc/language/lt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Location"
+msgstr "Vieta"
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr "Vaizdas"
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audio"
+msgstr "Garsas"
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Subtitles"
+msgstr "Subtitrai"
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr "Skyrius"
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Completing..."
+msgstr "Užbaigimas..."
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Play Video"
+msgstr "Groti vaizdo kūrinį"
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Play Music"
+msgstr "Groti garso kūrinį"
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Play Audio CD"
+msgstr "Groti audio CD"
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Play DVD Movie"
+msgstr "Groti DVD filmą"
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Properties"
+msgstr "Ypatybės"
+
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Default Style"
+msgstr "&Numatytasis stilius"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr ""
+
+msgctxt "IDS_FAVFILES"
+msgid "Files"
+msgstr "Failai"
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr "DVD"
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr "Kanalas"
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr "Laikas"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr "Sinchronizacijos poslinkis"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr "vid: %d ms, nuk: %d ms"
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr "Vibracija"
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr "Bitų sparta"
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid "(avg/cur)"
+msgstr "(vid/dab)"
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr "Signalas"
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Stiprumas: %d dB, Kokybė: %ld%%"
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Styles"
+msgstr "Stiliai"
+
+msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
+msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
+msgstr "Jei atvaizdavimo tikslas liko neapibrėžtas, SPV/ASS subtitrai bus vaizduojami atitinkamai su vaizdo kadru, o visi kiti tekstiniai subtitrai bus vaizduojami atitinkamai su langu."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr ""
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr ""
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr "Niekada (greičiausiai)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr "Tik kai perjungiamos skirtingos vaizdo kūrinių rūšys (numatyta)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr "Visada (lėčiausiai)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr "Nepalaikomas kai kurių įrenginių. Du vaizdo dekoderiai visada pateikiami filtrų skyriuje."
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr "Greitas, išskyrus atvejus, kai persijungiama tarp skirtingų vaizdo srautų. Tik vienas vaizdo dekoderis pateikiamas filtrų skyriuje."
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr "Nerekomenduojama. Tik testavimui."
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr "Nenaudoti, jei įmanoma (greičiausias, bet nepalaikomas daugelio filtrų)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr "Tik kai perjungiamos skirtingos vaizdo kūrinių rūšys (numatyta)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr "Visada (gali būti reikalaujama kai kurių įrenginių)"
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr "Nepilnamečių apsauga"
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr "%d+"
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr "Neįvertinta"
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr "Turinys"
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr "Filmas/Drama"
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr "Naujienos/Aktualijos"
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr "GB/s"
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr "Failas pridėtas prie parankinių"
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr "DVD pridėtas prie parankinių"
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr "Įrašymo nustatymai"
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr "Valdymo juosta"
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr "Subtitrų sinchronizacija"
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr "Laikas"
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr "Pabaiga"
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr "Peržiūra"
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr "Vob ID"
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr "Cell ID"
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr "Priverstinai"
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr "Tekstas"
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr "Stilius"
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr "Šriftas"
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr "Nepavyko apdoroti kai kurių DVD Navigator filtrų pinų"
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr "Nepavyko užklausti reikiamų sąsajų DVD grojimui"
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr "Tiesiogiai"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr "Neįmanoma pridėti įrašymo vaizdo filtro grafui"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr "Neįmanoma pridėti įrašymo garso filtro grafui"
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr "Neįmanoma atverti įrašymo įrenginio"
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr "Neįmanoma įjungti, neteisingi įvesties parametrai"
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr "Redaguoti sąrašų redaktorių"
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr "Įvestas laikas didesnis už kūrinio trukmę"
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr "Nerasta „mpciconlib.dll“ piktogramų biblioteka.\nFailų susiejimams bus panaudota numatytoji grotuvo piktograma.\nPrašome įdiegti iš naujo MPC-HC, kad gautumėte „mpciconlib.dll“."
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr "Failas"
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr "Kalba"
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr "Formatas"
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr "Diskas"
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr "Pavadinimas (-ai)"
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr "Schemos"
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr "Unikodas"
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr "Sluoksnis"
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr "Aktorius"
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr "Efektas"
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr "Grojaraštis"
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr "Įj./išj."
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From (FPS)"
+msgstr "Iš (KPS)"
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To (FPS)"
+msgstr "Į (KPS)"
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr "Vaizdavimo režimas (Hz)"
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr "Numatyta"
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr "Kiti"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr "Sistemos numatyta"
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr "Nepavyko užklausti reikiamų sąsajų grojimui"
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr "Nepavyko sukurti lango grafo rodymui"
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr "Nepavyko apdoroti visų DVD Navigator filtro pinų"
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Open"
+msgstr "&Atverti"
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "A&dd"
+msgstr "&Pridėti"
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Remove"
+msgstr "Paša&linti"
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "C&lear"
+msgstr "&Išvalyti"
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Copy to clipboard"
+msgstr "K&opijuoti į iškarpinę"
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Save As..."
+msgstr "Išsa&ugoti kaip..."
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Sort by &label"
+msgstr "Rikiuoti pagal &pavadinimą"
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Sort by &path"
+msgstr "Rikiuoti pagal &kelią"
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "R&andomize"
+msgstr "&Maišyti"
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "R&estore"
+msgstr "A&tkurti"
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Separator"
+msgstr "&Skirtukas"
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Delete"
+msgstr "Šali&nti"
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplicate"
+msgstr "D&ubliuoti"
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Reset"
+msgstr "Pra&diniai nustatymai"
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Subtitle Delay -"
+msgstr "Subtitrų delsa -"
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Subtitle Delay +"
+msgstr "Subtitrų delsa +"
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Save thumbnails"
+msgstr "Išsaugoti miniatiūras"
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Playback"
+msgstr "Įrašo peržiūra"
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Player"
+msgstr "Grotuvas"
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Playback::DVD/OGM"
+msgstr "Įrašo peržiūra::DVD/OGM"
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Subtitles"
+msgstr "Subtitrai"
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Player::Formats"
+msgstr "Grotuvas::Formatai"
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Tweaks"
+msgstr "Papildomai"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Internal Filters::Audio Switcher"
+msgstr "Vidiniai filtrai::Garso perjungiklis"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "External Filters"
+msgstr "Išoriniai fitrai"
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Playback::Shaders"
+msgstr "Įrašo peržiūra::Tamsinimai"
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Resursai"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Įvairūs"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "Kūrinio informacija"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Įrašo peržiūra::Įrašymas"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Įrašo peržiūra::Sync atvaizdavimo nustatymai"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Įrašo peržiūra::Pilnas ekranas"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr "Vidiniai filtrai::Garso pateikimas"
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audio Switcher"
+msgstr "Garso jungiklis"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr "Nauja paveikslėlių bibliotekos versija"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr "Ar norite iš naujo susieti piktogramas?"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr "Tai ištaisys neteisingai po bibliotekos atnaujinimo vaizduojamas piktogramas.\nFailų susiejimai nebus pakeisti, tik atnaujintos atitinkamos piktogramos."
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr "Pasenusi vaizdo vaizdavimo priemonė"
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr "Overlay Mixer Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr "Video Mixing Renderer 9 (lange)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr "Video Mixing Renderer 9 (lange)"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr "Išplėstinis vaizdo renderis"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr "šplėstinis vaizdo renderis (savas presenter)"
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr "Haali Video Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Null (viskas)"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Null (be glaudinimo)"
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr "madVR"
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Player::Keys"
+msgstr "Grotuvas::Greitieji klavišai"
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Subtitles::Default Style"
+msgstr "Subtitrai::Numatytas stilius"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Internal Filters"
+msgstr "Vidiniai filtrai"
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Player::Logo"
+msgstr "Grotuvas::Logotipas"
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Playback::Output"
+msgstr "Įrašo peržiūra::Išvestis"
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Player::Web Interface"
+msgstr "Grotuvas::Web Sąsaja"
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Details"
+msgstr "Detalės"
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Clip"
+msgstr "Klipas"
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
+msgstr "Numatytas vaizdo rodymas DirectShow pagal nutylėjimą. Šis režimas įsijungia tais atvejais, kai kiti negali būti įkelti. Windows XP analogiškas VMR-7 (windowed)."
+
+msgctxt "IDC_DSOLD"
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgstr "Numatytas vaizdo rodymas Windows 9x/me/2k. Priklausomai nuo vaizdo lango matomumo ir vaizdo plokštės galimybių, režimas dinamiškai persijungia tarp GDI, DirectDraw ir Overlay metodų."
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
+msgstr "Renderingas visuomet vyksta overlay režime. Įprastai pasiekiami tik YUV formatai, bet jie pateikiami tiesiogiai, be vertimo į RGB. Tai greičiausias metodas ir tik čia šimtu procentų veikia „veidrodinė“ vaizdo išvestis (į TV-OUT)."
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Galima tik jei turite įdiegtą „DirectX 9“. Labai stabilu, tačiau jis niekada nenaudoja Overlėjaus renderinimo ir dėl to jis gali būti šiek tiek lėtesnis nei Overlėjaus mikseris."
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
+msgstr "Tas pats, kaip ir VMR-9 (windowed), bet su pluginu MPC-HC Allocator-Presenter titrams vaizduoti. \"Veidrodinis\" vaizdas overlėjuje GALI veikti. Rekomenduojamas spalvų gylis. Rekomenduojama Windows XP."
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr "Tas pats, kaip ir VMR-9 (renderless), bet naudoja praėjimų tikrą dviejų eigų Bicubic resizer."
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
+msgstr "Prisijungia prie bet kurio vaizdo duomenų tipo ir išsiunčia įeinančius kadrus į niekur. Režimas gali praversti tausoti procesoriaus resursus tuo atveju, kai reikalingas tik garsas."
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
+msgstr "Tas pats, kaip ir normalus Null-renderis, bet prisijungia tik prie nespaustų duomenų tipų."
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr "Pasiekiama tik su Vista ar naujesne, galima ir su XP su įdiegtu .NET Framework 3.5."
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr "Tas pats, kaip ir EVR, bet naudoja Allocator-Presenter subtitrams ir apdorojimui. Rekomenduojama Windows Vista  ar naujesnėms."
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr "Aukštos kokybės renderis, reikalaujantis D3D9 palaikančios vaizdo plokštės ar naujesnės."
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr "Tas pats, kaip ir EVR (CP), bet turi papildomų priemonių sinchronizuoti kadrų dažnį su ekrano naujinimo dažniu."
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
+msgstr "Savas Real renderis. SMIL skriptai veiks, tačiau be interaktyvumo. Naudoja DirectDraw ir, pagal galimybę, pasileidžia overlėjuje."
+
+msgctxt "IDC_RMDX9"
+msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "Real išvestis apdorojama su DX97 Allocator-Presenter  VMR-9 (renderless)."
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
+msgstr "Savas QuickTime renderis. Sulėtėja keičiant vaizdo kadro dydį arba jei langą dalinai uždengia kitas. Jei overlėjus nepasiekiamas, grįžta prie GDI metodo."
+
+msgctxt "IDC_QTDX9"
+msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "QuickTime išvestis apdorojama su DX9 Allocator-Presenter VMR-9 (renderless)."
+
+msgctxt "IDC_REGULARSURF"
+msgid "Video surface will be allocated as a regular offscreen surface."
+msgstr "Paviršius vaizdui išskiriamas kaip įprastas paviršius ne ekrane."
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr "Sync Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr "Įprastas paviršius ne ekrane"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr "2D paviršiai"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr "3D paviršiai (rekomenduojama)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr "Artimiausias kaimynas"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr "Bilinear"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr "Bilinear (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Bicubic A=-0.60 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Bicubic A=-0.75 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Bicubic A=-1.00 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr "**neprieinama**"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr "Pasirinktas renderis nėra įdiegtas."
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Null (viskas)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Null (be glaudinimo)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr "Vidinis garso renderis"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr "Vardas"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr "MIME tipas"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr "Norint peržiūrėti įmontuotą resursą jūsų naršyklėje, būtina įjungti Web sąsają.\n\n Jei jūs norite tik išsaugoti informaciją, spragtelėkite mygtuką \"Išsaugoti kaip\"."
+
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr ""
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr ""
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr "Delsa (ms):"
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr "Automatiškai"
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr "Nėra nustatyta jokių klavišų eksportui."
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr "Archyve nerasta media failų."
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr "Suglaudinti failai nepalaikomi."
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr "Užšifruoti failai nepalaikomi"
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr "Negaliu rasti visų archyvo tomų"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Paviršius vaizdui išskiriamas kaip tekstūra, bet kopijavimui ir vaizdo ištempimui į buferį naudojamos 2D funkcijos Reikalinga vaizdo plokštė, kuri gali skirti  32bit RGBA tekstūras su rėmeliais ne 2-kartinių, bent vaizdo geboje."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Paviršius vaizdui išskiriamas kaip tekstūra ir piešiamas kaip du trikampiai 3D. Glodinimo (Antialiasing) įjungimas vaizdo plokštės nustatymuose gali žymiai sulėtinti renderinimo greitį."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Jei nėra palaikoma pikselinių tamsinimų 2,0 versija, automatiškai bus naudojamas paprastas bilinijinis metodas."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Perkelia VMR-9 (renderless) režimą į mikšerio režimą, tai reiškia, jog daugumas valdymo elementų savybių puslapyje veiks ir naudos atskirą darbinį srautą kadrų apdorojimui."
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatibility of the renderer."
+msgstr "Padidina našumą, bet gali būti problemų su suderinamumu."
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr "Sumažina plyšius, bet nerodo valdymo skydo."
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr "Sumažina plyšius, veikia apeinant VSync įterpta D3D."
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Imtuvo skenavimas"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Subtitrai neįkelti arba nepalaikomas renderis."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr ""
+
+msgctxt "IDS_SRC_VTS"
+msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
+msgstr "Atverti VTS_xx_0.ifo, jog būtų įkeliami VTS_xx_x.vob failai kaip viena dalis"
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr "Grįstas RARFileSource, nepalaiko suglaudintų failų"
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr "Naudoja LAV filtrus"
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "Naudoja LAV filtrus. Išjungta, nes paprastai šių formatų „Microsoft“ filtrai yra stabilesni.\nJei pasirinksite naudoti vidinius filtrus, įgalinkite juos šaltiniui ir dekodavimui, kad pasiektumėte geresnę failų atkūrimo kokybę."
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr "Įj./Išj. navigacijos juostą"
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Accurate VSync"
+msgstr "Tikslus VSync"
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "If the rendering target is left undefined, it will be inherited from the default style."
+msgstr "Jei vaizdavimo tikslas nenustatytas, tai jis bus paimtas iš numatytojo stiliaus."
+
+msgctxt "IDC_CHECK_NO_SUB_ANIM"
+msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
+msgstr "Išjungti subtitrų animaciją. Įjungus šį pasirinkimą sulėtinamas CPU darbas."
+
+msgctxt "IDC_SUBPIC_TO_BUFFER"
+msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
+msgstr "Buferinių fragmentų kiekio vaizdavimas įprastai padidina renderinimo greitį dėl GPU vaizdo atminties didesnio naudojimo."
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
+msgstr "Spragtelėjus šį mygtuką, pasirinkta formatų grupės būsena vaizduos realius failų susiejumus su MPC-HC. Pridėti išplėtimai įprastai nustato būseną į „pilką“ būseną, todėl nepamirškite pažymėti juos vėl prieš uždarant dialogą!"
+
+msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
+msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
+msgstr "Išjungus šią funkciją bus išvengta subtitrų mirgėjimą, tačiau dėl to gali būti praleidžiami kai kurie vaizdo kadrai vaizduojant."
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Play\nPlay"
+msgstr "Groti\nGroti"
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pause\nPause"
+msgstr "Pauzė\nPauzė"
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stop\nStop"
+msgstr "Stop\nStop"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Step\nStep"
+msgstr "Žingsnis\nŽingsnis"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Decrease speed\nDecrease speed"
+msgstr "Sulėtinti\nSulėtinti"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Increase speed\nIncrease speed"
+msgstr "Pagreitinti\nPagreitinti"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Mute"
+msgstr "Nutildyti"
+
+msgctxt "ID_VOLUME_MUTE_OFF"
+msgid "Unmute"
+msgstr "Įjungti garsą"
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "No audio"
+msgstr "Be garso"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Skip back\nSkip back"
+msgstr "Peršokti atgal"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Skip forward\nSkip forward"
+msgstr "Peršokti pirmyn"
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&Originalas"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&Dabartinis"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "&Taisa"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "&Taip"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "&Ne"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&Sumažinti"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "&Padidinti"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "Nustatymai"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "Pa&sirinkite tamsinimus"
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&Derinti tamsinimus"
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Add to Favorites..."
+msgstr "Pridėti į p&arankinius..."
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Organize Favorites..."
+msgstr "Tva&rkyti parankinius"
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Sh&uffle"
+msgstr "Maišyti"
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Ope&n file location"
+msgstr "Atidaryti failo vietą"
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Closing..."
+msgstr "Uždaroma..."
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Playing"
+msgstr "Grojama"
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Paused"
+msgstr "Pauzė"
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL new clip"
+msgstr "Naujas EDL klipas"
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Clear list"
+msgstr "%Išvalyti sąrašą"
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Are you sure that you want to delete recent files list?"
+msgstr "Ar jūs tikrai norite išvalyti nesenai atidarytų failų sąrašą?"
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL save"
+msgstr "EDL saugoti"
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time Correction"
+msgstr "Įjungti kadro laiko koregavimą"
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Toggle EDL window"
+msgstr "Įj./Išj. EDL langą"
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL set In"
+msgstr "Nustatyti EDL į vidų"
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL set Out"
+msgstr "Nustatyti EDL į išorę"
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS Rotate X-"
+msgstr "Pasukti kadrą X-"
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS Rotate Y+"
+msgstr "Pasukti kadrą Y+"
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS Rotate Y-"
+msgstr "Pasukti kadrą Y-"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS Rotate Z+"
+msgstr "Pasukti kadrą Z+"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS Rotate Z-"
+msgstr "Pasukti kadrą Z-"
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Tearing Test"
+msgstr "Drebėjimo testas"
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "Nustatyti proporcijas 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Didinti Widescreen,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Didinti Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "&Hide on Fullscreen"
+msgstr "Slėpti pilno ekrano režime"
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Stopped"
+msgstr "Sustabdyta"
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Buffering... (%d%%)"
+msgstr "Kaupiama... (%d%%)"
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Capturing..."
+msgstr "Įrašoma..."
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Opening..."
+msgstr "Atveriama..."
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Closed"
+msgstr "Užverta"
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Options..."
+msgstr "&Nustatymai..."
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Styles..."
+msgstr "&Stiliai..."
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Reload"
+msgstr "&Įkelti iš naujo"
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Enable"
+msgstr "Į&galinti"
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "&Edit..."
+msgstr "R&edaguoti..."
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Title"
+msgstr "Pavadinimas"
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Author"
+msgstr "Autorius"
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr "Autorinės teisės"
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Rating"
+msgstr "Įvertinimas"
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Description"
+msgstr "Aprašymas"
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domain"
+msgstr "Domenas"
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Close"
+msgstr "Užverti"
+
+msgctxt "IDS_AG_NONE"
+msgid "None"
+msgstr "Joks"
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Command"
+msgstr "Komanda"
+
+msgctxt "IDS_AG_KEY"
+msgid "Key"
+msgstr "Spartusis klavišas"
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Mouse Windowed"
+msgstr "Pelė lango režime"
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Mouse Fullscreen"
+msgstr "Pelė pilno ekrano režime"
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "App Command"
+msgstr "Programos komanda"
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Media files (all types)"
+msgstr "Vaizdo failai (visi tipai)"
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "All files (*.*)|*.*|"
+msgstr "Visi failai (*.*)|*.*|"
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audio files (all types)"
+msgstr "Garso failai (visi tipai)"
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Not known"
+msgstr "Nežinomas"
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Quick Open File"
+msgstr "Atverti failą greitai"
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Open File"
+msgstr "Atverti failą"
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Open DVD/BD"
+msgstr "Atverti DVD/BD"
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr "Nepavyko nustatyti post-resize tamsinimų"
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr "Nepavyko nustatyti  pre-resize ir post-resize tamsinimų"
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr "Tamsinimai bus sukompiliuoti automatiškai pakeitus atitinkamus failus."
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr "Neįmanoma įkelti %s, pikseliniai tamsinimai neveiks."
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr "Nerasti %s būtinos funkcijos  įėjimo taško, pikseliniai tamsinimai neveiks."
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr "Tamsinimo priešnustatymas: %s"
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr "Kitas tamsinimo priešnustatymas"
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr "Ankstesnis tamsinimo priešnustatymas"
+
+msgctxt "IDS_STRING_COLON"
+msgid "%s:"
+msgstr "%s:"
+
+msgctxt "IDS_RECORD_START"
+msgid "Record"
+msgstr "Įrašas"
+
+msgctxt "IDS_RECORD_STOP"
+msgid "Stop"
+msgstr "Stop"
+
+msgctxt "IDS_BALANCE"
+msgid "L = R"
+msgstr "K = D"
+
+msgctxt "IDS_BALANCE_L"
+msgid "L +%d%%"
+msgstr "K +%d%%"
+
+msgctxt "IDS_BALANCE_R"
+msgid "R +%d%%"
+msgstr "D +%d%%"
+
+msgctxt "IDS_VOLUME"
+msgid "%d%%"
+msgstr "%d%%"
+
+msgctxt "IDS_BOOST"
+msgid "+%d%%"
+msgstr "+%d%%"
+
+msgctxt "IDS_PLAYLIST_ADDFOLDER"
+msgid "Add containing &folder"
+msgstr "Pridėti aplanką su turiniu"
+
+msgctxt "IDS_HW_INDICATOR"
+msgid "[H/W]"
+msgstr "[H/W]"
+
+msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
+msgid "Software Decoding"
+msgstr "Programinis iškodavimas"
+
+msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
+msgid "Playback rate"
+msgstr "Grojimo greitis"
+
+msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
+msgid "&Copy filters list to clipboard"
+msgstr "&Kopijuoti filtrų sąrašą į buferį"
+
+msgctxt "IDS_CREDENTIALS_SERVER"
+msgid "Enter server credentials"
+msgstr "Įveskite serverio kredencialus."
+
+msgctxt "IDS_CREDENTIALS_CONNECT"
+msgid "Enter your credentials to connect"
+msgstr "Įveskite savo kredencialus prisijungimui"
+
+msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
+msgid "Save custom style"
+msgstr "Išsaugoti vartotojo stilių"
+
+msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
+msgid "Education/Science/Factual topics"
+msgstr "Švietimas/Mokslas/Faktai"
+
+msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
+msgid "Hides controls and panels also in windowed mode."
+msgstr "Slėpti valdymo ir juostos elementus taip pat ir lango veiksenoje."
+
+msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
+msgid "Prevent external subtitle renderer to be loaded when internal is in use."
+msgstr "Išvengti išorinio subtitrų renderio naudojimo, kai naudojamas vidinis."
+
+msgctxt "IDS_PPAGEADVANCED_COL_NAME"
+msgid "Name"
+msgstr "Pavadinimas"
+
+msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
+msgid "Value"
+msgstr "Reikšmė"
+
+msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
+msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
+msgstr "Maksimalus rodomų meniu „Peržiūrėta“ failų kiekis ir kokioje pozicijoje išsaugota."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Atsiminti failų padėtį tik kūriniams ilgesniems nei N minutės."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Įsiminti failų padėtį ir garso failams."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Nieko nedaryti"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Groti kitą aplanko failą"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Persukti einamąjį failą"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Užverti"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Išeiti"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Išjungti monitorių"
+
+msgctxt "IDS_IMAGE_JPEG_QUALITY"
+msgid "JPEG Image"
+msgstr "JPEG paveikslėlis"
+
+msgctxt "IDS_IMAGE_QUALITY"
+msgid "Quality (%):"
+msgstr "Kokybė (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr "Maksimalų viršelio dydį (NxNpx) įkelti tik garso režime."
+
+msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
+msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
+msgstr "Subtitrų delsa mažės/didės su šia reikšme kas kart spragtelint karštuosius klavišus (%s/%s)."
+
+msgctxt "IDS_HOTKEY_NOT_DEFINED"
+msgid "<not defined>"
+msgstr "<neapibrėžta>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "Žiūrėti"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Kelti Aukštyn"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Kelti Žemyn"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "Rikuoti pagal LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Pašalinti viską"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "Ar jūs tikrai norite pašalinti visus kanalus iš sąrašo?"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "Nėra informacijos"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "Prašome palaukti, vykdoma analizė"
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr "Kraštinių santykis %d:%d"
+
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file (requires restart)"
+msgstr "Įjungti žurnalo įrašą į failą (reikalingas paleidimas iš naujo)"
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr "Liko laiko"
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr "Didelis tikslumas"
+
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr "Baigus groti: persukti einamą failą"
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr "Baigus groti: Uždaryti"
+
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr "Inicializacijos metu MPC-HC susidūrė su problema. Su jūsų pagalba mes galime ištaisyti problemą.\n\nAr jūs norite pranešti apie ją?"
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr "Įveskite teigiamą reikšmę, jei garsas per anksti, neigiamą reikšmę, jei per vėlai."
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "Išankstinė peržiūra šiuo metu išjungta. Jūs galite ją įjungti MPC-HC nustatymuose."
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr "Ši funkcija gali būti naudojama multimedijos failų peržiūrai ir nuotolinės vietos. Naudokite ją tik saugiame privačiame tinkle. \n\nAr jūs tikrai norite įjungti šią funkciją?"
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr "Vidinis subtitrų renderis"
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Open Device"
+msgstr "Atverti įrenginį"
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Save As"
+msgstr "Išsaugoti kaip"
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Save Image"
+msgstr "Išsaugoti nuotrauką"
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Save Image (auto)"
+msgstr "Išsaugoti nuotrauką (automatiškai)"
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Image saved successfully"
+msgstr "Nuotrauka sėkmingai išsaugota"
+
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr ""
+
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr ""
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Properties"
+msgstr "Ypatybės"
+
+msgctxt "IDS_AG_EXIT"
+msgid "Exit"
+msgstr "Išeiti"
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Play/Pause"
+msgstr "Groti/Pauzė"
+
+msgctxt "IDS_AG_PLAY"
+msgid "Play"
+msgstr "Groti"
+
+msgctxt "IDS_AG_STOP"
+msgid "Stop"
+msgstr "Sustabdyti"
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Frame-step"
+msgstr "Žingsnis pirmyn"
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Frame-step back"
+msgstr "Žingsnis atgal"
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Go To"
+msgstr "Eiti į"
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Increase Rate"
+msgstr "Pagreitinti"
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr "Laidos/Žaidimai"
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr "Sportas"
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr "Vaikams/Jaunimui"
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr "Muzika/Baletas/Šokiai"
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr "Menas/Kultūra"
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr "Politika/Ekonomika/Visuomeninės laidos"
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr "Laisvalaikio pomėgiai"
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr "Perkelti į šiukšlinę"
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr "Išsaugoti kopiją"
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr "Paskutinis raktinis kadras"
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr "Artimiausias raktinis kadras"
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr "Inicializiacijos metu MPC-HC susidūrė su problema. DVD negali teisingai veikti. Tai gali sukelti saugumo įrankių nesuderinamumas.\n\nAr jūs norite pranešti apie šią problemą?"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr "Niekada nerodyti"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr "Rodyti, kai judinamas žymeklis, slėpti po:"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr "Rodyti užvedus pelės rodyklę ant elemento, slėpti po:"
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr "Nepavyko nustatyti pre-resize tamsinimų"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Frame Time Correction: On"
+msgstr "Kadrų laiko taisa: Įj."
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Frame Time Correction: Off"
+msgstr "Kadrų laiko taisa: Išj."
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Target VSync Offset: %.1f"
+msgstr "Tikslinis sinchronizacijos poslinkis: %.1f"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync Offset: %d"
+msgstr "VSync Poslinkis: %d"
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Speed: %.2lfx"
+msgstr "Greitis: %.2lfx"
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr "Miniatiūros sėkmingai išsaugotos"
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "Vide&o Track"
+msgstr "&Vaizdo takelis"
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video Ang&le"
+msgstr "Vaizdo &kampas"
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Reset settings"
+msgstr "Atstatyti nustatymus"
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr "Ar esate tikri, kad norite grąžinti MPC-HC numatytuosius nustatymus?\nĮspėjame, kad VISI jūsų dabartiniai nustatymai bus prarasti!"
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Please close all instances of MPC-HC so that the default settings can be restored."
+msgstr "Prašom uždarykite visas MPC-HC kopijas pakeitimams įsigalioti."
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Export settings"
+msgstr "Eksportuoti nustatymus"
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr "Kai kurie pakeitimai dar neišsaugoti.\nAr jūs norite išsaugoti juos prieš eksportuodami?"
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr "Nustatymai sėkmingai eksportuoti."
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr "Eksportavimas nepavyko! Tai galėjo nutikti, jog jūs neturite reikiamų teisių."
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr "BDA klaida"
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Decrease Rate"
+msgstr "Sulėtinti"
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Reset Rate"
+msgstr "Atkurti greitį"
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audio Delay +10 ms"
+msgstr "Garso delsa +10 ms"
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audio Delay -10 ms"
+msgstr "Garso delsa -10 ms"
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Jump Forward (small)"
+msgstr "Šuolis pirmyn (mažas)"
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Jump Backward (small)"
+msgstr "Šuolis atgal (mažas)"
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Jump Forward (medium)"
+msgstr "Šuolis pirmyn (vidutinis)"
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Jump Backward (medium)"
+msgstr "Šuolis atgal (vidutinis)"
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Jump Forward (large)"
+msgstr "Šuolis pirmyn (didelis)"
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Jump Backward (large)"
+msgstr "Šuolis atgal (didelis)"
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Jump Forward (keyframe)"
+msgstr "Šuolis pirmyn (pagrindinis kadras)"
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Jump Backward (keyframe)"
+msgstr "Šuolis atgal (pagrindinis kadras)"
+
+msgctxt "IDS_AG_NEXT"
+msgid "Next"
+msgstr "Kitas"
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Previous"
+msgstr "Ankstesnis"
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Next File"
+msgstr "Kitas failas"
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr "Ankstesnis failas"
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Toggle Direct3D fullscreen"
+msgstr "Perjungti Direct3D pilno ekrano veiksena"
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Goto Prev Subtitle"
+msgstr "Ankstesni subtitrai"
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Goto Next Subtitle"
+msgstr "Kiti subtitrai"
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Shift Subtitle Left"
+msgstr "Paslinkti subtitrus kairėn"
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Shift Subtitle Right"
+msgstr "Paslinkti subtitrus dešinėn"
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr "Groti nuo pradžių"
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr "OSD: Rodyti failo vardą"
+
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "Groti DVD"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "Groti BD"
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr "OSD: Rodyti renderio statistiką"
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr "OSD: Atstatyti renderio statistiką"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "Subtitrai::Įvairūs"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "Slėpti &kraštines"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "Tik vaizdo ka&dras"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "&Rodyti antraštę ir meniu"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "Slėpti &Meniu"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "Papildomai"
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "View Minimal"
+msgstr "Vaizdas minimalus"
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "View Compact"
+msgstr "Vaizdas kompaktiškas"
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "View Normal"
+msgstr "Vaizdas normalus"
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Fullscreen"
+msgstr "Pilnaekranė veiksena"
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Fullscreen (w/o res.change)"
+msgstr "Viso ekrano režimas (be skir. gebos pakeitimo)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Zoom Auto Fit"
+msgstr "Mastelio savaiminis prisitaikymas"
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm Half"
+msgstr "Pusė vaizdo kardo"
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm Normal"
+msgstr "Normalus vaizdo kadras"
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm Double"
+msgstr "Dvigubas vaizdo kadras"
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Always On Top"
+msgstr "Visada viršuje"
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Inc Size"
+msgstr "Padidinti kadro dydį"
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Inc Width"
+msgstr "Padidinti kadro plotį"
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Inc Height"
+msgstr "Padidinti kadro aukštį"
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Dec Size"
+msgstr "Sumažinti kadro dydį"
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Dec Width"
+msgstr "Sumažinti kadro plotį"
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Dec Height"
+msgstr "Sumažinti kadro aukštį"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading [%s] \"%s\""
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr "Sąrašas nagrinėjamas..."
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr "Subtitrai nerasti."
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid "%d subtitle(s) available."
+msgstr "%d galimi(ų) subtitrai(ų)."
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr "Ar norite įgalinti periodišką MPC-HC atnaujinimų ieškojimą?\n\nŠią savybę vėliau galima išjungti nustatymų puslapyje „Įvairūs“."
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr "50%"
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr "100%"
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr "200%"
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr "Savaiminis prisitaikymas"
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr "Savaiminis prisitaikymas (tik didesniam)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr "Mastelio savaiminis prisitaikymas (tik didesniam)"
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr "Mastelis: Savaiminis (tik didesniam)"
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr "Dvigubas spragtelėjimas failo vietos atvėrimui"
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr "Perjungti tarp praėjusio ir likusio laiko"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr "Klaidinga delsa"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr "Prašome įvesti skaičių tarp 1 ir 365."
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS Center"
+msgstr "Kadras centre"
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS Left"
+msgstr "Kadras kairėn"
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS Right"
+msgstr "Kadras dešinėn"
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS Up"
+msgstr "Kadras viršun"
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS Down"
+msgstr "Kadras apačion"
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS Up/Left"
+msgstr "Kadras viršun/kairėn"
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS Up/Right"
+msgstr "Kadras viršun/dešinėn"
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS Down/Left"
+msgstr "Kadras apačion/kairėn"
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS Down/Right"
+msgstr "Kadras apačion/dešinėn"
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Volume Up"
+msgstr "Pagarsinti"
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Volume Down"
+msgstr "Patylinti"
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Volume Mute"
+msgstr "Nutildyti"
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Title Menu"
+msgstr "DVD pagrindinis meniu"
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Root Menu"
+msgstr "DVD antrinis meniu"
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Subtitle Menu"
+msgstr "DVD subtitrų meniu"
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Audio Menu"
+msgstr "DVD garso meniu"
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Angle Menu"
+msgstr "DVD kampo meniu"
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Chapter Menu"
+msgstr "DVD skyrių meniu"
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD Menu Left"
+msgstr "DVD meniu kairėn"
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD Menu Right"
+msgstr "DVD meniu dešinėn"
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD Menu Up"
+msgstr "DVD meniu aukštyn"
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD Menu Down"
+msgstr "DVD meniu žemyn"
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD Menu Activate"
+msgstr "DVD meniu aktyvuoti"
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD Menu Back"
+msgstr "DVD meniu atgal"
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD Menu Leave"
+msgstr "DVD meniu išeiti"
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Boss key"
+msgstr "Pagrindinis klavišas"
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Player Menu"
+msgstr "Grotuvo meniu"
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Player Menu (full)"
+msgstr "Grotuvo meniu (pilnas)"
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Filters Menu"
+msgstr "Filtrų meniu"
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Options"
+msgstr "Nustatymai"
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Next Audio Track"
+msgstr "Sekantis garso takelis"
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Prev Audio Track"
+msgstr "Ankstesnis garso takelis"
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Next Subtitle Track"
+msgstr "Sekantys subtitrai"
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Prev Subtitle Track"
+msgstr "Ankstesni subtitrai"
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "On/Off Subtitle"
+msgstr "Įj./išj. subtitrus"
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Reload Subtitles"
+msgstr "Perkrauti subtitrus"
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Next Angle (DVD)"
+msgstr "Kitas kampas (DVD)"
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Prev Angle (DVD)"
+msgstr "Ankstesnis kampas (DVD)"
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Next Audio Track (DVD)"
+msgstr "Sekantis garso takelis (DVD)"
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Prev Audio Track (DVD)"
+msgstr "Ankstesnis garso takelis (DVD)"
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Next Subtitle Track (DVD)"
+msgstr "Sekantys subtitrai (DVD)"
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Prev Subtitle Track (DVD)"
+msgstr "Ankstesni subtitrai (DVD)"
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "On/Off Subtitle (DVD)"
+msgstr "Įj./išj. subtitrus (DVD)"
+
+msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
+msgid "OSD: Display Current Time"
+msgstr "OSD: Dabartinio laiko rodymas"
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Select the directory"
+msgstr "Pasirinkti vietą"
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Quick add favorite"
+msgstr "Greitai pridėti prie mėgstamiausių"
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr "N"
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr "Pavadinimas"
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequency"
+msgstr "Dažnis"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Encrypted"
+msgstr "Užšifruota"
+
+msgctxt "IDS_YES"
+msgid "Yes"
+msgstr "Taip"
+
+msgctxt "IDS_NO"
+msgid "No"
+msgstr "Ne"
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr "Pradėti"
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr "Stabdyti"
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio stations"
+msgstr "Radijo stotys"
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV stations"
+msgstr "TV stotys"
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr "Formatas"
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Focus lost to: %s - %s"
+msgstr "Židinys perėjo į: %s - %s"
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Subtitles saved"
+msgstr "Subtitrai išsaugoti"
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Cannot save subtitles"
+msgstr "Neįmanoma išsaugoti subtitrų"
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Frame rate"
+msgstr "Kadrų dažnis"
+
+msgctxt "IDS_MAINFRM_6"
+msgid "drawn: %d, dropped: %d"
+msgstr "įrašyta: %d, pamesta: %d"
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Frames"
+msgstr "Kadrai"
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Buffers"
+msgstr "Buferiai"
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Skirsnis: %02lu/%02lu, Pavadinimas: %02lu/%02lu, Skyrius: %02lu/%02lu"
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+msgstr "Kampas: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bitai %d %s"
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Add to MPC-HC Playlist"
+msgstr "Įtraukti į MPC-HC grojaraštį"
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Play with MPC-HC"
+msgstr "Groti su MPC-HC"
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
+msgstr "MPC-HC neturi pakankamai privilegijų pakeisti formatų susiejimą. Prašom spragtelėkite „Paleisti administratoriaus teisėmis“ mygtuką."
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
+msgstr "MPC-HC - tai nepaprastai lengvas, su atviru išeities kodu media grotuvas Windows. Jis palaiko visus populiarius vaizdo ir garso failų formatus, pasiekiamus grojimui. Mes garantuojame 100% laisvę nuo šnipinėjimo programų, reklamų ar įrankių juostų."
+
+msgctxt "IDS_MAINFRM_12"
+msgid "channel"
+msgstr "kanalas"
+
+msgctxt "IDS_MAINFRM_13"
+msgid "channels"
+msgstr "kanalai"
+
+msgctxt "IDS_AG_TITLE"
+msgid "Title %u"
+msgstr "Pavadinimas %u"
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Unexpected error"
+msgstr "DVD: Netikėta klaida"
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Copy-Protect Fail"
+msgstr "DVD: Problema su apsauga nuo kopijavimo"
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Invalid DVD 1.x Disc"
+msgstr "DVD: Netinkamas DVD 1.x"
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Invalid Disc Region"
+msgstr "DVD: Netinkamas disko regionas"
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Low Parental Level"
+msgstr "DVD: Žema nepilnamečių apsauga"
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision Fail"
+msgstr "DVD: Problema su Macrovision"
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Incompatible System And Decoder Regions"
+msgstr "DVD: Nesuderinami sistemos ir dekoderio regionai"
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Incompatible Disc And Decoder Regions"
+msgstr "DVD: Nesuderinami disko ir dekoderio regionai"
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
+msgstr "Ši funkcija skirta pašalinti drebėjimą, tačiau ją įjungus trukdomas kontekstinio meniu ir dialogų vaizdavimas.\n\nAr jūs tikrai norite aktyvuoti ją?"
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Sub delay: %ld ms"
+msgstr "Subtitrų delsa: %ld ms"
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Title: %02d/%02d"
+msgstr "Pavadinimas: %02d/%02d"
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
+msgstr "Failo pavadinime yra nepalaikomi simboliai (naudokite A-Z, 0-9)"
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Rows:"
+msgstr "Eilutės:"
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Columns:"
+msgstr "Stulpeliai:"
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr "Plotis"
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Proporcijos"
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", Viso: %ld, Pamesta: %ld"
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Size: %I64d KB"
+msgstr ", Dydis: %I64d KB"
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Size: %I64d MB"
+msgstr ", Dydis: %I64d MB"
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Free: %I64d KB"
+msgstr ", Laisva: %I64d KB"
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Free: %I64d MB"
+msgstr ", Laisva: %I64d MB"
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Free V/A Buffers: %03d/%03d"
+msgstr ", Laisvi V/A Buferiai: %03d/%03d"
+
+msgctxt "IDS_AG_ERROR"
+msgid "Error"
+msgstr "Klaida"
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Subtitle: off"
+msgstr "Subtitrai: išjungti"
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Subtitle: %s"
+msgstr "Subtitrai: %s"
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Select the path for the DVD/BD:"
+msgstr "Įveskite kelią DVD/BD:"
+
+msgctxt "IDS_SUB_LOADED_SUCCESS"
+msgid " loaded successfully"
+msgstr "įkelta pilnai"
+
+msgctxt "IDS_ALL_FILES_FILTER"
+msgid "All files (*.*)|*.*||"
+msgstr "Visi failai (*.*)|*.*||"
+
+msgctxt "IDS_GETDIB_FAILED"
+msgid "GetDIB failed, hr = %08x"
+msgstr "Problema su GetDIB, hr = %08x"
+
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
+msgid "GetCurrentImage failed, hr = %08x"
+msgstr "Problema su GetCurrentImage, hr = %08x"
+
+msgctxt "IDS_SCREENSHOT_ERROR"
+msgid "Cannot create file"
+msgstr "Neįmanoma sukurti failo"
+
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
+msgid "Cannot create thumbnails for files with no duration"
+msgstr "Neįmanoma sukurti miniatiūros failams, neturintiems trukmės"
+
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
+msgid "Failed to get video frame size"
+msgstr "Nepavyko gauti vaizdo kadro dydžio"
+
+msgctxt "IDS_OUT_OF_MEMORY"
+msgid "Out of memory, go buy some more!"
+msgstr "Nepakanka atminties, nusipirkite dar!"
+
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
+msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+msgstr "Neteisingas paveikslo formatas, neįmanoma sukurti miniatiūros iš bitmapų %d bpp."
+
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
+msgid "File Size: %s (%s bytes)\\N"
+msgstr "Failo dydis: %s (%s baitų)\\N"
+
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Failo vardas: %s\\N%sSkiriamoji geba: %dx%d %s\\NTrukmė: %02d:%02d:%02d"
+
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr "Neįmanoma sukurti failo su tokiomis mažomis miniatiūromis.\n\nPamėginkite sumažinti miniatiūrų kiekį arba padidinti bendrą dydį."
+
+msgctxt "IDS_CANNOT_LOAD_SUB"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Norėdami įkelti subtitrus turite pakeisti vaizdo renderio tipą ir atidaryti failą iš naujo.\n- DirectShow: VMR-9 (renderless), EVR (KP), Sync \", madVR vs Haali\n- REALMEDIA: Specialusis RealMedia renderis, arba atidaryti jį per DirectShow\n- \"QuickTime: DX7 ar DX9 QuickTime renderis\n- Shockwave: n/d"
+
+msgctxt "IDS_SUBTITLE_FILES_FILTER"
+msgid "Subtitle files"
+msgstr "Subtitrų failai"
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Proporcijos: %ld:%ld"
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr ""
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audio delay: %I64d ms"
+msgstr "Garso uždelsimas: %I64d ms"
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Chapter %d"
+msgstr "Skyrius %d"
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Out of memory"
+msgstr "Nepakanka atminties"
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Klaida: Internet Explorer reikalingas Adobe Flash Player"
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgstr "QuickTime dar nepalaikomas X64 (nėra apple bibliotekos)"
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Failed to create the filter graph object"
+msgstr "Nepavyksta sukurti filtro grafą"
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Invalid argument"
+msgstr "Neteisingas argumentas"
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Opening aborted"
+msgstr "Atidarymas nutrauktas"
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Failed to render the file"
+msgstr "Nepavyko renderinti failo"
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Chapter: "
+msgstr "Skyrius:"
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Vol: %d%%"
+msgstr "Garsumas: %d%%"
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Boost: +%u%%"
+msgstr "Stiprinimas: +%u%%"
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr "Balansas: %s"
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Current"
+msgstr "Dabartinis"
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Select Directory"
+msgstr "Rinkitės aplanką"
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Include subdirectories"
+msgstr "Su subaplankais"
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pause"
+msgstr "Pauzė"
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Toggle Caption&Menu"
+msgstr "Įj./Išj. antraštę ir meniu"
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Toggle Seek Bar"
+msgstr "Įj./Išj. slankjuostę"
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Toggle Controls"
+msgstr "Įj./Išj. valdiklius"
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Invalid file name"
+msgstr "Neteisingas failo vardas"
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Cannot connect the filters"
+msgstr "Negaliu prijungti filtrų"
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Cannot load any source filter"
+msgstr "Negaliu įkelti jokio šaltinio filtro"
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Cannot render the file"
+msgstr "Negaliu renderinti failo"
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Invalid file format"
+msgstr "Neteisingas failo formatas"
+
+msgctxt "IDS_MAINFRM_90"
+msgid "File not found"
+msgstr "Failas nerastas"
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Unknown file type"
+msgstr "Nežinomas failo tipas"
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Unsupported stream"
+msgstr "Nepalaikomas srautas"
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Cannot find DVD directory"
+msgstr "Nerastas DVD aplankas"
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Can't create the DVD Navigator filter"
+msgstr "Negaliu sukurti DVD Navigator filtro"
+
+msgctxt "IDS_AG_FAILED"
+msgid "Failed"
+msgstr "Nepavyko"
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Can't create video capture filter"
+msgstr "Negaliu sukurti vaizdo įrašymo filtro"
+
+msgctxt "IDS_MAINFRM_98"
+msgid "No capture filters"
+msgstr "Nėra įrašų filtrų"
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Can't create capture graph builder object"
+msgstr "Negaliu sukurti objekto vaizdo įrašymo grafo statytojui"
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Couldn't open any device"
+msgstr "Negaliu atidaryti jokio įrenginio"
+
+msgctxt "IDS_AG_SOUND"
+msgid "Sound"
+msgstr "Garsas"
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s was not found, please insert media containing this file."
+msgstr "%s nerasta, prašo įdėti kaupiklį su šiuo failu."
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Aborted"
+msgstr "Nutraukta"
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Properties..."
+msgstr "Y&patybės"
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) properties..."
+msgstr " (pin) ypatybės..."
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Unknown Stream"
+msgstr "Nežinomas srautas"
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Unknown %u"
+msgstr "Nežinomas %u"
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr "VSync"
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Director Comments 1)"
+msgstr " (Režisieriaus komentarai 1)"
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Director Comments 2)"
+msgstr " (Režisieriaus komentarai 2)"
+
+msgctxt "IDS_DVD_SUBTITLES_ENABLE"
+msgid "Enable DVD subtitles"
+msgstr "Įjungti DVD subtitrus"
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Angle %u"
+msgstr "Kampas %u"
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Increase VSync Offset"
+msgstr "Padidinti VSync poslinkį"
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Disabled"
+msgstr "Išjungta"
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Decrease VSync Offset"
+msgstr "Sumažinti VSync poslinkį"
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Fullscreen"
+msgstr "MPC-HC Pilnaekranis D3D"
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Unknown format"
+msgstr "Nežinomas formatas"
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Sub shift: %ld ms"
+msgstr "Subtitrų poslinkis: %ld ms"
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Volume boost increase"
+msgstr "Garso stiprinimas padidinti"
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Volume boost decrease"
+msgstr "Garso stiprinimas sumažinti"
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Volume boost Min"
+msgstr "Garso stiprinimas Min"
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Volume boost Max"
+msgstr "Garso stiprinimas Max"
+
+msgctxt "IDS_USAGE"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr ""
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Unrecognized switch(es) found in command line string: \n\n"
+msgstr "Komandinėje eilutėje rasti neatpažinti perjungikliai: \n\n"
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Toggle Information"
+msgstr "Įj./Išj. informaciją"
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Toggle Statistics"
+msgstr "Įj./Išj. statistiką"
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Toggle Status"
+msgstr "Įj./Išj. būseną"
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Toggle Subresync Bar"
+msgstr "Įj./Išj. subtitrų sinchronizacijos langą"
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Toggle Playlist Bar"
+msgstr "Įj./Išj. grojaraštį"
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Toggle Capture Bar"
+msgstr "Įj./Išj. įrašymo langą"
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr "Įj./Išj. derinimo tamsinimus"
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Zoom 50%"
+msgstr "Mastelis 50%"
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Zoom 100%"
+msgstr "Mastelis 100%"
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Zoom 200%"
+msgstr "Mastelis 200%"
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Next AR Preset"
+msgstr "Sekantis proporcijų priešnustatymas"
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "VidFrm Stretch"
+msgstr "Vaizdo kadras. Išplėsti iki ekrano dydžio"
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "VidFrm Inside"
+msgstr "Vaizdo kadras. Įrašyti į ekrano dydį"
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "VidFrm Outside"
+msgstr "Vaizdo kadras. Užpildyti ekraną ir apkirpti kadrą"
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS Reset"
+msgstr "Atstatyti kadro padėties nustatymus"
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS Rotate X+"
+msgstr "Pasukti kadrą pagal X+"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm Zoom 1"
+msgstr "Vaizdo kadras Zoom 1"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm Zoom 2"
+msgstr "Vaizdo kadras Zoom 2"
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm Switch Zoom"
+msgstr "Vaizdo kadras. Pakeisti mastelį"
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Enable all filters"
+msgstr "&Įgalinti visus filtrus"
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Author unknown. Contact us if you made this logo!"
+msgstr "Nežinomas autorius. Susisiekite su mumis, jei tai jūsų logotipas."
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "No more media in the current folder."
+msgstr "Einamajame aplanke daugiau nėra media failų."
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "The first file of the folder is already loaded."
+msgstr "Pirmas failas aplanke jau įkeltas."
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "The last file of the folder is already loaded."
+msgstr "Įkeltas paskutinis aplanke esantis failas."
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Front Left"
+msgstr "Priekinis kairys"
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Front Right"
+msgstr "Priekinis dešinys"
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Front Center"
+msgstr "Priekinis centrinis"
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Low Frequency"
+msgstr "Žemų dažnių garsiakalbis"
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Back Left"
+msgstr "Galinis kairys"
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Back Right"
+msgstr "Galinis dešinys"
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Front Left of Center"
+msgstr "Priekinis kairys centras"
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Front Right of Center"
+msgstr "Priekinis dešinys centras"
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Back Center"
+msgstr "Galinis centras"
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Side Left"
+msgstr "Kairė pusė"
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Side Right"
+msgstr "Dešinė pusė"
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Top Center"
+msgstr "Viršutinis centras"
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Top Front Left"
+msgstr "Viršutinis kairys centras"
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Top Front Center"
+msgstr "Viršutinis priekinis centras"
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Top Front Right"
+msgstr "Viršutinis priekinis dešinys"
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Top Back Left"
+msgstr "Viršutinis kairys galas"
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Top Back Center"
+msgstr "Viršutinis galo centras"
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Top Back Right"
+msgstr "Viršutinis dešinys galas"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seek bar"
+msgstr "Virš slankjuostės"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seek bar"
+msgstr "Po slankjuoste"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "Vaizdas: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "Panaudoti"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "Išvalyti"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "Ašaukti"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "Išdėstymas"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "Taškų:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "Koduotė:"
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Disable all filters"
+msgstr "Išjunti &visus filtrus"
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr "Įjungti visus garso dekoderius"
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr "Išjungti visus garso dekoderius"
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr "Įjungti visus vaizdo dekoderius"
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr "Išjungti visus vaizdo dekoderius"
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Stretch To Window"
+msgstr "Išplėsti iki ekrano dydžio"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Touch Window From Inside"
+msgstr "Įrašyti į ekrano dydį"
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr "Mastelis 1"
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr "Mastelis 2"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Touch Window From Outside"
+msgstr "Užpildyti ekraną ir apkirpti kadrą"
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audio: %s"
+msgstr "Garsas: %s"
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Reopen File"
+msgstr "Atidaryti failą iš naujo"
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr "AVI"
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr "MPEG"
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr "MPEG-TS"
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr "DVD-Video"
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr "Matroska"
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr "WebM"
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr "MP4"
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr "QuickTime filmas"
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr "3GP"
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr "3G2"
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr "Flash Video"
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr "Ogg Media"
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr "Real Media"
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr "Real Script"
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr "Windows Media Video"
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr "Smacker/Bink Video"
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr "FLIC Animation"
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr "DirectShow Media"
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr "Indeo Video Format"
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr "Kiti"
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr "Shockwave Flash"
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr "Kiti Audio"
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3"
+msgstr "AC-3"
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr "AIFF"
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr "Apple Lossless"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus Audio Codec"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr "DTS/DTS-HD"
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr "AMR"
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr "Monkey's Audio"
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr "AU/SND"
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr "Audio CD takelis"
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr "FLAC"
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr "MPEG-4 Audio"
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr "MIDI"
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr "Matroska audio"
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr "MP3"
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr "MPEG audio"
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr "Musepack"
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr "OptimFROG"
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr "Ogg Vorbis"
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr "Real Audio"
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr "TAK"
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr "True Audio"
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr "Grojaraštis"
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr "Blu-ray grojaraštis"
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr "RAR Archyvas"
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr "KPS"
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr "Skiriamoji geba"
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "Proporcijos"
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: On"
+msgstr "VSync: Įj."
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Off"
+msgstr "VSync: Išj."
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Accurate VSync: On"
+msgstr "Tikslus VSync: Įj."
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Accurate VSync: Off"
+msgstr "Tikslus VSync: Išj."
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Synchronize Video to Display: On"
+msgstr "Sinchronizuoti vaizdą su displėjumi: Įj."
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Synchronize Video to Display: Off"
+msgstr "Sinchronizuoti vaizdą su displėjumi: Išj."
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Synchronize Display to Video: On"
+msgstr "Sinchronizuoti displėjų su vaizdu: Įj."
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Synchronize Display to Video: Off"
+msgstr "Sinchronizuoti displėjų su vaizdu: Išj."
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present at Nearest VSync: On"
+msgstr "Teikti su artimiausiu VSync: Įj."
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present at Nearest VSync: Off"
+msgstr "Teikti su artimiausiu VSync: Išj."
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Color Management: On"
+msgstr "Spalvų valdymas: Įj."
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Color Management: Off"
+msgstr "Spalvų valdymas: Išj."
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Input Type: Auto-Detect"
+msgstr "Įėjimo tipas: Nustatyti automatiškai"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Input Type: HDTV"
+msgstr "Įėjimo tipas: HDTV"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Input Type: SDTV NTSC"
+msgstr "Įėjimo tipas: SDTV NTSC"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Input Type: SDTV PAL"
+msgstr "Įėjimo tipas: SDTV PAL"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Ambient Light: Bright (2.2 Gamma)"
+msgstr "Supanti šviesa: Ryški (2.2 Gama)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Ambient Light: Dim (2.35 Gamma)"
+msgstr "Supanti šviesa: Blanki (2.35 Gama)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Ambient Light: Dark (2.4 Gamma)"
+msgstr "Supanti šviesa: Tamsi (2.4 Gama)"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Rendering Intent: Perceptual"
+msgstr "Vaizdavimo metodas: Suvokimas"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Rendering Intent: Relative Colorimetric"
+msgstr "Vaizdavimo metodas: Santykinis kolorimetrinis"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Rendering Intent: Saturation"
+msgstr "Vaizdavimo metodas: Sodrumas"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Rendering Intent: Absolute Colorimetric"
+msgstr "Vaizdavimo metodas: Absoliutus kolorimetrinis"
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Output Range: %s"
+msgstr "Išėjimo diapazonas: %s"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Flush GPU before VSync: On"
+msgstr "Užpildyti GPU prieš VSync: Įj."
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Flush GPU before VSync: Off"
+msgstr "Užpildyti GPU prieš VSync: Išj."
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Flush GPU after Present: On"
+msgstr "Užpildyti GPU po teikimo: Įj."
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Flush GPU after Present: Off"
+msgstr "Užpildyti GPU po teikimo: Išj."
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Wait for GPU Flush: On"
+msgstr "Laukti GPU užpildymo: Įj."
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Wait for GPU Flush: Off"
+msgstr "Laukti GPU užpildymo: Išj."
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Fullscreen: On"
+msgstr "D3D pilnas ekranas: Įjungta"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Fullscreen: Off"
+msgstr "D3D pilnas ekranas: Išjungta"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Disable desktop composition: On"
+msgstr "Darbalaukio efektai: Įj."
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Disable desktop composition: Off"
+msgstr "Darbalaukio efektai: Išj."
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternative VSync: On"
+msgstr "Alternatyvi VSync: Įj."
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternative VSync: Off"
+msgstr "Alternatyvi VSync: Išj.."
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Renderer settings reset to default"
+msgstr "Renderio nustatymai pagal nutylėjimą"
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Renderer settings reset to optimal"
+msgstr "Renderio optimalūs nustatymai"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Fullscreen GUI Support: On"
+msgstr "Pilnaekranis D3D su GUI palaikymu: įjungta"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Fullscreen GUI Support: Off"
+msgstr "Pilnaekranis D3D su GUI palaikymu: išjungta"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB Output: On"
+msgstr "10-bitų RGB išėjimas: Įj."
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB Output: Off"
+msgstr "10-bitų RGB išėjimas: Išj."
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Force 10-bit RGB Input: On"
+msgstr "Forsuotas 10-bitų RGB įėjimas: įjungtas"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Force 10-bit RGB Input: Off"
+msgstr "Forsuotas 10-bitų RGB įėjimas: išjungtas"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Full Floating Point Processing: On"
+msgstr "Tikslūs skaičiavimai su slankiuoju kableliu: Įj."
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Full Floating Point Processing: Off"
+msgstr "Tikslūs skaičiavimai su slankiuoju kableliu: Išj."
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Half Floating Point Processing: On"
+msgstr "Greiti skaičiavimai su slankiuoju kableliu: Įj."
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Half Floating Point Processing: Off"
+msgstr "Greiti skaičiavimai su slankiuoju kableliu: Išj."
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Brightness decrease"
+msgstr "Patamsinti"
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Contrast increase"
+msgstr "Padidinti kontrastą"
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Contrast decrease"
+msgstr "Sumažinti kontrastą"
+
+msgctxt "IDS_HUE_INC"
+msgid "Hue increase"
+msgstr "Padidinti spalvos toną"
+
+msgctxt "IDS_HUE_DEC"
+msgid "Hue decrease"
+msgstr "Sumažinti spalvos toną"
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Saturation increase"
+msgstr "Padidinti sodrumą"
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Saturation decrease"
+msgstr "Sumažinti sodrumą"
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Reset color settings"
+msgstr "Atstatyti spalvos nustatymą"
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr "\nJūs jau naudojate naujausią stabilią versiją."
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr "Jūsų dabartinė versija v%s.\n\nNaujausia stabili versija yra v%s."
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr "MPC-HC v%s yra pasiekiama. Jūs naudojate v%s.\n\nAr norite atverti MPC-HC puslapį ir atsisiųsti ją?"
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr "Naujinimo serveris nerastas.\n\nPrašom patikrinkite savo interneto ryšį arba pamėginkite vėliau."
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr "&Uždaryti"
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr "Mastelis: %.0lf%%"
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr "Mastelis: Automatiškai"
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr "Įj./Išj. vartotojo kanalų skirstymą"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr "Vartotojo kanalų skirstymas: Įj."
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr "Vartotojo kanalų skirstymas: Išj."
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr "Įj./Išj. normalizavimą"
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr "Normalizacija: Įj."
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr "Normalizacija: Išj."
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr "Įj./Išj. garsumo atstatymą"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr "Garso atstatymas: Įj."
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr "Garso atstatymas: Išj."
+
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "baitų"
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr "KB"
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr "GB"
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr "KB/s"
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr "MB/s"
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr "Neįmanoma sukurti tiunerio."
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr "Neįmanoma sukurti imtuvo."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr "Neįmanoma prisijungti prie tinklo ir tiunerio."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr "Neįmanoma prisijungti prie tiunerio ir imtuvo."
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr "Neįmanoma prisijungti prie tiunerio."
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr "Neįmanoma sukurti demultiplekserio."
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Error parsing the entered time!"
+msgstr "Nekorektiškai įrašytas laikas."
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Error parsing the entered text!"
+msgstr "Nekorektiškai įrašytas tekstas."
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Error parsing the entered frame rate!"
+msgstr "Nekorektiškai įrašytas kadrų per sekundę greitis."
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame-step, try a different video renderer."
+msgstr "Peržiūra po vieną kadrą negalima, pamėginkite kitą vaizdo renderį."
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr "Funkcijos „Išsaugoti paveikslėlį“ ir „Išsaugoti miniatiūras“ neveikia su sisteminiu renderiu, skirtu RealMedia.\nPasirinkite vieną iš DirectX renderių, skirtų RealMedia ir atidarykite failą iš naujo."
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr "Funkcijos „Išsaugoti paveikslėlį“ ir „Išsaugoti miniatiūras“ neveikia su sisteminiu renderiu, skirtu QuickTime.\n Pasirinkite vieną iš DirectX renderių, skirtų QuickTime ir atidarykite failą iš naujo."
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr "Funkcijos „Išsaugoti paveikslėlį“ ir „Išsaugoti miniatiūras“ neveikia su Shockwave failais."
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr "Funkcijos „Išsaugoti paveikslėlį“ ir „Išsaugoti miniatiūras“ neveikia su Overlay Mixer vaizdo renderiu.\nPakeiskite vaizdo renderį MPC iššvesties nustatymuose ir atidarykite failą iš naujo."
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr "Ar jūs norite aktyvuoti EDL redaktorių?"
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Capture Error"
+msgstr "Įrašymo klaida"
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr "vaizdas"
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "audio"
+msgstr "garsas"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Can't add the %s buffer filter to the graph."
+msgstr "Negalima pridėti %s bufferio filtrą į grafiką."
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr "Negalima prijungti %s bufferio filtrą į grafiką."
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Can't add the %s encoder filter to the graph."
+msgstr "Neįmanoma pridėti filtrą-enkoderį %s į grafą."
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr "Neįmanoma prijungti filtro-enkoderio %s  prie grafo."
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Can't set the compression format on the %s encoder filter."
+msgstr "Nepavyksta nustatyti suglaudinimo formatą filtrui-enkoderiui %s."
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr "Neįmanoma prijungti srauto %s filtrui-multiplekseriui."
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "No video capture pin was found."
+msgstr "Nerastas vaizdo įrašymo pinas."
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "No audio capture pin was found."
+msgstr "Nerastas garso įrašymo pinas."
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Error initializing the output file."
+msgstr "Klaida inicializuojant išvesties failą."
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Error initializing the audio output file."
+msgstr "Klaida inicializuojant garso išvesties failą."
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr "Teisingas laiko formatas yra [-]hh:mm:ss.ms (pvz., 01:23:45.678)."
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr "Šis tipas jau yra sąraše!"
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "You need to apply the new settings before testing them."
+msgstr "Jūs turite panaudoti naujus nustatymus prieš jiems įsigaliojant"
+
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
+msgid "After Playback: Exit"
+msgstr "Baigus groti: Uždaryti grotuvą"
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "After Playback: Stand By"
+msgstr "Baigus groti: Perjungti į laukimo režimą"
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "After Playback: Hibernate"
+msgstr "Baigus groti: Pereiti į miego režimą"
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "After Playback: Shutdown"
+msgstr "Baigus groti: Išjungti kompiuterį"
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "After Playback: Log Off"
+msgstr "Baigus groti: Išsiregistruoti"
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "After Playback: Lock"
+msgstr "Baigus groti: Užrakinti kompiuterį"
+
+msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
+msgid "After Playback: Turn off the monitor"
+msgstr "Baigus groti: Išjungti monitorių"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "Baigus groti: Groti sekantį failą aplanke"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "Baigus groti: Nieko nedaryti"
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Brightness: %s"
+msgstr "Šviesumas: %s"
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Contrast: %s"
+msgstr "Kontrastas: %s"
+
+msgctxt "IDS_OSD_HUE"
+msgid "Hue: %s°"
+msgstr "Atspalvis: %s°"
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Saturation: %s"
+msgstr "Sodrumas: %s"
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Color settings restored"
+msgstr "Spalvų nustatymai atstatyti"
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Color control is not supported"
+msgstr "Spalvų valdymas nepalaikomas"
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Brightness increase"
+msgstr "Pašviesinti"
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Įveskite savo pageidaujamas kalbas čia.\nPavyzdžiui, įrašykite \"lit rus eng\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Išoriniai spliteriai gali turėti savus kalbų nustatymus, todėl MPC-HC elgesys pagal nutylėjimą nepakeis jų pradinio pasirinkimo.\nĮjunkite šią funkciją, jei jūs norite, jog MPC-HC valdytų išorinius spliterius."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-Ray grojaraštis"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Grojaraštis"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Skyriai"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Pavadinimai"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kanalai"
+
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
+msgstr "Jei pasirinktas \"paskutinis raktinis kadras\", tai ieškomas pirmas raktinis kadras prieš paieškos tašką.\n Jei pasirinktas \"artimiausias raktinis kadras\", tai ieškomas raktinis kadras prieš ir po paieškos taško kuris yra arčiausiai."
+
+msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
+msgid "Associate with all formats"
+msgstr "Susieti su visais formatais"
+
+msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
+msgid "Associate with video formats only"
+msgstr "Susieti tik su vaizdo formatais"
+
+msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
+msgid "Associate with audio formats only"
+msgstr "Susieti tik su garso formatais"
+
+msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
+msgid "Clear all associations"
+msgstr "Išvalyti visus susiejimus"
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr "Nustatymai"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr "VSFilter / DirectVobSub"
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr "XySubFilter"
+
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Atsisiųsti subtitrus"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr ""
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "Atsiųsti ir atverti"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr ""
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Atstatyti numatytuosius"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Kelti Aukštyn"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Kelti Žemyn"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr ""
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Kalbos"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr ""
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr ""
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr ""
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr ""
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr ""
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr ""
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr ""
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr ""
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr ""
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr ""
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr ""
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr ""
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr ""
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr ""
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr ""
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr ""
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr ""
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr ""
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr ""
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr ""
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr ""
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr ""
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr ""
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr ""
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr ""
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr ""
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr ""
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr ""
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr ""
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr ""
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr ""
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr ""
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr ""
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr ""
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr ""
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr ""
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr ""
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr ""
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr ""
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr ""
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr ""
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr ""
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr ""
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr ""
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr ""
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr ""
+

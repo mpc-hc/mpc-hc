@@ -29,7 +29,7 @@ class DataHash
   private:
     HASH_TYPE HashType;
     uint CurCRC32;
-    blake2sp_state blake2ctx;
+    blake2sp_state *blake2ctx;
 
 #ifdef RAR_SMP
     ThreadPool *ThPool;

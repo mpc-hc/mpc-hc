@@ -41,6 +41,12 @@ private:
     {
     public:
         CAdvisePacket()
+            : m_next(NULL)
+            , m_rtEventTime(0)
+            , m_dwAdviseCookie(0)
+            , m_rtPeriod(0)
+            , m_hNotify(NULL)
+            , m_bPeriodic(FALSE)
         {}
 
         CAdvisePacket * m_next;
@@ -50,7 +56,13 @@ private:
         HANDLE          m_hNotify;          // Handle to event or semephore
         BOOL            m_bPeriodic;        // TRUE => Periodic event
 
-        CAdvisePacket( __inout_opt CAdvisePacket * next, LONGLONG time ) : m_next(next), m_rtEventTime(time)
+        CAdvisePacket( __inout_opt CAdvisePacket * next, LONGLONG time )
+            : m_next(next)
+            , m_rtEventTime(time)
+            , m_dwAdviseCookie(0)
+            , m_rtPeriod(0)
+            , m_hNotify(NULL)
+            , m_bPeriodic(FALSE)
         {}
 
         void InsertAfter( __inout CAdvisePacket * p )

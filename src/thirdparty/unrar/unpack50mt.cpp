@@ -43,6 +43,7 @@ void Unpack::InitMT()
       {
         // Typical number of items in RAR blocks does not exceed 0x4000.
         CurData->DecodedAllocated=0x4100;
+        // It will be freed in the object destructor, not in this file.
         CurData->Decoded=(UnpackDecodedItem *)malloc(CurData->DecodedAllocated*sizeof(UnpackDecodedItem));
         if (CurData->Decoded==NULL)
           ErrHandler.MemoryError();
@@ -80,6 +81,10 @@ void Unpack::Unpack5MT(bool Solid)
   bool Done=false;
   while (!Done)
   {
+    // Data amount, which is guaranteed to fit block header and tables,
+    // so we can safely read them without additional checks.
+    const int TooSmallToProcess=1024;
+
     int ReadSize=UnpIO->UnpRead(ReadBufMT+DataSize,(UNP_READ_SIZE_MT-DataSize)&~0xf);
     if (ReadSize<0)
       break;
@@ -87,13 +92,13 @@ void Unpack::Unpack5MT(bool Solid)
     if (DataSize==0)
       break;
 
-    bool BufferProcessed=false;
+    // First read chunk can be small if we are near the end of volume
+    // and we want it to fit block header and tables.
+    if (ReadSize>0 && DataSize<TooSmallToProcess)
+      continue;
+
     while (BlockStart<DataSize && !Done)
     {
-      // Data amount, which is guaranteed to fit block header and tables,
-      // so we can safely read them without additional checks.
-      const int TooSmallToProcess=1024;
-
       uint BlockNumber=0,BlockNumberMT=0;
       while (BlockNumber<MaxUserThreads*UNP_BLOCKS_PER_THREAD)
       {
@@ -270,6 +275,7 @@ void Unpack::Unpack5MT(bool Solid)
       }
     }
   }
+  UnpPtr&=MaxWinMask; // ProcessDecoded and maybe others can leave UnpPtr > MaxWinMask here.
   UnpWriteBuf();
 
   BlockHeader=UnpThreadData[LastBlockNum].BlockHeader;
@@ -323,9 +329,10 @@ void Unpack::UnpackDecode(UnpackThreadData &D)
     if (D.DecodedSize>D.DecodedAllocated-8) // Filter can use several slots.
     {
       D.DecodedAllocated=D.DecodedAllocated*2;
-      D.Decoded=(UnpackDecodedItem *)realloc(D.Decoded,D.DecodedAllocated*sizeof(UnpackDecodedItem));
-      if (D.Decoded==NULL)
-        ErrHandler.MemoryError();
+      void *Decoded=realloc(D.Decoded,D.DecodedAllocated*sizeof(UnpackDecodedItem));
+      if (Decoded==NULL)
+        ErrHandler.MemoryError(); // D.Decoded will be freed in the destructor.
+      D.Decoded=(UnpackDecodedItem *)Decoded;
     }
 
     UnpackDecodedItem *CurItem=D.Decoded+D.DecodedSize++;
@@ -451,7 +458,7 @@ bool Unpack::ProcessDecoded(UnpackThreadData &D)
 
     if (Item->Type==UNPDT_LITERAL)
     {
-#if defined(LITTLE_ENDIAN) && defined(PRESENT_INT32) && defined(ALLOW_MISALIGNED)
+#if defined(LITTLE_ENDIAN) && defined(ALLOW_MISALIGNED)
       if (Item->Length==3 && UnpPtr<MaxWinSize-4)
       {
         *(uint32 *)(Window+UnpPtr)=*(uint32 *)Item->Literal;

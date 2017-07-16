@@ -105,12 +105,12 @@ static CThemeLib g_ThemeLib;
 
 
 CThemeLib::CThemeLib()
-    : m_hThemeLib(NULL)
-    , m_pIsThemeActive(NULL)
+    : m_pIsThemeActive(NULL)
     , m_pOpenThemeData(NULL)
     , m_pCloseThemeData(NULL)
     , m_pGetThemeBackgroundContentRect(NULL)
     , m_pDrawThemeBackground(NULL)
+    , m_hThemeLib(NULL)
 {
     m_hThemeLib = LoadLibrary(_T("uxtheme.dll"));
     if (!m_hThemeLib)

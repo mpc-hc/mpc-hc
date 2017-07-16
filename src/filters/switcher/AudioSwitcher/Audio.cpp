@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -178,14 +178,14 @@ static void make_downsample_filter(long* filter_bank, int filter_width, long sam
 }
 
 AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rate, bool fHighQuality)
-    : samp_frac(0x80000)
-    , bps(bps)
+    : ptsampleRout(audio_pointsample_16)
+    , dnsampleRout(audio_downsample_mono16)
+    , samp_frac(0x80000)
+    , accum(0)
     , holdover(0)
     , filter_bank(nullptr)
     , filter_width(1)
-    , accum(0)
-    , ptsampleRout(audio_pointsample_16)
-    , dnsampleRout(audio_downsample_mono16)
+    , bps(bps)
 {
     if (bps == 1) {
         ptsampleRout = audio_pointsample_8;

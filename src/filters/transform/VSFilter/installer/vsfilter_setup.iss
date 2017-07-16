@@ -1,4 +1,4 @@
-; (C) 2012-2014 see Authors.txt
+; (C) 2012-2017 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -20,12 +20,12 @@
 ; Inno Setup: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,4)
-  #error Update your Inno Setup version (5.5.4 or newer)
+#if VER < EncodeVer(5,5,9)
+  #error Update your Inno Setup version (5.5.9 or newer)
 #endif
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
-#define sse_required
+#define sse2_required
 ;#define x64Build
 
 
@@ -36,7 +36,7 @@
 #include AddBackslash(top_dir) + "include\mpc-hc_config.h"
 #include AddBackslash(top_dir) + "include\version.h"
 
-#define copyright_str   "2001-2014"
+#define copyright_str   "2001-2017"
 #define app_name        "VSFilter"
 
 #define app_version     str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)

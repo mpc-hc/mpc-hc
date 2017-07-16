@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,22 +35,25 @@ class CPPageFileInfoRes : public CPPageBase
 
 private:
     HICON m_hIcon;
+    CStatic m_icon;
+    CListCtrl m_list;
+
+    CString m_fn;
     std::vector<CDSMResource> m_res;
 
 public:
-    CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);   // standard constructor
+    CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);
     virtual ~CPPageFileInfoRes();
 
     // Dialog Data
     enum { IDD = IDD_FILEPROPRES };
 
-    CStatic m_icon;
-    CString m_fn;
-    CListCtrl m_list;
+    bool HasResources() const { return !m_res.empty(); };
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
+    virtual BOOL OnSetActive();
 
     DECLARE_MESSAGE_MAP()
 

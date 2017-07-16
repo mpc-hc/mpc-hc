@@ -1,16 +1,18 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <admin@geogeo.gr>, 2013-2014
+# geogeo.gr <geogeo.gr@gmail.com>, 2013-2015
 # firespin <dartworldgr@hotmail.com>, 2014
+# geogeo.gr <geogeo.gr@gmail.com>, 2015-2016
+# Lampros Zouloumis <onebrand@hotmail.gr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-22 01:00+0000\n"
-"Last-Translator: firespin <dartworldgr@hotmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,15 +112,15 @@ msgid "Enable custom channel mapping"
 msgstr "Ενεργοποίηση προσαρμοσμένης αντιστοίχισης καναλιών"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Διαμόρφωση ηχείων για "
+msgid "Speaker configuration for"
+msgstr "Διαμόρφωση ηχείων για"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "κανάλια εισόδου:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Κρατήστε πατημένο το πλήκτρο shift για άμεσες αλλαγές όταν κάνετε κλικ σε κάτι"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -190,8 +192,8 @@ msgid "About"
 msgstr "Περί"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014 βλέπε Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017 βλέπε Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -267,7 +269,7 @@ msgstr "Μόνο το όνομα αρχείου"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "Χωρίς καμία επισύναψη"
+msgstr "Χωρίς κάποιο πρόθεμα"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
@@ -295,7 +297,7 @@ msgstr "Προσκόλληση στα άκρα της οθόνης"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Καταχώρηση ρυθμίσεων στο αρχείο .ini"
+msgstr "Αποθήκευση ρυθμίσεων στο αρχείο .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
@@ -422,12 +424,16 @@ msgid "time(s)"
 msgstr "φορά (ές)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Λειτ. επανάλ.:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Μετά την Αναπαραγωγή"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Έξοδος"
+msgid "Default zoom"
+msgstr "Προεπιλεγμένη εστίαση"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -473,10 +479,6 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Αυτόματη φόρτωση αρχείων ήχου"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Χρήση της ενσωματωμένης απόδοσης υποτίτλων"
-
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr "Έλεγχος"
@@ -515,7 +517,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr "Καθυστέρηση βήματος"
+msgstr "Βήμα καθυστέρησης"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -570,7 +572,7 @@ msgid "Warning"
 msgstr "Προειδοποίηση"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Εάν παρακάμψετε κι ενεργοποιήσετε την εξομάλυνση γραφικών πλήρους οθόνης κάπου στις ρυθμίσεις της κάρτας γραφικών σας, οι υπότιτλοι δεν πρόκειται να φανούν καλύτερα, αλλά σίγουρα θα τρώνε από τον επεξεργαστή σας."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -599,7 +601,7 @@ msgstr "Εκτέλεση ως &διαχειριστής"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr "Ορισμός ως &προεπιλεγμένο πρόγραμμα"
+msgstr "Ορισμός ως &προεπιλ/νο πρόγραμμα"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -635,7 +637,7 @@ msgstr "Αρχείο(α)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Αυτόματη αναπαραγωγή (XP μόνο)"
+msgstr "Αυτόματη αναπαραγωγή"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
@@ -677,16 +679,16 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Αποτροπή ελαχιστοποίησης στην προβολή πλήρους οθόνης σε μη προεπιλεγμένη οθόνη"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Χρήση χαρακτηριστικών Γραμμής εργασίας των Windows 7"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Χρήση βελτιωμένων δυνατοτήτων γραμμής εργασιών"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Άνοιγμα του επόμενου/προηγούμ. αρχείου στο φάκελο, στην επιλογή «Παράβλεψη επόμενου/προηγούμ. αρχείου», όταν υπάρχει μόνο ένα στοιχείο στη λίστα αναπ/γωγής"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Χρήση συμβουλής χρόνου:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -879,7 +881,7 @@ msgstr "Μεγέθυνση: 0.2->3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Διεθνή πλήκτρα πολυμέσων"
+msgstr "Καθολικά πλήκτρα πολυμέσων"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
@@ -935,7 +937,7 @@ msgstr "Αποθήκευση προσαρμοσμένου στυλ"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr "JPEG ποιότητα:"
+msgstr "Ποιότητα JPEG:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1126,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "Πρόγραμμα απόδοσης ήχου"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (χωρίς απόδοση) και ρυθμίσεις EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Ρυθμίσεις VMR-9 (χωρίς απόδοση) και EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1170,8 +1172,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Υπότιτλοι *"
+msgid "Subtitles"
+msgstr "Υπότιτλοι"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1186,8 +1188,12 @@ msgid "Rotation"
 msgstr "Περιστροφή"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Εξωτερικά φίλτρα (όπως το VSFilter) μπορούν να εμφανίσουν υπότιτλους σε όλα τα προγράμματα απόδοσης."
+msgid "Subtitle Renderer"
+msgstr "Απόδοση υποτίτλων"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Μνήμη cache μεταγλωττισμένων Σκιάσεων"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1204,6 +1210,10 @@ msgstr "Ενεργοποίηση συμπίεσης"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Επιτρέπεται η πρόσβαση μόνο από τοπικό υπολογιστή"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Ενεργοποίηση προεπισκόπησης"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1230,16 +1240,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Δείκτες χειρισμού CGI: (.ext1=κατάλογος1, .ext2=κατάλογος2, ...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Υπότιτλοι διαθέσιμοι με σύνδεση διαδικτύου"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Λήψη && Άνοιγμα"
+msgid "Download subtitles"
+msgstr "Λήψη υποτίτλων"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Αντικατάσταση υφιστάμενων φορτωμένων υποτίτλων"
+msgstr "Αντικ/ση φορτωμένων τώρα υποτίτλων"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Λήψη"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Ανανέωση"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Ματαίωση"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Επιλογές"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Αποστολή υποτίτλων"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Αποστολή"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Ματαίωση"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Επιλογές"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1278,8 +1316,8 @@ msgid "Enable automatic update check"
 msgstr "Ενεργοποίηση αυτόματου ελέγχου ενημερώσεων"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Περίοδος μεταξύ ελέγχων:"
+msgid "Check every:"
+msgstr "Έλεγχος κάθε:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1542,16 +1580,28 @@ msgid "Reset"
 msgstr "Επαναφορά"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Βάση δεδομένων σε σύνδεση"
+msgid "Online search, download and upload subtitles"
+msgstr "Αναζήτηση σε άμεση σύνδεση, λήψη και αποστολή υποτίτλων"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Αυτόματη αναζήτηση και λήψη υποτίτλων, εφόσον δεν βρεθούν τοπικά"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Προτίμηση υποτίτλων για προβλήματα ακοής (όταν αναφέρεται από πάροχο)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Παράβλεψη των αρχείων που περιέχουν τις λέξεις:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Βασική διεύθυνση URL της βάσης δεδομένων υποτίτλων:"
+msgid "Languages in order of preference:"
+msgstr "Γλώσσες κατά σειρά προτίμησης:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Έλεγχος"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Αυτόματη αποστολή ενεργών υπότιτλων στο τέλος της αναπαραγωγής βίντεο"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1643,19 +1693,63 @@ msgstr "Ρυθμίσεις για προχωρημένους, μην τις επ
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "Σωστό"
+msgstr "Αληθής"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "Λάθος"
+msgstr "Ψευδής"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Προεπιλογή"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Συσκευή"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Αποκλειστική λειτουργία"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Επιτρέπεται κωδικ/μένη μεταφορά δεδομένων"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Επιλογές"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Ενεργοποίηση μείξης στέρεο (για ακουστικά)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Αποκοπή:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Στάθμη:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Σημείωση"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Για ελαχιστοποίηση της παραμόρφωσης του ήχου, συνιστάται η διατήρηση της έντασης αναπαραγωγής περίπου στο 85%, όταν αναπαράγεται δυνατά περιεχόμενο κωδικοποιημένο με απώλειες."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr "JPEG ποιότητα:"
+msgstr "Ποιότητα JPEG:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
@@ -1664,4 +1758,40 @@ msgstr "Βοήθεια γραμμής εντολών"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "Εντάξει"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Αναφορά κατάρρευσης"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Λυπούμαστε. Φαίνεται ότι το MPC-HC μόλις κατέρρευσε. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Στείλτε μια αναφορά σφάλματος για να μας βοηθήσετε να διαγνώσουμε και να διορθώσουμε το πρόβλημα."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "Προαιρετικές πληροφορίες"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Email:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Η διεύθυνση του ηλεκτρονικού σας ταχυδρομείου είναι προαιρετική και θα χρησιμοποιηθεί μόνο αν οι προγραμματιστές πρέπει να επικοινωνήσουν μαζί σας για περισσότερες πληροφορίες."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Περιγραφή προβλήματος (μόνο στα Αγγλικά):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "Επανεκκίνηση του MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "Έξοδος του MPC-HC"
 

@@ -213,7 +213,7 @@ public:
     // Return TRUE if the thread exists. FALSE otherwise
     BOOL ThreadExists(void) const
     {
-        if (m_hThread == 0) {
+        if (m_hThread == NULL) {
             return FALSE;
         } else {
             return TRUE;

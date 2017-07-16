@@ -22,10 +22,14 @@ class SecPassword
     bool IsSet() {return PasswordSet;}
     size_t Length();
     bool operator == (SecPassword &psw);
+
+    // Set to true if we need to pass a password to another process.
+    // We use it when transferring parameters to UAC elevated WinRAR.
+    bool CrossProcess;
 };
 
 
 void cleandata(void *data,size_t size);
-void SecHideData(void *Data,size_t DataSize,bool Encode);
+void SecHideData(void *Data,size_t DataSize,bool Encode,bool CrossProcess);
 
 #endif

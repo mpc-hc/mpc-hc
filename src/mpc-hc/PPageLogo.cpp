@@ -104,7 +104,9 @@ BOOL CPPageLogo::OnApply()
         s.strLogoFileName = m_logofn;
         s.nLogoId = m_logoids.GetAt(m_logoidpos);
 
-        ((CMainFrame*)AfxGetMainWnd())->UpdateControlState(CMainFrame::UPDATE_LOGO);
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+            pMainFrame->UpdateControlState(CMainFrame::UPDATE_LOGO);
+        }
     }
 
     return __super::OnApply();

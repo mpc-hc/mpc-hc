@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2015-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,11 +20,9 @@
 
 #pragma once
 
-#include "AppSettings.h"
 #include "PPageBase.h"
 #include "resource.h"
-#include <afxwin.h>
-#include <afxcmn.h>
+#include "EventDispatcher.h"
 #include <utility>
 #include <memory>
 #include <map>
@@ -40,6 +38,7 @@ public:
         : name(name)
         , toolTipText(toolTipText) {
     }
+    virtual ~SettingsBase() = default;
 
     CString GetToolTipText() const { return toolTipText; }
     CString GetName() const { return name; }
@@ -83,7 +82,7 @@ public:
         , defaultValue(defaultValue)
         , currentValue(settingReference)
         , settingReference(settingReference)
-        , range(range) {
+        , range(std::move(range)) {
     }
 
     bool IsDefault() const { return currentValue == defaultValue; }
@@ -101,7 +100,7 @@ class SettingsCombo : public SettingsInt
 public:
     SettingsCombo(CString name, int defaultValue, int& settingReference, std::deque<CString> list, CString toolTipText)
         : SettingsInt(name, defaultValue, settingReference, std::make_pair(0, (int)list.size() - 1), toolTipText)
-        , list(list) {
+        , list(std::move(list)) {
     }
 
     std::deque<CString> GetList() const { return list; }
@@ -143,7 +142,12 @@ private:
         RECENT_FILES_NB,
         FILE_POS_LONGER,
         FILE_POS_AUDIO,
-        COVER_SIZE_LIMIT
+        COVER_SIZE_LIMIT,
+        LOGGING,
+        AUTO_DOWNLOAD_SCORE_MOVIES,
+        AUTO_DOWNLOAD_SCORE_SERIES,
+        DEFAULT_TOOLBAR_SIZE,
+        USE_LEGACY_TOOLBAR,
     };
 
     enum {
@@ -151,12 +155,18 @@ private:
         COL_VALUE
     };
 
+    EventClient m_eventc;
+
     CFont m_fontBold;
     CComboBox m_comboBox;
+    CSpinButtonCtrl m_spinButtonCtrl;
 
     std::map<ADVANCED_SETTINGS, std::shared_ptr<SettingsBase>> m_hiddenOptions;
 
     int m_lastSelectedItem = -1;
+
+    CString m_strTrue;
+    CString m_strFalse;
 
     void InitSettings();
     bool IsDefault(ADVANCED_SETTINGS) const;
@@ -175,9 +185,7 @@ protected:
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
 
-    afx_msg void OnBnClickedSetButton();
     afx_msg void OnBnClickedDefaultButton();
-    afx_msg void OnUpdateSetButton(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDefaultButton(CCmdUI* pCmdUI);
     afx_msg void OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult);

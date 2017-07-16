@@ -40,23 +40,6 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
     PrivSet=true;
   }
 
-  CreatePath(Name,true);
-
-  // 'DirTarget' check is important for Unix symlinks to directories.
-  // Unix symlinks do not have their own 'directory' attribute.
-  if (hd->Dir || hd->DirTarget)
-  {
-    if (!CreateDirectory(Name,NULL))
-      return false;
-  }
-  else
-  {
-    HANDLE hFile=CreateFile(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
-    if (hFile == INVALID_HANDLE_VALUE)
-      return false;
-    CloseHandle(hFile);
-  }
-
   const DWORD BufSize=sizeof(REPARSE_DATA_BUFFER)+2*NM+1024;
   Array<byte> Buf(BufSize);
   REPARSE_DATA_BUFFER *rdb=(REPARSE_DATA_BUFFER *)&Buf[0];
@@ -79,6 +62,32 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   size_t PrintLength=wcslen(PrintName);
 
   bool AbsPath=WinPrefix;
+  // IsFullPath is not really needed here, AbsPath check is enough.
+  // We added it just for extra safety, in case some Windows version would
+  // allow to create absolute targets with SYMLINK_FLAG_RELATIVE.
+  // Use hd->FileName instead of Name, since Name can include the destination
+  // path as a prefix, which can confuse IsRelativeSymlinkSafe algorithm.
+  if (!Cmd->AbsoluteLinks && (AbsPath || IsFullPath(hd->RedirName) ||
+      !IsRelativeSymlinkSafe(Cmd,hd->FileName,Name,hd->RedirName)))
+    return false;
+
+  CreatePath(Name,true);
+
+  // 'DirTarget' check is important for Unix symlinks to directories.
+  // Unix symlinks do not have their own 'directory' attribute.
+  if (hd->Dir || hd->DirTarget)
+  {
+    if (!CreateDirectory(Name,NULL))
+      return false;
+  }
+  else
+  {
+    HANDLE hFile=CreateFile(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+    if (hFile == INVALID_HANDLE_VALUE)
+      return false;
+    CloseHandle(hFile);
+  }
+
 
   if (hd->RedirType==FSREDIR_JUNCTION)
   {
@@ -138,7 +147,10 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   { 
     CloseHandle(hFile);
     uiMsg(UIERROR_SLINKCREATE,UINULL,Name);
-    if (GetLastError()==ERROR_PRIVILEGE_NOT_HELD)
+
+    DWORD LastError=GetLastError();
+    if ((LastError==ERROR_ACCESS_DENIED || LastError==ERROR_PRIVILEGE_NOT_HELD) &&
+        !IsUserAdmin())
       uiMsg(UIERROR_NEEDADMIN);
     ErrHandler.SysErrMsg();
     ErrHandler.SetErrorCode(RARX_CREATE);

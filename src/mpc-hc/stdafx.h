@@ -21,11 +21,7 @@
 
 #pragma once
 
-#define VC_EXTRALEAN                        // Exclude rarely-used stuff from Windows headers
-
-#ifndef STRICT_TYPED_ITEMIDS
-#define STRICT_TYPED_ITEMIDS
-#endif
+#include <SharedInclude.h>
 
 #include <afxwin.h>                         // MFC core and standard components
 #include <afxext.h>                         // MFC extensions
@@ -36,19 +32,16 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 #include <afxdlgs.h>
 
-
-#include "SharedInclude.h"
-#include "mpc-hc_config.h"
-#include "DSUtil.h"
-
 #include <algorithm>
 #include <cmath>
 #include <functional>
+#include <future>
 #include <map>
-#include <set>
-#include <vector>
 #include <memory>
+#include <regex>
+#include <set>
 #include <utility>
+#include <vector>
 
 // Workaround compilation errors when including GDI+ with NOMINMAX defined
 namespace Gdiplus
@@ -58,38 +51,25 @@ namespace Gdiplus
 };
 
 #include <afxole.h>
+#include <afxinet.h>
 #include <atlcoll.h>
 #include <atlconv.h>
 #include <atlimage.h>
 #include <atlpath.h>
 #include <atlsync.h>
+#include <atlutil.h>
 #include <comdef.h>
 #include <commdlg.h>
 
-#include <dlgs.h>
-#include <ks.h>
-#include <ksmedia.h>
-#include <mpconfig.h>
-#include <psapi.h>
-#include <shlobj.h>
-
 #include <d3d9.h>
-#include <d3dx9.h>
-#include <dxva2api.h>
-#include <dvdevcod.h>
-#include <dsound.h>
-#include <evr.h>
 #include <evr9.h>
 #include <vmr9.h>
 
-#include <Il21dec.h>
-
 #include "sizecbar/scbarg.h"
 #include "ResizableLib/ResizableDialog.h"
+#include "BaseClasses/streams.h"
 
-#include "../Subtitles/RTS.h"
-#include "../Subtitles/STS.h"
-#include "../Subtitles/RLECodedSubtitle.h"
+#include "LcdSupport.h"
 
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S>> {};
@@ -98,6 +78,6 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S>> {};
 #define CheckNoLog(x)        hr = ##x; if (FAILED(hr)) { return hr; }
 #define CheckNoLogBool(x)    if (FAILED(x)) { return false; }
 
+#include "DSUtil.h"
+#include "mpc-hc_config.h"
 #include "resource.h"
-#include "FakeFilterMapper2.h"
-#include "AppSettings.h"

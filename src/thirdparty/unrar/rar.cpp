@@ -1,6 +1,6 @@
 #include "rar.hpp"
 
-#if !defined(GUI) && !defined(RARDLL)
+#if !defined(RARDLL)
 int main(int argc, char *argv[])
 {
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
 #endif
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
   // Must be initialized, normal initialization can be skipped in case of
   // exception.
   bool ShutdownOnClose=false;
@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
     }
     Cmd->AddArcName(ModuleName);
     Cmd->ParseDone();
+    Cmd->AbsoluteLinks=true; // If users runs SFX, he trusts an archive source.
 #else // !SFX_MODULE
     Cmd->ParseCommandLine(true,argc,argv);
     if (!Cmd->ConfigDisabled)
@@ -65,15 +66,14 @@ int main(int argc, char *argv[])
     Cmd->ParseCommandLine(false,argc,argv);
 #endif
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
     ShutdownOnClose=Cmd->Shutdown;
 #endif
 
     uiInit(Cmd->Sound);
-    InitConsoleOptions(Cmd->MsgStream);
+    InitConsoleOptions(Cmd->MsgStream,Cmd->RedirectCharset);
     InitLogOptions(Cmd->LogName,Cmd->ErrlogCharset);
     ErrHandler.SetSilent(Cmd->AllYes || Cmd->MsgStream==MSG_NULL);
-    ErrHandler.SetShutdown(Cmd->Shutdown);
 
     Cmd->OutTitle();
     Cmd->ProcessCommand();
@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
     ErrHandler.SetErrorCode(RARX_FATAL);
   }
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
-  if (ShutdownOnClose)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
+  if (ShutdownOnClose && ErrHandler.IsShutdownEnabled())
     Shutdown();
 #endif
   ErrHandler.MainExit=true;

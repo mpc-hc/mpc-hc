@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Dat Luong Anh <datanhlg@gmail.com>, 2014
-# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014
+# DatSoft, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-03 17:40+0000\n"
-"Last-Translator: Dat Luong Anh <datanhlg@gmail.com>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-06-22 07:17+0000\n"
+"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "Cho phép lập bản đồ kênh tùy chỉnh"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Cấu hình loa cho"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,8 +118,8 @@ msgid "input channels:"
 msgstr "Ngõ vào:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Giữ shift để thay đổi ngay lập tức khi nhấn một cái gì đó"
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Giữ phím Shift để thay đổi ngay lập tức khi bạn nhấn một cái gì đó"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Giới thiệu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Bản quyền © 2002-2014 xem Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Bản quyền © 2002-2017 xem Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -199,7 +199,7 @@ msgstr "Chương trình này là phần mềm miễn phí và phát hành theo g
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Được dịch bởi anhminhvks - Trần Anh Minh"
+msgstr "Được dịch bởi Trần Anh Minh - https://www.facebook.com/anhminhvks"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -295,7 +295,7 @@ msgstr "Chụp để cạnh máy tính để bàn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Lưu thiết lập ra tệp .ini"
+msgstr "Lưu thiết lập vào tập tin .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "thời gian(s)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Kiểu lặp lại:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Sau khi phát lại"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Ngõ ra"
+msgid "Default zoom"
+msgstr "Thu phóng mặc định"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -472,10 +476,6 @@ msgstr "Báo cáo khi render thất bại"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Tự động nạp tệp âm thanh"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Sử dụng bộ dựng phụ đề có sẵn"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -570,8 +570,8 @@ msgid "Warning"
 msgstr "Cảnh báo"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Nếu bạn ghi đè lên và cho phép toàn màn hình chống răng cưa ở đâu đó ở các cài đặt của bo của bạn, phụ đề sẽ không xem xét bất kỳ tốt hơn, nhưng nó chắc chắn sẽ ăn CPU của bạn."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Nếu bạn hủy bỏ và cho phép khử răng cưa toàn màn hình trong các thiết lập của cạc màn hình, phụ đề không những sẽ không được xem rõ hơn mà nó còn làm hao tốn CPU của bạn."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -667,7 +667,7 @@ msgstr "Nhanh chóng tìm kiếm (trên khung hình)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Dấu cho thấy chương trong seekbar"
+msgstr "Dấu cho thấy chương trong seek bar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
@@ -677,17 +677,17 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Ngăn ngừa trình phát nhạc khi trong toàn màn hình trên một màn hình mặc định "
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Sử dụng tính năng Windows 7 Taskbar"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Dùng tính năng thanh nhiệm vụ cao cấp"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Mở tập tin trước / sau trong thư mục vào \"Bỏ qua trở lại / về phía trước\" khi chỉ có một mục trong danh sách nhạc"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Mở tập tin trước/sau trong thư mục theo hướng \"Lùi lại/Tiến tới\" khi chỉ có một mục trong danh sách phát nhạc"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
-msgstr "Sử dụng thời gian tooltip:"
+msgid "Show time tooltip:"
+msgstr "Hiển thị thời gian tooltip:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1126,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "Tự động render"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Thiết lập VMR-7/VMR-9 (Renderless) và EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Thiết lập VMR-9 (Renderless) và EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1170,8 +1170,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Phụ đề *"
+msgid "Subtitles"
+msgstr "Phụ để"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1179,15 +1179,19 @@ msgstr "Ảnh màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr "Trình đổ bóng"
+msgstr "Bộ đổ bóng"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
 msgstr "Quay"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Bộ lọc bên ngoài (chẳng hạn như VSFilter) có thể hiển thị phụ đề trên tất cả các kết xuất đồ họa."
+msgid "Subtitle Renderer"
+msgstr "Bộ dựng phụ đề"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Bộ nhớ đệm cho bộ đổ bóng biên dịch"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1204,6 +1208,10 @@ msgstr "Cho phép nén"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Cho phép chỉ truy cập từ localhost"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Kích hoạt xem trước"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1230,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Xử lí CGI"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Phụ đề có sẵn trực tuyến"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Tải về && Mở "
+msgid "Download subtitles"
+msgstr "Tải phụ đề"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Thay thế phụ đề hiện đang được nạp"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Tải xuống"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Làm mới"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Hủy bỏ"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Tùy chọn"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Tải phụ đề lên "
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Tải lên"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Hủy bỏ"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Tùy chọn"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1278,8 +1314,8 @@ msgid "Enable automatic update check"
 msgstr "Kích hoạt kiểm tra nâng cấp"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Sự chậm trễ giữa mỗi lần kiểm tra:"
+msgid "Check every:"
+msgstr "Kiểm tra mỗi:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1323,7 +1359,7 @@ msgstr "Băng thông"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Tần số  kết thúc "
+msgstr "Tần số kết thúc "
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "Đặt lại"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Dữ liệu trực tuyến"
+msgid "Online search, download and upload subtitles"
+msgstr "Tìm kiếm trực tuyến, tải phụ đề xuống hoặc lên"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Tự động tìm và tải xuống nếu không tìm thấy phụ đề nào trên máy tính"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Dùng phụ đề thay thế khi âm thanh nghe không rõ (chỉ khi nguồn cấp phụ đề đã được chỉ ra)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Bỏ qua những tập tin có chứa bất kỳ từ ngữ sau:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL cơ sở của cơ sở dữ liệu phụ đề trực tuyến:"
+msgid "Languages in order of preference:"
+msgstr "Thứ tự ngôn ngữ được ưu tiên:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Kiểm thử"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Tự động tải lên các phụ đề phù hợp sau khi phát lại đoạn phim"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1571,11 +1619,11 @@ msgstr "&Bỏ qua cập nhật này"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Bộ đổ bóng có hiệu ứng đặc biệt mà có thể được thêm vào quá trình dựng hình video."
+msgstr "Bộ đổ bóng có các hiệu ứng đặc biệt mà có thể được thêm vào trong quá trình dựng hình."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Thêm tập tin đổ bóng"
+msgstr "Thêm tập tin bộ đổ bóng"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1591,7 +1639,7 @@ msgstr "Thêm vào sau thay đổi kích cỡ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Cài đặt trước bộ đổ bóng"
+msgstr "Cài đặt bộ đổ bóng có sẵn"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1607,11 +1655,11 @@ msgstr "Xóa"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Hoạt động bóng đổ trước thay đổi kích cỡ"
+msgstr "Hoạt động bóng đổ trước khi thay đổi kích cỡ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Hoạt động đổ bóng hậu thay đổi kích cỡ"
+msgstr "Hoạt động đổ bóng sau khi thay đổi kích cỡ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1653,6 +1701,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Mặc định"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Thiết bị"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Kiểu chuyên dụng"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Cho phép kết nối liên tục"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Tùy chọn"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Kích hoạt âm thanh nổi (dành cho tai nghe)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy. Được dịch bởi Trần Anh Minh - anhminhvks"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier. Được dịch bởi Trần Anh Minh - anhminhvks"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Cắt bớt:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Mức độ:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Ghi chú"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Để giảm thiểu hiện tượng méo âm, đề nghị chỉnh âm lượng ở mức 85% khi phát lại nội dung được mã hóa theo kiểu mất dữ liệu."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "Chất lượng JPEG"
@@ -1664,4 +1756,40 @@ msgstr "Hướng dẫn chế độ lệnh"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "Đồng ý"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Báo cáo lỗi"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Xin lỗi bạn, MPC-HC vừa bị lỗi dừng chương trình. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Gửi báo cáo lỗi để giúp chúng tôi phân tích và sửa chữa."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "Thông tin tùy chọn"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Thư điện tử:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Địa chỉ thư điện tử của bạn là một tùy chọn và sẽ chỉ được sử dụng nếu các nhà phát triển cần phải liên lạc với bạn để biết thêm thông tin chi tiết."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Diễn tả vấn đề gặp phải (chỉ dùng tiếng Anh):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "Khởi động lại MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "Thoát MPC-HC"
 

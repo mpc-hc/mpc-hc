@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,9 +24,7 @@
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
 #include "../../../DSUtil/MediaTypes.h"
-#include "../../../MathLibFix/MathLibFix.h"
 
-#include <InitGuid.h>
 #include "moreuuids.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,8 +45,6 @@ BOOL CVSFilterApp::InitInstance()
         return FALSE;
     }
 
-    WorkAroundMathLibraryBug();
-
     SetRegistryKey(_T("MPC-HC"));
 
     DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_ATTACH, 0); // "DllMain" of the dshow baseclasses
@@ -68,16 +64,6 @@ int CVSFilterApp::ExitInstance()
     DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_DETACH, 0); // "DllMain" of the dshow baseclasses
 
     return CWinApp::ExitInstance();
-}
-
-HINSTANCE CVSFilterApp::LoadAppLangResourceDLL()
-{
-    CString fn;
-    fn.ReleaseBufferSetLength(::GetModuleFileName(m_hInstance, fn.GetBuffer(MAX_PATH), MAX_PATH));
-    fn = fn.Mid(fn.ReverseFind('\\') + 1);
-    fn = fn.Left(fn.ReverseFind('.') + 1);
-    fn = fn + _T("lang");
-    return ::LoadLibrary(fn);
 }
 
 CVSFilterApp theApp;

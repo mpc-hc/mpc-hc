@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -86,13 +86,13 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_fCustomChannelMapping(false)
     , m_fDownSampleTo441(false)
     , m_rtAudioTimeShift(0)
-    , m_rtNextStart(0)
-    , m_rtNextStop(1)
     , m_fNormalize(false)
     , m_fNormalizeRecover(false)
     , m_nMaxNormFactor(4.0)
     , m_boostFactor(1.0)
     , m_normalizeFactor(m_nMaxNormFactor)
+    , m_rtNextStart(0)
+    , m_rtNextStop(1)
 {
     ZeroMemory(m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
 
@@ -504,7 +504,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
         DWORD mask = DWORD((__int64(1) << wfe->nChannels) - 1);
         for (int i = 0; i < AS_MAX_CHANNELS; i++) {
             if (m_pSpeakerToChannelMap[wfe->nChannels - 1][i]&mask) {
-                ChMap cm = {1 << i, m_pSpeakerToChannelMap[wfe->nChannels - 1][i]};
+                ChMap cm = {1u << i, m_pSpeakerToChannelMap[wfe->nChannels - 1][i]};
                 m_chs[wfe->nChannels - 1].Add(cm);
             }
         }

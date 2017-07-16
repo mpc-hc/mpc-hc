@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,7 +20,10 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+
+#ifndef _WIN64
+
+#include <cmath>
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"
 #include "mplayerc.h"
@@ -38,8 +41,8 @@ using namespace QT;
 
 CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
     : CBaseGraph()
-    , m_wndDestFrame(this)
     , m_fQtInitialized(false)
+    , m_wndDestFrame(this)
 {
     hr = S_OK;
 
@@ -48,11 +51,7 @@ CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
     const CAppSettings& s = AfxGetAppSettings();
 
     CComPtr<ISubPicAllocatorPresenter> pQTAP;
-    if (s.iQTVideoRendererType == VIDRNDT_QT_DX7) {
-        if (SUCCEEDED(hr = CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &pQTAP))) {
-            dwStyle &= ~WS_VISIBLE;
-        }
-    } else if (s.iQTVideoRendererType == VIDRNDT_QT_DX9) {
+    if (s.iQTVideoRendererType == VIDRNDT_QT_DX9) {
         bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
         if (SUCCEEDED(hr = CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &pQTAP))) {
             dwStyle &= ~WS_VISIBLE;
@@ -136,21 +135,27 @@ STDMETHODIMP CQuicktimeGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 STDMETHODIMP CQuicktimeGraph::Run()
 {
     m_wndDestFrame.Run();
-    m_pQTAP->SetIsRendering(true);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(true);
+    }
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Pause()
 {
     m_wndDestFrame.Pause();
-    m_pQTAP->SetIsRendering(false);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(false);
+    }
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Stop()
 {
     m_wndDestFrame.Stop();
-    m_pQTAP->SetIsRendering(false);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(false);
+    }
     return S_OK;
 }
 
@@ -296,7 +301,7 @@ STDMETHODIMP CQuicktimeGraph::put_Volume(long lVolume)
 {
     if (m_wndDestFrame.theMovie) {
         short volume = (lVolume <= -10000) ? 0 : short(pow(10.0, lVolume / 4000.0) * 256);
-        volume = max<short>(min<short>(volume, 256), 0);
+        volume = std::max<short>(std::min<short>(volume, 256), 0);
         SetMovieVolume(m_wndDestFrame.theMovie, volume);
         return S_OK;
     }
@@ -311,7 +316,7 @@ STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
     if (m_wndDestFrame.theMovie) {
         *plVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie); // [?..256]
         if (*plVolume > 0) {
-            *plVolume = min(long(4000 * log10(*plVolume / 256.0f)), 0l);
+            *plVolume = std::min(long(4000 * log10(*plVolume / 256.0f)), 0l);
         } else {
             *plVolume = -10000;
         }
@@ -396,13 +401,13 @@ STDMETHODIMP_(engine_t) CQuicktimeGraph::GetEngine()
 //
 
 CQuicktimeWindow::CQuicktimeWindow(CQuicktimeGraph* pGraph)
-    : m_pGraph(pGraph)
+    : m_offscreenGWorld(nullptr)
+    , m_pGraph(pGraph)
+    , m_fs(State_Stopped)
+    , m_idEndPoller(0)
     , theMovie(nullptr)
     , theMC(nullptr)
     , m_size(0, 0)
-    , m_idEndPoller(0)
-    , m_fs(State_Stopped)
-    , m_offscreenGWorld(nullptr)
 {
 }
 
@@ -506,7 +511,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
         CHAR buff[MAX_PATH] = {0, 0};
         WideCharToMultiByte(GetACP(), 0, fn, -1, buff + 1, _countof(buff) - 1, 0, 0);
-        buff[0] = strlen(buff + 1);
+        buff[0] = (CHAR)strlen(buff + 1);
 
         // Make a FSSpec with a pascal string filename
         FSSpec sfFile;
@@ -710,3 +715,5 @@ void CQuicktimeWindow::OnTimer(UINT_PTR nIDEvent)
 
     __super::OnTimer(nIDEvent);
 }
+
+#endif

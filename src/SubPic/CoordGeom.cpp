@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,23 +20,29 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
 #include "CoordGeom.h"
+#include "../DSUtil/DSUtil.h"
+#include <cmath>
+
+static bool IsZero(float d)
+{
+    return IsEqual(d, 0.0f);
+}
 
 //
 // Vector
 //
 
-Vector::Vector(float x, float y, float z)
-    : x(x), y(y), z(z)
+Vector::Vector(float _x, float _y, float _z)
+    : x(_x), y(_y), z(_z)
 {
 }
 
-void Vector::Set(float x, float y, float z)
+void Vector::Set(float _x, float _y, float _z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    x = _x;
+    y = _y;
+    z = _z;
 }
 
 float Vector::Length() const
@@ -101,11 +107,11 @@ void Vector::Angle(float& u, float& v) const
     u = asin(n.y);
 
     if (IsZero(n.z)) {
-        v = (float)M_PI_2 * Sgn(n.x);
+        v = (float)M_PI_2 * SGN(n.x);
     } else if (n.z > 0) {
         v = atan(n.x / n.z);
     } else if (n.z < 0) {
-        v = IsZero(n.x) ? (float)M_PI : ((float)M_PI * Sgn(n.x) + atan(n.x / n.z));
+        v = IsZero(n.x) ? (float)M_PI : ((float)M_PI * SGN(n.x) + atan(n.x / n.z));
     }
 }
 
@@ -343,23 +349,23 @@ Vector& Vector::operator /= (const Vector& v)
 // Ray
 //
 
-Ray::Ray(const Vector& p, const Vector& d)
-    : p(p)
-    , d(d)
+Ray::Ray(const Vector& _p, const Vector& _d)
+    : p(_p)
+    , d(_d)
 {
 }
 
-void Ray::Set(const Vector& p, const Vector& d)
+void Ray::Set(const Vector& _p, const Vector& _d)
 {
-    this->p = p;
-    this->d = d;
+    p = _p;
+    d = _d;
 }
 
 float Ray::GetDistanceFrom(const Ray& r) const
 {
     float t = (d | r.d);
     if (IsZero(t)) {
-        return -BIGNUMBER;    // plane is parallel to the ray, return -infinite
+        return -std::numeric_limits<float>::infinity();    // plane is parallel to the ray, return -infinite
     }
     return (((r.p - p) | r.d) / t);
 }

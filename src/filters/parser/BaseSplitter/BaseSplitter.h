@@ -45,13 +45,13 @@ public:
     REFERENCE_TIME rtStart, rtStop;
     AM_MEDIA_TYPE* pmt;
     Packet()
-        : pmt(nullptr)
+        : TrackNumber(0)
         , bDiscontinuity(FALSE)
-        , bAppendable(FALSE)
         , bSyncPoint(FALSE)
-        , TrackNumber(0)
+        , bAppendable(FALSE)
         , rtStart(0)
-        , rtStop(0) {
+        , rtStop(0)
+        , pmt(nullptr) {
     }
     virtual ~Packet() {
         if (pmt) {

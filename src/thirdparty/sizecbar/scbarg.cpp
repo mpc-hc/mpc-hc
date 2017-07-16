@@ -78,6 +78,12 @@ void CSizingControlBarG::NcCalcClient(LPRECT pRc, UINT nDockBarID)
         return;
 
     CRect rc(pRc); // the client rect as calculated by the base class
+    //mpc-hc custom code start
+    // Work in screen coordinates before converting back to
+    // client coordinates to account for possible RTL layout
+    GetParent()->ClientToScreen(rcBar);
+    GetParent()->ClientToScreen(rc);
+    //mpc-hc custom code end
 
     BOOL bHorz = (nDockBarID == AFX_IDW_DOCKBAR_TOP) ||
                  (nDockBarID == AFX_IDW_DOCKBAR_BOTTOM);
@@ -95,6 +101,12 @@ void CSizingControlBarG::NcCalcClient(LPRECT pRc, UINT nDockBarID)
         ptOrgBtn = CPoint(rc.right - 12, rc.top - 13);
 
     m_biHide.Move(ptOrgBtn - rcBar.TopLeft());
+
+    //mpc-hc custom code start
+    // Work in screen coordinates before converting back to
+    // client coordinates to account for possible RTL layout
+    GetParent()->ScreenToClient(&rc);
+    //mpc-hc custom code end
 
     *pRc = rc;
 }
@@ -143,6 +155,12 @@ LRESULT CSizingControlBarG::OnNcHitTest(CPoint point)
     LRESULT nRet = baseCSizingControlBarG::OnNcHitTest(point);
     if (nRet != HTCLIENT)
         return nRet;
+
+    //mpc-hc custom code start
+    // Convert to client coordinates to account for possible RTL layout
+    ScreenToClient(&rcBar);
+    ScreenToClient(&point);
+    //mpc-hc custom code end
 
     CRect rc = m_biHide.GetRect();
     rc.OffsetRect(rcBar.TopLeft());
@@ -214,7 +232,11 @@ void CSCBButton::Paint(CDC* pDC)
     font.CreatePointFont(pointsize, _T("Marlett"));
     CFont* oldfont = pDC->SelectObject(&font);
 
-    pDC->TextOut(ptOrg.x + 2, ptOrg.y + 2, CString(_T("r"))); // x-like
+    //mpc-hc custom code start
+    // TextOut is affected by the layout so we need to account for that
+    DWORD dwLayout = pDC->GetLayout();
+    pDC->TextOut(ptOrg.x + (dwLayout == LAYOUT_LTR ? 2 : -1), ptOrg.y + 2, CString(_T("r"))); // x-like
+    //mpc-hc custom code end
 
     pDC->SelectObject(oldfont);
     pDC->SetBkMode(nPrevBkMode);

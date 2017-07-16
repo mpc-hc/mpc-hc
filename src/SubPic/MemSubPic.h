@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 #pragma once
 
 #include "SubPicImpl.h"
+#include <memory>
+#include <vector>
 
 enum {
     MSP_RGB32,
@@ -36,16 +38,19 @@ enum {
 };
 
 // CMemSubPic
-
+class CMemSubPicAllocator;
 class CMemSubPic : public CSubPicImpl
 {
+    CComPtr<CMemSubPicAllocator> m_pAllocator;
+
     SubPicDesc m_spd;
+    std::unique_ptr<SubPicDesc> m_resizedSpd;
 
 protected:
     STDMETHODIMP_(void*) GetObject(); // returns SubPicDesc*
 
 public:
-    CMemSubPic(const SubPicDesc& spd);
+    CMemSubPic(const SubPicDesc& spd, CMemSubPicAllocator* pAllocator);
     virtual ~CMemSubPic();
 
     // ISubPic
@@ -59,13 +64,23 @@ public:
 
 // CMemSubPicAllocator
 
-class CMemSubPicAllocator : public CSubPicAllocatorImpl
+class CMemSubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
 {
     int m_type;
     CSize m_maxsize;
+    CRect m_curvidrect;
+
+    std::vector<std::pair<size_t, BYTE*>> m_freeMemoryChunks;
 
     bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
     CMemSubPicAllocator(int type, SIZE maxsize);
+    virtual ~CMemSubPicAllocator();
+
+    bool AllocSpdBits(SubPicDesc& spd);
+    void FreeSpdBits(SubPicDesc& spd);
+
+    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) override;
+    STDMETHODIMP SetCurVidRect(RECT curvidrect) override;
 };

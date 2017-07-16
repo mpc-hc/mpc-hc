@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageAccelTbl.h"
+#include "AppSettings.h"
 
 
 struct APP_COMMAND {
@@ -29,7 +30,7 @@ struct APP_COMMAND {
     LPCTSTR cmdname;
 };
 
-APP_COMMAND g_CommandList[] = {
+static constexpr APP_COMMAND g_CommandList[] = {
     {0,                                 _T("")},
     {APPCOMMAND_BROWSER_BACKWARD,       _T("BROWSER_BACKWARD")},
     {APPCOMMAND_BROWSER_FORWARD,        _T("BROWSER_FORWARD")},
@@ -113,8 +114,8 @@ APP_COMMAND g_CommandList[] = {
 IMPLEMENT_DYNAMIC(CPPageAccelTbl, CPPageBase)
 CPPageAccelTbl::CPPageAccelTbl()
     : CPPageBase(CPPageAccelTbl::IDD, CPPageAccelTbl::IDD)
-    , m_list(0)
     , m_counter(0)
+    , m_list(0)
     , m_fWinLirc(FALSE)
     , m_WinLircLink(_T("http://winlirc.sourceforge.net/"))
     , m_fUIce(FALSE)
@@ -854,7 +855,7 @@ CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
             return CString(g_CommandList[i].cmdname);
         }
     }
-    return CString("");
+    return _T("");
 }
 
 void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
@@ -1168,7 +1169,8 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
                 wc.fVirt |= FSHIFT;
             }
             wc.fVirt |= FVIRTKEY;
-            wc.key = cod;
+            ASSERT(cod < WORD_MAX);
+            wc.key = (WORD)cod;
 
             CString str;
             HotkeyToString(cod, mod, str);
@@ -1187,24 +1189,27 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
         }
         break;
         case COL_MOUSE:
-            wc.mouse = (UINT)pItem->lParam;
+            wc.mouse = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
             *pResult = TRUE;
             break;
         case COL_MOUSE_FS:
-            wc.mouseFS = (UINT)pItem->lParam;
+            wc.mouseFS = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
             *pResult = TRUE;
             break;
-        case COL_RMCMD:
-            wc.rmcmd = CStringA(CString(pItem->pszText)).Trim();
-            wc.rmcmd.Replace(' ', '_');
-            m_list.SetItemText(pItem->iItem, pItem->iSubItem, CString(wc.rmcmd));
+        case COL_RMCMD: {
+            CString cmd = pItem->pszText;
+            cmd.Trim();
+            cmd.Replace(_T(' '), ('_'));
+            m_list.SetItemText(pItem->iItem, pItem->iSubItem, cmd);
+            wc.rmcmd = cmd;
             *pResult = TRUE;
             break;
+        }
         case COL_RMREPCNT:
-            CString str = CString(pItem->pszText).Trim();
-            wc.rmrepcnt = _tcstol(str, nullptr, 10);
+            CString str = pItem->pszText;
+            wc.rmrepcnt = _tcstol(str.Trim(), nullptr, 10);
             str.Format(_T("%d"), wc.rmrepcnt);
             m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
             *pResult = TRUE;

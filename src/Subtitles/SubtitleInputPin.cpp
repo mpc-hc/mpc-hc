@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,9 +26,9 @@
 #include "DVBSub.h"
 #include "PGSSub.h"
 
-#include <InitGuid.h>
 #include <uuids.h>
 #include "moreuuids.h"
+#include "../DSUtil/ISOLang.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -57,7 +57,9 @@ CSubtitleInputPin::CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCri
     , m_bStopDecoding(false)
 {
     m_bCanReconnectWhenActive = true;
-    m_decodeThread = std::thread([this]() { DecodeSamples(); });
+    m_decodeThread = std::thread([this]() {
+        DecodeSamples();
+    });
 }
 
 CSubtitleInputPin::~CSubtitleInputPin()
@@ -101,8 +103,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         if (psi != nullptr) {
             dwOffset = psi->dwOffset;
 
-            name = ISO6392ToLanguage(psi->IsoLang);
-            lcid = ISO6392ToLcid(psi->IsoLang);
+            name = ISOLang::ISO6392ToLanguage(psi->IsoLang);
+            lcid = ISOLang::ISO6392ToLcid(psi->IsoLang);
 
             CString trackName(psi->TrackName);
             trackName.Trim();
@@ -275,7 +277,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
         {
             std::unique_lock<std::mutex> lock(m_mutexQueue);
-            m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len))));
+            m_sampleQueue.emplace_back(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len)));
             lock.unlock();
             m_condQueueReady.notify_one();
         }
@@ -290,7 +292,7 @@ STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
 
     if (SUCCEEDED(hr)) {
         std::unique_lock<std::mutex> lock(m_mutexQueue);
-        m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(nullptr)); // nullptr means end of stream
+        m_sampleQueue.emplace_back(nullptr); // nullptr means end of stream
         lock.unlock();
         m_condQueueReady.notify_one();
     }
@@ -318,7 +320,7 @@ void  CSubtitleInputPin::DecodeSamples()
         };
 
         auto isQueueReady = [&]() {
-            return !m_sampleQueue.IsEmpty() || needStopProcessing();
+            return !m_sampleQueue.empty() || needStopProcessing();
         };
 
         m_condQueueReady.wait(lock, isQueueReady);
@@ -330,8 +332,8 @@ void  CSubtitleInputPin::DecodeSamples()
             CAutoLock cAutoLock(m_pSubLock);
             lock.lock(); // Reacquire the lock
 
-            while (!m_sampleQueue.IsEmpty() && !needStopProcessing()) {
-                auto pSample = m_sampleQueue.RemoveHead();
+            while (!m_sampleQueue.empty() && !needStopProcessing()) {
+                const auto& pSample = m_sampleQueue.front();
 
                 if (pSample) {
                     REFERENCE_TIME rtSampleInvalidate = DecodeSample(pSample);
@@ -344,6 +346,8 @@ void  CSubtitleInputPin::DecodeSamples()
                         pRLECodedSubtitle->EndOfStream();
                     }
                 }
+
+                m_sampleQueue.pop_front();
             }
         }
 
@@ -355,7 +359,7 @@ void  CSubtitleInputPin::DecodeSamples()
     }
 }
 
-REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& pSample)
+REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSample>& pSample)
 {
     bool bInvalidate = false;
 
@@ -375,14 +379,14 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& p
                 ptr += 2;
 
                 if (tag == __GAB1_LANGUAGE__) {
-                    pRTS->m_name = CString(ptr);
+                    pRTS->m_name = ptr;
                 } else if (tag == __GAB1_ENTRY__) {
-                    pRTS->Add(AToW(&ptr[8]), false, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add(AToW(&ptr[8]), false, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 } else if (tag == __GAB1_LANGUAGE_UNICODE__) {
                     pRTS->m_name = (WCHAR*)ptr;
                 } else if (tag == __GAB1_ENTRY_UNICODE__) {
-                    pRTS->Add((WCHAR*)(ptr + 8), true, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add((WCHAR*)(ptr + 8), true, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 }
 
@@ -414,7 +418,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& p
             str.Trim();
 
             if (!str.IsEmpty()) {
-                pRTS->Add(AToW(str), false, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(AToW(str), false, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         }
@@ -424,7 +428,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& p
 
             CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
             if (!str.IsEmpty()) {
-                pRTS->Add(str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
@@ -454,7 +458,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& p
                 }
 
                 if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000),
+                    pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
                               stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
                     bInvalidate = true;
                 }
@@ -476,7 +480,7 @@ void CSubtitleInputPin::InvalidateSamples()
     m_bStopDecoding = true;
     {
         std::lock_guard<std::mutex> lock(m_mutexQueue);
-        m_sampleQueue.RemoveAll();
+        m_sampleQueue.clear();
         m_bStopDecoding = false;
     }
 }

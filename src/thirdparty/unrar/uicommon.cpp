@@ -22,11 +22,18 @@ UIASKREP_RESULT uiAskReplaceEx(RAROptions *Cmd,wchar *Name,size_t MaxNameSize,in
   // This check must be after OVERWRITE_AUTORENAME processing or -y switch
   // would override -or.
   if (Cmd->AllYes || Cmd->Overwrite==OVERWRITE_ALL)
+  {
+    PrepareToDelete(Name);
     return UIASKREP_R_REPLACE;
+  }
 
   wchar NewName[NM];
   wcsncpyz(NewName,Name,ASIZE(NewName));
   UIASKREP_RESULT Choice=uiAskReplace(NewName,ASIZE(NewName),FileSize,FileTime,Flags);
+
+  if (Choice==UIASKREP_R_REPLACE || Choice==UIASKREP_R_REPLACEALL)
+    PrepareToDelete(Name);
+
   if (Choice==UIASKREP_R_REPLACEALL)
   {
     Cmd->Overwrite=OVERWRITE_ALL;

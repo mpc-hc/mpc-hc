@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
+#include <string>
 
 template<class T, typename SEP>
 T Explode(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
@@ -72,8 +73,8 @@ T ExplodeEsc(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0, SEP esc = _T('\\
             break;
         }
 
-        // Skip this seperator if it is escaped
-        if (str.GetAt(j - 1) == esc) {
+        // Skip this separator if it is escaped
+        if (j > 0 && str.GetAt(j - 1) == esc) {
             // Delete the escape character
             str.Delete(j - 1);
             continue;
@@ -133,6 +134,7 @@ extern CStringA UrlEncode(const CStringA& strIn);
 extern CStringA EscapeJSONString(const CStringA& str);
 extern CStringA UrlDecode(const CStringA& strIn);
 extern CStringA HtmlSpecialChars(CStringA str, bool bQuotes = false);
+extern CStringA HtmlSpecialCharsDecode(CStringA str);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);
@@ -178,4 +180,11 @@ int FindOneOf(const T& str, typename T::PCXSTR pszCharSet, int iStart) throw()
 
     T::PCXSTR psz = T::StrTraits::StringScanSet(str.GetString() + iStart, pszCharSet);
     return ((psz == NULL) ? -1 : int(psz - str.GetString()));
+}
+
+template<typename T>
+CString NumToCString(T num)
+{
+    static_assert(std::numeric_limits<T>::is_specialized, "NumToCString can be used only for numeric types.");
+    return std::to_string(num).c_str();
 }

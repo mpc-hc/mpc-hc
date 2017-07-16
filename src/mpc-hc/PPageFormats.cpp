@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,12 +23,13 @@
 #include "mplayerc.h"
 #include "PPageFormats.h"
 #include "FileAssoc.h"
+#include "PathUtils.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include <psapi.h>
 #include <string>
 #include <atlimage.h>
 
+#include "DpiHelper.h"
 
 // CPPageFormats dialog
 
@@ -37,10 +38,10 @@ IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
     , m_list(0)
-    , m_iRtspHandler(0)
-    , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
     , m_bFileExtChanged(false)
+    , m_iRtspHandler(0)
+    , m_fRtspFileExtFirst(FALSE)
     , m_bHaveRegisteredCategory(false)
 {
 }
@@ -269,7 +270,7 @@ BOOL CPPageFormats::OnInitDialog()
             GetDlgItem(nID)->MoveWindow(r);
         };
 
-        const int dy = DPI().ScaleY(-5);
+        const int dy = DpiHelper().ScaleY(-5); // TODO: use the helper from parent dialog
 
         offsetControlBottomRight(IDC_STATIC2, 0, dy);
         offsetControlBottomRight(IDC_LIST1, 0, dy);
@@ -537,13 +538,10 @@ void CPPageFormats::OnClearAllAssociations()
 
 void CPPageFormats::OnBnRunAsAdmin()
 {
-    TCHAR   strApp[MAX_PATH];
     CString strCmd;
-
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
     strCmd.Format(_T("/adminoption %d"), IDD);
 
-    AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);
+    AfxGetMyApp()->RunAsAdministrator(PathUtils::GetProgramPath(true), strCmd, true);
 
     auto& s = AfxGetAppSettings();
     s.m_Formats.UpdateData(false);

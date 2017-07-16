@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,10 +25,12 @@
 #include "SyncAllocatorPresenter.h"
 #include "AllocatorCommon.h"
 #include <dxva2api.h>
+#include "../../../DSUtil/WinapiFunc.h"
 
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60 + 2) // Last 2 for pixels shader!
 #define NB_JITTER 126
+#include "AsyncCallback.h"
 
 extern bool g_bNoDuration; // Defined in MainFrm.cpp
 extern bool g_bExternalSubtitleTime;
@@ -67,6 +69,8 @@ class CFocusThread;
 #define PIXELCLOCK  8
 #define UNKNOWN     9
 
+// Guid to tag IMFSample with a group id
+static const GUID GUID_GROUP_ID = { 0x309e32cc, 0x9b23, 0x4c6c, { 0x86, 0x63, 0xcd, 0xd9, 0xad, 0x49, 0x7f, 0x8a } };
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
 
@@ -153,7 +157,7 @@ namespace GothSync
         D3DFORMAT m_DisplayType;
         D3DTEXTUREFILTERTYPE m_filter;
         D3DCAPS9 m_caps;
-        D3DPRESENT_PARAMETERS pp;
+        D3DPRESENT_PARAMETERS m_pp;
 
         bool SettingsNeedResetDevice();
         void SendResetRequest();
@@ -171,7 +175,7 @@ namespace GothSync
         // Functions to trace timing performance
         void SyncStats(LONGLONG syncTime);
         void SyncOffsetStats(LONGLONG syncOffset);
-        void DrawText(const RECT& rc, const CString& strText, int _Priority);
+        void InitStats();
         void DrawStats();
 
         template<int texcoords>
@@ -314,6 +318,8 @@ namespace GothSync
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
         CFocusThread* m_FocusThread;
+        HWND          m_hFocusWindow;
+
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();
@@ -445,23 +451,11 @@ namespace GothSync
         STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
 
     protected:
+        STDMETHODIMP_(bool) Paint(IMFSample* pMFSample);
         void OnResetDevice();
         MFCLOCK_STATE m_LastClockState;
 
     private:
-        // dxva.dll
-        typedef HRESULT(__stdcall* PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
-        // mf.dll
-        typedef HRESULT(__stdcall* PTR_MFCreatePresentationClock)(IMFPresentationClock** ppPresentationClock);
-        // evr.dll
-        typedef HRESULT(__stdcall* PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* punkSurface, BOOL fBottomUpWhenLinear, IMFMediaBuffer** ppBuffer);
-        typedef HRESULT(__stdcall* PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
-        typedef HRESULT(__stdcall* PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
-        // avrt.dll
-        typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-        typedef BOOL (__stdcall* PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-        typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
-
         enum RENDER_STATE {
             Started  = State_Running,
             Stopped  = State_Stopped,
@@ -473,7 +467,7 @@ namespace GothSync
         CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
         CComPtr<IMFTransform> m_pMixer;
         CComPtr<IMediaEventSink> m_pSink;
-        CComPtr<IMFVideoMediaType> m_pMediaType;
+        CComPtr<IMFMediaType> m_pMediaType;
         MFVideoAspectRatioMode m_dwVideoAspectRatioMode;
         MFVideoRenderPrefs m_dwVideoRenderPrefs;
         COLORREF m_BorderColor;
@@ -499,9 +493,10 @@ namespace GothSync
         CCritSec m_SampleQueueLock;
         CCritSec m_ImageProcessingLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-        IMFSample* m_pCurrentDisplaydSample;
+        UINT32                    m_nCurrentGroupId;
+        CInterfaceList<IMFSample> m_FreeSamples;
+        CInterfaceList<IMFSample> m_ScheduledSamples;
+        CComPtr<IMFSample>        m_pCurrentlyDisplayedSample;
         UINT m_nResetToken;
         int m_nStepCount;
 
@@ -520,31 +515,31 @@ namespace GothSync
         STDMETHODIMP AdviseSyncClock(ISyncClock* sC);
         HRESULT BeginStreaming();
         HRESULT GetFreeSample(IMFSample** ppSample);
-        HRESULT GetScheduledSample(IMFSample** ppSample, int& _Count);
-        void MoveToFreeList(IMFSample* pSample, bool bTail);
-        void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+        HRESULT GetScheduledSample(IMFSample** ppSample, int& count);
+        void AddToFreeList(IMFSample* pSample, bool bTail);
+        void AddToScheduledList(IMFSample* pSample, bool bSorted);
         void FlushSamples();
-        void FlushSamplesInternal();
+
+        HRESULT TrackSample(IMFSample* pSample);
+
+        // Callback when a video sample is released.
+        HRESULT OnSampleFree(IMFAsyncResult* pResult);
+        AsyncCallback<CSyncAP> m_SampleFreeCallback;
 
         LONGLONG GetMediaTypeMerit(IMFMediaType* pMediaType);
         HRESULT RenegotiateMediaType();
         HRESULT IsMediaTypeSupported(IMFMediaType* pMixerType);
-        HRESULT CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
+        HRESULT CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** ppType);
         HRESULT SetMediaType(IMFMediaType* pType);
 
-        // Functions pointers for Vista+ / .NET Framework 3.5 specific library
-        HMODULE m_hDXVA2Lib;
-        HMODULE m_hEVRLib;
-        HMODULE m_hAVRTLib;
+        const WinapiFunc<decltype(DXVA2CreateDirect3DDeviceManager9)> fnDXVA2CreateDirect3DDeviceManager9;
+        const WinapiFunc<decltype(MFCreateDXSurfaceBuffer)> fnMFCreateDXSurfaceBuffer;
+        const WinapiFunc<decltype(MFCreateVideoSampleFromSurface)> fnMFCreateVideoSampleFromSurface;
+        const WinapiFunc<decltype(MFCreateMediaType)> fnMFCreateMediaType;
 
-        PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
-        PTR_MFCreateDXSurfaceBuffer pfMFCreateDXSurfaceBuffer;
-        PTR_MFCreateVideoSampleFromSurface pfMFCreateVideoSampleFromSurface;
-        PTR_MFCreateVideoMediaType pfMFCreateVideoMediaType;
-
-        PTR_AvSetMmThreadCharacteristicsW pfAvSetMmThreadCharacteristicsW;
-        PTR_AvSetMmThreadPriority pfAvSetMmThreadPriority;
-        PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
+        const WinapiFunc<decltype(AvSetMmThreadCharacteristicsW)> fnAvSetMmThreadCharacteristicsW;
+        const WinapiFunc<decltype(AvSetMmThreadPriority)> fnAvSetMmThreadPriority;
+        const WinapiFunc<decltype(AvRevertMmThreadCharacteristics)> fnAvRevertMmThreadCharacteristics;
     };
 
     class CSyncRenderer:

@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2014 see Authors.txt
+ * (C) 2008-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -100,11 +100,9 @@ END_MESSAGE_MAP()
 
 CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CRegisterCopyDataDlg::IDD, pParent)
-    , m_strMPCPath(_T(""))
-    , m_txtCommand(_T(""))
-    , m_nCommandType(0)
-    , m_hWndMPC(nullptr)
     , m_RemoteWindow(nullptr)
+    , m_hWndMPC(nullptr)
+    , m_nCommandType(0)
 {
     //{{AFX_DATA_INIT(CRegisterCopyDataDlg)
     // NOTE: the ClassWizard will add member initialization here

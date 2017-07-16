@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,6 @@
 #include "../../../mpc-hc/AppSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
 #include "../../../DSUtil/SysVersion.h"
-#include "version.h"
 #include <d3dx9.h>
 
 void CRenderersSettings::UpdateData(bool fSave)
@@ -61,6 +60,7 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
     fCycleDelta                       = 0.0012;
     fTargetSyncOffset                 = 12.0;
     fControlLimit                     = 2.0;
+    bCacheShaders                     = false;
 }
 
 void CRenderersSettings::CAdvRendererSettings::SetOptimal()
@@ -92,57 +92,41 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
     fCycleDelta                       = 0.0012;
     fTargetSyncOffset                 = 12.0;
     fControlLimit                     = 2.0;
+    bCacheShaders                     = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // CRenderersData construction
 
 CRenderersData::CRenderersData()
+    : m_hD3DX9Dll(nullptr)
+    , m_nDXSdkRelease(D3DX_SDK_VERSION)
+    , m_bTearingTest(false)
+    , m_iDisplayStats(0)
+    , m_bResetStats(false)
+      // Don't disable hardware features before initializing a renderer
+    , m_bFP16Support(true)
+    , m_bFP32Support(true)
+    , m_b10bitSupport(true)
 {
-    m_bTearingTest  = false;
-    m_iDisplayStats = 0;
-    m_bResetStats   = false;
-    m_hD3DX9Dll     = nullptr;
-    m_nDXSdkRelease = 0;
-
-    // Don't disable hardware features before initializing a renderer
-    m_bFP16Support  = true;
-    m_b10bitSupport = true;
+    QueryPerformanceFrequency(&llPerfFrequency);
 }
 
 LONGLONG CRenderersData::GetPerfCounter() const
 {
     LARGE_INTEGER i64Ticks100ns;
-    LARGE_INTEGER llPerfFrequency;
 
-    QueryPerformanceFrequency(&llPerfFrequency);
-    if (llPerfFrequency.QuadPart != 0) {
-        QueryPerformanceCounter(&i64Ticks100ns);
-        return llMulDiv(i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
-    } else {
-        // ms to 100ns units
-        return LONGLONG(timeGetTime()) * 10000;
-    }
+    QueryPerformanceCounter(&i64Ticks100ns);
+    return llMulDiv(i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
 }
 
 HINSTANCE CRenderersData::GetD3X9Dll()
 {
-#if D3DX_SDK_VERSION < MPC_DX_SDK_NUMBER
-#pragma message("ERROR: DirectX SDK " MPC_DX_SDK_MONTH " " MAKE_STR(MPC_DX_SDK_YEAR) " (v" MAKE_STR(MPC_DX_SDK_NUMBER) ") or newer is required to build MPC-HC")
-#endif
-
+    // D3DX9 v43 is the latest available and will not get any update. We support only this specific version.
+    static_assert(D3DX_SDK_VERSION == 43, "Different D3DX9 version?");
     if (m_hD3DX9Dll == nullptr) {
-        m_nDXSdkRelease = 0;
-
-        // load latest compatible version of the DLL that is available
-        for (UINT i = D3DX_SDK_VERSION; i >= MPC_DX_SDK_NUMBER; i--) {
-            m_strD3DX9Version.Format(_T("d3dx9_%u.dll"), i);
-            m_hD3DX9Dll = LoadLibrary(m_strD3DX9Version);
-            if (m_hD3DX9Dll) {
-                m_nDXSdkRelease = i;
-                break;
-            }
-        }
+        m_strD3DX9Version.Format(_T("d3dx9_%u.dll"), D3DX_SDK_VERSION);
+        m_hD3DX9Dll = LoadLibrary(m_strD3DX9Version);
     }
 
     return m_hD3DX9Dll;

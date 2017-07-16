@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,10 +23,10 @@
 
 #include "PPageBase.h"
 #include "FloatEdit.h"
-#include "mplayerc.h"
+#include "DropTarget.h"
 
 
-class CPPageExternalFiltersListBox : public CCheckListBox
+class CPPageExternalFiltersListBox : public CListCtrl
 {
     DECLARE_DYNAMIC(CPPageExternalFiltersListBox)
 
@@ -45,7 +45,7 @@ protected:
 
 // CPPageExternalFilters dialog
 
-class CPPageExternalFilters : public CPPageBase
+class CPPageExternalFilters : public CPPageBase, public CDropClient
 {
     DECLARE_DYNAMIC(CPPageExternalFilters)
 
@@ -65,8 +65,13 @@ private:
     CHexEdit m_dwMerit;
     CTreeCtrl m_tree;
 
-    void StepUp(CCheckListBox& list);
-    void StepDown(CCheckListBox& list);
+    CDropTarget m_dropTarget;
+    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT) override;
+    DROPEFFECT OnDropAccept(COleDataObject*, DWORD, CPoint) override;
+
+    void Exchange(CListCtrl& list, int i, int j);
+    void StepUp(CListCtrl& list);
+    void StepDown(CListCtrl& list);
 
     FilterOverride* GetCurFilter();
 
@@ -90,18 +95,19 @@ protected:
     afx_msg void OnRemoveFilter();
     afx_msg void OnMoveFilterUp();
     afx_msg void OnMoveFilterDown();
-    afx_msg void OnDoubleClickFilter();
+    void OnDoubleClickFilter(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg int OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nIndex);
     afx_msg void OnAddMajorType();
     afx_msg void OnAddSubType();
     afx_msg void OnDeleteType();
     afx_msg void OnResetTypes();
+    void OnFilterChanged(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnFilterSelectionChange();
     afx_msg void OnFilterCheckChange();
     afx_msg void OnClickedMeritRadioButton();
     afx_msg void OnChangeMerit();
     afx_msg void OnDoubleClickType(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyDownType(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnDropFiles(HDROP hDropInfo);
+    afx_msg void OnDestroy();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

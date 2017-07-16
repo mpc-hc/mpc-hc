@@ -2,7 +2,7 @@
 #define _RAR_CMDDATA_
 
 
-#define DefaultStoreList L"7z;ace;arj;bz2;cab;gz;jpeg;jpg;lha;lzh;mp3;rar;taz;tgz;xz;z;zip"
+#define DefaultStoreList L"7z;ace;arj;bz2;cab;gz;jpeg;jpg;lha;lz;lzh;mp3;rar;taz;tgz;xz;z;zip;zipx"
 
 enum RAR_CMD_LIST_MODE {RCLM_AUTO,RCLM_REJECT_LISTS,RCLM_ACCEPT_LISTS};
 
@@ -12,7 +12,6 @@ class CommandData:public RAROptions
     void ProcessSwitchesString(const wchar *Str);
     void ProcessSwitch(const wchar *Switch);
     void BadSwitch(const wchar *Switch);
-    bool ExclCheckArgs(StringList *Args,bool Dir,const wchar *CheckName,bool CheckFullPath,int MatchMode);
     uint GetExclAttr(const wchar *Str);
 
     bool FileLists;
@@ -28,16 +27,18 @@ class CommandData:public RAROptions
     void ParseDone();
     void ParseEnvVar();
     void ReadConfig();
-    bool PreprocessSwitch(const wchar *Switch);
+    void PreprocessArg(const wchar *Arg);
     void OutTitle();
     void OutHelp(RAR_EXIT ExitCode);
     bool IsSwitch(int Ch);
     bool ExclCheck(const wchar *CheckName,bool Dir,bool CheckFullPath,bool CheckInclList);
+    static bool CheckArgs(StringList *Args,bool Dir,const wchar *CheckName,bool CheckFullPath,int MatchMode);
     bool ExclDirByAttr(uint FileAttr);
     bool TimeCheck(RarTime &ft);
     bool SizeCheck(int64 Size);
     bool AnyFiltersActive();
-    int IsProcessFile(FileHeader &FileHead,bool *ExactMatch=NULL,int MatchType=MATCH_WILDSUBPATH);
+    int IsProcessFile(FileHeader &FileHead,bool *ExactMatch=NULL,int MatchType=MATCH_WILDSUBPATH,
+                      wchar *MatchedArg=NULL,uint MatchedArgSize=0);
     void ProcessCommand();
     void AddArcName(const wchar *Name);
     bool GetArcName(wchar *Name,int MaxSize);

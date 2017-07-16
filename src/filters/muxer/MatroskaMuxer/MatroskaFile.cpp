@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -255,7 +255,7 @@ QWORD CLength::Size(bool fWithHeader)
 
     QWORD len = 0;
     for (int i = 1; i <= 8; i++) {
-        if (!(m_len & (~((1i64 << (7 * i)) - 1))) && (m_len & ((1i64 << (7 * i)) - 1)) != ((1i64 << (7 * i)) - 1)) {
+        if (!(m_len & (~((QWORD(1) << (7 * i)) - 1))) && (m_len & ((QWORD(1) << (7 * i)) - 1)) != ((QWORD(1) << (7 * i)) - 1)) {
             len += i;
             break;
         }
@@ -924,8 +924,14 @@ HRESULT Void::Write(IStream* pStream)
     HeaderWrite(pStream);
     BYTE buff[64];
     memset(buff, 0x80, sizeof(buff));
-    for (int len = (int)m_len; len > 0; len -= sizeof(buff)) {
-        pStream->Write(buff, std::min<ULONG>(sizeof(buff), (ULONG)len), nullptr);
+    QWORD len = m_len;
+    for (; len >= sizeof(buff); len -= sizeof(buff)) {
+        pStream->Write(buff, sizeof(buff), nullptr);
     }
+
+    if (len > 0) {
+        pStream->Write(buff, (ULONG)len, nullptr);
+    }
+
     return S_OK;
 }

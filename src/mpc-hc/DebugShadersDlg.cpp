@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 #include "DebugShadersDlg.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
+#include "SettingsDefines.h"
+#include "AppSettings.h"
 
 CModelessDialog::CModelessDialog(UINT nIDTemplate)
     : CResizableDialog(nIDTemplate)
@@ -50,8 +52,8 @@ void CModelessDialog::OnOK()
 
 CDebugShadersDlg::CDebugShadersDlg()
     : CModelessDialog(IDD)
-    , m_Compiler(nullptr)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
+    , m_Compiler(nullptr)
 {
     EventRouter::EventSelection receives;
     receives.insert(MpcEvent::SHADER_LIST_CHANGED);
@@ -64,7 +66,7 @@ CDebugShadersDlg::CDebugShadersDlg()
     SetSizeGripVisibility(FALSE);
     SetMinTrackSize(CSize(360, 100));
     AddAnchor(IDC_COMBO1, TOP_LEFT, TOP_RIGHT);
-    AddAnchor(IDC_STATIC, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor((UINT)IDC_STATIC, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_EDIT1, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_RADIO1, TOP_RIGHT);
     AddAnchor(IDC_RADIO2, TOP_RIGHT);
@@ -249,16 +251,16 @@ void CDebugShadersDlg::OnRecompileShader()
                     profile = "ps_2_0";
                     break;
             }
-            CString disasm, msg;
+            CString disasm, compilerMsg;
             if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-                          D3DXSHADER_DEBUG, nullptr, &disasm, &msg))) {
-                if (!msg.IsEmpty()) {
-                    msg += _T("\n");
+                                                           D3DCOMPILE_DEBUG, nullptr, &disasm, &compilerMsg))) {
+                if (!compilerMsg.IsEmpty()) {
+                    compilerMsg += _T("\n");
                 }
-                msg += disasm;
+                compilerMsg += disasm;
             }
-            msg.Replace(_T("\n"), _T("\r\n"));
-            m_DebugInfo.SetWindowText(msg);
+            compilerMsg.Replace(_T("\n"), _T("\r\n"));
+            m_DebugInfo.SetWindowText(compilerMsg);
         } else {
             m_DebugInfo.SetWindowText(_T("File not found"));
         }

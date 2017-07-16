@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,13 +20,14 @@
  */
 
 #include "stdafx.h"
-#include "DSMSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/ISOLang.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
+#include "DSMSplitter.h"
 
 #ifdef STANDALONE_FILTER
 
@@ -170,9 +171,12 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             if (key == "NAME") {
                 name = value;
             }
-            if (key == "LANG") if ((lang = ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
+            if (key == "LANG") {
+                lang = ISOLang::ISO6392ToLanguage(CStringA(value));
+                if (lang.IsEmpty()) {
                     lang = value;
                 }
+            }
         }
 
         if (!name.IsEmpty() || !lang.IsEmpty()) {
@@ -199,9 +203,9 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     for (size_t i = 0; i < m_resources.GetCount(); i++) {
         const CDSMResource& r = m_resources[i];
-        if (r.mime == "application/x-truetype-font" ||
-                r.mime == "application/x-font-ttf" ||
-                r.mime == "application/vnd.ms-opentype") {
+        if (r.mime == L"application/x-truetype-font" ||
+                r.mime == L"application/x-font-ttf" ||
+                r.mime == L"application/vnd.ms-opentype") {
             //m_fontinst.InstallFont(r.data);
             m_fontinst.InstallFontMemory(r.data.GetData(), (UINT)r.data.GetCount());
         }

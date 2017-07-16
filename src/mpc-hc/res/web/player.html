@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -7,9 +7,10 @@
         <link rel="icon" href="favicon.ico">
         <script src="javascript.js"></script>
     </head>
-    <body onload="playerInit()">
+    <body onload="playerInit()" class="page-player">
         <!--[if lt IE 8]>
-            <div class="browser-warning"><strong>Warning!</strong> You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+            <div class="browser-warning"><strong>Warning!</strong> You are using an <strong>outdated</strong> browser.
+            Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
         <![endif]-->
         <noscript>
             <p>
@@ -49,7 +50,7 @@
                             </tr>
                             <tr>
                                 <td id="video" onclick="onCommand(889)">
-                                    <img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="onLoadSnapshot()" onabort="onAbortErrorSnapshot()" onerror="onAbortErrorSnapshot()">
+                                    [preview]
                                 </td>
                             </tr>
                             <tr>

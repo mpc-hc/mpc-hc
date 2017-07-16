@@ -13,7 +13,7 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
 #endif
   while (FileExist(Name))
   {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
     if (!ShortNameChanged)
     {
       // Avoid the infinite loop if UpdateExistingShortName returns
@@ -42,10 +42,13 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
     if (Choice==UIASKREP_R_CANCEL)
       ErrHandler.Exit(RARX_USERBREAK);
   }
+
+  // Try to truncate the existing file first instead of delete,
+  // so we preserve existing file permissions such as NTFS permissions.
   uint FileMode=WriteOnly ? FMF_WRITE|FMF_SHAREREAD:FMF_UPDATE|FMF_SHAREREAD;
   if (NewFile!=NULL && NewFile->Create(Name,FileMode))
     return true;
-  PrepareToDelete(Name);
+
   CreatePath(Name,true);
   return NewFile!=NULL ? NewFile->Create(Name,FileMode):DelFile(Name);
 }
@@ -55,25 +58,12 @@ bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
 {
   wchar NewName[NM];
   size_t NameLength=wcslen(Name);
-#ifdef _ANDROID
-  if (NameLength>ASIZE(NewName)-10)
-    return false;
-#endif
   wchar *Ext=GetExt(Name);
   if (Ext==NULL)
     Ext=Name+NameLength;
   for (uint FileVer=1;;FileVer++)
   {
-#ifdef _ANDROID // No swprintf in Android NDK r9.
-    uint NamePrefixLength=Ext-Name;
-    wcsncpy(NewName,Name,NamePrefixLength);
-    wcscpy(NewName+NamePrefixLength,L"(");
-    itoa(FileVer,NewName+NamePrefixLength+1);
-    wcscat(NewName,L")");
-    wcscat(NewName,Ext);
-#else
     swprintf(NewName,ASIZE(NewName),L"%.*ls(%u)%ls",uint(Ext-Name),Name,FileVer,Ext);
-#endif
     if (!FileExist(NewName))
     {
       wcsncpyz(Name,NewName,MaxNameSize);
@@ -86,7 +76,7 @@ bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
 }
 
 
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
 // If we find a file, which short name is equal to 'Name', we try to change
 // its short name, while preserving the long name. It helps when unpacking
 // an archived file, which long name is equal to short name of already

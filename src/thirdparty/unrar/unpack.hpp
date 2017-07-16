@@ -4,14 +4,28 @@
 // Maximum allowed number of compressed bits processed in quick mode.
 #define MAX_QUICK_DECODE_BITS      10
 
-// Maximum number of filters per entire data block.
+// Maximum number of filters per entire data block. Must be at least
+// twice more than MAX_PACK_FILTERS to store filters from two data blocks.
 #define MAX_UNPACK_FILTERS       8192
 
 // Maximum number of filters per entire data block for RAR3 unpack.
-#define MAX3_FILTERS             1024
+// Must be at least twice more than v3_MAX_PACK_FILTERS to store filters
+// from two data blocks.
+#define MAX3_UNPACK_FILTERS      8192
 
-// Write data in 4 MB or smaller blocks.
-#define UNPACK_MAX_WRITE     0x400000
+// Limit maximum number of channels in RAR3 delta filter to some reasonable
+// value to prevent too slow processing of corrupt archives with invalid
+// channels number. Must be equal or larger than v3_MAX_FILTER_CHANNELS.
+// No need to provide it for RAR5, which uses only 5 bits to store channels.
+#define MAX3_UNPACK_CHANNELS      1024
+
+// Maximum size of single filter block. We restrict it to limit memory
+// allocation. Must be equal or larger than MAX_ANALYZE_SIZE.
+#define MAX_FILTER_BLOCK_SIZE 0x400000
+
+// Write data in 4 MB or smaller blocks. Must not exceed PACK_MAX_WRITE,
+// so we keep number of buffered filter in unpacker reasonable.
+#define UNPACK_MAX_WRITE      0x400000
 
 // Decode compressed bit fields to alphabet numbers.
 struct DecodeTable:PackDef
@@ -143,10 +157,9 @@ struct UnpackFilter30
 {
   unsigned int BlockStart;
   unsigned int BlockLength;
-  unsigned int ExecCount;
   bool NextWindow;
 
-  // position of parent filter in Filters array used as prototype for filter
+  // Position of parent filter in Filters array used as prototype for filter
   // in PrgStack array. Not defined for filters in Filters array.
   unsigned int ParentFilter;
 
@@ -309,7 +322,7 @@ class Unpack:PackDef
 
     void UnpInitData30(bool Solid);
     void Unpack29(bool Solid);
-    void InitFilters30();
+    void InitFilters30(bool Solid);
     bool ReadEndOfBlock();
     bool ReadVMCode();
     bool ReadVMCodePPM();

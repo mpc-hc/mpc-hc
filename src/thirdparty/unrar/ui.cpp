@@ -8,8 +8,7 @@
 
 
 
-#ifndef GUI
+
 #include "uiconsole.cpp"
-#endif
 
 #endif

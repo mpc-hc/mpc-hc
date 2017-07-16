@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -116,15 +116,34 @@ void CChildView::SetVideoRect(const CRect& r)
 
 void CChildView::LoadImg(const CString& imagePath)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    bool bHaveLogo = false;
-    m_bCustomImgLoaded = false;
-
-    m_img.DeleteObject();
+    CMPCPngImage img;
 
     if (!imagePath.IsEmpty()) {
-        m_bCustomImgLoaded = !!m_img.LoadFromFile(imagePath);
+        img.LoadFromFile(imagePath);
     }
+
+    LoadImgInternal(img.Detach());
+}
+
+void CChildView::LoadImg(std::vector<BYTE> buffer)
+{
+    CMPCPngImage img;
+
+    if (!buffer.empty()) {
+        img.LoadFromBuffer(buffer.data(), (UINT)buffer.size());
+    }
+
+    LoadImgInternal(img.Detach());
+}
+
+void CChildView::LoadImgInternal(HGDIOBJ hImg)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    bool bHaveLogo = false;
+
+    m_img.DeleteObject();
+    m_resizedImg.Destroy();
+    m_bCustomImgLoaded = !!m_img.Attach(hImg);
 
     if (!m_bCustomImgLoaded && s.fLogoExternal) {
         bHaveLogo = !!m_img.LoadFromFile(s.strLogoFileName);
@@ -146,10 +165,7 @@ void CChildView::LoadImg(const CString& imagePath)
 
 CSize CChildView::GetLogoSize()
 {
-    BITMAP bitmap;
-    ZeroMemory(&bitmap, sizeof(BITMAP));
-    m_img.GetBitmap(&bitmap);
-    return CSize(bitmap.bmWidth, bitmap.bmHeight);
+    return m_img.GetSize();
 }
 
 IMPLEMENT_DYNAMIC(CChildView, CMouseWnd)
@@ -205,10 +221,20 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 
         r = CRect(CPoint(x, y), CSize(std::lround(dImgWidth), std::lround(dImgHeight)));
 
-        int oldmode = pDC->SetStretchBltMode(STRETCH_HALFTONE);
-        img.StretchBlt(*pDC, r, CRect(0, 0, img.GetWidth(), img.GetHeight()));
-        pDC->SetStretchBltMode(oldmode);
-        pDC->ExcludeClipRect(r);
+        if (!r.IsRectEmpty()) {
+            if (m_resizedImg.IsNull() || r.Width() != m_resizedImg.GetWidth() || r.Height() != m_resizedImg.GetHeight() || img.GetBPP() != m_resizedImg.GetBPP()) {
+                m_resizedImg.Destroy();
+                m_resizedImg.Create(r.Width(), r.Height(), std::max(img.GetBPP(), 24));
+
+                HDC hDC = m_resizedImg.GetDC();
+                SetStretchBltMode(hDC, STRETCH_HALFTONE);
+                img.StretchBlt(hDC, 0, 0, r.Width(), r.Height(), SRCCOPY);
+                m_resizedImg.ReleaseDC();
+            }
+
+            m_resizedImg.BitBlt(*pDC, r.TopLeft());
+            pDC->ExcludeClipRect(r);
+        }
     }
     img.Detach();
 

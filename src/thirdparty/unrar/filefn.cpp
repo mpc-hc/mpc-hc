@@ -3,7 +3,11 @@
 MKDIR_CODE MakeDir(const wchar *Name,bool SetAttr,uint Attr)
 {
 #ifdef _WIN_ALL
-  BOOL RetCode=CreateDirectory(Name,NULL);
+  // Windows automatically removes dots and spaces in the end of directory
+  // name. So we detect such names and process them with \\?\ prefix.
+  wchar *LastChar=PointToLastChar(Name);
+  bool Special=*LastChar=='.' || *LastChar==' ';
+  BOOL RetCode=Special ? FALSE : CreateDirectory(Name,NULL);
   if (RetCode==0 && !FileExist(Name))
   {
     wchar LongName[NM];
@@ -54,8 +58,9 @@ bool CreatePath(const wchar *Path,bool SkipLastName)
       break;
 
     // Process all kinds of path separators, so user can enter Unix style
-    // path in Windows or Windows in Unix.
-    if (IsPathDiv(*s))
+    // path in Windows or Windows in Unix. s>Path check avoids attempting
+    // creating an empty directory for paths starting from path separator.
+    if (IsPathDiv(*s) && s>Path)
     {
 #ifdef _WIN_ALL
       // We must not attempt to create "D:" directory, because first
@@ -68,13 +73,11 @@ bool CreatePath(const wchar *Path,bool SkipLastName)
       DirName[s-Path]=0;
 
       Success=MakeDir(DirName,true,DirAttr)==MKDIR_SUCCESS;
-#ifndef GUI
       if (Success)
       {
         mprintf(St(MCreatDir),DirName);
         mprintf(L" %s",St(MOk));
       }
-#endif
     }
   }
   if (!SkipLastName && !IsPathDiv(*PointToLastChar(Path)))
@@ -85,7 +88,7 @@ bool CreatePath(const wchar *Path,bool SkipLastName)
 
 void SetDirTime(const wchar *Name,RarTime *ftm,RarTime *ftc,RarTime *fta)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   bool sm=ftm!=NULL && ftm->IsSet();
   bool sc=ftc!=NULL && ftc->IsSet();
   bool sa=fta!=NULL && fta->IsSet();
@@ -109,11 +112,11 @@ void SetDirTime(const wchar *Name,RarTime *ftm,RarTime *ftc,RarTime *fta)
     return;
   FILETIME fm,fc,fa;
   if (sm)
-    ftm->GetWin32(&fm);
+    ftm->GetWinFT(&fm);
   if (sc)
-    ftc->GetWin32(&fc);
+    ftc->GetWinFT(&fc);
   if (sa)
-    fta->GetWin32(&fa);
+    fta->GetWinFT(&fa);
   SetFileTime(hFile,sc ? &fc:NULL,sa ? &fa:NULL,sm ? &fm:NULL);
   CloseHandle(hFile);
   if (ResetAttr)
@@ -127,7 +130,7 @@ void SetDirTime(const wchar *Name,RarTime *ftm,RarTime *ftc,RarTime *fta)
 
 bool IsRemovable(const wchar *Name)
 {
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   wchar Root[NM];
   GetPathRoot(Name,Root,ASIZE(Root));
   int Type=GetDriveType(*Root!=0 ? Root:NULL);
@@ -169,6 +172,19 @@ int64 GetFreeDisk(const wchar *Name)
 #endif
 
 
+#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SILENT)
+// Return 'true' for FAT and FAT32, so we can adjust the maximum supported
+// file size to 4 GB for these file systems.
+bool IsFAT(const wchar *Name)
+{
+  wchar Root[NM];
+  GetPathRoot(Name,Root,ASIZE(Root));
+  wchar FileSystem[MAX_PATH+1];
+  if (GetVolumeInformation(Root,NULL,0,NULL,NULL,NULL,FileSystem,ASIZE(FileSystem)))
+    return wcscmp(FileSystem,L"FAT")==0 || wcscmp(FileSystem,L"FAT32")==0;
+  return false;
+}
+#endif
 
 
 bool FileExist(const wchar *Name)
@@ -304,19 +320,52 @@ bool SetFileAttr(const wchar *Name,uint Attr)
 }
 
 
+#if 0
+wchar *MkTemp(wchar *Name,size_t MaxSize)
+{
+  size_t Length=wcslen(Name);
+
+  RarTime CurTime;
+  CurTime.SetCurrentTime();
+
+  // We cannot use CurTime.GetWin() as is, because its lowest bits can
+  // have low informational value, like being a zero or few fixed numbers.
+  uint Random=(uint)(CurTime.GetWin()/100000);
+
+  // Using PID we guarantee that different RAR copies use different temp names
+  // even if started in exactly the same time.
+  uint PID=0;
+#ifdef _WIN_ALL
+  PID=(uint)GetCurrentProcessId();
+#elif defined(_UNIX)
+  PID=(uint)getpid();
+#endif
+
+  for (uint Attempt=0;;Attempt++)
+  {
+    uint Ext=Random%50000+Attempt;
+    wchar RndText[50];
+    swprintf(RndText,ASIZE(RndText),L"%u.%03u",PID,Ext);
+    if (Length+wcslen(RndText)>=MaxSize || Attempt==1000)
+      return NULL;
+    wcscpy(Name+Length,RndText);
+    if (!FileExist(Name))
+      break;
+  }
+  return Name;
+}
+#endif
 
 
-#if !defined(SFX_MODULE) && !defined(SHELL_EXT) && !defined(SETUP)
+#if !defined(SFX_MODULE)
 void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,uint Flags)
 {
   SaveFilePos SavePos(*SrcFile);
 #ifndef SILENT
-  int64 FileLength=SrcFile->FileLength();
+  int64 FileLength=Size==INT64NDF ? SrcFile->FileLength() : Size;
 #endif
 
-#ifndef GUI
-  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWALL))!=0)
-#endif
+  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWPERCENT))!=0)
     uiMsg(UIEVENT_FILESUMSTART);
 
   if ((Flags & CALCFSUM_CURPOS)==0)
@@ -331,6 +380,7 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
   HashBlake2.Init(HASH_BLAKE2,Threads);
 
   int64 BlockCount=0;
+  int64 TotalRead=0;
   while (true)
   {
     size_t SizeToRead;
@@ -341,14 +391,18 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
     int ReadSize=SrcFile->Read(&Data[0],SizeToRead);
     if (ReadSize==0)
       break;
+    TotalRead+=ReadSize;
 
     if ((++BlockCount & 0xf)==0)
     {
 #ifndef SILENT
-#ifndef GUI
-      if ((Flags & CALCFSUM_SHOWALL)!=0)
-#endif
-        uiMsg(UIEVENT_FILESUMPROGRESS,ToPercent(BlockCount*int64(BufSize),FileLength));
+      if ((Flags & CALCFSUM_SHOWPROGRESS)!=0)
+        uiExtractProgress(TotalRead,FileLength,TotalRead,FileLength);
+      else
+      {
+        if ((Flags & CALCFSUM_SHOWPERCENT)!=0)
+          uiMsg(UIEVENT_FILESUMPROGRESS,ToPercent(TotalRead,FileLength));
+      }
 #endif
       Wait();
     }
@@ -361,9 +415,7 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
     if (Size!=INT64NDF)
       Size-=ReadSize;
   }
-#ifndef GUI
-  if ((Flags & CALCFSUM_SHOWALL)!=0)
-#endif
+  if ((Flags & CALCFSUM_SHOWPERCENT)!=0)
     uiMsg(UIEVENT_FILESUMEND);
 
   if (CRC32!=NULL)
@@ -394,7 +446,8 @@ bool RenameFile(const wchar *SrcName,const wchar *DestName)
   char SrcNameA[NM],DestNameA[NM];
   WideToChar(SrcName,SrcNameA,ASIZE(SrcNameA));
   WideToChar(DestName,DestNameA,ASIZE(DestNameA));
-  return rename(SrcNameA,DestNameA)==0;
+  bool Success=rename(SrcNameA,DestNameA)==0;
+  return Success;
 #endif
 }
 
@@ -413,7 +466,8 @@ bool DelFile(const wchar *Name)
 #else
   char NameA[NM];
   WideToChar(Name,NameA,ASIZE(NameA));
-  return remove(NameA)==0;
+  bool Success=remove(NameA)==0;
+  return Success;
 #endif
 }
 

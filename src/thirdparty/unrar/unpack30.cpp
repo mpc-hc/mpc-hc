@@ -310,11 +310,11 @@ bool Unpack::ReadVMCode()
     // Try to read the new buffer if only one byte is left.
     // But if we read all bytes except the last, one byte is enough.
     if (Inp.InAddr>=ReadTop-1 && !UnpReadBuf30() && I<Length-1)
-      return(false);
+      return false;
     VMCode[I]=Inp.getbits()>>8;
     Inp.addbits(8);
   }
-  return(AddVMCode(FirstByte,&VMCode[0],Length));
+  return AddVMCode(FirstByte,&VMCode[0],Length);
 }
 
 
@@ -322,7 +322,7 @@ bool Unpack::ReadVMCodePPM()
 {
   unsigned int FirstByte=SafePPMDecodeChar();
   if ((int)FirstByte==-1)
-    return(false);
+    return false;
   int Length=(FirstByte & 7)+1;
   if (Length==7)
   {
@@ -336,10 +336,10 @@ bool Unpack::ReadVMCodePPM()
     {
       int B1=SafePPMDecodeChar();
       if (B1==-1)
-        return(false);
+        return false;
       int B2=SafePPMDecodeChar();
       if (B2==-1)
-        return(false);
+        return false;
       Length=B1*256+B2;
     }
   Array<byte> VMCode(Length);
@@ -350,7 +350,7 @@ bool Unpack::ReadVMCodePPM()
       return(false);
     VMCode[I]=Ch;
   }
-  return(AddVMCode(FirstByte,&VMCode[0],Length));
+  return AddVMCode(FirstByte,&VMCode[0],Length);
 }
 
 
@@ -361,11 +361,11 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   VM.Init();
 
   uint FiltPos;
-  if (FirstByte & 0x80)
+  if ((FirstByte & 0x80)!=0)
   {
     FiltPos=RarVM::ReadData(VMCodeInp);
     if (FiltPos==0)
-      InitFilters30();
+      InitFilters30(false);
     else
       FiltPos--;
   }
@@ -373,7 +373,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     FiltPos=LastFilter; // Use the same filter as last time.
 
   if (FiltPos>Filters30.Size() || FiltPos>OldFilterLengths.Size())
-    return(false);
+    return false;
   LastFilter=FiltPos;
   bool NewFilter=(FiltPos==Filters30.Size());
 
@@ -382,7 +382,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   UnpackFilter30 *Filter;
   if (NewFilter) // New filter code, never used before since VM reset.
   {
-    if (FiltPos>MAX3_FILTERS)
+    if (FiltPos>MAX3_UNPACK_FILTERS)
     {
       // Too many different filters, corrupt archive.
       delete StackFilter;
@@ -393,18 +393,16 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     Filters30[Filters30.Size()-1]=Filter=new UnpackFilter30;
     StackFilter->ParentFilter=(uint)(Filters30.Size()-1);
 
-    // Reserve one item, where we store the data block length of our new
-    // filter entry. We'll set it to real block length below, after reading
-    // it. But we need to initialize it now, because when processing corrupt
+    // Reserve one item to store the data block length of our new filter 
+    // entry. We'll set it to real block length below, after reading it.
+    // But we need to initialize it now, because when processing corrupt
     // data, we can access this item even before we set it to real value.
     OldFilterLengths.Push(0);
-    Filter->ExecCount=0;
   }
   else  // Filter was used in the past.
   {
     Filter=Filters30[FiltPos];
     StackFilter->ParentFilter=FiltPos;
-    Filter->ExecCount++;
   }
 
   int EmptyCount=0;
@@ -418,18 +416,22 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   }
   if (EmptyCount==0)
   {
+    if (PrgStack.Size()>MAX3_UNPACK_FILTERS)
+    {
+      delete StackFilter;
+      return false;
+    }
     PrgStack.Add(1);
     EmptyCount=1;
   }
   int StackPos=(int)(PrgStack.Size()-EmptyCount);
   PrgStack[StackPos]=StackFilter;
-  StackFilter->ExecCount=Filter->ExecCount;
  
   uint BlockStart=RarVM::ReadData(VMCodeInp);
-  if (FirstByte & 0x40)
+  if ((FirstByte & 0x40)!=0)
     BlockStart+=258;
   StackFilter->BlockStart=(uint)((BlockStart+UnpPtr)&MaxWinMask);
-  if (FirstByte & 0x20)
+  if ((FirstByte & 0x20)!=0)
   {
     StackFilter->BlockLength=RarVM::ReadData(VMCodeInp);
 
@@ -439,9 +441,9 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   else
   {
     // Set the data block size to same value as the previous block size
-    // for same filter. It is possible on corrupt data to access here a new 
-    // and not filled yet item of OldFilterLengths array. This is why above
-    // we set new OldFilterLengths items to zero.
+    // for same filter. It is possible for corrupt data to access a new 
+    // and not filled yet item of OldFilterLengths array here. This is why
+    // we set new OldFilterLengths items to zero above.
     StackFilter->BlockLength=FiltPos<OldFilterLengths.Size() ? OldFilterLengths[FiltPos]:0;
   }
 
@@ -450,13 +452,11 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
 //  DebugLog("\nNextWindow: UnpPtr=%08x WrPtr=%08x BlockStart=%08x",UnpPtr,WrPtr,BlockStart);
 
   memset(StackFilter->Prg.InitR,0,sizeof(StackFilter->Prg.InitR));
-  StackFilter->Prg.InitR[3]=VM_GLOBALMEMADDR;
   StackFilter->Prg.InitR[4]=StackFilter->BlockLength;
-  StackFilter->Prg.InitR[5]=StackFilter->ExecCount;
 
-  if (FirstByte & 0x10)   // set registers to optional parameters if any
+  if ((FirstByte & 0x10)!=0) // Set registers to optional parameters if any.
   {
-    unsigned int InitMask=VMCodeInp.fgetbits()>>9;
+    uint InitMask=VMCodeInp.fgetbits()>>9;
     VMCodeInp.faddbits(7);
     for (int I=0;I<7;I++)
       if (InitMask & (1<<I))
@@ -467,61 +467,20 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   {
     uint VMCodeSize=RarVM::ReadData(VMCodeInp);
     if (VMCodeSize>=0x10000 || VMCodeSize==0)
-      return(false);
+      return false;
     Array<byte> VMCode(VMCodeSize);
     for (uint I=0;I<VMCodeSize;I++)
     {
       if (VMCodeInp.Overflow(3))
-        return(false);
+        return false;
       VMCode[I]=VMCodeInp.fgetbits()>>8;
       VMCodeInp.faddbits(8);
     }
     VM.Prepare(&VMCode[0],VMCodeSize,&Filter->Prg);
   }
-  StackFilter->Prg.AltCmd=&Filter->Prg.Cmd[0];
-  StackFilter->Prg.CmdCount=Filter->Prg.CmdCount;
+  StackFilter->Prg.Type=Filter->Prg.Type;
 
-  size_t StaticDataSize=Filter->Prg.StaticData.Size();
-  if (StaticDataSize>0 && StaticDataSize<VM_GLOBALMEMSIZE)
-  {
-    // read statically defined data contained in DB commands
-    StackFilter->Prg.StaticData.Add(StaticDataSize);
-    memcpy(&StackFilter->Prg.StaticData[0],&Filter->Prg.StaticData[0],StaticDataSize);
-  }
-
-  if (StackFilter->Prg.GlobalData.Size()<VM_FIXEDGLOBALSIZE)
-  {
-    StackFilter->Prg.GlobalData.Reset();
-    StackFilter->Prg.GlobalData.Add(VM_FIXEDGLOBALSIZE);
-  }
-  byte *GlobalData=&StackFilter->Prg.GlobalData[0];
-  for (int I=0;I<7;I++)
-    VM.SetLowEndianValue((uint *)&GlobalData[I*4],StackFilter->Prg.InitR[I]);
-  VM.SetLowEndianValue((uint *)&GlobalData[0x1c],StackFilter->BlockLength);
-  VM.SetLowEndianValue((uint *)&GlobalData[0x20],0);
-  VM.SetLowEndianValue((uint *)&GlobalData[0x2c],StackFilter->ExecCount);
-  memset(&GlobalData[0x30],0,16);
-
-  if (FirstByte & 8) // Put the data block passed as parameter if any.
-  {
-    if (VMCodeInp.Overflow(3))
-      return(false);
-    uint DataSize=RarVM::ReadData(VMCodeInp);
-    if (DataSize>VM_GLOBALMEMSIZE-VM_FIXEDGLOBALSIZE)
-      return(false);
-    size_t CurSize=StackFilter->Prg.GlobalData.Size();
-    if (CurSize<DataSize+VM_FIXEDGLOBALSIZE)
-      StackFilter->Prg.GlobalData.Add(DataSize+VM_FIXEDGLOBALSIZE-CurSize);
-    byte *GlobalData=&StackFilter->Prg.GlobalData[VM_FIXEDGLOBALSIZE];
-    for (uint I=0;I<DataSize;I++)
-    {
-      if (VMCodeInp.Overflow(3))
-        return(false);
-      GlobalData[I]=VMCodeInp.fgetbits()>>8;
-      VMCodeInp.faddbits(8);
-    }
-  }
-  return(true);
+  return true;
 }
 
 
@@ -529,7 +488,7 @@ bool Unpack::UnpReadBuf30()
 {
   int DataSize=ReadTop-Inp.InAddr; // Data left to process.
   if (DataSize<0)
-    return(false);
+    return false;
   if (Inp.InAddr>BitInput::MAX_SIZE/2)
   {
     // If we already processed more than half of buffer, let's move
@@ -549,7 +508,7 @@ bool Unpack::UnpReadBuf30()
   if (ReadCode>0)
     ReadTop+=ReadCode;
   ReadBorder=ReadTop-30;
-  return(ReadCode!=-1);
+  return ReadCode!=-1;
 }
 
 
@@ -598,24 +557,7 @@ void Unpack::UnpWriteBuf30()
         VM_PreparedProgram *ParentPrg=&Filters30[flt->ParentFilter]->Prg;
         VM_PreparedProgram *Prg=&flt->Prg;
 
-        if (ParentPrg->GlobalData.Size()>VM_FIXEDGLOBALSIZE)
-        {
-          // Copy global data from previous script execution if any.
-          Prg->GlobalData.Alloc(ParentPrg->GlobalData.Size());
-          memcpy(&Prg->GlobalData[VM_FIXEDGLOBALSIZE],&ParentPrg->GlobalData[VM_FIXEDGLOBALSIZE],ParentPrg->GlobalData.Size()-VM_FIXEDGLOBALSIZE);
-        }
-
         ExecuteCode(Prg);
-
-        if (Prg->GlobalData.Size()>VM_FIXEDGLOBALSIZE)
-        {
-          // Save global data for next script execution.
-          if (ParentPrg->GlobalData.Size()<Prg->GlobalData.Size())
-            ParentPrg->GlobalData.Alloc(Prg->GlobalData.Size());
-          memcpy(&ParentPrg->GlobalData[VM_FIXEDGLOBALSIZE],&Prg->GlobalData[VM_FIXEDGLOBALSIZE],Prg->GlobalData.Size()-VM_FIXEDGLOBALSIZE);
-        }
-        else
-          ParentPrg->GlobalData.Reset();
 
         byte *FilteredData=Prg->FilteredData;
         unsigned int FilteredDataSize=Prg->FilteredDataSize;
@@ -625,6 +567,7 @@ void Unpack::UnpWriteBuf30()
         while (I+1<PrgStack.Size())
         {
           UnpackFilter30 *NextFilter=PrgStack[I+1];
+          // It is required to check NextWindow here.
           if (NextFilter==NULL || NextFilter->BlockStart!=BlockStart ||
               NextFilter->BlockLength!=FilteredDataSize || NextFilter->NextWindow)
             break;
@@ -636,24 +579,7 @@ void Unpack::UnpWriteBuf30()
           VM_PreparedProgram *ParentPrg=&Filters30[NextFilter->ParentFilter]->Prg;
           VM_PreparedProgram *NextPrg=&NextFilter->Prg;
 
-          if (ParentPrg->GlobalData.Size()>VM_FIXEDGLOBALSIZE)
-          {
-            // Copy global data from previous script execution if any.
-            NextPrg->GlobalData.Alloc(ParentPrg->GlobalData.Size());
-            memcpy(&NextPrg->GlobalData[VM_FIXEDGLOBALSIZE],&ParentPrg->GlobalData[VM_FIXEDGLOBALSIZE],ParentPrg->GlobalData.Size()-VM_FIXEDGLOBALSIZE);
-          }
-
           ExecuteCode(NextPrg);
-
-          if (NextPrg->GlobalData.Size()>VM_FIXEDGLOBALSIZE)
-          {
-            // Save global data for next script execution.
-            if (ParentPrg->GlobalData.Size()<NextPrg->GlobalData.Size())
-              ParentPrg->GlobalData.Alloc(NextPrg->GlobalData.Size());
-            memcpy(&ParentPrg->GlobalData[VM_FIXEDGLOBALSIZE],&NextPrg->GlobalData[VM_FIXEDGLOBALSIZE],NextPrg->GlobalData.Size()-VM_FIXEDGLOBALSIZE);
-          }
-          else
-            ParentPrg->GlobalData.Reset();
 
           FilteredData=NextPrg->FilteredData;
           FilteredDataSize=NextPrg->FilteredDataSize;
@@ -690,13 +616,8 @@ void Unpack::UnpWriteBuf30()
 
 void Unpack::ExecuteCode(VM_PreparedProgram *Prg)
 {
-  if (Prg->GlobalData.Size()>0)
-  {
-    Prg->InitR[6]=(uint)WrittenFileSize;
-    VM.SetLowEndianValue((uint *)&Prg->GlobalData[0x24],(uint)WrittenFileSize);
-    VM.SetLowEndianValue((uint *)&Prg->GlobalData[0x28],(uint)(WrittenFileSize>>32));
-    VM.Execute(Prg);
-  }
+  Prg->InitR[6]=(uint)WrittenFileSize;
+  VM.Execute(Prg);
 }
 
 
@@ -816,21 +737,23 @@ void Unpack::UnpInitData30(bool Solid)
     memset(UnpOldTable,0,sizeof(UnpOldTable));
     PPMEscChar=2;
     UnpBlockType=BLOCK_LZ;
-
-    InitFilters30();
   }
+  InitFilters30(Solid);
 }
 
 
-void Unpack::InitFilters30()
+void Unpack::InitFilters30(bool Solid)
 {
-  OldFilterLengths.Reset();
-  LastFilter=0;
+  if (!Solid)
+  {
+    OldFilterLengths.SoftReset();
+    LastFilter=0;
 
-  for (size_t I=0;I<Filters30.Size();I++)
-    delete Filters30[I];
-  Filters30.Reset();
+    for (size_t I=0;I<Filters30.Size();I++)
+      delete Filters30[I];
+    Filters30.SoftReset();
+  }
   for (size_t I=0;I<PrgStack.Size();I++)
     delete PrgStack[I];
-  PrgStack.Reset();
+  PrgStack.SoftReset();
 }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "PPageSheet.h"
 #include "SettingsDefines.h"
+#include "SysVersion.h"
 
 // CPPageSheet
 
@@ -30,9 +31,9 @@ IMPLEMENT_DYNAMIC(CPPageSheet, CTreePropSheet)
 
 CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage)
     : CTreePropSheet(pszCaption, pParentWnd, 0)
-    , m_audioswitcher(pFG)
     , m_bLockPage(false)
     , m_bLanguageChanged(false)
+    , m_audioswitcher(pFG)
 {
     EventRouter::EventSelection receives;
     receives.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -55,6 +56,9 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     AddPage(&m_internalfilters);
 #endif
     AddPage(&m_audioswitcher);
+    if (SysVersion::IsVistaOrLater()) {
+        AddPage(&m_audiorenderer);
+    }
     AddPage(&m_externalfilters);
     AddPage(&m_subtitles);
     AddPage(&m_substyle);
@@ -132,10 +136,10 @@ void CPPageSheet::OnApply()
     // Execute the default actions first
     Default();
 
-    // If the language was changed, we quit the dialog and return IDRETRY code
+    // If the language was changed, we quit the dialog and inform the caller about it
     if (m_bLanguageChanged) {
         m_bLanguageChanged = false;
-        EndDialog(IDRETRY);
+        EndDialog(APPLY_LANGUAGE_CHANGE);
     }
 }
 

@@ -1,17 +1,18 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
-# Sinan H., 2014
+# Mesut Aktaş <mesuthan_42@hotmail.com>, 2015
+# Sinan H., 2014-2016
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 19:20+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-11 20:33+0000\n"
 "Last-Translator: Sinan H.\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -111,7 +112,7 @@ msgid "Enable custom channel mapping"
 msgstr "Özel kanal adreslemesini kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Hoparlör sayısını ve çıkışını :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -119,7 +120,7 @@ msgid "input channels:"
 msgstr "kanallı olarak ayarla"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Ayarların hemen geçerli olabilmesi için tıklarken Shift tuşuna basınız"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -191,8 +192,8 @@ msgid "About"
 msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Telif Hakkı © 2002-2014, Authors.txt dosyasına bakınız"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Telif Hakkı © 2002-2017, Authors.txt dosyasına bakınız"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -200,7 +201,7 @@ msgstr "Bu program ücretsiz olup Genel Kamusal GNU Lisansı altında sunulmakta
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "bosluk - Dr. Sinan Hunerel tarafından Türkçeleştirilmiştir"
+msgstr "bosluk - Sinan Hunerel tarafından Türkçeleştirilmiştir"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -300,7 +301,7 @@ msgstr "Ayarları .ini dosyasında sakla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "CD-ROM Açma özelliğini kapat"
+msgstr "\"CD-ROM aç\" menüsünü kapat"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -423,12 +424,16 @@ msgid "time(s)"
 msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Tekrar kipi:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Oynatmadan Sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Çıkış"
+msgid "Default zoom"
+msgstr "Varsayılan yakınlaştırma"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -448,7 +453,7 @@ msgstr "Varsayılan parça seçimi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
-msgstr "Alt Yazı :"
+msgstr "Alt Yazılar:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
@@ -473,10 +478,6 @@ msgstr "Çevrilemeyen ilişkilendirmeleri rapor et"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Ses dosyalarını otomatik olarak yükle"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Dahili alt yazı işleyicisini kullan"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -571,7 +572,7 @@ msgid "Warning"
 msgstr "Uyarı"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Ekran kartınızın ayarlarından Tam ekran keskinlik yumuşatması seçeneğini açarsanız, alt yazılar düzgün görülmeyecek ve daha fazla işlemci kullanımına neden olacaktır."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -592,7 +593,7 @@ msgstr "İlişkilendirme"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr "Her dosya biçimi için ayrı simge kullan"
+msgstr "Her dosya biçimi için ayrı bir simge kullan"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
@@ -678,16 +679,16 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Windows 7 görev çubuğu özelliklerini kullan"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Geliştirilmiş görev çubuğu özelliklerini kullan"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Oynatma listesinde tek nesne varken \"Geri/ileri git\" tuşuyla önceki/sonraki dosyayı aç"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Süre gösterim yerleşimi:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1072,7 +1073,7 @@ msgstr "Alfa kanallarını bağla"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Eğer bu süzgeçlerin başka sürümlerini veya aynı işte görevli başka yapımlarını kullanmak istiyorsanız, onları buradan kapatınız."
+msgstr "Süzgeçlerin başka sürümlerini veya aynı işte görevli başka yapımlarını kullanmak istiyorsanız, aşağıdaki bölümden kapatıp açma işlemlerini gerçekleştirebilirsiniz."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1127,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "Ses İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VKI-7/VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1152,7 +1153,7 @@ msgstr "Tam Ekran Direct3D (kopuklukları sil)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Değişken Eşzam."
+msgstr "Değişken Eşzamanlama"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1171,8 +1172,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Alt yazılar*"
+msgid "Subtitles"
+msgstr "Alt Yazılar"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1187,12 +1188,16 @@ msgid "Rotation"
 msgstr "Döndürme"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* VSFilter gibi harici süzgeçler alt yazıları tüm çeviricilerde gösterebilirler."
+msgid "Subtitle Renderer"
+msgstr "Alt Yazı İşleyicisi"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Derlenmiş Tonlayıcıları önbellekle"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
-msgstr "B. Noktası dinle:"
+msgstr "Bağlantı noktasını dinle:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
@@ -1205,6 +1210,10 @@ msgstr "Sıkıştırmayı aç"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Sadece yerel ağ erişimine izin ver"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Önizlemeyi aç"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1231,16 +1240,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI komutları: (.uzantı1=yol1;.uzantı2=yol2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Çevrimiçi bulunabilen alt yazılar"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "innDir && Aç"
+msgid "Download subtitles"
+msgstr "Alt yazı indir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Geçerli alt yazıları değiştir"
+msgstr "Geçerli alt yazıyı değiştir"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "İndir"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Yenile"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Durdur"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Ayarlar"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Alt yazı gönder"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Gönder"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Durdur"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Ayarlar"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1279,8 +1316,8 @@ msgid "Enable automatic update check"
 msgstr "Otomatik güncelleştirmeleri aç"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Güncelleştirme kontrolü :"
+msgid "Check every:"
+msgstr "Kontrol süresi:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1428,7 +1465,7 @@ msgstr "sütun"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "En yakın eşzamanlılık örneği"
+msgstr "En yakın eşzamanlılık örneğini kullan"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
@@ -1543,16 +1580,28 @@ msgid "Reset"
 msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Çevrimiçi veritabanı"
+msgid "Online search, download and upload subtitles"
+msgstr "Çevrimiçi alt yazı arama, indirme ve gönderme"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Geçerli konumda bulunmuyorsa alt yazıları otomatik olarak ara ve indir"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "İşitme engelliler için hazırlanmış alt yazıları tercih et (sağlayıcı tanımlamışsa)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Belirtilen kelime(leri) içeren dosyaları göz ardı et:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Çevrimiçi alt yazı veritabanı adresi:"
+msgid "Languages in order of preference:"
+msgstr "Tercih edilen dil sıralaması:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Dene"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Oynatmanın sonunda mevcut alt yazıları otomatik olarak gönder"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1654,6 +1703,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Varsayılan"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Aygıt"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Ayrıcalıklı kip"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Bit akışına izin ver"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Ayarlar"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Stereo çapraz beslemeyi etkinleştir (kulaklık için)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Kesme:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Seviye:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Not"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Ses bozunumunu en aza indirmek için, kayıplı bir kodlama ile oluşturulan içeriği yürütürken sesi %85 seviyesinde tutmanız önerilir."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "JPEG kalitesi:"
@@ -1665,4 +1758,40 @@ msgstr "Komut satırı yardımı"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "Tamam"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Çökme bildirimcisi"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Özür dileriz, MPC-HC bilinmeyen bir hatadan dolayı kapatıldı. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "İnceleme ve sorun giderilmesi için hata raporunu gönderin."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "İsteğe bağlı bilgi"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "E-posta:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "E-posta adresiniz isteğe bağlı olarak alınmaktadır ve sadece program geliştiricilerinin konuyla ilgili olarak size ulaşabilmeleri için istenmektedir."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Sorun açıklaması (lütfen sadece İngilizce bildiriniz):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "MPC-HC 'yi yeniden başlat"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "MPC-HC 'yi Kapat"
 

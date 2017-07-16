@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "GraphThread.h"
+#include <afxsock.h>
 
 IMPLEMENT_DYNCREATE(CGraphThread, CWinThread)
 
@@ -54,7 +55,7 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
     if (m_pMainFrame->GetLoadState() == MLS::CLOSING) {
         m_pMainFrame->CloseMediaPrivate();
     }
-    VERIFY(m_pMainFrame->m_evClosePrivateFinished.SetEvent());
+    VERIFY(m_pMainFrame->m_evClosePrivateFinished.Set());
 }
 
 void CGraphThread::OnDisplayChange(WPARAM wParam, LPARAM lParam)
@@ -84,7 +85,7 @@ void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
         CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
         m_pMainFrame->OpenMediaPrivate(pOMD);
     }
-    VERIFY(m_pMainFrame->m_evOpenPrivateFinished.SetEvent());
+    VERIFY(m_pMainFrame->m_evOpenPrivateFinished.Set());
 }
 
 void CGraphThread::OnReset(WPARAM wParam, LPARAM lParam)

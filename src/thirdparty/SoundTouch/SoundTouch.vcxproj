@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4C7A1953-CBC4-42D5-A12F-BB512C64B547}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+    <Import Project="..\..\common-3rd-party.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>soundtouch\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="soundtouch\source\SoundTouch\AAFilter.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\BPMDetect.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\cpu_detect_x86.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\FIFOSampleBuffer.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\FIRFilter.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\InterpolateCubic.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\InterpolateLinear.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\InterpolateShannon.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\PeakFinder.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\RateTransposer.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\SoundTouch.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\sse_optimized.cpp" />
+    <ClCompile Include="soundtouch\source\SoundTouch\TDStretch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="soundtouch\include\BPMDetect.h" />
+    <ClInclude Include="soundtouch\include\FIFOSampleBuffer.h" />
+    <ClInclude Include="soundtouch\include\FIFOSamplePipe.h" />
+    <ClInclude Include="soundtouch\include\SoundTouch.h" />
+    <ClInclude Include="soundtouch\include\STTypes.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\AAFilter.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\cpu_detect.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\FIRFilter.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\InterpolateCubic.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\InterpolateLinear.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\InterpolateShannon.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\PeakFinder.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\RateTransposer.h" />
+    <ClInclude Include="soundtouch\source\SoundTouch\TDStretch.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

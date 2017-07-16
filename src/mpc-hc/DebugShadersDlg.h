@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -47,8 +47,7 @@ public:
 private:
     enum { WM_APP_RECOMPILE_SHADER = WM_APP + 100 };
 
-    enum class TimerOneTimeSubscriber
-    {
+    enum class TimerOneTimeSubscriber {
         SELECTED_SHADER_CHANGE_COOLDOWN,
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;

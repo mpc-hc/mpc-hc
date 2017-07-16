@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Mpeg2Def.h"
+#include <atlcoll.h>
 
 enum BDVM_VideoFormat {
     BDVM_VideoFormat_Unknown = 0,

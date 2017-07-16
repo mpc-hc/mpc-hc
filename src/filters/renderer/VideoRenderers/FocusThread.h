@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,13 +32,16 @@ private:
     HANDLE m_hEvtInit;
 
 protected:
-    CFocusThread(void); // protected constructor used by dynamic creation
-    ~CFocusThread(void);
+    CFocusThread(); // protected constructor used by dynamic creation
+    ~CFocusThread();
 
 public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
 
     HWND GetFocusWindow();
+
+protected:
+    afx_msg void OnDestroy();
 };
 

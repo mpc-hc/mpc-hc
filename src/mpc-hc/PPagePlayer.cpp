@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,7 +33,6 @@ IMPLEMENT_DYNAMIC(CPPagePlayer, CPPageBase)
 CPPagePlayer::CPPagePlayer()
     : CPPageBase(CPPagePlayer::IDD, CPPagePlayer::IDD)
     , m_iAllowMultipleInst(0)
-    , m_fTrayIcon(FALSE)
     , m_iTitleBarTextStyle(0)
     , m_bTitleBarTextTitle(0)
     , m_fRememberWindowPos(FALSE)
@@ -41,6 +40,7 @@ CPPagePlayer::CPPagePlayer()
     , m_fSavePnSZoom(FALSE)
     , m_fSnapToDesktopEdges(FALSE)
     , m_fUseIni(FALSE)
+    , m_fTrayIcon(FALSE)
     , m_fKeepHistory(FALSE)
     , m_fHideCDROMsSubMenu(FALSE)
     , m_priority(FALSE)
@@ -183,7 +183,7 @@ BOOL CPPagePlayer::OnApply()
                               MB_ICONINFORMATION | MB_OK);
             }
 
-            if (!Translations::SetLanguage(Translations::GetLanguageResourceByLocaleID(language))) {
+            if (!Translations::SetLanguage(language)) {
                 // In case of error, reset the language to English
                 language = 0;
                 m_langsComboBox.SetCurSel(m_nPosLangEnglish);

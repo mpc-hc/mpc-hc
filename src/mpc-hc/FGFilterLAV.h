@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -71,7 +71,7 @@ public:
 
             if (SUCCEEDED(pLAVFilter->Create(&pBF, pUnks))) {
                 if (CComQIPtr<ISpecifyPropertyPages> pSPP = pBF) {
-                    CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), pParendWnd);
+                    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES, pParendWnd);
                     ps.AddPages(pSPP, iIgnoredPage);
                     ps.DoModal();
 
@@ -115,7 +115,8 @@ public:
         BOOL bStreamSwitchRemoveAudio;
         BOOL bImpairedAudio;
         BOOL bPreferHighQualityAudio;
-        DWORD dwQueueMaxSize;
+        DWORD dwQueueMaxPackets;
+        DWORD dwQueueMaxMemSize;
         DWORD dwNetworkAnalysisDuration;
 
         void LoadSettings();
@@ -166,12 +167,13 @@ public:
         DWORD dwHWAccelResFlags;
         DWORD dwHWDeintMode;
         DWORD dwHWDeintOutput;
-        BOOL bHWDeintHQ;
         DWORD dwDeintFieldOrder;
         LAVDeintMode deintMode;
         DWORD dwSWDeintMode;
         DWORD dwSWDeintOutput;
         DWORD dwDitherMode;
+        DWORD dwHWAccelDeviceDXVA2;
+        DWORD dwHWAccelDeviceDXVA2Desc;
 
         void LoadSettings();
         void SaveSettings();
@@ -204,6 +206,7 @@ public:
         BOOL bExpandMono;
         BOOL bExpand61;
         BOOL bOutputStandardLayout;
+        BOOL bOutput51Legacy;
         BOOL bAllowRawSPDIF;
         BOOL bSampleFormats[SampleFormat_NB];
         BOOL bSampleConvertDither;

@@ -1,17 +1,22 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
-# papu <papu@openmailbox.org>, 2014
-# papu <papu@openmailbox.org>, 2014
+# Adolfo Jayme-Barrientos, 2015
+# Adolfo Jayme-Barrientos, 2015
+# Adolfo Jayme-Barrientos, 2014
+# papu, 2014-2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-25 13:00+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-11-17 12:02+0000\n"
+"Last-Translator: Roger <roger.espolet@gmail.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,31 +29,31 @@ msgstr "&Fitxer"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "Obrir Arxiu &Ràpid..."
+msgstr "Obertura &ràpida de fitxer..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "&Obrir Arxiu..."
+msgstr "&Obre un fitxer…"
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Obrir &DVD/BD..."
+msgstr "Obre un &DVD/BD…"
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Obrir Dis&positiu..."
+msgstr "Obre el dis&positiu..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Obrir Di&rectori..."
+msgstr "Obre un di&rectori..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Obrir Di&sc"
+msgstr "Obre un di&sc"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "&Arxius recents"
+msgstr "&Fitxers recents"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -56,39 +61,35 @@ msgstr "&Tanca"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Desar una còpia..."
+msgstr "&Desa una còpia..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Desar &Imatge..."
+msgstr "Desa la &imatge..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Desar &Miniatures..."
-
-msgctxt "ID_FILE_LOAD_SUBTITLE"
-msgid "&Load Subtitle..."
-msgstr "Cargar &Subtítol..."
-
-msgctxt "ID_FILE_SAVE_SUBTITLE"
-msgid "Save S&ubtitle..."
-msgstr "Desar S&ubtítol..."
+msgstr "Desa les &miniatures..."
 
 msgctxt "POPUP"
-msgid "Subtitle Data&base"
-msgstr "&Base de Dades dels Subtítols"
+msgid "S&ubtitles"
+msgstr "S&ubtítols"
 
-msgctxt "ID_FILE_ISDB_SEARCH"
-msgid "&Search..."
-msgstr "&Cerca…"
+msgctxt "ID_FILE_SUBTITLES_LOAD"
+msgid "&Load Subtitles..."
+msgstr "&Carrega els subtítols..."
 
-msgctxt "ID_FILE_ISDB_UPLOAD"
-msgid "&Upload..."
-msgstr "Pu&jar..."
+msgctxt "ID_FILE_SUBTITLES_SAVE"
+msgid "Save S&ubtitles..."
+msgstr "Desa els s&ubtítols..."
 
-msgctxt "ID_FILE_ISDB_DOWNLOAD"
-msgid "&Download..."
-msgstr "&Baixa…"
+msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
+msgid "&Download Subtitles..."
+msgstr "&Descarrega els subtítols..."
+
+msgctxt "ID_FILE_SUBTITLES_UPLOAD"
+msgid "&Upload Subtitles..."
+msgstr "&Penja els subtítols..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -100,19 +101,19 @@ msgstr "&Surt"
 
 msgctxt "POPUP"
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "&Visualització"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Capçalera &i Menú"
+msgstr "Barra del títol &i menú"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Barra de &Cerca"
+msgstr "Barra de despla&çament"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "Cont&rols"
+msgstr "&Controls"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -120,7 +121,7 @@ msgstr "&Informació"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "Es&tatístiques"
+msgstr "Es&tadístiques"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
@@ -132,7 +133,7 @@ msgstr "&Resincronització dels subtítols"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "&Llista de Reproducció"
+msgstr "&Llista de reproducció"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
@@ -144,7 +145,7 @@ msgstr "&Navegació"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Depuració de Shaders"
+msgstr "&Depuració dels shaders"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -152,7 +153,7 @@ msgstr "&Interfície..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&Mínim"
+msgstr "&Mínima"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
@@ -180,7 +181,7 @@ msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "%200%"
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -188,39 +189,43 @@ msgstr "&Ajust automàtic"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "A&just automàtic (Si es massa Gran)"
+msgstr "Ajusta automàticament (si és massa &gran)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ajustos del Renderit&zador"
+msgstr "Configuració del renderit&zador"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "Prova de &Pipelleig"
+msgstr "Prova de &pipelleig"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Mostrar Estadístiques"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "&Visualitza les estadístiques"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Temps Restant"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Visualitza el t&emps actual"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Mostra el &nom del fixer"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&Rang de Sortida"
+msgstr "&Rang de sortida"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "Pr&esentació"
+msgstr "&Presentació"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
@@ -232,11 +237,11 @@ msgstr "P&antalla completa D3D amb GUI"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "So&rtida RGB 10-bits"
+msgstr "So&rtida a RGB 10-bits"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "For&çar Entrada RGB 10-bits"
+msgstr "Força l'&entrada a RGB de 10-bits"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
@@ -248,27 +253,27 @@ msgstr "Processa&ment en coma flotant parcial"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Desactivar &Composició de l'escriptori(Aero)"
+msgstr "Desactiva la &composició de l'escriptori(&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Activar correcció temporal de &fotograma"
+msgstr "Activa la correcció temporal de &fotograma"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "&Gestió de Colors"
+msgstr "&Gestió de colors"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "&Activar"
+msgstr "&Activa"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "&Tipus d'Entrada"
+msgstr "&Tipus d'entrada"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "&Autodetecció"
+msgstr "&Detecta automàticament"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -284,7 +289,7 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "&Llum ambiental"
+msgstr "&Llum ambient"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -296,11 +301,11 @@ msgstr "&Tènue (2.35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "&Fosca (2.4 Gamma)"
+msgstr "&Fosc (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "Tipus de &Renderització"
+msgstr "Tipus de &renderització"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -308,7 +313,7 @@ msgstr "&Perceptiu"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "Colorimetria &Relativa"
+msgstr "Colorimetria &relativa"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
@@ -316,31 +321,31 @@ msgstr "&Saturació"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "Colorimetria &Absoluta"
+msgstr "Colorimetria &absoluta"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&VSync (Sincronia Vertical)"
+msgstr "&Sincronització vertical"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&VSync (Sincronia Vertical)"
+msgstr "&Sincronització vertical"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "VSync &Precisa"
+msgstr "Sincronització vertical &precisa"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "VSync &Alternativa"
+msgstr "Sincronització vertical &alternativa"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Disminuir compensació de vsync"
+msgstr "&Disminuieix l'òfset de la \"vsync\""
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Augmentar  compensació de vsync"
+msgstr "&Augmenta l'òfset de la \"vsync\""
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -348,51 +353,51 @@ msgstr "Control de la &GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Buidar GPU &abans de VSync"
+msgstr "Buida la GPU &abans de la VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Buidar GPU &després de Present"
+msgstr "Buida la GPU &després de presentar (Present)"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Esperar el &buidatge"
+msgstr "Espera al &buidat"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "Re&inicialitzar"
+msgstr "Re&stableix"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Reinicialitzar ajustos &per defecte del renderitzador"
+msgstr "Restableix les configuracions &per defecte del renderitzador"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Reinicialitzar ajustos òpti&ms del renderitzador"
+msgstr "Restableix les configuracions òpti&mes del renderitzador"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "&Finestra de Vídeo"
+msgstr "&Fotograma"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Meitat del Tamany"
+msgstr "&Meitat de la mida"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "Tamany &Original"
+msgstr "Mida &normal"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "&Doble del Tamany"
+msgstr "Mida &doble"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Ajustar a la finestra"
+msgstr "&Ajusta a la finestra"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Tocar finestra des de D&ins"
+msgstr "&Toca la finestra des de dins"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -404,99 +409,99 @@ msgstr "Zoom&2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Tocar finestra des de F&ora"
-
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "Ma&ntenir Relació d'Aspecte(AR)"
+msgstr "Toca la finestra des de &fora"
 
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "&Forçar Relació d'Aspecte Específica"
+msgid "&Aspect Ratio"
+msgstr "Relació d'&aspecte"
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "&Original"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr "Per &defecte (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr "Adopta píxels &quadrats (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Corregir &Relació d'Aspecte Diff al Monitor/Escriptori"
+msgstr "Corregeix la diferència de &relació d'aspecte del monitor/escriptori"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Pan&&S&can"
+msgstr "Reenquadrament (pan&scan)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "&Augmentar Tamany"
+msgstr "&Augmenta la mida"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "&Disminuir Tamany"
+msgstr "&Disminueix la mida"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "Au&gmentar Amplada"
+msgstr "Au&gmenta l'amplada"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "Dis&minuir Amplada"
+msgstr "Dis&minueix l'amplada"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "Augmentar Al&çada"
+msgstr "Augmenta l'al&çada"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "Dismi&nuir Alçada"
+msgstr "Dismi&nueix l'alçada"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Moure ca&p a la Dreta"
+msgstr "Mou cap a la &dreta"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Moure cap a l'Es&querra"
+msgstr "Mou cap a l'&esquerra"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Mo&ure cap Amunt"
+msgstr "Mo&u cap amunt"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Moure cap A&vall"
+msgstr "Mou cap a&vall"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Centra&r"
+msgstr "Centr&a"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "R&einiciar"
+msgstr "Re&stableix"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Sempre &Visible"
+msgstr "Sempre &visible"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -520,107 +525,131 @@ msgstr "&Opcions..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "&Reprodueix"
+msgstr "&Reproducció"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Reprodueix/pausa"
+msgstr "&Reprodueix/Pausa"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
 msgstr "&Atura"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
-msgstr "Avançar un &Fotograma"
+msgid "Fra&me Step"
+msgstr "Avança un &fotograma"
+
+msgctxt "POPUP"
+msgid "&Repeat"
+msgstr "&Repeteix"
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr "In&definidament"
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr "&Fitxer"
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
+msgstr "&Llista de reproducció"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Au&gmentar  Velocitat"
+msgstr "&Redueix la velocitat"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "&Disminuir Velocitat"
+msgstr "&Augmenta la velocitat"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Re&iniciar Velocitat"
+msgstr "R&estableix la velocitat"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "Fi&ltres"
+msgstr "&Filtres"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
 msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "Àu&dio"
+msgid "&Audio Track"
+msgstr "Pista d'&àudio"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Su&btítols"
+msgid "Su&btitle Track"
+msgstr "Pista de su&btítols"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Vídeo S&tream"
+msgid "Vide&o Track"
+msgstr "Pista de &vídeo"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "Vol&umen"
+msgstr "&Volum"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "&Amunt"
+msgstr "&Apuja"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
-msgstr "A&vall"
+msgstr "&Abaixa"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Mutis"
+msgstr "&Silencia"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Després de la Re&producció"
+msgstr "Des&prés de la reproducció"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
-msgid "&Exit"
-msgstr "&Tancar "
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "No facis &res"
 
-msgctxt "ID_AFTERPLAYBACK_STANDBY"
-msgid "&Stand By"
-msgstr "&En espera"
-
-msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
-msgid "&Hibernate"
-msgstr "&Hibernar"
-
-msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
-msgid "Shut&down"
-msgstr "&Apagar"
-
-msgctxt "ID_AFTERPLAYBACK_LOGOFF"
-msgid "Log &Off"
-msgstr "&Finalitza la sessió"
-
-msgctxt "ID_AFTERPLAYBACK_LOCK"
-msgid "&Lock"
-msgstr "&Bloquejar l'ordinador"
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Reprodueix el fitxer &següent de la carpeta"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "Apagar el &monitor"
+msgstr "Apaga el &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "&Exit"
+msgstr "&Surt"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "&Atura temporalment"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "&Hiberna"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "&Tanca l'ordinador"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "&Tanca la sessió"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "&Bloca"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "Na&vegar"
+msgstr "&Navegació"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "&Previ"
+msgstr "&Anterior"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
@@ -628,35 +657,35 @@ msgstr "&Següent"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "A&nar a..."
+msgstr "&Vés a..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "Menú del &Títol"
+msgstr "Menú del &títol"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Menú &Arrel"
+msgstr "Menú &arrel"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Menú dels &Subtítols"
+msgstr "Menú dels &subtítols"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Menú de l'Àu&dio"
+msgstr "Menú de l'&àudio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Menú d'An&gle"
+msgstr "Menú de l'&angle"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menú dels &Capítols"
+msgstr "Menú dels &capítols"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Favorits"
+msgstr "&Preferits"
 
 msgctxt "POPUP"
 msgid "&Help"
@@ -668,7 +697,7 @@ msgstr "&Lloc web"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Verificar &actualitzacions"
+msgstr "Comprova si hi ha &actualitzacions"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
@@ -676,7 +705,7 @@ msgstr "&Opcions de la línia d’ordres"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Baixa icones per la barra de control"
+msgstr "Baixa icones per a la &barra de control"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

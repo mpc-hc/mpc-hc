@@ -3269,7 +3269,12 @@ CMediaSample::CMediaSample(__in_opt LPCTSTR pName,
     m_cRef(0),                      // 0 ref count
     m_dwTypeSpecificFlags(0),       // Type specific flags
     m_dwStreamId(AM_STREAM_MEDIA),  // Stream id
-    m_pAllocator(pAllocator)        // Allocator
+    m_pAllocator(pAllocator),       // Allocator
+    m_pNext(NULL),
+    m_Start(0),
+    m_End(0),
+    m_MediaStart(0),
+    m_MediaEnd(0)
 {
 #ifdef DXMPERF
     PERFLOG_CTOR( pName ? pName : L"CMediaSample", (IMediaSample *) this );
@@ -3300,7 +3305,12 @@ CMediaSample::CMediaSample(__in_opt LPCSTR pName,
     m_cRef(0),                      // 0 ref count
     m_dwTypeSpecificFlags(0),       // Type specific flags
     m_dwStreamId(AM_STREAM_MEDIA),  // Stream id
-    m_pAllocator(pAllocator)        // Allocator
+    m_pAllocator(pAllocator),       // Allocator
+    m_pNext(NULL),
+    m_Start(0),
+    m_End(0),
+    m_MediaStart(0),
+    m_MediaEnd(0)
 {
 #ifdef DXMPERF
     PERFLOG_CTOR( L"CMediaSample", (IMediaSample *) this );

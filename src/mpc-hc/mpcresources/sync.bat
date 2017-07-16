@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013 see Authors.txt
+REM (C) 2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -20,23 +20,21 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 PUSHD %~dp0
 
+SET SILENT=%1
+
 CALL "common_python.bat"
 IF %ERRORLEVEL% NEQ 0 GOTO END
 
-ECHO Updating POT file
-python.exe UpdatePOT.py
-ECHO ----------------------
-
-FOR %%i IN (*.rc) DO (
-  ECHO %%i
-  ECHO --^> Updating PO files
-  python.exe UpdatePO.py %%~ni
-  ECHO --^> Updating RC file
-  python.exe UpdateRC.py %%~ni
-  ECHO ----------------------
-)
+python.exe sync.py
 
 :END
-PAUSE
-ENDLOCAL
-EXIT /B
+IF NOT DEFINED SILENT (
+  PAUSE
+)
+IF %ERRORLEVEL% NEQ 0 (
+  ENDLOCAL
+  EXIT /B 1
+) ELSE (
+  ENDLOCAL
+  EXIT /B
+)

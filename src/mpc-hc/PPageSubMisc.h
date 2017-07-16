@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,12 +22,25 @@
 
 #include "PPageBase.h"
 
+class SubtitlesProviders;
 
 // CPPageSubMisc dialog
 
 class CPPageSubMisc : public CPPageBase
 {
     DECLARE_DYNAMIC(CPPageSubMisc)
+
+private:
+    enum {
+        COL_PROVIDER,
+        COL_USERNAME,
+        COL_LANGUAGES,
+        COL_TOTAL_COLUMNS
+    };
+
+    SubtitlesProviders* m_pSubtitlesProviders;
+
+    std::thread m_threadFetchSupportedLanguages;
 
 public:
     CPPageSubMisc();
@@ -37,21 +50,34 @@ public:
     enum { IDD = IDD_PPAGESUBMISC };
 
 protected:
+    enum {
+        WM_SUPPORTED_LANGUAGES_READY = WM_APP + 1
+    };
+
     BOOL m_fPreferDefaultForcedSubtitles;
     BOOL m_fPrioritizeExternalSubtitles;
     BOOL m_fDisableInternalSubtitles;
-    CString m_szAutoloadPaths;
-    CComboBox m_ISDbCombo;
-    CString m_ISDb;
+    BOOL m_bAutoDownloadSubtitles;
+    CString m_strAutoDownloadSubtitlesExclude;
+    BOOL m_bAutoUploadSubtitles;
+    BOOL m_bPreferHearingImpairedSubtitles;
+    CString m_strSubtitlesProviders;
+    CString m_strSubtitlesLanguageOrder;
+    CString m_strAutoloadPaths;
+    CListCtrl m_list;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
+    static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
+
     DECLARE_MESSAGE_MAP()
 
+    afx_msg void OnSupportedLanguagesReady();
+    afx_msg void OnDestroy();
     afx_msg void OnBnClickedResetSubsPath();
-    afx_msg void OnBnClickedTestSubsDB();
-    afx_msg void OnUpdateButtonTestSubsDB(CCmdUI* pCmdUI);
-    afx_msg void OnURLModified();
+    afx_msg void OnAutoDownloadSubtitlesClicked();
+    afx_msg void OnRightClick(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
 };

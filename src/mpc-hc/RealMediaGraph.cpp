@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,17 +22,27 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include <math.h>
-#include <atlbase.h>
-#include <atlcoll.h>
-#include <InitGuid.h>
+#include "AuthDlg.h"
+#include "AllocatorCommon.h"
+#include "BaseGraph.h"
+
+#include <initguid.h>
 #include "RealMediaGraph.h"
 #include "RealMediaWindowlessSite.h"
+#include "realmedia/pnresult.h"
+#include "realmedia/pntypes.h"
+#include "realmedia/rmaausvc.h"
+#include "realmedia/rmaauth.h"
+#include "realmedia/rmaclsnk.h"
+#include "realmedia/rmacomm.h"
+#include "realmedia/rmacore.h"
+#include "realmedia/rmaerror.h"
+#include "realmedia/rmapckts.h"
+#include "realmedia/rmasite2.h"
 #include "realmedia/rmavsurf.h"
-#include "realmedia/rmaevent.h"
-#include "realmedia/rmaprefs.h"
-#include "DSUtil.h"
-#include "AuthDlg.h"
+#include "realmedia/rmawin.h"
+
+#include <cmath>
 
 using namespace DSObjects;
 
@@ -42,16 +52,16 @@ CRealMediaPlayer::CRealMediaPlayer(HWND hWndParent, CRealMediaGraph* pRMG)
     : CUnknown(NAME("CRealMediaPlayer"), nullptr)
     , m_pRMG(pRMG)
     , m_hWndParent(hWndParent)
+    , m_VideoSize(0, 0)
+    , m_fVideoSizeChanged(true)
     , m_fpCreateEngine(nullptr)
     , m_fpCloseEngine(nullptr)
+    , m_fpSetDLLAccessPath(nullptr)
     , m_hRealMediaCore(nullptr)
     , m_State(State_Stopped)
     , m_UserState(State_Stopped)
     , m_nCurrent(0)
     , m_nDuration(0)
-    , m_VideoSize(0, 0)
-    , m_fVideoSizeChanged(true)
-    , m_fpSetDLLAccessPath(nullptr)
     , m_unPercentComplete(0)
 {
 }
@@ -377,9 +387,6 @@ STDMETHODIMP CRealMediaPlayer::SitesNeeded(UINT32 uRequestID, IRMAValues* pProps
         return E_FAIL;
     }
 
-    ULONG refc = ((IRMASite*)m_pTheSite)->AddRef();
-    refc = ((IRMASite*)m_pTheSite)->Release();
-
     if (!(m_pTheSite2 = m_pTheSite)) {
         return E_NOINTERFACE;
     }
@@ -576,11 +583,6 @@ CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMed
     bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
     switch (s.iRMVideoRendererType) {
         default:
-        case VIDRNDT_RM_DX7:
-            if (FAILED(CreateAP7(CLSID_RM7AllocatorPresenter, hWndParent, &pRMAP))) {
-                return;
-            }
-            break;
         case VIDRNDT_RM_DX9:
             if (FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, bFullscreen, &pRMAP))) {
                 return;
@@ -829,7 +831,7 @@ STDMETHODIMP CRealMediaGraph::put_Volume(long lVolume)
     }
 
     UINT16 volume = (lVolume <= -10000) ? 0 : UINT16(pow(10.0, lVolume / 4000.0) * 100);
-    volume = max<UINT16>(min<UINT16>(volume, 100u), 0u);
+    volume = std::max<UINT16>(std::min<UINT16>(volume, 100u), 0u);
 
     return PNR_OK == m_pRMP->m_pVolume->SetVolume(volume) ? S_OK : E_FAIL;
 }
@@ -844,7 +846,7 @@ STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 
     *plVolume = (long)m_pRMP->m_pVolume->GetVolume(); // [?..100]
     if (*plVolume > 0) {
-        *plVolume = min(long(4000 * log10(*plVolume / 100.0f)), 0l);
+        *plVolume = std::min(long(4000 * log10(*plVolume / 100.0f)), 0l);
     } else {
         *plVolume = -10000;
     }

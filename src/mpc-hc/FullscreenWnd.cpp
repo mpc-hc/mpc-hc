@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,20 +24,16 @@
 #include "FullscreenWnd.h"
 #include "MainFrm.h"
 
-IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
+IMPLEMENT_DYNAMIC(CFullscreenWnd, CMouseWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
     : CMouseWnd(pMainFrame, true)
     , m_pMainFrame(pMainFrame)
 {
 }
 
-CFullscreenWnd::~CFullscreenWnd()
+bool CFullscreenWnd::IsWindow() const
 {
-}
-
-bool CFullscreenWnd::IsWindow()
-{
-    return (m_hWnd != nullptr);
+    return !!m_hWnd;
 }
 
 BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
@@ -48,27 +44,44 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
             m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
     }
-    return CWnd::PreTranslateMessage(pMsg);
+
+    return __super::PreTranslateMessage(pMsg);
 }
 
 BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 {
-    if (!CWnd::PreCreateWindow(cs)) {
-        return FALSE;
-    }
-
     cs.style &= ~WS_BORDER;
-    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
+    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_NOCLOSE,
                                        ::LoadCursor(nullptr, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), nullptr);
 
-    return TRUE;
+    return __super::PreCreateWindow(cs);
+}
+
+LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (message == WM_NCACTIVATE) {
+        return 0;
+    }
+
+    return __super::WindowProc(message, wParam, lParam);
 }
 
 BEGIN_MESSAGE_MAP(CFullscreenWnd, CMouseWnd)
     ON_WM_ERASEBKGND()
+    ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 BOOL CFullscreenWnd::OnEraseBkgnd(CDC* pDC)
 {
     return FALSE;
+}
+
+void CFullscreenWnd::OnDestroy()
+{
+    __super::OnDestroy();
+
+    CWnd* pMainWnd = AfxGetApp()->GetMainWnd();
+    if (pMainWnd) {
+        pMainWnd->SetActiveWindow();
+    }
 }

@@ -42,7 +42,7 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
 #endif
   bool FailedOpen=false,OldSchemeTested=false;
 
-#if !defined(GUI) && !defined(SILENT)
+#if !defined(SILENT)
   // In -vp mode we force the pause before next volume even if it is present
   // and even if we are on the hard disk. It is important when user does not
   // want to process partially downloaded volumes preliminary.
@@ -93,13 +93,11 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
       }
 #endif
 
-#ifndef GUI
       if (!Cmd->VolumePause && !IsRemovable(NextName))
       {
         FailedOpen=true;
         break;
       }
-#endif
 #ifndef SILENT
       if (Cmd->AllYes || !uiAskNextVolume(NextName,ASIZE(NextName)))
 #endif
@@ -138,14 +136,12 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
     Arc.ConvertAttributes();
     Arc.Seek(Arc.NextBlockPos-Arc.FileHead.PackSize,SEEK_SET);
   }
-#ifndef GUI
   if (ShowFileName)
   {
     mprintf(St(MExtrPoints),Arc.FileHead.FileName);
     if (!Cmd->DisablePercentage)
       mprintf(L"     ");
   }
-#endif
   if (DataIO!=NULL)
   {
     if (HeaderType==HEAD_ENDARC)
@@ -247,7 +243,8 @@ bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize)
   // We quit only on 'abort' condition, but not on 'name not changed'.
   // It is legitimate for program to return the same name when waiting
   // for currently non-existent volume.
-  if (DllVolAborted)
+  // Also we quit to prevent an infinite loop if no callback is defined.
+  if (DllVolAborted || Cmd->Callback==NULL && Cmd->ChangeVolProc==NULL)
   {
     Cmd->DllError=ERAR_EOPEN;
     return false;

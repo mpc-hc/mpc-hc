@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,13 +23,14 @@
 #include <algorithm>
 #include "RenderersSettings.h"
 #include "DX9AllocatorPresenter.h"
-#include <InitGuid.h>
 #include <utility>
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
-#include "version.h"
 #include "FocusThread.h"
+#include "../../../DSUtil/SysVersion.h"
+#include "../../../DSUtil/vd.h"
+#include <mpc-hc_config.h>
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
@@ -38,6 +39,13 @@ bool queue_ffdshow_support = false;
 //#define DISABLE_USING_D3D9EX
 
 #define FRAMERATE_MAX_DELTA 3000
+
+#define REFERENCE_WIDTH 1920
+#define FONT_HEIGHT     21
+#define BOLD_THRESHOLD  11
+#define TEXT_PADDING    2
+#define GRAPH_HEIGHT    360
+#define GRAPH_WIDTH     1000
 
 using namespace DSObjects;
 
@@ -55,9 +63,21 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_bIsFullscreen(bFullscreen)
     , m_bNeedCheckSample(true)
     , m_MainThreadId(0)
+    , m_bIsRendering(false)
+    , m_hDWMAPI(nullptr)
+    , m_hD3D9(nullptr)
+    , m_pDwmIsCompositionEnabled(nullptr)
+    , m_pDwmEnableComposition(nullptr)
+    , m_pDirect3DCreate9Ex(nullptr)
+    , m_pDirectDraw(nullptr)
     , m_LastAdapterCheck(0)
     , m_nTearingPos(0)
     , m_VMR9AlphaBitmapWidthBytes(0)
+    , m_pD3DXLoadSurfaceFromMemory(nullptr)
+    , m_pD3DXLoadSurfaceFromSurface(nullptr)
+    , m_pD3DXCreateLine(nullptr)
+    , m_pD3DXCreateFont(nullptr)
+    , m_pD3DXCreateSprite(nullptr)
     , m_nVMR9Surfaces(0)
     , m_iVMR9Surface(0)
     , m_nUsedBuffer(0)
@@ -96,7 +116,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_DetectedFrameTimePos(0)
     , m_bInterlaced(false)
     , m_nFrameType(PICT_NONE)
-    , m_TextScale(1.0)
     , m_VBlankEndWait(0)
     , m_VBlankStartWait(0)
     , m_VBlankWaitTime(0)
@@ -132,18 +151,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_LastFrameDuration(0)
     , m_LastSampleTime(0)
     , m_FocusThread(nullptr)
-    , m_pDirectDraw(nullptr)
-    , m_hDWMAPI(nullptr)
-    , m_hD3D9(nullptr)
-    , m_pD3DXLoadSurfaceFromMemory(nullptr)
-    , m_pD3DXLoadSurfaceFromSurface(nullptr)
-    , m_pD3DXCreateLine(nullptr)
-    , m_pD3DXCreateFont(nullptr)
-    , m_pD3DXCreateSprite(nullptr)
-    , m_pDwmIsCompositionEnabled(nullptr)
-    , m_pDwmEnableComposition(nullptr)
-    , m_pDirect3DCreate9Ex(nullptr)
-    , m_bIsRendering(false)
+    , m_hFocusWindow(nullptr)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -230,14 +238,8 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 
     m_pD3D   = nullptr;
     m_pD3DEx = nullptr;
-    if (m_hDWMAPI) {
-        FreeLibrary(m_hDWMAPI);
-        m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
-    }
+    m_pSubPicQueue = nullptr;
+    m_pAllocator = nullptr;
 
     if (m_FocusThread) {
         m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
@@ -245,6 +247,15 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
             ASSERT(FALSE);
             TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
         }
+    }
+
+    if (m_hDWMAPI) {
+        FreeLibrary(m_hDWMAPI);
+        m_hDWMAPI = nullptr;
+    }
+    if (m_hD3D9) {
+        FreeLibrary(m_hD3D9);
+        m_hD3D9 = nullptr;
     }
 }
 
@@ -623,8 +634,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     m_bCompositionEnabled = !!bCompositionEnabled;
     m_bAlternativeVSync = r.m_AdvRendSets.bVMR9AlterativeVSync;
 
-    // detect FP textures support
-    rd->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A32B32G32R32F));
+    // detect FP16 textures support
+    rd->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F));
+
+    // detect FP32 textures support
+    rd->m_bFP32Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A32B32G32R32F));
 
     // detect 10-bit textures support
     rd->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
@@ -635,7 +649,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     // set settings that depend on hardware feature support
     m_bForceInputHighColorResolution = r.m_AdvRendSets.bEVRForceInputHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
     m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport && bHighColorSupport;
-    m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP16Support;
+    m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP32Support;
     m_bHalfFloatingPointProcessing = r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing && rd->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
     // set color formats
@@ -672,14 +686,18 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (r.m_AdvRendSets.bVMR9FullscreenGUISupport && !m_bHighColorResolution) {
             pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
         }
-        m_D3DDevExError = L"No m_pD3DEx";
+        m_D3DDevExError = _T("No m_pD3DEx");
 
         if (!m_FocusThread) {
             m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
         }
 
+        HWND hFocusWindow = m_FocusThread->GetFocusWindow();
+        bTryToReset &= m_hFocusWindow == hFocusWindow;
+        m_hFocusWindow = hFocusWindow;
+
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
+            CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
 
             DisplayMode.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
@@ -687,21 +705,18 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferWidth = m_ScreenSize.cx;
             pp.BackBufferHeight = m_ScreenSize.cy;
 
-            if (bTryToReset) {
-                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode))) {
-                    bTryToReset = false;
-                    m_pD3DDev = nullptr;
-                    m_pD3DDevEx = nullptr;
-                }
-            }
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode));
+
             if (!bTryToReset) {
+                m_pD3DDev = nullptr;
+                m_pD3DDevEx = nullptr;
                 hr = m_pD3DEx->CreateDeviceEx(
-                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                          &pp, &DisplayMode, &m_pD3DDevEx);
             }
 
-            m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
+            m_D3DDevExError = FAILED(hr) ? GetWindowsErrorMessage(hr, m_hD3D9) : _T("");
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_BackbufferType = pp.BackBufferFormat;
@@ -714,7 +729,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             }
         }
         if (!m_pD3DDev) {
-            m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+            CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             d3ddm.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             pp.FullScreen_RefreshRateInHz = m_refreshRate = d3ddm.RefreshRate;
@@ -722,7 +737,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferHeight = m_ScreenSize.cy;
 
             hr = m_pD3D->CreateDevice(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                      GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             m_DisplayType = d3ddm.Format;
@@ -744,25 +759,25 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
         }
 
+        bTryToReset &= m_hFocusWindow == m_hWnd;
+        m_hFocusWindow = m_hWnd;
+
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
+            CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_refreshRate = DisplayMode.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
-            if (bTryToReset) {
-                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr))) {
-                    bTryToReset = false;
-                    m_pD3DDev = nullptr;
-                    m_pD3DDevEx = nullptr;
-                }
-            }
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
+
             if (!bTryToReset) {
+                m_pD3DDev = nullptr;
+                m_pD3DDevEx = nullptr;
                 // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
                 // Cause: We might not reinitialize dx correctly during the switch
                 hr = m_pD3DEx->CreateDeviceEx(
-                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                          &pp, nullptr, &m_pD3DDevEx);
             }
@@ -777,14 +792,14 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             }
         }
         if (!m_pD3DDev) {
-            m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+            CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             m_refreshRate = d3ddm.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
             hr = m_pD3D->CreateDevice(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                      GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             m_DisplayType = d3ddm.Format;
@@ -792,22 +807,19 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_BackbufferType = pp.BackBufferFormat;
     }
 
-    while (hr == D3DERR_DEVICELOST) {
-        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
-        hr = m_pD3DDev->TestCooperativeLevel();
-    }
-    if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-        hr = m_pD3DDev->Reset(&pp);
-    }
+    if (m_pD3DDev) {
+        while (hr == D3DERR_DEVICELOST) {
+            TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
+            hr = m_pD3DDev->TestCooperativeLevel();
+        }
+        if (hr == D3DERR_DEVICENOTRESET) {
+            TRACE(_T("D3DERR_DEVICENOTRESET\n"));
+            hr = m_pD3DDev->Reset(&pp);
+        }
 
-    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
-    ASSERT(SUCCEEDED(hr));
-
-    m_MainThreadId = GetCurrentThreadId();
-
-    if (m_pD3DDevEx) {
-        m_pD3DDevEx->SetGPUThreadPriority(7);
+        if (m_pD3DDevEx) {
+            m_pD3DDevEx->SetGPUThreadPriority(7);
+        }
     }
 
     if (FAILED(hr)) {
@@ -818,6 +830,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
         return hr;
     }
+
+    ASSERT(m_pD3DDev);
+
+    if (m_ScreenSize.cx <= 0 || m_ScreenSize.cy <= 0) {
+        _Error += L"Invalid screen size\n";
+        return E_FAIL;
+    }
+
+    m_MainThreadId = GetCurrentThreadId();
 
     // Get the device caps
     ZeroMemory(&m_Caps, sizeof(m_Caps));
@@ -841,7 +862,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
-        CAutoLock(this);
+        CAutoLock cAutoLock(this);
         m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
                          ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
                          : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
@@ -857,34 +878,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     if (pSubPicProvider) {
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
-    }
-
-    if (m_pD3DXCreateFont) {
-        long MinSize = 1600;
-        long CurrentSize = std::min(m_ScreenSize.cx, MinSize);
-        double Scale = double(CurrentSize) / double(MinSize);
-        m_TextScale = Scale;
-        m_pD3DXCreateFont(m_pD3DDev,                   // D3D device
-                          (int)(-24.0 * Scale),        // Height
-                          (UINT)(-11.0 * Scale),       // Width
-                          CurrentSize < 800 ? FW_NORMAL : FW_BOLD,  // Weight
-                          0,                           // MipLevels, 0 = autogen mipmaps
-                          FALSE,                       // Italic
-                          DEFAULT_CHARSET,             // CharSet
-                          OUT_DEFAULT_PRECIS,          // OutputPrecision
-                          ANTIALIASED_QUALITY,         // Quality
-                          FIXED_PITCH | FF_DONTCARE,   // PitchAndFamily
-                          L"Lucida Console",           // pFaceName
-                          &m_pFont);                   // ppFont
-    }
-
-    if (m_pD3DXCreateSprite) {
-        m_pD3DXCreateSprite(m_pD3DDev,                 // D3D device
-                            &m_pSprite);
-    }
-
-    if (m_pD3DXCreateLine) {
-        m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
     }
 
     m_LastAdapterCheck = rd->GetPerfCounter();
@@ -1126,7 +1119,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
                 if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
                     break;
                 }
-                int ScanLineDiff = long(ScanLine) - _RasterStart;
+                ScanLineDiff = long(ScanLine) - _RasterStart;
                 if (ScanLineDiff > m_ScreenSize.cy / 2) {
                     ScanLineDiff -= m_ScreenSize.cy;
                 } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1188,7 +1181,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
             break;
         }
-        int ScanLineDiff = long(ScanLine) - _RasterStart;
+        ScanLineDiff = long(ScanLine) - _RasterStart;
         if (ScanLineDiff > m_ScreenSize.cy / 2) {
             ScanLineDiff -= m_ScreenSize.cy;
         } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1202,7 +1195,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
 
         bWaited = true;
 
-        int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
+        ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
         if (ScanLineDiffLock > m_ScreenSize.cy / 2) {
             ScanLineDiffLock -= m_ScreenSize.cy;
         } else if (ScanLineDiffLock < -m_ScreenSize.cy / 2) {
@@ -1219,7 +1212,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         LastLineDiffLock = ScanLineDiffLock;
 
 
-        int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
+        ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
         if (ScanLineDiffSleep > m_ScreenSize.cy / 2) {
             ScanLineDiffSleep -= m_ScreenSize.cy;
         } else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2) {
@@ -1412,8 +1405,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
             if ((m_pD3DXLoadSurfaceFromMemory != nullptr) &&
                     SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
-                                   D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                                   D3DPOOL_DEFAULT, &m_pOSDTexture, nullptr))) {
+                                                            D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
+                                                            D3DPOOL_DEFAULT, &m_pOSDTexture, nullptr))) {
                 if (SUCCEEDED(hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface))) {
                     hr = m_pD3DXLoadSurfaceFromMemory(m_pOSDSurface,
                                                       nullptr,
@@ -1455,19 +1448,18 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
-    CComPtr<IDirect3DQuery9> pEventQuery;
-
-    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
-    if (pEventQuery) {
-        pEventQuery->Issue(D3DISSUE_END);
+    CComPtr<IDirect3DQuery9> pEventQueryFlushBeforeVSync;
+    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushBeforeVSync);
+    if (pEventQueryFlushBeforeVSync) {
+        pEventQueryFlushBeforeVSync->Issue(D3DISSUE_END);
     }
 
-    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQuery) {
+    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQueryFlushBeforeVSync) {
         LONGLONG llPerf = rd->GetPerfCounter();
         BOOL Data;
         //Sleep(5);
         LONGLONG FlushStartTime = rd->GetPerfCounter();
-        while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+        while (S_FALSE == pEventQueryFlushBeforeVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
             if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                 break;
             }
@@ -1510,8 +1502,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     // Create a query object
     {
-        CComPtr<IDirect3DQuery9> pEventQuery;
-        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
+        CComPtr<IDirect3DQuery9> pEventQueryFlushAfterVSync;
+        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushAfterVSync);
 
         LONGLONG llPerf = rd->GetPerfCounter();
         CRect presentationSrcRect(rDstPri), presentationDestRect(m_windowRect);
@@ -1532,15 +1524,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
             }
         }
         // Issue an End event
-        if (pEventQuery) {
-            pEventQuery->Issue(D3DISSUE_END);
+        if (pEventQueryFlushAfterVSync) {
+            pEventQueryFlushAfterVSync->Issue(D3DISSUE_END);
         }
 
         BOOL Data;
 
-        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQuery) {
+        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQueryFlushAfterVSync) {
             LONGLONG FlushStartTime = rd->GetPerfCounter();
-            while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+            while (S_FALSE == pEventQueryFlushAfterVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
                 if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                     break;
                 }
@@ -1735,24 +1727,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::DisplayChange()
     return true;
 }
 
-void CDX9AllocatorPresenter::DrawText(const RECT& rc, const CString& strText, int _Priority)
-{
-    if (_Priority < 1) {
-        return;
-    }
-
-    D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f);
-    D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f);
-    RECT Rect1 = rc;
-    RECT Rect2 = rc;
-    OffsetRect(&Rect2 , 2, 2);
-
-    // Draw shadow
-    m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    // Draw text
-    m_pFont->DrawText(m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
-}
-
 void CDX9AllocatorPresenter::ResetStats()
 {
     CRenderersData* rd = GetRenderersData();
@@ -1774,12 +1748,38 @@ void CDX9AllocatorPresenter::ResetStats()
     CalculateJitter(Time);
 }
 
+void CDX9AllocatorPresenter::InitStats()
+{
+    ASSERT(m_pD3DDev);
+    static LONG currentHeight = 0;
+    int newHeight = lround(FONT_HEIGHT * (double(m_windowRect.Width()) / REFERENCE_WIDTH));
+
+    if (m_pD3DXCreateFont && (!m_pFont || currentHeight != newHeight)) {
+        m_pFont = nullptr;
+        if (newHeight <= 0) {
+            ASSERT(FALSE);
+        }
+        m_pD3DXCreateFont(m_pD3DDev, newHeight, 0, newHeight < BOLD_THRESHOLD ? FW_NORMAL : FW_BOLD,
+                          0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+                          SysVersion::IsXPOrLater() ? CLEARTYPE_NATURAL_QUALITY : ANTIALIASED_QUALITY,
+                          FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
+        currentHeight = newHeight;
+    }
+
+    if (m_pD3DXCreateSprite && !m_pSprite) {
+        m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
+    }
+
+    if (m_pD3DXCreateLine && !m_pLine) {
+        m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
+    }
+}
+
 void CDX9AllocatorPresenter::DrawStats()
 {
-    const CRenderersSettings& r = GetRenderersSettings();
     const CRenderersData* rd = GetRenderersData();
-    int iDetailedStats = 2;
 
+    int iDetailedStats;
     switch (rd->m_iDisplayStats) {
         case 1:
             iDetailedStats = 2;
@@ -1790,144 +1790,187 @@ void CDX9AllocatorPresenter::DrawStats()
         case 3:
             iDetailedStats = 0;
             break;
+        default:
+            ASSERT(FALSE);
+            return;
     }
 
-    LONGLONG llMaxJitter = m_MaxJitter;
-    LONGLONG llMinJitter = m_MinJitter;
-    LONGLONG llMaxSyncOffset = m_MaxSyncOffset;
-    LONGLONG llMinSyncOffset = m_MinSyncOffset;
-    RECT rc = {40, 40, 0, 0 };
+    InitStats();
+    const float textScale = float(m_windowRect.Width()) / REFERENCE_WIDTH;
+    const int lineHeight = lround((FONT_HEIGHT + TEXT_PADDING) * textScale);
+
     if (m_pFont && m_pSprite) {
+        auto drawText = [&](CRect & rc, const CString & strText) {
+            D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f);
+            D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f);
+
+            RECT shadowRect = rc;
+            OffsetRect(&shadowRect, 2, 2);
+
+            // Draw shadow
+            m_pFont->DrawText(m_pSprite, strText, -1, &shadowRect, DT_NOCLIP, Color0);
+            // Draw text
+            m_pFont->DrawText(m_pSprite, strText, -1, rc, DT_NOCLIP, Color1);
+            rc.OffsetRect(0, lineHeight);
+        };
+
+        const CRenderersSettings& r = GetRenderersSettings();
+        LONGLONG llMaxJitter = m_MaxJitter;
+        LONGLONG llMinJitter = m_MinJitter;
+        LONGLONG llMaxSyncOffset = m_MaxSyncOffset;
+        LONGLONG llMinSyncOffset = m_MinSyncOffset;
+        CRect rc(lineHeight, lineHeight, 0, 0);
+
         m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
         CString strText;
-        int TextHeight = int(25.0 * m_TextScale + 0.5);
-        //strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
                 if (m_nFrameType != PICT_NONE) {
-                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_nFrameType == PICT_FRAME ? L"P" : L"I", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed * 100.0);
+                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%",
+                                   m_fAvrFps,
+                                   double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
+                                   m_nFrameType == PICT_FRAME ? L"P" : L"I", GetFrameTime() * 1000.0, GetFrameRate(),
+                                   m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0,
+                                   m_ModeratedTimeSpeed * 100.0);
                 } else {
-                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed * 100.0);
+                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%",
+                                   m_fAvrFps,
+                                   double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
+                                   m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(),
+                                   m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0,
+                                   m_ModeratedTimeSpeed * 100.0);
                 }
             } else {
-                strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P");
+                strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)",
+                               m_fAvrFps,
+                               double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
+                               m_bInterlaced ? L"I" : L"P");
             }
-        }
-        //strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0);
-        else {
+        } else {
             strText.Format(L"Frame rate   : %7.03f   (%.03f%s)", m_fAvrFps, GetFrameRate(), m_DetectedLock ? L" L" : L"");
         }
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        drawText(rc, strText);
 
         if (m_nFrameType != PICT_NONE) {
-            strText.Format(L"Frame type   : %s", m_nFrameType == PICT_FRAME ? L"Progressive" : m_nFrameType == PICT_BOTTOM_FIELD ? L"Interlaced : Bottom field first" : L"Interlaced : Top field first");
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(L"Frame type   : %s",
+                           m_nFrameType == PICT_FRAME ? L"Progressive" :
+                           m_nFrameType == PICT_BOTTOM_FIELD ? L"Interlaced : Bottom field first" :
+                           L"Interlaced : Top field first");
+            drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
-            strText = L"Settings     : ";
+            strText = _T("Settings     : ");
 
             if (m_bIsEVR) {
-                strText += "EVR ";
+                strText += _T("EVR ");
             } else {
-                strText += "VMR9 ";
+                strText += _T("VMR9 ");
             }
 
             if (m_bIsFullscreen) {
-                strText += "FS ";
+                strText += _T("FS ");
             }
             if (r.m_AdvRendSets.bVMR9FullscreenGUISupport) {
-                strText += "FSGui ";
+                strText += _T("FSGui ");
             }
 
             if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
-                strText += "DisDC ";
+                strText += _T("DisDC ");
             }
 
             if (m_bColorManagement) {
-                strText += "ColorMan ";
+                strText += _T("ColorMan ");
             }
 
             if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync) {
-                strText += "GPUFlushBV ";
+                strText += _T("GPUFlushBV ");
             }
             if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent) {
-                strText += "GPUFlushAP ";
+                strText += _T("GPUFlushAP ");
             }
 
             if (r.m_AdvRendSets.bVMRFlushGPUWait) {
-                strText += "GPUFlushWt ";
+                strText += _T("GPUFlushWt ");
             }
 
             if (r.m_AdvRendSets.bVMR9VSync) {
-                strText += "VS ";
+                strText += _T("VS ");
             }
             if (r.m_AdvRendSets.bVMR9AlterativeVSync) {
-                strText += "AltVS ";
+                strText += _T("AltVS ");
             }
             if (r.m_AdvRendSets.bVMR9VSyncAccurate) {
-                strText += "AccVS ";
+                strText += _T("AccVS ");
             }
             if (r.m_AdvRendSets.iVMR9VSyncOffset) {
-                strText.AppendFormat(L"VSOfst(%d)", r.m_AdvRendSets.iVMR9VSyncOffset);
+                strText.AppendFormat(_T("VSOfst(%d)"), r.m_AdvRendSets.iVMR9VSyncOffset);
             }
 
             if (m_bFullFloatingPointProcessing) {
-                strText += "FullFP ";
+                strText += _T("FullFP ");
             }
 
             if (m_bHalfFloatingPointProcessing) {
-                strText += "HalfFP ";
+                strText += _T("HalfFP ");
             }
 
             if (m_bIsEVR) {
                 if (m_bHighColorResolution) {
-                    strText += "10bitOut ";
+                    strText += _T("10bitOut ");
                 }
                 if (m_bForceInputHighColorResolution) {
-                    strText += "For10bitIn ";
+                    strText += _T("For10bitIn ");
                 }
                 if (r.m_AdvRendSets.bEVREnableFrameTimeCorrection) {
-                    strText += "FTC ";
+                    strText += _T("FTC ");
                 }
                 if (r.m_AdvRendSets.iEVROutputRange == 0) {
-                    strText += "0-255 ";
+                    strText += _T("0-255 ");
                 } else if (r.m_AdvRendSets.iEVROutputRange == 1) {
-                    strText += "16-235 ";
+                    strText += _T("16-235 ");
                 }
             }
 
 
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, strText);
 
-            strText.Format(L"Formats      : Surface %s    Backbuffer %s    Display %s     Device %s      D3DExError: %s", GetD3DFormatStr(m_SurfaceType), GetD3DFormatStr(m_BackbufferType), GetD3DFormatStr(m_DisplayType), m_pD3DDevEx ? L"D3DDevEx" : L"D3DDev", m_D3DDevExError.GetString());
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(L"Formats      : Surface %s    Backbuffer %s    Display %s     Device %s      %s",
+                           GetD3DFormatStr(m_SurfaceType), GetD3DFormatStr(m_BackbufferType),
+                           GetD3DFormatStr(m_DisplayType), m_pD3DDevEx ? L"D3DDevEx" : L"D3DDev",
+                           m_D3DDevExError.IsEmpty() ? _T("") : _T("D3DExError: ") + m_D3DDevExError);
+            drawText(rc, strText);
 
             if (m_bIsEVR) {
-                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                if (r.m_AdvRendSets.bVMR9VSync) {
+                    strText.Format(_T("Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      "),
+                                   m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate);
+                } else {
+                    strText.Format(_T("Refresh rate : %3u Hz      "), m_refreshRate);
+                }
+                strText.AppendFormat(_T("Last Duration: %10.6f      Corrected Frame Time: %s"),
+                                     double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? _T("Yes") : _T("No"));
+                drawText(rc, strText);
             }
         }
 
         if (m_bSyncStatsAvailable) {
             if (iDetailedStats > 1) {
-                strText.Format(L"Sync offset  : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms, Avr = %7.3f ms, Mode = %d", (double(llMinSyncOffset) / 10000.0), (double(llMaxSyncOffset) / 10000.0), m_fSyncOffsetStdDev / 10000.0, m_fSyncOffsetAvr / 10000.0, m_VSyncMode);
+                strText.Format(_T("Sync offset  : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms, Avr = %7.3f ms, Mode = %d"),
+                               (double(llMinSyncOffset) / 10000.0), (double(llMaxSyncOffset) / 10000.0),
+                               m_fSyncOffsetStdDev / 10000.0, m_fSyncOffsetAvr / 10000.0, m_VSyncMode);
             } else {
-                strText.Format(L"Sync offset  : Mode = %d", m_VSyncMode);
+                strText.Format(_T("Sync offset  : Mode = %d"), m_VSyncMode);
             }
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Jitter       : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms", (double(llMinJitter) / 10000.0), (double(llMaxJitter) / 10000.0), m_fJitterStdDev / 10000.0);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Jitter       : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms"),
+                           (double(llMinJitter) / 10000.0),
+                           (double(llMaxJitter) / 10000.0),
+                           m_fJitterStdDev / 10000.0);
+            drawText(rc, strText);
         }
 
         if (m_pAllocator && iDetailedStats > 1) {
@@ -1944,76 +1987,101 @@ void CDX9AllocatorPresenter::DrawStats()
             }
 
             pAlloc->GetStats(nFree, nAlloc);
-            strText.Format(L"Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f",
-                           nFree, nAlloc, nSubPic, (double(rtQueueStart) / 10000000.0), (double(rtQueueEnd) / 10000000.0));
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f"),
+                           nFree, nAlloc, nSubPic, (double(rtQueueStart) / 10000000.0),
+                           (double(rtQueueEnd) / 10000000.0));
+            drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
             if (m_VBlankEndPresent == -100000) {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime) / 10000.0), (double(m_VBlankLockTime) / 10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin);
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d"),
+                               m_VBlankStartWait, m_VBlankEndWait,
+                               (double(m_VBlankWaitTime) / 10000.0),
+                               (double(m_VBlankLockTime) / 10000.0),
+                               m_VBlankMin, m_VBlankMax - m_VBlankMin);
             } else {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime) / 10000.0), (double(m_VBlankLockTime) / 10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin, m_VBlankEndPresent);
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d"),
+                               m_VBlankStartWait, m_VBlankEndWait,
+                               (double(m_VBlankWaitTime) / 10000.0),
+                               (double(m_VBlankLockTime) / 10000.0),
+                               m_VBlankMin,
+                               m_VBlankMax - m_VBlankMin,
+                               m_VBlankEndPresent);
             }
         } else {
             if (m_VBlankEndPresent == -100000) {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d", m_VBlankStartWait, m_VBlankEndWait);
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d"), m_VBlankStartWait, m_VBlankEndWait);
             } else {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   EP %4d", m_VBlankStartWait, m_VBlankEndWait, m_VBlankEndPresent);
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   EP %4d"), m_VBlankStartWait, m_VBlankEndWait,
+                               m_VBlankEndPresent);
             }
         }
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        drawText(rc, strText);
 
         BOOL bCompositionEnabled = m_bCompositionEnabled;
 
         bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
         if (iDetailedStats > 1 && bDoVSyncInPresent) {
-            strText.Format(L"Present Wait : Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms", (double(m_PresentWaitTime) / 10000.0), (double(m_PresentWaitTimeMin) / 10000.0), (double(m_PresentWaitTimeMax) / 10000.0));
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Present Wait : Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
+                           (double(m_PresentWaitTime) / 10000.0),
+                           (double(m_PresentWaitTimeMin) / 10000.0),
+                           (double(m_PresentWaitTimeMax) / 10000.0));
+            drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
             if (m_WaitForGPUTime) {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms   GPU %7.3f ms", (double(m_PaintTime - m_WaitForGPUTime) / 10000.0), (double(m_PaintTimeMin) / 10000.0), (double(m_PaintTimeMax) / 10000.0), (double(m_WaitForGPUTime) / 10000.0));
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms   GPU %7.3f ms"),
+                               (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
+                               (double(m_PaintTimeMin) / 10000.0),
+                               (double(m_PaintTimeMax) / 10000.0),
+                               (double(m_WaitForGPUTime) / 10000.0));
             } else {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms", (double(m_PaintTime - m_WaitForGPUTime) / 10000.0), (double(m_PaintTimeMin) / 10000.0), (double(m_PaintTimeMax) / 10000.0));
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
+                               (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
+                               (double(m_PaintTimeMin) / 10000.0),
+                               (double(m_PaintTimeMax) / 10000.0));
             }
         } else {
             if (m_WaitForGPUTime) {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   GPU %7.3f ms", (double(m_PaintTime - m_WaitForGPUTime) / 10000.0), (double(m_WaitForGPUTime) / 10000.0));
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   GPU %7.3f ms"),
+                               (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
+                               (double(m_WaitForGPUTime) / 10000.0));
             } else {
-                strText.Format(L"Paint Time   : Draw %7.3f ms", (double(m_PaintTime - m_WaitForGPUTime) / 10000.0));
+                strText.Format(_T("Paint Time   : Draw %7.3f ms"),
+                               (double(m_PaintTime - m_WaitForGPUTime) / 10000.0));
             }
         }
-        DrawText(rc, strText, 2);
-        OffsetRect(&rc, 0, TextHeight);
+        drawText(rc, strText);
 
         if (iDetailedStats > 1 && r.m_AdvRendSets.bVMR9VSync) {
-            strText.Format(L"Raster Status: Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms", (double(m_RasterStatusWaitTime) / 10000.0), (double(m_RasterStatusWaitTimeMin) / 10000.0), (double(m_RasterStatusWaitTimeMax) / 10000.0));
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Raster Status: Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
+                           (double(m_RasterStatusWaitTime) / 10000.0),
+                           (double(m_RasterStatusWaitTimeMin) / 10000.0),
+                           (double(m_RasterStatusWaitTimeMax) / 10000.0));
+            drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
-                strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
+                strText.Format(_T("Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d"),
+                               m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
             } else {
-                strText.Format(L"Buffering    : VMR9Surfaces %3d   VMR9Surface %3d", m_nVMR9Surfaces, m_iVMR9Surface);
+                strText.Format(_T("Buffering    : VMR9Surfaces %3d   VMR9Surface %3d"),
+                               m_nVMR9Surfaces, m_iVMR9Surface);
             }
         } else {
-            strText.Format(L"Buffered     : %3ld", m_nUsedBuffer);
+            strText.Format(_T("Buffered     : %3ld"), m_nUsedBuffer);
         }
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        drawText(rc, strText);
+
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Video size   : %ld x %ld  (AR = %ld : %ld)", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Video size   : %ld x %ld  (AR = %ld : %ld)"),
+                           m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
+            drawText(rc, strText);
             if (m_pVideoTexture[0] || m_pVideoSurface[0]) {
                 D3DSURFACE_DESC desc;
                 ZeroMemory(&desc, sizeof(desc));
@@ -2024,115 +2092,128 @@ void CDX9AllocatorPresenter::DrawStats()
                 }
 
                 if (desc.Width != (UINT)m_nativeVideoSize.cx || desc.Height != (UINT)m_nativeVideoSize.cy) {
-                    strText.Format(L"Texture size : %u x %u", desc.Width, desc.Height);
-                    DrawText(rc, strText, 1);
-                    OffsetRect(&rc, 0, TextHeight);
+                    strText.Format(_T("Texture size : %u x %u"), desc.Width, desc.Height);
+                    drawText(rc, strText);
                 }
             }
 
 
-            DrawText(rc, rd->m_strDXVAInfo, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, rd->m_strDXVAInfo);
 
-            strText.Format(L"DirectX SDK  : %u", rd->GetDXSdkRelease());
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("DirectX SDK  : %u"), rd->GetDXSdkRelease());
+            drawText(rc, strText);
 
             if (!m_D3D9Device.IsEmpty()) {
-                strText = "Render device: " + m_D3D9Device;
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                strText = _T("Render device: ") + m_D3D9Device;
+                drawText(rc, strText);
             }
 
             if (!m_Decoder.IsEmpty()) {
-                strText = "Decoder      : " + m_Decoder;
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                strText = _T("Decoder      : ") + m_Decoder;
+                drawText(rc, strText);
             }
 
             for (int i = 0; i < 6; i++) {
                 if (m_strStatsMsg[i][0]) {
-                    DrawText(rc, m_strStatsMsg[i], 1);
-                    OffsetRect(&rc, 0, TextHeight);
+                    drawText(rc, m_strStatsMsg[i]);
                 }
             }
         }
         m_pSprite->End();
-        OffsetRect(&rc, 0, TextHeight); // Extra "line feed"
     }
 
     if (m_pLine && iDetailedStats) {
-        D3DXVECTOR2 Points[NB_JITTER];
+        D3DXVECTOR2 points[NB_JITTER];
+        const float graphWidth = GRAPH_WIDTH * textScale;
+        const float graphHeight = GRAPH_HEIGHT * textScale;
+        const float topLeftX = m_windowRect.Width() - (graphWidth + lineHeight);
+        const float topLeftY = m_windowRect.Height() - (graphHeight + lineHeight);
+        const float gridStepY = graphHeight / 24.0f;
+        const float gridStepX = graphWidth / NB_JITTER;
 
-        int ScaleX = 1;
-        int ScaleY = 1;
-        int DrawWidth = 625 * ScaleX + 50;
-        int DrawHeight = 250 * ScaleY;
-        int Alpha = 80;
-        int StartX = m_windowRect.Width() - (DrawWidth + 20);
-        int StartY = m_windowRect.Height() - (DrawHeight + 20);
+        // Draw background
+        DrawRect(RGB(0, 0, 0), 80, CRect(int(topLeftX),
+                                         int(topLeftY),
+                                         int(topLeftX + graphWidth),
+                                         int(topLeftY + graphHeight)));
 
-        DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
-        // === Jitter Graduation
-        //m_pLine->SetWidth(2.2);          // Width
-        //m_pLine->SetAntialias(1);
-        m_pLine->SetWidth(2.5);          // Width
-        m_pLine->SetAntialias(1);
-        //m_pLine->SetGLLines(1);
+        m_pLine->SetWidth(2.5f * textScale);
+        m_pLine->SetAntialias(TRUE);
         m_pLine->Begin();
 
-        for (int i = 10; i < 250 * ScaleY; i += 10 * ScaleY) {
-            Points[0].x = (float)StartX;
-            Points[0].y = (float)(StartY + i);
-            Points[1].x = (float)(StartX + (((i - 10) % 40) ? 50 : 625 * ScaleX));
-            Points[1].y = (float)(StartY + i);
-            if (i == 130) {
-                Points[1].x += 50;
+        // Draw grid lines
+        for (int i = 1; i < 24; ++i) {
+            points[0].x = topLeftX;
+            points[0].y = topLeftY + i * gridStepY;
+            points[1].y = points[0].y;
+
+            float lineLength;
+            D3DCOLOR color;
+            if (i % 12 == 0) {
+                lineLength = 1.0f;
+                color = D3DCOLOR_XRGB(100, 100, 255);
+            } else if (i % 4 == 0) {
+                lineLength = 0.96f;
+                color = D3DCOLOR_XRGB(100, 100, 180);
+            } else {
+                lineLength = 0.04f;
+                color = D3DCOLOR_XRGB(100, 100, 140);
             }
-            m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
+            points[1].x = topLeftX + graphWidth * lineLength;
+            m_pLine->Draw(points, 2, color);
         }
 
-        // === Jitter curve
         if (m_rtTimePerFrame) {
-            for (int i = 0; i < NB_JITTER; i++) {
-                int nIndex = (m_nNextJitter + 1 + i) % NB_JITTER;
+            // Draw jitter
+            for (int i = 1; i <= NB_JITTER; ++i) {
+                int nIndex = (m_nNextJitter + i) % NB_JITTER;
                 if (nIndex < 0) {
                     nIndex += NB_JITTER;
+                    ASSERT(FALSE);
                 }
-                double Jitter = m_pllJitter[nIndex] - m_fJitterMean;
-                Points[i].x  = (float)(StartX + (i * 5 * ScaleX + 5));
-                Points[i].y  = (float)(StartY + ((Jitter * ScaleY) / 5000.0 + 125.0 * ScaleY));
+                float jitter = float(m_pllJitter[nIndex] - m_fJitterMean);
+                points[i - 1].x = topLeftX + i * gridStepX;
+                points[i - 1].y = topLeftY + (jitter * textScale / 2000.0f + graphHeight / 2.0f);
             }
-            m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
+            m_pLine->Draw(points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
             if (m_bSyncStatsAvailable) {
-                for (int i = 0; i < NB_JITTER; i++) {
-                    int nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
+                // Draw sync offset
+                for (int i = 1; i <= NB_JITTER; ++i) {
+                    int nIndex = (m_nNextSyncOffset + i) % NB_JITTER;
                     if (nIndex < 0) {
                         nIndex += NB_JITTER;
                     }
-                    Points[i].x = (float)(StartX + (i * 5 * ScaleX + 5));
-                    Points[i].y = (float)(StartY + ((m_pllSyncOffset[nIndex] * ScaleY) / 5000 + 125 * ScaleY));
+                    points[i - 1].x = topLeftX + i * gridStepX;
+                    points[i - 1].y = topLeftY + (m_pllSyncOffset[nIndex] * textScale / 2000.0f + graphHeight / 2.0f);
                 }
-                m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
+                m_pLine->Draw(points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
             }
         }
         m_pLine->End();
     }
-
-    // === Text
-
 }
 
 STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     CheckPointer(size, E_POINTER);
 
+    // Keep a reference so that we can safely work on the surface
+    // without having to lock everything
+    CComPtr<IDirect3DSurface9> pVideoSurface;
+    {
+        CAutoLock cAutoLock(this);
+        CheckPointer(m_pVideoSurface[m_nCurSurface], E_FAIL);
+        pVideoSurface = m_pVideoSurface[m_nCurSurface];
+    }
+
     HRESULT hr;
 
     D3DSURFACE_DESC desc;
     ZeroMemory(&desc, sizeof(desc));
-    m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
+    if (FAILED(hr = pVideoSurface->GetDesc(&desc))) {
+        return hr;
+    }
 
     DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
     if (!lpDib) {
@@ -2148,11 +2229,11 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     // Convert to 8-bit when using 10-bit or full/half processing modes
     if (desc.Format != D3DFMT_X8R8G8B8) {
         if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pSurface, nullptr))
-                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(pSurface, nullptr, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, nullptr, D3DX_DEFAULT, 0))) {
+                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(pSurface, nullptr, nullptr, pVideoSurface, nullptr, nullptr, D3DX_DEFAULT, 0))) {
             return hr;
         }
     } else {
-        pSurface = m_pVideoSurface[m_nCurSurface];
+        pSurface = pVideoSurface;
     }
     D3DLOCKED_RECT r;
     if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
@@ -2166,23 +2247,11 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
         }
     }
 
-    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
-    bih->biSize = sizeof(BITMAPINFOHEADER);
-    bih->biWidth = desc.Width;
-    bih->biHeight = desc.Height;
-    bih->biBitCount = 32;
-    bih->biPlanes = 1;
-    bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
-
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-        (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
+    hr = CreateDIBFromSurfaceData(desc, r, lpDib);
 
     pSurface->UnlockRect();
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget)

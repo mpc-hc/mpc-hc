@@ -31,7 +31,7 @@
 #define RAR_VOL_ASK           0
 #define RAR_VOL_NOTIFY        1
 
-#define RAR_DLL_VERSION       6
+#define RAR_DLL_VERSION       8
 
 #define RAR_HASH_NONE         0
 #define RAR_HASH_CRC32        1
@@ -98,7 +98,17 @@ struct RARHeaderDataEx
   unsigned int DictSize;
   unsigned int HashType;
   char         Hash[32];
-  unsigned int Reserved[1014];
+  unsigned int RedirType;
+  wchar_t      *RedirName;
+  unsigned int RedirNameSize;
+  unsigned int DirTarget;
+  unsigned int MtimeLow;
+  unsigned int MtimeHigh;
+  unsigned int CtimeLow;
+  unsigned int CtimeHigh;
+  unsigned int AtimeLow;
+  unsigned int AtimeHigh;
+  unsigned int Reserved[988];
 };
 
 
@@ -114,6 +124,16 @@ struct RAROpenArchiveData
 };
 
 typedef int (CALLBACK *UNRARCALLBACK)(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);
+
+#define ROADF_VOLUME       0x0001
+#define ROADF_COMMENT      0x0002
+#define ROADF_LOCK         0x0004
+#define ROADF_SOLID        0x0008
+#define ROADF_NEWNUMBERING 0x0010
+#define ROADF_SIGNED       0x0020
+#define ROADF_RECOVERY     0x0040
+#define ROADF_ENCHEADERS   0x0080
+#define ROADF_FIRSTVOLUME  0x0100
 
 struct RAROpenArchiveDataEx
 {

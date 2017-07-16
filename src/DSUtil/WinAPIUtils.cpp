@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2014 see Authors.txt
+ * (C) 2011-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 #include <Shlobj.h>
 #include "WinAPIUtils.h"
 #include "SysVersion.h"
+#include "PathUtils.h"
 
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable)
@@ -135,7 +136,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
                 file.WriteString(_T("\n"));
                 break;
             case REG_DWORD:
-                buffer.Format(_T("\"%s\"=dword:%08x\n"), valueName, *((DWORD*)data));
+                buffer.Format(_T("\"%s\"=dword:%08lx\n"), valueName, *((DWORD*)data));
                 file.WriteString(buffer);
                 break;
             default: {
@@ -205,30 +206,33 @@ int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX* /*lpelfe*/, NEWTEXTMETRICEX* /*lpn
     return TRUE;
 }
 
+namespace
+{
+    void GetNonClientMetrics(NONCLIENTMETRICS* ncm)
+    {
+        ZeroMemory(ncm, sizeof(NONCLIENTMETRICS));
+        ncm->cbSize = sizeof(NONCLIENTMETRICS);
+        if (!SysVersion::IsVistaOrLater()) {
+            ncm->cbSize -= sizeof(ncm->iPaddedBorderWidth);
+        }
+        VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm->cbSize, ncm, 0));
+    }
+}
+
 void GetMessageFont(LOGFONT* lf)
 {
-    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    if (!SysVersion::IsVistaOrLater()) {
-        ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
-    }
-
-    SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+    GetNonClientMetrics(&ncm);
     *lf = ncm.lfMessageFont;
+    ASSERT(lf->lfHeight);
 }
 
 void GetStatusFont(LOGFONT* lf)
 {
-    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    if (!SysVersion::IsVistaOrLater()) {
-        ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
-    }
-
-    SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+    GetNonClientMetrics(&ncm);
     *lf = ncm.lfStatusFont;
+    ASSERT(lf->lfHeight);
 }
 
 bool IsFontInstalled(LPCTSTR lpszFont)
@@ -259,31 +263,12 @@ bool ExploreToFile(LPCTSTR path)
     bool success = false;
     PIDLIST_ABSOLUTE pidl;
 
-    if (FileExists(path) && SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
+    if (PathUtils::Exists(path) && SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
         success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
         CoTaskMemFree(pidl);
     }
 
     return success;
-}
-
-bool FileExists(LPCTSTR fileName)
-{
-    return (INVALID_FILE_ATTRIBUTES != ::GetFileAttributes(fileName));
-}
-
-CString GetProgramPath(bool bWithExecutableName /*= false*/)
-{
-    CString path;
-
-    DWORD dwLength = ::GetModuleFileName(nullptr, path.GetBuffer(MAX_PATH), MAX_PATH);
-    path.ReleaseBuffer((int)dwLength);
-
-    if (!bWithExecutableName) {
-        path = path.Left(path.ReverseFind(_T('\\')) + 1);
-    }
-
-    return path;
 }
 
 CoInitializeHelper::CoInitializeHelper()

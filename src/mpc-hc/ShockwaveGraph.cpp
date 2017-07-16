@@ -24,7 +24,7 @@
 #include "resource.h"
 #include "DSUtil.h"
 #include "SysVersion.h"
-#include <math.h>
+#include <cmath>
 #include <Audiopolicy.h>
 #include <Mmdeviceapi.h>
 

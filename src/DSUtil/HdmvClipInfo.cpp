@@ -21,8 +21,8 @@
 #include "stdafx.h"
 #include "HdmvClipInfo.h"
 #include "DSUtil.h"
+#include "ISOLang.h"
 
-extern LCID ISO6392ToLcid(LPCSTR code);
 
 CHdmvClipInfo::CHdmvClipInfo()
     : SequenceInfo_start_address(0)
@@ -133,7 +133,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
                     m_Streams[iStream].m_LanguageCode[3] = '\0';
-                    m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
+                    m_Streams[iStream].m_LCID = ISOLang::ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                     m_Streams[iStream].m_ChannelLayout = ChannelLayout;
                     m_Streams[iStream].m_SampleRate = SampleRate;
                 }
@@ -142,14 +142,14 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                 case INTERACTIVE_GRAPHICS_STREAM: {
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
                     m_Streams[iStream].m_LanguageCode[3] = '\0';
-                    m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
+                    m_Streams[iStream].m_LCID = ISOLang::ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                 }
                 break;
                 case SUBTITLE_STREAM: {
                     ReadByte(); // Should this really be here?
                     ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
                     m_Streams[iStream].m_LanguageCode[3] = '\0';
-                    m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
+                    m_Streams[iStream].m_LCID = ISOLang::ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                 }
                 break;
                 default:

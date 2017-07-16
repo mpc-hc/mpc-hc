@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rubén <feiticeiro2010@hotmail.es>, 2014
-# Toño Calo <enfeitizador@gmail.com>, 2014
+# Rubén <feiticeiro2010@hotmail.es>, 2014-2016
+# Toño Calo <enfeitizador@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-02 00:20+0000\n"
-"Last-Translator: Toño Calo <enfeitizador@gmail.com>\n"
-"Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Galician (http://www.transifex.com/mpc-hc/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,19 +47,19 @@ msgstr "Saída"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Gravar Vídeo"
+msgstr "Gravar vídeo"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
-msgstr "Vista Previa"
+msgstr "Vista previa"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Gravar Audio"
+msgstr "Gravar audio"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
-msgstr "Vista Previa"
+msgstr "Vista previa"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activar mapeo de canles personalizado"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Axustes dos altofalantes para"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,7 +118,7 @@ msgid "input channels:"
 msgstr "Canles de entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Presiona a tecla \"shift\" para aplicar os cambios de inmediato"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -127,7 +127,7 @@ msgstr "Ir a..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "insere  unha hora usando o formato [hh]:mm:ss:ms para saltar a un tempo especificado. Non precisas inserir os separadores de forma explícita."
+msgstr "insere unha hora usando o formato [hh]:mm:ss:ms para saltar a un tempo especificado. Non precisas inserir os separadores de forma explícita."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -155,7 +155,7 @@ msgstr "Abrir"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Escribe a ruta do filme ou ficheiro de audio (en Internet ou no teu ordenador) e o reproductor abrirao por ti."
+msgstr "Escribe a ruta do filme ou ficheiro de audio (en Internet ou no teu ordenador) e o reprodutor abrirao por ti."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -187,11 +187,11 @@ msgstr "Engadir á lista de reprodución sen abrir"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
-msgstr "Acerca De"
+msgstr "Acerca de"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Dereitos do autor © 2002-2014 vexa o ficheiro Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Dereitos do autor © 2002-2017 vexa o ficheiro Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -199,7 +199,7 @@ msgstr "Este programa é de balde e foi lanzado baixo a Licenza Publica Xeral GN
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traducido ao Galego por anxo_cruel"
+msgstr "Tradución ao galego: anxo_cruel, enfeitizador"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -243,11 +243,11 @@ msgstr "Opcións de apertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar o mesmo reproductor para cada ficheiro de medios que se reproduza"
+msgstr "Usar o mesmo reprodutor para cada ficheiro de medios que se reproduza"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Abrir un novo reproductor para cada ficheiro de medios que se reproduza"
+msgstr "Abrir un novo reprodutor para cada ficheiro de medios que se reproduza"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "vez(veces)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Repetir modo:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Tras a reprodución"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Saída"
+msgid "Default zoom"
+msgstr "Escalado predeterminado"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -472,10 +476,6 @@ msgstr "Reportar conectores que non queiran funcionar"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Auto-carga de audio"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Usar o procesador de subtítulos incorporado"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -570,7 +570,7 @@ msgid "Warning"
 msgstr "Aviso"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Se activas o modo de antialiasing a pantalla completa na configuración da súa tarxeta gráfica, os subtítulos non lucirán mellor e esixirán forza ao CPU."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -603,7 +603,7 @@ msgstr "Establecer como programa pre&definido"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Xestor do Protocolo de Transmisións en Tempo Real (para rtsp://... URLs)"
+msgstr "Xestor do protocolo de Transmisións en tempo real (para rtsp://... URLs)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -677,16 +677,16 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Previr MINIMIZAR en pantalla completa ao utilizar un monitor diferente ao por defecto"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Utilizar características da barra de tarefas de Windows 7"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Usar características melloradas da barra de tarefas"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Saltar ao ficheiro anterior/seguinte no cartafol en \"Saltar seguinte/anterior\" cando só hai un ficheiro na lista de reprodución"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Usar tooltip de tempo:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -787,7 +787,7 @@ msgstr "Ubicación:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"
-msgstr "Descripción:"
+msgstr "Descrición:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
@@ -987,7 +987,7 @@ msgstr "Espazamento"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "Angulo (z,°)"
+msgstr "Ángulo (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
@@ -1071,7 +1071,7 @@ msgstr "Vincular canles alpha"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Se prefire utilizar as versións independentes de estes filtros ou algún outro reemplazo, desactiveos aquí."
+msgstr "Se prefire utilizar as versións independentes destes filtros ou algún outro cambio, desactiveos aquí."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1126,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "Renderizador de Audio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Axustes de VMR-7/VMR-9 (sen renderizador) e EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Axustes de VMR-9 (sen renderizador) e EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1147,7 +1147,7 @@ msgstr "Reinicializar ao cambiar pantalla"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "D3D en Pantalla completa"
+msgstr "D3D en pantalla completa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1170,8 +1170,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Subtítulos *"
+msgid "Subtitles"
+msgstr "Subtítulos"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1186,8 +1186,12 @@ msgid "Rotation"
 msgstr "Rotación"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Filtros externos (Como o VSFilter) poden amosar subtítulos en todos os renderizadores"
+msgid "Subtitle Renderer"
+msgstr "Renderizador de subtítulos"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Sombreadores compilados en caché"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1204,6 +1208,10 @@ msgstr "Activar compresión"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Permitir o acceso soamente dende o host local"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Habilitar previsualización"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1230,20 +1238,48 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Xestores de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Subtítulos dispoñibles en liña"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Baixar e abrir"
+msgid "Download subtitles"
+msgstr "Baixar subtítulos"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Remplazar os subtítulos cargados actualmente"
+msgstr "Substitue os subtítulos cargados actualmente"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Descargar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Refrescar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Abortar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Opcións"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Subir subtítulos"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Subir"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Abortar"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Opcións"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Gardar Como..."
+msgstr "Gardar como..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1278,8 +1314,8 @@ msgid "Enable automatic update check"
 msgstr "Activar comprobación automática de actualizacións"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Demora entre cada comprobación:"
+msgid "Check every:"
+msgstr "Comprobar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1475,7 +1511,7 @@ msgstr "Saír da pantalla completa ao rematar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Monitor da Pantalla Completa"
+msgstr "Monitor da pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "Reiniciar"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Base de datos en liña"
+msgid "Online search, download and upload subtitles"
+msgstr "Procurar en liña, baixar e subir subtítulos"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Buscar e baixar subtítulos automáticamente se non se atopan localmente"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Preferir subtítulos para persoas xordas (cando o indique o proveedor de subtítulos)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Ignorar ficheiros que conteñan calquera destas palabras: "
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "A URL base da base de datos de subtítulos:"
+msgid "Languages in order of preference:"
+msgstr "Linguas en orde de preferencia:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Probar"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Subir subtítulos activos automáticamente ao rematar a reprodución"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1653,6 +1701,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Predefinido"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Dispositivo"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Modo exclusivo"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Permitir fluxo de bits"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Opcións"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Habilitar mestura das canles estereo (para auriculares)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Corte"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Nivel:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Nota"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Para minimizar a distorsión do son, recomendase manter o volume do reprodutor en torno ao 85 % ao reproducir contido ruidoso codificado con perdas."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "Calidade de JPEG:"
@@ -1664,4 +1756,40 @@ msgstr "Axuda da liña de comandos"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "De acordo"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Informe de fallo"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Sentimolo, semella que MPC-HC acaba de caer :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Envíe un informe do erro para axudarnos a diagnosticar e reparar o problema"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "Información opcional"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "O seu enderezo de correo electrónico é opcional e só se usará se os desenvolvedores precisan contactar con vostede para recabar máis información."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Descrición do problema (usa só o inglés):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "Reiniciar MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "Saír de MPC-HC"
 

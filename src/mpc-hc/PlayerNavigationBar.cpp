@@ -19,11 +19,9 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
-#include "MainFrm.h"
 #include "PlayerNavigationBar.h"
-#include <afxwin.h>
-
+#include "DSUtil.h"
+#include "mplayerc.h"
 
 // CPlayerNavigationBar
 
@@ -31,10 +29,6 @@ IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
     : m_pParent(nullptr)
     , m_navdlg(pMainFrame)
-{
-}
-
-CPlayerNavigationBar::~CPlayerNavigationBar()
 {
 }
 

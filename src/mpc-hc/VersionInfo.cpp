@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,6 +49,15 @@ bool VersionInfo::Is64Bit()
 #endif
 }
 
+bool VersionInfo::IsLite()
+{
+#ifdef MPCHC_LITE
+    return true;
+#else
+    return false;
+#endif
+}
+
 CString VersionInfo::GetVersionString()
 {
     return MPC_VERSION_STR;
@@ -82,4 +91,13 @@ unsigned VersionInfo::GetPatchNumber()
 unsigned VersionInfo::GetRevisionNumber()
 {
     return MPC_VERSION_REV;
+}
+
+CString VersionInfo::GetGCCVersion()
+{
+#ifdef _WIN64
+    return GCC64_VERSION;
+#else
+    return GCC32_VERSION;
+#endif
 }

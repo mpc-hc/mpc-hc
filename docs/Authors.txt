@@ -1,19 +1,17 @@
-Active (sorted by name):
-------------------------
-alexmarsev              <alexmarsev@users.sourceforge.net>      Code
-Armada                  <armada651@users.sourceforge.net>       Code
+Active (sorted by name)
+-----------------------
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 JellyFrog               -                                       Server and Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
-nevcairiel              <nevcairiel@users.sourceforge.net>      Code, LAVFilters maintainer
-Underground78           <underground78@users.sourceforge.net>   Code, French, Project manager
-XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Project manager
+XhmikosR                <xhmikosr@gmail.com>                    Various stuff, Project manager
 
 
-Inactive:
----------
+Inactive
+--------
 _xxl                    <drevil_xxl@users.sourceforge.net>      FFmpeg
 Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
+alexmarsev              <alexmarsev@users.sourceforge.net>      Code
+Armada                  <armada651@users.sourceforge.net>       Code
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
@@ -28,21 +26,23 @@ KindDragon              <kinddragon@users.sourceforge.net>      Code
 Martin Panayotov        <mvpsoft@users.sourceforge.net>         Old website
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 namaiki                 <namaiki@users.sourceforge.net>         Trac moderator
+nevcairiel              <nevcairiel@users.sourceforge.net>      Code, LAVFilters maintainer
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project manager
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
+Underground78           <underground78@users.sourceforge.net>   Code, French, Project manager
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
 Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 
-Translators:
-------------
+Translators
+-----------
 Translations are now handled using Transifex, a web-based translation platform. An up-to-date list
-of translators involved for each language can be found on https://www.transifex.com/projects/p/mpc-hc/.
+of translators involved for each language can be found on https://www.transifex.com/mpc-hc/mpc-hc/.
 
-Translators (pre-Transifex era):
-------------
+Translators (pre-Transifex era)
+-------------------------------
 Armenian                hrant77                 <hrant77@users.sourceforge.net>
 Basque                  Xabier Aramendi         <azpidatziak@users.sourceforge.net>
 Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
@@ -77,14 +77,13 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net> (http://www.eleks.com)
 
 
-Contributors:
--------------
-Alexx999, foxx1337, heksesang, judelaw, m0viefreak, madshi, mtrz, nielsm,
-skaarj1, VSFilterMod Team, X-Dron
+Contributors
+------------
+Alexx999, foxx1337, heksesang, judelaw, m0viefreak, madshi, mtrz, nielsm, skaarj1, VSFilterMod Team, X-Dron
 
 
 https://github.com/mpc-hc/mpc-hc/graphs/contributors
-http://www.openhub.net/p/mpc-hc/contributors?query=&sort=commits
+https://www.openhub.net/p/mpc-hc/contributors?query=&sort=commits
 
 
 If you think you should be listed in this document and we don't do it already, please, contact us.

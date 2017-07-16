@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,13 +21,15 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include <math.h>
+#include <cmath>
 #include <atlbase.h>
 #include <afxpriv.h>
 #include "MPCPngImage.h"
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
+#include "SVGImage.h"
+#include "ImageGrayer.h"
 
 // CPlayerToolBar
 
@@ -35,39 +37,86 @@ IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
-    , m_pButtonsImages(nullptr)
     , m_volumeMinSizeInc(0)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+        MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED,
+    }, std::bind(&CPlayerToolBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerToolBar::~CPlayerToolBar()
 {
-    SAFE_DELETE(m_pButtonsImages);
 }
 
-bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
+bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
 {
-    bool success = true;
-    CString path = GetProgramPath();
+    // Paths and extensions to try (by order of preference)
+    std::vector<CString> paths({ PathUtils::GetProgramPath() });
+    CString appDataPath;
+    if (AfxGetMyApp()->GetAppDataPath(appDataPath)) {
+        paths.emplace_back(appDataPath);
+    }
+    const std::vector<CString> extensions({ _T("png"), _T("bmp") });
 
-    // Try to load an external PNG toolbar first
-    if (FAILED(image->Load(path + _T("toolbar.png")))) {
-        // If it fails, try to load an external BMP toolbar
-        if (FAILED(image->Load(path + _T("toolbar.bmp")))) {
-            if (AfxGetMyApp()->GetAppDataPath(path)) {
-                // Try to load logo from AppData path
-                if (FAILED(image->Load(path + _T("\\toolbar.png")))) {
-                    if (FAILED(image->Load(path + _T("\\toolbar.bmp")))) {
-                        success = false;
-                    }
-                }
-            } else {
-                success = false;
+    // TODO: Find a better solution?
+    float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+
+    // Try loading the external toolbar
+    for (const auto& path : paths) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, _T("toolbar.svg")), image, dpiScaling))) {
+            return true;
+        }
+
+        for (const auto& ext : extensions) {
+            if (SUCCEEDED(image.Load(PathUtils::CombinePaths(path, _T("toolbar.") + ext)))) {
+                return true;
             }
         }
     }
 
-    return success;
+    return false;
+}
+
+void CPlayerToolBar::LoadToolbarImage()
+{
+    // We are currently not aware of any cases where the scale factors are different
+    float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+    float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
+
+    CImage image;
+    if (LoadExternalToolBar(image) || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
+        CBitmap* bmp = CBitmap::FromHandle(image);
+        int width = image.GetWidth();
+        int height = image.GetHeight();
+        int bpp = image.GetBPP();
+        if (width == height * 15) {
+            // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
+            SetSizes(CSize(height + 7, height + 6), CSize(height, height));
+
+            m_pButtonsImages.reset(DEBUG_NEW CImageList());
+            if (bpp == 32) {
+                m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
+                m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
+
+                CImage imageDisabled;
+                if (ImageGrayer::Gray(image, imageDisabled)) {
+                    m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
+                    m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
+                    m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
+                } else {
+                    m_pDisabledButtonsImages = nullptr;
+                }
+            } else {
+                m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
+                m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
+            }
+            m_nButtonHeight = height;
+            GetToolBarCtrl().SetImageList(m_pButtonsImages.get());
+            GetToolBarCtrl().SetDisabledImageList(m_pDisabledButtonsImages.get());
+        }
+        image.Destroy();
+    }
 }
 
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
@@ -112,29 +161,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     m_volctrl.SetRange(0, 100);
 
     m_nButtonHeight = 16; // reset m_nButtonHeight
-    CImage image;
-    if (LoadExternalToolBar(&image)) {
-        CBitmap* bmp = CBitmap::FromHandle(image);
-        int width = image.GetWidth();
-        int height = image.GetHeight();
-        int bpp = image.GetBPP();
-        if (width == height * 15) {
-            // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
-            SetSizes(CSize(height + 7, height + 6), CSize(height, height));
 
-            m_pButtonsImages = DEBUG_NEW CImageList();
-            if (bpp == 32) {
-                m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-                m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
-            } else {
-                m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
-                m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
-            }
-            m_nButtonHeight = height;
-            GetToolBarCtrl().SetImageList(m_pButtonsImages);
-        }
-        image.Destroy();
-    }
+    LoadToolbarImage();
 
     return TRUE;
 }
@@ -198,7 +226,7 @@ int CPlayerToolBar::GetVolume() const
     if (IsMuted() || volume <= 0) {
         volume = -10000;
     } else {
-        volume = min((int)(4000 * log10(volume / 100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
+        volume = std::min((int)(4000 * log10(volume / 100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
     }
 
     return volume;
@@ -212,6 +240,18 @@ int CPlayerToolBar::GetMinWidth() const
 void CPlayerToolBar::SetVolume(int volume)
 {
     m_volctrl.SetPosInternal(volume);
+}
+
+void CPlayerToolBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+        case MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED:
+            LoadToolbarImage();
+            break;
+        default:
+            UNREACHABLE_CODE();
+    }
 }
 
 BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
@@ -394,7 +434,7 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     if (bi.iImage == 12) {
         strTipText.LoadString(ID_VOLUME_MUTE);
     } else if (bi.iImage == 13) {
-        strTipText.LoadString(ID_VOLUME_MUTE_ON);
+        strTipText.LoadString(ID_VOLUME_MUTE_OFF);
     } else if (bi.iImage == 14) {
         strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {

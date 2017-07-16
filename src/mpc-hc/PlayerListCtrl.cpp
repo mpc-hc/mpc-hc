@@ -28,9 +28,9 @@
 // CInPlaceHotKey
 
 CInPlaceWinHotkey::CInPlaceWinHotkey(int iItem, int iSubItem, CString sInitText)
-    : m_sInitText(sInitText)
-    , m_iItem(iItem)
+    : m_iItem(iItem)
     , m_iSubItem(iSubItem)
+    , m_sInitText(sInitText)
     , m_bESC(FALSE)
 {
 }
@@ -124,9 +124,9 @@ int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // CInPlaceEdit
 
 CInPlaceEdit::CInPlaceEdit(int iItem, int iSubItem, CString sInitText)
-    : m_sInitText(sInitText)
-    , m_iItem(iItem)
+    : m_iItem(iItem)
     , m_iSubItem(iSubItem)
+    , m_sInitText(sInitText)
     , m_bESC(FALSE)
 {
 }
@@ -485,10 +485,10 @@ void CInPlaceListBox::OnNcDestroy()
 
 IMPLEMENT_DYNAMIC(CPlayerListCtrl, CListCtrl)
 CPlayerListCtrl::CPlayerListCtrl(int tStartEditingDelay)
-    : m_tStartEditingDelay(tStartEditingDelay)
-    , m_nTimerID(0)
-    , m_nItemClicked(-1)
+    : m_nItemClicked(-1)
     , m_nSubItemClicked(-1)
+    , m_tStartEditingDelay(tStartEditingDelay)
+    , m_nTimerID(0)
     , m_fInPlaceDirty(false)
 {
 }

@@ -13,7 +13,9 @@
 // for CryptProtectMemory in SecPassword.
 #define  MAXPASSWORD       128
 
-#define  MAXSFXSIZE        0x100000
+#define  MAXSFXSIZE        0x200000
+
+#define  MAXCMTSIZE        0x40000
 
 #define  DefSFXName        L"default.sfx"
 #define  DefSortListName   L"rarfiles.lst"
@@ -22,10 +24,6 @@
 #ifndef SFX_MODULE
 #define USE_QOPEN
 #endif
-
-// Suppress GCC warn_unused_result warning in -O2 mode
-// for those function calls where we do not need it.
-#define ignore_result(x) if (x)
 
 // Produce the value, which is equal or larger than 'v' and aligned to 'a'.
 #define ALIGN_VALUE(v,a) (size_t(v) + ( (~size_t(v) + 1) & (a - 1) ) )

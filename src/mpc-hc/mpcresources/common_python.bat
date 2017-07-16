@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2013 see Authors.txt
+REM (C) 2012-2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -21,11 +21,9 @@ PUSHD %~dp0
 
 SET ROOT_DIR=..\..\..
 
-IF EXIST "%ROOT_DIR%\build.user.bat" (
-  CALL "%ROOT_DIR%\build.user.bat"
-) ELSE (
-  IF DEFINED PYTHON (SET MPCHC_PYTHON=%PYTHON%)
-)
+IF EXIST "%ROOT_DIR%\build.user.bat" CALL "%ROOT_DIR%\build.user.bat"
+
+IF NOT DEFINED MPCHC_PYTHON IF DEFINED PYTHON (SET MPCHC_PYTHON=%PYTHON%)
 
 REM If the define wasn't set, we try to detect Python 2.7 from the registry
 IF NOT DEFINED MPCHC_PYTHON (
@@ -36,16 +34,15 @@ IF NOT DEFINED MPCHC_PYTHON (
   )
 )
 
-SET PATH=%MPCHC_PYTHON%;%PATH%
+SET "PATH=%MPCHC_PYTHON%;%PATH%"
 FOR %%G IN (python.exe) DO (SET PYTHON_PATH=%%~$PATH:G)
 IF NOT DEFINED PYTHON_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
-COPY /Y ..\mpc-hc.rc backup
-COPY /Y *.rc backup
+XCOPY /I /D /Y /Q ..\mpc-hc.rc backup
 IF NOT EXIST backup\PO MD backup\PO
-COPY /Y PO backup\PO
+XCOPY /I /D /Y /Q PO backup\PO
 ECHO ----------------------
 
 EXIT /B
@@ -60,5 +57,4 @@ EXIT /B
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
-ENDLOCAL
 EXIT /B 1

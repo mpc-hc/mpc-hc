@@ -11,15 +11,18 @@
 CryptData::CryptData()
 {
   Method=CRYPT_NONE;
-  memset(KDFCache,0,sizeof(KDFCache));
-  KDFCachePos=0;
+  memset(KDF3Cache,0,sizeof(KDF3Cache));
+  memset(KDF5Cache,0,sizeof(KDF5Cache));
+  KDF3CachePos=0;
+  KDF5CachePos=0;
   memset(CRCTab,0,sizeof(CRCTab));
 }
 
 
 CryptData::~CryptData()
 {
-  cleandata(KDFCache,sizeof(KDFCache));
+  cleandata(KDF3Cache,sizeof(KDF3Cache));
+  cleandata(KDF5Cache,sizeof(KDF5Cache));
 }
 
 
@@ -89,6 +92,21 @@ bool CryptData::SetCryptKeys(bool Encrypt,CRYPT_METHOD Method,
 }
 
 
+// Use the current system time to additionally randomize data.
+static void TimeRandomize(byte *RndBuf,size_t BufSize)
+{
+  static uint Count=0;
+  RarTime CurTime;
+  CurTime.SetCurrentTime();
+  uint64 Random=CurTime.GetWin()+clock();
+  for (size_t I=0;I<BufSize;I++)
+  {
+    byte RndByte = byte (Random >> ( (I & 7) * 8 ));
+    RndBuf[I]=byte( (RndByte ^ I) + Count++);
+  }
+}
+
+
 
 
 // Fill buffer with random data.
@@ -97,10 +115,10 @@ void GetRnd(byte *RndBuf,size_t BufSize)
   bool Success=false;
 #if defined(_WIN_ALL)
   HCRYPTPROV hProvider = 0;
-	if (CryptAcquireContext(&hProvider, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+  if (CryptAcquireContext(&hProvider, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
   {
-	  Success=CryptGenRandom(hProvider, (DWORD)BufSize, RndBuf) == TRUE;
-	  CryptReleaseContext(hProvider, 0);
+    Success=CryptGenRandom(hProvider, (DWORD)BufSize, RndBuf) == TRUE;
+    CryptReleaseContext(hProvider, 0);
   }
 #elif defined(_UNIX)
   FILE *rndf = fopen("/dev/urandom", "r");
@@ -112,15 +130,5 @@ void GetRnd(byte *RndBuf,size_t BufSize)
 #endif
   // We use this code only as the last resort if code above failed.
   if (!Success)
-  {
-    static uint Count=0;
-    RarTime CurTime;
-    CurTime.SetCurrentTime();
-    uint64 Random=CurTime.GetRaw()+clock();
-    for (size_t I=0;I<BufSize;I++)
-    {
-      byte RndByte = byte (Random >> ( (I & 7) * 8 ));
-      RndBuf[I]=byte( (RndByte ^ I) + Count++);
-    }
-  }
+    TimeRandomize(RndBuf,BufSize);
 }

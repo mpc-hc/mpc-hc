@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,6 +54,10 @@ CDirectVobSub::CDirectVobSub()
     m_SubtitleSpeedDiv = theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_SUBTITLESPEEDDIV), 1000);
     m_fMediaFPSEnabled = !!theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), FALSE);
     m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), 0));
+
+    int gcd = GCD(m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
+    m_SubtitleSpeedNormalizedMul = m_SubtitleSpeedMul / gcd;
+    m_SubtitleSpeedNormalizedDiv = m_SubtitleSpeedDiv / gcd;
 
     BYTE* pData = nullptr;
     UINT nSize;
@@ -300,12 +304,12 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
             return E_INVALIDARG;
         }
 
-        ((LOGFONT*)lf)->lfCharSet = m_defStyle.charSet;
-        ((LOGFONT*)lf)->lfItalic = m_defStyle.fItalic;
+        ((LOGFONT*)lf)->lfCharSet = (BYTE)m_defStyle.charSet;
+        ((LOGFONT*)lf)->lfItalic = (BYTE)m_defStyle.fItalic;
         ((LOGFONT*)lf)->lfHeight = (LONG)m_defStyle.fontSize;
         ((LOGFONT*)lf)->lfWeight = m_defStyle.fontWeight;
-        ((LOGFONT*)lf)->lfStrikeOut = m_defStyle.fStrikeOut;
-        ((LOGFONT*)lf)->lfUnderline = m_defStyle.fUnderline;
+        ((LOGFONT*)lf)->lfStrikeOut = (BYTE)m_defStyle.fStrikeOut;
+        ((LOGFONT*)lf)->lfUnderline = (BYTE)m_defStyle.fUnderline;
     }
 
     if (color) {
@@ -458,6 +462,10 @@ STDMETHODIMP CDirectVobSub::put_SubtitleTiming(int delay, int speedmul, int spee
     if (speeddiv > 0) {
         m_SubtitleSpeedDiv = speeddiv;
     }
+
+    int gcd = GCD(m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
+    m_SubtitleSpeedNormalizedMul = m_SubtitleSpeedMul / gcd;
+    m_SubtitleSpeedNormalizedDiv = m_SubtitleSpeedDiv / gcd;
 
     return S_OK;
 }

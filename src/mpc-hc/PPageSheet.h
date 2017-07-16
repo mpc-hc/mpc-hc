@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,6 +34,7 @@
 #include "PPageWebServer.h"
 #include "PPageInternalFilters.h"
 #include "PPageAudioSwitcher.h"
+#include "PPageAudioRenderer.h"
 #include "PPageExternalFilters.h"
 #include "PPageSubtitles.h"
 #include "PPageSubStyle.h"
@@ -44,6 +45,7 @@
 #include "PPageShaders.h"
 #include "PPageAdvanced.h"
 #include "TreePropSheet/TreePropSheet.h"
+#include "DpiHelper.h"
 
 
 // CTreePropSheetTreeCtrl
@@ -67,6 +69,12 @@ class CPPageSheet : public TreePropSheet::CTreePropSheet
 {
     DECLARE_DYNAMIC(CPPageSheet)
 
+public:
+    enum {
+        APPLY_LANGUAGE_CHANGE = 100, // 100 is a magic number than won't collide with WinAPI constants
+        RESET_SETTINGS
+    };
+
 private:
     bool m_bLockPage;
     bool m_bLanguageChanged;
@@ -87,6 +95,7 @@ private:
     CPPageInternalFilters m_internalfilters;
 #endif
     CPPageAudioSwitcher m_audioswitcher;
+    CPPageAudioRenderer m_audiorenderer;
     CPPageExternalFilters m_externalfilters;
     CPPageSubtitles m_subtitles;
     CPPageSubStyle m_substyle;
@@ -107,7 +116,7 @@ public:
     void LockPage() { m_bLockPage = true; };
 
 protected:
-    DPI m_dpi;
+    DpiHelper m_dpi;
 
     virtual BOOL OnInitDialog();
 

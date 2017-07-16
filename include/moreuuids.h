@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -380,7 +380,7 @@ DEFINE_GUID(MEDIASUBTYPE_ADPCM_AMV,
 struct WAVEFORMATEXPS2 : public WAVEFORMATEX {
     DWORD dwInterleave;
 
-    struct WAVEFORMATEXPS2() {
+    WAVEFORMATEXPS2() {
         ZeroMemory(this, sizeof(*this));
         cbSize = sizeof(WAVEFORMATEXPS2) - sizeof(WAVEFORMATEX);
     }
@@ -395,9 +395,6 @@ DEFINE_GUID(MEDIASUBTYPE_PS2_SUB,
 // {760A8F35-97E7-479d-AAF5-DA9EFF95D751}
 DEFINE_GUID(CLSID_DXR,
             0x760a8f35, 0x97e7, 0x479d, 0xaa, 0xf5, 0xda, 0x9e, 0xff, 0x95, 0xd7, 0x51);
-
-DEFINE_GUID(CLSID_madVR,
-            0xe1a8b82a, 0x32ce, 0x4b0d, 0xbe, 0x0d, 0xaa, 0x68, 0xc7, 0x72, 0xe4, 0x23);
 
 //
 // Ogg
@@ -1019,6 +1016,18 @@ DEFINE_GUID(MEDIASUBTYPE_MPG2,
 DEFINE_GUID(MEDIASUBTYPE_FLIC,
             0x434C4641, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
 
+// {4D415243-0000-0010-8000-00AA00389B71}
+DEFINE_GUID(MEDIASUBTYPE_CRAM,
+            MAKEFOURCC('C', 'R', 'A', 'M'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
+
+// {4D414857-0000-0010-8000-00AA00389B71}
+DEFINE_GUID(MEDIASUBTYPE_WHAM,
+            MAKEFOURCC('W', 'H', 'A', 'M'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
+
+// {4356534D-0000-0010-8000-00AA00389B71}
+DEFINE_GUID(MEDIASUBTYPE_MSVC,
+            MAKEFOURCC('M', 'S', 'V', 'C'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
+
 // {30313476-0000-0010-8000-00AA00389B71}
 DEFINE_GUID(MEDIASUBTYPE_v410,
             MAKEFOURCC('v', '4', '1', '0'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
@@ -1052,7 +1061,7 @@ DEFINE_GUID(MEDIASUBTYPE_HDMV_LPCM_AUDIO,
 struct WAVEFORMATEX_HDMV_LPCM : public WAVEFORMATEX {
     BYTE channel_conf;
 
-    struct WAVEFORMATEX_HDMV_LPCM() {
+    WAVEFORMATEX_HDMV_LPCM() {
         ZeroMemory(this, sizeof(*this));
         cbSize = sizeof(WAVEFORMATEX_HDMV_LPCM) - sizeof(WAVEFORMATEX);
     }
@@ -1080,7 +1089,7 @@ struct WAVEFORMATEXFFMPEG {
     int nCodecId;
     WAVEFORMATEX wfex;
 
-    struct WAVEFORMATEXFFMPEG() {
+    WAVEFORMATEXFFMPEG() {
         nCodecId = 0;
     }
 };
@@ -1198,3 +1207,17 @@ DEFINE_GUID(CLSID_XySubFilter, 0x2DFCB782, 0xEC20, 0x4A7C, 0xB5, 0x30, 0x45, 0x7
 
 // XySubFilterAutoLoader - {6B237877-902B-4C6C-92F6-E63169A5166C}
 DEFINE_GUID(CLSID_XySubFilter_AutoLoader, 0x6B237877, 0x902B, 0x4C6C, 0x92, 0xF6, 0xE6, 0x31, 0x69, 0xA5, 0x16, 0x6C);
+
+// sanear (internal version)
+// SaneAudioRenderer::Factory::GetFilterGuid() is the right way do optain it,
+// but we link DSUtil to everything and consequently will have to link sanear to everything.
+DEFINE_GUID(CLSID_SANEAR_INTERNAL, 0x2AE00773, 0x819A, 0x40FB, 0xA5, 0x54, 0x54, 0x82, 0x7E, 0x11, 0x63, 0x59);
+
+// sanear (standalone version) - {DF557071-C9FD-433A-9627-81E0D3640ED9}
+DEFINE_GUID(CLSID_SANEAR, 0xdf557071, 0xc9fd, 0x433a, 0x96, 0x27, 0x81, 0xe0, 0xd3, 0x64, 0xe, 0xd9);
+
+// AssFilter - {8A3704F3-BE3B-4944-9FF3-EE8757FDBDA5}
+DEFINE_GUID(CLSID_AssFilter, 0x8A3704F3, 0xBE3B, 0x4944, 0x9F, 0xF3, 0xEE, 0x87, 0x57, 0xFD, 0xBD, 0xA5);
+
+// AssFilterAutoLoader - {8A6DFC6A-0A79-4790-85DA-0688B8093B54}
+DEFINE_GUID(CLSID_AssFilter_AutoLoader, 0x8A6DFC6A, 0x0A79, 0x4790, 0x85, 0xDA, 0x06, 0x88, 0xB8, 0x09, 0x3B, 0x54);

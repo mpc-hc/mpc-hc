@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "DpiHelper.h"
+
 // CStatusLabel
 
 class CStatusLabel : public CStatic
@@ -32,9 +34,10 @@ private:
     CFont m_font;
 
 public:
-    CStatusLabel(bool fRightAlign, bool fAddEllipses);
+    CStatusLabel(const DpiHelper& dpiHelper, bool fRightAlign, bool fAddEllipses);
     virtual ~CStatusLabel();
 
+    void ScaleFont(const DpiHelper& dpiHelper);
     CFont& GetFont() { return m_font; }
 
     void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);

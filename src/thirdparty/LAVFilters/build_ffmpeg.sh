@@ -1,86 +1,89 @@
 #!/bin/sh
 
+echo "$(pwd)" | grep -q '[[:blank:]]' &&
+  echo "Out of tree builds are impossible with whitespace in source path." && exit 1
+
+bin_folder=bin
+
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
+  cross_prefix=x86_64-w64-mingw32-
+  lav_folder=LAVFilters64
+  mpc_hc_folder=mpc-hc_x64
 else
   arch=x86
   archdir=Win32
+  cross_prefix=
+  lav_folder=LAVFilters
+  mpc_hc_folder=mpc-hc_x86
 fi
 
+if [ "${2}" == "Debug" ]; then
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}_Debug/${lav_folder}
+  BASEDIR=$(pwd)/src/bin_${archdir}d
+else
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}/${lav_folder}
+  BASEDIR=$(pwd)/src/bin_${archdir}
+fi
+
+THIRDPARTYPREFIX=${BASEDIR}/thirdparty
+FFMPEG_BUILD_PATH=${THIRDPARTYPREFIX}/ffmpeg
+FFMPEG_LIB_PATH=${BASEDIR}/lib
+
 make_dirs() {
-  if [ ! -d bin_${archdir}/lib ]; then
-    mkdir -p bin_${archdir}/lib
-  fi
-
-  if [ ! -d bin_${archdir}d/lib ]; then
-    mkdir -p bin_${archdir}d/lib
-  fi
-}
-
-strip_libs() {
-  if [ "${arch}" == "x86_64" ]; then
-    x86_64-w64-mingw32-strip lib*/*-lav-*.dll
-  else
-    strip lib*/*-lav-*.dll
-  fi
+  mkdir -p ${FFMPEG_LIB_PATH}
+  mkdir -p ${FFMPEG_BUILD_PATH}
+  mkdir -p ${FFMPEG_DLL_PATH}
 }
 
 copy_libs() {
-  cp lib*/*-lav-*.dll ../../bin_${archdir}
-  cp lib*/*.lib ../../bin_${archdir}/lib
-  cp lib*/*-lav-*.dll ../../bin_${archdir}d
-  cp lib*/*.lib ../../bin_${archdir}d/lib
+  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
+  cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
+  ${cross_prefix}strip ${FFMPEG_DLL_PATH}/*-lav-*.dll
+  cp -u lib*/*.lib ${FFMPEG_LIB_PATH}
 }
 
 clean() {
+  cd ${FFMPEG_BUILD_PATH}
   echo Cleaning...
   if [ -f config.mak ]; then
     make distclean > /dev/null 2>&1
   fi
+  cd ${BASEDIR}
 }
 
 configure() {
   OPTIONS="
     --enable-shared                 \
     --disable-static                \
+    --enable-gpl                    \
     --enable-version3               \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
-    --disable-decoder=opus          \
-    --disable-parser=opus           \
     --disable-filters               \
-    --enable-filter=yadif           \
-    --enable-filter=scale           \
-    --disable-protocols             \
-    --enable-protocol=file          \
-    --enable-protocol=pipe          \
-    --enable-protocol=mmsh          \
-    --enable-protocol=mmst          \
-    --enable-protocol=rtp           \
-    --enable-protocol=http          \
-    --enable-protocol=crypto        \
-    --enable-protocol=rtmp          \
-    --enable-protocol=rtmpt         \
+    --enable-filter=scale,yadif,w3fdif \
+    --disable-protocol=async,cache,concat,httpproxy,icecast,md5,subfile \
     --disable-muxers                \
     --enable-muxer=spdif            \
+    --disable-bsfs                  \
+    --enable-bsf=extract_extradata,vp9_superframe \
     --disable-hwaccels              \
     --enable-hwaccel=h264_dxva2     \
     --enable-hwaccel=hevc_dxva2     \
     --enable-hwaccel=vc1_dxva2      \
     --enable-hwaccel=wmv3_dxva2     \
     --enable-hwaccel=mpeg2_dxva2    \
+    --enable-hwaccel=vp9_dxva2      \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
-    --enable-libopus                \
     --enable-avresample             \
     --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
     --disable-swresample            \
     --disable-encoders              \
-    --disable-bsfs                  \
     --disable-devices               \
     --disable-programs              \
     --disable-debug                 \
@@ -88,30 +91,32 @@ configure() {
     --build-suffix=-lav             \
     --arch=${arch}"
 
-  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../thirdparty/include"
+  EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../../thirdparty/include"
   EXTRA_LDFLAGS=""
   if [ "${arch}" == "x86_64" ]; then
-    OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=x86_64-w64-mingw32- --target-os=mingw32"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib64"
+    OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=${cross_prefix} --target-os=mingw32 --pkg-config=pkg-config"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib64"
   else
     OPTIONS="${OPTIONS} --cpu=i686"
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -mfpmath=sse"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib32"
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -msse2 -mfpmath=sse -mstackrealign"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib32"
   fi
 
-  sh ../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
+  sh ../../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
 }
 
 build() {
   echo Building...
-  make -j8 2>&1 | tee make.log
+  make -j$NUMBER_OF_PROCESSORS 2>&1 | tee make.log
   ## Check the return status and the log to detect possible errors
   [ ${PIPESTATUS[0]} -eq 0 ] && ! grep -q -F "rerun configure" make.log
 }
 
 configureAndBuild() {
+  cd ${FFMPEG_BUILD_PATH}
   ## Don't run configure again if it was previously run
-  if [ -f config.mak ]; then
+  if [ ../../../ffmpeg/configure -ot config.mak ] &&
+     [ ../../../../build_ffmpeg.sh -ot config.mak ]; then
     echo Skipping configure...
   else
     echo Configuring...
@@ -127,27 +132,19 @@ configureAndBuild() {
   ## Only if configure succeeded, actually build
   if [ ${CONFIGRETVAL} -eq 0 ]; then
     build &&
-    strip_libs &&
     copy_libs
     CONFIGRETVAL=$?
   fi
+  cd ${BASEDIR}
 }
 
 echo Building ffmpeg in GCC ${arch} Release config...
 
-cd src
-
 make_dirs
-
-out_dir=bin_${archdir}/ffmpeg
-if [ ! -d ${out_dir} ]; then
-  mkdir -p ${out_dir}
-fi
-cd ${out_dir}
 
 CONFIGRETVAL=0
 
-if [ "${2}" == "Clean" ]; then
+if [ "${3}" == "Clean" ]; then
   clean
   CONFIGRETVAL=$?
 else
@@ -167,7 +164,5 @@ else
     clean && configureAndBuild
   fi
 fi
-
-cd ../../..
 
 exit ${CONFIGRETVAL}

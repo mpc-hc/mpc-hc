@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="libsoxr">
+      <UniqueIdentifier>{e76300b5-2f4a-48a9-b672-aeefb9e98c4d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libsoxr\src\data-io.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\dbesi0.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\fft4g32.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\fft4g64.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\filter.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\lsr.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\pffft32s.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\rate32.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\rate32s.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\rate64.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\simd.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\soxr.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+    <ClCompile Include="libsoxr\src\vr32.c">
+      <Filter>libsoxr</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="soxr-config.h" />
+    <ClInclude Include="libsoxr\src\soxr.h" />
+  </ItemGroup>
+</Project>

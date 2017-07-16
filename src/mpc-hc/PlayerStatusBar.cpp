@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,19 +25,23 @@
 #include "MainFrm.h"
 #include "DSUtil.h"
 
-
 // CPlayerStatusBar
 
 IMPLEMENT_DYNAMIC(CPlayerStatusBar, CDialogBar)
 
 CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
-    , m_status(false, true)
-    , m_time(true, false)
+    , m_status(pMainFrame->m_dpi, false, true)
+    , m_time(pMainFrame->m_dpi, true, false)
     , m_bmid(0)
     , m_hIcon(0)
     , m_time_rect(-1, -1, -1, -1)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+    EventRouter::EventSelection receives;
+    receives.insert(MpcEvent::DPI_CHANGED);
+    GetEventd().Connect(m_eventc, receives, std::bind(&CPlayerStatusBar::EventCallback, this, std::placeholders::_1), fires);
 }
 
 CPlayerStatusBar::~CPlayerStatusBar()
@@ -51,13 +55,15 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 {
     BOOL ret = CDialogBar::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR);
 
+    // Should never be RTLed
+    ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
     m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
     m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
     m_tooltip.AddTool(&m_status);
-
 
     return ret;
 }
@@ -78,6 +84,7 @@ CSize CPlayerStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     ret.cy = std::max<long>(ret.cy, 24);
+    ret.cy = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(ret.cy);
     return ret;
 }
 
@@ -98,12 +105,28 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_time.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW | SS_NOTIFY,
                   r, this, IDC_PLAYERTIME);
+    // Should never be RTLed
+    m_time.ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
     m_status.SetWindowPos(&m_time, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
     Relayout();
 
     return 0;
+}
+
+void CPlayerStatusBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            m_status.ScaleFont(m_pMainFrame->m_dpi);
+            m_time.ScaleFont(m_pMainFrame->m_dpi);
+            SetMediaTypeIcon();
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
 }
 
 void CPlayerStatusBar::Relayout()
@@ -163,7 +186,8 @@ void CPlayerStatusBar::Clear()
 {
     m_status.SetWindowText(_T(""));
     m_time.SetWindowText(_T(""));
-    SetStatusTypeIcon(nullptr);
+    m_typeExt.Empty();
+    SetMediaTypeIcon();
     SetStatusBitmap(0);
 }
 
@@ -188,18 +212,12 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
     Relayout();
 }
 
-void CPlayerStatusBar::SetStatusTypeIcon(HICON hIcon)
+void CPlayerStatusBar::SetMediaType(CString ext)
 {
-    if (m_hIcon == hIcon) {
-        return;
+    if (ext != m_typeExt) {
+        m_typeExt = ext;
+        SetMediaTypeIcon();
     }
-
-    if (m_hIcon) {
-        DestroyIcon(m_hIcon);
-    }
-    m_type.SetIcon(m_hIcon = hIcon);
-
-    Relayout();
 }
 
 CString CPlayerStatusBar::GetStatusMessage() const
@@ -260,11 +278,12 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 {
     CString str;
     CString posstr, durstr, rstr;
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
         DVD_HMSF_TIMECODE tcNow, tcDur, tcRt;
 
-        if (fHighPrecision) {
+        if (fHighPrecision || s.bHighPrecisionTimer) {
             tcNow = RT2HMSF(rtNow);
             tcDur = RT2HMSF(rtDur);
             tcRt  = RT2HMSF(rtDur - rtNow);
@@ -288,7 +307,7 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
             durstr.Format(_T("%02u:%02u"), tcDur.bMinutes, tcDur.bSeconds);
         }
 
-        if (fHighPrecision) {
+        if (fHighPrecision || s.bHighPrecisionTimer) {
             posstr.AppendFormat(_T(".%03d"), int((rtNow / 10000) % 1000));
             durstr.AppendFormat(_T(".%03d"), int((rtDur / 10000) % 1000));
             rstr.AppendFormat(_T(".%03d"), int(((rtDur - rtNow) / 10000) % 1000));
@@ -299,7 +318,7 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
         rstr.Format(_T("%I64d"), rtDur - rtNow);
     }
 
-    if (!AfxGetAppSettings().fRemainingTime) {
+    if (!s.fRemainingTime) {
         str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
     } else {
         str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
@@ -323,11 +342,25 @@ BEGIN_MESSAGE_MAP(CPlayerStatusBar, CDialogBar)
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
+    ON_WM_CONTEXTMENU()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
 // CPlayerStatusBar message handlers
+
+void CPlayerStatusBar::SetMediaTypeIcon()
+{
+    if (m_hIcon) {
+        DestroyIcon(m_hIcon);
+    }
+
+    m_hIcon = m_typeExt.IsEmpty() ? NULL : LoadIcon(m_typeExt, true, &m_pMainFrame->m_dpi);
+
+    m_type.SetIcon(m_hIcon);
+
+    Relayout();
+}
 
 BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
 {
@@ -427,7 +460,7 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     GetCursorPos(&p);
     ScreenToClient(&p);
 
-    if (m_time_rect.PtInRect(p)) {
+    if (m_time_rect.PtInRect(p) && !IsMenu(m_timerMenu)) {
         SetCursor(LoadCursor(nullptr, IDC_HAND));
         return TRUE;
     }
@@ -465,12 +498,48 @@ BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
 
 void CPlayerStatusBar::OnTimeDisplayClicked()
 {
-    CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
     CAppSettings& s = AfxGetAppSettings();
 
     s.fRemainingTime = !s.fRemainingTime;
-    // This isn't particularly nice...
-    pFrame->OnTimer(2);
+    m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+}
+
+void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+    CPoint clientPoint = point;
+    ScreenToClient(&clientPoint);
+    if (!m_time_rect.PtInRect(clientPoint)) {
+        return __super::OnContextMenu(pWnd, point);
+    }
+
+    CAppSettings& s = AfxGetAppSettings();
+
+    enum {
+        REMAINING_TIME = 1,
+        HIGH_PRECISION
+    };
+
+    m_timerMenu.CreatePopupMenu();
+    m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINING_TIME, ResStr(IDS_TIMER_REMAINING_TIME));
+    UINT nFlags = MF_STRING;
+    if (m_pMainFrame->IsSubresyncBarVisible()) {
+        nFlags |= MF_DISABLED | MF_CHECKED;
+    } else {
+        nFlags |= MF_ENABLED | (s.bHighPrecisionTimer ? MF_CHECKED : MF_UNCHECKED);
+    }
+    m_timerMenu.AppendMenu(nFlags, HIGH_PRECISION, ResStr(IDS_TIMER_HIGH_PRECISION));
+
+    switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
+        case REMAINING_TIME:
+            s.fRemainingTime = !s.fRemainingTime;
+            m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+            break;
+        case HIGH_PRECISION:
+            s.bHighPrecisionTimer = !s.bHighPrecisionTimer;
+            m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+            break;
+    }
+    m_timerMenu.DestroyMenu();
 }
 
 BOOL CPlayerStatusBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,11 +20,13 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
-#include <dmo.h>
 #include "RegFilterChooserDlg.h"
 #include "FGFilter.h"
+#include "mplayerc.h"
 #include "DSUtil.h"
+#include "FakeFilterMapper2.h"
+#include <initguid.h>
+#include <dmo.h>
 
 
 // CRegFilterChooserDlg dialog
@@ -54,7 +56,7 @@ void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
     CComPtr<IPropertyBag> pPB;
     if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             m_list.SetItemData(
                 m_list.InsertItem(-1, CString(CStringW(var.bstrVal))),
                 (DWORD_PTR)m_monikers.AddTail(pMoniker));

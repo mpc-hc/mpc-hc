@@ -1,26 +1,34 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
-# sayanvd <sayanvd@yandex.ru>, 2014
-# stryaponoff <stryaponoff@gmail.com>, 2014
+# Arkady Shapkin <arkadiy_s@inbox.ru>, 2015
+# birkoff <birkoff.anarchist@gmail.com>, 2015
+# Evgeniy Kupras <zheka20012@yandex.ru>, 2016
+# Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
+# sayanvd <sayanvd@yandex.ru>, 2014-2015
+# Sergey <player54@mail.ru>, 2015-2016
+# Kirill <stryaponoff@gmail.com>, 2014,2016
+# SmilyCarrot <twisted-transistor@yandex.ru>, 2014
+# Victor Bychek, 2015-2016
+# Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 10:20+0000\n"
-"Last-Translator: Alexander Gorishnyak <kefir500@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Выберите тип"
+msgstr "Выбор типа медиа"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
@@ -36,7 +44,7 @@ msgstr "Видео"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
 msgid "Set"
-msgstr "Сохр."
+msgstr "Задать"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
@@ -44,31 +52,31 @@ msgstr "Аудио"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
-msgstr "Сохранение"
+msgstr "Вывод"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Видео"
+msgstr "Запись видео"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
-msgstr "Просмотр"
+msgstr "Предпросмотр"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Аудио"
+msgstr "Запись аудио"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
-msgstr "Просмотр"
+msgstr "Предпросмотр"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "V/A буферы:"
+msgstr "Буферы V/A:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "Звук в wav"
+msgstr "Аудио в wav"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
@@ -76,11 +84,11 @@ msgstr "Запись"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Включить встроенный переключатель аудиодорожек (требуется перезапуск)"
+msgstr "Включить встроенный переключатель аудио (требуется перезапуск)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "Нормализовать"
+msgstr "Нормализация"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
@@ -104,31 +112,31 @@ msgstr "Преобразовать в 44100 Гц"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Смещение звука (в мс):"
+msgstr "Смещение аудио (мс):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
 msgstr "Включить пользовательское распределение каналов"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Настройка колонок для "
+msgid "Speaker configuration for"
+msgstr "Настройка колонок для"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "входных каналов:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Удерживайте shift для немедленного принятия изменений при нажатии "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Удерживайте shift для немедленных изменений при нажатии."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Перейти..."
+msgstr "Переход..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Введите время в формате [чч:]мм:сс.мс, чтобы перейти к указанному времени."
+msgstr "Введите время в формате чч:мм:сс.мс, чтобы перейти к указанному моменту."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -136,7 +144,7 @@ msgstr "Время"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Вперед!"
+msgstr "Готово!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
@@ -148,7 +156,7 @@ msgstr "Кадр"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Вперед!"
+msgstr "Готово!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -156,7 +164,7 @@ msgstr "Открыть"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Введите адрес фильма или аудиофайла\n(в Интернете или на вашем компьютере)"
+msgstr "Введите адрес фильма или аудиофайла (в интернете или на вашем компьютере), чтобы проигрыватель открыл его."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -184,23 +192,23 @@ msgstr "Отмена"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Только добавить в плейлист"
+msgstr "Добавить в плейлист, но не проигрывать"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
 msgstr "О программе"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014, смотрите файл Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017, смотрите файл Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Эта программа бесплатна и распространяется под лицензией GNU General Public License."
+msgstr "Эта программа бесплатна и распространяется под GNU (General Public License)."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Локализация: v0lt, Aleksoid, YDY"
+msgstr "Локализация: Sergey S., v0lt, Aleksoid, YDY"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -216,7 +224,7 @@ msgstr "Компилятор:"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
-msgstr "не используется"
+msgstr "Не использ."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
@@ -232,7 +240,7 @@ msgstr "Название:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Копировать в буфер"
+msgstr "Скопировать в буфер обмена"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -244,7 +252,7 @@ msgstr "Открывать файлы, используя"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "один и тот же проигрыватель для каждого файла"
+msgstr "один проигрыватель для каждого файла"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
@@ -256,11 +264,11 @@ msgstr "Язык"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
-msgstr "В заголовке"
+msgstr "В заголовке отображать"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "отображать полный путь"
+msgstr "полный путь"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
@@ -268,11 +276,11 @@ msgstr "только имя файла"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "не отображать ничего"
+msgstr "ничего"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "имя файла заменить названием"
+msgstr "заменять имя файла названием"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -280,11 +288,11 @@ msgstr "Прочее"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Значок в панели задач"
+msgstr "Значок в области уведомлений"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Показать OSD (требуется перезапуск)"
+msgstr "Показывать OSD (требуется перезапуск)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -296,11 +304,11 @@ msgstr "Прилипать к границам экрана"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Сохранять настройки в .ini файле"
+msgstr "Сохранять настройки в ini-файле"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Отключить меню 'Открыть диск'"
+msgstr "Отключить меню «Открыть диск»"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -308,11 +316,11 @@ msgstr "Повышенный приоритет процесса"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "Включить поддержку обложек"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
-msgstr "История / Позиция"
+msgstr "История"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
@@ -332,7 +340,7 @@ msgstr "Запоминать позицию DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "Запоминать позицию окна"
+msgstr "Запоминать положение окна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
@@ -340,23 +348,23 @@ msgstr "Запоминать размер окна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Запоминать зум Pan-n-Scan"
+msgstr "Запоминать параметры Pan-n-Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Поведение команды \"Открыть DVD/BD...\""
+msgstr "Поведение команды «Открыть DVD/BD...»"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Выбирать папку"
+msgstr "Переходить к выбору расположения"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Открывать по умолчанию:"
+msgstr "Всегда открывать расположение по умолчанию:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Предпочтительный язык для навигатора DVD и сплиттера OGM"
+msgstr "Предпочтительный язык для навигатора DVD и внешнего сплиттера OGM"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -376,7 +384,7 @@ msgstr "Дополнительные настройки"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Разрешить субтитры для слабослышащих в 'Line 21 Decoder'"
+msgstr "Разрешить скрытые субтитры в «Line 21 Decoder»"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -388,11 +396,11 @@ msgstr "Громкость"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr "Тише"
+msgstr "Мин"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
-msgstr "Громче"
+msgstr "Макс"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
@@ -400,11 +408,11 @@ msgstr "Баланс"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "L"
-msgstr "Левый"
+msgstr "Л"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "R"
-msgstr "Правый"
+msgstr "П"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -412,7 +420,7 @@ msgstr "Воспроизведение"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
 msgid "Play"
-msgstr "Повторять"
+msgstr "Воспроизвести"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
@@ -420,15 +428,19 @@ msgstr "Повторять бесконечно"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "раз"
+msgstr "раз(а)"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Режим повтора:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "По окончании воспроизведения"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Вывод"
+msgid "Default zoom"
+msgstr "Масштаб по умолчанию"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -436,7 +448,7 @@ msgstr "Автомасштаб:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Вписывать в"
+msgstr "Подгонять в"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -444,7 +456,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Приоритет выбора дорожек"
+msgstr "Выбор дорожек по умолчанию"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -452,11 +464,11 @@ msgstr "Субтитры:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
-msgstr "Звук:"
+msgstr "Аудио:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Разрешить переопределение выбора для внешних сплиттеров"
+msgstr "Разрешить изменение выбора внешних сплиттеров"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -464,19 +476,15 @@ msgstr "Настройки открытия файлов"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Рабочий поток для построения цепи фильтров"
+msgstr "Использовать рабочий поток для построения графа"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Отчет об ошибках рендеринга потоков"
+msgstr "Сообщать об ошибках рендеринга потоков"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Автозагрузка аудио файлов"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Использовать встроенный рендерер субтитров"
+msgstr "Автозагрузка аудиофайлов"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -524,7 +532,7 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Настройка текстуры (откройте видео снова, чтобы увидеть изменения)"
+msgstr "Настройки текстур (чтобы увидеть изменения, откройте видео заново)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -532,31 +540,31 @@ msgstr "Число фрагментов в буфере:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
-msgstr "Максимальный размер текстуры:"
+msgstr "Макс. разрешение текстур:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Никогда не анимировать субтитры"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Рендеринг"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% анимации"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Анимация"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% частоты кадров видео"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Включить выпадение некоторых фрагментов при запаздывании"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -564,15 +572,15 @@ msgstr "Раскладка рендера"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Компенсировать соотношение сторон для анаморфированного видео"
+msgstr "Компенсация соотношение сторон для анаморфированного видео"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
-msgstr "Внимание"
+msgstr "Предупреждение"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Если вы измените положение и задействуете полноэкранное сглаживание в настройках видеокарты, субтитры не будут выглядеть лучше, но будут чрезмерно нагружать процессор."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "От изменения положения и полноэкранного сглаживания субтитры не станут выглядеть лучше, но это будет чрезмерно нагружать ваш процессор."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -592,19 +600,19 @@ msgstr "Ассоциации"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "Использовать специальные иконки форматов"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr ""
+msgstr "Запуск от имени администратора"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "Сделать программой по умолчанию"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Открывать Real-Time Streaming Protocol (rtsp://...) через:"
+msgstr "Обработчик Real-Time Streaming Protocol (rtsp://...):"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -620,7 +628,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Сначала смотреть расширение"
+msgstr "Сперва проверить расширение файла"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -636,7 +644,7 @@ msgstr "Для файлов"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Автовоспроизведение (только XP)"
+msgstr "Автовоспроизведение"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
@@ -652,11 +660,11 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Аудио CD"
+msgstr "Аудио-CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Расстояния перехода (короткое, среднее, длинное) в мс"
+msgstr "Расстояния перехода в мс (короткое, среднее, длинное)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -664,30 +672,30 @@ msgstr "По умолчанию"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Быстрая перемотка (по ключевым кадрам)"
+msgstr "Быстрый поиск (по ключевым кадрам)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Показывать метки глав на полосе прокрутки"
+msgstr "Показывать метки глав на ползунке"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Отправлять \"Сейчас играет\" в Skype (статус настроение)"
+msgstr "Отображать имя воспроизводимого файла в настроении Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Не сворачивать окно на дополнительном дисплее в полноэкранном режиме"
+msgstr "Предотвращать сворачивание проигрывателя на дополнительном дисплее в полноэкранном режиме"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Использовать возможности таскбара Windows 7"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Использовать расширенные функции панели задач"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Открывать следующий/предыдущий файл в папке через 'Вперед/Назад', когда в плейлисте только один пункт"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Открывать следующий/предыдущий файл в папке кнопками «Вперед/Назад», когда в списке воспроизведения только один пункт"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Показывать время"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -696,11 +704,11 @@ msgstr "Шрифт OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Включить поддержку Logitech LCD (экспериментальное)"
+msgstr "Включить поддержку Logitech LCD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Скрывать указатель мыши при воспроизведении в окне"
+msgstr "Скрывать курсор при воспроизведении в окне"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -720,23 +728,23 @@ msgstr "Блокировать"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
-msgstr "Значимость:"
+msgstr "Значение:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
 msgid "Up"
-msgstr "Выше"
+msgstr "Вверх"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
 msgid "Down"
-msgstr "Ниже"
+msgstr "Вниз"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Новый тип..."
+msgstr "Добавить тип"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Новый субтип..."
+msgstr "Добавить подтип"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -760,7 +768,7 @@ msgstr "Длительность:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "Размер кадра:"
+msgstr "Размер видео:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
@@ -768,7 +776,7 @@ msgstr "Создан:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
-msgstr "Название:"
+msgstr "Клип:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Author:"
@@ -824,11 +832,11 @@ msgstr "Переименовать"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Выше"
+msgstr "Вверх"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "Ниже"
+msgstr "Вниз"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -852,23 +860,23 @@ msgstr "Удалить"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
-msgstr "Выше"
+msgstr "Вверх"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
 msgid "Down"
-msgstr "Ниже"
+msgstr "Вниз"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
-msgstr "&Задать"
+msgstr "Выбрать"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Отмена"
+msgstr "Отмена"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
-msgstr "&Сохранить"
+msgstr "Сохранить"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
@@ -892,11 +900,11 @@ msgstr "Сбросить выбранные"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
-msgstr "Внимание"
+msgstr "Предупреждение"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC не может воспроизвести некоторые потоки, возможно, у вас не установлен нужный кодек или фильтр."
+msgstr "MPC-HC не смог воспроизвести некоторые дорожки в графе. Возможно, у вас не установлен нужный кодек или фильтр."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -920,7 +928,7 @@ msgstr "Кодировка:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Кодирование:"
+msgstr "Кодировка:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
@@ -932,7 +940,7 @@ msgstr "мс"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "Сохранить пользовательский стиль"
+msgstr "Сохранить польз. стиль"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -944,11 +952,11 @@ msgstr "Миниатюры:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "rows"
-msgstr "строк"
+msgstr "строки"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "columns"
-msgstr "столбцов"
+msgstr "колонки"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Image width:"
@@ -956,11 +964,11 @@ msgstr "Ширина изображения:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "pixels"
-msgstr "пикселей"
+msgstr "пиксели"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Выберите фильтр"
+msgstr "Выбор фильтра"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1012,7 +1020,7 @@ msgstr "Заливка"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Ширина границы"
+msgstr "Ширина"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1020,7 +1028,7 @@ msgstr "Тень"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Выравнивание и отступы"
+msgstr "Выравнивание экрана и поля"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1040,7 +1048,7 @@ msgstr "Снизу"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Позиционировать относительно кадра"
+msgstr "Располагать субтитры относительно кадра"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1072,31 +1080,31 @@ msgstr "Связать альфа-каналы"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Если вы хотите использовать отдельную версию этих фильтров или другую замену, отключите их здесь."
+msgstr "Если вы хотите использовать самостоятельную версию этих фильтров или другую альтернативу, отключите их здесь."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Фильтры источников"
+msgstr "Фильтры-источники"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Декодеры"
+msgstr "Фильтры-преобразователи"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Внутренние настройки LAV Filters"
+msgstr "Внутренние настройки LAV filters"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Сплитер"
+msgstr "Сплиттер"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr "Видео декодер"
+msgstr "Декодер видео "
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Аудио декодер"
+msgstr "Декодер аудио"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1112,23 +1120,23 @@ msgstr "Выбрать..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr "DirectShow видео"
+msgstr "Видео DirectShow"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "RealMedia Video"
-msgstr "RealMedia видео"
+msgstr "Видео RealMedia"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "QuickTime Video"
-msgstr "QuickTime видео"
+msgstr "Видео QuickTime"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
-msgstr "Аудио-рендерер"
+msgstr "Рендер аудио"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Настройки для VMR-7/VMR-9 (renderless) и EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Настройки VMR-9 (renderless) и EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1140,19 +1148,19 @@ msgstr "Интерполяция:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Выбрать устройство D3D9-рендеринга"
+msgstr "Выбрать D3D9-устройство рендеринга"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Реинициализация при смене монитора"
+msgstr "Реинициализация при смене дисплея"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Полноэкранный Direct3D (устраняет дрожание)"
+msgstr "Полноэкранный D3D-режим"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Альт. VSync"
+msgstr "Альтернативная VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1160,7 +1168,7 @@ msgstr "Режим VMR-9 Mixer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
-msgstr "Смешение в YUV"
+msgstr "YUV Mixing"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1171,8 +1179,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Субтитры *"
+msgid "Subtitles"
+msgstr "Субтитры"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1184,11 +1192,15 @@ msgstr "Шейдеры"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr "Поворот"
+msgstr "Вращение"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Внешние фильтры (например VSFilter) могут отображать субтитры на всех рендерерах."
+msgid "Subtitle Renderer"
+msgstr "Рендер субтитров"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Кешировать скомпилированные шейдеры"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1196,7 +1208,7 @@ msgstr "Слушать порт:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Запустить в web-браузере..."
+msgstr "Запустить в веб-браузере..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1204,7 +1216,11 @@ msgstr "Использовать сжатие"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Разрешить доступ только с локального компьютера"
+msgstr "Разрешить доступ только с локального хоста"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Включить предпросмотр"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1224,23 +1240,51 @@ msgstr "Выгрузить..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
-msgstr "Начальная страница:"
+msgstr "Cтраница по умолчанию:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "Интерпретаторы CGI: (.ext1=path1;.ext2=path2;...)"
+msgstr "Обработчики CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Список доступных субтитров"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Загрузить и открыть"
+msgid "Download subtitles"
+msgstr "Загрузить субтитры"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Заменять уже открытые субтитры"
+msgstr "Заменить уже открытые субтитры"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Загрузить"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Обновить"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Прервать"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Настройки"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Разместить субтитры"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Разместить"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Отменить"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Настройки"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1272,15 +1316,15 @@ msgstr "Сброс"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Проверить обновление"
+msgstr "Проверка обновлений"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
 msgstr "Проверять обновления автоматически"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Интервал между проверками:"
+msgid "Check every:"
+msgstr "Проверять каждые:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1336,15 +1380,15 @@ msgstr "Сохранить"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr "S"
+msgstr "С"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr "Q"
+msgstr "К"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Задать смещение"
+msgstr "Использовать сдвиг"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1352,11 +1396,11 @@ msgstr "Устройство по умолчанию"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr "аналоговое"
+msgstr "Аналоговое"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
-msgstr "цифровое"
+msgstr "Цифровое"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
@@ -1420,19 +1464,19 @@ msgstr "Коррекция частоты:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
 msgid "lines"
-msgstr "линий"
+msgstr "линии"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
 msgid "columns"
-msgstr "колонок"
+msgstr "колонки"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Представлять с ближайшим vsync"
+msgstr "Вывод на ближайшей VSync"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Целевое смещение синхр-ции:"
+msgstr "Целевое смещение:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
@@ -1452,7 +1496,7 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "Изменения применятся после остановки и перезапуска воспроизведения."
+msgstr "Изменения вступят в силу после перезапуска воспроизведения."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
@@ -1460,7 +1504,7 @@ msgstr "Запускать файлы в полноэкранном режиме
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Скрывать элементы управления в полном экране"
+msgstr "Скрывать элементы управления в полноэкранном режиме"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1476,11 +1520,11 @@ msgstr "Выход из полноэкранного режима по окон�
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Монитор для полного экрана"
+msgstr "Монитор для полноэкранного режима"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Переключать режим монитора в полноэкранном режиме"
+msgstr "Использовать автопереключение монитора в полноэкранном режиме"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1500,7 +1544,7 @@ msgstr "Вниз"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Применять режим 'по умолчанию' при переходе в оконную форму"
+msgstr "Применять режим по умолчанию при выходе из полноэкранного режима"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1512,7 +1556,7 @@ msgstr "Задержка"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
-msgstr "s"
+msgstr "с"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1524,15 +1568,15 @@ msgstr "Поиск"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Предпочитать форсированные и субтитры по умолчанию"
+msgstr "Предпочитать принудительные и/или дорожки субтитров по умолчанию"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Всегда использовать внешние субтитры как основные"
+msgstr "Использовать внешние субтитры вместо встроенных"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Не использовать встроенные субтитры"
+msgstr "Игнорировать встроенные субтитры"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1543,16 +1587,28 @@ msgid "Reset"
 msgstr "Сброс"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "База данных в интернете"
+msgid "Online search, download and upload subtitles"
+msgstr "Онлайн-поиск, загрузка и размещение субтитров"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Автоматически искать и загружать субтитры, если они не найдены локально"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Приоритет субтитров для людей с нарушениями слуха (если указано источником субтитров)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Игнорировать файлы, содержащие любое из следующих слов:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL базы данных субтитров:"
+msgid "Languages in order of preference:"
+msgstr "Языки в порядке предпочтения:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Тест"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Автоматически размещать активные субтитры после окончания воспроизведения"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1572,11 +1628,11 @@ msgstr "Игнорировать это обновление"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Шейдеры содержат специальные эффекты, которые могут быть добавлены в процессе видео рендеринга."
+msgstr "Шейдеры содержат специальные эффекты, которые могут быть добавлены в процесс рендеринга видео."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Добавить шейдер"
+msgstr "Добавить файл шейдера"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1592,7 +1648,7 @@ msgstr "Добавить в post-resize"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Предустановки шейдера"
+msgstr "Предустановки шейдеров"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1640,19 +1696,63 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Расширенные настройки. Убедитесь, в том, что вы знаете, что делаете."
+msgstr "Это расширенные настройки. Не изменяйте их, если не знаете, что делаете."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Верно"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Неверно"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "По умолчанию"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Устройство"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Монопольный режим"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Разрешить битстриминг"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Настройки"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Включить перекрестную подачу (для наушников)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Отсечение:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Уровень:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Заметка"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Для сведения звуковых искажений к минимуму, рекомендуется держать уровень громкости около 85% при проигрывании громкого материала, сжатого с потерями."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1665,4 +1765,40 @@ msgstr "Помощь по командной строке"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "OK"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Отчет о сбое"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Мы сожалеем, кажется, в MPC-HC произошел сбой. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Отправить отчет об ошибке, чтобы помочь нам исправить проблему."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "Optional information"
+msgstr "Дополнительная информация"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Эл. почта:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Вводить адрес электронной почты не обязательно, но может быть использован для связи разработчиков с вами."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Описание проблемы (только на английском):"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "Перезапустить MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "Выйти из MPC-HC"
 

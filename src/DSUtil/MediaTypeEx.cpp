@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,6 @@
 #include "MediaTypeEx.h"
 
 #include <MMReg.h>
-#include <InitGuid.h>
 #include "moreuuids.h"
 
 #pragma pack(push, 1)
@@ -61,7 +60,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
         packing = _T("MPEG2 PES");
     }
 
-    if (majortype == MEDIATYPE_Video) {
+    if (majortype == MEDIATYPE_Video || subtype == MEDIASUBTYPE_MPEG2_VIDEO) {
         type = _T("Video");
 
         BITMAPINFOHEADER bih;
@@ -121,7 +120,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
             type = _T("Subtitle");
             codec = _T("DVD Subpicture");
         }
-    } else if (majortype == MEDIATYPE_Audio) {
+    } else if (majortype == MEDIATYPE_Audio || subtype == MEDIASUBTYPE_DOLBY_AC3) {
         type = _T("Audio");
 
         if (formattype == FORMAT_WaveFormatEx) {
@@ -173,7 +172,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
         }
     } else if (majortype == MEDIATYPE_Text) {
         type = _T("Text");
-    } else if (majortype == MEDIATYPE_Subtitle) {
+    } else if (majortype == MEDIATYPE_Subtitle || subtype == MEDIASUBTYPE_DVD_SUBPICTURE) {
         type = _T("Subtitle");
         codec = GetSubtitleCodecName(subtype);
     } else {
@@ -262,7 +261,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 
         for (ptrdiff_t i = 0; i < 4; i++) {
             if (b[i] >= 'a' && b[i] <= 'z') {
-                b[i] = toupper(b[i]);
+                b[i] = (BYTE)toupper(b[i]);
             }
         }
 
@@ -443,7 +442,8 @@ CString CMediaTypeEx::GetSubtitleCodecName(const GUID& subtype)
         names[MEDIASUBTYPE_ASS2] = _T("Advanced SubStation Alpha");
         names[MEDIASUBTYPE_USF] = _T("Universal Subtitle Format");
         names[MEDIASUBTYPE_VOBSUB] = _T("VobSub");
-        // names[''] = _T("");
+        names[MEDIASUBTYPE_DVB_SUBTITLES] = _T("DVB Subtitles");
+        names[MEDIASUBTYPE_DVD_SUBPICTURE] = _T("DVD Subtitles");
     }
 
     if (names.Lookup(subtype, str)) {
@@ -468,11 +468,11 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
     sl.AddTail(ToString() + _T("\n"));
 
     sl.AddTail(_T("AM_MEDIA_TYPE: "));
-    str.Format(_T("majortype: %s %s"), CString(GuidNames[majortype]), major);
+    str.Format(_T("majortype: %S %s"), GuidNames[majortype], major);
     sl.AddTail(str);
-    str.Format(_T("subtype: %s %s"), CString(GuidNames[subtype]), sub);
+    str.Format(_T("subtype: %S %s"), GuidNames[subtype], sub);
     sl.AddTail(str);
-    str.Format(_T("formattype: %s %s"), CString(GuidNames[formattype]), format);
+    str.Format(_T("formattype: %S %s"), GuidNames[formattype], format);
     sl.AddTail(str);
     str.Format(_T("bFixedSizeSamples: %d"), bFixedSizeSamples);
     sl.AddTail(str);
@@ -630,36 +630,36 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
             if (wfe.wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe.cbSize == sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX)) {
                 fmtsize = sizeof(WAVEFORMATEXTENSIBLE);
 
-                WAVEFORMATEXTENSIBLE& wfe = *(WAVEFORMATEXTENSIBLE*)pbFormat;
+                WAVEFORMATEXTENSIBLE& wfextensible = *(WAVEFORMATEXTENSIBLE*)pbFormat;
 
                 sl.AddTail(_T("WAVEFORMATEXTENSIBLE:"));
-                if (wfe.Format.wBitsPerSample != 0) {
-                    str.Format(_T("wValidBitsPerSample: %u"), wfe.Samples.wValidBitsPerSample);
+                if (wfextensible.Format.wBitsPerSample != 0) {
+                    str.Format(_T("wValidBitsPerSample: %u"), wfextensible.Samples.wValidBitsPerSample);
                 } else {
-                    str.Format(_T("wSamplesPerBlock: %u"), wfe.Samples.wSamplesPerBlock);
+                    str.Format(_T("wSamplesPerBlock: %u"), wfextensible.Samples.wSamplesPerBlock);
                 }
                 sl.AddTail(str);
-                str.Format(_T("dwChannelMask: 0x%08x"), wfe.dwChannelMask);
+                str.Format(_T("dwChannelMask: 0x%08x"), wfextensible.dwChannelMask);
                 sl.AddTail(str);
-                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfe.SubFormat));
+                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfextensible.SubFormat));
                 sl.AddTail(str);
 
                 sl.AddTail(_T(""));
             } else if (wfe.wFormatTag == WAVE_FORMAT_DOLBY_AC3 && wfe.cbSize == sizeof(DOLBYAC3WAVEFORMAT) - sizeof(WAVEFORMATEX)) {
                 fmtsize = sizeof(DOLBYAC3WAVEFORMAT);
 
-                DOLBYAC3WAVEFORMAT& wfe = *(DOLBYAC3WAVEFORMAT*)pbFormat;
+                DOLBYAC3WAVEFORMAT& dawf = *(DOLBYAC3WAVEFORMAT*)pbFormat;
 
                 sl.AddTail(_T("DOLBYAC3WAVEFORMAT:"));
-                str.Format(_T("bBigEndian: %u"), wfe.bBigEndian);
+                str.Format(_T("bBigEndian: %u"), dawf.bBigEndian);
                 sl.AddTail(str);
-                str.Format(_T("bsid: %u"), wfe.bsid);
+                str.Format(_T("bsid: %u"), dawf.bsid);
                 sl.AddTail(str);
-                str.Format(_T("lfeon: %u"), wfe.lfeon);
+                str.Format(_T("lfeon: %u"), dawf.lfeon);
                 sl.AddTail(str);
-                str.Format(_T("copyrightb: %u"), wfe.copyrightb);
+                str.Format(_T("copyrightb: %u"), dawf.copyrightb);
                 sl.AddTail(str);
-                str.Format(_T("nAuxBitsCode: %u"), wfe.nAuxBitsCode);
+                str.Format(_T("nAuxBitsCode: %u"), dawf.nAuxBitsCode);
                 sl.AddTail(str);
 
                 sl.AddTail(_T(""));
@@ -733,12 +733,12 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
                 str += _T("   ");
             }
 
-            str += ' ';
+            str += _T(' ');
 
             for (ptrdiff_t k = i, l = std::min(i + 16, (ptrdiff_t)cbFormat); k < l; k++) {
                 unsigned char c = (unsigned char)pbFormat[k];
-                CStringA ch;
-                ch.Format("%c", c >= 0x20 ? c : '.');
+                CString ch;
+                ch.Format(_T("%C"), c >= 0x20 ? c : '.');
                 str += ch;
             }
 

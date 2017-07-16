@@ -77,7 +77,7 @@ QWORD FileVersionInfo::GetFileVersionNum(LPCTSTR filePath)
 CString FileVersionInfo::FormatVersionString(DWORD dwVersionNumberLow, DWORD dwVersionNumberHigh)
 {
     CString strFileVersion;
-    strFileVersion.Format(_T("%u.%u.%u.%u"),
+    strFileVersion.Format(_T("%lu.%lu.%lu.%lu"),
                           (dwVersionNumberHigh & 0xFFFF0000) >> 16,
                           (dwVersionNumberHigh & 0x0000FFFF),
                           (dwVersionNumberLow & 0xFFFF0000) >> 16,

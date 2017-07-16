@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,9 @@
 #include "stdafx.h"
 #include "MouseTouch.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 #include "FullscreenWnd.h"
+#include <mvrInterfaces.h>
 
 #define CURSOR_HIDE_TIMEOUT 2000
 
@@ -229,27 +231,25 @@ void CMouse::EventCallback(MpcEvent ev)
 // madVR compatibility layer for exclusive mode seekbar
 bool CMouse::UsingMVR() const
 {
-    return !!m_pMainFrame->m_pMVRS;
+    return !!m_pMainFrame->m_pMVRSR;
 }
 void CMouse::MVRMove(UINT nFlags, const CPoint& point)
 {
     if (UsingMVR()) {
-        CPoint mappedPoint(point);
-        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
-        m_pMainFrame->SendMessage(WM_MOUSEMOVE, wp, lp);
+        LPARAM lp = MAKELPARAM(point.x, point.y);
+        LRESULT lr = 0;
+        m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_MOUSEMOVE, &wp, &lp, &lr);
     }
 }
 bool CMouse::MVRDown(UINT nFlags, const CPoint& point)
 {
     bool ret = false;
     if (UsingMVR()) {
-        CPoint mappedPoint(point);
-        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
-        ret = (m_pMainFrame->SendMessage(WM_LBUTTONDOWN, wp, lp) != 42);
+        LPARAM lp = MAKELPARAM(point.x, point.y);
+        LRESULT lr = 0;
+        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONDOWN, &wp, &lp, &lr);
     }
     return ret;
 }
@@ -257,11 +257,10 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 {
     bool ret = false;
     if (UsingMVR()) {
-        CPoint mappedPoint(point);
-        MapWindowPoints(GetWnd(), m_pMainFrame->m_hWnd, &mappedPoint, 1);
         WPARAM wp = nFlags;
-        LPARAM lp = MAKELPARAM(mappedPoint.x, mappedPoint.y);
-        ret = (m_pMainFrame->SendMessage(WM_LBUTTONUP, wp, lp) != 42);
+        LPARAM lp = MAKELPARAM(point.x, point.y);
+        LRESULT lr = 0;
+        ret = !!m_pMainFrame->m_pMVRSR->ParentWindowProc(GetWnd(), WM_LBUTTONUP, &wp, &lp, &lr);
     }
     return ret;
 }
@@ -291,7 +290,8 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     bool bDouble = false;
     if (m_bLeftDoubleStarted &&
             GetMessageTime() - m_leftDoubleStartTime < (int)GetDoubleClickTime() &&
-            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point)) {
+            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point,
+                                         GetSystemMetrics(SM_CXDOUBLECLK) / 2, GetSystemMetrics(SM_CYDOUBLECLK) / 2)) {
         m_bLeftDoubleStarted = false;
         bDouble = true;
     } else {
@@ -473,7 +473,8 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         ASSERT(!IsOnFullscreenWindow());
         bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP, false);
         if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
-                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint))) {
+                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
+                                                      GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
             VERIFY(ReleaseCapture());
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
             m_drag = Drag::DRAGGED;
@@ -633,4 +634,18 @@ void CMouseWnd::OnDestroy()
 {
     CMouse::InternalOnDestroy();
     CWnd::OnDestroy();
+}
+
+std::unordered_set<const CWnd*> CMainFrameMouseHook::GetRoots()
+{
+    std::unordered_set<const CWnd*> ret;
+    const CMainFrame* pMainFrame = AfxGetMainFrame();
+    ASSERT(pMainFrame);
+    if (pMainFrame) {
+        ret.emplace(pMainFrame);
+        if (pMainFrame->IsD3DFullScreenMode()) {
+            ret.emplace(pMainFrame->m_pFullscreenWnd);
+        }
+    }
+    return ret;
 }

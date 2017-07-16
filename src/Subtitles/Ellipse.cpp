@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014, 2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -24,9 +24,9 @@
 CEllipse::CEllipse(int rx, int ry)
     : m_rx(rx)
     , m_ry(ry)
-    , m_2rx(2 * m_rx)
-    , m_2ry(2 * m_ry)
-    , nIntersectCacheLineSize(2 * (m_rx - 1) + 1)
+    , m_2rx(2 * rx)
+    , m_2ry(2 * ry)
+    , nIntersectCacheLineSize(rx > 0 ? 2 * (rx - 1) + 1 : 0)
 {
     m_arc.resize(m_2ry + 1);
     m_arc[m_ry] = m_rx;
@@ -106,8 +106,12 @@ void CEllipseCenterGroup::AddPoint(CAtlList<EllipseCenter>& centers, IntersectFu
 
 void CEllipseCenterGroup::AddSpan(int y, int xLeft, int xRight)
 {
-    AddPoint(m_leftCenters, [this](int dx, int dy) { return m_pEllipse->GetLeftIntersect(dx, dy); }, xLeft, y);
-    AddPoint(m_rightCenters, [this](int dx, int dy) { return m_pEllipse->GetRightIntersect(dx, dy); }, xRight, y);
+    AddPoint(m_leftCenters, [this](int dx, int dy) {
+        return m_pEllipse->GetLeftIntersect(dx, dy);
+    }, xLeft, y);
+    AddPoint(m_rightCenters, [this](int dx, int dy) {
+        return m_pEllipse->GetRightIntersect(dx, dy);
+    }, xRight, y);
 }
 
 CEllipseCenterGroup::Position CEllipseCenterGroup::GetRelativePosition(int xLeft, int y)

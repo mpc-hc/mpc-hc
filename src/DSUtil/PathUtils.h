@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,11 +31,17 @@ namespace PathUtils
     CString GetProgramPath(bool bWithExeName = false);
     CString CombinePaths(LPCTSTR dir, LPCTSTR path);
     CString FilterInvalidCharsFromFileName(LPCTSTR fn, TCHAR replacementChar = _T('_'));
+    CString Unquote(LPCTSTR path);
+    CString StripPathOrUrl(LPCTSTR path);
     bool IsInDir(LPCTSTR path, LPCTSTR dir);
     CString ToRelative(LPCTSTR dir, const LPCTSTR path, bool* pbRelative = nullptr);
     bool IsRelative(LPCTSTR path);
     bool Exists(LPCTSTR path);
     bool IsFile(LPCTSTR path);
     bool IsDir(LPCTSTR path);
+    bool IsLinkFile(LPCTSTR path);
     bool CreateDirRecursive(LPCTSTR path);
+    CString ResolveLinkFile(LPCTSTR path);
+    void RecurseAddDir(LPCTSTR path, CAtlList<CString>& sl);
+    void ParseDirs(CAtlList<CString>& pathsList);
 }

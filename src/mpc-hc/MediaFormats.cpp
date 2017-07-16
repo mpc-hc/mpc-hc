@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,8 +31,8 @@
 
 CMediaFormatCategory::CMediaFormatCategory()
     : m_fAudioOnly(false)
-    , m_fAssociable(true)
     , m_engine(DirectShow)
+    , m_fAssociable(true)
 {
 }
 
@@ -207,58 +207,59 @@ void CMediaFormats::UpdateData(bool fSave)
 
 #define ADDFMT(f) Add(CMediaFormatCategory##f)
 
-        ADDFMT((_T("avi"),         ResStr(IDS_MFMT_AVI),         _T("avi")));
-        ADDFMT((_T("mpeg"),        ResStr(IDS_MFMT_MPEG),        _T("mpg mpeg mpe m1v m2v mpv2 mp2v pva evo m2p")));
-        ADDFMT((_T("mpegts"),      ResStr(IDS_MFMT_MPEGTS),      _T("ts tp trp m2t m2ts mts rec")));
-        ADDFMT((_T("dvdvideo"),    ResStr(IDS_MFMT_DVDVIDEO),    _T("vob ifo")));
-        ADDFMT((_T("mkv"),         ResStr(IDS_MFMT_MKV),         _T("mkv")));
-        ADDFMT((_T("webm"),        ResStr(IDS_MFMT_WEBM),        _T("webm")));
-        ADDFMT((_T("mp4"),         ResStr(IDS_MFMT_MP4),         _T("mp4 m4v mp4v mpv4 hdmov")));
-        ADDFMT((_T("mov"),         ResStr(IDS_MFMT_MOV),         _T("mov")));
-        ADDFMT((_T("3gp"),         ResStr(IDS_MFMT_3GP),         _T("3gp 3gpp 3ga")));
-        ADDFMT((_T("3g2"),         ResStr(IDS_MFMT_3G2),         _T("3g2 3gp2")));
-        ADDFMT((_T("flv"),         ResStr(IDS_MFMT_FLV),         _T("flv f4v")));
-        ADDFMT((_T("ogm"),         ResStr(IDS_MFMT_OGM),         _T("ogm ogv")));
-        ADDFMT((_T("rm"),          ResStr(IDS_MFMT_RM),          _T("rm rmvb")));
+        ADDFMT((_T("avi"),         StrRes(IDS_MFMT_AVI),         _T("avi")));
+        ADDFMT((_T("mpeg"),        StrRes(IDS_MFMT_MPEG),        _T("mpg mpeg mpe m1v m2v mpv2 mp2v pva evo m2p")));
+        ADDFMT((_T("mpegts"),      StrRes(IDS_MFMT_MPEGTS),      _T("ts tp trp m2t m2ts mts rec ssif")));
+        ADDFMT((_T("dvdvideo"),    StrRes(IDS_MFMT_DVDVIDEO),    _T("vob ifo")));
+        ADDFMT((_T("mkv"),         StrRes(IDS_MFMT_MKV),         _T("mkv mk3d")));
+        ADDFMT((_T("webm"),        StrRes(IDS_MFMT_WEBM),        _T("webm")));
+        ADDFMT((_T("mp4"),         StrRes(IDS_MFMT_MP4),         _T("mp4 m4v mp4v mpv4 hdmov")));
+        ADDFMT((_T("mov"),         StrRes(IDS_MFMT_MOV),         _T("mov")));
+        ADDFMT((_T("3gp"),         StrRes(IDS_MFMT_3GP),         _T("3gp 3gpp 3ga")));
+        ADDFMT((_T("3g2"),         StrRes(IDS_MFMT_3G2),         _T("3g2 3gp2")));
+        ADDFMT((_T("flv"),         StrRes(IDS_MFMT_FLV),         _T("flv f4v")));
+        ADDFMT((_T("ogm"),         StrRes(IDS_MFMT_OGM),         _T("ogm ogv")));
+        ADDFMT((_T("rm"),          StrRes(IDS_MFMT_RM),          _T("rm rmvb")));
 #ifdef _WIN64
-        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil")));
+        ADDFMT((_T("rt"),          StrRes(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil")));
 #else
-        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+        ADDFMT((_T("rt"),          StrRes(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 #endif
-        ADDFMT((_T("wmv"),         ResStr(IDS_MFMT_WMV),         _T("wmv wmp wm asf")));
-        ADDFMT((_T("bink"),        ResStr(IDS_MFMT_BINK),        _T("smk bik")));
-        ADDFMT((_T("flic"),        ResStr(IDS_MFMT_FLIC),        _T("fli flc flic")));
-        ADDFMT((_T("dsm"),         ResStr(IDS_MFMT_DSM),         _T("dsm dsv dsa dss")));
-        ADDFMT((_T("ivf"),         ResStr(IDS_MFMT_IVF),         _T("ivf")));
-        ADDFMT((_T("swf"),         ResStr(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
-        ADDFMT((_T("other"),       ResStr(IDS_MFMT_OTHER),       _T("divx amv")));
-        ADDFMT((_T("ac3dts"),      ResStr(IDS_MFMT_AC3),         _T("ac3 dts"), true));
-        ADDFMT((_T("aiff"),        ResStr(IDS_MFMT_AIFF),        _T("aif aifc aiff"), true));
-        ADDFMT((_T("alac"),        ResStr(IDS_MFMT_ALAC),        _T("alac"), true));
-        ADDFMT((_T("amr"),         ResStr(IDS_MFMT_AMR),         _T("amr"), true));
-        ADDFMT((_T("ape"),         ResStr(IDS_MFMT_APE),         _T("ape apl"), true));
-        ADDFMT((_T("au"),          ResStr(IDS_MFMT_AU),          _T("au snd"), true));
-        ADDFMT((_T("audiocd"),     ResStr(IDS_MFMT_CDA),         _T("cda"), true));
-        ADDFMT((_T("flac"),        ResStr(IDS_MFMT_FLAC),        _T("flac"), true));
-        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true));
-        ADDFMT((_T("midi"),        ResStr(IDS_MFMT_MIDI),        _T("mid midi rmi"), true));
-        ADDFMT((_T("mka"),         ResStr(IDS_MFMT_MKA),         _T("mka"), true));
-        ADDFMT((_T("mp3"),         ResStr(IDS_MFMT_MP3),         _T("mp3"), true));
-        ADDFMT((_T("mpa"),         ResStr(IDS_MFMT_MPA),         _T("mpa mp2 m1a m2a"), true));
-        ADDFMT((_T("mpc"),         ResStr(IDS_MFMT_MPC),         _T("mpc"), true));
-        ADDFMT((_T("ofr"),         ResStr(IDS_MFMT_OFR),         _T("ofr ofs"), true));
-        ADDFMT((_T("ogg"),         ResStr(IDS_MFMT_OGG),         _T("ogg oga"), true));
-        ADDFMT((_T("opus"),        ResStr(IDS_MFMT_OPUS),        _T("opus"), true));
-        ADDFMT((_T("ra"),          ResStr(IDS_MFMT_RA),          _T("ra"), true));
-        ADDFMT((_T("tak"),         ResStr(IDS_MFMT_TAK),         _T("tak"), true));
-        ADDFMT((_T("tta"),         ResStr(IDS_MFMT_TTA),         _T("tta"), true));
-        ADDFMT((_T("wav"),         ResStr(IDS_MFMT_WAV),         _T("wav"), true));
-        ADDFMT((_T("wma"),         ResStr(IDS_MFMT_WMA),         _T("wma"), true));
-        ADDFMT((_T("wavpack"),     ResStr(IDS_MFMT_WV),          _T("wv"), true));
-        ADDFMT((_T("other_audio"), ResStr(IDS_MFMT_OTHER_AUDIO), _T("aob mlp"), true));
-        ADDFMT((_T("pls"),         ResStr(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
-        ADDFMT((_T("bdpls"),       ResStr(IDS_MFMT_BDPLS),       _T("mpls bdmv")));
-        ADDFMT((_T("rar"),         ResStr(IDS_MFMT_RAR),         _T("rar"), false, _T("RARFileSource"), DirectShow, false));
+        ADDFMT((_T("wmv"),         StrRes(IDS_MFMT_WMV),         _T("wmv wmp wm asf")));
+        ADDFMT((_T("bink"),        StrRes(IDS_MFMT_BINK),        _T("smk bik")));
+        ADDFMT((_T("flic"),        StrRes(IDS_MFMT_FLIC),        _T("fli flc flic")));
+        ADDFMT((_T("dsm"),         StrRes(IDS_MFMT_DSM),         _T("dsm dsv dsa dss")));
+        ADDFMT((_T("ivf"),         StrRes(IDS_MFMT_IVF),         _T("ivf")));
+        ADDFMT((_T("swf"),         StrRes(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
+        ADDFMT((_T("other"),       StrRes(IDS_MFMT_OTHER),       _T("divx amv")));
+        ADDFMT((_T("ac3"),         StrRes(IDS_MFMT_AC3),         _T("ac3"), true));
+        ADDFMT((_T("dts"),         StrRes(IDS_MFMT_DTS),         _T("dts dtshd dtsma"), true));
+        ADDFMT((_T("aiff"),        StrRes(IDS_MFMT_AIFF),        _T("aif aifc aiff"), true));
+        ADDFMT((_T("alac"),        StrRes(IDS_MFMT_ALAC),        _T("alac"), true));
+        ADDFMT((_T("amr"),         StrRes(IDS_MFMT_AMR),         _T("amr"), true));
+        ADDFMT((_T("ape"),         StrRes(IDS_MFMT_APE),         _T("ape apl"), true));
+        ADDFMT((_T("au"),          StrRes(IDS_MFMT_AU),          _T("au snd"), true));
+        ADDFMT((_T("audiocd"),     StrRes(IDS_MFMT_CDA),         _T("cda"), true));
+        ADDFMT((_T("flac"),        StrRes(IDS_MFMT_FLAC),        _T("flac"), true));
+        ADDFMT((_T("m4a"),         StrRes(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true));
+        ADDFMT((_T("midi"),        StrRes(IDS_MFMT_MIDI),        _T("mid midi rmi"), true));
+        ADDFMT((_T("mka"),         StrRes(IDS_MFMT_MKA),         _T("mka"), true));
+        ADDFMT((_T("mp3"),         StrRes(IDS_MFMT_MP3),         _T("mp3"), true));
+        ADDFMT((_T("mpa"),         StrRes(IDS_MFMT_MPA),         _T("mpa mp2 m1a m2a"), true));
+        ADDFMT((_T("mpc"),         StrRes(IDS_MFMT_MPC),         _T("mpc"), true));
+        ADDFMT((_T("ofr"),         StrRes(IDS_MFMT_OFR),         _T("ofr ofs"), true));
+        ADDFMT((_T("ogg"),         StrRes(IDS_MFMT_OGG),         _T("ogg oga"), true));
+        ADDFMT((_T("opus"),        StrRes(IDS_MFMT_OPUS),        _T("opus"), true));
+        ADDFMT((_T("ra"),          StrRes(IDS_MFMT_RA),          _T("ra"), true));
+        ADDFMT((_T("tak"),         StrRes(IDS_MFMT_TAK),         _T("tak"), true));
+        ADDFMT((_T("tta"),         StrRes(IDS_MFMT_TTA),         _T("tta"), true));
+        ADDFMT((_T("wav"),         StrRes(IDS_MFMT_WAV),         _T("wav"), true));
+        ADDFMT((_T("wma"),         StrRes(IDS_MFMT_WMA),         _T("wma"), true));
+        ADDFMT((_T("wavpack"),     StrRes(IDS_MFMT_WV),          _T("wv"), true));
+        ADDFMT((_T("other_audio"), StrRes(IDS_MFMT_OTHER_AUDIO), _T("aob mlp thd"), true));
+        ADDFMT((_T("pls"),         StrRes(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
+        ADDFMT((_T("bdpls"),       StrRes(IDS_MFMT_BDPLS),       _T("mpls bdmv")));
+        ADDFMT((_T("rar"),         StrRes(IDS_MFMT_RAR),         _T("rar"), false, _T("RARFileSource"), DirectShow, false));
 #undef ADDFMT
 
         m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
@@ -365,7 +366,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask) const
         mask.Add(mfc.GetFilter());
     }
 
-    filter += ResStr(IDS_AG_ALLFILES);
+    filter.AppendFormat(IDS_AG_ALLFILES);
     mask.Add(_T("*.*"));
 
     filter += _T("|");
@@ -401,7 +402,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask) co
         mask.Add(mfc.GetFilter());
     }
 
-    filter += ResStr(IDS_AG_ALLFILES);
+    filter.AppendFormat(IDS_AG_ALLFILES);
     mask.Add(_T("*.*"));
 
     filter += _T("|");

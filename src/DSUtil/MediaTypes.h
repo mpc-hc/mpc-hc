@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,10 +39,10 @@ struct VIH2 {
 };
 #pragma pack(pop)
 
-extern VIH vihs[];
-extern VIH2 vih2s[];
+extern const VIH vihs[];
+extern const VIH2 vih2s[];
 
-extern UINT VIHSIZE;
+extern const UINT VIHSIZE;
 
 extern CString VIH2String(int i), Subtype2String(const GUID& subtype);
 extern void CorrectMediaType(AM_MEDIA_TYPE* pmt);

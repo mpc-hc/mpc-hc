@@ -19,6 +19,6 @@ DWORD WinNT()
     Result=dwMajorVersion*0x100+dwMinorVersion;
 
 
-  return(Result);
+  return Result;
 }
 #endif

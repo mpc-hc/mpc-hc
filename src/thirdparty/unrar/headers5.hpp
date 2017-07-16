@@ -82,6 +82,7 @@
 #define FHEXTRA_HTIME_MTIME    0x02 // mtime is present.
 #define FHEXTRA_HTIME_CTIME    0x04 // ctime is present.
 #define FHEXTRA_HTIME_ATIME    0x08 // atime is present.
+#define FHEXTRA_HTIME_UNIX_NS  0x10 // Unix format with nanosecond precision.
 
 // Flags for FHEXTRA_CRYPT.
 #define FHEXTRA_CRYPT_PSWCHECK 0x01 // Store password check data.

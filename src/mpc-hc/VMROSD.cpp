@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "DSMPropertyBag.h"
 #include "MainFrm.h"
+#include <mvrInterfaces.h>
 
 #define SEEKBAR_HEIGHT       60
 #define SLIDER_BAR_MARGIN    10
@@ -34,22 +35,21 @@
 
 
 CVMROSD::CVMROSD(CMainFrame* pMainFrame)
-    : m_pMainFrame(pMainFrame)
+    : m_pVMB(nullptr)
+    , m_pMFVMB(nullptr)
+    , m_pMVTO(nullptr)
+    , m_pCB(nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_pWnd(nullptr)
+    , m_iFontSize(0)
+    , m_bCursorMoving(false)
+    , m_bShowSeekBar(false)
+    , m_bSeekBarVisible(false)
     , m_llSeekMin(0)
     , m_llSeekMax(0)
     , m_llSeekPos(0)
-    , m_nMessagePos(OSD_NOMESSAGE)
-    , m_bShowSeekBar(false)
-    , m_bSeekBarVisible(false)
-    , m_bCursorMoving(false)
-    , m_pMFVMB(nullptr)
-    , m_pVMB(nullptr)
-    , m_pMVTO(nullptr)
-    , m_iFontSize(0)
-    , m_fontName(_T(""))
     , m_bShowMessage(true)
-    , m_pCB(nullptr)
+    , m_nMessagePos(OSD_NOMESSAGE)
 {
     m_colors[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_colors[OSD_BACKGROUND]  = RGB(32,   40,  48);
@@ -363,15 +363,15 @@ void CVMROSD::Invalidate()
 void CVMROSD::UpdateSeekBarPos(CPoint point)
 {
     m_llSeekPos = (point.x - m_rectBar.left) * (m_llSeekMax - m_llSeekMin) / (m_rectBar.Width() - SLIDER_CURSOR_WIDTH);
-    m_llSeekPos = max(m_llSeekPos, m_llSeekMin);
-    m_llSeekPos = min(m_llSeekPos, m_llSeekMax);
+    m_llSeekPos = std::max(m_llSeekPos, m_llSeekMin);
+    m_llSeekPos = std::min(m_llSeekPos, m_llSeekMax);
 
     if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
         m_llSeekPos = m_pMainFrame->GetClosestKeyFrame(m_llSeekPos);
     }
 
     if (m_pWnd) {
-        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);
+        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_pWnd->m_hWnd));
     }
 }
 

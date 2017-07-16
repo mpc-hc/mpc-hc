@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,14 +32,12 @@ enum {
 
 enum {
     VIDRNDT_RM_DEFAULT,
-    VIDRNDT_RM_DX7,
-    VIDRNDT_RM_DX9
+    VIDRNDT_RM_DX9 = 2
 };
 
 enum {
     VIDRNDT_QT_DEFAULT,
-    VIDRNDT_QT_DX7,
-    VIDRNDT_QT_DX9
+    VIDRNDT_QT_DX9 = 2
 };
 
 enum {
@@ -111,6 +109,10 @@ public:
         double  fTargetSyncOffset;
         double  fControlLimit;
 
+        // Other settings
+        bool    bCacheShaders;
+        CString sShaderCachePath;
+
         void    SetDefault();
         void    SetOptimal();
     };
@@ -131,8 +133,9 @@ public:
 
 class CRenderersData
 {
-    HINSTANCE   m_hD3DX9Dll;
-    UINT        m_nDXSdkRelease;
+    HINSTANCE     m_hD3DX9Dll;
+    const UINT    m_nDXSdkRelease;
+    LARGE_INTEGER llPerfFrequency;
 
 public:
     CRenderersData();
@@ -144,6 +147,7 @@ public:
 
     // Hardware feature support
     bool        m_bFP16Support;
+    bool        m_bFP32Support;
     bool        m_b10bitSupport;
     CString     m_strDXVAInfo;
 

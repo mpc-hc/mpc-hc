@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,6 +28,7 @@
 #include "../filters/muxer/WavDest/WavDest.h"
 #include "../filters/muxer/MatroskaMuxer/MatroskaMuxer.h"
 #include "../filters/muxer/DSMMuxer/DSMMuxer.h"
+#include "../filters/transform/BufferFilter/BufferFilter.h"
 
 
 static bool LoadMediaType(CStringW displayName, AM_MEDIA_TYPE** ppmt)
@@ -272,11 +273,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 
                     if (mtCap.formattype == FORMAT_VideoInfo) {
                         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mtCap.pbFormat;
-                        if (!vih->bmiHeader.biHeight) {
-                            vih->bmiHeader.biHeight = 1;
-                        }
                         vih->bmiHeader.biWidth = presets[j].cx;
-                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight / vih->bmiHeader.biHeight);
+                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih->bmiHeader.biBitCount >> 3;
 
                         AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
@@ -297,17 +295,14 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                             vih2->dwPictAspectRatioX = 4;
                             vih2->dwPictAspectRatioY = 3;
 
-                            AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-                            CopyMediaType(pmt, &mtCap);
-                            tfa.AddFormat(pmt, pcaps, sizeof(*pcaps));
+                            AM_MEDIA_TYPE* pmt2 = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
+                            CopyMediaType(pmt2, &mtCap);
+                            tfa.AddFormat(pmt2, pcaps, sizeof(*pcaps));
                         }
                     } else if (mtCap.formattype == FORMAT_VideoInfo2) {
                         VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
-                        if (!vih2->bmiHeader.biHeight) {
-                            vih2->bmiHeader.biHeight = 1;
-                        }
                         vih2->bmiHeader.biWidth = presets[j].cx;
-                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight / vih2->bmiHeader.biHeight);
+                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih2->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih2->bmiHeader.biBitCount >> 3;
                         vih2->dwPictAspectRatioX = 4;
                         vih2->dwPictAspectRatioY = 3;
@@ -344,12 +339,12 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
     }
 
     CFormat<T>* pf = nullptr;
-    CFormatElem<T>* pfe = nullptr;
+    CFormatElem<T>* pfeCurrent = nullptr;
 
     if (!pcurmt) {
         pf = tfa[0];
-        pfe = pf->GetAt(0);
-    } else if (!tfa.FindFormat(pcurmt, nullptr, &pf, &pfe) && !tfa.FindFormat(pcurmt, &pf)) {
+        pfeCurrent = pf->GetAt(0);
+    } else if (!tfa.FindFormat(pcurmt, nullptr, &pf, &pfeCurrent) && !tfa.FindFormat(pcurmt, &pf)) {
         if (pcurmt) {
             DeleteMediaType(pcurmt);
         }
@@ -366,7 +361,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
     if (iType < 0 && type.GetCount()) {
         type.SetCurSel(0);
     }
-    int iDim = dim.SetCurSel(dim.FindStringExact(0, tfa.MakeDimensionName(pfe)));
+    int iDim = dim.SetCurSel(dim.FindStringExact(0, tfa.MakeDimensionName(pfeCurrent)));
     //  if (iDim < 0 && dim.GetCount()) dim.SetCurSel(iDim = 0);
 
     CorrectComboListWidth(type);
@@ -434,19 +429,18 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
         }
         c.pBF = pBF;
         */
-        LPOLESTR strName = nullptr;
+        CComHeapPtr<OLECHAR> strName;
         if (FAILED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
             continue;
         }
 
         c.displayName = strName;
-        CoTaskMemFree(strName);
 
         CComPtr<IPropertyBag> pPB;
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (!pPB || FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (!pPB || FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             continue;
         }
 
@@ -519,22 +513,23 @@ static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd =
 // CPlayerCaptureDialog dialog
 
 //IMPLEMENT_DYNAMIC(CPlayerCaptureDialog, CResizableDialog)
-CPlayerCaptureDialog::CPlayerCaptureDialog()
+CPlayerCaptureDialog::CPlayerCaptureDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerCaptureDialog::IDD, nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_bInitialized(false)
     , m_vidfps(0)
-    , m_fVidOutput(TRUE)
-    , m_fAudOutput(TRUE)
-    , m_fVidPreview(FALSE)
-    , m_fAudPreview(FALSE)
-    , m_fEnableOgm(FALSE)
     , m_nVidBuffers(0)
     , m_nAudBuffers(0)
-    , m_pVidBuffer(nullptr)
-    , m_pAudBuffer(nullptr)
+    , m_nRecordTimerID(0)
     , m_fSepAudio(FALSE)
     , m_muxtype(0)
-    , m_nRecordTimerID(0)
+    , m_fEnableOgm(FALSE)
+    , m_fVidOutput(TRUE)
+    , m_fVidPreview(FALSE)
+    , m_fAudOutput(TRUE)
+    , m_fAudPreview(FALSE)
+    , m_pVidBuffer(nullptr)
+    , m_pAudBuffer(nullptr)
 {
     EmptyVideo();
     EmptyAudio();
@@ -939,7 +934,7 @@ void CPlayerCaptureDialog::UpdateGraph()
 {
     UpdateMediaTypes();
 
-    ((CMainFrame*)AfxGetMainWnd())->BuildGraphVideoAudio(m_fVidPreview, false, m_fAudPreview, false);
+    m_pMainFrame->BuildGraphVideoAudio(m_fVidPreview, false, m_fAudPreview, false);
 
     UpdateUserDefinableControls();
 }
@@ -1078,7 +1073,6 @@ void CPlayerCaptureDialog::UpdateVideoControls()
         if (m_vidinput.GetCount() > 0) {
             m_vidinput.EnableWindow(TRUE);
 
-            long OutputPinCount, InputPinCount;
             if (SUCCEEDED(m_pAMXB->get_PinCounts(&OutputPinCount, &InputPinCount))) {
                 for (int i = 0; i < OutputPinCount; i++) {
                     long InputPinIndex;
@@ -1341,7 +1335,7 @@ BOOL CPlayerCaptureDialog::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    return TRUE;  // return TRUE unless you set the focus to a control
+    return FALSE;  // return FALSE so that the dialog does not steal focus
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
@@ -1406,9 +1400,9 @@ void CPlayerCaptureDialog::OnVideoInput()
             HRESULT hr = m_pAMVfwCD->ShowDialog(iSel, m_hWnd);
 
             if (VFW_E_NOT_STOPPED == hr) {
-                ((CMainFrame*)AfxGetMainWnd())->SendMessage(WM_COMMAND, ID_PLAY_STOP);
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_STOP);
                 hr = m_pAMVfwCD->ShowDialog(iSel, m_hWnd);
-                ((CMainFrame*)AfxGetMainWnd())->SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             }
 
             if (VFW_E_CANNOT_CONNECT == hr) {
@@ -1590,12 +1584,7 @@ void CPlayerCaptureDialog::OnRecord()
 {
     UpdateData();
 
-    CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-    if (!pFrame) {
-        return;
-    }
-
-    if (!pFrame->m_fCapturing) {
+    if (!m_pMainFrame->m_fCapturing) {
         UpdateMuxer();
 
         CComQIPtr<IFileSinkFilter2> pFSF = m_pMux;
@@ -1623,18 +1612,18 @@ void CPlayerCaptureDialog::OnRecord()
         if (m_fSepAudio && m_fAudOutput && m_pAudMux && !audfn.IsEmpty()) {
             audfn += _T("wav");
 
-            CComQIPtr<IFileSinkFilter2> pFSF = m_pAudMux;
-            if (pFSF) {
+            CComQIPtr<IFileSinkFilter2> pFSFAudioMux = m_pAudMux;
+            if (pFSFAudioMux) {
                 m_pAudDst = m_pAudMux;
             } else {
                 m_pAudDst = nullptr;
                 m_pAudDst.CoCreateInstance(CLSID_FileWriter);
-                pFSF = m_pAudDst;
+                pFSFAudioMux = m_pAudDst;
             }
 
-            if (!pFSF
-                    || FAILED(pFSF->SetFileName(CStringW(audfn), nullptr))
-                    || FAILED(pFSF->SetMode(AM_FILE_OVERWRITE))) {
+            if (!pFSFAudioMux
+                    || FAILED(pFSFAudioMux->SetFileName(CStringW(audfn), nullptr))
+                    || FAILED(pFSFAudioMux->SetMode(AM_FILE_OVERWRITE))) {
                 MessageBox(ResStr(IDS_CAPTURE_ERROR_AUD_OUT_FILE), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
                 return;
             }
@@ -1654,14 +1643,14 @@ void CPlayerCaptureDialog::OnRecord()
 
         EnableControls(this, false);
 
-        pFrame->StartCapture();
+        m_pMainFrame->StartCapture();
 
         m_nRecordTimerID = SetTimer(1, 100, nullptr);
     } else {
         KillTimer(m_nRecordTimerID);
         m_nRecordTimerID = 0;
 
-        pFrame->StopCapture();
+        m_pMainFrame->StopCapture();
         EnableControls(this, true);
 
         m_pVidBuffer = nullptr;
@@ -1672,19 +1661,19 @@ void CPlayerCaptureDialog::OnRecord()
 void CPlayerCaptureDialog::OnChangeVideoBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), max(m_nVidBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), std::max(m_nVidBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnChangeAudioBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), max(m_nAudBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), std::max(m_nAudBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
 {
     if (nIDEvent == m_nRecordTimerID) {
-        if (((CMainFrame*)AfxGetMainWnd())->m_fCapturing) {
+        if (m_pMainFrame->m_fCapturing) {
             ULARGE_INTEGER FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes;
             if (GetDiskFreeSpaceEx(m_file.Left(m_file.ReverseFind('\\') + 1), &FreeBytesAvailable, &TotalNumberOfBytes, &TotalNumberOfFreeBytes)
                     && FreeBytesAvailable.QuadPart < 1024i64 * 1024 * 10) {

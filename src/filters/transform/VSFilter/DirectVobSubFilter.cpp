@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,7 +34,6 @@
 #include "../../../Subtitles/RLECodedSubtitle.h"
 #include "../../../Subtitles/PGSSub.h"
 
-#include <InitGuid.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include "moreuuids.h"
@@ -518,7 +517,7 @@ HRESULT CDirectVobSubFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tS
 REFERENCE_TIME CDirectVobSubFilter::CalcCurrentTime()
 {
     REFERENCE_TIME rt = m_pSubClock ? m_pSubClock->GetTime() : m_tPrev;
-    return (rt - 10000i64 * m_SubtitleDelay) * m_SubtitleSpeedMul / m_SubtitleSpeedDiv; // no, it won't overflow if we use normal parameters (__int64 is enough for about 2000 hours if we multiply it by the max: 65536 as m_SubtitleSpeedMul)
+    return (rt - 10000i64 * m_SubtitleDelay) * m_SubtitleSpeedNormalizedMul / m_SubtitleSpeedNormalizedDiv; // no, it won't overflow if we use normal parameters (__int64 is enough for about 2000 hours if we multiply it by the max: 65536 as m_SubtitleSpeedMul)
 }
 
 void CDirectVobSubFilter::InitSubPicQueue()
@@ -743,7 +742,7 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 
     // move "Hide subtitles" to the last position if it wasn't our selection
 
-    CString hidesubs = ResStr(IDS_M_HIDESUBTITLES);
+    CString hidesubs(StrRes(IDS_M_HIDESUBTITLES));
 
     for (k = 1; k < j; k++) {
         if (!langs[k].CompareNoCase(hidesubs)) {
@@ -1352,21 +1351,27 @@ bool CDirectVobSubFilter2::IsAppBlackListed()
 {
     // all entries must be lowercase!
     TCHAR* blacklistedapps[] = {
-        _T("wm8eutil."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
-        _T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
-        _T("producer."), // this is real's producer
-        _T("googledesktopindex."), // Google Desktop
-        _T("googledesktopdisplay."), // Google Desktop
-        _T("googledesktopcrawl."), // Google Desktop
-        _T("subtitleworkshop."), // Subtitle Workshop
-        _T("subtitleworkshop4."),
-        _T("darksouls."), // Dark Souls (Game)
-        _T("rometw."), // Rome Total War (Game)
-        _T("everquest2."), // EverQuest II (Game)
-        _T("yso_win."), // Ys Origin (Game)
-        _T("launcher_main."), // Logitech WebCam Software
-        _T("webcamdell2."), // Dell WebCam Software
-        _T("data."), // Dark Souls 1 (Game)
+        _T("wm8eutil."),        // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
+        _T("explorer."),        // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
+        _T("producer."),        // this is real's producer
+        _T("googledesktop"),    // Google Desktop
+        _T("subtitleworkshop"), // Subtitle Workshop
+        _T("darksouls."),       // Dark Souls (Game)
+        _T("rometw."),          // Rome Total War (Game)
+        _T("everquest2."),      // EverQuest II (Game)
+        _T("yso_win."),         // Ys Origin (Game)
+        _T("launcher_main."),   // Logitech WebCam Software
+        _T("webcamdell"),       // Dell WebCam Software
+        _T("data."),            // Dark Souls 1 (Game)
+        _T("unravel"),          // Unravel (Game)
+        _T("mshta"),            // MS Scripting Host
+        _T("origin.exe"),       // Origin
+        _T("train.exe"),        // Train Simulator (Game)
+#if WIN64
+        _T("ridex64.exe"),      // Ride (Game)
+#else
+        _T("ride.exe"),         // Ride (Game)
+#endif
     };
 
     for (size_t i = 0; i < _countof(blacklistedapps); i++) {
@@ -1592,10 +1597,10 @@ void CDirectVobSubFilter::UpdateSubtitle()
 
 void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 {
-    CAutoLock cAutolock(&m_csQueueLock);
+    CAutoLock cQueueLock(&m_csQueueLock);
 
     if (pSubStream) {
-        CAutoLock cAutolock(&m_csSubLock);
+        CAutoLock cSubLock(&m_csSubLock);
 
         CLSID clsid;
         pSubStream->GetClassID(&clsid);
@@ -1622,31 +1627,30 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 
             pRTS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc);
             pRTS->Deinit();
-        } else if (clsid == __uuidof(CRLECodedSubtitle)) {
-            CRLECodedSubtitle* pRHS = (CRLECodedSubtitle*)pSubStream;
-
-            DXVA2_ExtendedFormat extFormat;
-            extFormat.value = m_cf;
-            CString yuvMatrix = (extFormat.NominalRange == DXVA2_NominalRange_Normal) ? _T("PC.") : _T("TV.");
-
-            switch (extFormat.VideoTransferMatrix) {
-                case DXVA2_VideoTransferMatrix_BT601:
-                    yuvMatrix.Append(_T("601"));
-                    break;
-                case DXVA2_VideoTransferMatrix_BT709:
-                    yuvMatrix.Append(_T("709"));
-                    break;
-                case DXVA2_VideoTransferMatrix_SMPTE240M:
-                    yuvMatrix.Append(_T("240M"));
-                    break;
-                default:
-                    yuvMatrix = _T("None");
-                    break;
-            }
-
-            // Actually VSFilter expect full range (A)RGB frames to work with.
-            pRHS->SetSourceTargetInfo(yuvMatrix, 0, 255);
         }
+
+        DXVA2_ExtendedFormat extFormat;
+        extFormat.value = m_cf;
+        CString yuvMatrix = (extFormat.NominalRange == DXVA2_NominalRange_Normal) ? _T("PC.") : _T("TV.");
+
+        switch (extFormat.VideoTransferMatrix) {
+            case DXVA2_VideoTransferMatrix_BT601:
+                yuvMatrix.Append(_T("601"));
+                break;
+            case DXVA2_VideoTransferMatrix_BT709:
+                yuvMatrix.Append(_T("709"));
+                break;
+            case DXVA2_VideoTransferMatrix_SMPTE240M:
+                yuvMatrix.Append(_T("240M"));
+                break;
+            default:
+                yuvMatrix = _T("None");
+                break;
+        }
+
+        yuvMatrix.Append(_T(".VSFilter"));
+        // Actually VSFilter expect full range (A)RGB frames to work with.
+        pSubStream->SetSourceTargetInfo(yuvMatrix, 0, 255);
     }
 
     int i = 0;

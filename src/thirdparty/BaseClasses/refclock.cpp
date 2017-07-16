@@ -59,7 +59,7 @@ CBaseReferenceClock::~CBaseReferenceClock()
         TriggerThread();
         WaitForSingleObject( m_hThread, INFINITE );
         EXECUTE_ASSERT( CloseHandle(m_hThread) );
-        m_hThread = 0;
+        m_hThread = NULL;
         EXECUTE_ASSERT( CloseHandle(m_pSchedule->GetEvent()) );
 	delete m_pSchedule;
     }
@@ -77,7 +77,8 @@ CBaseReferenceClock::CBaseReferenceClock( __in_opt LPCTSTR pName,
 , m_TimerResolution(0)
 , m_bAbort( FALSE )
 , m_pSchedule( pShed ? pShed : new CAMSchedule(CreateEvent(NULL, FALSE, FALSE, NULL)) )
-, m_hThread(0)
+, m_hThread(NULL)
+, m_rtNextAdvise(0)
 {
 
 #ifdef DXMPERF

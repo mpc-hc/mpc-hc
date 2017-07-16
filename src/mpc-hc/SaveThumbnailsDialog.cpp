@@ -103,20 +103,22 @@ END_MESSAGE_MAP()
 BOOL CSaveThumbnailsDialog::OnFileNameOK()
 {
     if (SysVersion::IsVistaOrLater()) {
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        WCHAR* result;
+        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+        CComHeapPtr<WCHAR> result;
 
-        pfdc->GetEditBoxText(IDC_EDIT2, &result);
-        m_rows = _wtoi(result);
-        CoTaskMemFree(result);
-        pfdc->GetEditBoxText(IDC_EDIT3, &result);
-        m_cols = _wtoi(result);
-        CoTaskMemFree(result);
-        pfdc->GetEditBoxText(IDC_EDIT4, &result);
-        m_width = _wtoi(result);
-        CoTaskMemFree(result);
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT2, &result))) {
+            m_rows = _wtoi(result);
+        }
 
-        pfdc->Release();
+        result.Free();
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT3, &result))) {
+            m_cols = _wtoi(result);
+        }
+
+        result.Free();
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT4, &result))) {
+            m_width = _wtoi(result);
+        }
     } else {
         m_rows = m_rowsctrl.GetPos32();
         m_cols = m_colsctrl.GetPos32();

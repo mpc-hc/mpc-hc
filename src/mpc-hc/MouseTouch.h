@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,8 +21,10 @@
 #pragma once
 
 #include <map>
+#include <unordered_set>
 
 #include "EventDispatcher.h"
+#include "SysVersion.h"
 
 // TODO: handle touch gestures
 
@@ -36,12 +38,11 @@ public:
 
     virtual ~CMouse();
 
-    static inline bool PointEqualsImprecise(long a, long b) {
-        const unsigned uDelta = 1;
-        return abs(a - b) <= uDelta;
+    static inline bool PointEqualsImprecise(long a, long b, long lDelta) {
+        return abs(a - b) <= abs(lDelta);
     }
-    static inline bool PointEqualsImprecise(const CPoint& a, const CPoint& b) {
-        return PointEqualsImprecise(a.x, b.x) && PointEqualsImprecise(a.y, b.y);
+    static inline bool PointEqualsImprecise(const CPoint& a, const CPoint& b, long xDelta = 1, long yDelta = 1) {
+        return PointEqualsImprecise(a.x, b.x, xDelta) && PointEqualsImprecise(a.y, b.y, yDelta);
     }
 
     static UINT GetMouseFlags();
@@ -53,8 +54,10 @@ public:
 
     CMouse& operator=(const CMouse&) = delete;
 
-private:
+protected:
     const bool m_bD3DFS;
+
+private:
     CMainFrame* m_pMainFrame;
     bool m_bMouseHiderStarted;
     CPoint m_mouseHiderStartScreenPoint;
@@ -158,4 +161,77 @@ private:
     virtual CWnd& GetWnd() override final {
         return *this;
     }
+
+    virtual ULONG GetGestureStatus(CPoint) override {
+        return m_bD3DFS ? TABLET_DISABLE_PRESSANDHOLD : 0;
+    }
+};
+
+template <class T>
+class CMouseWheelHook
+{
+    HHOOK m_hHook = NULL;
+
+    static LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+        if (nCode == HC_ACTION && wParam == WM_MOUSEWHEEL) {
+            const auto& msex = *reinterpret_cast<MOUSEHOOKSTRUCTEX*>(lParam);
+            if (const CWnd* pFocus = CWnd::FromHandlePermanent(msex.hwnd)) {
+                if (const CWnd* pFocusRoot = pFocus->GetAncestor(GA_ROOT)) {
+                    // only intercept messages to focused windows that have white-listed root windows
+                    if (T::GetRoots().count(pFocusRoot)) {
+                        if (const CWnd* pUnder = CWnd::WindowFromPoint(msex.pt)) {
+                            if (pFocusRoot == pUnder->GetAncestor(GA_ROOT) &&
+                                    GetCurrentThreadId() == GetWindowThreadProcessId(pUnder->m_hWnd, nullptr)) {
+                                MSG msg = {
+                                    NULL,
+                                    static_cast<UINT>(wParam),
+                                    CMouse::GetMouseFlags() | msex.mouseData,
+                                    MAKELPARAM(msex.pt.x, msex.pt.y),
+                                    static_cast<DWORD>(GetMessageTime()),
+                                    msex.pt
+                                };
+
+                                for (const CWnd* pTarget : { pUnder, pFocusRoot }) {
+                                    msg.hwnd = pTarget->m_hWnd;
+                                    if (!msg.hwnd) {
+                                        ASSERT(FALSE);
+                                        continue;
+                                    }
+
+                                    // walk through pre-translate
+                                    if (CWnd::WalkPreTranslateTree(pFocusRoot->m_hWnd, &msg)) {
+                                        // the message shouldn't be dispatched
+                                        continue;
+                                    }
+
+                                    if (DispatchMessage(&msg)) {
+                                        return TRUE;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return CallNextHookEx(nullptr, nCode, wParam, lParam);
+    }
+
+public:
+    CMouseWheelHook() {
+        if (SysVersion::Is10OrLater()) {
+            m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
+            ASSERT(m_hHook);
+        }
+    }
+
+    virtual ~CMouseWheelHook() {
+        if (m_hHook) {
+            VERIFY(UnhookWindowsHookEx(m_hHook));
+        }
+    }
+};
+
+struct CMainFrameMouseHook : CMouseWheelHook<CMainFrameMouseHook> {
+    static std::unordered_set<const CWnd*> GetRoots();
 };

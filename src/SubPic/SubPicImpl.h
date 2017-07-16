@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -96,7 +96,9 @@ public:
     STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget) PURE;
 
     STDMETHODIMP SetVirtualTextureSize(const SIZE pSize, const POINT pTopLeft);
-    STDMETHODIMP GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest) const;
+    STDMETHODIMP GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource,
+                                  RECT* pRcDest, const double videoStretchFactor = 1.0,
+                                  int xOffsetInPixels = 1) const;
     STDMETHODIMP GetRelativeTo(RelativeTo* pRelativeTo) const;
     STDMETHODIMP SetRelativeTo(RelativeTo relativeTo);
 
@@ -135,6 +137,6 @@ public:
     STDMETHODIMP AllocDynamic(ISubPic** ppSubPic);
     STDMETHODIMP_(bool) IsDynamicWriteOnly() const;
     STDMETHODIMP ChangeDevice(IUnknown* pDev);
-    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) { return E_NOTIMPL; };
+    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) PURE;
     STDMETHODIMP FreeStatic();
 };

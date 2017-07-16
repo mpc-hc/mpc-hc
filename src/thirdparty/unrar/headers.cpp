@@ -4,9 +4,7 @@ void FileHeader::Reset(size_t SubDataSize)
 {
   SubData.Alloc(SubDataSize);
   BaseBlock::Reset();
-#ifndef SHELL_EXT
   FileHash.Init(HASH_NONE);
-#endif
   mtime.Reset();
   atime.Reset();
   ctime.Reset();
@@ -34,6 +32,7 @@ void FileHeader::Reset(size_t SubDataSize)
   LargeFile=false;
 
   RedirType=FSREDIR_NONE;
+  DirTarget=false;
   UnixOwnerSet=false;
 }
 

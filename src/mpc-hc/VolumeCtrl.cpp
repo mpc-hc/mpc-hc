@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "VolumeCtrl.h"
+#include "AppSettings.h"
 
 
 // CVolumeCtrl
@@ -55,7 +56,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 void CVolumeCtrl::SetPosInternal(int pos)
 {
     SetPos(pos);
-    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)pos, SB_THUMBPOSITION), (LPARAM)m_hWnd); // this will be reflected back on us
+    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(pos), SB_THUMBPOSITION), reinterpret_cast<LPARAM>(m_hWnd)); // this will be reflected back on us
 }
 
 void CVolumeCtrl::IncreaseVolume()
@@ -79,6 +80,7 @@ BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
     ON_WM_HSCROLL_REFLECT()
     ON_WM_SETCURSOR()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
+    ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
@@ -188,7 +190,7 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 
     CFrameWnd* pFrame = GetParentFrame();
     if (pFrame && pFrame != GetParent()) {
-        pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM((short)nPos, nSBCode), (LPARAM)m_hWnd);
+        pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(nPos), static_cast<WORD>(nSBCode)), reinterpret_cast<LPARAM>(m_hWnd));
     }
 }
 
@@ -202,11 +204,23 @@ BOOL CVolumeCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
     TOOLTIPTEXT* pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
     CString str;
-    str.Format(ResStr(IDS_VOLUME), GetPos());
+    str.Format(IDS_VOLUME, GetPos());
     _tcscpy_s(pTTT->szText, str);
     pTTT->hinst = nullptr;
 
     *pResult = 0;
 
+    return TRUE;
+}
+
+BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+{
+    if (zDelta > 0) {
+        IncreaseVolume();
+    } else if (zDelta < 0) {
+        DecreaseVolume();
+    } else {
+        return FALSE;
+    }
     return TRUE;
 }

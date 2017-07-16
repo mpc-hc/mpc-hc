@@ -99,9 +99,11 @@ BOOL CAMMsgEvent::WaitMsg(DWORD dwTimeout)
 
 CAMThread::CAMThread(__inout_opt HRESULT *phr)
     : m_EventSend(TRUE, phr),     // must be manual-reset for CheckRequest()
-      m_EventComplete(FALSE, phr)
+      m_EventComplete(FALSE, phr),
+      m_hThread(NULL),
+      m_dwParam(0),
+      m_dwReturnVal(0)
 {
-    m_hThread = NULL;
 }
 
 CAMThread::~CAMThread() {

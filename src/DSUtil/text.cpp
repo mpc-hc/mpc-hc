@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,7 +33,7 @@ DWORD CharSetToCodePage(DWORD dwCharSet)
     }
     CHARSETINFO cs;
     ZeroMemory(&cs, sizeof(CHARSETINFO));
-    ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
+    ::TranslateCharsetInfo((DWORD*)(DWORD_PTR)dwCharSet, &cs, TCI_SRCCHARSET);
     return cs.ciACP;
 }
 
@@ -172,6 +172,18 @@ CStringA HtmlSpecialChars(CStringA str, bool bQuotes /*= false*/)
     }
     str.Replace("<", "&lt;");
     str.Replace(">", "&gt;");
+
+    return str;
+}
+
+CStringA HtmlSpecialCharsDecode(CStringA str)
+{
+    str.Replace("&amp;", "&");
+    str.Replace("&quot;", "\"");
+    str.Replace("&#039;", "\'");
+    str.Replace("&lt;", "<");
+    str.Replace("&gt;", ">");
+    str.Replace("&rsquo;", "'");
 
     return str;
 }
