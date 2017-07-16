@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.12 - 16 July 2017
+=====================
 * Switched from mhook to MinHook since it's more actively maintained
 * Require a CPU processor with SSE2 instructions
 * Ticket #5865, Add context menu option to copy subtitle URL
