@@ -130,6 +130,7 @@ void CPPageAdvanced::InitSettings()
     };
 
     addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, StrRes(IDS_PPAGEADVANCED_HIDE_WINDOWED));
+    addBoolItem(CLIENT_DRAG_WINDOW, IDS_RS_CLIENT_DRAG_WINDOW, true, s.bClientDragWindow, StrRes(IDS_PPAGEADVANCED_CLIENT_DRAG_WINDOW));
     addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, StrRes(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
     addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 20, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));

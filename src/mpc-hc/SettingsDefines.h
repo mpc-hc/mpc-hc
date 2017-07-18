@@ -222,6 +222,7 @@
 #define IDS_RS_HIDE_FULLSCREEN_CONTROLS_DELAY  _T("HideFullscreenControlsDelay")
 #define IDS_RS_HIDE_FULLSCREEN_DOCKED_PANELS   _T("HideFullscreenDockedPanels")
 #define IDS_RS_HIDE_WINDOWED_CONTROLS          _T("HideWindowedControls")
+#define IDS_RS_CLIENT_DRAG_WINDOW              _T("ClientDragWindow")
 
 #define IDS_RS_HIDE_WINDOWED_MOUSE_POINTER  _T("HideWindowedMousePointer")
 

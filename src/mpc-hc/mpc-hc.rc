@@ -3671,6 +3671,12 @@ BEGIN
     IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
+STRINGTABLE
+BEGIN
+    IDS_PPAGEADVANCED_CLIENT_DRAG_WINDOW 
+                            "Disable to only allow dragging the window using the title bar"
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

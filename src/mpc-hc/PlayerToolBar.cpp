@@ -386,7 +386,7 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     int i = getHitButtonIdx(point);
 
-    if (!m_pMainFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
+    if (!m_pMainFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED))) && AfxGetAppSettings().bClientDragWindow) {
         MapWindowPoints(m_pMainFrame, &point, 1);
         m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     } else {

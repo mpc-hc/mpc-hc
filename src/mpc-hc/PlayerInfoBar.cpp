@@ -249,7 +249,7 @@ void CPlayerInfoBar::OnSize(UINT nType, int cx, int cy)
 void CPlayerInfoBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-    if (!pFrame->m_fFullScreen) {
+    if (!pFrame->m_fFullScreen && AfxGetAppSettings().bClientDragWindow) {
         MapWindowPoints(pFrame, &point, 1);
         pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
     }

@@ -434,7 +434,7 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (m_time_rect.PtInRect(point)) {
         OnTimeDisplayClicked();
-    } else if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
+    } else if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && AfxGetAppSettings().bClientDragWindow) {
         CRect r;
         GetClientRect(r);
         CPoint p = point;

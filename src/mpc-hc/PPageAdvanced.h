@@ -138,6 +138,7 @@ private:
 
     enum ADVANCED_SETTINGS {
         HIDE_WINDOWED,
+        CLIENT_DRAG_WINDOW,
         BLOCK_VSFILTER,
         RECENT_FILES_NB,
         FILE_POS_LONGER,
