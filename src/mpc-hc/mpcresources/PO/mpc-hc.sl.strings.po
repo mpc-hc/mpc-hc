@@ -3971,3 +3971,7 @@ msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_CLIENT_DRAG_WINDOW"
+msgid "Disable to only allow dragging the window using the title bar"
+msgstr ""
+
