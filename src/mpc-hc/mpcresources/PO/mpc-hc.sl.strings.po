@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# / / <anzek2000@gmail.com>, 2017
 # fubuzz <knedlc@gmail.com>, 2014
 # shvala <simon.hvala@hotmail.com>, 2013-2017
 # Underground78, 2014
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-09 22:30+0000\n"
-"Last-Translator: XhmikosR\n"
+"PO-Revision-Date: 2017-07-20 16:53+0000\n"
+"Last-Translator: / / <anzek2000@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/mpc-hc/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +70,7 @@ msgstr "Datoteka"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Privz&eti slog"
+msgstr "&Privzeti slog"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -3597,7 +3598,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3969,5 +3970,5 @@ msgstr "Uporabi staro orodno vrstico namesto nove vektorske."
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Kopiraj URL"
 

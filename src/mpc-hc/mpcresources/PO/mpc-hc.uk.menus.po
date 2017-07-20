@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# arestarh1986 <arestarh@ukr.net>, 2014-2016
+# arestarh1986 <arestarh@ukr.net>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-10-23 10:53+0000\n"
+"PO-Revision-Date: 2017-07-19 17:25+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/mpc-hc/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -74,15 +74,15 @@ msgstr ""
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Зберегти с&убтитри..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "&Завантажити субтитри..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Відвантажити субтитри..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"

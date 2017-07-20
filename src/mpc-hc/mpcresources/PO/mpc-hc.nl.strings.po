@@ -9,6 +9,7 @@
 # DennisW, 2014,2016
 # hendrickbert <hendrickbert@gmail.com>, 2015
 # B512, 2015
+# Madada Madada <madada@mailismagic.com>, 2017
 # Marco Brohet <therbom@gmail.com>, 2015
 # mark van tilburg <markvantilburg@gmail.com>, 2016
 # Peter Pul, 2015
@@ -19,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-03 15:00+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2017-07-17 23:32+0000\n"
+"Last-Translator: Madada Madada <madada@mailismagic.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3978,5 +3979,5 @@ msgstr "Gebruik de veroude werkbalk in plaats van de niewe vectorized werkbalk"
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Kopieer URL"
 
