@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -724,10 +724,4 @@ STDMETHODIMP CMemSubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
         m_freeMemoryChunks.clear();
     }
     return S_OK;
-}
-
-STDMETHODIMP CMemSubPicAllocator::SetCurVidRect(RECT curvidrect)
-{
-    m_curvidrect = curvidrect;
-    return __super::SetCurVidRect(curvidrect);
 }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -68,7 +68,6 @@ class CMemSubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
 {
     int m_type;
     CSize m_maxsize;
-    CRect m_curvidrect;
 
     std::vector<std::pair<size_t, BYTE*>> m_freeMemoryChunks;
 
@@ -82,5 +81,4 @@ public:
     void FreeSpdBits(SubPicDesc& spd);
 
     STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) override;
-    STDMETHODIMP SetCurVidRect(RECT curvidrect) override;
 };

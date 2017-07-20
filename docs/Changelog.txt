@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 ! Subtitle downloader dialog could be opened on disabled monitor
+! Fix text subtitle rendering in Avisynth
 
 
 1.7.13 - 16 July 2017
