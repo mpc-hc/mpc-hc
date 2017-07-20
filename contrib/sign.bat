@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013, 2015-2016 see Authors.txt
+REM (C) 2013, 2015-2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -20,17 +20,21 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 SET "FILE_DIR=%~dp0"
 
+SET "COMMON=%FILE_DIR%..\common.bat"
+
 IF "%~1" == "" (
   ECHO %~nx0: No input specified!
   SET SIGN_ERROR=True
   GOTO END
 )
 
-IF NOT DEFINED VS140COMNTOOLS (
-  ECHO %~nx0: Visual Studio 2015 does not seem to be installed...
+IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+IF NOT EXIST "%MPCHC_VS_PATH%" (
+  ECHO %~nx0: Visual Studio 2017 does not seem to be installed...
   SET SIGN_ERROR=True
   GOTO END
 )
+SET "TOOLSET=%MPCHC_VS_PATH%\Common7\Tools\vsdevcmd"
 
 IF NOT EXIST "%FILE_DIR%..\signinfo.txt" (
   ECHO %~nx0: %FILE_DIR%..\signinfo.txt is not present!
@@ -38,7 +42,7 @@ IF NOT EXIST "%FILE_DIR%..\signinfo.txt" (
   GOTO END
 )
 
-signtool /? 2>NUL || CALL "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
+signtool /? 2>NUL || CALL "%TOOLSET%" 2>NUL
 IF %ERRORLEVEL% NEQ 0 (
   ECHO vcvarsall.bat call failed.
   GOTO End
