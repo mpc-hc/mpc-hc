@@ -3668,6 +3668,7 @@ BEGIN
                             "Size in pixels of the default toolbar."
     IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
                             "Use legacy toolbar instead of new vectorized one."
+    IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
 #endif    // English (United States) resources

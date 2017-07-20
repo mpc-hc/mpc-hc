@@ -69,6 +69,7 @@
     <ClCompile Include="hash.cpp" />
     <ClCompile Include="headers.cpp" />
     <ClCompile Include="isnt.cpp" />
+    <ClCompile Include="list.cpp" />
     <ClCompile Include="match.cpp" />
     <ClCompile Include="options.cpp" />
     <ClCompile Include="pathfn.cpp" />
@@ -81,6 +82,7 @@
     <ClCompile Include="rawread.cpp" />
     <ClCompile Include="rdwrfn.cpp" />
     <ClCompile Include="recvol.cpp" />
+    <ClCompile Include="resource.cpp" />
     <ClCompile Include="rijndael.cpp" />
     <ClCompile Include="rs.cpp" />
     <ClCompile Include="rs16.cpp" />
@@ -140,6 +142,7 @@
     <ClInclude Include="raros.hpp" />
     <ClInclude Include="rartypes.hpp" />
     <ClInclude Include="rarvm.hpp" />
+    <ClInclude Include="rawint.hpp" />
     <ClInclude Include="rawread.hpp" />
     <ClInclude Include="rdwrfn.hpp" />
     <ClInclude Include="recvol.hpp" />
@@ -160,7 +163,6 @@
     <ClInclude Include="threadpool.hpp" />
     <ClInclude Include="timefn.hpp" />
     <ClInclude Include="ui.hpp" />
-    <ClInclude Include="ulinks.hpp" />
     <ClInclude Include="unicode.hpp" />
     <ClInclude Include="unpack.hpp" />
     <ClInclude Include="version.hpp" />

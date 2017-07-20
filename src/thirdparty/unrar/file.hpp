@@ -1,9 +1,7 @@
 #ifndef _RAR_FILE_
 #define _RAR_FILE_
 
-#ifdef _ANDROID // Need lseek64 to handle >2 GB files in Android.
 #define FILE_USE_OPEN
-#endif
 
 #ifdef _WIN_ALL
   typedef HANDLE FileHandle;

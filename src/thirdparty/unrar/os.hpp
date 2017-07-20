@@ -29,7 +29,7 @@
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
 
-#if !defined(ZIPSFX) && !defined(SHELL_EXT) && !defined(SETUP)
+#if !defined(ZIPSFX)
 #define RAR_SMP
 #endif
 
@@ -38,6 +38,7 @@
 #include <windows.h>
 #include <prsht.h>
 #include <shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
 #include <shellapi.h>
 #include <shlobj.h>
 #include <winioctl.h>
@@ -112,7 +113,7 @@
   #define _forceinline inline
 #endif
 
-#endif
+#endif // defined(_WIN_ALL) || defined(_EMX)
 
 #ifdef _UNIX
 
@@ -129,14 +130,7 @@
   #include <sys/sysctl.h>
 #endif
 #ifndef SFX_MODULE
-  #ifdef _ANDROID
-    #include <sys/vfs.h>
-    #define statvfs statfs
-  #else
     #include <sys/statvfs.h>
-  #endif
-#endif
-#if defined(__FreeBSD__) || defined (__NetBSD__) || defined (__OpenBSD__) || defined(__APPLE__)
 #endif
 #include <pwd.h>
 #include <grp.h>
@@ -160,7 +154,7 @@
 #define SAVE_LINKS
 #endif
 
-#if defined(__linux) && !defined (_ANDROID) || defined(__FreeBSD__)
+#if defined(__linux) || defined(__FreeBSD__)
 #include <sys/time.h>
 #define USE_LUTIMES
 #endif
@@ -202,9 +196,18 @@
   #endif
 #endif
 
+#if _POSIX_C_SOURCE >= 200809L
+  #define UNIX_TIME_NS // Nanosecond time precision in Unix.
 #endif
 
+#endif // _UNIX
+
+#if 0
+  #define MSGID_INT
+  typedef int MSGID;
+#else
   typedef const wchar* MSGID;
+#endif
 
 #ifndef SSE_ALIGNMENT // No SSE use and no special data alignment is required.
   #define SSE_ALIGNMENT 1
@@ -223,9 +226,9 @@
 #if !defined(LITTLE_ENDIAN) && !defined(BIG_ENDIAN)
   #if defined(__i386) || defined(i386) || defined(__i386__) || defined(__x86_64)
     #define LITTLE_ENDIAN
-  #elif defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN
+  #elif defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN || defined(__LITTLE_ENDIAN__)
     #define LITTLE_ENDIAN
-  #elif defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN
+  #elif defined(BYTE_ORDER) && BYTE_ORDER == BIG_ENDIAN || defined(__BIG_ENDIAN__)
     #define BIG_ENDIAN
   #else
     #error "Neither LITTLE_ENDIAN nor BIG_ENDIAN are defined. Define one of them."

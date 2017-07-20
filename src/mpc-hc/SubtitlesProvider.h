@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -76,11 +76,13 @@ SRESULT Login(const std::string& sUserName, const std::string& sPassword) overri
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
+#ifdef MPCHC_DISABLED_SUBTITLES_PROVIDER
 DEFINE_SUBTITLESPROVIDER_BEGIN(titlovi, "http://www.titlovi.com", IDI_TITLOVI, SPF_SEARCH)
 DEFINE_SUBTITLESPROVIDER_END
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS, SPF_SEARCH)
 DEFINE_SUBTITLESPROVIDER_END
+#endif // MPCHC_DISABLED_SUBTITLES_PROVIDER
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "http://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
@@ -112,6 +114,7 @@ static const struct {
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
 };
 
+#ifdef MPCHC_DISABLED_SUBTITLES_PROVIDER
 static const struct {
     const char* code;
     const char* name;
@@ -137,3 +140,4 @@ static const struct {
     { "sv", "swedish" },                        { "th", "thai" },                          { "tr", "turkish" },
     { "ur", "urdu" },                           { "vi", "vietnamese" },
 };
+#endif // MPCHC_DISABLED_SUBTITLES_PROVIDER

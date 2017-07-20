@@ -18,12 +18,21 @@ static bool UnixSymlink(const char *Target,const wchar *LinkName,RarTime *ftm,Ra
     return false;
   }
 #ifdef USE_LUTIMES
+#ifdef UNIX_TIME_NS
+  timespec times[2];
+  times[0].tv_sec=fta->GetUnix();
+  times[0].tv_nsec=fta->IsSet() ? long(fta->GetUnixNS()%1000000000) : UTIME_NOW;
+  times[1].tv_sec=ftm->GetUnix();
+  times[1].tv_nsec=ftm->IsSet() ? long(ftm->GetUnixNS()%1000000000) : UTIME_NOW;
+  utimensat(AT_FDCWD,LinkNameA,times,AT_SYMLINK_NOFOLLOW);
+#else
   struct timeval tv[2];
   tv[0].tv_sec=fta->GetUnix();
-  tv[0].tv_usec=long(fta->GetRaw()%10000000/10);
+  tv[0].tv_usec=long(fta->GetUnixNS()%1000000000/1000);
   tv[1].tv_sec=ftm->GetUnix();
-  tv[1].tv_usec=long(ftm->GetRaw()%10000000/10);
+  tv[1].tv_usec=long(ftm->GetUnixNS()%1000000000/1000);
   lutimes(LinkNameA,tv);
+#endif
 #endif
 
   return true;
@@ -54,8 +63,14 @@ bool ExtractUnixLink30(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const w
     if (!DataIO.UnpHash.Cmp(&Arc.FileHead.FileHash,Arc.FileHead.UseHashKey ? Arc.FileHead.HashKey:NULL))
       return true;
 
-    if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
-        !IsRelativeSymlinkSafe(Arc.FileHead.FileName,Arc.FileHead.RedirName)))
+    wchar TargetW[NM];
+    CharToWide(Target,TargetW,ASIZE(TargetW));
+    // Check for *TargetW==0 to catch CharToWide failure.
+    // Use Arc.FileHead.FileName instead of LinkName, since LinkName
+    // can include the destination path as a prefix, which can
+    // confuse IsRelativeSymlinkSafe algorithm.
+    if (!Cmd->AbsoluteLinks && (*TargetW==0 || IsFullPath(TargetW) ||
+        !IsRelativeSymlinkSafe(Cmd,Arc.FileHead.FileName,LinkName,TargetW)))
       return false;
     return UnixSymlink(Target,LinkName,&Arc.FileHead.mtime,&Arc.FileHead.atime);
   }
@@ -77,8 +92,11 @@ bool ExtractUnixLink50(CommandData *Cmd,const wchar *Name,FileHeader *hd)
       return false;
     DosSlashToUnix(Target,Target,ASIZE(Target));
   }
+  // Use hd->FileName instead of LinkName, since LinkName can include
+  // the destination path as a prefix, which can confuse
+  // IsRelativeSymlinkSafe algorithm.
   if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
-      !IsRelativeSymlinkSafe(hd->FileName,hd->RedirName)))
+      !IsRelativeSymlinkSafe(Cmd,hd->FileName,Name,hd->RedirName)))
     return false;
   return UnixSymlink(Target,Name,&hd->mtime,&hd->atime);
 }

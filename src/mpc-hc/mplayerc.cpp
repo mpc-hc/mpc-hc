@@ -1466,10 +1466,7 @@ BOOL CMPlayerCApp::InitInstance()
         ASSERT(FALSE);
     }
 
-    // At this point only main thread should be present, mhook is custom-hacked accordingly
-    bool bHookingSuccessful = true;
-
-    MH_Initialize();
+    bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
@@ -1487,6 +1484,8 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_CreateFileW, Mine_CreateFileW);
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_DeviceIoControl, Mine_DeviceIoControl);
 
+    bHookingSuccessful &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
+
     if (!bHookingSuccessful) {
         if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
             ShellExecute(nullptr, _T("open"), HOOKS_BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
@@ -1499,6 +1498,8 @@ BOOL CMPlayerCApp::InitInstance()
     VERIFY(Mhook_SetHookEx(&Real_CreateFileA, Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
     VERIFY(Mhook_SetHookEx(&Real_LockWindowUpdate, Mine_LockWindowUpdate));
     VERIFY(Mhook_SetHookEx(&Real_mixerSetControlDetails, Mine_mixerSetControlDetails));
+
+    MH_EnableHook(MH_ALL_HOOKS);
 
     CFilterMapper2::Init();
 

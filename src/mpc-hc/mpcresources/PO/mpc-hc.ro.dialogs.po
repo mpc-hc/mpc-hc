@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Daniel <danny3@tutanota.com>, 2014-2016
-# lordkag <lord.kagula@gmail.com>, 2014-2016
+# lordkag <lord.kagula@gmail.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-10-27 10:01+0000\n"
-"Last-Translator: Daniel <danny3@tutanota.com>\n"
+"PO-Revision-Date: 2017-06-12 20:10+0000\n"
+"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,7 +191,7 @@ msgstr "Despre"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2017 see Authors.txt"
-msgstr "Drepturi de autor © 2002-2017 vedeți Authors.txt"
+msgstr "Drepturi de autor © 2002-2017, vedeți Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -343,7 +343,7 @@ msgstr "Ține minte ultima scalare a panoramării trunchiate"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Acţiuni pentru meniul „Deschide disc DVD/BD”"
+msgstr "Acțiuni pentru meniul „Deschide disc DVD/BD”"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -459,7 +459,7 @@ msgstr "Audio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Permite suprascrierea opţiunii separatorului (splitter) extern"
+msgstr "Permite suprascrierea opțiunii separatorului (splitter) extern"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -467,7 +467,7 @@ msgstr "Stabiliri deschidere"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Folosește un fir de execuţie secundar pentru a construi graficul filtrelor"
+msgstr "Folosește un fir de execuție secundar pentru a construi graficul filtrelor"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -571,7 +571,7 @@ msgstr "Avertisment"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "Dacă suprascrieţi și activați dezimțuirea (antialiasing) pentru ecran complet în stabilirile plăcii grafice, subtitlurile nu o să arate mai bine, dar cu siguranță se vor consuma mai mult din resursele sistemului."
+msgstr "Dacă suprascrieți și activați dezimțuirea (antialiasing) pentru ecran complet în stabilirile plăcii grafice, subtitlurile nu o să arate mai bine, dar cu siguranță se vor consuma mai mult din resursele sistemului."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -1131,7 +1131,7 @@ msgstr "Stabiliri VMR-9 (fără randare) și EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
-msgstr "Suprafaţă:"
+msgstr "Suprafață:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
@@ -1183,7 +1183,7 @@ msgstr "Nuanțatoare"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr "Rotaţie"
+msgstr "Rotație"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
@@ -1439,7 +1439,7 @@ msgstr "Oprește graficul filtrelor"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Sincronizează frecvenţa video cu cea a ecranului"
+msgstr "Sincronizează frecvența video cu cea a ecranului"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1447,7 +1447,7 @@ msgstr "Frecvență de ajustare:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Sincronizează frecvenţa ecranului cu cea video"
+msgstr "Sincronizează frecvența ecranului cu cea video"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1467,7 +1467,7 @@ msgstr "Prezintă la cea mai apropiată sincronizare verticală"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Decalaj de sincronizare ţintă:"
+msgstr "Decalaj de sincronizare țintă:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
@@ -1559,7 +1559,7 @@ msgstr "Scanează"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Preferă subtitlurile forţate și/sau implicite"
+msgstr "Preferă subtitlurile forțate și/sau implicite"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"

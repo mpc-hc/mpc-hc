@@ -83,6 +83,8 @@ static void blake2s_init_sse()
 
 // Original BLAKE2 SSE4.1 message loading code was a little slower in x86 mode
 // and about the same in x64 mode in our test. Perhaps depends on compiler.
+// We also tried _mm_i32gather_epi32 and _mm256_i32gather_epi32 AVX2 gather
+// instructions here, but they did not show any speed gain on i7-6700K.
 #define SSE_ROUND(m,row,r) \
 { \
   __m128i buf; \

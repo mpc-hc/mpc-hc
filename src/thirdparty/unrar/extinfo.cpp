@@ -17,6 +17,7 @@
 
 
 
+// RAR2 service header extra records.
 #ifndef SFX_MODULE
 void SetExtraInfo20(CommandData *Cmd,Archive &Arc,wchar *Name)
 {
@@ -44,6 +45,7 @@ void SetExtraInfo20(CommandData *Cmd,Archive &Arc,wchar *Name)
 #endif
 
 
+// RAR3 and RAR5 service header extra records.
 void SetExtraInfo(CommandData *Cmd,Archive &Arc,wchar *Name)
 {
 #ifdef _UNIX
@@ -60,36 +62,75 @@ void SetExtraInfo(CommandData *Cmd,Archive &Arc,wchar *Name)
 }
 
 
-
-
-bool IsRelativeSymlinkSafe(const wchar *SrcName,const wchar *TargetName)
+// Extra data stored directly in file header.
+void SetFileHeaderExtra(CommandData *Cmd,Archive &Arc,wchar *Name)
 {
-  if (IsFullRootPath(SrcName))
-    return false;
+#ifdef _UNIX
+   if (Cmd->ProcessOwners && Arc.Format==RARFMT50 && Arc.FileHead.UnixOwnerSet)
+     SetUnixOwner(Arc,Name);
+#endif
+}
+
+
+
+
+// Calculate a number of path components except \. and \..
+static int CalcAllowedDepth(const wchar *Name)
+{
   int AllowedDepth=0;
-  while (*SrcName!=0)
+  while (*Name!=0)
   {
-    if (IsPathDiv(SrcName[0]) && SrcName[1]!=0 && !IsPathDiv(SrcName[1]))
+    if (IsPathDiv(Name[0]) && Name[1]!=0 && !IsPathDiv(Name[1]))
     {
-      bool Dot=SrcName[1]=='.' && (IsPathDiv(SrcName[2]) || SrcName[2]==0);
-      bool Dot2=SrcName[1]=='.' && SrcName[2]=='.' && (IsPathDiv(SrcName[3]) || SrcName[3]==0);
+      bool Dot=Name[1]=='.' && (IsPathDiv(Name[2]) || Name[2]==0);
+      bool Dot2=Name[1]=='.' && Name[2]=='.' && (IsPathDiv(Name[3]) || Name[3]==0);
       if (!Dot && !Dot2)
         AllowedDepth++;
     }
-    SrcName++;
+    Name++;
   }
-  if (IsFullRootPath(TargetName)) // Catch root dir based /path/file paths.
+  return AllowedDepth;
+}
+
+
+bool IsRelativeSymlinkSafe(CommandData *Cmd,const wchar *SrcName,const wchar *PrepSrcName,const wchar *TargetName)
+{
+  // Catch root dir based /path/file paths also as stuff like \\?\.
+  // Do not check PrepSrcName here, it can be root based if destination path
+  // is a root based.
+  if (IsFullRootPath(SrcName) || IsFullRootPath(TargetName))
     return false;
+  
+  // We could check just prepared src name, but for extra safety
+  // we check both original (as from archive header) and prepared
+  // (after applying the destination path and -ep switches) names.
+
+  int AllowedDepth=CalcAllowedDepth(SrcName); // Original name depth.
+
+  // Remove the destination path from prepared name if any. We should not
+  // count the destination path depth, because the link target must point
+  // inside of this path, not outside of it.
+  size_t ExtrPathLength=wcslen(Cmd->ExtrPath);
+  if (ExtrPathLength>0 && wcsncmp(PrepSrcName,Cmd->ExtrPath,ExtrPathLength)==0)
+  {
+    PrepSrcName+=ExtrPathLength;
+    while (IsPathDiv(*PrepSrcName))
+      PrepSrcName++;
+  }
+  int PrepAllowedDepth=CalcAllowedDepth(PrepSrcName);
+
+  // Number of ".." in link target.
+  int UpLevels=0;
   for (int Pos=0;*TargetName!=0;Pos++)
   {
     bool Dot2=TargetName[0]=='.' && TargetName[1]=='.' && 
               (IsPathDiv(TargetName[2]) || TargetName[2]==0) &&
               (Pos==0 || IsPathDiv(*(TargetName-1)));
     if (Dot2)
-      AllowedDepth--;
+      UpLevels++;
     TargetName++;
   }
-  return AllowedDepth>=0;
+  return AllowedDepth>=UpLevels && PrepAllowedDepth>=UpLevels;
 }
 
 

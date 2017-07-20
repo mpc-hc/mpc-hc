@@ -96,6 +96,7 @@ void uiMsgStore::Msg()
       Log(Str[0],St(MDataBadCRC),Str[1],Str[0]);
       break;
     case UIERROR_BADPSW:
+    case UIWAIT_BADPSW:
       Log(Str[0],St(MWrongPassword));
       break;
     case UIERROR_MEMORY:
@@ -228,6 +229,9 @@ void uiMsgStore::Msg()
       break;
     case UIERROR_UNKNOWNEXTRA:
       Log(Str[0],St(MUnknownExtra),Str[1]);
+      break;
+    case UIERROR_CORRUPTEXTRA:
+      Log(Str[0],St(MCorruptExtra),Str[1],Str[2]);
       break;
 #endif
 #if !defined(SFX_MODULE) && defined(_WIN_ALL)

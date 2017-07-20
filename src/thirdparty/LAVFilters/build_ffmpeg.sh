@@ -57,6 +57,7 @@ configure() {
   OPTIONS="
     --enable-shared                 \
     --disable-static                \
+    --enable-gpl                    \
     --enable-version3               \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
@@ -65,6 +66,8 @@ configure() {
     --disable-protocol=async,cache,concat,httpproxy,icecast,md5,subfile \
     --disable-muxers                \
     --enable-muxer=spdif            \
+    --disable-bsfs                  \
+    --enable-bsf=extract_extradata,vp9_superframe \
     --disable-hwaccels              \
     --enable-hwaccel=h264_dxva2     \
     --enable-hwaccel=hevc_dxva2     \
@@ -81,7 +84,6 @@ configure() {
     --disable-postproc              \
     --disable-swresample            \
     --disable-encoders              \
-    --disable-bsfs                  \
     --disable-devices               \
     --disable-programs              \
     --disable-debug                 \
@@ -96,7 +98,7 @@ configure() {
     EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib64"
   else
     OPTIONS="${OPTIONS} --cpu=i686"
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -mfpmath=sse"
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -msse2 -mfpmath=sse -mstackrealign"
     EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib32"
   fi
 

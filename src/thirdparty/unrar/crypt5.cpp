@@ -1,5 +1,7 @@
-void hmac_sha256(const byte *Key,size_t KeyLength,const byte *Data,
-                 size_t DataLength,byte *ResDigest)
+static void hmac_sha256(const byte *Key,size_t KeyLength,const byte *Data,
+                        size_t DataLength,byte *ResDigest,
+                        sha256_context *ICtxOpt,bool *SetIOpt,
+                        sha256_context *RCtxOpt,bool *SetROpt)
 {
   const size_t Sha256BlockSize=64; // As defined in RFC 4868.
 
@@ -16,28 +18,61 @@ void hmac_sha256(const byte *Key,size_t KeyLength,const byte *Data,
   }
 
   byte KeyBuf[Sha256BlockSize]; // Store the padded key here.
-  for (size_t I = 0; I < KeyLength; I++) // Use 0x36 padding for inner digest.
-    KeyBuf[I] = Key[I] ^ 0x36;
-  for (size_t I = KeyLength; I < Sha256BlockSize; I++)
-    KeyBuf[I] = 0x36;
-
   sha256_context ICtx;
-  sha256_init(&ICtx);
-  sha256_process(&ICtx, KeyBuf, Sha256BlockSize); // Hash padded key.
+
+  if (ICtxOpt!=NULL && *SetIOpt)
+    ICtx=*ICtxOpt; // Use already calculated first block context.
+  else
+  {
+    // This calculation is the same for all iterations with same password.
+    // So for PBKDF2 we can calculate it only for first block and then reuse
+    // to improve performance. 
+
+    for (size_t I = 0; I < KeyLength; I++) // Use 0x36 padding for inner digest.
+      KeyBuf[I] = Key[I] ^ 0x36;
+    for (size_t I = KeyLength; I < Sha256BlockSize; I++)
+      KeyBuf[I] = 0x36;
+
+    sha256_init(&ICtx);
+    sha256_process(&ICtx, KeyBuf, Sha256BlockSize); // Hash padded key.
+  }
+
+  if (ICtxOpt!=NULL && !*SetIOpt) // Store constant context for further reuse.
+  {
+    *ICtxOpt=ICtx;
+    *SetIOpt=true;
+  }
+
   sha256_process(&ICtx, Data, DataLength); // Hash data.
 
   byte IDig[SHA256_DIGEST_SIZE]; // Internal digest for padded key and data.
   sha256_done(&ICtx, IDig);
 
   sha256_context RCtx;
-  sha256_init(&RCtx);
 
-  for (size_t I = 0; I < KeyLength; I++) // Use 0x5c for outer key padding.
-    KeyBuf[I] = Key[I] ^ 0x5c;
-  for (size_t I = KeyLength; I < Sha256BlockSize; I++)
-    KeyBuf[I] = 0x5c;
+  if (RCtxOpt!=NULL && *SetROpt)
+    RCtx=*RCtxOpt; // Use already calculated first block context.
+  else
+  {
+    // This calculation is the same for all iterations with same password.
+    // So for PBKDF2 we can calculate it only for first block and then reuse
+    // to improve performance. 
 
-  sha256_process(&RCtx, KeyBuf, Sha256BlockSize); // Hash padded key.
+    for (size_t I = 0; I < KeyLength; I++) // Use 0x5c for outer key padding.
+      KeyBuf[I] = Key[I] ^ 0x5c;
+    for (size_t I = KeyLength; I < Sha256BlockSize; I++)
+      KeyBuf[I] = 0x5c;
+
+    sha256_init(&RCtx);
+    sha256_process(&RCtx, KeyBuf, Sha256BlockSize); // Hash padded key.
+  }
+
+  if (RCtxOpt!=NULL && !*SetROpt) // Store constant context for further reuse.
+  {
+    *RCtxOpt=RCtx;
+    *SetROpt=true;
+  }
+
   sha256_process(&RCtx, IDig, SHA256_DIGEST_SIZE); // Hash internal digest.
 
   sha256_done(&RCtx, ResDigest);
@@ -53,39 +88,43 @@ void pbkdf2(const byte *Pwd, size_t PwdLength,
 {
   const size_t MaxSalt=64;
   byte SaltData[MaxSalt+4];
-	memcpy(SaltData, Salt, Min(SaltLength,MaxSalt));
+  memcpy(SaltData, Salt, Min(SaltLength,MaxSalt));
 
-	SaltData[SaltLength + 0] = 0; // Salt concatenated to 1.
-	SaltData[SaltLength + 1] = 0;
-	SaltData[SaltLength + 2] = 0;
-	SaltData[SaltLength + 3] = 1;
+  SaltData[SaltLength + 0] = 0; // Salt concatenated to 1.
+  SaltData[SaltLength + 1] = 0;
+  SaltData[SaltLength + 2] = 0;
+  SaltData[SaltLength + 3] = 1;
 
   // First iteration: HMAC of password, salt and block index (1).
   byte U1[SHA256_DIGEST_SIZE];
-	hmac_sha256(Pwd, PwdLength, SaltData, SaltLength + 4, U1);
+  hmac_sha256(Pwd, PwdLength, SaltData, SaltLength + 4, U1, NULL, NULL, NULL, NULL);
   byte Fn[SHA256_DIGEST_SIZE]; // Current function value.
-	memcpy(Fn, U1, sizeof(Fn)); // Function at first iteration.
+  memcpy(Fn, U1, sizeof(Fn)); // Function at first iteration.
 
   uint  CurCount[] = { Count-1, 16, 16 };
   byte *CurValue[] = { Key    , V1, V2 };
   
+  sha256_context ICtxOpt,RCtxOpt;
+  bool SetIOpt=false,SetROpt=false;
+  
   byte U2[SHA256_DIGEST_SIZE];
   for (uint I = 0; I < 3; I++) // For output key and 2 supplementary values.
   {
-  	for (uint J = 0; J < CurCount[I]; J++) 
+    for (uint J = 0; J < CurCount[I]; J++) 
     {
-      hmac_sha256(Pwd, PwdLength, U1, sizeof(U1), U2); // U2 = PRF (P, U1).
-  		memcpy(U1, U2, sizeof(U1));
-  		for (uint K = 0; K < sizeof(Fn); K++) // Function ^= U.
-  			Fn[K] ^= U1[K];
-  	}
-  	memcpy(CurValue[I], Fn, SHA256_DIGEST_SIZE);
+      // U2 = PRF (P, U1).
+      hmac_sha256(Pwd, PwdLength, U1, sizeof(U1), U2, &ICtxOpt, &SetIOpt, &RCtxOpt, &SetROpt);
+      memcpy(U1, U2, sizeof(U1));
+      for (uint K = 0; K < sizeof(Fn); K++) // Function ^= U.
+        Fn[K] ^= U1[K];
+    }
+    memcpy(CurValue[I], Fn, SHA256_DIGEST_SIZE);
   }
 
-	cleandata(SaltData, sizeof(SaltData));
+  cleandata(SaltData, sizeof(SaltData));
   cleandata(Fn, sizeof(Fn));
-	cleandata(U1, sizeof(U1));
-	cleandata(U2, sizeof(U2));
+  cleandata(U1, sizeof(U1));
+  cleandata(U2, sizeof(U2));
 }
 
 
@@ -104,9 +143,8 @@ void CryptData::SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,
     if (Item->Lg2Count==Lg2Cnt && Item->Pwd==*Password &&
         memcmp(Item->Salt,Salt,SIZE_SALT50)==0)
     {
-      SecHideData(Item->Key,sizeof(Item->Key),false,false);
       memcpy(Key,Item->Key,sizeof(Key));
-      SecHideData(Item->Key,sizeof(Item->Key),true,false);
+      SecHideData(Key,sizeof(Key),false,false);
 
       memcpy(PswCheckValue,Item->PswCheckValue,sizeof(PswCheckValue));
       memcpy(HashKeyValue,Item->HashKeyValue,sizeof(HashKeyValue));
@@ -127,10 +165,10 @@ void CryptData::SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,
     Item->Lg2Count=Lg2Cnt;
     Item->Pwd=*Password;
     memcpy(Item->Salt,Salt,SIZE_SALT50);
-    memcpy(Item->Key,Key,sizeof(Key));
+    memcpy(Item->Key,Key,sizeof(Item->Key));
     memcpy(Item->PswCheckValue,PswCheckValue,sizeof(PswCheckValue));
     memcpy(Item->HashKeyValue,HashKeyValue,sizeof(HashKeyValue));
-    SecHideData(Item->Key,sizeof(Key),true,false);
+    SecHideData(Item->Key,sizeof(Item->Key),true,false);
   }
   if (HashKey!=NULL)
     memcpy(HashKey,HashKeyValue,SHA256_DIGEST_SIZE);
@@ -158,7 +196,7 @@ void ConvertHashToMAC(HashValue *Value,byte *Key)
     byte RawCRC[4];
     RawPut4(Value->CRC32,RawCRC);
     byte Digest[SHA256_DIGEST_SIZE];
-    hmac_sha256(Key,SHA256_DIGEST_SIZE,RawCRC,sizeof(RawCRC),Digest);
+    hmac_sha256(Key,SHA256_DIGEST_SIZE,RawCRC,sizeof(RawCRC),Digest,NULL,NULL,NULL,NULL);
     Value->CRC32=0;
     for (uint I=0;I<ASIZE(Digest);I++)
       Value->CRC32^=Digest[I] << ((I & 3) * 8);
@@ -166,7 +204,7 @@ void ConvertHashToMAC(HashValue *Value,byte *Key)
   if (Value->Type==HASH_BLAKE2)
   {
     byte Digest[BLAKE2_DIGEST_SIZE];
-    hmac_sha256(Key,BLAKE2_DIGEST_SIZE,Value->Digest,sizeof(Value->Digest),Digest);
+    hmac_sha256(Key,BLAKE2_DIGEST_SIZE,Value->Digest,sizeof(Value->Digest),Digest,NULL,NULL,NULL,NULL);
     memcpy(Value->Digest,Digest,sizeof(Value->Digest));
   }
 }

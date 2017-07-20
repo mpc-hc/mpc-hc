@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -563,6 +563,7 @@ void CFilterMapper2::Init()
                          && Mhook_SetHookEx(&Real_RegSetValueW, Mine_RegSetValueW)
                          && Mhook_SetHookEx(&Real_RegSetValueExA, Mine_RegSetValueExA)
                          && Mhook_SetHookEx(&Real_RegSetValueExW, Mine_RegSetValueExW);
+        s_bInitialized &= MH_EnableHook(MH_ALL_HOOKS) == MH_OK;
     }
 }
 

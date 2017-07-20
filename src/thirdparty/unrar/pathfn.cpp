@@ -594,7 +594,7 @@ int ParseVersionFileName(wchar *Name,bool Truncate)
 }
 
 
-#if !defined(SFX_MODULE) && !defined(SETUP)
+#if !defined(SFX_MODULE)
 // Get the name of first volume. Return the leftmost digit of volume number.
 wchar* VolNameToFirstName(const wchar *VolName,wchar *FirstName,size_t MaxSize,bool NewNumbering)
 {

@@ -4,7 +4,7 @@
 [![Coverity Scan Build Status](https://img.shields.io/coverity/scan/259.svg)](https://scan.coverity.com/projects/259)
 
 
-Media Player Classic - Home Cinema (MPC-HC) is a free and open source (OSS) video
+Media Player Classic - Home Cinema (MPC-HC) is a free and open-source (OSS) video
 and audio player for Windows. MPC-HC is based on the original Guliverkli project
 and contains many additional features and bug fixes.
 
@@ -19,7 +19,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 *We care about keeping an open project open and free for contributions wherever they may come from.*
 
 
-## Main Features:
+## Main Features
 
 * Option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing)
 * Support for Windows Vista/7/8, including a 64-bit build
@@ -35,13 +35,13 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * 42 translations available
 
 
-## System Requirements:
+## System Requirements
 
-* An SSE capable CPU
+* An SSE2 capable CPU
 * Windows XP SP3, Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
-## Links:
+## Links
 
 * [Website](https://mpc-hc.org/)
 * [Source code](https://github.com/mpc-hc)
@@ -51,13 +51,11 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * [Donations](https://mpc-hc.org/donate/)
 
 
-For the people involved in the development, see
-[Authors.txt](/docs/Authors.txt).
+For the people involved in the development, see [Authors.txt](/docs/Authors.txt).
 
 MPC-HC's code is licensed under [GPL v3](/COPYING.txt).
 
-Translations are done by various translators (see
-[Authors.txt](/docs/Authors.txt)).
+Translations are done by various translators (see [Authors.txt](/docs/Authors.txt)).
 
 
 ## Third-party code
@@ -73,8 +71,8 @@ MPC-HC makes use of the following third-party code:
 | Little CMS        | MIT License               | <http://www.littlecms.com/> |
 | Logitech SDK      | -                         | - |
 | MediaInfoLib      | Simplified BSD License    | <https://mediaarea.net/MediaInfo> |
-| Mhook             | MIT License               | <https://github.com/martona/mhook> |
-| MultiMon          | CPOL                      | <http://www.codeproject.com/Articles/3690/> |
+| MinHook           | Simplified BSD License    | <https://github.com/TsudaKageyu/minhook> |
+| MultiMon          | CPOL                      | <https://www.codeproject.com/Articles/3690/> |
 | NanoSVG           | zlib License              | <https://github.com/memononen/nanosvg> |
 | QuickTime SDK     | -                         | <https://developer.apple.com/quicktime/> |
 | RapidJSON         | MIT License               | <https://github.com/miloyip/rapidjson> |
@@ -86,10 +84,10 @@ MPC-HC makes use of the following third-party code:
 | SoundTouch        | LGPLv2.1                  | <http://www.surina.net/soundtouch/> |
 | soxr              | LGPLv2.1+                 | <https://sourceforge.net/projects/soxr/> |
 | tinyxml2          | zlib License              | <http://www.grinninglizard.com/tinyxml2/> |
-| TreePropSheet     | -                         | <http://www.codeproject.com/Articles/3709/> |
+| TreePropSheet     | -                         | <https://www.codeproject.com/Articles/3709/> |
 | UnRAR             | freeware                  | <http://www.rarlab.com/rar_add.htm> |
 | VirtualDub        | GPLv2+                    | <http://www.virtualdub.org/> |
-| XmlRpc4Win        | LGPLv2                    | <https://github.com/drtimcooper/XmlRpc4Win> |
+| XmlRpc4Win        | MIT License               | <https://github.com/drtimcooper/XmlRpc4Win> |
 | ZenLib            | zlib License              | <https://github.com/MediaArea/ZenLib> |
 | zita-resampler    | GPLv3                     | <http://kokkinizita.linuxaudio.org/linuxaudio/> |
 | zlib              | zlib License              | <http://zlib.net/> |

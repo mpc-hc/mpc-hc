@@ -1,6 +1,6 @@
 #include "rar.hpp"
 
-#if !defined(GUI) && !defined(RARDLL)
+#if !defined(RARDLL)
 int main(int argc, char *argv[])
 {
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
 #endif
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
   // Must be initialized, normal initialization can be skipped in case of
   // exception.
   bool ShutdownOnClose=false;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     Cmd->ParseCommandLine(false,argc,argv);
 #endif
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
     ShutdownOnClose=Cmd->Shutdown;
 #endif
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     ErrHandler.SetErrorCode(RARX_FATAL);
   }
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
   if (ShutdownOnClose && ErrHandler.IsShutdownEnabled())
     Shutdown();
 #endif

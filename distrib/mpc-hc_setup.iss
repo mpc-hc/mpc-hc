@@ -1,4 +1,4 @@
-; (C) 2009-2016 see Authors.txt
+; (C) 2009-2017 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -40,7 +40,7 @@
     #define localize = "true"
   #endif
 #endif
-#define sse_required
+#define sse2_required
 
 
 ; From now on you shouldn't need to change anything

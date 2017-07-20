@@ -2,23 +2,23 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2014-2015
-# Adolfo Jayme-Barrientos, 2015-2016
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2015-2016
+# Adolfo Jayme Barrientos, 2014
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
-# Adolfo Jayme-Barrientos, 2016
+# Adolfo Jayme Barrientos, 2016
 # fdelacruz <inactive+fdelacruz@transifex.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Alpha120 <juanhc120@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
-# strel, 2014-2016
+# strel, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-10-19 13:00+0000\n"
-"Last-Translator: strel\n"
+"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
+"PO-Revision-Date: 2017-06-03 15:00+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3604,7 +3604,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3973,4 +3973,8 @@ msgstr "Tamaño en píxeles de la barra de herramientas predeterminada."
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
 msgstr "Usar antigua barra de herramientas en lugar de la nueva vectorizada."
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr ""
 

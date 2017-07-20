@@ -1,5 +1,3 @@
-#include "rar.hpp"
-
 // Buffer size for all volumes involved.
 static const size_t TotalBufferSize=0x4000000;
 
@@ -358,10 +356,8 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       Erasures[EraSize++]=I;
 
   int64 ProcessedSize=0;
-#ifndef GUI
   int LastPercent=-1;
   mprintf(L"     ");
-#endif
   // Size of per file buffer.
   size_t RecBufferSize=TotalBufferSize/TotalFiles;
 
@@ -476,7 +472,7 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       }
     }
   }
-#if !defined(GUI) && !defined(SILENT)
+#if !defined(SILENT)
   if (!Cmd->DisablePercentage)
     mprintf(L"\b\b\b\b100%%");
   if (!Silent && !Cmd->DisableDone)
@@ -521,10 +517,8 @@ void RecVolumes3::Test(RAROptions *Cmd,const wchar *Name)
     }
     if (!uiStartFileExtract(VolName,false,true,false))
       return;
-#ifndef GUI
     mprintf(St(MExtrTestFile),VolName);
     mprintf(L"     ");
-#endif
     CurFile.Seek(0,SEEK_END);
     int64 Length=CurFile.Tell();
     CurFile.Seek(Length-4,SEEK_SET);
@@ -536,9 +530,7 @@ void RecVolumes3::Test(RAROptions *Cmd,const wchar *Name)
     CalcFileSum(&CurFile,&CalcCRC,NULL,1,Length-4,Cmd->DisablePercentage ? 0 : CALCFSUM_SHOWPROGRESS);
     if (FileCRC==CalcCRC)
     {
-#ifndef GUI
       mprintf(L"%s%s ",L"\b\b\b\b\b ",St(MOk));
-#endif
     }
     else
     {

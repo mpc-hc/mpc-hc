@@ -2,9 +2,9 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2015
-# Adolfo Jayme-Barrientos, 2015
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2014
 # papu, 2014-2016
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2016
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2017-02-17 12:28+0000\n"
+"PO-Revision-Date: 2017-06-13 11:30+0000\n"
 "Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +206,7 @@ msgstr "Aquest programa és gratuït i distribuït sota la Llicència Pública G
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traducció al català feta per l’Enric, l’Adolf, el Roger i altres"
+msgstr "Traducció al català feta per, entre d'altres, l’Enric, l’Adolf i el Roger"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"

@@ -200,16 +200,10 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Common.h">
-      <Filter>Header Files\Multiple</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Resource.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence.h">
-      <Filter>Header Files\Multiple</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence_Common.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ancillary.h">
@@ -309,6 +303,9 @@
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wm.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wtv.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.h">
@@ -851,6 +848,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm_Elements.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wtv.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.cpp">

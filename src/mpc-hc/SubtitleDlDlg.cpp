@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -471,7 +471,8 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
         enum {
             DOWNLOAD = 0x1000,
-            OPEN_URL
+            OPEN_URL,
+            COPY_URL
         };
 
         CMenu m;
@@ -479,6 +480,7 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
         m.AppendMenu(MF_STRING | (m_list.GetCheck(lpnmlv->iItem) != -1 ? MF_ENABLED : MF_DISABLED), DOWNLOAD, ResStr(IDS_SUBMENU_DOWNLOAD));
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
+        m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), COPY_URL, ResStr(IDS_SUBMENU_COPYURL));
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
@@ -491,6 +493,35 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
             case OPEN_URL:
                 subtitlesInfo.OpenUrl();
                 break;
+            case COPY_URL: {
+                if (!subtitlesInfo.url.empty()) {
+                    size_t len = subtitlesInfo.url.length() + 1;
+                    HGLOBAL hGlob = ::GlobalAlloc(GMEM_MOVEABLE, len * sizeof(CHAR));
+                    if (hGlob) {
+                        // Lock the handle and copy the text to the buffer
+                        LPVOID pData = ::GlobalLock(hGlob);
+                        if (pData) {
+                            ::strcpy_s((CHAR*)pData, len, (LPCSTR)subtitlesInfo.url.c_str());
+                            ::GlobalUnlock(hGlob);
+
+                            if (GetParent()->OpenClipboard()) {
+                                // Place the handle on the clipboard, if the call succeeds
+                                // the system will take care of the allocated memory
+                                if (::EmptyClipboard() && ::SetClipboardData(CF_TEXT, hGlob)) {
+                                    hGlob = nullptr;
+                                }
+
+                                ::CloseClipboard();
+                            }
+                        }
+
+                        if (hGlob) {
+                            ::GlobalFree(hGlob);
+                        }
+                    }
+                }
+                break;
+            }
             default:
                 break;
         }

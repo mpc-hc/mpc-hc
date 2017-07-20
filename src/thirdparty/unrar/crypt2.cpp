@@ -40,7 +40,7 @@ void CryptData::SetKey20(const char *Password)
   Key20[3]=0xA4E7F123L;
 
   memcpy(SubstTable20,InitSubstTable20,sizeof(SubstTable20));
-  for (int J=0;J<256;J++)
+  for (uint J=0;J<256;J++)
     for (size_t I=0;I<PswLength;I+=2)
     {
       uint N1=(byte)CRCTab [ (byte(Password[I])   - J) &0xff];
@@ -62,56 +62,25 @@ void CryptData::SetKey20(const char *Password)
 void CryptData::EncryptBlock20(byte *Buf)
 {
   uint A,B,C,D,T,TA,TB;
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
-  A=((uint)Buf[0]|((uint)Buf[1]<<8)|((uint)Buf[2]<<16)|((uint)Buf[3]<<24))^Key20[0];
-  B=((uint)Buf[4]|((uint)Buf[5]<<8)|((uint)Buf[6]<<16)|((uint)Buf[7]<<24))^Key20[1];
-  C=((uint)Buf[8]|((uint)Buf[9]<<8)|((uint)Buf[10]<<16)|((uint)Buf[11]<<24))^Key20[2];
-  D=((uint)Buf[12]|((uint)Buf[13]<<8)|((uint)Buf[14]<<16)|((uint)Buf[15]<<24))^Key20[3];
-#else
-  uint32 *BufPtr=(uint32 *)Buf;
-  A=BufPtr[0]^Key20[0];
-  B=BufPtr[1]^Key20[1];
-  C=BufPtr[2]^Key20[2];
-  D=BufPtr[3]^Key20[3];
-#endif
+  A=RawGet4(Buf+0)^Key20[0];
+  B=RawGet4(Buf+4)^Key20[1];
+  C=RawGet4(Buf+8)^Key20[2];
+  D=RawGet4(Buf+12)^Key20[3];
   for(int I=0;I<NROUNDS;I++)
   {
-    T=((C+rol(D,11,32))^Key20[I&3]);
+    T=((C+rotls(D,11,32))^Key20[I&3]);
     TA=A^substLong(T);
-    T=((D^rol(C,17,32))+Key20[I&3]);
+    T=((D^rotls(C,17,32))+Key20[I&3]);
     TB=B^substLong(T);
     A=C;
     B=D;
     C=TA;
     D=TB;
   }
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
-  C^=Key20[0];
-  Buf[0]=(byte)C;
-  Buf[1]=(byte)(C>>8);
-  Buf[2]=(byte)(C>>16);
-  Buf[3]=(byte)(C>>24);
-  D^=Key20[1];
-  Buf[4]=(byte)D;
-  Buf[5]=(byte)(D>>8);
-  Buf[6]=(byte)(D>>16);
-  Buf[7]=(byte)(D>>24);
-  A^=Key20[2];
-  Buf[8]=(byte)A;
-  Buf[9]=(byte)(A>>8);
-  Buf[10]=(byte)(A>>16);
-  Buf[11]=(byte)(A>>24);
-  B^=Key20[3];
-  Buf[12]=(byte)B;
-  Buf[13]=(byte)(B>>8);
-  Buf[14]=(byte)(B>>16);
-  Buf[15]=(byte)(B>>24);
-#else
-  BufPtr[0]=C^Key20[0];
-  BufPtr[1]=D^Key20[1];
-  BufPtr[2]=A^Key20[2];
-  BufPtr[3]=B^Key20[3];
-#endif
+  RawPut4(C^Key20[0],Buf+0);
+  RawPut4(D^Key20[1],Buf+4);
+  RawPut4(A^Key20[2],Buf+8);
+  RawPut4(B^Key20[3],Buf+12);
   UpdKeys20(Buf);
 }
 
@@ -120,57 +89,26 @@ void CryptData::DecryptBlock20(byte *Buf)
 {
   byte InBuf[16];
   uint A,B,C,D,T,TA,TB;
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
-  A=((uint)Buf[0]|((uint)Buf[1]<<8)|((uint)Buf[2]<<16)|((uint)Buf[3]<<24))^Key20[0];
-  B=((uint)Buf[4]|((uint)Buf[5]<<8)|((uint)Buf[6]<<16)|((uint)Buf[7]<<24))^Key20[1];
-  C=((uint)Buf[8]|((uint)Buf[9]<<8)|((uint)Buf[10]<<16)|((uint)Buf[11]<<24))^Key20[2];
-  D=((uint)Buf[12]|((uint)Buf[13]<<8)|((uint)Buf[14]<<16)|((uint)Buf[15]<<24))^Key20[3];
-#else
-  uint32 *BufPtr=(uint32 *)Buf;
-  A=BufPtr[0]^Key20[0];
-  B=BufPtr[1]^Key20[1];
-  C=BufPtr[2]^Key20[2];
-  D=BufPtr[3]^Key20[3];
-#endif
+  A=RawGet4(Buf+0)^Key20[0];
+  B=RawGet4(Buf+4)^Key20[1];
+  C=RawGet4(Buf+8)^Key20[2];
+  D=RawGet4(Buf+12)^Key20[3];
   memcpy(InBuf,Buf,sizeof(InBuf));
   for(int I=NROUNDS-1;I>=0;I--)
   {
-    T=((C+rol(D,11,32))^Key20[I&3]);
+    T=((C+rotls(D,11,32))^Key20[I&3]);
     TA=A^substLong(T);
-    T=((D^rol(C,17,32))+Key20[I&3]);
+    T=((D^rotls(C,17,32))+Key20[I&3]);
     TB=B^substLong(T);
     A=C;
     B=D;
     C=TA;
     D=TB;
   }
-#if defined(BIG_ENDIAN) || !defined(PRESENT_INT32) || !defined(ALLOW_MISALIGNED)
-  C^=Key20[0];
-  Buf[0]=(byte)C;
-  Buf[1]=(byte)(C>>8);
-  Buf[2]=(byte)(C>>16);
-  Buf[3]=(byte)(C>>24);
-  D^=Key20[1];
-  Buf[4]=(byte)D;
-  Buf[5]=(byte)(D>>8);
-  Buf[6]=(byte)(D>>16);
-  Buf[7]=(byte)(D>>24);
-  A^=Key20[2];
-  Buf[8]=(byte)A;
-  Buf[9]=(byte)(A>>8);
-  Buf[10]=(byte)(A>>16);
-  Buf[11]=(byte)(A>>24);
-  B^=Key20[3];
-  Buf[12]=(byte)B;
-  Buf[13]=(byte)(B>>8);
-  Buf[14]=(byte)(B>>16);
-  Buf[15]=(byte)(B>>24);
-#else
-  BufPtr[0]=C^Key20[0];
-  BufPtr[1]=D^Key20[1];
-  BufPtr[2]=A^Key20[2];
-  BufPtr[3]=B^Key20[3];
-#endif
+  RawPut4(C^Key20[0],Buf+0);
+  RawPut4(D^Key20[1],Buf+4);
+  RawPut4(A^Key20[2],Buf+8);
+  RawPut4(B^Key20[3],Buf+12);
   UpdKeys20(InBuf);
 }
 

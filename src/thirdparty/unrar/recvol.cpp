@@ -94,9 +94,7 @@ void RecVolumesTest(RAROptions *Cmd,Archive *Arc,const wchar *Name)
     ErrHandler.OpenErrorMsg(Name); // It also sets RARX_OPEN.
     return;
   }
-#ifndef GUI
   mprintf(L"\n");
-#endif
   byte Sign[REV5_SIGN_SIZE];
   bool Rev5=RevFile.Read(Sign,REV5_SIGN_SIZE)==REV5_SIGN_SIZE && memcmp(Sign,REV5_SIGN,REV5_SIGN_SIZE)==0;
   RevFile.Close();

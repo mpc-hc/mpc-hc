@@ -77,6 +77,9 @@
     <ClCompile Include="isnt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="recvol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rijndael.cpp">
@@ -280,6 +286,9 @@
     <ClInclude Include="rarvm.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rawint.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="rawread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -335,9 +344,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="timefn.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ulinks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="unicode.hpp">

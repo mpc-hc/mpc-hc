@@ -38,12 +38,10 @@ class Archive:public File
     void UnkEncVerMsg();
     bool ReadCommentData(Array<wchar> *CmtData);
 
-#if !defined(SHELL_EXT) && !defined(RAR_NOCRYPT)
+#if !defined(RAR_NOCRYPT)
     CryptData HeadersCrypt;
 #endif
-#ifndef SHELL_EXT
     ComprDataIO SubDataIO;
-#endif
     bool DummyCmd;
     RAROptions *Cmd;
 
@@ -88,6 +86,9 @@ class Archive:public File
     HEADER_TYPE GetHeaderType() {return CurHeaderType;};
     RAROptions* GetRAROptions() {return Cmd;}
     void SetSilentOpen(bool Mode) {SilentOpen=Mode;}
+#if 0
+    void GetRecoveryInfo(bool Required,int64 *Size,int *Percent);
+#endif
 #ifdef USE_QOPEN
     bool Open(const wchar *Name,uint Mode=FMF_READ);
     int Read(void *Data,size_t Size);
@@ -130,7 +131,7 @@ class Archive:public File
     bool BrokenHeader;
     bool FailedHeaderDecryption;
 
-#if !defined(SHELL_EXT) && !defined(RAR_NOCRYPT)
+#if !defined(RAR_NOCRYPT)
     byte ArcSalt[SIZE_SALT50];
 #endif
 

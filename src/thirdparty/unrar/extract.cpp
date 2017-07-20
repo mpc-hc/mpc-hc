@@ -61,7 +61,6 @@ void CmdExtract::DoExtract()
       uiMsg(UIERROR_NOFILESTOEXTRACT,ArcName);
     ErrHandler.SetErrorCode(RARX_NOFILES);
   }
-#ifndef GUI
   else
     if (!Cmd->DisableDone)
       if (Cmd->Command[0]=='I')
@@ -71,7 +70,6 @@ void CmdExtract::DoExtract()
           mprintf(St(MExtrAllOk));
         else
           mprintf(St(MExtrTotalErr),ErrHandler.GetErrorCount());
-#endif
 }
 
 
@@ -124,9 +122,7 @@ EXTRACT_ARC_CODE CmdExtract::ExtractArchive()
     }
 #endif
 
-#ifndef GUI
     mprintf(St(MNotRAR),ArcName);
-#endif
 
 #ifndef SFX_MODULE
     if (CmpExt(ArcName,L"rar"))
@@ -186,9 +182,7 @@ EXTRACT_ARC_CODE CmdExtract::ExtractArchive()
 
   if (*Cmd->Command=='I')
   {
-#ifndef GUI   
     Cmd->DisablePercentage=true;
-#endif
   }
   else
     uiStartArchiveExtract(!Cmd->Test,ArcName);
@@ -345,10 +339,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 
   wchar ArcFileName[NM];
   ConvertPath(Arc.FileHead.FileName,ArcFileName);
-#ifdef _WIN_ALL
-  if (!Cmd->AllowIncompatNames)
-    MakeNameCompatible(ArcFileName);
-#endif
 
   if (Arc.FileHead.Version)
   {
@@ -427,41 +417,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
           ExtrFile=false;
     }
 
-    if (Arc.FileHead.Encrypted)
-    {
-      // Stop archive extracting if user cancelled a password prompt.
-#ifdef RARDLL
-      if (!ExtrDllGetPassword())
-      {
-        Cmd->DllError=ERAR_MISSING_PASSWORD;
-        return false;
-      }
-#else
-      if (!ExtrGetPassword(Arc,ArcFileName))
-      {
-        PasswordCancelled=true;
-        return false;
-      }
-#endif
-      // Skip only the current encrypted file if empty password is entered.
-      // Actually our "cancel" code above intercepts empty passwords too now,
-      // so we keep the code below just in case we'll decide process empty
-      // and cancelled passwords differently sometimes.
-      if (!Cmd->Password.IsSet())
-      {
-        ErrHandler.SetErrorCode(RARX_WARNING);
-#ifdef RARDLL
-        Cmd->DllError=ERAR_MISSING_PASSWORD;
-#endif
-        ExtrFile=false;
-      }
-    }
-
-#ifdef RARDLL
-    if (*Cmd->DllDestName!=0)
-      wcsncpyz(DestFileName,Cmd->DllDestName,ASIZE(DestFileName));
-#endif
-
     if (!CheckUnpVer(Arc,ArcFileName))
     {
       ErrHandler.SetErrorCode(RARX_FATAL);
@@ -472,36 +427,81 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       return !Arc.Solid; // Can try extracting next file only in non-solid archive.
     }
 
-
-    // Set a password before creating the file, so we can skip creating
-    // in case of wrong password.
-    SecPassword FilePassword=Cmd->Password;
-#if defined(_WIN_ALL) && !defined(SFX_MODULE)
-    ConvertDosPassword(Arc,FilePassword);
-#endif
-
-    byte PswCheck[SIZE_PSWCHECK];
-    DataIO.SetEncryption(false,Arc.FileHead.CryptMethod,&FilePassword,
-           Arc.FileHead.SaltSet ? Arc.FileHead.Salt:NULL,
-           Arc.FileHead.InitV,Arc.FileHead.Lg2Count,
-           Arc.FileHead.HashKey,PswCheck);
-
-    // If header is damaged, we cannot rely on password check value,
-    // because it can be damaged too.
-    if (Arc.FileHead.Encrypted && Arc.FileHead.UsePswCheck &&
-        memcmp(Arc.FileHead.PswCheck,PswCheck,SIZE_PSWCHECK)!=0 &&
-        !Arc.BrokenHeader)
+    while (true) // Repeat password prompt in case of wrong password here.
     {
-      uiMsg(UIERROR_BADPSW,Arc.FileName);
-      ErrHandler.SetErrorCode(RARX_BADPWD);
-      ExtrFile=false;
+      if (Arc.FileHead.Encrypted)
+      {
+        // Stop archive extracting if user cancelled a password prompt.
 #ifdef RARDLL
-      // If we already have ERAR_EOPEN as result of missing volume,
-      // we should not replace it with less precise ERAR_BAD_DATA.
-      if (Cmd->DllError!=ERAR_EOPEN)
-        Cmd->DllError=ERAR_BAD_PASSWORD;
+        if (!ExtrDllGetPassword())
+        {
+          Cmd->DllError=ERAR_MISSING_PASSWORD;
+          return false;
+        }
+#else
+        if (!ExtrGetPassword(Arc,ArcFileName))
+        {
+          PasswordCancelled=true;
+          return false;
+        }
 #endif
+        // Skip only the current encrypted file if empty password is entered.
+        // Actually our "cancel" code above intercepts empty passwords too now,
+        // so we keep the code below just in case we'll decide process empty
+        // and cancelled passwords differently sometimes.
+        if (!Cmd->Password.IsSet())
+        {
+          ErrHandler.SetErrorCode(RARX_WARNING);
+#ifdef RARDLL
+          Cmd->DllError=ERAR_MISSING_PASSWORD;
+#endif
+          ExtrFile=false;
+        }
+      }
+
+
+      // Set a password before creating the file, so we can skip creating
+      // in case of wrong password.
+      SecPassword FilePassword=Cmd->Password;
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
+      ConvertDosPassword(Arc,FilePassword);
+#endif
+
+      byte PswCheck[SIZE_PSWCHECK];
+      DataIO.SetEncryption(false,Arc.FileHead.CryptMethod,&FilePassword,
+             Arc.FileHead.SaltSet ? Arc.FileHead.Salt:NULL,
+             Arc.FileHead.InitV,Arc.FileHead.Lg2Count,
+             Arc.FileHead.HashKey,PswCheck);
+
+      // If header is damaged, we cannot rely on password check value,
+      // because it can be damaged too.
+      if (Arc.FileHead.Encrypted && Arc.FileHead.UsePswCheck &&
+          memcmp(Arc.FileHead.PswCheck,PswCheck,SIZE_PSWCHECK)!=0 &&
+          !Arc.BrokenHeader)
+      {
+        uiMsg(UIWAIT_BADPSW,ArcFileName);
+
+        if (!PasswordAll) // If entered manually and not through -p<pwd>.
+        {
+          Cmd->Password.Clean();
+          continue; // Request a password again.
+        }
+#ifdef RARDLL
+        // If we already have ERAR_EOPEN as result of missing volume,
+        // we should not replace it with less precise ERAR_BAD_PASSWORD.
+        if (Cmd->DllError!=ERAR_EOPEN)
+          Cmd->DllError=ERAR_BAD_PASSWORD;
+#endif
+        ErrHandler.SetErrorCode(RARX_BADPWD);
+        ExtrFile=false;
+      }
+      break;
     }
+
+#ifdef RARDLL
+    if (*Cmd->DllDestName!=0)
+      wcsncpyz(DestFileName,Cmd->DllDestName,ASIZE(DestFileName));
+#endif
 
     File CurFile;
 
@@ -525,6 +525,9 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
           return true;
         TotalFileCount++;
         ExtrCreateDir(Arc,ArcFileName);
+        // It is important to not increment MatchedArgs here, so we extract
+        // dir with its entire contents and not dir record only even if
+        // dir record precedes files.
         return true;
       }
       else
@@ -563,7 +566,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
         TotalFileCount++;
       }
       FileCount++;
-#ifndef GUI
       if (Command!='I')
         if (SkipSolid)
           mprintf(St(MExtrSkipFile),ArcFileName);
@@ -585,7 +587,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
           }
       if (!Cmd->DisablePercentage)
         mprintf(L"     ");
-#endif
 
       DataIO.CurUnpRead=0;
       DataIO.CurUnpWrite=0;
@@ -661,13 +662,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
             UnstoreFile(DataIO,Arc.FileHead.UnpSize);
           else
           {
-#ifdef _ANDROID
-            // malloc and new do not report memory allocation errors
-            // in Android, so if free memory is set, check it here
-            // trying to prevent crash.
-            if (Cmd->FreeMem!=0 && Cmd->FreeMem < Arc.FileHead.WinSize)
-              throw std::bad_alloc();
-#endif
             Unp->Init(Arc.FileHead.WinSize,Arc.FileHead.Solid);
             Unp->SetDestSize(Arc.FileHead.UnpSize);
 #ifndef SFX_MODULE
@@ -705,11 +699,9 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       {
         if (ValidCRC)
         {
-#ifndef GUI
           if (Command!='P' && Command!='I')
             mprintf(L"%s%s ",Cmd->DisablePercentage ? L" ":L"\b\b\b\b\b ",
               Arc.FileHead.FileHash.Type==HASH_NONE ? L"  ?":St(MOk));
-#endif
         }
         else
         {
@@ -729,10 +721,8 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 #endif
         }
       }
-#ifndef GUI
       else
         mprintf(L"\b\b\b\b\b     ");
-#endif
 
       if (!TestMode && (Command=='X' || Command=='E') &&
           (!LinkEntry || Arc.FileHead.RedirType==FSREDIR_FILECOPY && LinkSuccess) && 
@@ -758,10 +748,7 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
             (Arc.FileHead.FileAttr & FILE_ATTRIBUTE_COMPRESSED)!=0)
           SetFileCompression(CurFile.FileName,true);
 #endif
-#ifdef _UNIX
-        if (Cmd->ProcessOwners && Arc.Format==RARFMT50 && Arc.FileHead.UnixOwnerSet)
-          SetUnixOwner(Arc,CurFile.FileName);
-#endif
+        SetFileHeaderExtra(Cmd,Arc,CurFile.FileName);
 
         CurFile.SetCloseFileTime(
           Cmd->xmtime==EXTTIME_NONE ? NULL:&Arc.FileHead.mtime,
@@ -773,6 +760,9 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       }
     }
   }
+  // It is important to increment it for files, but not dirs. So we extract
+  // dir with its entire contents, not just dir record only even if dir
+  // record precedes files.
   if (MatchFound)
     MatchedArgs++;
   if (DataIO.NextVolumeMissing)
@@ -869,13 +859,25 @@ void CmdExtract::ExtrPrepareName(Archive &Arc,const wchar *ArcFileName,wchar *De
   if (ArcPathLength>0)
   {
     size_t NameLength=wcslen(ArcFileName);
-    ArcFileName+=Min(ArcPathLength,NameLength);
-    while (*ArcFileName==CPATHDIVIDER)
-      ArcFileName++;
-    if (*ArcFileName==0) // Excessive -ap switch.
+
+    // Earlier we compared lengths only here, but then noticed a cosmetic bug
+    // in WinRAR. When extracting a file reference from subfolder with
+    // "Extract relative paths", so WinRAR sets ArcPath, if reference target
+    // is missing, error message removed ArcPath both from reference and target
+    // names. If target was stored in another folder, its name looked wrong.
+    if (NameLength>=ArcPathLength && 
+        wcsnicompc(Cmd->ArcPath,ArcFileName,ArcPathLength)==0 &&
+        (IsPathDiv(Cmd->ArcPath[ArcPathLength-1]) || 
+         IsPathDiv(ArcFileName[ArcPathLength]) || ArcFileName[ArcPathLength]==0))
     {
-      *DestName=0;
-      return;
+      ArcFileName+=Min(ArcPathLength,NameLength);
+      while (IsPathDiv(*ArcFileName))
+        ArcFileName++;
+      if (*ArcFileName==0) // Excessive -ap switch.
+      {
+        *DestName=0;
+        return;
+      }
     }
   }
 #endif
@@ -893,6 +895,13 @@ void CmdExtract::ExtrPrepareName(Archive &Arc,const wchar *ArcFileName,wchar *De
     wcsncatz(DestName,PointToName(ArcFileName),DestSize);
   else
     wcsncatz(DestName,ArcFileName,DestSize);
+
+#ifdef _WIN_ALL
+  // Must do after Cmd->ArcPath processing above, so file name and arc path
+  // trailing spaces are in sync.
+  if (!Cmd->AllowIncompatNames)
+    MakeNameCompatible(DestName);
+#endif
 
   wchar DiskLetter=toupperw(DestName[0]);
 
@@ -959,7 +968,7 @@ bool CmdExtract::ExtrGetPassword(Archive &Arc,const wchar *ArcFileName)
     }
     Cmd->ManualPassword=true;
   }
-#if !defined(GUI) && !defined(SILENT)
+#if !defined(SILENT)
   else
     if (!PasswordAll && !Arc.FileHead.Solid)
     {
@@ -1008,10 +1017,8 @@ void CmdExtract::ExtrCreateDir(Archive &Arc,const wchar *ArcFileName)
 {
   if (Cmd->Test)
   {
-#ifndef GUI
     mprintf(St(MExtrTestFile),ArcFileName);
     mprintf(L" %s",St(MOk));
-#endif
     return;
   }
 
@@ -1048,10 +1055,8 @@ void CmdExtract::ExtrCreateDir(Archive &Arc,const wchar *ArcFileName)
   }
   if (MDCode==MKDIR_SUCCESS)
   {
-#ifndef GUI
     mprintf(St(MCreatDir),DestFileName);
     mprintf(L" %s",St(MOk));
-#endif
     PrevProcessed=true;
   }
   else
@@ -1077,6 +1082,7 @@ void CmdExtract::ExtrCreateDir(Archive &Arc,const wchar *ArcFileName)
         (Arc.FileHead.FileAttr & FILE_ATTRIBUTE_COMPRESSED)!=0 && WinNT())
       SetFileCompression(DestFileName,true);
 #endif
+    SetFileHeaderExtra(Cmd,Arc,DestFileName);
     SetDirTime(DestFileName,
       Cmd->xmtime==EXTTIME_NONE ? NULL:&Arc.FileHead.mtime,
       Cmd->xctime==EXTTIME_NONE ? NULL:&Arc.FileHead.ctime,
@@ -1089,7 +1095,7 @@ bool CmdExtract::ExtrCreateFile(Archive &Arc,File &CurFile)
 {
   bool Success=true;
   wchar Command=Cmd->Command[0];
-#if !defined(GUI) && !defined(SFX_MODULE)
+#if !defined(SFX_MODULE)
   if (Command=='P')
     CurFile.SetHandleType(FILE_HANDLESTD);
 #endif

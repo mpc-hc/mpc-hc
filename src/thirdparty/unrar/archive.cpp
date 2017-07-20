@@ -1,8 +1,6 @@
 #include "rar.hpp"
 
-#ifndef SHELL_EXT
 #include "arccmt.cpp"
-#endif
 
 
 Archive::Archive(RAROptions *InitCmd)
@@ -60,7 +58,6 @@ Archive::~Archive()
 }
 
 
-#ifndef SHELL_EXT
 void Archive::CheckArc(bool EnableBroken)
 {
   if (!IsArchive(EnableBroken))
@@ -72,10 +69,9 @@ void Archive::CheckArc(bool EnableBroken)
     ErrHandler.Exit(RARX_FATAL);
   }
 }
-#endif
 
 
-#if !defined(SHELL_EXT) && !defined(SFX_MODULE)
+#if !defined(SFX_MODULE)
 void Archive::CheckOpen(const wchar *Name)
 {
   TOpen(Name);

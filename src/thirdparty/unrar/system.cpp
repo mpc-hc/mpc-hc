@@ -8,7 +8,7 @@ void InitSystemOptions(int SleepTime)
 }
 
 
-#if !defined(SFX_MODULE) && !defined(SETUP)
+#if !defined(SFX_MODULE)
 void SetPriority(int Priority)
 {
 #ifdef _WIN_ALL
@@ -72,20 +72,11 @@ void SetPriority(int Priority)
 // together, so we cannot use it to measure time intervals anymore.
 clock_t MonoClock()
 {
-#if defined(_ANDROID) && defined(_UNIX) && defined(CLOCK_MONOTONIC)
-  struct timespec CurTime;
-  clock_gettime(CLOCK_MONOTONIC, &CurTime);
-  int64 nsec = int64(CurTime.tv_sec)*1000000000 + CurTime.tv_nsec;
-  nsec /= 1000000000 / CLOCKS_PER_SEC;
-  return (clock_t)nsec;
-#else
   return clock();
-#endif
 }
 
 
 
-#ifndef SETUP
 void Wait()
 {
   if (ErrHandler.UserBreak)
@@ -101,17 +92,16 @@ void Wait()
     }
   }
 #endif
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
   // Reset system sleep timer to prevent system going sleep.
   SetThreadExecutionState(ES_SYSTEM_REQUIRED);
 #endif
 }
-#endif
 
 
 
 
-#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SHELL_EXT) && !defined(SETUP)
+#if defined(_WIN_ALL) && !defined(SFX_MODULE)
 void Shutdown()
 {
   HANDLE hToken;
@@ -131,7 +121,7 @@ void Shutdown()
 
 
 
-#ifdef _WIN_ALL
+#if defined(_WIN_ALL)
 // Load library from Windows System32 folder. Use this function to prevent
 // loading a malicious code from current folder or same folder as exe.
 HMODULE WINAPI LoadSysLibrary(const wchar *Name)
@@ -142,6 +132,23 @@ HMODULE WINAPI LoadSysLibrary(const wchar *Name)
   MakeName(SysDir,Name,SysDir,ASIZE(SysDir));
   return LoadLibrary(SysDir);
 }
+
+
+bool IsUserAdmin()
+{
+  SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+  PSID AdministratorsGroup; 
+  BOOL b = AllocateAndInitializeSid(&NtAuthority,2,SECURITY_BUILTIN_DOMAIN_RID,
+           DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup); 
+  if (b) 
+  {
+    if (!CheckTokenMembership( NULL, AdministratorsGroup, &b)) 
+      b = FALSE;
+    FreeSid(AdministratorsGroup); 
+  }
+  return b!=FALSE;
+}
+
 #endif
 
 
@@ -151,6 +158,9 @@ SSE_VERSION _SSE_Version=GetSSEVersion();
 SSE_VERSION GetSSEVersion()
 {
   int CPUInfo[4];
+  __cpuid(CPUInfo, 7);
+  if ((CPUInfo[1] & 0x20)!=0)
+    return SSE_AVX2;
   __cpuid(CPUInfo, 1);
   if ((CPUInfo[2] & 0x80000)!=0)
     return SSE_SSE41;
