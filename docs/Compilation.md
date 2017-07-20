@@ -5,9 +5,10 @@ For up to date instructions on how to compile mpc-hc visit the wiki page: <https
 
 ## Part A: Preparing the Visual Studio environment
 
-### Visual Studio 2015
+### Visual Studio 2015 or 2017
 
-1. Install Visual C++ 2015, part of Visual Studio 2015 (any edition will work fine)
+1. Install Visual C++, part of Visual Studio (any edition will work fine).
+   Make sure to select Windows XP and ATL/MFC support during installation.
 2. Make sure you have installed all available updates from Microsoft Update
 3. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
 
@@ -31,6 +32,11 @@ For up to date instructions on how to compile mpc-hc visit the wiki page: <https
 
 ### NOTES
 
+* For Visual Studio 2017, we will try to detect the VS installation path automatically.
+  If that fails you need to specify the instalation path yourself. For example:
+  ```bat
+  SET "MPCHC_VS_PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\"
+  ```
 * If you installed the MSYS/MinGW package in another directory you will have to use that path in the previous steps.
 * If you don't have Git installed then the revision number will be a hard-coded one, like 1.6.3.0.
 

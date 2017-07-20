@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013-2016 see Authors.txt
+REM (C) 2013-2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -17,7 +17,7 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SETLOCAL
+SETLOCAL EnableDelayedExpansion
 SET "FILE_DIR=%~dp0"
 PUSHD "%FILE_DIR%"
 
@@ -53,6 +53,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Debug"    SET "RELEASETYPE=Debug"   & SET /A ARGBC+=1
   IF /I "%%G" == "Release"  SET "RELEASETYPE=Release" & SET /A ARGBC+=1
   IF /I "%%G" == "VS2015"   SET "COMPILER=VS2015"     & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2017"   SET "COMPILER=VS2017"     & SET /A ARGCOMP+=1
   IF /I "%%G" == "Silent"   SET "SILENT=True"         & SET /A VALID+=1
   IF /I "%%G" == "Nocolors" SET "NOCOLORS=True"       & SET /A VALID+=1
 )
@@ -67,9 +68,17 @@ IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Bo
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
 IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2015")
 
-IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
-SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-SET "BIN_DIR=%ROOT_DIR%\bin"
+IF /I "%COMPILER%" == "VS2017" (
+  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+  IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
+  SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
+  SET "BIN_DIR=%ROOT_DIR%\bin17"
+) ELSE (
+  IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=%ROOT_DIR%\bin"
+)
+IF NOT EXIST "%TOOLSET%" GOTO MissingVar
 
 IF /I "%ARCH%" == "Both" (
   SET "ARCH=x86" & CALL :Main
@@ -83,9 +92,12 @@ GOTO End
 :Main
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
-IF /I "%ARCH%" == "x86" (SET TOOLSETARCH=x86) ELSE (SET TOOLSETARCH=x86_amd64)
-CALL "%TOOLSET%" %TOOLSETARCH%
+IF /I "%ARCH%" == "x86" (SET TOOLSETARCH=x86) ELSE (SET TOOLSETARCH=amd64)
+IF /I "%COMPILER%" == "VS2017" (
+  CALL "%TOOLSET%" -no_logo -arch=%TOOLSETARCH%
+) ELSE (
+  CALL "%TOOLSET%" %TOOLSETARCH%
+)
 
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
@@ -203,7 +215,7 @@ CALL "%COMMON%" :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release] [VS2015]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release] [VS2015^|VS2017]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive and can be ommitted.

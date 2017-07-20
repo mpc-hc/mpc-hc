@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2015 see Authors.txt
+REM (C) 2015, 2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -104,6 +104,10 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 FOR /F "tokens=2*" %%A IN (
   'REG QUERY "HKLM\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
    REG QUERY "HKLM\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "SEVENZIP=%%B\7z.exe"
+EXIT /B
+
+:SubDetectVisualStudioPath
+FOR /f "delims=" %%A IN ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath -latest -requires Microsoft.VisualStudio.Component.VC.ATLMFC Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP') DO SET MPCHC_VS_PATH=%%A
 EXIT /B
 
 :SubMsg

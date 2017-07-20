@@ -26,6 +26,7 @@
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)
 #define sse2_required
+;#define VS2017
 ;#define x64Build
 
 
@@ -43,7 +44,11 @@
 #define app_vername     = app_name + " " + app_version
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#define base_bindir     = AddBackslash(top_dir) + "bin"
+#if defined(VS2017)
+  #define base_bindir   = AddBackslash(top_dir) + "bin17"
+#else
+  #define base_bindir   = AddBackslash(top_dir) + "bin"
+#endif
 
 #ifdef x64Build
   #define bindir        = AddBackslash(base_bindir) + "Filters_x64"
@@ -66,6 +71,11 @@
 #if MPC_NIGHTLY_RELEASE
   #define FullAppNameVer = FullAppNameVer + " " + str(MPC_VERSION_NIGHTLY)
 #endif
+
+#if defined(VS2015)
+  #define FullAppNameVer = FullAppNameVer + " VS2015"
+#endif
+
 #ifdef x64Build
   #define FullAppNameVer = FullAppNameVer + " " + "(64-bit)"
 #endif

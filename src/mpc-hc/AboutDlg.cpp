@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2016 see Authors.txt
+ * (C) 2012-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -94,7 +94,16 @@ BOOL CAboutDlg::OnInitDialog()
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
-#if (_MSC_VER == 1900)                // 2015
+#if (_MSC_VER == 1910)                // 2017
+#if (_MSC_FULL_VER == 191025017)
+    m_MPCCompiler = _T("MSVC 2017");
+#else
+    m_MPCCompiler.Format(_T("MSVC v%.2d.%.2d.%.5d"), _MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 100000);
+#if _MSC_BUILD
+    m_MPCCompiler.AppendFormat(_T(".%.2d"), _MSC_BUILD);
+#endif
+#endif
+#elif (_MSC_VER == 1900)                // 2015
 #if (_MSC_FULL_VER == 190024210)
     m_MPCCompiler = _T("MSVC 2015 Update 3");
 #elif (_MSC_FULL_VER == 190023918)

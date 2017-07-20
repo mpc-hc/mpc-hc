@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2016 see Authors.txt
+REM (C) 2009-2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -17,7 +17,7 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-SETLOCAL
+SETLOCAL EnableDelayedExpansion
 
 SET ARG=/%*
 SET ARG=%ARG:/=%
@@ -56,6 +56,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET "NO_INST=True"
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
   IF /I "%%G" == "VS2015"       SET "COMPILER=VS2015"    & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2017"       SET "COMPILER=VS2017"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1
@@ -91,9 +92,17 @@ IF /I "%ZIP%" == "True"         IF "%NO_ZIP%" == "True"  GOTO UnsupportedSwitch
 IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
 IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
-IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
-SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-SET "BIN_DIR=bin"
+IF /I "%COMPILER%" == "VS2017" (
+  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+  IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
+  SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
+  SET "BIN_DIR=bin17"
+) ELSE (
+  IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
+  SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
+  SET "BIN_DIR=bin"
+)
+IF NOT EXIST "%TOOLSET%" GOTO MissingVar
 
 IF EXIST "%FILE_DIR%signinfo.txt" (
   IF /I "%INSTALLER%" == "True" SET "SIGN=True"
@@ -134,9 +143,12 @@ IF /I "%PPLATFORM%" == "x64" (
 IF /I "%CLEAN%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters.bat" Clean %PPLATFORM% %BUILDCFG% %COMPILER%
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
-REM Always use x86_amd64 compiler, even on 64bit windows, because this is what VS is doing
-IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=x86_amd64)
-CALL "%TOOLSET%" %ARCH%
+IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=amd64)
+IF /I "%COMPILER%" == "VS2017" (
+  CALL "%TOOLSET%" -no_logo -arch=%ARCH%
+) ELSE (
+  CALL "%TOOLSET%" %ARCH%
+)
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 IF /I "%CONFIG%" == "Filters" (
@@ -345,6 +357,9 @@ IF DEFINED MPCHC_LITE (
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
+IF /I "%COMPILER%" == "VS2017" (
+  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2017
+)
 CALL "%COMMON%" :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
@@ -398,6 +413,9 @@ IF /I "%BUILDCFG%" == "Debug" (
   SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
 )
 
+IF /I "%COMPILER%" == "VS2017" (
+  SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%"
+)
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
 IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
@@ -477,7 +495,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2015] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2015^|VS2017] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.

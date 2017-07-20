@@ -3,7 +3,11 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
-bin_folder=bin
+if [ "${4}" == "VS2017" ]; then
+  bin_folder=bin17
+else
+  bin_folder=bin
+fi
 
 if [ "${1}" == "x64" ]; then
   arch=x86_64
