@@ -89,6 +89,9 @@ BOOL CResizableState::LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
     if (_stscanf_s(data, PLACEMENT_FMT, &rc.left, &rc.top,
         &rc.right, &rc.bottom, &wp.showCmd, &wp.flags) == 6)
     {
+        // Do not restore if window would not be visible
+        if (::MonitorFromRect(&rc, MONITOR_DEFAULTTONULL) == NULL)
+            return FALSE;
         if (bRectOnly)  // restore size/pos only
         {
             CRect rect(rc);
