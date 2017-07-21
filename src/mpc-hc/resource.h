@@ -1565,11 +1565,13 @@
 #define IDS_STRING944                   57527
 #define IDS_CMD_HWGPU                   57527
 #define IDS_CMD_RESET                   57528
+#define IDS_CMD_VIEWPRESET              57537
 #define IDS_CMD_HELP                    57529
 #define IDS_PPAGEADVANCED_SCORE         57530
 #define IDS_PPAGE_FS_CLN_AUDIO_DELAY    57531
 #define IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 57532
 #define IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 57533
+#define IDS_SUBTITLE_RENDERER_ASS_FILTER 57534
 
 // Next default values for new objects
 // 

@@ -86,7 +86,8 @@ enum : UINT64 {
     CLSW_SLAVE = CLSW_ADMINOPTION << 1,
     CLSW_AUDIORENDERER = CLSW_SLAVE << 1,
     CLSW_RESET = CLSW_AUDIORENDERER << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_RESET << 1 // 35
+    CLSW_MUTE = CLSW_RESET << 1,
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_MUTE << 1 // 35
 };
 
 enum MpcCaptionState {
@@ -712,6 +713,7 @@ public:
         INTERNAL,
         VS_FILTER,
         XY_SUB_FILTER,
+        ASS_FILTER,
     };
 
     SubtitleRenderer GetSubtitleRenderer() const;
