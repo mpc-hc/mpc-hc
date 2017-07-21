@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2013, 2015 see Authors.txt
+REM (C) 2012-2013, 2015, 2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -57,8 +57,7 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 ECHO.
 TITLE Building VSFilter installer...
-"%InnoSetupPath%\ISCC.exe" /SMySignTool="cmd /c "%FILE_DIR%%ROOT_DIR%\contrib\sign.bat" $f" /Q^
- "vsfilter_setup.iss" /D%~1
+"%InnoSetupPath%" /SMySignTool="cmd /c "%FILE_DIR%%ROOT_DIR%\contrib\sign.bat" $f" /Q "vsfilter_setup.iss" /D%~1
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%~1%" == "x64Build" (
   ECHO Installer x64 compiled successfully!
