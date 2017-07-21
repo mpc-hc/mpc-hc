@@ -2178,6 +2178,9 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 m_Shaders.SetCurrentPreset(cmdln.GetNext(pos));
             } else if (sw == _T("reset")) {
                 nCLSwitches |= CLSW_RESET;
+            } else if (sw == _T("mute")) {
+                nCLSwitches |= CLSW_MUTE;
+                fMute = true;
             } else if (sw == _T("monitoroff")) {
                 nCLSwitches |= CLSW_MONITOROFF;
             } else if (sw == _T("playnext")) {

@@ -3628,6 +3628,7 @@ BEGIN
     IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
     IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
     IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
+    IDS_CMD_MUTE            "/mute\tMute the audio"
 END
 
 STRINGTABLE
