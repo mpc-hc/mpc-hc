@@ -1564,6 +1564,7 @@
 #define IDS_CMD_SLAVE                   57526
 #define IDS_CMD_HWGPU                   57527
 #define IDS_CMD_RESET                   57528
+#define IDS_CMD_VIEWPRESET              57537
 #define IDS_CMD_HELP                    57529
 #define IDS_PPAGEADVANCED_SCORE         57530
 #define IDS_PPAGE_FS_CLN_AUDIO_DELAY    57531
