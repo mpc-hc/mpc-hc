@@ -3845,6 +3845,10 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tObre el fitxer següent de la carpeta un cop acabada la reproducció"
 
+msgctxt "IDS_CMD_MUTE"
+msgid "/mute\tMute the audio"
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tInicia el reproductor en pantalla completa"

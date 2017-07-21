@@ -3847,6 +3847,10 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\t播放結束後開啟資料夾的下一個檔案"
 
+msgctxt "IDS_CMD_MUTE"
+msgid "/mute\tMute the audio"
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\t使用全螢幕模式啟動"

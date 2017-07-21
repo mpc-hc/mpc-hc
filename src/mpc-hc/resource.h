@@ -1570,6 +1570,8 @@
 #define IDS_SUBTITLE_RENDERER_ASS_FILTER 57534
 #define IDS_SUBMENU_COPYURL             57535
 #define IDS_CMD_VIEWPRESET              57536
+#define IDS_CMD_MUTE                    57537
+
 
 // Next default values for new objects
 // 

@@ -3841,6 +3841,10 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tΆνοιγμα του επόμενου αρχείου στο φάκελο μετά την αναπαραγωγή"
 
+msgctxt "IDS_CMD_MUTE"
+msgid "/mute\tMute the audio"
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tΈναρξη σε λειτουργία πλήρους οθόνης"

@@ -4021,6 +4021,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
+    } else if (s.nCLSwitches & CLSW_MUTE) {
+        if (!IsMuted()) {
+            SendMessage(WM_COMMAND, ID_VOLUME_MUTE);
+        }
     } else {
         applyRandomizeSwitch();
     }

@@ -3852,6 +3852,10 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tBuka berkas selanjutnya dalam folder setelah pemutaran"
 
+msgctxt "IDS_CMD_MUTE"
+msgid "/mute\tMute the audio"
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tMulai dalam mode layar penuh"
