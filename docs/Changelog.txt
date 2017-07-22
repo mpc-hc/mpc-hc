@@ -14,3 +14,4 @@ next version - not released yet
 * Updated sanear to v0.3
 ! Ticket #2539: Subtitle downloader dialog could be opened on disabled monitor
 ! Fix text subtitle rendering in Avisynth
+! Fix hash calculation for files with Unicode paths. This fixes search on OpenSubtitles for such files.

@@ -85,7 +85,7 @@ struct SubtitlesInfo {
         , framesNumber(INT_ERROR)
         , lengthMs(ULONGLONG_ERROR) {}
     bool operator<(const SubtitlesInfo& rhs) const { return score > rhs.score; }
-    HRESULT GetFileInfo(const std::string& sFileName = std::string());
+    HRESULT GetFileInfo(const std::wstring& sFileName = std::wstring());
     void Download(bool bActivate);
     void OpenUrl() const;
     std::shared_ptr<SubtitlesProvider> Provider() const { return fileProvider; }
@@ -133,6 +133,7 @@ private:
     DWORD score;
 public:
     // file properties
+    std::wstring filePathW;
     std::string filePath;
     std::string fileName;
     std::string fileExtension;
