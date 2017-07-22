@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ Added fallback exception handler for when DrDump Crash Reporter is unavailable
 * Updated Little CMS to v2.9 (4be486f)
 * Updated sanear to v0.3
 ! Subtitle downloader dialog could be opened on disabled monitor
