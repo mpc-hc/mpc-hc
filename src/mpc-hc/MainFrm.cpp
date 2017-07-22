@@ -1343,7 +1343,7 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 
         CRect areaRect;
         CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
-        static const CRect invisibleBorderSize = GetInvisibleBorderSize();
+        const CRect invisibleBorderSize = GetInvisibleBorderSize();
         areaRect.InflateRect(invisibleBorderSize);
 
         bool bSnapping = false;
