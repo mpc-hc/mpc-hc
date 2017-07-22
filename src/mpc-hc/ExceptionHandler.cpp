@@ -126,10 +126,10 @@ void HandleCommonException(LPEXCEPTION_POINTERS exceptionInfo)
     uint64_t offset   = (uint64_t)exceptionInfo->ExceptionRecord->ExceptionAddress - codeBase;
 
     swprintf_s(message, _countof(message), _T(\
-                                                              "An error has occurred. MPC-HC will close now.\n\n"\
-                                                              "Exception:\n%s\n\n"\
-                                                              "Crashing module:\n%s\n"\
-                                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n\n"),
+                                              "An error has occurred. MPC-HC will close now.\n\n"\
+                                              "Exception:\n%s\n\n"\
+                                              "Crashing module:\n%s\n"\
+                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
                offset,
@@ -169,11 +169,11 @@ void HandleAccessViolation(LPEXCEPTION_POINTERS exceptionInfo)
     }
 
     swprintf_s(message, _countof(message), _T(\
-                                                              "An error has occurred. MPC-HC will close now.\n\n"\
-                                                              "Exception:\n%s\n\n"\
-                                                              "Crashing module:\n%s\n"\
-                                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n"\
-                                                              "The thread %u tried to %s memory at address 0x%IX\n\n"),
+                                              "An error has occurred. MPC-HC will close now.\n\n"\
+                                              "Exception:\n%s\n\n"\
+                                              "Crashing module:\n%s\n"\
+                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n"\
+                                              "The thread %u tried to %s memory at address 0x%IX\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
                offset,
