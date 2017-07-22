@@ -79,6 +79,9 @@ configure() {
     --enable-hwaccel=wmv3_dxva2     \
     --enable-hwaccel=mpeg2_dxva2    \
     --enable-hwaccel=vp9_dxva2      \
+    --disable-cuda                  \
+    --disable-cuvid                 \
+    --disable-nvenc                 \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
@@ -125,6 +128,8 @@ configureAndBuild() {
   else
     echo Configuring...
 
+    ## In case of out-of-tree build this directory is created too late
+    mkdir -p ffbuild
     ## run configure, redirect to file because of a msys bug
     configure > ffbuild/config.out 2>&1
     CONFIGRETVAL=$?
