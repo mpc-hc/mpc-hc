@@ -25,6 +25,7 @@
 #include "FGFilter.h"
 #include "FakeFilterMapper2.h"
 #include "FileAssoc.h"
+#include "ExceptionHandler.h"
 #include "SysVersion.h"
 #include "PathUtils.h"
 #include "Translations.h"
@@ -2172,6 +2173,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 fShowDebugInfo = true;
             } else if (sw == _T("nocrashreporter")) {
                 CrashReporter::Disable();
+                MPCExceptionHandler::Enable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("shaderpreset") && pos) {

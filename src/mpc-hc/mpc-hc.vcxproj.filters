@@ -394,6 +394,7 @@
     <ClCompile Include="DeinterlacerFilter.cpp">
       <Filter>Graph</Filter>
     </ClCompile>
+    <ClCompile Include="ExceptionHandler.cpp" />
     <ClCompile Include="FakeFilterMapper2.cpp">
       <Filter>Graph</Filter>
     </ClCompile>
@@ -787,6 +788,7 @@
     <ClInclude Include="DeinterlacerFilter.h">
       <Filter>Graph</Filter>
     </ClInclude>
+    <ClInclude Include="ExceptionHandler.h" />
     <ClInclude Include="FakeFilterMapper2.h">
       <Filter>Graph</Filter>
     </ClInclude>

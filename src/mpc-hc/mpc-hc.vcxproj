@@ -156,6 +156,7 @@
     <ClCompile Include="EditListEditor.cpp" />
     <ClCompile Include="EditWithButton.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="ExceptionHandler.cpp" />
     <ClCompile Include="FakeFilterMapper2.cpp" />
     <ClCompile Include="FavoriteAddDlg.cpp" />
     <ClCompile Include="FavoriteOrganizeDlg.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="EditListEditor.h" />
     <ClInclude Include="EditWithButton.h" />
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="ExceptionHandler.h" />
     <ClInclude Include="FakeFilterMapper2.h" />
     <ClInclude Include="FavoriteAddDlg.h" />
     <ClInclude Include="FavoriteOrganizeDlg.h" />
