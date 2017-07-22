@@ -36,10 +36,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "Az MPC-HC beállításokat is törölni szeretné?\n\nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket."
 
-msgctxt "CustomMessages_msg_simd_sse"
-msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra van szüksége.\n\nAz ön CPU-ja nem rendelkezik ilyen támogatással."
-
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
 msgstr "Az MPC-HC jelen változatához SSE2 támogatással bíró CPU-ra van szüksége.\n\nAz ön CPU-ja nem rendelkezik ilyen támogatással."

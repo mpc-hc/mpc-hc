@@ -1,4 +1,4 @@
-﻿; (C) 2009-2015 see Authors.txt
+﻿; (C) 2009-2017 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -196,9 +196,7 @@ ar.langid=00001025
 ar.comp_mpciconlib=مكتبة الأيقونات
 ar.comp_mpcresources=الترجمة
 ar.msg_DeleteSettings=هل تريد حذف إعدادات ضبظ البرنامج؟ %n%nإذا كنت تنوي تثبيت البرنامج مرة أخرى، فلا يلزمك حذفها.
-#if defined(sse_required)
-ar.msg_simd_sse=هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE.%n%nمعالج جهازك لايحمل هذه المتطلبات.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ar.msg_simd_sse2=هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE2.%n%nمعالج جهازك لايحمل هذه المتطلبات.
 #endif
 ar.run_DownloadToolbarImages=زُر صفحتنا في الويكي لتحميل صور شريط الأدوات
@@ -215,9 +213,7 @@ be.langid=00001059
 be.comp_mpciconlib=Бібліятэка значкоў
 be.comp_mpcresources=Пераклады
 be.msg_DeleteSettings=Ці выдаліць налады MPC-HC?%n%nКалі вы збіраецеся ўсталяваць MPC-HC зноў, выдаляць іх не трэба.
-#if defined(sse_required)
-be.msg_simd_sse=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 be.msg_simd_sse2=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE2-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
 #endif
 be.run_DownloadToolbarImages=Наведаць нашу Wiki-старонку каб спампаваць выявы для панэлі навігацыі
@@ -234,9 +230,7 @@ bn.langid=00001093
 bn.comp_mpciconlib=আইকন লাইব্রেরি
 bn.comp_mpcresources=অনুবাদসমূহ
 bn.msg_DeleteSettings=আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?%n%nআপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।
-#if defined(sse_required)
-bn.msg_simd_sse=MPC-HCএর এই নির্মাণটির জন্য SSE এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।%n%nআপনার CPUর সেই কর্মক্ষমতা নেই।
-#elif defined(sse2_required)
+#if defined(sse2_required)
 bn.msg_simd_sse2=MPC-HCএর এই নির্মাণটির জন্য SSE2 এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।%n%nআপনার CPUর সেই কর্মক্ষমতা নেই।
 #endif
 bn.run_DownloadToolbarImages=টুলবার এর ছবি ডাউনলোড করতে আমাদের Wiki পেইজে যেতে পারেন
@@ -253,9 +247,7 @@ bs_BA.langid=00005146
 bs_BA.comp_mpciconlib=Biblioteka Ikonica
 bs_BA.comp_mpcresources=Prijevodi
 bs_BA.msg_DeleteSettings=Da li želite izbrisati i MPC-HC podešenja?%n%nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati.
-#if defined(sse_required)
-bs_BA.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.%n%nVaš CPU nema te mogućnosti.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 bs_BA.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.%n%nVaš CPU nema te mogućnosti.
 #endif
 bs_BA.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da preuzmete slike alatne trake
@@ -272,9 +264,7 @@ ca.langid=00001027
 ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Voleu suprimir les preferències de l'MPC-HC?%n%nSi planegeu tornar-lo a instal·lar no cal que les elimineu.
-#if defined(sse_required)
-ca.msg_simd_sse=Aquesta versió de l'MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa vostra CPU no compleix aquesta característica.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ca.msg_simd_sse2=Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa vostra CPU no compleix aquesta característica.
 #endif
 ca.run_DownloadToolbarImages=Visita la nostra pàgina Wiki per descarregar imatges de la barra d'eines
@@ -291,9 +281,7 @@ cs.langid=00001029
 cs.comp_mpciconlib=Ikony typů souborů
 cs.comp_mpcresources=Jazykové soubory
 cs.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
-#if defined(sse_required)
-cs.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE.%n%nVáš procesor tato rozšíření nepodporuje.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 cs.msg_simd_sse2=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE2.%n%nVáš procesor tato rozšíření nepodporuje.
 #endif
 cs.run_DownloadToolbarImages=Motivy pro tlačítkovou lištu si můžete stáhnout z našich Wiki stránek.
@@ -310,9 +298,7 @@ da.langid=00001030
 da.comp_mpciconlib=Ikon-bibliotek
 da.comp_mpcresources=Oversættelser
 da.msg_DeleteSettings=Vil du også slette MPC-HC indstillinger?%n%nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem.
-#if defined(sse_required)
-da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE CPU-anvisninger.%n%nDin CPU understøtter det ikke.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2 CPU-anvisninger.%n%nDin CPU understøtter det ikke.
 #endif
 da.run_DownloadToolbarImages=Besøg vores wiki-side for at downloade værktøjslinjebilleder
@@ -329,9 +315,7 @@ de.langid=00001031
 de.comp_mpciconlib=Icon-Bibliothek
 de.comp_mpcresources=Übersetzungen (u.a. deutsch)
 de.msg_DeleteSettings=Bei Neuinstallation des MPC-HC können verbliebene Einstellungen problemlos übernommen werden.%n%nEinstellungen auch entfernen?
-#if defined(sse_required)
-de.msg_simd_sse=Die verwendete CPU muss SSE unterstützen.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 de.msg_simd_sse2=Die verwendete CPU muss SSE2 unterstützen.
 #endif
 de.run_DownloadToolbarImages=Wiki für Toolbar-Bilder öffnen
@@ -348,9 +332,7 @@ el.langid=00001032
 el.comp_mpciconlib=Βιβλιοθήκη εικονιδίων
 el.comp_mpcresources=Μεταφράσεις
 el.msg_DeleteSettings=Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;%n%nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε.
-#if defined(sse_required)
-el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #endif
 el.run_DownloadToolbarImages=Επισκεφθείτε την Βικι σελίδα μας για να κατεβάσετε εικόνες γραμμής εργαλείων
@@ -367,9 +349,7 @@ en_GB.langid=00002057
 en_GB.comp_mpciconlib=Icon Library
 en_GB.comp_mpcresources=Translations
 en_GB.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
-#if defined(sse_required)
-en_GB.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 en_GB.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
 #endif
 en_GB.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
@@ -386,9 +366,7 @@ es.langid=00003082
 es.comp_mpciconlib=Colección de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
-#if defined(sse_required)
-es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU que soporte instrucciones SSE.%n%nSu CPU carece de esta característica.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU que soporte instrucciones SSE2.%n%nSu CPU carece de esta característica.
 #endif
 es.run_DownloadToolbarImages=Visite nuestra página wiki para descargar imágenes de barra de herramientas
@@ -405,9 +383,7 @@ eu.langid=00001069
 eu.comp_mpciconlib=Ikur Liburutegia
 eu.comp_mpcresources=Itzulpenak
 eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
-#if defined(sse_required)
-eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 eu.msg_simd_sse2=MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
 #endif
 eu.run_DownloadToolbarImages=Ikusi gure Wiki orrialdea tresnabarra irudiak jeisteko
@@ -424,9 +400,7 @@ fi.langid=00001035
 fi.comp_mpciconlib=Ikonikirjasto
 fi.comp_mpcresources=Käännökset
 fi.msg_DeleteSettings=Haluatko poistaa myöskin MPC-HC:n asetukset?%n%nJos aiot asentaa MPC-HC:n uudelleen, niitä ei tarvitse poistaa.
-#if defined(sse_required)
-fi.msg_simd_sse=MPC-HC:n tämä versio edellyttää CPU:lta SSE-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 fi.msg_simd_sse2=MPC-HC:n tämä versio edellyttää CPU:lta SSE2-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
 #endif
 fi.run_DownloadToolbarImages=Vieraile Wiki-sivustollamme ladataksesi työkalupalkin kuvat
@@ -443,9 +417,7 @@ fr.langid=00001036
 fr.comp_mpciconlib=Bibliothèque d'icônes
 fr.comp_mpcresources=Traductions
 fr.msg_DeleteSettings=Souhaitez-vous également supprimer les paramètres de MPC-HC ?%n%nSi vous prévoyez de réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
-#if defined(sse_required)
-fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE.%n%nVotre processeur ne supporte pas cette fonctionnalité.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #endif
 fr.run_DownloadToolbarImages=Visiter notre Wiki pour télécharger des barres d'outils personnalisées
@@ -462,9 +434,7 @@ gl.langid=00001110
 gl.comp_mpciconlib=Biblioteca de iconas
 gl.comp_mpcresources=Traducións
 gl.msg_DeleteSettings=Ques eliminar tamén os axustes de MPC-HC?%n%nSe pensas instalar MPC-HC de novo entón non o tes que eliminalos.
-#if defined(sse_required)
-gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nA súa CPU non ten estas capacidades.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nA súa CPU non ten estas capacidades.
 #endif
 gl.run_DownloadToolbarImages=Visite a nosa Wiki para descargar imaxes da barra de ferramentas
@@ -481,9 +451,7 @@ he.langid=00001037
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
 he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%n%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
-#if defined(sse_required)
-he.msg_simd_sse=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE.%n%nהמעבד שברשותך אינו תומך בכך.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 he.msg_simd_sse2=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE2.%n%nהמעבד שברשותך אינו תומך בכך.
 #endif
 he.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
@@ -500,9 +468,7 @@ hr.langid=00001050
 hr.comp_mpciconlib=Biblioteka ikona
 hr.comp_mpcresources=Prijevodi
 hr.msg_DeleteSettings=Želite li obrisati postavke od MPC-HC?%n%nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati.
-#if defined(sse_required)
-hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš procesor nema te mogućnosti.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.%n%nVaš procesor nema te mogućnosti.
 #endif
 hr.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da biste skinuli slike za alatnu traku
@@ -519,9 +485,7 @@ hu.langid=00001038
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
 hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%n%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
-#if defined(sse_required)
-hu.msg_simd_sse=Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra van szüksége.%n%nAz ön CPU-ja nem rendelkezik ilyen támogatással.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 hu.msg_simd_sse2=Az MPC-HC jelen változatához SSE2 támogatással bíró CPU-ra van szüksége.%n%nAz ön CPU-ja nem rendelkezik ilyen támogatással.
 #endif
 hu.run_DownloadToolbarImages=Látogassa meg a Wiki oldalunkat eszköztár képek letöltéséhez
@@ -538,9 +502,7 @@ hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
 hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղադրել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
-#if defined(sse_required)
-hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
-#elif defined(sse2_required)
+#if defined(sse2_required)
 hy.msg_simd_sse2=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #endif
 hy.run_DownloadToolbarImages=Այցելեք մեր Wiki էջը՝ ներբեռնելու համար գործիքագոտու պատկերներ
@@ -557,9 +519,7 @@ id.langid=00001057
 id.comp_mpciconlib=Pustaka Ikon
 id.comp_mpcresources=Terjemahan
 id.msg_DeleteSettings=Apakah Anda juga ingin menghapus pengaturan MPC-HC?%n%nJika Anda berencana untuk memasang MPC-HC lagi maka Anda tidak perlu menghapusnya.
-#if defined(sse_required)
-id.msg_simd_sse=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.%n%nCPU Anda tidak memiliki kemampuan tersebut.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 id.msg_simd_sse2=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.%n%nCPU Anda tidak memiliki kemampuan tersebut.
 #endif
 id.run_DownloadToolbarImages=Kunjungi halaman Wiki kami untuk mengunduh gambar bilah alat
@@ -576,9 +536,7 @@ it.langid=00001040
 it.comp_mpciconlib=Icona Libreria
 it.comp_mpcresources=Traduzioni
 it.msg_DeleteSettings=Vuoi eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
-#if defined(sse_required)
-it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE.%n%nLa tua CPU non dispone di questa caratteristica.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 it.msg_simd_sse2=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE2.%n%nLa tua CPU non dispone di questa caratteristica.
 #endif
 it.run_DownloadToolbarImages=Visita la nostra pagina Wiki per scaricare le immagini della barra degli strumenti
@@ -595,9 +553,7 @@ ja.langid=00001041
 ja.comp_mpciconlib=アイコン ライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合、設定を削除する必要はありません。
-#if defined(sse_required)
-ja.msg_simd_sse=MPC-HC のこのビルドには SSE 拡張機能をサポートする CPU が必要です。%n%nご使用の CPU はこれらの機能を備えていません。
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ja.msg_simd_sse2=MPC-HC のこのビルドには SSE2 拡張機能をサポートする CPU が必要です。%n%nご使用の CPU はこれらの機能を備えていません。
 #endif
 ja.run_DownloadToolbarImages=Wiki ページに移動してツール バーの画像をダウンロードする
@@ -614,9 +570,7 @@ ko.langid=00001042
 ko.comp_mpciconlib=아이콘 라이브러리
 ko.comp_mpcresources=번역
 ko.msg_DeleteSettings=MPC-HC 의 설정도 삭제 하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
-#if defined(sse_required)
-ko.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ko.msg_simd_sse2=이 버전의 MPC-HC 는 SSE2 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
 #endif
 ko.run_DownloadToolbarImages=툴바 이미지들을 다운로드하기 위해 위키 페이지로 방문.
@@ -633,9 +587,7 @@ lt.langid=00001063
 lt.comp_mpciconlib=Piktogramų biblioteka
 lt.comp_mpcresources=Vertimai
 lt.msg_DeleteSettings=Ar norite taip pat ištrinti MPC-HC nuostatas?%n%nJei planuojate vėl diegti MPC-HC, tada jų trinti nebūtina.
-#if defined(sse_required)
-lt.msg_simd_sse=Šiai MPC-HC versijai reikalingas centrinis procesorius su SSE plėtinio palaikymu.%n%nJūsų procesorius neturi šių galimybių.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 lt.msg_simd_sse2=Šiai MPC-HC versijai reikalingas centrinis CPU su SSE2 plėtinio palaikymu.%n%nJūsų procesorius neturi šių galimybių.
 #endif
 lt.run_DownloadToolbarImages=Aplankykite mūsų Wiki puslapį įrankių juostos paveikslėliams atsisiųsti
@@ -652,9 +604,7 @@ ms_MY.langid=00001086
 ms_MY.comp_mpciconlib=Pustaka Ikon
 ms_MY.comp_mpcresources=Terjemahan
 ms_MY.msg_DeleteSettings=Anda mahu padam tetapan MPC-HC?%n%nJika anda bercadang untuk memasang MPC-HC lagi, maka anda tidak perlu memadamnya.
-#if defined(sse_required)
-ms_MY.msg_simd_sse=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE.%n%nCPU anda tidak mempunyai keupayaan tersebut.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ms_MY.msg_simd_sse2=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE2.%n%nCPU anda tidak mempunyai keupayaan tersebut.
 #endif
 ms_MY.run_DownloadToolbarImages=Lawati laman Wiki kami untuk memuat turun imej palang alat
@@ -671,9 +621,7 @@ nl.langid=00001043
 nl.comp_mpciconlib=Iconen bibliotheek
 nl.comp_mpcresources=Talen
 nl.msg_DeleteSettings=Wilt u ook de instellingen van MPC-HC verwijderen?%n%nAls u van plan bent MPC-HC opnieuw te gaan installeren is dit niet nodig.
-#if defined(sse_required)
-nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteunt dit niet.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteunt dit niet.
 #endif
 nl.run_DownloadToolbarImages=Bezoek onze wiki om de werkbalkafbeeldingen op te halen
@@ -690,9 +638,7 @@ pl.langid=00001045
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, nie musisz ich usuwać.
-#if defined(sse_required)
-pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE.%n%nTwój procesor ich nie obsługuje.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 pl.msg_simd_sse2=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE2.%n%nTwój procesor ich nie obsługuje.
 #endif
 pl.run_DownloadToolbarImages=Odwiedź naszą stronę Wiki aby pobrać więcej skórek panelu sterowania.
@@ -709,9 +655,7 @@ pt_BR.langid=00001046
 pt_BR.comp_mpciconlib=Biblioteca de ícones
 pt_BR.comp_mpcresources=Traduções
 pt_BR.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe planeja instalar o MPC-HC novamente, você não precisa excluí-las.
-#if defined(sse_required)
-pt_BR.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE.%n%nSua CPU não tem esse suporte.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 pt_BR.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE2.%n%nSua CPU não tem esse suporte.
 #endif
 pt_BR.run_DownloadToolbarImages=Visite nossa página Wiki para baixar imagens de barra de ferramentas
@@ -728,9 +672,7 @@ ro.langid=00001048
 ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
 ro.msg_DeleteSettings=Doriți de asemenea să ștergeți stabilirile MPC-HC?%n%nDacă doriți să reinstalați MPC-HC, atunci nu este necesar să le ștergeți.
-#if defined(sse_required)
-ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacități.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacități.
 #endif
 ro.run_DownloadToolbarImages=Vizitați pagina noastră Wiki pentru a descărca imagini pentru bara de instrumente
@@ -747,9 +689,7 @@ ru.langid=00001049
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
 ru.msg_DeleteSettings=Желаете ли вы также удалить настройки MPC-HC?%n%nЕсли вы собираетесь установить MPC-HC повторно, их не нужно удалять.
-#if defined(sse_required)
-ru.msg_simd_sse=Для этой сборки MPC-HC необходим процессор с поддержкой SSE-инструкций.%n%nВаш процессор не соответствует данным требованиям.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 ru.msg_simd_sse2=Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.%n%nВаш процессор не соответствует данным требованиям.
 #endif
 ru.run_DownloadToolbarImages=Посетить нашу вики для загрузии темы панели инструментов
@@ -766,9 +706,7 @@ sk.langid=00001051
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
-#if defined(sse_required)
-sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE.%n%nVáš procesor ich nepodporuje.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 sk.msg_simd_sse2=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.%n%nVáš procesor ich nepodporuje.
 #endif
 sk.run_DownloadToolbarImages=Pre obrázky na panel nástrojov navštívte našu stránku Wiki
@@ -785,9 +723,7 @@ sl.langid=00001060
 sl.comp_mpciconlib=Knjižnica ikon
 sl.comp_mpcresources=Prevodi
 sl.msg_DeleteSettings=Želite izbrisati nastavitve MPC-HC?%n%nČe nameravate spet namestiti MPC-HC, potem vam jih ni potrebno izbrisati.
-#if defined(sse_required)
-sl.msg_simd_sse=Ta različica MPC-HC zahteva procesor s podporo SSE razširitvam.%n%nVaš procesor nima teh zmožnosti.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 sl.msg_simd_sse2=Ta različica MPC-HC zahteva procesor s podporo SSE2 razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #endif
 sl.run_DownloadToolbarImages=Obiščite našo Wiki stran za slike orodne vrstice
@@ -804,9 +740,7 @@ sr.langid=00003098
 sr.comp_mpciconlib=Библиотека са иконама
 sr.comp_mpcresources=Преводи
 sr.msg_DeleteSettings=Желите ли да избришете и поставке MPC-HC-а?%n%nНе морате их брисати ако планирате поново да инсталирате MPC-HC.
-#if defined(sse_required)
-sr.msg_simd_sse=Ова верзија MPC-HC-а захтева процесор са подршком за SSE проширења.%n%nВаш процесор нема те могућности.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 sr.msg_simd_sse2=За ову верзију MPC-HC-а је потребан процесор са подршком за SSE2 инструкције.%n%nВаш процесор не испуњава тај захтев.
 #endif
 sr.run_DownloadToolbarImages=Посети наш вики ради преузимања тема траке са алаткама
@@ -823,9 +757,7 @@ sv.langid=00001053
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
-#if defined(sse_required)
-sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.%n%nDin processor saknar detta stöd.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 sv.msg_simd_sse2=Denna version av MPC-HC kräver en processor med stöd för SSE2.%n%nDin processor saknar detta stöd.
 #endif
 sv.run_DownloadToolbarImages=Besök vår Wiki för att ladda ned verktygsfältsbilder
@@ -842,9 +774,7 @@ th_TH.langid=00001054
 th_TH.comp_mpciconlib=คลังไอคอน
 th_TH.comp_mpcresources=การแปลภาษา
 th_TH.msg_DeleteSettings=คุณต้องการลบการตั้งค่า MPC-HC ด้วยหรือไม่?%n%nหากคุณวางแผนจะติดตั้ง MPC-HC อีกครั้ง คุณไม่จำเป็นต้องลบมันออก
-#if defined(sse_required)
-th_TH.msg_simd_sse=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE%n%nCPU ของคุณไม่มีความสามารถนั้น
-#elif defined(sse2_required)
+#if defined(sse2_required)
 th_TH.msg_simd_sse2=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE2%n%nCPU ของคุณไม่มีความสามารถนั้น
 #endif
 th_TH.run_DownloadToolbarImages=เยี่ยมชมหน้า Wiki ของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ
@@ -861,9 +791,7 @@ tr.langid=00001055
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
 tr.msg_DeleteSettings=MPC-HC ayarlarını da silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz.
-#if defined(sse_required)
-tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz malesef bu özelliği desteklemiyor.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz malesef bu özelliği desteklemiyor.
 #endif
 tr.run_DownloadToolbarImages=Araç çubuğu simgelerini indirmek için Wiki sayfamızı ziyaret edebilirsiniz
@@ -880,9 +808,7 @@ tt.langid=00001092
 tt.comp_mpciconlib=Билгечекләр китапханәсе
 tt.comp_mpcresources=Телләштерү
 tt.msg_DeleteSettings=Шулай ук көйләнгән MPC-HC шартларын да бетерергәме?%n%nӘгәр ниятләнгән киредән MPC-HC урнаштыру булса, бу шартларны бетерергә кирәк түгел.
-#if defined(sse_required)
-tt.msg_simd_sse=Бу MPC-HC бөрмәсе өчен SSE-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 tt.msg_simd_sse2=Бу MPC-HC бөрмәсе өчен SSE2-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
 #endif
 tt.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
@@ -899,9 +825,7 @@ uk.langid=00001058
 uk.comp_mpciconlib=Бібліотека іконок
 uk.comp_mpcresources=Локалізації
 uk.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%n%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
-#if defined(sse_required)
-uk.msg_simd_sse=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE розширення.%n%nАле ваш процесор не підтримує їх.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 uk.msg_simd_sse2=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE2 розширення.%n%nАле ваш процесор не підтримує їх.
 #endif
 uk.run_DownloadToolbarImages=Відвідати нашу сторінку Wiki і завантажити користувацькі панелі інструментів
@@ -918,9 +842,7 @@ vi.langid=00001066
 vi.comp_mpciconlib=Thư viện biểu tượng
 vi.comp_mpcresources=Các gói ngôn ngữ
 vi.msg_DeleteSettings=Bạn cũng muốn xóa các thiết lập của MPC-HC?%n%nNếu bạn dự định cài đặt lại MPC-HC thì bạn không cần phải xóa chúng.
-#if defined(sse_required)
-vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.%n%nCPU của bạn không đáp ứng được yêu cầu này.
-#elif defined(sse2_required)
+#if defined(sse2_required)
 vi.msg_simd_sse2=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #endif
 vi.run_DownloadToolbarImages=Truy cập trang Wiki của chúng tôi để tải xuống thanh công cụ khác
@@ -937,9 +859,7 @@ zh_CN.langid=00002052
 zh_CN.comp_mpciconlib=图标库
 zh_CN.comp_mpcresources=翻译
 zh_CN.msg_DeleteSettings=是否同时删除 MPC-HC 设置？%n%n如果您打算再次安装 MPC-HC 则不必删除。
-#if defined(sse_required)
-zh_CN.msg_simd_sse=此 MPC-HC 编译版本要求 CPU 支持 SSE 指令集。%n%n您的 CPU 不具备该能力。
-#elif defined(sse2_required)
+#if defined(sse2_required)
 zh_CN.msg_simd_sse2=此 MPC-HC 编译版本要求 CPU 支持 SSE2 指令集。%n%n您的 CPU 不具备该能力。
 #endif
 zh_CN.run_DownloadToolbarImages=访问我们的维基页面去下载工具栏图像
@@ -956,9 +876,7 @@ zh_TW.langid=00001028
 zh_TW.comp_mpciconlib=圖示庫
 zh_TW.comp_mpcresources=翻譯
 zh_TW.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
-#if defined(sse_required)
-zh_TW.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
-#elif defined(sse2_required)
+#if defined(sse2_required)
 zh_TW.msg_simd_sse2=此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
 #endif
 zh_TW.run_DownloadToolbarImages=參觀我們的 Wiki 頁面以下載工具列圖示

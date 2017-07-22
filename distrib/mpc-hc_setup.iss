@@ -371,7 +371,7 @@ Type: files; Name: {app}\Lang\mpcresources.ua.dll
 
 
 [Code]
-#if defined(sse_required) || defined(sse2_required)
+#if defined(sse2_required)
 function IsProcessorFeaturePresent(Feature: Integer): Boolean;
 external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
 #endif
@@ -395,14 +395,7 @@ begin
 end;
 
 
-#if defined(sse_required)
-function Is_SSE_Supported(): Boolean;
-begin
-  // PF_XMMI_INSTRUCTIONS_AVAILABLE
-  Result := IsProcessorFeaturePresent(6);
-end;
-
-#elif defined(sse2_required)
+#if defined(sse2_required)
 
 function Is_SSE2_Supported(): Boolean;
 begin
