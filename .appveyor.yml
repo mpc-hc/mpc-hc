@@ -1,0 +1,26 @@
+image: Visual Studio 2017
+
+version: 1.7.13-{build}
+
+environment:
+  MSYS: C:\MSYS
+  MINGW32: C:\MSYS\mingw
+  MINGW64: C:\MSYS\mingw
+
+install:
+  - ps: >-
+      if (!(Test-Path "$env:MSYS")) {
+        Invoke-WebRequest http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_710_x86-x64.7z -OutFile msys.7z
+        7z x msys.7z -oC: -y > $null
+      }
+  - git submodule -q update --init --recursive
+
+cache:  # 03.06.2017 13:44
+  - C:\MSYS -> appveyor.yml
+
+build_script:
+  - build.bat silent nocolors
+
+test: off
+
+deploy: off
