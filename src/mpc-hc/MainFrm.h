@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -648,6 +648,7 @@ protected:  // control bar embedded members
     DECLARE_MESSAGE_MAP()
 
 public:
+    afx_msg int OnNcCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnDestroy();
 

@@ -157,6 +157,7 @@ public:
 IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
+    ON_WM_NCCREATE()
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_CLOSE()
@@ -810,6 +811,22 @@ CMainFrame::~CMainFrame()
 {
 }
 
+int CMainFrame::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
+{
+    if (SysVersion::Is10OrLater()) {
+        // Tell Windows to automatically handle scaling of non-client areas
+        // such as the caption bar. EnableNonClientDpiScaling was introduced in Windows 10
+        const WinapiFunc<BOOL WINAPI(HWND)>
+        fnEnableNonClientDpiScaling = { _T("User32.dll"), "EnableNonClientDpiScaling" };
+
+        if (fnEnableNonClientDpiScaling) {
+            fnEnableNonClientDpiScaling(m_hWnd);
+        }
+    }
+
+    return __super::OnNcCreate(lpCreateStruct);
+}
+
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
     if (__super::OnCreate(lpCreateStruct) == -1) {
@@ -1296,9 +1313,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 void CMainFrame::OnMove(int x, int y)
 {
     __super::OnMove(x, y);
-
-    //MoveVideoWindow(); // This isn't needed, based on my limited tests. If it is needed then please add a description the scenario(s) where it is needed.
-    m_wndView.Invalidate();
 
     if (m_bWasSnapped && IsZoomed()) {
         m_bWasSnapped = false;
