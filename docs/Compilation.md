@@ -5,10 +5,10 @@ For up to date instructions on how to compile mpc-hc visit the wiki page: <https
 
 ## Part A: Preparing the Visual Studio environment
 
-### Visual Studio 2015 or 2017
+### Visual Studio 2017 or 2015
 
 1. Install Visual C++, part of Visual Studio (any edition will work fine).
-   Make sure to select Windows XP and ATL/MFC support during installation.
+   Make sure to select **Windows XP** and **ATL/MFC** support during installation.
 2. Make sure you have installed all available updates from Microsoft Update
 3. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
 

@@ -66,17 +66,17 @@ IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Both")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2015")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2017")
 
 IF /I "%COMPILER%" == "VS2017" (
   IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
   IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
   SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
-  SET "BIN_DIR=%ROOT_DIR%\bin17"
+  SET "BIN_DIR=%ROOT_DIR%\bin"
 ) ELSE (
   IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=%ROOT_DIR%\bin"
+  SET "BIN_DIR=%ROOT_DIR%\bin15"
 )
 IF NOT EXIST "%TOOLSET%" GOTO MissingVar
 

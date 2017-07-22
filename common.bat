@@ -107,7 +107,7 @@ FOR /F "tokens=2*" %%A IN (
 EXIT /B
 
 :SubDetectVisualStudioPath
-FOR /f "delims=" %%A IN ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath -latest -requires Microsoft.VisualStudio.Component.VC.ATLMFC Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP') DO SET MPCHC_VS_PATH=%%A
+FOR /f "delims=" %%A IN ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath -latest -requires Microsoft.Component.MSBuild Microsoft.VisualStudio.Component.VC.ATLMFC Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP') DO SET MPCHC_VS_PATH=%%A
 EXIT /B
 
 :SubMsg

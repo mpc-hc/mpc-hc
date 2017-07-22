@@ -83,7 +83,7 @@ IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTY
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFORM=Both")
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2015")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2017")
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -96,11 +96,11 @@ IF /I "%COMPILER%" == "VS2017" (
   IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
   IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
   SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
-  SET "BIN_DIR=bin17"
+  SET "BIN_DIR=bin"
 ) ELSE (
   IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
   SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=bin"
+  SET "BIN_DIR=bin15"
 )
 IF NOT EXIST "%TOOLSET%" GOTO MissingVar
 
@@ -357,8 +357,8 @@ IF DEFINED MPCHC_LITE (
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
-IF /I "%COMPILER%" == "VS2017" (
-  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2017
+IF /I "%COMPILER%" == "VS2015" (
+  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2015
 )
 CALL "%COMMON%" :SubDetectInnoSetup
 
@@ -413,7 +413,7 @@ IF /I "%BUILDCFG%" == "Debug" (
   SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
 )
 
-IF /I "%COMPILER%" == "VS2017" (
+IF /I "%COMPILER%" == "VS2015" (
   SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%"
 )
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"

@@ -9,15 +9,17 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin\Filters_x64\</OutDir>
     <LinkIncremental Condition="$(Configuration.Contains('Debug'))">true</LinkIncremental>
     <LinkIncremental Condition="$(Configuration.Contains('Release'))">false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='141'">
-    <IntDir>$(SolutionDir)bin17\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)bin17\lib\$(Configuration)_$(PlatformName)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">$(SolutionDir)bin17\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin17\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin17\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin17\Filters_x64\</OutDir>
     <UseCommonOutputDirectory>True</UseCommonOutputDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
+    <IntDir>$(SolutionDir)bin15\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)bin15\lib\$(Configuration)_$(PlatformName)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">$(SolutionDir)bin15\Filters_x86_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin15\Filters_x64_Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin15\Filters_x86\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin15\Filters_x64\</OutDir>
+    <LinkIncremental Condition="$(Configuration.Contains('Debug'))">true</LinkIncremental>
+    <LinkIncremental Condition="$(Configuration.Contains('Release'))">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

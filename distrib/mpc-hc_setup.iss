@@ -29,7 +29,7 @@
 #endif
 
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define VS2017
+;#define VS2015
 ;#define x64Build
 ;#define MPCHC_LITE
 
@@ -61,8 +61,8 @@
 #define app_vername     = app_name + " " + app_ver
 #define quick_launch    "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
-#if defined(VS2017)
-  #define base_bindir   = "..\bin17"
+#if defined(VS2015)
+  #define base_bindir   = "..\bin15"
 #else
   #define base_bindir   = "..\bin"
 #endif
@@ -99,8 +99,8 @@
   #endif
 #endif
 
-#if defined(VS2017)
-  #define OutFilename    = OutFilename + ".VS2017"
+#if defined(VS2015)
+  #define OutFilename    = OutFilename + ".VS2015"
 #endif
 
 #if MPC_NIGHTLY_RELEASE

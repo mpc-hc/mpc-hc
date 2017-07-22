@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)' == '14.0'">
-    <PlatformToolset Condition="'$(ANALYZE)'!='true'">v140_xp</PlatformToolset>
-    <PlatformToolset Condition="'$(ANALYZE)'=='true'">v140</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)' == '15.0'">
     <PlatformToolset Condition="'$(ANALYZE)'!='true'">v141_xp</PlatformToolset>
     <PlatformToolset Condition="'$(ANALYZE)'=='true'">v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(VisualStudioVersion)' == '14.0'">
+    <PlatformToolset Condition="'$(ANALYZE)'!='true'">v140_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(ANALYZE)'=='true'">v140</PlatformToolset>
   </PropertyGroup>
 </Project>
