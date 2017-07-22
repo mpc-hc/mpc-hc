@@ -69,7 +69,7 @@ IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASE
 IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2017")
 
 IF /I "%COMPILER%" == "VS2017" (
-  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubVSPath
   IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
   SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
   SET "BIN_DIR=%ROOT_DIR%\bin"

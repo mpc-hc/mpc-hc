@@ -93,7 +93,7 @@ IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
 IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
 IF /I "%COMPILER%" == "VS2017" (
-  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubVSPath
   IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
   SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
   SET "BIN_DIR=bin"

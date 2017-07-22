@@ -28,7 +28,7 @@ IF "%~1" == "" (
   GOTO END
 )
 
-IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubDetectVisualStudioPath
+IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubVSPath
 IF NOT EXIST "%MPCHC_VS_PATH%" (
   ECHO %~nx0: Visual Studio 2017 does not seem to be installed...
   SET SIGN_ERROR=True
