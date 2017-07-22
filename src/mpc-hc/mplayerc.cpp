@@ -45,6 +45,7 @@
 #include <atlsync.h>
 #include <winternl.h>
 #include <regex>
+#include "ExceptionHandler.h"
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
@@ -1459,6 +1460,9 @@ BOOL CMPlayerCApp::InitInstance()
     // At this point we have not hooked this function yet so we get the real result
     if (!IsDebuggerPresent()) {
         CrashReporter::Enable();
+        if (!CrashReporter::IsEnabled()) {
+            MPCExceptionHandler::Enable();
+        }
     }
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
