@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1621,11 +1621,16 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             }
 
             CTextFile::enc encoding = (CTextFile::enc)fd.GetEncoding();
-            if (encoding == CTextFile::DEFAULT_ENCODING) {
-                encoding = CTextFile::ANSI;
-            }
 
             int idx = fd.m_pOFN->nFilterIndex;
+
+            if (encoding == CTextFile::DEFAULT_ENCODING) {
+                if (idx == 1 || idx == 3) {
+                    encoding = CTextFile::UTF8;
+                } else {
+                    encoding = CTextFile::ANSI;
+                }
+            }
 
             CPath path(fd.GetPathName());
 

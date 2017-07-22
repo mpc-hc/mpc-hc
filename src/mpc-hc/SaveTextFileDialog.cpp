@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,7 +43,8 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 
         pfdc->StartVisualGroup(IDS_TEXTFILE_ENC, ResStr(IDS_TEXTFILE_ENC));
         pfdc->AddComboBox(IDC_COMBO1);
-        pfdc->AddControlItem(IDC_COMBO1, CTextFile::DEFAULT_ENCODING, _T("ANSI"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::DEFAULT_ENCODING, _T("Automatic"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::ANSI, _T("ANSI"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::LE16, _T("Unicode (UTF-16 LE BOM)"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::BE16, _T("Unicode (UTF-16 BE BOM)"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::UTF8, _T("UTF-8"));
