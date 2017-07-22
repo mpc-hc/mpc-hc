@@ -119,18 +119,18 @@ build() {
 configureAndBuild() {
   cd ${FFMPEG_BUILD_PATH}
   ## Don't run configure again if it was previously run
-  if [ ../../../ffmpeg/configure -ot config.mak ] &&
-     [ ../../../../build_ffmpeg.sh -ot config.mak ]; then
+  if [ ../../../ffmpeg/configure -ot ffbuild/config.mak ] &&
+     [ ../../../../build_ffmpeg.sh -ot ffbuild/config.mak ]; then
     echo Skipping configure...
   else
     echo Configuring...
 
     ## run configure, redirect to file because of a msys bug
-    configure > config.out 2>&1
+    configure > ffbuild/config.out 2>&1
     CONFIGRETVAL=$?
 
     ## show configure output
-    cat config.out
+    cat ffbuild/config.out
   fi
 
   ## Only if configure succeeded, actually build
