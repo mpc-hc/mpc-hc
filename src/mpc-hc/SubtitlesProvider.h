@@ -50,7 +50,7 @@ private:                                                                        
 #define DEFINE_SUBTITLESPROVIDER_END                                                   \
 };
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "https://api.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 void Initialize() override;
 bool NeedLogin() override;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
@@ -84,7 +84,7 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS,
 DEFINE_SUBTITLESPROVIDER_END
 #endif // MPCHC_DISABLED_SUBTITLES_PROVIDER
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "http://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
