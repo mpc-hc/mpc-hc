@@ -1475,6 +1475,7 @@ BOOL CMPlayerCApp::InitInstance()
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
+#if 0
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
     if (m_hNTDLL) {
         Real_NtQueryInformationProcess = (decltype(Real_NtQueryInformationProcess))GetProcAddress(m_hNTDLL, "NtQueryInformationProcess");
@@ -1483,6 +1484,7 @@ BOOL CMPlayerCApp::InitInstance()
             bHookingSuccessful &= !!Mhook_SetHookEx(&Real_NtQueryInformationProcess, Mine_NtQueryInformationProcess);
         }
     }
+#endif
 #endif
 
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_CreateFileW, Mine_CreateFileW);
