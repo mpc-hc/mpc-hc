@@ -9814,18 +9814,18 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             ASSERT(videoRect.Height() == lround(dScaledVRHeight));
 
             if (m_pMVRC) {
-                static const std::map<const dvstype, const LPWSTR> madVRModesMap = {
-                    { DVS_HALF,        L"50%"          },
-                    { DVS_NORMAL,      L"100%"         },
-                    { DVS_DOUBLE,      L"200%"         },
-                    { DVS_STRETCH,     L"stretch"      },
-                    { DVS_FROMINSIDE,  L"touchInside"  },
-                    { DVS_FROMOUTSIDE, L"touchOutside" },
-                    { DVS_ZOOM1,       L"touchInside"  },
-                    { DVS_ZOOM2,       L"touchInside"  }
+                static constexpr const LPWSTR madVRModesMap[] = {
+                    L"50%",
+                    L"100%",
+                    L"200%",
+                    L"stretch",
+                    L"touchInside",
+                    L"touchOutside",
+                    L"touchInside",
+                    L"touchInside"
                 };
 
-                m_pMVRC->SendCommandString("setZoomMode", madVRModesMap.at(iDefaultVideoSize));
+                m_pMVRC->SendCommandString("setZoomMode", madVRModesMap[iDefaultVideoSize]);
                 m_pMVRC->SendCommandDouble("setZoomFactorX", madVRZoomFactor * m_ZoomX);
                 m_pMVRC->SendCommandDouble("setZoomFactorY", madVRZoomFactor * m_ZoomY);
                 m_pMVRC->SendCommandDouble("setZoomOffsetX", 2 * m_PosX - 1.0);
