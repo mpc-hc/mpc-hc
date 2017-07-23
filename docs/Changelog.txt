@@ -19,6 +19,8 @@ next version - not released yet
 ! Fixed text subtitle rendering in Avisynth
 ! Fixed DPI scaling of non-client areas in main window
 ! Prevent crash for ASS subtitles with invalid (too high) blur values
+! VSFilter: Fixed DVB/PGS subtitle resizing on x64 build
 ! Ticket #2539: Subtitle downloader dialog could be opened on disabled monitor
+! Ticket #6223: Fixed DPI scaling of non-client areas in main window
 ! Ticket #6231: Fix hash calculation for files with Unicode paths. This fixes search on
   OpenSubtitles for such files
