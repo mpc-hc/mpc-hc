@@ -11,13 +11,13 @@ Legend:
 next version - not released yet
 ===============================
 + Added fallback exception handler for when DrDump Crash Reporter is unavailable
-+ Automatic encoding option for saving playlists. Uses UTF8 encoding when applicable.
++ Automatic encoding option for saving playlists. Uses UTF-8 encoding when applicable
 * Updated Little CMS to v2.9 (4be486f)
 * Updated sanear to v0.3
 * Split internal MPEG source filter option into a PS and TS variant
-! Fix text subtitle rendering in Avisynth
+! Fixed text subtitle rendering in Avisynth
+! Fixed DPI scaling of non-client areas in main window
+! Prevent crash for ASS subtitles with invalid (too high) blur values
 ! Ticket #2539: Subtitle downloader dialog could be opened on disabled monitor
 ! Ticket #6231: Fix hash calculation for files with Unicode paths. This fixes search on
   OpenSubtitles for such files
-! Fixed DPI scaling of non-client areas in main window
-! Prevent crash for ASS subtitles with invalid (too high) blur values
