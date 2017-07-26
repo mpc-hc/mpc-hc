@@ -115,7 +115,9 @@ uint64 RawRead::Get8()
 uint64 RawRead::GetV()
 {
   uint64 Result=0;
-  for (uint Shift=0;ReadPos<DataSize;Shift+=7)
+  // Need to check Shift<64, because for shift greater than or equal to
+  // the width of the promoted left operand, the behavior is undefined.
+  for (uint Shift=0;ReadPos<DataSize && Shift<64;Shift+=7)
   {
     byte CurByte=Data[ReadPos++];
     Result+=uint64(CurByte & 0x7f)<<Shift;

@@ -93,6 +93,25 @@ static int CalcAllowedDepth(const wchar *Name)
 }
 
 
+// Check if all existing path components are directories and not links.
+static bool LinkInPath(const wchar *Name)
+{
+  wchar Path[NM];
+  if (wcslen(Name)>=ASIZE(Path))
+    return true;  // It should not be that long, skip.
+  wcsncpyz(Path,Name,ASIZE(Path));
+  for (wchar *s=Path+wcslen(Path)-1;s>Path;s--)
+    if (IsPathDiv(*s))
+    {
+      *s=0;
+      FindData FD;
+      if (FindFile::FastFind(Path,&FD,true) && (FD.IsLink || !FD.IsDir))
+        return true;
+    }
+  return false;
+}
+
+
 bool IsRelativeSymlinkSafe(CommandData *Cmd,const wchar *SrcName,const wchar *PrepSrcName,const wchar *TargetName)
 {
   // Catch root dir based /path/file paths also as stuff like \\?\.
@@ -100,7 +119,25 @@ bool IsRelativeSymlinkSafe(CommandData *Cmd,const wchar *SrcName,const wchar *Pr
   // is a root based.
   if (IsFullRootPath(SrcName) || IsFullRootPath(TargetName))
     return false;
-  
+
+  // Number of ".." in link target.
+  int UpLevels=0;
+  for (int Pos=0;*TargetName!=0;Pos++)
+  {
+    bool Dot2=TargetName[0]=='.' && TargetName[1]=='.' && 
+              (IsPathDiv(TargetName[2]) || TargetName[2]==0) &&
+              (Pos==0 || IsPathDiv(*(TargetName-1)));
+    if (Dot2)
+      UpLevels++;
+    TargetName++;
+  }
+  // If link target includes "..", it must not have another links
+  // in the path, because they can bypass our safety check. For example,
+  // suppose we extracted "lnk1" -> "." first and "lnk1/lnk2" -> ".." next
+  // or "dir/lnk1" -> ".." first and "dir/lnk1/lnk2" -> ".." next.
+  if (UpLevels>0 && LinkInPath(PrepSrcName))
+    return false;
+    
   // We could check just prepared src name, but for extra safety
   // we check both original (as from archive header) and prepared
   // (after applying the destination path and -ep switches) names.
@@ -119,17 +156,6 @@ bool IsRelativeSymlinkSafe(CommandData *Cmd,const wchar *SrcName,const wchar *Pr
   }
   int PrepAllowedDepth=CalcAllowedDepth(PrepSrcName);
 
-  // Number of ".." in link target.
-  int UpLevels=0;
-  for (int Pos=0;*TargetName!=0;Pos++)
-  {
-    bool Dot2=TargetName[0]=='.' && TargetName[1]=='.' && 
-              (IsPathDiv(TargetName[2]) || TargetName[2]==0) &&
-              (Pos==0 || IsPathDiv(*(TargetName-1)));
-    if (Dot2)
-      UpLevels++;
-    TargetName++;
-  }
   return AllowedDepth>=UpLevels && PrepAllowedDepth>=UpLevels;
 }
 

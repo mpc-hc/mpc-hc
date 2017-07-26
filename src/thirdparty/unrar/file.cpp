@@ -173,7 +173,7 @@ bool File::Create(const wchar *Name,uint Mode)
   wchar *LastChar=PointToLastChar(Name);
   bool Special=*LastChar=='.' || *LastChar==' ';
   
-  if (Special)
+  if (Special && (Mode & FMF_STANDARDNAMES)==0)
     hFile=FILE_BAD_HANDLE;
   else
     hFile=CreateFile(Name,Access,ShareMode,NULL,CREATE_ALWAYS,0,NULL);

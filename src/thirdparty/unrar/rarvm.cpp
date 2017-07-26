@@ -22,6 +22,7 @@ void RarVM::Init()
 void RarVM::Execute(VM_PreparedProgram *Prg)
 {
   memcpy(R,Prg->InitR,sizeof(Prg->InitR));
+  Prg->FilteredData=NULL;
   if (Prg->Type!=VMSF_NONE)
   {
     bool Success=ExecuteStandardFilter(Prg->Type);
@@ -107,7 +108,14 @@ uint RarVM::ReadData(BitInput &Inp)
 void RarVM::SetMemory(size_t Pos,byte *Data,size_t DataSize)
 {
   if (Pos<VM_MEMSIZE && Data!=Mem+Pos)
-    memmove(Mem+Pos,Data,Min(DataSize,VM_MEMSIZE-Pos));
+  {
+    // We can have NULL Data for invalid filters with DataSize==0. While most
+    // sensible memmove implementations do not care about data if size is 0,
+    // let's follow the standard and check the size first.
+    size_t CopySize=Min(DataSize,VM_MEMSIZE-Pos);
+    if (CopySize!=0)
+      memmove(Mem+Pos,Data,CopySize);
+  }
 }
 
 
@@ -279,7 +287,10 @@ bool RarVM::ExecuteStandardFilter(VM_StandardFilters FilterType)
             PrevDelta=(signed char)(Predicted-PrevByte);
             PrevByte=Predicted;
 
-            int D=((signed char)CurByte)<<3;
+            int D=(signed char)CurByte;
+            // Left shift of negative value is undefined behavior in C++,
+            // so we cast it to unsigned to follow the standard.
+            D=(uint)D<<3;
 
             Dif[0]+=abs(D);
             Dif[1]+=abs(D-D1);

@@ -39,6 +39,9 @@ enum FILE_MODE_FLAGS {
   // Provide read access to created file for other programs.
   FMF_SHAREREAD=16,
 
+  // Use standard NTFS names without trailing dots and spaces.
+  FMF_STANDARDNAMES=32,
+
   // Mode flags are not defined yet.
   FMF_UNDEFINED=256
 };

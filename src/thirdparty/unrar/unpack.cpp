@@ -135,7 +135,7 @@ void Unpack::Init(size_t WinSize,bool Solid)
 }
 
 
-void Unpack::DoUnpack(int Method,bool Solid)
+void Unpack::DoUnpack(uint Method,bool Solid)
 {
   // Methods <50 will crash in Fragmented mode when accessing NULL Window.
   // They cannot be called in such mode now, but we check it below anyway
@@ -206,6 +206,7 @@ void Unpack::UnpInitData(bool Solid)
   UnpInitData20(Solid);
 #endif
   UnpInitData30(Solid);
+  UnpInitData50(Solid);
 }
 
 

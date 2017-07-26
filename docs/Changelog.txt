@@ -14,6 +14,7 @@ next version - not released yet
 + Automatic encoding option for saving playlists. Uses UTF-8 encoding when applicable
 * Updated Little CMS to v2.9 (4be486f)
 * Updated sanear to v0.3
+* Updated Unrar to v5.5.7
 * Split internal MPEG source filter option into a PS and TS variant
 ! Fixed text subtitle rendering in Avisynth
 ! Fixed DPI scaling of non-client areas in main window

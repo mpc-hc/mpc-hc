@@ -120,7 +120,7 @@ _forceinline uint Unpack::DecodeNumber(BitInput &Inp,DecodeTable *Dec)
 
   // Convert the position in the code list to position in alphabet
   // and return it.
-  return(Dec->DecodeNum[Pos]);
+  return Dec->DecodeNum[Pos];
 }
 
 

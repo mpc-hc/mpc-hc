@@ -308,17 +308,17 @@ size_t Archive::ReadHeader15()
 
         if (FileBlock)
         {
+          *hd->FileName=0;
           if ((hd->Flags & LHD_UNICODE)!=0)
           {
             EncodeFileName NameCoder;
             size_t Length=strlen(FileName);
             Length++;
-            NameCoder.Decode(FileName,(byte *)FileName+Length,
-                             NameSize-Length,hd->FileName,
-                             ASIZE(hd->FileName));
+            if (ReadNameSize>Length)
+              NameCoder.Decode(FileName,(byte *)FileName+Length,
+                               ReadNameSize-Length,hd->FileName,
+                               ASIZE(hd->FileName));
           }
-          else
-            *hd->FileName=0;
 
           if (*hd->FileName==0)
             ArcCharToWide(FileName,hd->FileName,ASIZE(hd->FileName),ACTW_OEM);

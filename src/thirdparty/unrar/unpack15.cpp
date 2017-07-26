@@ -285,7 +285,7 @@ void Unpack::LongLZ()
       break;
   }
 
-  ChSetB[DistancePlace]=ChSetB[NewDistancePlace];
+  ChSetB[DistancePlace & 0xff]=ChSetB[NewDistancePlace];
   ChSetB[NewDistancePlace]=Distance;
 
   Distance=((Distance & 0xff00) | (Inp.fgetbits() >> 8)) >> 1;

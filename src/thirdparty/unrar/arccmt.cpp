@@ -7,7 +7,7 @@ bool Archive::GetComment(Array<wchar> *CmtData)
   SaveFilePos SavePos(*this);
 
 #ifndef SFX_MODULE
-  ushort CmtLength;
+  uint CmtLength;
   if (Format==RARFMT14)
   {
     Seek(SFXSize+SIZEOF_MAINHEAD14,SEEK_SET);
@@ -52,7 +52,7 @@ bool Archive::GetComment(Array<wchar> *CmtData)
     if (Format==RARFMT14)
     {
 #ifdef RAR_NOCRYPT
-      return(false);
+      return false;
 #else
       UnpCmtLength=GetByte();
       UnpCmtLength+=(GetByte()<<8);
@@ -96,6 +96,8 @@ bool Archive::GetComment(Array<wchar> *CmtData)
   }
   else
   {
+    if (CmtLength==0)
+      return false;
     Array<byte> CmtRaw(CmtLength);
     Read(&CmtRaw[0],CmtLength);
 

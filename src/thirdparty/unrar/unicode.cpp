@@ -510,19 +510,23 @@ int atoiw(const wchar *s)
 
 int64 atoilw(const wchar *s)
 {
-  int sign=1;
+  bool sign=false;
   if (*s=='-')
   {
     s++;
-    sign=-1;
+    sign=true;
   }
-  int64 n=0;
+  // Use unsigned type here, since long string can overflow the variable
+  // and signed integer overflow is undefined behavior in C++.
+  uint64 n=0;
   while (*s>='0' && *s<='9')
   {
     n=n*10+(*s-'0');
     s++;
   }
-  return sign*n;
+  // Check int64(n)>=0 to avoid the signed overflow with undefined behavior
+  // when negating 0x8000000000000000.
+  return sign && int64(n)>=0 ? -int64(n) : int64(n);
 }
 
 

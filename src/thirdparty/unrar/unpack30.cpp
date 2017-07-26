@@ -42,7 +42,7 @@ void Unpack::Unpack29(bool Solid)
     UnpInitData(Solid);
     if (!UnpReadBuf30())
       return;
-    if ((!Solid || !TablesRead) && !ReadTables30())
+    if ((!Solid || !TablesRead3) && !ReadTables30())
       return;
   }
 
@@ -133,7 +133,7 @@ void Unpack::Unpack29(bool Solid)
       continue;
     }
 
-    int Number=DecodeNumber(Inp,&BlockTables.LD);
+    uint Number=DecodeNumber(Inp,&BlockTables.LD);
     if (Number<256)
     {
       Window[UnpPtr++]=(byte)Number;
@@ -141,15 +141,15 @@ void Unpack::Unpack29(bool Solid)
     }
     if (Number>=271)
     {
-      int Length=LDecode[Number-=271]+3;
+      uint Length=LDecode[Number-=271]+3;
       if ((Bits=LBits[Number])>0)
       {
         Length+=Inp.getbits()>>(16-Bits);
         Inp.addbits(Bits);
       }
 
-      int DistNumber=DecodeNumber(Inp,&BlockTables.DD);
-      unsigned int Distance=DDecode[DistNumber]+1;
+      uint DistNumber=DecodeNumber(Inp,&BlockTables.DD);
+      uint Distance=DDecode[DistNumber]+1;
       if ((Bits=DBits[DistNumber])>0)
       {
         if (DistNumber>9)
@@ -166,7 +166,7 @@ void Unpack::Unpack29(bool Solid)
           }
           else
           {
-            int LowDist=DecodeNumber(Inp,&BlockTables.LDD);
+            uint LowDist=DecodeNumber(Inp,&BlockTables.LDD);
             if (LowDist==16)
             {
               LowDistRepCount=LOW_DIST_REP_COUNT-1;
@@ -189,7 +189,7 @@ void Unpack::Unpack29(bool Solid)
       if (Distance>=0x2000)
       {
         Length++;
-        if (Distance>=0x40000L)
+        if (Distance>=0x40000)
           Length++;
       }
 
@@ -218,13 +218,13 @@ void Unpack::Unpack29(bool Solid)
     }
     if (Number<263)
     {
-      int DistNum=Number-259;
-      unsigned int Distance=OldDist[DistNum];
-      for (int I=DistNum;I>0;I--)
+      uint DistNum=Number-259;
+      uint Distance=OldDist[DistNum];
+      for (uint I=DistNum;I>0;I--)
         OldDist[I]=OldDist[I-1];
       OldDist[0]=Distance;
 
-      int LengthNumber=DecodeNumber(Inp,&BlockTables.RD);
+      uint LengthNumber=DecodeNumber(Inp,&BlockTables.RD);
       int Length=LDecode[LengthNumber]+2;
       if ((Bits=LBits[LengthNumber])>0)
       {
@@ -237,7 +237,7 @@ void Unpack::Unpack29(bool Solid)
     }
     if (Number<272)
     {
-      unsigned int Distance=SDDecode[Number-=263]+1;
+      uint Distance=SDDecode[Number-=263]+1;
       if ((Bits=SDBits[Number])>0)
       {
         Distance+=Inp.getbits()>>(16-Bits);
@@ -274,11 +274,11 @@ bool Unpack::ReadEndOfBlock()
     NewTable=(BitField & 0x4000)!=0;
     Inp.addbits(2);
   }
-  TablesRead=!NewTable;
+  TablesRead3=!NewTable;
 
   // Quit immediately if "new file" flag is set. If "new table" flag
   // is present, we'll read the table in beginning of next file
-  // based on 'TablesRead' 'false' value.
+  // based on 'TablesRead3' 'false' value.
   if (NewFile)
     return false;
   return ReadTables30(); // Quit only if we failed to read tables.
@@ -290,9 +290,9 @@ bool Unpack::ReadVMCode()
   // Entire VM code is guaranteed to fully present in block defined 
   // by current Huffman table. Compressor checks that VM code does not cross
   // Huffman block boundaries.
-  unsigned int FirstByte=Inp.getbits()>>8;
+  uint FirstByte=Inp.getbits()>>8;
   Inp.addbits(8);
-  int Length=(FirstByte & 7)+1;
+  uint Length=(FirstByte & 7)+1;
   if (Length==7)
   {
     Length=(Inp.getbits()>>8)+7;
@@ -304,8 +304,10 @@ bool Unpack::ReadVMCode()
       Length=Inp.getbits();
       Inp.addbits(16);
     }
+  if (Length==0)
+    return false;
   Array<byte> VMCode(Length);
-  for (int I=0;I<Length;I++)
+  for (uint I=0;I<Length;I++)
   {
     // Try to read the new buffer if only one byte is left.
     // But if we read all bytes except the last, one byte is enough.
@@ -320,15 +322,15 @@ bool Unpack::ReadVMCode()
 
 bool Unpack::ReadVMCodePPM()
 {
-  unsigned int FirstByte=SafePPMDecodeChar();
+  uint FirstByte=SafePPMDecodeChar();
   if ((int)FirstByte==-1)
     return false;
-  int Length=(FirstByte & 7)+1;
+  uint Length=(FirstByte & 7)+1;
   if (Length==7)
   {
     int B1=SafePPMDecodeChar();
     if (B1==-1)
-      return(false);
+      return false;
     Length=B1+7;
   }
   else
@@ -342,12 +344,14 @@ bool Unpack::ReadVMCodePPM()
         return false;
       Length=B1*256+B2;
     }
+  if (Length==0)
+    return false;
   Array<byte> VMCode(Length);
-  for (int I=0;I<Length;I++)
+  for (uint I=0;I<Length;I++)
   {
     int Ch=SafePPMDecodeChar();
     if (Ch==-1)
-      return(false);
+      return false;
     VMCode[I]=Ch;
   }
   return AddVMCode(FirstByte,&VMCode[0],Length);
@@ -405,7 +409,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     StackFilter->ParentFilter=FiltPos;
   }
 
-  int EmptyCount=0;
+  uint EmptyCount=0;
   for (uint I=0;I<PrgStack.Size();I++)
   {
     PrgStack[I-EmptyCount]=PrgStack[I];
@@ -424,7 +428,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     PrgStack.Add(1);
     EmptyCount=1;
   }
-  int StackPos=(int)(PrgStack.Size()-EmptyCount);
+  size_t StackPos=PrgStack.Size()-EmptyCount;
   PrgStack[StackPos]=StackFilter;
  
   uint BlockStart=RarVM::ReadData(VMCodeInp);
@@ -458,7 +462,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   {
     uint InitMask=VMCodeInp.fgetbits()>>9;
     VMCodeInp.faddbits(7);
-    for (int I=0;I<7;I++)
+    for (uint I=0;I<7;I++)
       if (InitMask & (1<<I))
         StackFilter->Prg.InitR[I]=RarVM::ReadData(VMCodeInp);
   }
@@ -644,13 +648,13 @@ bool Unpack::ReadTables30()
     memset(UnpOldTable,0,sizeof(UnpOldTable));
   Inp.faddbits(2);
 
-  for (int I=0;I<BC;I++)
+  for (uint I=0;I<BC;I++)
   {
-    int Length=(byte)(Inp.fgetbits() >> 12);
+    uint Length=(byte)(Inp.fgetbits() >> 12);
     Inp.faddbits(4);
     if (Length==15)
     {
-      int ZeroCount=(byte)(Inp.fgetbits() >> 12);
+      uint ZeroCount=(byte)(Inp.fgetbits() >> 12);
       Inp.faddbits(4);
       if (ZeroCount==0)
         BitLength[I]=15;
@@ -667,13 +671,13 @@ bool Unpack::ReadTables30()
   }
   MakeDecodeTables(BitLength,&BlockTables.BD,BC30);
 
-  const int TableSize=HUFF_TABLE_SIZE30;
-  for (int I=0;I<TableSize;)
+  const uint TableSize=HUFF_TABLE_SIZE30;
+  for (uint I=0;I<TableSize;)
   {
     if (Inp.InAddr>ReadTop-5)
       if (!UnpReadBuf30())
         return(false);
-    int Number=DecodeNumber(Inp,&BlockTables.BD);
+    uint Number=DecodeNumber(Inp,&BlockTables.BD);
     if (Number<16)
     {
       Table[I]=(Number+UnpOldTable[I]) & 0xf;
@@ -682,7 +686,7 @@ bool Unpack::ReadTables30()
     else
       if (Number<18)
       {
-        int N;
+        uint N;
         if (Number==16)
         {
           N=(Inp.fgetbits() >> 13)+3;
@@ -693,7 +697,9 @@ bool Unpack::ReadTables30()
           N=(Inp.fgetbits() >> 9)+11;
           Inp.faddbits(7);
         }
-        if (I>0)
+        if (I==0)
+          return false; // We cannot have "repeat previous" code at the first position.
+        else
           while (N-- > 0 && I<TableSize)
           {
             Table[I]=Table[I-1];
@@ -702,7 +708,7 @@ bool Unpack::ReadTables30()
       }
       else
       {
-        int N;
+        uint N;
         if (Number==18)
         {
           N=(Inp.fgetbits() >> 13)+3;
@@ -717,7 +723,7 @@ bool Unpack::ReadTables30()
           Table[I++]=0;
       }
   }
-  TablesRead=true;
+  TablesRead3=true;
   if (Inp.InAddr>ReadTop)
     return false;
   MakeDecodeTables(&Table[0],&BlockTables.LD,NC30);
@@ -733,7 +739,7 @@ void Unpack::UnpInitData30(bool Solid)
 {
   if (!Solid)
   {
-    TablesRead=false;
+    TablesRead3=false;
     memset(UnpOldTable,0,sizeof(UnpOldTable));
     PPMEscChar=2;
     UnpBlockType=BLOCK_LZ;

@@ -133,11 +133,13 @@ void Unpack::Unpack5MT(bool Solid)
         if (!CurData->HeaderRead)
         {
           CurData->HeaderRead=true;
-          if (!ReadBlockHeader(CurData->Inp,CurData->BlockHeader))
+          if (!ReadBlockHeader(CurData->Inp,CurData->BlockHeader) ||
+              !CurData->BlockHeader.TablePresent && !TablesRead5)
           {
             Done=true;
             break;
           }
+          TablesRead5=true;
         }
 
         // To prevent too high memory use we switch to single threaded mode
