@@ -70,7 +70,7 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
     bVMR9VSyncAccurate                = true;
     bVMR9FullscreenGUISupport         = false;
     bVMR9VSync                        = true;
-    bVMR9FullFloatingPointProcessing  = true;
+    bVMR9FullFloatingPointProcessing  = false;
     bVMR9HalfFloatingPointProcessing  = false;
     bVMR9ColorManagementEnable        = false;
     iVMR9ColorManagementInput         = VIDEO_SYSTEM_UNKNOWN;
