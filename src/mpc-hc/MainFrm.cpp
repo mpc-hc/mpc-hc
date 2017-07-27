@@ -11724,7 +11724,8 @@ int CMainFrame::SetupSubtitleStreams()
                             auto findCode = [](const CString & name, const CString & code) {
                                 int nPos = code.IsEmpty() ? -1 : name.Find(code);
                                 return ((nPos == 0 && name.GetLength() == code.GetLength())
-                                        || (nPos > 0 && (name[nPos - 1] == _T('[') || name[nPos - 1] == _T('\t'))));
+                                        || (nPos > 0 && (name[nPos - 1] == _T('[') || name[nPos - 1] == _T('\t'))))
+                                       || (nPos > 0 && name[nPos - 1] == _T('.') && (name.GetLength() >= (nPos + code.GetLength() + 1)) && name[nPos + code.GetLength()] == _T('.'));
                             };
                             // match anything that starts with the language name or that seems to use a code that matches
                             if (name.Find(l.name) != 0 && !findCode(name, l.name) && !findCode(name, l.iso6392) && !findCode(name, l.iso6391)) {
