@@ -22,7 +22,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 ## Main Features
 
 * Option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing)
-* Support for Windows Vista/7/8/8.1/10, including a 64-bit build
+* Support for modern Windows versions, including a 64-bit build
 * Support for [EVR/EVR CP](https://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
 * Supports most types of [subtitles](https://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
   including [BluRay](https://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
