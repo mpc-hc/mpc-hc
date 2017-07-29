@@ -1158,10 +1158,6 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
 msgstr "Tryb VMR-9 Mixer"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
-msgid "YUV Mixing"
-msgstr "Mieszanie YUV"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
 msgstr "Bufory EVR:"

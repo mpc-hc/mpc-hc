@@ -625,8 +625,8 @@ msgid "Clip"
 msgstr "Klip"
 
 msgctxt "IDC_DSSYSDEF"
-msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Filter perender video bawaan untuk DirectShow. Yang lainnya akan kembali ke berikut ini ketika mereka dengan alasan tertentu tidak bisa dimuat. Pada Windows XP ini sama dengan VMR-7 (windowed)."
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
+msgstr ""
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -641,8 +641,8 @@ msgid "Only available if you have DirectX 9 installed. Very stable but it will n
 msgstr "Hanya tersedia jika DirectX 9 terpasang di sistem Anda. Sangat stabil, tetapi tidak akan pernah menggunakan perenderan Overlay dan karena itu mungkin sedikit lebih lambat dari pengadon Overlay."
 
 msgctxt "IDC_DSVMR9REN"
-msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Sama seperti VMR-9 (windowed), tetapi dengan Allocator-Presenter plugin dari MPC-HC untuk subtitel. Pencerminan video overlay MUNGKIN bekerja. Warna destop \"True Color\" direkomendasikan. Direkomendasikan untuk Windows XP."
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
+msgstr ""
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -656,13 +656,9 @@ msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
 msgstr "Sama seperti perender Nihil normal, tetapi ini hanya akan menyambung ke jenis yang tidak terkompresi."
 
-msgctxt "IDC_DSEVR"
-msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Hanya tersedia pada Vista atau lebih baru atau pada XP dengan paling tidak .NET Framework 3.5 terpasang."
-
 msgctxt "IDC_DSEVR_CUSTOM"
-msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Sama seperti EVR, tetapi dengan Allocator-Presenter dari MPC-HC untuk subtitel dan paskapemrosesan. Direkomendasikan untuk Windows Vista atau yang lebih baru."
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
+msgstr ""
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -815,10 +811,6 @@ msgstr "Jika tidak ada dukungan Pixel Shader 2.0, simple bilinear akan otomatis 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
 msgstr "Atur VMR-9 (renderless) ke dalam mode pengadon, ini artinya sebagian besar pengendali pada halaman propertinya akan bekerja dan akan menggunakan worker thread terpisah untuk merender frame."
-
-msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Meningkatkan kinerja tetapi berakibat pada beberapa kompatibilitas perender."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."

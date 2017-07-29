@@ -1166,10 +1166,6 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
 msgstr "VMR-9 合成模式"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
-msgid "YUV Mixing"
-msgstr "YUV 合成"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
 msgstr "EVR 緩衝區:"

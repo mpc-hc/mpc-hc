@@ -613,8 +613,8 @@ msgid "Clip"
 msgstr "ক্লিপ"
 
 msgctxt "IDC_DSSYSDEF"
-msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShowর জন্য ডিফল্ট রেনডারার ফিল্টার। অন্যান্যগুলো কোন সমস্যায় পরে লোড করণে ব্যর্থ হলে এটাতেই ফিরে আসবে। Windown XPতে এটা এবং VMR-7 (windowed) একই রকম।"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
+msgstr ""
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -629,8 +629,8 @@ msgid "Only available if you have DirectX 9 installed. Very stable but it will n
 msgstr "DirectX 9 ইনস্টল করা থাকলেই শুধুমাত্র ব্যবহার করা যাবে। খুবই সুস্থিত কিন্তু এটা কখনোই Overlay রেনডারিং ব্যবহার করবে না আর সেজন্যই এটা Overlay mixer থেকে কিছুটা ধীরগতিসম্পন্ন।"
 
 msgctxt "IDC_DSVMR9REN"
-msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "VMR-9 (windowed)এর মত একই রকমের, তবে সাথে সাবটাইটেল প্রদর্শনে MPC-HCএর অ্যালোকেটর-প্রেজেন্টার প্লাগইন ব্যবহার করা হবে। Overlay ভিডিও মিররিং কাজ করতেও পারে। ডেস্কটপ কালার স্পেসের জন্য \"True Color\" নির্ধারণে পরামর্শ দেওয়া যাচ্ছে। এটা Windows XPতে ব্যবহারের জন্য পরামর্শ দেওয়া যাচ্ছে।"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
+msgstr ""
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -644,13 +644,9 @@ msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
 msgstr "সাধারণ Null rendererএর মত একই রকমের, তবে এটা শুধুমাত্র অসংকুচিত টাইপসমূহের সাথেই সংযুক্ত হবে।"
 
-msgctxt "IDC_DSEVR"
-msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "শুধুমাত্র Vista বা পরবর্তী সংস্করণসমূহে অথবা XPতেই অন্তত .NET Framework 3.5 ইনস্টল করা থাকলে ব্যবহার করা যাবে।"
-
 msgctxt "IDC_DSEVR_CUSTOM"
-msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "EVRএর মত একই রকমের, তবে সাথে সাবটাইটেল প্রদর্শন এবং প্রক্রিয়াকরণ-পরবর্তী কাজের জন্য MPC-HCএর অ্যালোকেটর-প্রেজেন্টার ব্যবহার করা হবে। এটা Windows Vista বা পরবর্তী সংস্করণসমূহে ব্যবহারের জন্য পরামর্শ দেওয়া যাচ্ছে।"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
+msgstr ""
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -803,10 +799,6 @@ msgstr "যদি পিক্সেল শেইডার 2.0 সমর্থ�
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
 msgstr "VMR-9 (renderless)কে মিক্সার মোডে নিয়ে যায়, এর মানে হল এটার প্রোপার্টি পেইজের বেশিরভাগ কন্ট্রোলসমূহই কাজ করবে এবং এটা ফ্রেমসমূহ রেনডার করার জন্য একটি আলাদা ওয়ার্কার থ্রেড ব্যবহার করবে।"
-
-msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "রেনডারারের কিছু সঙ্গতিপূর্ণতার বিনিময়ে কার্য-সম্পাদনের উন্নতিসাধন করে।"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."

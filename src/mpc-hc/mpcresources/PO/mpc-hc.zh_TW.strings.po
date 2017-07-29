@@ -620,8 +620,8 @@ msgid "Clip"
 msgstr "片段"
 
 msgctxt "IDC_DSSYSDEF"
-msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShow 預設的視訊繪製篩選器。當其它繪製器因為某些原因無法載入時，就會回復到這個設定。在 Windown XP 裡這個與 VMR-7 (視窗式) 相同。"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
+msgstr ""
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -636,8 +636,8 @@ msgid "Only available if you have DirectX 9 installed. Very stable but it will n
 msgstr "僅在您有安裝 DirectX 9 時可用。非常穩定，但永遠不會使用 Overlay 繪圖，也因此可能會比 Overlay 混合器還要慢一點。"
 
 msgctxt "IDC_DSVMR9REN"
-msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "和 VMR-9 (視窗式) 相同，但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出可能可以運作。建議使用「全彩」顯示桌面。"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
+msgstr ""
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -651,13 +651,9 @@ msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
 msgstr "與無繪製器相同，但只會連到未壓縮的類型。"
 
-msgctxt "IDC_DSEVR"
-msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "只能在 Vista 或以後或安裝了 .NET Framework 3.5 或更新的 XP 上使用。"
-
 msgctxt "IDC_DSEVR_CUSTOM"
-msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "和 EVR 相同，但擁有 MPC-HC 配置呈現器作顯示字幕和後處理。推薦用在 Windows Vista 及以後。"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
+msgstr ""
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -810,10 +806,6 @@ msgstr "如果沒有 Pixel Shader 2.0 的支援, 就會自動使用比較簡單�
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
 msgstr "將 VMR-9 (無轉換) 放進合成器模式, 這表示在內容頁面的多數控制項都能執行, 並使用獨立的工作執行緒來繪製畫面。"
-
-msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "以減少繪製器的相容性的代價來增加效能。"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."

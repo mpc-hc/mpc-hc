@@ -614,8 +614,8 @@ msgid "Clip"
 msgstr "Απόσπασμα"
 
 msgctxt "IDC_DSSYSDEF"
-msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Προεπιλεγμένο φίλτρο απόδοσης βίντεο DirectShow. Τα άλλα θα επιστρέψουν σ΄αυτό όταν για κάποιο λόγο δεν μπορούν να φορτωθούν. Στα Windows XP αυτό είναι όμοιο με το VMR-7 (παράθυρα)."
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
+msgstr ""
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -630,8 +630,8 @@ msgid "Only available if you have DirectX 9 installed. Very stable but it will n
 msgstr "Διαθέσιμο μόνο αν έχετε εγκαταστήσει το DirectX 9. Πολύ σταθερό αλλά ποτέ δεν θα χρησιμοποιήσει απόδοση Επικάλυψης και γι αυτό μπορεί να είναι λίγο πιο αργό απ΄ ότι ο μείκτης Επικάλυψης."
 
 msgctxt "IDC_DSVMR9REN"
-msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Ίδιο με το VMR-9 (σε παράθυρο), αλλά με το πρόσθετο Εκχώρησης-Παρουσίασης του MPC-HC για υποτιτλισμό. Το καθρέπτισμα βίντεο επικάλυψης ΕΝΔΕΧΕΤΑΙ να λειτουργεί. Συνιστάται το μέγιστο βάθος χρώματος οθόνης (32 bit). Συνιστάται για Windows XP."
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
+msgstr ""
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -645,13 +645,9 @@ msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
 msgstr "Όμοια με την κανονική ψευδή απόδοση, αλλά αυτή συνδέεται μόνο σε μη συμπιεσμένους τύπους."
 
-msgctxt "IDC_DSEVR"
-msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Είναι διαθέσιμη μόνο για Vista ή νεότερη έκδοση ή σε XP με εγκατεστημένο τουλάχιστον το .NET Framework 3.5."
-
 msgctxt "IDC_DSEVR_CUSTOM"
-msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Ίδιο με το EVR, αλλά με το πρόσθετο Εκχώρησης-Παρουσίασης του MPC-HC για υποτιτλισμό και τελική επεξεργασία. Συνιστάται για Windows Vista ή νεότερη έκδοση."
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
+msgstr ""
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -804,10 +800,6 @@ msgstr "Εάν δεν υπάρχει υποστήριξη Pixel Shader 2.0, χρ
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
 msgstr "Θέτει το VMR-9 (χωρίς απόδοση) σε λειτουργία μείκτη. Αυτό σημαίνει ότι τα περισσότερα από τα στοιχεία ελέγχου της σελίδας ιδιοτήτων θα λειτουργούν και θα χρησιμοποιούν ένα ξεχωριστό νήμα εργασίας για την απόδοση των καρέ."
-
-msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Βελτιώνει τις επιδόσεις εις βάρος κάποιας συμβατότητας του προγράμματος απόδοσης."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."

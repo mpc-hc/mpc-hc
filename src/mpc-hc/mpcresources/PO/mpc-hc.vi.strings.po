@@ -610,8 +610,8 @@ msgid "Clip"
 msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
-msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Bộ lọc dựng hình mặc định cho DirectShow. Bộ lọc này sẽ được sử dụng khi các bộ lọc khác không thể nạp vì lý do nào đó. Trên Windown XP, điều này cũng giống như VMR-7 (ở chế độ cửa sổ)."
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
+msgstr ""
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -626,8 +626,8 @@ msgid "Only available if you have DirectX 9 installed. Very stable but it will n
 msgstr "Chỉ có giá trị nếu bạn đã cài đặt DirectX 9. Rất ổn định nhưng nó sẽ không bao giờ sử dụng bộ dựng hình Overlay và điều này có thể gây ra việc xử lý chậm hơn so với bộ trộn Overlay."
 
 msgctxt "IDC_DSVMR9REN"
-msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Giống như VMR-9 (cửa sổ), nhưng với các plugin cấp phát của MPC-HC cho phụ đề. Lớp phủ phản chiếu video có thể làm việc. \"True Color\" không gian màu máy tính để bàn được khuyến khích. Đề nghị cho Windows XP."
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
+msgstr ""
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -641,13 +641,9 @@ msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
 msgstr "Giống như Null render bình thường, nhưng điều này sẽ chỉ kết nối với các loại không nén."
 
-msgctxt "IDC_DSEVR"
-msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Chỉ có trên Vista hoặc sau này hoặc trên XP với ít nhất. NET Framework 3.5 được cài đặt."
-
 msgctxt "IDC_DSEVR_CUSTOM"
-msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Giống như EVR, nhưng với các cấp phát của MPC-HC cho phụ đề và xử lý sau. Đề nghị cho Windows Vista hoặc mới hơn."
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
+msgstr ""
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -800,10 +796,6 @@ msgstr "Nếu không có hỗ trợ Pixel Shader 2.0, Bilinear đơn giản đư
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
 msgstr "Đặt VMR-9 (dựng hình kém hơn) vào chế độ trộn, điều này có nghĩa là hầu hết việc điều khiển trên trang riêng của nó sẽ sử dụng các luồng riêng biệt để dựng các khung hình."
-
-msgctxt "IDC_DSVMR9YUVMIXER"
-msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Cải thiện hiệu suất với chi phí của một số khả năng tương thích của trình phát."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
