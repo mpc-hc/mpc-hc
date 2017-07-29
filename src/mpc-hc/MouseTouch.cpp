@@ -313,7 +313,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         }
         return ret;
     };
-    m_drag = (!onButton() && !bIsOnFS) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
+    m_drag = (!onButton() && !bIsOnFS && AfxGetAppSettings().bClientDragWindow) ? Drag::BEGIN_DRAG : Drag::NO_DRAG;
     if (m_drag == Drag::BEGIN_DRAG) {
         GetWnd().SetCapture();
         m_beginDragPoint = point;

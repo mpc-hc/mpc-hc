@@ -687,6 +687,7 @@ public:
     HWND            hMasterWnd;
 
     bool            bHideWindowedControls;
+    bool            bClientDragWindow;
 
     int             nJpegQuality;
 

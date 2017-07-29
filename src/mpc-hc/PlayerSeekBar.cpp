@@ -548,7 +548,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         MoveThumb(point);
         VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
-        if (!m_pMainFrame->m_fFullScreen) {
+        if (!m_pMainFrame->m_fFullScreen && AfxGetAppSettings().bClientDragWindow) {
             MapWindowPoints(m_pMainFrame, &point, 1);
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
         }
