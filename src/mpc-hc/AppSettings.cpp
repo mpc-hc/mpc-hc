@@ -1076,12 +1076,10 @@ void CAppSettings::SaveSettings()
             pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER, uBufferDuration);
         }
 
-        BOOL bAllowBitstreaming;
-        sanear->GetAllowBitstreaming(&bAllowBitstreaming);
+        BOOL bAllowBitstreaming = sanear->GetAllowBitstreaming();
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, bAllowBitstreaming);
 
-        BOOL bCrossfeedEnabled;
-        sanear->GetCrossfeedEnabled(&bCrossfeedEnabled);
+        BOOL bCrossfeedEnabled = sanear->GetCrossfeedEnabled();
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, bCrossfeedEnabled);
 
         UINT32 uCutoffFrequency, uCrossfeedLevel;

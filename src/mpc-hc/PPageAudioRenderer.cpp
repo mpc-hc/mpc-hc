@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2016 see Authors.txt
+ * (C) 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -137,8 +137,8 @@ BOOL CPPageAudioRenderer::OnInitDialog()
         }
     }
 
-    s.sanear->GetAllowBitstreaming(&m_bAllowBitstreaming);
-    s.sanear->GetCrossfeedEnabled(&m_bCrossfeedEnabled);
+    m_bAllowBitstreaming = s.sanear->GetAllowBitstreaming();
+    m_bCrossfeedEnabled = s.sanear->GetCrossfeedEnabled();
 
     m_slider1.SetRangeMin(SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_MIN);
     m_slider1.SetRangeMax(SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_MAX);
