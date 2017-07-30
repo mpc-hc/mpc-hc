@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-13 11:17+0000\n"
-"Last-Translator: Roger <roger.espolet@gmail.com>\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:11+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -643,7 +643,7 @@ msgstr "El mateix que el rederitzador VMR-9 (sense renderitzat), però fa servir
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Renderitzador nul. Connecta amb qualsevol tipus de mitjà estil-vídeo i envia el mostreig entrant a anul·lació. Utilitzi'l si no necessita mostrar el vídeo i vol evitar el consum innecessari de la CPU."
+msgstr "Renderitzador nul. Connecta amb qualsevol tipus de fitxer multimèdia estil-vídeo i envia el mostreig entrant a anul·lació. Utilitzeu-lo si no necessiteu mostrar el vídeo i voleu evitar el consum innecessari de la CPU."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -2295,7 +2295,7 @@ msgstr "No es pot crear el fitxer"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
-msgstr "No es poden crear miniatures pels fitxers sense cap duració"
+msgstr "No es poden crear miniatures per als fitxers sense cap durada"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
@@ -2315,7 +2315,7 @@ msgstr "Mida del fitxer: %s (%s bytes)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
-msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nom del fitxer: %s\\N%sResolució: %dx%d %s\\NDuració: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nom del fitxer: %s\\N%sResolució: %dx%d %s\\NDurada: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
@@ -2659,7 +2659,7 @@ msgstr "Autor desconegut. Contacteu-nos si vostè és l'autor."
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "No hi ha més fitxers audiovisuals a la carpeta actual."
+msgstr "No hi ha més fitxers multimèdia a la carpeta actual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -3259,11 +3259,11 @@ msgstr "Restableix la configuració del color"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr "\nJa estàs utilitzant l'última versió estable."
+msgstr "\nEsteu utilitzant la darrera versió estable."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "La teva versió actual és v%s.\n\nL'útima versió estable és v%s."
+msgstr "La vostra versió actual és v%s.\n\nLa darrera versió estable és v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"

@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-03 20:15+0000\n"
-"Last-Translator: Luan <luanmail@gmx.net>\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:11+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -617,7 +617,7 @@ msgstr "Details"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Verwendet den Standard-Renderer für DirectShow-Video. Alle anderen Renderer fallen auf diesen Renderer zurück, wenn sie nicht geladen werden können."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -633,7 +633,7 @@ msgstr "Arbeitet sehr stabil, bietet aber keinen Overlay-Modus und kann dadurch 
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Bietet im Unterschied zum VMR-9 (windowed) eine Unterstützung für Untertitel. Die gespiegelte Darstellung eines Overlay-Videos KÖNNTE funktionieren. Desktop-Farbtiefe sollte auf Echtfarben eingestellt sein."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -649,7 +649,7 @@ msgstr "Unterstützt im Unterschied zum Null Video Renderer (anything) nur unkom
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Bietet anders als der EVR eine Unterstützung für Untertitel und Postprocessing. Wird empfohlen."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."

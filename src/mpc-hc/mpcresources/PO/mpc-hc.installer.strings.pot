@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-22 16:46:36+0000\n"
+"POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgid "This will install [name] on your computer.\n\nIt is recommended that you 
 msgstr ""
 
 msgctxt "Messages_WinVersionTooLowError"
-msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgid "[name] requires Windows Vista or newer to run."
 msgstr ""
 
 msgctxt "CustomMessages_comp_mpciconlib"

@@ -27,167 +27,167 @@
 [Messages]
 ; Arabic
 ar.WelcomeLabel2=سوف يتم تثبيت [name] على جهازك.%n%nيستحسن - قبل الاستمرار - إغلاق كافة البرامج المفتوحة 
-ar.WinVersionTooLowError=يتطلب [name] نظام تشغيل windows XP Service Pack 3 أو إصدار أحدث منه.
+ar.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Belarusian
 be.WelcomeLabel2=Зараз на ваш камп'ютар будзе ўсталявана праграма [name].%n%nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы.
-be.WinVersionTooLowError=Для запуску [name] патрабуецца Windows XP SP3 або навейшая.
+be.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Bengali
 bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। %n%nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।
-bn.WinVersionTooLowError=[NAME] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।
+bn.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Bosnian
 bs_BA.WelcomeLabel2=Ovo će instalirati  [name] na vaš računar.%n%nPreporučljivo je da, prije nastavka, zatvorite sve ostale programe.
-bs_BA.WinVersionTooLowError=[name] za pokretanje zahtijeva Windows XP Service Pack 3 ili noviji.
+bs_BA.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Catalan
-ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador.%n%nSe recomana tancar totes les aplicacions abans de continuar.
-ca.WinVersionTooLowError=[name] requereix Windows XP Service Pack 3 o superior perquè funcioni.
+ca.WelcomeLabel2=Aquest auxiliar instal·larà [name] al vostre ordinador.%n%nSe recomana tancar totes les aplicacions abans de continuar.
+ca.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Czech
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
-cs.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo novější.
+cs.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Danish
 da.WelcomeLabel2=Dette vil installere [name] på din computer.%n%nDet anbefales, at du lukker alle andre programmer, inden du fortsætter.
-da.WinVersionTooLowError=[name] kræver Windows XP Service Pack 3 eller nyere for at køre.
+da.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; German (Neutral)
 de.WelcomeLabel2=Hiermit wird der [name] installiert. Bitte alle anderen Anwendungen schließen, bevor Sie mit der Installation fortfahren.
-de.WinVersionTooLowError=Mindestvoraussetzung ist Windows XP mit Service Pack 3.
+de.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Greek (Greece)
 el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
-el.WinVersionTooLowError=Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότερο για να λειτουργήσει.
+el.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; English (United Kingdom)
 en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+en_GB.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Spanish
 es.WelcomeLabel2=Esto instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
-es.WinVersionTooLowError=[name] requiere Windows XP Service Pack 3 o posterior para funcionar.
+es.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
-eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
+eu.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Finnish
 fi.WelcomeLabel2=Tämä asentaa [name] tietokoneellesi.%n%nOn suositeltavaa, että suljet kaikki muut ohjelmat ennen kuin jatkat.
-fi.WinVersionTooLowError=[name] vaatii toimiakseen Windows XP Service Pack 3 tai uudemman.
+fi.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; French (France)
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
-fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
+fr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Galician
 gl.WelcomeLabel2=Isto instalará [name] no teu ordenador.%n%nRecoméndase que peches todas as aplicacións antes de seguir.
-gl.WinVersionTooLowError=[name] require Windows XP Service Pack 3 ou posterior.
+gl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Hebrew (Israel)
 he.WelcomeLabel2=תוכנית התקנה זו תתקין את [name] על מחשבך.%n%nמומלץ לסגור את שאר האפליקציות לפני שממשיכים.
-he.WinVersionTooLowError=[name] דורש Windows XP Service Pack 3 או חדש יותר כדי לרוץ.
+he.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Croatian
 hr.WelcomeLabel2=Ovo će instalirati [name] na vaše računalo.%n%nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite.
-hr.WinVersionTooLowError=Da bi se pokrenuo [name] potrebno je imati Windows XP Service Pack 3 ili novije.
+hr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Hungarian
 hu.WelcomeLabel2=Ez telepíteni fogja a(z) [name]-t a számítógépére.%n%nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt.
-hu.WinVersionTooLowError=Windows XP Service Pack 3 vagy újabb szükséges a(z) [name] futtatásához.
+hu.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Armenian (Armenia)
 hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել մյուս բոլոր ծրագրերը։
-hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
+hy.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Indonesian
 id.WelcomeLabel2=Ini akan memasang [name] di komputer Anda.%n%nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan.
-id.WinVersionTooLowError=[name] membutuhkan Windows XP Service Pack 3 atau yang lebih baru agar bisa dijalankan.
+id.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Italian
 it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
-it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
+it.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Japanese
 ja.WelcomeLabel2=このプログラムはご使用のコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。
-ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service Pack 3 以降が必要です。
+ja.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Korean
 ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
-ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3 또는 그 이상의 버전에서만 설치할 수 있습니다.
+ko.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Lithuanian
 lt.WelcomeLabel2=Ši programa įdiegs [name] į jūsų kompiuterį.%n%nRekomenduojama išjungti visas kitas programas, prieš pradedant diegimą.
-lt.WinVersionTooLowError=[name] veikimui reikalingas Windows XP su 3-čiu pakeitimų paketu arba naujesne versija.
+lt.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Malay (Malaysia)
 ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarankan anda tutup semua aplikasi lain sebelum diteruskan.
-ms_MY.WinVersionTooLowError=[name] memerlukan Windows XP Service Pack 3 atau yg lebih baharu untuk dijalankan.
+ms_MY.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Dutch (Neutral)
 nl.WelcomeLabel2=Dit programma zal [name] op uw computer installeren.%n%nHet is aanbevolen dat u alle andere toepassingen sluit voordat u verder gaat.
-nl.WinVersionTooLowError=[name] vereist Windows XP Service Pack 3 of hoger om te voeren werken.
+nl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Polish
 pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
-pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do poprawnego działania.
+pl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Portuguese (Brazil)
 pt_BR.WelcomeLabel2=Isto instalará o [name] no seu computador.%n%nÉ recomendável que você feche todos os outros programas antes de continuar.
-pt_BR.WinVersionTooLowError=[name] requer o Windows XP Service Pack 3 ou superior para ser executado.
+pt_BR.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Romanian
 ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideți toate celelalte aplicații înainte de a continua.
-ro.WinVersionTooLowError=[name] necesită Windows XP Service Pack 3 sau mai nou pentru a rula.
+ro.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Russian
 ru.WelcomeLabel2=Эта программа установит [name] на ваш компьютер.%n%nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения.
-ru.WinVersionTooLowError=[name] требует Windows XP Service Pack 3 или новее.
+ru.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Slovak
 sk.WelcomeLabel2=Teraz sa nainštaluje [name] do Vášho počítača.%n%nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy.
-sk.WinVersionTooLowError=[name] vyžaduje pre svoje fungovanie systém Windows XP Service Pack 3 alebo novší.
+sk.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Slovenian
 sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
-sl.WinVersionTooLowError=[name] zahteva za delovanje Windows XP Service Pack 3 ali novejše
+sl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Serbian (Cyrillic)
 sr.WelcomeLabel2=Овај програм ће инсталирати [name] на ваш рачунар.%n%nПре него што наставите, препоручује се да затворите све друге програме.
-sr.WinVersionTooLowError=[name] захтева Windows XP Service Pack 3 или новији.
+sr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
-sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
+sv.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Thai (Thailand)
 th_TH.WelcomeLabel2=สิ่งนี้จะติดตั้ง [name] บนคอมพิวเตอร์ของคุณ%n%nขอแนะนำให้คุณปิดโปรแกรมอื่นๆ ก่อนทำขั้นตอนต่อไป
-th_TH.WinVersionTooLowError=[name] ต้องการ Windows XP Service Pack 3 หรือรุ่นที่ใหม่กว่าเพื่อปฏิบัติการ
+th_TH.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Turkish
 tr.WelcomeLabel2=[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.%n%nKuruluma geçmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
-tr.WinVersionTooLowError=[name] kurulumu, ancak Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
+tr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Tatar
 tt.WelcomeLabel2=Программа сезнең санакка [name] урнаштырачак.%n%nДәвам итү алдыннан барлык башка эшлекле кушымталарны ябарга кирәк.
-tt.WinVersionTooLowError=[name] программасы Windows XP Service Pack 3 яки югарырак таләп итә.
+tt.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Ukrainian
 uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
-uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
+uk.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Vietnamese
 vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
-vi.WinVersionTooLowError=Để cài đặt, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn.
+vi.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Chinese (P.R.C.)
 zh_CN.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在继续之前关闭所有其它的应用程序。
-zh_CN.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
+zh_CN.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Chinese (Taiwan)
 zh_TW.WelcomeLabel2=這將會安裝 [name] 在您的電腦中。%n%n建議您關閉所有其它應用程式後再繼續。
-zh_TW.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
+zh_TW.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 
 [CustomMessages]
@@ -510,7 +510,7 @@ hy.tsk_AllUsers=Բոլորի համար
 hy.tsk_CurrentUser=Միայն ընթացիկ օգտվողի համար
 hy.tsk_Other=Լրացուցիչ.
 hy.tsk_ResetSettings=Վերակայել կարգավորումները
-hy.types_DefaultInstallation=Տեղադրել ըստ լռելյայն
+hy.types_DefaultInstallation=Տեղադրել ըստ լռելյայնի
 hy.types_CustomInstallation=Հարմարեցված տեղակայում
 hy.ViewChangelog=Փոփոխությունների ցանկը
 

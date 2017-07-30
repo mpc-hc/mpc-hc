@@ -2,9 +2,9 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2015
-# Adolfo Jayme-Barrientos, 2015
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2014
 # papu, 2014-2016
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2016

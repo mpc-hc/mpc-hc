@@ -2,9 +2,9 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2014
-# Adolfo Jayme-Barrientos, 2015-2016
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2014
+# Adolfo Jayme Barrientos, 2015-2016
+# Adolfo Jayme Barrientos, 2014
 # JellyFrog, 2013
 # squallmx <squallmx@users.sourceforge.net>, 2014
 # strel, 2014-2016

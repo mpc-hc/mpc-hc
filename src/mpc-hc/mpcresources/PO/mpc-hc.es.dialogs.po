@@ -2,9 +2,10 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme-Barrientos, 2014-2015
-# Adolfo Jayme-Barrientos, 2015-2016
-# Adolfo Jayme-Barrientos, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2017
+# Adolfo Jayme Barrientos, 2015-2016
+# Adolfo Jayme Barrientos, 2014
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
@@ -12,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
+"PO-Revision-Date: 2017-07-30 21:09+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +57,7 @@ msgstr "Grabar vídeo"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
-msgstr "Vista previa"
+msgstr "Previsualización"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
@@ -64,7 +65,7 @@ msgstr "Grabar audio"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
-msgstr "Vista previa"
+msgstr "Previsualización"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
@@ -196,7 +197,7 @@ msgstr "Acerca de"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2017 see Authors.txt"
-msgstr "Copyright © 2002-2017. Consulte Authors.txt"
+msgstr "Derechos de autor © 2002-2017. Consulte Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -236,7 +237,7 @@ msgstr "Nombre:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar al portapapeles"
+msgstr "Copiar en portapapeles"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -268,7 +269,7 @@ msgstr "Mostrar la ruta completa"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Sólo el nombre del archivo"
+msgstr "Solo el nombre del archivo"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
@@ -436,15 +437,15 @@ msgstr "Tras la reproducción"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default zoom"
-msgstr "Zoom predeterminado"
+msgstr "Escala predeterminada"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Zoom automático:"
+msgstr "Escala automática:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Factor del auto ajuste:"
+msgstr "Factor de ajuste automático:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"

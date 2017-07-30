@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-10-21 10:02+0000\n"
-"Last-Translator: streger <stjepan.treger@gmail.com>\n"
+"POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
+"PO-Revision-Date: 2017-07-30 21:14+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +23,8 @@ msgid "This will install [name] on your computer.\n\nIt is recommended that you 
 msgstr "Ovo će instalirati [name] na vaše računalo.\n\nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite."
 
 msgctxt "Messages_WinVersionTooLowError"
-msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "Da bi se pokrenuo [name] potrebno je imati Windows XP Service Pack 3 ili novije."
+msgid "[name] requires Windows Vista or newer to run."
+msgstr ""
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

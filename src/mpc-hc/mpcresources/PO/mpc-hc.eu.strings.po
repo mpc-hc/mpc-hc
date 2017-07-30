@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-04 12:42+0000\n"
-"Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:10+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Basque (http://www.transifex.com/mpc-hc/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,7 +610,7 @@ msgstr "Klipa"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "DirectShow-rako berezko bideo aurkezle iragazkiak. Besteak hauetara itzuliko dira zerbaitegaitik gertatuak izan ezin daitezkenean."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -626,7 +626,7 @@ msgstr "Eskuragarri bakarrik DirectX 9 ezarrita baduzu. Oso egonkorra baina inoi
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "VMR-9-ren berdina da (leihotuta), baina MPC-HC-ren Banantzaile-Aurkezle pluginarekin azpidatzientzat. Bideo gainjarpen ispiluak AHAL DA lan egitea. 'True Color' mahigain margo tartea gomendatuta."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -642,7 +642,7 @@ msgstr "Null aurkezle arrunta bezalakoa, baina honek hertsatugabeko motak bakarr
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "EVR bezalakoa, baina MPC-HC Esleitzaile-Aurkeztzailearekin azpidatzi eta prozesatu-ondorenerako. Gomendatua."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."

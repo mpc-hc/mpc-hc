@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2016-11-30 23:47+0000\n"
-"Last-Translator: scootergrisen\n"
+"POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
+"PO-Revision-Date: 2017-07-30 21:14+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +23,8 @@ msgid "This will install [name] on your computer.\n\nIt is recommended that you 
 msgstr "Dette vil installere [name] på din computer.\n\nDet anbefales, at du lukker alle andre programmer, inden du fortsætter."
 
 msgctxt "Messages_WinVersionTooLowError"
-msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] kræver Windows XP Service Pack 3 eller nyere for at køre."
+msgid "[name] requires Windows Vista or newer to run."
+msgstr ""
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

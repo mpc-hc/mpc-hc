@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rubén <feiticeiro2010@hotmail.es>, 2014-2016
+# Rubén <feiticeiro2010@hotmail.es>, 2014-2017
 # Toño Calo <enfeitizador@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
+"PO-Revision-Date: 2017-07-30 21:09+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Galician (http://www.transifex.com/mpc-hc/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -887,7 +887,7 @@ msgstr "Sel. Todos"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Reiniciar Sel."
+msgstr "Reiniciar sel."
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -1075,11 +1075,11 @@ msgstr "Se prefire utilizar as versións independentes destes filtros ou algún 
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Filtros de Fontes"
+msgstr "Filtros de fontes"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Filtros de Transformación"
+msgstr "Filtros de transformación"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"

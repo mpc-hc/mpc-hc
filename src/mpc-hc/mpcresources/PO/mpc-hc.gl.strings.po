@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-03 15:00+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:13+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Galician (http://www.transifex.com/mpc-hc/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -483,11 +483,11 @@ msgstr "Axustes"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Filtros Internos::Cambia Audio"
+msgstr "Filtros Internos::Cambiar audio"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Filtros Externos"
+msgstr "Filtros externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
@@ -587,7 +587,7 @@ msgstr "Subtítulos::Estilo predefinido"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Filtros Internos"
+msgstr "Filtros internos"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
@@ -1351,23 +1351,23 @@ msgstr "Baixar"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Ordear por número de canle lóxico (LCN)"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Eliminar todo"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Está seguro de que quere eliminar todas as canles da lista?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Non hai información dispoñible"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Por favor agarde, estase analizando..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
@@ -1611,7 +1611,7 @@ msgstr "Diminuír taxa"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Reiniciar Velocidade"
+msgstr "Reiniciar velocidade"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -1819,7 +1819,7 @@ msgstr "%d subtítulo(s) dispoñible(s)."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Desexas comprobar periódicamente se hai actualizacións dispoñibles para MPC-HC?\n\nEsta característica pode ser inhabilitada logo dende a páxina de opcións Misceláneas."
+msgstr "Desexas comprobar periódicamente se hai actualizacións dispoñibles para MPC-HC?\n\nEsta característica pode ser inhabilitada logo dende a páxina de opcións misceláneas."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -3971,5 +3971,5 @@ msgstr "Usar antiga barra de ferramentas en lugar da nova vectorizada."
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Copiar URL"
 

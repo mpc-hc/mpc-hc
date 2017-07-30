@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Dean Lee <xslidian@gmail.com>, 2015
+# Dian Li <xslidian@gmail.com>, 2015
 # Ming Chen <yzonline@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-07-24 08:44+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
+"PO-Revision-Date: 2017-07-30 21:14+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,8 +22,8 @@ msgid "This will install [name] on your computer.\n\nIt is recommended that you 
 msgstr "这将安装 [name] 到您的计算机中。\n\n建议您在继续之前关闭所有其它的应用程序。"
 
 msgctxt "Messages_WinVersionTooLowError"
-msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] 要求 Windows XP Service Pack 3 或更高版本。"
+msgid "[name] requires Windows Vista or newer to run."
+msgstr ""
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

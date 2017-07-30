@@ -2,7 +2,7 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# schop <aprcel00@fesb.hr>, 2014-2016
+# schop <aprcel00@fesb.hr>, 2014-2017
 # iivana24 <iivana24@gmail.com>, 2014
 # streger <stjepan.treger@gmail.com>, 2014-2016
 # Goran Džaferi <the.vbm@gmail.com>, 2014
@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-03 15:00+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:11+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -615,7 +615,7 @@ msgstr "Isječak"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Zadani video filtar za DirectShow. U slučaju da se ostali ne mogu učitati, biti će podešeni na ovaj."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -631,7 +631,7 @@ msgstr "Dostupno samo ako imate DirectX 9 instaliran. Vrlo stabilno ali nikada n
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Isti kao VMR-9 (u prozoru) ali sa Allocator-Presenter dodatkom iz MPC-HC za titlove. Zrcaljenje videa u sloju izna će MOŽDA raditi. Preporučen je \"True Color\" sustav boja radne površine."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -647,7 +647,7 @@ msgstr "Isti kao normalni Null prikazivač ali ovaj se samo spaja na nekomprimir
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Isti kao EVR ali sa Allocator-Presenter-om iz MPC-HC za titlove i postprocesiranje. Preporučeno. "
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -3591,7 +3591,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr ""
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3975,5 +3975,5 @@ msgstr "Koristi zastarjelu alatnu traku umjesto nove vektorske."
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
-msgstr ""
+msgstr "Kopiraj Link"
 

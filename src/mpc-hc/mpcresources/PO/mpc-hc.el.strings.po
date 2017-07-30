@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-07-17 16:27+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:13+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3959,7 +3959,7 @@ msgstr "/help /h /?\tΕμφάνιση βοήθειας για τις παραμ�
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr "Η οριακή βαθμολογία για υπότιτλους, η οποία θα γίνει λήψη αυτόματα. Υψηλότερες τιμές σημαίνει ότι η φόρτωση των υποτίτλων θα έχουν μεγαλύτερη ακρίβεια, χαμηλότερες τιμές μπορεί να οδηγήσει σε εσφαλμένη φόρτωση υποτίτλων, αλλά δεν υπάρχει μία ακριβής τιμή. Διάλεξε αυτό που λειτουργεί καλύτερα για σένα."
+msgstr "Οριακή τιμή για βαθμολογία υποτίτλων που θα ληφθούν αυτόματα. Υψηλότερες τιμές σημαίνουν ότι η φόρτωση των υποτίτλων θα έχει μεγαλύτερη ακρίβεια, χαμηλότερες τιμές μπορεί να οδηγήσουν σε εσφαλμένη φόρτωση υποτίτλων, αλλά δεν υπάρχει μία ακριβής τιμή. Επιλέξτε αυτή που λειτουργεί καλύτερα για εσάς."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"

@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
-# Dean Lee <xslidian@gmail.com>, 2015
+# Dian Li <xslidian@gmail.com>, 2015
 # kasper93, 2013
 # Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""

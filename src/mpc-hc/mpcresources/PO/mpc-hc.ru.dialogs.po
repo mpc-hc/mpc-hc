@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
-# Arkady Shapkin <arkadiy_s@inbox.ru>, 2015
+# Arkady “KindDragon” Shapkin <arkadiy_s@inbox.ru>, 2015
 # birkoff <birkoff.anarchist@gmail.com>, 2015
 # Evgeniy Kupras <zheka20012@yandex.ru>, 2016
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
-# Kirill <stryaponoff@gmail.com>, 2014,2016
+# Kirill Stryaponoff <stryaponoff@gmail.com>, 2014,2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 # Victor Bychek, 2015-2016
 # Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
+"PO-Revision-Date: 2017-07-30 21:09+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-06-03 12:18:37+0000\n"
-"PO-Revision-Date: 2017-06-07 15:27+0000\n"
-"Last-Translator: Samir Gutić <amicussamir@amicus.ba>\n"
+"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
+"PO-Revision-Date: 2017-07-30 21:11+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Bosnian (Bosnia and Herzegovina) (http://www.transifex.com/mpc-hc/mpc-hc/language/bs_BA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,7 +610,7 @@ msgstr "Isječak"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Podrazumijevani filter za DirectShow video renderer. Ostali će biti zamijenjeni ovim kada, iz nekog razloga, ne mogu biti učitani."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -626,7 +626,7 @@ msgstr "Dostupno samo ako imate instaliran DirectX 9. Vrlo stabilan, ali nikada 
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Isto ako VMR-9 (u prozoru) ali sa Allocator-Prezenter MPC-HC dodatkom za titlovanje. \nKreiranje zrcalne slike videa će MOŽDA raditi. Preporučen je izbor \"True Color\" desktop podešenja."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -642,7 +642,7 @@ msgstr "Isto kao Null renderer, samo što će se ovo konektovatisamo na nekompre
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Isto kao EVR ali sa Allocator-Prezenter MPC-HC dodatkom za titlovanje i postprocesiranje. Preporučeno."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
