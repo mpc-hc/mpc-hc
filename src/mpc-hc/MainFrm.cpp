@@ -100,7 +100,7 @@
 #include <dvdevcod.h>
 #include <dvdmedia.h>
 #include <strsafe.h>
-#include <VersionHelpers.h>
+#include <VersionHelpersInternal.h>
 
 #include <initguid.h>
 #include <qnetwork.h>

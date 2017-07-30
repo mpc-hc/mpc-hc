@@ -33,7 +33,7 @@
 #include "moreuuids.h"
 #include "mplayerc.h"
 #include "../thirdparty/sanear/sanear/src/Factory.h"
-#include <VersionHelpers.h>
+#include <VersionHelpersInternal.h>
 #include <mvrInterfaces.h>
 
 #pragma warning(push)

@@ -109,6 +109,8 @@ IF EXIST "%FILE_DIR%signinfo.txt" (
   IF /I "%ZIP%" == "True"       SET "SIGN=True"
 )
 
+REM Set version for DX libraries
+CALL "%COMMON%" :SubParseConfig
 
 :Start
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
@@ -145,9 +147,9 @@ IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=amd64)
 IF /I "%COMPILER%" == "VS2017" (
-  CALL "%TOOLSET%" -no_logo -arch=%ARCH%
+  CALL "%TOOLSET%" -no_logo -arch=%ARCH% -winsdk=%MPCHC_WINSDK_VER%
 ) ELSE (
-  CALL "%TOOLSET%" %ARCH%
+  CALL "%TOOLSET%" %ARCH% %MPCHC_WINSDK_VER%
 )
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
@@ -333,10 +335,10 @@ EXIT /B
 :SubCopyDXDll
 IF /I "%BUILDCFG%" == "Debug" EXIT /B
 PUSHD "%BIN_DIR%"
-COPY /Y /V "%WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_47.dll" "mpc-hc_%~1%~2" >NUL
-IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when copying %WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_47.dll" & EXIT /B
-EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll "mpc-hc_%~1%~2"
-IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting Jun2010_d3dx9_43_%~1.cab" & EXIT /B
+COPY /Y /V "%WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_%MPC_D3D_COMPILER_VERSION%.dll" "mpc-hc_%~1%~2" >NUL
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when copying %WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_%MPC_D3D_COMPILER_VERSION%.dll" & EXIT /B
+EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_%MPC_DX_SDK_NUMBER%_%~1.cab" -F:d3dx9_%MPC_DX_SDK_NUMBER%.dll "mpc-hc_%~1%~2"
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting Jun2010_d3dx9_%MPC_DX_SDK_NUMBER%_%~1.cab" & EXIT /B
 POPD
 EXIT /B
 
@@ -458,8 +460,8 @@ IF /I "%NAME%" == "MPC-HC" (
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest"  "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
   )
-  COPY /Y /V "%VS_OUT_DIR%\d3dcompiler_47.dll"            "%PCKG_NAME%\d3dcompiler_47.dll" >NUL
-  COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\d3dcompiler_%MPC_D3D_COMPILER_VERSION%.dll" "%PCKG_NAME%\d3dcompiler_%MPC_D3D_COMPILER_VERSION%.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\d3dx9_%MPC_DX_SDK_NUMBER%.dll"              "%PCKG_NAME%\d3dx9_%MPC_DX_SDK_NUMBER%.dll" >NUL
   IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
   COPY /Y /V "..\src\mpc-hc\res\shaders\external\*.hlsl" "%PCKG_NAME%\Shaders" >NUL
   IF /I "%BUILDCFG%" NEQ "Debug" IF /I "%BUILDCFG%" NEQ "Debug Lite" IF EXIST "%VS_OUT_DIR%\CrashReporter\crashrpt.dll" (
@@ -519,7 +521,6 @@ EXIT /B
 
 
 :MissingVar
-COLOR 0C
 TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.

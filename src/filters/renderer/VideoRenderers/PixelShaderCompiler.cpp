@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "PixelShaderCompiler.h"
 #include "../../../mpc-hc/resource.h"
+#include <mpc-hc_config.h>
 #include <d3d9.h>
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
@@ -31,6 +32,8 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
     , m_pD3DDev(pD3DDev)
     , m_Cache(pD3DDev)
 {
+    static_assert(D3D_COMPILER_VERSION == MPC_D3D_COMPILER_VERSION,
+                  "MPC_D3D_COMPILER_VERSION define used in the installer needs to be updated.");
     m_hDll = LoadLibrary(D3DCOMPILER_DLL);
 
     if (m_hDll) {

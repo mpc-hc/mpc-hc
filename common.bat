@@ -46,6 +46,13 @@ FOR %%G IN (%~1) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND EXIT /B 1
 EXIT /B
 
+:SubParseConfig
+REM Parses mpc-hc_confg.h for MPC* defines
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "include\mpc-hc_config.h"') DO (
+  IF NOT DEFINED %%A SET "%%A=%%B"
+)
+EXIT /B
+
 :SubGetVersion
 REM Get the version
 IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
@@ -107,7 +114,7 @@ FOR /F "tokens=2*" %%A IN (
 EXIT /B
 
 :SubVSPath
-FOR /f "delims=" %%A IN ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath -latest -requires Microsoft.Component.MSBuild Microsoft.VisualStudio.Component.VC.ATLMFC Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP') DO SET MPCHC_VS_PATH=%%A
+FOR /f "delims=" %%A IN ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath -latest -requires Microsoft.Component.MSBuild Microsoft.VisualStudio.Component.VC.ATLMFC Microsoft.VisualStudio.Component.VC.Tools.x86.x64') DO SET "MPCHC_VS_PATH=%%A"
 EXIT /B
 
 :SubMsg

@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <VersionHelpers.h>
+#include <VersionHelpersInternal.h>
 #include "mplayerc.h"
 #include "FileAssoc.h"
 #include "resource.h"

@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2013-2016 see Authors.txt
+ * (C) 2013-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,6 +55,12 @@
 
 #define MPC_DX_SDK_MONTH  _T("June")
 #define MPC_DX_SDK_YEAR   2010
+// Used in the installer
 #define MPC_DX_SDK_NUMBER 43
+#define MPC_D3D_COMPILER_VERSION 47
+#ifndef ISPP_INVOKED
+// Used in build scripts
+#define MPCHC_WINSDK_VER 8.1
+#endif
 
 #endif // MPC_HC_CONFIG_H

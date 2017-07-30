@@ -251,7 +251,7 @@ Source: {#bindir}\{#lavfiltersdir}\*.dll;       DestDir: {app}\{#lavfiltersdir};
 Source: {#bindir}\{#lavfiltersdir}\*.ax;        DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
 Source: {#bindir}\{#lavfiltersdir}\*.manifest;  DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
 #endif
-Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#bindir}\d3dcompiler_{#MPC_D3D_COMPILER_VERSION}.dll; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;               DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 Source: {#bindir}\{#mpchc_exe};                 DestDir: {app}; Components: main;         Flags: ignoreversion
@@ -261,10 +261,10 @@ Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
 #ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
+Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\crashrpt.dll;            DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\dbghelp.dll;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\sendrpt.exe;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
-Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 #endif
 
 

@@ -22,7 +22,7 @@
 
 #include <map>
 #include <unordered_set>
-#include <VersionHelpers.h>
+#include <VersionHelpersInternal.h>
 
 #include "EventDispatcher.h"
 

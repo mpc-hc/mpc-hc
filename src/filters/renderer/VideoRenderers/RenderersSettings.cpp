@@ -23,6 +23,7 @@
 #include "RenderersSettings.h"
 #include "../../../mpc-hc/AppSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
+#include <mpc-hc_config.h>
 #include <d3d9.h>
 #include <d3d10.h>
 #include <dxgi.h>
@@ -125,7 +126,7 @@ LONGLONG CRenderersData::GetPerfCounter() const
 HINSTANCE CRenderersData::GetD3X9Dll()
 {
     // D3DX9 v43 is the latest available and will not get any update. We support only this specific version.
-    static_assert(D3DX_SDK_VERSION == 43, "Different D3DX9 version?");
+    static_assert(D3DX_SDK_VERSION == MPC_DX_SDK_NUMBER, "Different D3DX9 version?");
     if (m_hD3DX9Dll == nullptr) {
         m_strD3DX9Version.Format(_T("d3dx9_%u.dll"), D3DX_SDK_VERSION);
         m_hD3DX9Dll = LoadLibrary(m_strD3DX9Version);

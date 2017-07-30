@@ -24,7 +24,6 @@
    everything for every revision. It's currently used in mpcresources, mpciconlib
    and VideoRenderers projects.
  * MPC_VERSION_ARCH is currently used in VSFilter only.
- * MPC_DX_SDK_NUMBER is used in the installer.
  */
 #endif // ISPP_INVOKED
 
