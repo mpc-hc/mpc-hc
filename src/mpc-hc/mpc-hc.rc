@@ -3630,6 +3630,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_CMD_FULLSCREEN      "/fullscreen\tStart in fullscreen mode"
+    IDS_CMD_VIEWPRESET      "/viewpreset N\tStart with specific preset,\nwhere N is either ""1"" Minimal, ""2"" Compact or ""3"" Normal"
     IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
     IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
     IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"
