@@ -2099,6 +2099,12 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_ADD;
             } else if (sw == _T("randomize")) {
                 nCLSwitches |= CLSW_RANDOMIZE;
+            } else if (sw == _T("volume") && pos) {
+                int setVolumeVal = _ttoi(cmdln.GetNext(pos));
+                if (setVolumeVal >= 0 && setVolumeVal <= 100) {
+                    nVolume = setVolumeVal;
+                }
+                nCLSwitches |= CLSW_VOLUME;
             } else if (sw == _T("regvid")) {
                 nCLSwitches |= CLSW_REGEXTVID;
             } else if (sw == _T("regaud")) {

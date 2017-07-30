@@ -1542,6 +1542,7 @@
 #define IDS_CMD_NEW                     57506
 #define IDS_CMD_ADD                     57507
 #define IDS_CMD_RANDOMIZE               57508
+#define IDS_CMD_VOLUME                  57509   //change all below after merge
 #define IDS_CMD_REGVID                  57509
 #define IDS_CMD_REGAUD                  57510
 #define IDS_CMD_REGPL                   57511
