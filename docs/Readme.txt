@@ -1,25 +1,23 @@
-Media Player Classic - Home Cinema (MPC-HC) is a free and open-source audio
-and video player for Windows. MPC-HC is based on the original Guliverkli project
+Media Player Classic - Home Cinema (MPC-HC) is a free and open-source (OSS) video
+and audio player for Windows. MPC-HC is based on the original Guliverkli project
 and contains many additional features and bug fixes.
 
-We are in dire need of new developers of any kind. If you can code a little,
-or you can create logos for the player and images for the file associations,
-or you can create/maintain the main website, please join our IRC channel
-and talk to us. Find some easy ticket on our Trac, fix the problem,
-post the patch on Trac or come on IRC and we'll review it for you.
-Any help is always appreciated.
+We are in dire need of new developers of any kind. If you can code a little, or you can create
+logos for the player and images for the file associations, or you can create/maintain the main
+website, please join our IRC channel and talk to us. Any help is always appreciated.
 
-We care about keeping an open project open and free for contributions
-wherever they may come from.
+Find some easy ticket on our Trac, fix the problem, send a pull request,
+or post the patch on Trac or come on IRC and we'll review it for you.
+See CONTRIBUTING.md for more info.
 
 
 Main Features
 -------------
 * Option to remove tearing
-* Better support for Windows Vista/7, including a 64-bit build
+* Support for modern Windows versions, including a 64-bit build
 * Support for EVR/EVR CP (Enhanced Video Renderer)
-* Supports most types of subtitles including BD .sup files
-* Playback and recording of television, if a supported TV tuner is installed
+* Supports most types of subtitles including BluRay .sup files
+* Playback and recording of television programs, if a supported TV tuner card is installed
 * OSD info (On Screen Display)
 * Multi-Monitor support
 * Various pixel shaders
@@ -29,7 +27,7 @@ Main Features
 
 System Requirements
 -------------------
-* An SSE2 capable CPU
+* An SSE2-capable CPU
 * Windows Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
@@ -40,13 +38,18 @@ Source code:        https://github.com/mpc-hc
 Support Trac:       https://trac.mpc-hc.org/
 IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (https://webchat.freenode.net/)
 Donations:          https://mpc-hc.org/donate/
+Translations:       https://www.transifex.com/mpc-hc/mpc-hc/
 
 
 For the people involved in the development, see Authors.txt.
+
 MPC-HC's code is licensed under GPL v3 (see COPYING.txt).
 
 Translations are done by various translators (see Authors.txt).
 
+
+Third-party code
+----------------
 
 MPC-HC makes use of the following third-party code:
 

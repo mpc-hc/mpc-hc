@@ -22,7 +22,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 ## Main Features
 
 * Option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing)
-* Support for Windows Vista/7/8, including a 64-bit build
+* Support for modern Windows versions, including a 64-bit build
 * Support for [EVR/EVR CP](https://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
 * Supports most types of [subtitles](https://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
   including [BluRay](https://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
@@ -37,7 +37,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 ## System Requirements
 
-* An SSE2 capable CPU
+* An SSE2-capable CPU
 * Windows Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
@@ -49,6 +49,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * IRC Channel: [#mpc-hc](https://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
   / [#mpc-hc-dev](https://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](https://freenode.net/)
 * [Donations](https://mpc-hc.org/donate/)
+* [Translations](https://www.transifex.com/mpc-hc/mpc-hc/)
 
 
 For the people involved in the development, see [Authors.txt](/docs/Authors.txt).
