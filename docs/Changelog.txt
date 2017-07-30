@@ -15,6 +15,7 @@ next version - not released yet
 * Updated Little CMS to v2.9 (4be486f)
 * Updated nanosvg to 9a74da4
 * Updated sanear to v0.3
+* Updated tinyxml2 to v5.0.1
 * Updated Unrar to v5.5.7
 * Split internal MPEG source filter option into a PS and TS variant
 * End of support for Windows XP
