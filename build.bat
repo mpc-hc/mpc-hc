@@ -523,7 +523,7 @@ COLOR 0C
 TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
-ECHO See "docs\Compilation.txt" for more information.
+ECHO See "docs\Compilation.md" for more information.
 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 

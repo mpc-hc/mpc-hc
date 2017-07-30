@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2010-2013, 2015 see Authors.txt
+REM (C) 2010-2013, 2015, 2017 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -45,6 +45,6 @@ EXIT /B
 :MissingVar
 ECHO Not all build dependencies were found.
 ECHO.
-ECHO See "docs\Compilation.txt" for more information.
+ECHO See "docs\Compilation.md" for more information.
 ENDLOCAL
 EXIT /B 1

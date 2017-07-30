@@ -197,7 +197,7 @@ EXIT /B
 :MissingVar
 ECHO Not all build dependencies were found.
 ECHO.
-ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
+ECHO See "%ROOT_DIR%\docs\Compilation.md" for more information.
 CALL "%COMMON%" :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 
 
