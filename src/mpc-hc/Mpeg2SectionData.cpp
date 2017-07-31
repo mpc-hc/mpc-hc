@@ -471,7 +471,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
 HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 {
-    wchar_t descBuffer[10];
+    wchar_t descBuffer[6];
     time_t  tNow, tTime;
     tm      tmTime;
     long    timezone;
@@ -502,7 +502,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 
     localtime_s(&tmTime, &tTime);
     wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
-    descBuffer[6] = '\0';
+    descBuffer[5] = '\0';
     NowNext.strStartTime = descBuffer;
 
     // Duration:
@@ -516,7 +516,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     tTime += NowNext.duration;
     localtime_s(&tmTime, &tTime);
     wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
-    descBuffer[6] = '\0';
+    descBuffer[5] = '\0';
     NowNext.strEndTime = descBuffer;
 
     return S_OK;
