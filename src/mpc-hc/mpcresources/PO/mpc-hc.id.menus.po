@@ -446,7 +446,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Koreksi Beda AR Monitor/Destop"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pa&n & &Pindai"
 
 msgctxt "ID_VIEW_INCSIZE"

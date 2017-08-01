@@ -445,7 +445,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Monitör/Masaüstü AR Farkını &Düzelt"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Süzme && Tarama"
 
 msgctxt "ID_VIEW_INCSIZE"

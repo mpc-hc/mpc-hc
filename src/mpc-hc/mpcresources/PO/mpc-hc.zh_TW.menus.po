@@ -447,7 +447,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "修正顯示器/桌面的長寬比例差異(&C)"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "平移掃描(&C)"
 
 msgctxt "ID_VIEW_INCSIZE"

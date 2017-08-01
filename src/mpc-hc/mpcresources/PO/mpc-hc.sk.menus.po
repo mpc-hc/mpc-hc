@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Upraviť nastavenie AR monitora/Pra&covnej plochy"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Úpravy o&brazu"
 
 msgctxt "ID_VIEW_INCSIZE"

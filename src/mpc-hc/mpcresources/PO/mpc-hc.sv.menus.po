@@ -444,7 +444,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Korrigera bildförhållandet mellan skärm/skrivbord"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pan && S&can"
 
 msgctxt "ID_VIEW_INCSIZE"

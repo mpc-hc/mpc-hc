@@ -444,7 +444,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Διόρθωση οθόνης/Διαφορά αναλογιών"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Πανοραμική οπτική && Σάρ&ωση"
 
 msgctxt "ID_VIEW_INCSIZE"

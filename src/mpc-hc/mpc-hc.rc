@@ -1576,7 +1576,7 @@ BEGIN
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
-        POPUP "Pa&n&&Scan"
+        POPUP "Pa&n && Scan"
         BEGIN
             MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
             MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE
@@ -1749,7 +1749,7 @@ BEGIN
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
-        POPUP "Pa&n&&Scan"
+        POPUP "Pa&n && Scan"
         BEGIN
             MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
             MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE
@@ -2063,7 +2063,7 @@ BEGIN
                 END
                 MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
-            POPUP "Pa&n&&Scan"
+            POPUP "Pa&n && Scan"
             BEGIN
                 MENUITEM "&Increase Size",              ID_VIEW_INCSIZE
                 MENUITEM "&Decrease Size",              ID_VIEW_DECSIZE

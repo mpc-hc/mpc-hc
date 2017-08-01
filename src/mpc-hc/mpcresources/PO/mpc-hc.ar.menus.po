@@ -445,7 +445,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "تصحيح فرق النسبة الباعية للشاشة/سطح المكتب"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "بان اند سكان"
 
 msgctxt "ID_VIEW_INCSIZE"

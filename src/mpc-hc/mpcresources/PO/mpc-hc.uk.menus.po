@@ -441,7 +441,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Пропорції &монітору та роб. столу різні"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Розта&шування та розмір кадру"
 
 msgctxt "ID_VIEW_INCSIZE"

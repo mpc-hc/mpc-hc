@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Corriger le différentiel de proportion bureau/écran"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "&Recadrage"
 
 msgctxt "ID_VIEW_INCSIZE"

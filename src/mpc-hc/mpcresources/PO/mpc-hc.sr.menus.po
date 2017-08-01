@@ -444,7 +444,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Исправи разлику размере слике на монитору/радној површини"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Размера и положај &кадра"
 
 msgctxt "ID_VIEW_INCSIZE"

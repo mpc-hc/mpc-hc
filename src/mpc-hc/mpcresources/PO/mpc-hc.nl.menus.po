@@ -449,7 +449,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "AR afwijking scherm/bureaublad corrigeren"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pa&n && scan"
 
 msgctxt "ID_VIEW_INCSIZE"

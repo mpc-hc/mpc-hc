@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "모니터/바탕화면의 비율차이 수정"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "화면 크기/위치 조절"
 
 msgctxt "ID_VIEW_INCSIZE"

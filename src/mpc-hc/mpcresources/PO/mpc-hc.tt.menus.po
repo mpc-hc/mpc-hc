@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Монитора/эш өстәле үзенчәлеге аермасын исәпләү"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "&Кадр урнашуы һәм зурлыгы"
 
 msgctxt "ID_VIEW_INCSIZE"

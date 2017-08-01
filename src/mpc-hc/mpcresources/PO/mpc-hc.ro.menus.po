@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Corectează diferența RA Monitor/Desktop"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pa&noramare trunchiată"
 
 msgctxt "ID_VIEW_INCSIZE"

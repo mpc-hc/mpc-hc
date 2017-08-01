@@ -443,7 +443,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Ispravi razliku omjera slike na monitoru/radnoj površini"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Razvlače&nje slike"
 
 msgctxt "ID_VIEW_INCSIZE"

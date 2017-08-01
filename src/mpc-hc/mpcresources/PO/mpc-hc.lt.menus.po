@@ -443,7 +443,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Taisyti monitoriaus / darbalaukio kraštinių santykio skirtumą"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "&Padėtis ir dydis"
 
 msgctxt "ID_VIEW_INCSIZE"

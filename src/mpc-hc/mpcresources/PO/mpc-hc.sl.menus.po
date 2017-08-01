@@ -443,7 +443,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Popravi razliko razmerja strani&c Zaslon/Namizje"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pr&emakni in spremeni"
 
 msgctxt "ID_VIEW_INCSIZE"

@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "মনিটর/ডেস্কটপ AR বৈসাদৃশ্য ঠিককরণ (&C)"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "প্যানঅ্যান্ডস্ক্যান (&N)"
 
 msgctxt "ID_VIEW_INCSIZE"

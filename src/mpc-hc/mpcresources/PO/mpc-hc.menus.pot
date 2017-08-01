@@ -438,7 +438,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr ""
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr ""
 
 msgctxt "ID_VIEW_INCSIZE"

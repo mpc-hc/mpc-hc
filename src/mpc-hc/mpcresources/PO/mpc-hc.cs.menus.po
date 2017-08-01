@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Opravit rozdíl poměru stran monitoru a plochy"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pan&&S&can"
 
 msgctxt "ID_VIEW_INCSIZE"

@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "แ&ก้ไขค่าต่างอัตราส่วนฯ จอภาพ/เดสก์ท็อป"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "&ส่องและกวาด"
 
 msgctxt "ID_VIEW_INCSIZE"

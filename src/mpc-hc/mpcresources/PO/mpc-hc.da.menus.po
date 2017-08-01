@@ -443,7 +443,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "&Korrigér monitor/skrivebord h-b-forskelle"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "Pa&norering og skanning"
 
 msgctxt "ID_VIEW_INCSIZE"

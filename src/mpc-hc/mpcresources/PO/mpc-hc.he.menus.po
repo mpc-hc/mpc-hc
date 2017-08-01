@@ -442,7 +442,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "תקן הפרש יחס גובה-רוחב של מסך/שולחן עבודה"
 
 msgctxt "POPUP"
-msgid "Pa&n&&Scan"
+msgid "Pa&n && Scan"
 msgstr "הזזה וסריקה"
 
 msgctxt "ID_VIEW_INCSIZE"
