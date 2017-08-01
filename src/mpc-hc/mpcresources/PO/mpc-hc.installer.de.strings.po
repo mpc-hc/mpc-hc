@@ -4,13 +4,13 @@
 # Translators:
 # Gaugg_Markus, 2014
 # Gaugg_Markus, 2014
-# Luan <luanmail@gmx.net>, 2016
+# Luan <luanmail@gmx.net>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-07-31 21:37+0000\n"
+"Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr "Hiermit wird der [name] installiert. Bitte alle anderen Anwendungen schl
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr ""
+msgstr "Systemvoraussetzung ist Windows Vista oder neuer."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

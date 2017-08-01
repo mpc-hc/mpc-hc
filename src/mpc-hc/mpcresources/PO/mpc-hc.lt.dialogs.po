@@ -338,8 +338,8 @@ msgid "Remember last window size"
 msgstr "Įsiminti paskutinį lango dydį"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Įsiminti paskutinį Pan&Scan mastelį"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Įsiminti paskutinį Pan && Scan mastelį"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -838,7 +838,7 @@ msgid "OK"
 msgstr "Gerai"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Dydžio ir padėties priešnustatymai"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

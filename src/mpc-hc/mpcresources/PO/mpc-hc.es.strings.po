@@ -3848,7 +3848,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tAbre el siguiente archivo de la carpeta tras la reproducción"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
+msgid "/mute\t\tMute the audio"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
@@ -3924,8 +3924,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tSe inicia usando el preajuste \"Pr\" de shader ('sombreador')"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"nombre\"\tEspecifica el nombre del modo de reencuadre (pan&scan) a usar"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"nombre\"\tEspecifica el nombre del modo de reencuadre (Pan & Scan) a usar"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

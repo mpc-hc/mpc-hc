@@ -338,8 +338,8 @@ msgid "Remember last window size"
 msgstr "Lembrar tamaño da xanela"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Lembrar o último zoom Pan & scan"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Lembrar o último zoom Pan && scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -838,8 +838,8 @@ msgid "OK"
 msgstr "De acordo"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
-msgstr "Modos de Pan&Scan"
+msgid "Pan & Scan Presets"
+msgstr "Modos de Pan & Scan"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"

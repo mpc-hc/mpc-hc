@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xabier Aramendi <azpidatziak@gmail.com>, 2014
+# Xabier Aramendi <azpidatziak@gmail.com>, 2014,2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-07-31 07:45+0000\n"
+"Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/mpc-hc/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr "Honek [name] zure ordenagailuan ezarriko du.\n\nGomendatzen da beste apl
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr ""
+msgstr "[name] Windows Vista edo berriagoa behar du lan egiteko."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:11+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-07-31 23:16+0000\n"
+"Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/mpc-hc/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -613,7 +613,7 @@ msgstr "Ogólne"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Domyślny renderer obrazu dla DirectShow. Zostanie wybrany automatycznie, jeśli z jakiegoś powodu nie udaje się wczytać innego filtra renderującego."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -629,7 +629,7 @@ msgstr "Dostępny tylko gdy w systemie jest zainstalowany DirectX 9. Bardzo stab
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Renderuje przy użyciu tego samego filtra co „VMR-9 (windowed)”, lecz rozszerzono go o obsługę napisów. Powielanie obrazu w trybie nakładki może działać. Sugerowana jest 24-bitowa głębia kolorów pulpitu."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -645,7 +645,7 @@ msgstr "Działa tak samo jak „Null renderer (anything)”, ale podpina się ty
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Działa tak samo jak „EVR”, ponadto z modyfikacjami umożliwiającymi obsługę napisów oraz postprocessing (shadery). Zalecany."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -3840,8 +3840,8 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tOtwiera następny plik w folderze po zakończeniu odtwarzania"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
-msgstr ""
+msgid "/mute\t\tMute the audio"
+msgstr "/mute\t\tWycisza dźwięk"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3849,7 +3849,7 @@ msgstr "/fullscreen\tUruchamia w trybie pełnego ekranu"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tZacznij od konkretnego ustawienia wstępnego,\n\t\tgdzie N jest \"1\" Minimalny, \"2\" Kompaktowy lub \"3\" Normalny"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3869,7 +3869,7 @@ msgstr "/randomize\tMiesza listę odtwarzania"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tUstawia głośność, gdzie N jest zakresem od 0 do 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3916,8 +3916,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset „Pr”\tWybieranie konkretnego profilu shaderów"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns „name”\tWybieranie konkretnego profilu Pan&Scan"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns „name”\tWybieranie konkretnego profilu Pan & Scan"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

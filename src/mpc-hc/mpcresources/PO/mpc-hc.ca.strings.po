@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:11+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-07-31 11:41+0000\n"
+"Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -619,7 +619,7 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Filtre renderitzador de vídeo per defecte per al DirectShow. Els altres filtres recorreran a aquest quan no pugin carregar-se adequadament per algun motiu."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -635,7 +635,7 @@ msgstr "Només està disponible si té el DirectX 9 instal·lat. És molt establ
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "El mateix que VMR-9 (de finestra), però amb el plugin \"Asignador-Presentador\" de l'MPC pel subtitulat. Overlay video mirroring PODRIA funcionar. Se recomana la profunditat de color de l'escriptori \"Color Verdader\"."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -651,7 +651,7 @@ msgstr "Renderitzador nul igual que el normal, però aquest només es connectar�
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Igual que l'EVR, però amb el component Allocator-Presenter (assignador-presentador) de l'MPC-HC per al subtitulat i postprocessament. Recomanat."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -3846,8 +3846,8 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tObre el fitxer següent de la carpeta un cop acabada la reproducció"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
-msgstr ""
+msgid "/mute\t\tMute the audio"
+msgstr "/mute\t\tSilencia l'àudio"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3855,7 +3855,7 @@ msgstr "/fullscreen\tInicia el reproductor en pantalla completa"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tInicia amb una configuració preestablerta,\n\t\ton N és \"1\" Mínima, \"2\" Compacta o \"3\" Normal"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3875,7 +3875,7 @@ msgstr "/randomize\tReprodueix en un ordre aleatori la llista de reproducció"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tEstableix el volum, on N és un rang de 0 a 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3922,8 +3922,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tS'inicia fent servir el preajustament \"Pr\" de shader (ombrejador)"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"name\"\tEspecifica el nom del mode de reenquadrament (pan&scan) a utilitzar"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"name\"\tEspecifica el nom del mode de reenquadrament (Pan & Scan) a utilitzar"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

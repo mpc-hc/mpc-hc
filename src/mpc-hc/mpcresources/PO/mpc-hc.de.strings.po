@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:11+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-08-01 18:43+0000\n"
+"Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -649,7 +649,7 @@ msgstr "Unterstützt im Unterschied zum Null Video Renderer (anything) nur unkom
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr "Bietet anders als der EVR eine Unterstützung für Untertitel und Postprocessing. Wird empfohlen."
+msgstr "Bietet im Unterschied zum EVR eine Unterstützung für Untertitel und Postprocessing."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -1013,23 +1013,23 @@ msgstr "EDL-Ende festlegen"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
-msgstr "Pan&Scan: Um X-Achse spiegeln"
+msgstr "Pan & Scan: Um X-Achse spiegeln"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "PnS Rotate Y+"
-msgstr "Pan&Scan: Um Y-Achse drehen"
+msgstr "Pan & Scan: Um Y-Achse drehen"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "PnS Rotate Y-"
-msgstr "Pan&Scan: Um Y-Achse spiegeln"
+msgstr "Pan & Scan: Um Y-Achse spiegeln"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "PnS Rotate Z+"
-msgstr "Pan&Scan: Um Z-Achse drehen"
+msgstr "Pan & Scan: Um Z-Achse drehen"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "PnS Rotate Z-"
-msgstr "Pan&Scan: Um Z-Achse spiegeln"
+msgstr "Pan & Scan: Um Z-Achse spiegeln"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1785,27 +1785,27 @@ msgstr "Fenster immer im Vordergrund"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "Pan&Scan: Größe erhöhen"
+msgstr "Pan & Scan: Größe erhöhen"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "Pan&Scan: Breite erhöhen"
+msgstr "Pan & Scan: Breite erhöhen"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "Pan&Scan: Höhe erhöhen"
+msgstr "Pan & Scan: Höhe erhöhen"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "Pan&Scan: Größe verringern"
+msgstr "Pan & Scan: Größe verringern"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "Pan&Scan: Breite verringern"
+msgstr "Pan & Scan: Breite verringern"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "Pan&Scan: Höhe verringern"
+msgstr "Pan & Scan: Höhe verringern"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -1873,39 +1873,39 @@ msgstr "Bitte nur Zahlen zwischen 1 und 365 eingeben."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "Pan&Scan: Zentrieren"
+msgstr "Pan & Scan: Zentrieren"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "Pan&Scan: Nach links bewegen"
+msgstr "Pan & Scan: Nach links bewegen"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "Pan&Scan: Nach rechts bewegen"
+msgstr "Pan & Scan: Nach rechts bewegen"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "Pan&Scan: Nach oben bewegen"
+msgstr "Pan & Scan: Nach oben bewegen"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "Pan&Scan: Nach unten bewegen"
+msgstr "Pan & Scan: Nach unten bewegen"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
-msgstr "Pan&Scan: Nach oben-links bewegen"
+msgstr "Pan & Scan: Nach oben-links bewegen"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "Pan&Scan: Nach oben-rechts bewegen"
+msgstr "Pan & Scan: Nach oben-rechts bewegen"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
-msgstr "Pan&Scan: Nach unten-links bewegen"
+msgstr "Pan & Scan: Nach unten-links bewegen"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "PnS Down/Right"
-msgstr "Pan&Scan: Nach unten-rechts bewegen"
+msgstr "Pan & Scan: Nach unten-rechts bewegen"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2629,11 +2629,11 @@ msgstr "Videobild: Fenster von außen berühren"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Pan&Scan: Zurücksetzen"
+msgstr "Pan & Scan: Zurücksetzen"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
-msgstr "Pan&Scan: Um X-Achse drehen"
+msgstr "Pan & Scan: Um X-Achse drehen"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -3844,8 +3844,8 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tÖffnet die nächste Ordnerdatei (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
-msgstr ""
+msgid "/mute\t\tMute the audio"
+msgstr "/mute\t\t\tStartet den Player mit Ton aus."
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3853,7 +3853,7 @@ msgstr "/fullscreen\tStartet den Player im Vollbild."
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tStartet den Player mit Fenster-Profil N (N > 0, siehe\n\t\tAnsicht-Menü)."
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3873,7 +3873,7 @@ msgstr "/randomize\tSortiert die Wiedergabeliste nach Zufall."
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tStartet den Player mit Lautstärke N (N >= 0 und\n\t\tN <= 100)."
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3913,15 +3913,15 @@ msgstr "/monitor N\tStartet den Player auf Monitor N (N > 0)."
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr "/audiorenderer N\tVerwendet den Audio-Renderer N (N > 0, siehe\n\t\tAusgabe-Optionen)."
+msgstr "/audiorenderer N\tVerwendet Audio-Renderer N (N > 0, siehe\n\t\tAusgabe-Optionen)."
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset \"P\"\tLädt das Shader-Profil \"P\"."
+msgstr "/shaderpreset \"P\"\tLädt Shader-Profil \"P\"."
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"P\"\t\tLädt das Pan&Scan-Profil \"P\"."
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"P\"\t\tLädt Pan & Scan-Profil \"P\"."
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -3937,7 +3937,7 @@ msgstr "/webport N\tAktiviert das Webinterface auf Port N."
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tZeigt die Debug-Information im OSD an."
+msgstr "/debug\t\tZeigt die Debug-Informationen im OSD an."
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
@@ -3945,11 +3945,11 @@ msgstr "/nocrashreporter\tDeaktiviert die Fehlerberichterstattung."
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"H\"\t\tStartet den Player im Slave-Modus mit dem\n\t\tFensterhandle \"H\"."
+msgstr "/slave \"H\"\t\tStartet den Player im Slave-Modus mit\n\t\tFensterhandle \"H\"."
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"I\"\tVerwendet für das Hardware-Decoding den\n\t\tGPU-Index \"I\" (nur CUVID und DXVA2 copy-back)."
+msgstr "/hwgpu \"I\"\tVerwendet für das Hardware-Decoding GPU-Index \"I\"\n\t\t(nur CUVID und DXVA2 copy-back)."
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"

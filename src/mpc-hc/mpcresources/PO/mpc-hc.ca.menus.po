@@ -8,13 +8,14 @@
 # papu, 2014-2016
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2017
 # Roger <roger.espolet@gmail.com>, 2016
 # papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-11-17 12:02+0000\n"
+"PO-Revision-Date: 2017-07-31 11:37+0000\n"
 "Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +158,7 @@ msgstr "&Mínima"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Compacte"
+msgstr "&Compacta"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -449,7 +450,7 @@ msgstr "Corregeix la diferència de &relació d'aspecte del monitor/escriptori"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Reenquadrament (pan&scan)"
+msgstr "Reenquadrament (Pan & Scan)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

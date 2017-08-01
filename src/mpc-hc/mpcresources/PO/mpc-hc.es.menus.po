@@ -447,7 +447,7 @@ msgstr "&Corregir diferencia de AR monitor/escritorio"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Reen&cuadre (pan&scan)"
+msgstr "Reen&cuadre (Pan & Scan)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

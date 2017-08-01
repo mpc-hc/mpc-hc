@@ -339,8 +339,8 @@ msgid "Remember last window size"
 msgstr "Тәрәзә зурлыгын хәтерләү"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Pan&Scan зумын хәтерләү"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Pan & Scan зумын хәтерләү"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -839,7 +839,7 @@ msgid "OK"
 msgstr "Ярар"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Зурлык һәм урынның алдагы көйләүләре"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
