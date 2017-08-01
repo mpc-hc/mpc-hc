@@ -258,7 +258,7 @@ BEGIN
     CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,180,160,8
     CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,193,160,8
     CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,206,160,8
-    CONTROL         "Remember last Pan&Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
+    CONTROL         "Remember last Pan && Scan Zoom",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,219,160,8
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 241
@@ -538,7 +538,7 @@ END
 
 IDD_PNSPRESET_DLG DIALOGEX 0, 0, 210, 120
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Pan&Scan Presets"
+CAPTION "Pan & Scan Presets"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LISTBOX         IDC_LIST1,5,5,125,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
@@ -777,7 +777,7 @@ BEGIN
     COMBOBOX        IDC_D3D9DEVICE_COMBO,147,165,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Reinitialize when changing display",IDC_RESETDEVICE,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,210,171,10
-    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,199,171,10
+    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,199,118,10
     CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,188,108,10
     CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,177,108,10
     RTEXT           "EVR Buffers:",IDC_EVR_BUFFERS_TXT,168,216,81,8
@@ -3625,7 +3625,7 @@ BEGIN
     IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
     IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
     IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
-    IDS_CMD_MUTE            "/mute\tMute the audio"
+    IDS_CMD_MUTE            "/mute\t\tMute the audio"
 END
 
 STRINGTABLE
@@ -3652,7 +3652,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan&Scan preset name to use"
+    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan & Scan preset name to use"
     IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
     IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
     IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
