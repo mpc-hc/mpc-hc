@@ -1,5 +1,5 @@
 /*
-* (C) 2015-2016 see Authors.txt
+* (C) 2015-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -148,6 +148,7 @@ private:
         AUTO_DOWNLOAD_SCORE_SERIES,
         DEFAULT_TOOLBAR_SIZE,
         USE_LEGACY_TOOLBAR,
+        SNAPSHOT_NAME_FORMAT,
     };
 
     enum {

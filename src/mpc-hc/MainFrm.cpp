@@ -4818,11 +4818,85 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
 
-static CString MakeSnapshotFileName(LPCTSTR prefix)
+static CString EscapeFormatSpecifiers(const CString& str)
 {
+    CString escapedStr = str;
+    escapedStr.Replace(_T("%"), _T("%%"));
+    return escapedStr;
+}
+
+static void ReplaceInvalidFormatSpecifiers(CString& str)
+{
+    int i = 0;
+    while ((i = str.Find(_T('%'), i)) >= 0) {
+        if ((i == str.GetLength() - 1)) { // % at end is not followed by any specifier, remove it
+            str.Truncate(str.GetLength() - 1);
+            return;
+        }
+
+        switch (str.GetAt(i + 1)) {
+            case _T('a'): // Only allow valid strftime() specifiers
+            case _T('A'):
+            case _T('b'):
+            case _T('B'):
+            case _T('c'):
+            case _T('C'):
+            case _T('d'):
+            case _T('D'):
+            case _T('e'):
+            case _T('F'):
+            case _T('g'):
+            case _T('G'):
+            case _T('h'):
+            case _T('H'):
+            case _T('I'):
+            case _T('j'):
+            case _T('m'):
+            case _T('M'):
+            case _T('n'):
+            case _T('p'):
+            case _T('r'):
+            case _T('R'):
+            case _T('S'):
+            case _T('t'):
+            case _T('T'):
+            case _T('u'):
+            case _T('U'):
+            case _T('V'):
+            case _T('w'):
+            case _T('W'):
+            case _T('x'):
+            case _T('X'):
+            case _T('y'):
+            case _T('Y'):
+            case _T('z'):
+            case _T('Z'):
+            case _T('%'):
+                break;
+            default:
+                // Replace invalid specifiers
+                str.SetAt(i + 1, _T('%'));
+                break;
+        }
+
+        i += 2;
+    }
+}
+
+static CString MakeSnapshotFileName(const CString& title, const CString& vidPos = _T(""))
+{
+    const auto& settings = AfxGetAppSettings();
+
+    CString formatString = settings.strSnapshotNameFormat;
+    CString escapedTitle = EscapeFormatSpecifiers(title);
+    formatString.Replace(_T("%f"), escapedTitle.GetString());
+    formatString.Replace(_T("%t"), vidPos);
+    ReplaceInvalidFormatSpecifiers(formatString);
+
     CTime t = CTime::GetCurrentTime();
-    CString fn;
-    fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix), t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapshotExt);
+    CString fn = t.Format(formatString) + settings.strSnapshotExt;
+    fn = PathUtils::FilterInvalidCharsFromFileName(fn);
+
     return fn;
 }
 
@@ -4880,15 +4954,15 @@ void CMainFrame::OnFileSaveImage()
 
     CPath psrc(s.strSnapshotPath);
 
-    CStringW prefix = _T("snapshot");
+    CString snapshotName = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName(), GetVidPos());
+        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
+        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName);
+        snapshotName = MakeSnapshotFileName(m_pDVBState->sChannelName);
     }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, snapshotName);
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -4948,17 +5022,17 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
-    CStringW prefix = _T("snapshot");
+    CString snapshotName = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName(), GetVidPos());
+        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
+        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName);
+        snapshotName = MakeSnapshotFileName(m_pDVBState->sChannelName);
     }
 
     CString fn;
-    fn.Format(_T("%s\\%s"), s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    fn.Format(_T("%s\\%s"), s.strSnapshotPath, snapshotName);
     SaveImage(fn);
 }
 
@@ -4978,13 +5052,13 @@ void CMainFrame::OnFileSaveThumbnails()
     }
 
     CPath psrc(s.strSnapshotPath);
-    CStringW prefix = _T("thumbs");
+    CString snapshotName = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_thumbs"), GetFileName());
+        snapshotName = MakeSnapshotFileName(GetFileName());
     } else {
         ASSERT(FALSE);
     }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, snapshotName);
 
     CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
                              _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());

@@ -3547,7 +3547,6 @@ STRINGTABLE
 BEGIN
     IDS_SUBTITLE_RENDERER_VS_FILTER "VSFilter / DirectVobSub"
     IDS_SUBTITLE_RENDERER_XY_SUB_FILTER "XySubFilter"
-    IDS_SUBTITLE_RENDERER_ASS_FILTER "AssFilter"
     IDS_SUBDL_DLG_PROVIDER_COL "Provider"
     IDS_SUBDL_DLG_HI_COL    "Hearing Impaired"
     IDS_SUBDL_DLG_DOWNLOADS_COL "Downloads"
@@ -3562,6 +3561,28 @@ BEGIN
     IDS_SUBUL_DLG_USERNAME_COL "Username"
     IDS_SUBUL_DLG_STATUS_COL "Status"
     IDS_SUBUL_DLG_STATUS_READY "Ready..."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan & Scan preset name to use"
+    IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
+    IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
+    IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
+    IDS_CMD_DEBUG           "/debug\t\tShow debug information in OSD"
+    IDS_CMD_NOCRASHREPORTER "/nocrashreporter\tDisable the crash reporter"
+    IDS_CMD_SLAVE           "/slave ""hWnd""\tUse MPC-HC as slave"
+    IDS_CMD_HWGPU           "/hwgpu ""index""\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+    IDS_CMD_RESET           "/reset\t\tRestore default settings"
+    IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
+    IDS_PPAGEADVANCED_SCORE "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay (ms)"
+    IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 
+                            "Size in pixels of the default toolbar."
+    IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
+                            "Use legacy toolbar instead of new vectorized one."
+    IDS_SUBTITLE_RENDERER_ASS_FILTER "AssFilter"
+    IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
 STRINGTABLE
@@ -3625,18 +3646,22 @@ BEGIN
     IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
     IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
     IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_VIEWPRESET      "/viewpreset N\tStart with specific preset,\n\t\twhere N is either ""1"" Minimal, ""2"" Compact or ""3"" Normal"
     IDS_CMD_MUTE            "/mute\t\tMute the audio"
+    IDS_CMD_VOLUME          "/volume N\tSet Volume, where N is a range from 0 to 100"
 END
 
 STRINGTABLE
 BEGIN
     IDS_CMD_FULLSCREEN      "/fullscreen\tStart in fullscreen mode"
-    IDS_CMD_VIEWPRESET      "/viewpreset N\tStart with specific preset,\n\t\twhere N is either ""1"" Minimal, ""2"" Compact or ""3"" Normal"
     IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
     IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
     IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"
     IDS_CMD_RANDOMIZE       "/randomize\tRandomize the playlist"
-    IDS_CMD_VOLUME          "/volume N\tSet Volume, where N is a range from 0 to 100"
     IDS_CMD_REGVID          "/regvid\t\tCreate file associations for video files"
     IDS_CMD_REGAUD          "/regaud\t\tCreate file associations for audio files"
     IDS_CMD_REGPL           "/regpl\t\tCreate file associations for playlist files"
@@ -3652,23 +3677,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan & Scan preset name to use"
-    IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
-    IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
-    IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
-    IDS_CMD_DEBUG           "/debug\t\tShow debug information in OSD"
-    IDS_CMD_NOCRASHREPORTER "/nocrashreporter\tDisable the crash reporter"
-    IDS_CMD_SLAVE           "/slave ""hWnd""\tUse MPC-HC as slave"
-    IDS_CMD_HWGPU           "/hwgpu ""index""\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-    IDS_CMD_RESET           "/reset\t\tRestore default settings"
-    IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
-    IDS_PPAGEADVANCED_SCORE "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay (ms)"
-    IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 
-                            "Size in pixels of the default toolbar."
-    IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
-                            "Use legacy toolbar instead of new vectorized one."
-    IDS_SUBMENU_COPYURL     "Copy URL"
+    IDS_PPAGEADVANCED_SNAPSHOT_NAME_FORMAT 
+                            "Filename format used for snapshots on ""Save Image"". %f is the video filename, %t is the current video position, %Y, %m, %d is the current year, month, day, etc."
 END
 
 #endif    // English (United States) resources

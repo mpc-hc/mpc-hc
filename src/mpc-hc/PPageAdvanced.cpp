@@ -1,5 +1,5 @@
 /*
-* (C) 2014-2016 see Authors.txt
+* (C) 2014-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -143,6 +143,7 @@ void CPPageAdvanced::InitSettings()
     addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
                std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
     addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
+    addCStringItem(SNAPSHOT_NAME_FORMAT, IDS_RS_SNAPSHOTNAMEFORMAT, _T("%f_snapshot_%t_[%Y.%m.%d_%H.%M.%S]"), s.strSnapshotNameFormat, StrRes(IDS_PPAGEADVANCED_SNAPSHOT_NAME_FORMAT));
 }
 
 BOOL CPPageAdvanced::OnApply()
@@ -344,7 +345,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_spinButtonCtrl.ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else if (auto pItemCString = std::dynamic_pointer_cast<SettingsCString>(pItem)) {
-                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
+                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_SPIN1 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
                 SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
