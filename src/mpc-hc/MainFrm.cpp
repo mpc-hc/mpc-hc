@@ -724,6 +724,7 @@ CMainFrame::CMainFrame()
     , m_bFirstPlay(false)
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
+    , m_restartState(State_Running)
     , m_fAudioOnly(true)
     , m_iDVDDomain(DVD_DOMAIN_Stop)
     , m_iDVDTitle(0)
@@ -3362,12 +3363,19 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // start playback if requested
     m_bFirstPlay = true;
     const auto uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
-    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
+    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0) && m_restartState == State_Running) {
         if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
                                      std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
         } else {
             OnPlayPlay();
+        }
+    } else if (m_restartState == State_Stopped) {
+        if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+                                     std::bind(&CMainFrame::OnPlayStop, this), uModeChangeDelay);
+        } else {
+            OnPlayStop();
         }
     } else {
         // OnUpdatePlayPauseStop() will decide if we can pause the media
@@ -3379,6 +3387,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         }
     }
     s.nCLSwitches &= ~CLSW_OPEN;
+    m_restartState = State_Running;
 
     // Ensure the dynamically added menu items are updated
     SetupFiltersSubMenu();
@@ -16953,4 +16962,14 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     pSubtitlesInfo->fileContents = UTF16To8(content);
     return TRUE;
+}
+
+void CMainFrame::ReopenFileAtSamePos()
+{
+    m_restartState = GetMediaState();
+
+    if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
+        return;
+    }
+    OpenCurPlaylistItem(GetPos());
 }
