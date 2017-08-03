@@ -344,7 +344,7 @@ msgid "Remember last window size"
 msgstr "Husk den sidste vinduesstørrelse"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
+msgid "Remember last Pan && Scan Zoom"
 msgstr "Husk sidste pan-og-skan zoom"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -844,7 +844,7 @@ msgid "OK"
 msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Panorering og skanning-forudindstillinger"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

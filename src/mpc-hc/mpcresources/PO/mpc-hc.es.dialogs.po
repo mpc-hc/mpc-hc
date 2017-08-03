@@ -344,8 +344,8 @@ msgid "Remember last window size"
 msgstr "Recordar tamaño de la ventana"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Recordar zoom del reencuadre (pan&scan)"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Recordar zoom del reencuadre (Pan && Scan)"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -844,8 +844,8 @@ msgid "OK"
 msgstr "Aceptar"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
-msgstr "Modos de reencuadre (pan&scan)"
+msgid "Pan & Scan Presets"
+msgstr "Modos de reencuadre (Pan & Scan)"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"

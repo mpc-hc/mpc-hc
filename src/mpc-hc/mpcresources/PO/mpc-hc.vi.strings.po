@@ -3838,7 +3838,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tMở tập tin kế tiếp trong thư mục sau khi phát xong"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
+msgid "/mute\t\tMute the audio"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
@@ -3914,8 +3914,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tKhởi động sử dụng thiết lập đổ bóng sẵn có \"Pr\""
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"name\"\tChỉ định tên thiết lập Pan&Scan sẵn có để sử dụng"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"name\"\tChỉ định tên thiết lập Pan & Scan sẵn có để sử dụng"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

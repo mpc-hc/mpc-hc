@@ -346,8 +346,8 @@ msgid "Remember last window size"
 msgstr "Ingat ukuran jendela terakhir"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Ingat Zum Pan&Scan terakhir"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Ingat Zum Pan && Scan terakhir"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -846,8 +846,8 @@ msgid "OK"
 msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
-msgstr "Prasetel Pan&Scan"
+msgid "Pan & Scan Presets"
+msgstr "Prasetel Pan & Scan"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"

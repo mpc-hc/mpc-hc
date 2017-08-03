@@ -337,7 +337,7 @@ msgid "Remember last window size"
 msgstr "Ingat saiz tetingkap terakhir"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
+msgid "Remember last Pan && Scan Zoom"
 msgstr "Ingatan Zum Lata-dan-Imbas terakhir"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -837,7 +837,7 @@ msgid "OK"
 msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Praset Lata&Imbas"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

@@ -338,7 +338,7 @@ msgid "Remember last window size"
 msgstr "Nhớ kích thước cuối"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
+msgid "Remember last Pan && Scan Zoom"
 msgstr "Nhớ phóng quét cuối"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -838,7 +838,7 @@ msgid "OK"
 msgstr "Đồng ý"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Cài đặt quét"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

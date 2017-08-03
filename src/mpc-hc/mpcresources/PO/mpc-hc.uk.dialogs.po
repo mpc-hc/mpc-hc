@@ -340,8 +340,8 @@ msgid "Remember last window size"
 msgstr "Запам'ятовувати розмір вікна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Запам'ятов. останнє значення Pan&Scan"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Запам'ятов. останнє значення Pan && Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -840,7 +840,7 @@ msgid "OK"
 msgstr "Гаразд"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Список положення та пропорцій"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

@@ -337,8 +337,8 @@ msgid "Remember last window size"
 msgstr "Հիշել չափը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Հիշել վերջին Pan&Scan չափը"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Հիշել վերջին Pan && Scan չափը"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -837,7 +837,7 @@ msgid "OK"
 msgstr "ԼԱՎ"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Չափերի և դիրքերի կարգավորումներ"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

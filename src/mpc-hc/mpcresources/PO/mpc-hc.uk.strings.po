@@ -3838,7 +3838,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr ""
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
+msgid "/mute\t\tMute the audio"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
@@ -3914,7 +3914,7 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr ""
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
 msgstr ""
 
 msgctxt "IDS_CMD_ICONASSOC"

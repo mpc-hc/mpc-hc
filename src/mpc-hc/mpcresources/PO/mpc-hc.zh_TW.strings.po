@@ -3848,7 +3848,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\t播放結束後開啟資料夾的下一個檔案"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
+msgid "/mute\t\tMute the audio"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
@@ -3924,8 +3924,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\t使用 \"Pr\" 著色器初始設定啟動播放器"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"name\"\t指定要使用的 Pan&Scan 初始設定名稱"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"name\"\t指定要使用的 Pan & Scan 初始設定名稱"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

@@ -338,8 +338,8 @@ msgid "Remember last window size"
 msgstr "Utolsó ablakméret megjegyzése"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
-msgstr "Utolsó Pan&Scan nagyítás megjegyzése"
+msgid "Remember last Pan && Scan Zoom"
+msgstr "Utolsó Pan && Scan nagyítás megjegyzése"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -838,7 +838,7 @@ msgid "OK"
 msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "Pásztázás&Letapogatás nézetek"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

@@ -3841,7 +3841,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tПрайграць наступны файл ў папцы па сканчэнні прайгравання"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
+msgid "/mute\t\tMute the audio"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
@@ -3917,8 +3917,8 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Назва\"\tЗапуск з вызначанымі наладамі шэйдараў"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"назва\"\tPan&Scan — назва перадусталёўкі памеру і становішча"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"назва\"\tPan & Scan — назва перадусталёўкі памеру і становішча"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

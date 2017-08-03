@@ -338,7 +338,7 @@ msgid "Remember last window size"
 msgstr "최근 창 크기 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
-msgid "Remember last Pan&Scan Zoom"
+msgid "Remember last Pan && Scan Zoom"
 msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
@@ -838,7 +838,7 @@ msgid "OK"
 msgstr "확인"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan&Scan Presets"
+msgid "Pan & Scan Presets"
 msgstr "확대/축소"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"

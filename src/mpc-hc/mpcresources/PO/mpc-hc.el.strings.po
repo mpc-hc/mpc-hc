@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:13+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-07-31 12:47+0000\n"
+"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -615,7 +615,7 @@ msgstr "Απόσπασμα"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Το προεπιλεγμένο φίλτρο απόδοσης βίντεο για DirectShow. Τα άλλα θα επιστρέψουν σε αυτό αν για κάποιο λόγο δεν μπορέσουν να φορτωθούν."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -631,7 +631,7 @@ msgstr "Διαθέσιμο μόνο αν έχετε εγκαταστήσει τ�
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Ίδιο με το VMR-9 (σε παράθυρο), αλλά με το πρόσθετο Allocator-Presenter του MPC-HC για υποτιτλισμό. Η επικάλυψη καθρεφτίσματος βίντεο ΠΡΕΠΕΙ να δουλεύει. Συνιστάται το «True Color» στο χώρο χρώματος."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -647,7 +647,7 @@ msgstr "Όμοια με την κανονική ψευδή απόδοση, αλ�
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Ίδιο με το EVR, αλλά με το Allocator-Presenter του MPC-HC για υποτιτλισμό και μετα-επεξεργασία. Συνιστάται."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -3591,7 +3591,7 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
-msgstr "Φίλτρο Ass"
+msgstr "AssFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
@@ -3759,11 +3759,11 @@ msgstr "Η αυτόματη αναζήτηση και λήψη θα απενερ
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr "\"pathname\"⇥Το κύριο αρχείο ή φάκελος που θα ανοίξει\n\n⇥⇥(επιτρέπονται οι χαρακτήρες μπαλαντέρ, το \"-\" υποδηλώνει τυπική είσοδο)"
+msgstr "\"pathname\"\tΤο κύριο αρχείο ή κατάλογος που θα φορτωθεί\n\n\t\t(επιτρέπονται οι χαρακτήρες μπαλαντέρ, το \"-\" υποδηλώνει τυπική είσοδο)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr "/dub \"dubname\"⇥Φόρτωση ενός πρόσθετου αρχείου ήχου"
+msgstr "/dub \"dubname\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
@@ -3775,11 +3775,11 @@ msgstr "/d3dfs\t\tΕκκίνηση απόδοσης σε λειτουργία D3
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub \"subname\"⇥Φόρτωση ενός πρόσθετου αρχείου υποτίτλων"
+msgstr "/sub \"subname\"\tΦόρτωση ενός πρόσθετου αρχείου υποτίτλων"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
-msgstr "/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll (τα wildcards επιτρέπονται)"
+msgstr "/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll (τα μπαλαντέρ επιτρέπονται)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
@@ -3791,11 +3791,11 @@ msgstr "/dvdpos T#C\tΈναρξη αναπαραγωγής στον τίτλο T
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr "/dvdpos T#P\tΈναρξη αναπαραγωγής στον τίτλο T, θέση P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tΈναρξη αναπαραγωγής στον τίτλο T, θέση P (ωω:λλ:δδ)"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ή (S)VCD. Ως \"κατάλογος\" εννοείται της συσκευής οδήγησης (προαιρετικά)"
+msgstr "/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ήχου ή (S)VCD.\n\t\tΩς \"κατάλογος\" εννοείται η συσκευή οδήγησης (προαιρετικά)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -3819,11 +3819,11 @@ msgstr "/shutdown\tΤερματισμός του συστήματος μετά �
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr "/standby\t\tΣε αναμονή μετά την αναπαραγωγή"
+msgstr "/standby\t\tΜετάβαση του λειτουργικού σε αναμονή μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr "/hibernate\tΑδρανοποίηση μετά την αναπαραγωγή"
+msgstr "/hibernate\tΑδρανοποίηση του λειτουργικού μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -3842,8 +3842,8 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tΆνοιγμα του επόμενου αρχείου στο φάκελο μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_MUTE"
-msgid "/mute\tMute the audio"
-msgstr ""
+msgid "/mute\t\tMute the audio"
+msgstr "/mute\t\tΣίγαση ήχου"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3851,7 +3851,7 @@ msgstr "/fullscreen\tΈναρξη σε λειτουργία πλήρους οθ�
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tΈναρξη με συγκεκριμένες προεπιλογές,\n\t\tόπου Ν είναι είτε «1» Λιτή, «2» Συμπαγής ή «3» Κανονική"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3863,7 +3863,7 @@ msgstr "/new\t\tΕκκινεί μια νέα παρουσία του MPC-BE"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr "/add\t\tΠροσθήκη του \"\"κατάλογος\"\" στη λίστα αναπαραγωγής. Μπορεί να συνδυαστεί με /open and /play"
+msgstr "/add\t\tΠροσθέτει τον \"\"κατάλογο\"\" στη λίστα αναπαραγωγής. Μπορεί να συνδυαστεί με /open και /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
@@ -3871,7 +3871,7 @@ msgstr "/randomize\tΤυχαία λίστα αναπαραγωγής"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tΡύθμιση έντασης, όπου Ν είναι ένα εύρος από 0 έως 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3899,7 +3899,7 @@ msgstr "/start ms\t\tΈναρξη αναπαραγωγής στα \"ms\" (= χι
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr "/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση ωω:λλ:δδ"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
@@ -3918,12 +3918,12 @@ msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tΈναρξη με χρήση  \"Pr\" προκαθορισμένη σκίαση"
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"όνομα\"\tΚαθορισμός Pan&Scan προκαθορισμένου ονόματος για χρήση"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"όνομα\"\tΚαθορισμός το προεπιλεγμένο όνομα της Πανοραμικής οπτικής & Σάρωσης που θα χρησιμοποιηθεί"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\tΣυσχέτιση ξανά της μορφής εικονιδίων"
+msgstr "/iconsassoc\tΕπανασυσχέτιση της μορφής εικονιδίων"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
@@ -3935,7 +3935,7 @@ msgstr "/webport N\tΈναρξη της διεπαφής web στη καθορι
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tΕμφάνιση πληροφοριών εντοπισμού σφαλμάτων OSD"
+msgstr "/debug\t\tΕμφάνιση πληροφοριών εντοπισμού σφαλμάτων στην οθόνη"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
@@ -3967,7 +3967,7 @@ msgstr "Καθυστέρηση ήχου (ms)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
-msgstr "Μέγεθος σε pixels της προεπιλεγμένης γραμμής εργαλείων."
+msgstr "Μέγεθος σε πίξελ της προεπιλεγμένης γραμμής εργαλείων."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
