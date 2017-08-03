@@ -509,8 +509,6 @@ void CPPageOutput::OnSurfaceChange()
 
 void CPPageOutput::OnDSRendererChange()
 {
-    CAppSettings& s = AfxGetAppSettings();
-
     UpdateData();
     m_iDSVideoRendererType = (int)m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
 
