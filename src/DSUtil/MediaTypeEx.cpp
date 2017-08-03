@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -146,7 +146,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
             VORBISFORMAT* vf = (VORBISFORMAT*)Format();
 
             codec = GetAudioCodecName(subtype, 0);
-            dim.Format(_T("%uHz"), vf->nSamplesPerSec);
+            dim.Format(_T("%luHz"), vf->nSamplesPerSec);
             if (vf->nChannels == 1) {
                 dim += _T(" mono");
             } else if (vf->nChannels == 2) {
@@ -155,19 +155,19 @@ CString CMediaTypeEx::ToString(IPin* pPin)
                 dim.AppendFormat(_T(" %uch"), vf->nChannels);
             }
             if (vf->nAvgBitsPerSec) {
-                rate.Format(_T("%ukbps"), vf->nAvgBitsPerSec / 1000);
+                rate.Format(_T("%lukbps"), vf->nAvgBitsPerSec / 1000);
             }
         } else if (formattype == FORMAT_VorbisFormat2) {
             VORBISFORMAT2* vf = (VORBISFORMAT2*)Format();
 
             codec = GetAudioCodecName(subtype, 0);
-            dim.Format(_T("%uHz"), vf->SamplesPerSec);
+            dim.Format(_T("%luHz"), vf->SamplesPerSec);
             if (vf->Channels == 1) {
                 dim += _T(" mono");
             } else if (vf->Channels == 2) {
                 dim += _T(" stereo");
             } else {
-                dim.AppendFormat(_T(" %uch"), vf->Channels);
+                dim.AppendFormat(_T(" %luch"), vf->Channels);
             }
         }
     } else if (majortype == MEDIATYPE_Text) {
@@ -673,13 +673,13 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(_T("VORBISFORMAT:"));
         str.Format(_T("nChannels: %u"), vf.nChannels);
         sl.AddTail(str);
-        str.Format(_T("nSamplesPerSec: %u"), vf.nSamplesPerSec);
+        str.Format(_T("nSamplesPerSec: %lu"), vf.nSamplesPerSec);
         sl.AddTail(str);
-        str.Format(_T("nMinBitsPerSec: %u"), vf.nMinBitsPerSec);
+        str.Format(_T("nMinBitsPerSec: %lu"), vf.nMinBitsPerSec);
         sl.AddTail(str);
-        str.Format(_T("nAvgBitsPerSec: %u"), vf.nAvgBitsPerSec);
+        str.Format(_T("nAvgBitsPerSec: %lu"), vf.nAvgBitsPerSec);
         sl.AddTail(str);
-        str.Format(_T("nMaxBitsPerSec: %u"), vf.nMaxBitsPerSec);
+        str.Format(_T("nMaxBitsPerSec: %lu"), vf.nMaxBitsPerSec);
         sl.AddTail(str);
         str.Format(_T("fQuality: %.3f"), vf.fQuality);
         sl.AddTail(str);
@@ -691,13 +691,13 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         VORBISFORMAT2& vf = *(VORBISFORMAT2*)pbFormat;
 
         sl.AddTail(_T("VORBISFORMAT:"));
-        str.Format(_T("Channels: %u"), vf.Channels);
+        str.Format(_T("Channels: %lu"), vf.Channels);
         sl.AddTail(str);
-        str.Format(_T("SamplesPerSec: %u"), vf.SamplesPerSec);
+        str.Format(_T("SamplesPerSec: %lu"), vf.SamplesPerSec);
         sl.AddTail(str);
-        str.Format(_T("BitsPerSample: %u"), vf.BitsPerSample);
+        str.Format(_T("BitsPerSample: %lu"), vf.BitsPerSample);
         sl.AddTail(str);
-        str.Format(_T("HeaderSize: {%u, %u, %u}"), vf.HeaderSize[0], vf.HeaderSize[1], vf.HeaderSize[2]);
+        str.Format(_T("HeaderSize: {%lu, %lu, %lu}"), vf.HeaderSize[0], vf.HeaderSize[1], vf.HeaderSize[2]);
         sl.AddTail(str);
 
         sl.AddTail(_T(""));
@@ -707,7 +707,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         SUBTITLEINFO& si = *(SUBTITLEINFO*)pbFormat;
 
         sl.AddTail(_T("SUBTITLEINFO:"));
-        str.Format(_T("dwOffset: %u"), si.dwOffset);
+        str.Format(_T("dwOffset: %lu"), si.dwOffset);
         sl.AddTail(str);
         str.Format(_T("IsoLang: %s"), CString(CStringA(si.IsoLang, sizeof(si.IsoLang) - 1)));
         sl.AddTail(str);
