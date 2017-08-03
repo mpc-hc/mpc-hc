@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,8 +26,9 @@
 //
 
 interface __declspec(uuid("A6AE36F7-A6F2-4157-AF54-6599857E4E20"))
-IQTVideoSurface :
-public IUnknown {
-    STDMETHOD(BeginBlt)(const BITMAP & bm) PURE;
-    STDMETHOD(DoBlt)(const BITMAP & bm) PURE;
+    IQTVideoSurface :
+    public IUnknown
+{
+    STDMETHOD(BeginBlt)(const BITMAP& bm) PURE;
+    STDMETHOD(DoBlt)(const BITMAP& bm) PURE;
 };

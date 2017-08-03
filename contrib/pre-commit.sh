@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2013-2015 see Authors.txt
+# (C) 2013-2015, 2017 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -39,7 +39,7 @@ versioncheck_version=6
 versioncheck_path=contrib/pre-commit.sh
 astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
-astyle_version='Artistic Style Version 2.05.1'
+astyle_version='Artistic Style Version 3.0.1'
 checkyear_extensions=(bat cpp h hlsl iss po py sh)
 checkyear_pattern1='\(C\) (([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9](, )?)+ see Authors.txt'
 year=$(date +%Y)

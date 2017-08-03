@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,14 +24,15 @@
 class CMediaType;
 
 interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
-IGraphBuilder2 :
-public IFilterGraph2 {
-    STDMETHOD(IsPinDirection)(IPin * pPin, PIN_DIRECTION dir) PURE;
-    STDMETHOD(IsPinConnected)(IPin * pPin) PURE;
-    STDMETHOD(ConnectFilter)(IBaseFilter * pBF, IPin * pPinIn) PURE;
-    STDMETHOD(ConnectFilter)(IPin * pPinOut, IBaseFilter * pBF) PURE;
-    STDMETHOD(ConnectFilterDirect)(IPin * pPinOut, IBaseFilter * pBF, const AM_MEDIA_TYPE * pmt) PURE;
-    STDMETHOD(NukeDownstream)(IUnknown * pUnk) PURE;
+    IGraphBuilder2 :
+    public IFilterGraph2
+{
+    STDMETHOD(IsPinDirection)(IPin* pPin, PIN_DIRECTION dir) PURE;
+    STDMETHOD(IsPinConnected)(IPin* pPin) PURE;
+    STDMETHOD(ConnectFilter)(IBaseFilter* pBF, IPin* pPinIn) PURE;
+    STDMETHOD(ConnectFilter)(IPin* pPinOut, IBaseFilter* pBF) PURE;
+    STDMETHOD(ConnectFilterDirect)(IPin* pPinOut, IBaseFilter* pBF, const AM_MEDIA_TYPE* pmt) PURE;
+    STDMETHOD(NukeDownstream)(IUnknown* pUnk) PURE;
     STDMETHOD(FindInterface)(REFIID iid, void** ppv, BOOL bRemove) PURE;
     STDMETHOD(AddToROT)() PURE;
     STDMETHOD(RemoveFromROT)() PURE;
@@ -39,20 +40,22 @@ public IFilterGraph2 {
 
 // private use only
 interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
-IGraphBuilderDeadEnd :
-public IUnknown {
+    IGraphBuilderDeadEnd :
+    public IUnknown
+{
     STDMETHOD_(size_t, GetCount)() PURE;
     STDMETHOD(GetDeadEnd)(int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts) PURE;
 };
 
 // private use only
 interface __declspec(uuid("546E72B3-66A1-4A58-A99B-56530B3E2FFF"))
-IBDATuner :
-public IUnknown {
+    IBDATuner :
+    public IUnknown
+{
     STDMETHOD(SetChannel)(int nChannelPrefNumber) PURE;
     STDMETHOD(SetAudio)(int nAudioIndex) PURE;
     STDMETHOD(SetFrequency)(ULONG ulFrequency, ULONG ulBandwidth) PURE;
     STDMETHOD(Scan)(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd) PURE;
-    STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lDbStrength, LONG & lPercentQuality) PURE;
-    STDMETHOD(UpdatePSI)(const class CDVBChannel * pChannel, struct EventDescriptor & NowNext) PURE;
+    STDMETHOD(GetStats)(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality) PURE;
+    STDMETHOD(UpdatePSI)(const class CDVBChannel* pChannel, struct EventDescriptor& NowNext) PURE;
 };

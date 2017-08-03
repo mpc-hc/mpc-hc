@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,9 +27,10 @@
 #define IPP_SCALE(size) ((size) * m_fontheight / IPP_FONTSIZE)
 
 interface __declspec(uuid("03481710-D73E-4674-839F-03EDE2D60ED8"))
-ISpecifyPropertyPages2 :
-public ISpecifyPropertyPages {
-    STDMETHOD(CreatePage)(const GUID & guid, IPropertyPage** ppPage) = 0;
+    ISpecifyPropertyPages2 :
+    public ISpecifyPropertyPages
+{
+    STDMETHOD(CreatePage)(const GUID& guid, IPropertyPage** ppPage) = 0;
 };
 
 class CInternalPropertyPageWnd : public CWnd

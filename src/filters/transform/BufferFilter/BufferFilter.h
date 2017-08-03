@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,8 +26,9 @@
 #define BufferFilterName L"MPC-HC Buffer Filter"
 
 interface __declspec(uuid("63EF0035-3FFE-4c41-9230-4346E028BE20"))
-IBufferFilter :
-public IUnknown {
+    IBufferFilter :
+    public IUnknown
+{
     STDMETHOD(SetBuffers)(int nBuffers) PURE;
     STDMETHOD_(int, GetBuffers)() PURE;
     STDMETHOD_(int, GetFreeBuffers)() PURE;

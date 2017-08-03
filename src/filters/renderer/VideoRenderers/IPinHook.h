@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -48,7 +48,8 @@ typedef struct IPinCVtbl {
     END_INTERFACE
 } IPinCVtbl;
 
-interface IPinC {
+interface IPinC
+{
     CONST_VTBL struct IPinCVtbl* lpVtbl;
 };
 
@@ -68,7 +69,8 @@ typedef struct IMemInputPinCVtbl {
     END_INTERFACE
 } IMemInputPinCVtbl;
 
-interface IMemInputPinC {
+interface IMemInputPinC
+{
     CONST_VTBL struct IMemInputPinCVtbl* lpVtbl;
 };
 
@@ -171,7 +173,8 @@ typedef struct IAMVideoAcceleratorCVtbl {
     END_INTERFACE
 } IAMVideoAcceleratorCVtbl;
 
-interface IAMVideoAcceleratorC {
+interface IAMVideoAcceleratorC
+{
     CONST_VTBL struct IAMVideoAcceleratorCVtbl* lpVtbl;
 };
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,8 +22,9 @@
 #pragma once
 
 interface __declspec(uuid("EB2CD9E6-BA08-4acb-AA0F-3D8D0DD521CA"))
-IBitRateInfo :
-public IUnknown {
+    IBitRateInfo :
+    public IUnknown
+{
     STDMETHOD_(DWORD, GetCurrentBitRate)() PURE;
     STDMETHOD_(DWORD, GetAverageBitRate)() PURE;
 };

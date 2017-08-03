@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,17 +24,19 @@
 #include "MultiFiles.h"
 
 interface __declspec(uuid("6DDB4EE7-45A0-4459-A508-BD77B32C91B2"))
-ISyncReader :
-public IUnknown {
+    ISyncReader :
+    public IUnknown
+{
     STDMETHOD_(void, SetBreakEvent)(HANDLE hBreakEvent) PURE;
     STDMETHOD_(bool, HasErrors)() PURE;
     STDMETHOD_(void, ClearErrors)() PURE;
-    STDMETHOD_(void, SetPTSOffset)(REFERENCE_TIME * rtPTSOffset) PURE;
+    STDMETHOD_(void, SetPTSOffset)(REFERENCE_TIME* rtPTSOffset) PURE;
 };
 
 interface __declspec(uuid("7D55F67A-826E-40B9-8A7D-3DF0CBBD272D"))
-IFileHandle :
-public IUnknown {
+    IFileHandle :
+    public IUnknown
+{
     STDMETHOD_(HANDLE, GetFileHandle)() PURE;
     STDMETHOD_(LPCTSTR, GetFileName)() PURE;
 };

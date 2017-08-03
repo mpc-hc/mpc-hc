@@ -211,7 +211,7 @@ HRESULT CPixelShaderCompiler::CompileShaderFromFile(
         long size = ftell(fp);
         rewind(fp);
         if (size > 0) {
-            auto data = new(std::nothrow) char[(size_t)size];
+            auto data = new (std::nothrow) char[(size_t)size];
             if (data) {
                 if (fread(data, size, 1, fp) == 1) {
                     ret = InternalCompile(data, (size_t)size, CT2A(pSrcFile), pEntrypoint,

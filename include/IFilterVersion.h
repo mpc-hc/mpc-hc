@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,8 @@
 #pragma once
 
 interface __declspec(uuid("A0DD28E1-61C0-4539-A7E6-14544AFF092E"))
-IFilterVersion :
-public IUnknown {
+    IFilterVersion :
+    public IUnknown
+{
     STDMETHOD_(DWORD, GetFilterVersion)() = 0;
 };

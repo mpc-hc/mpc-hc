@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -87,8 +87,9 @@ struct vcchunk {
 //
 
 interface __declspec(uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46"))
-IVSFRipperCallback :
-public IUnknown {
+    IVSFRipperCallback :
+    public IUnknown
+{
     STDMETHOD(OnMessage)(LPCTSTR msg) PURE;
     STDMETHOD(OnProgress)(double progress /*0.0 -> 1.0*/) PURE;
     STDMETHOD(OnFinished)(bool bSucceeded) PURE;
@@ -120,14 +121,15 @@ public:
 //
 
 interface __declspec(uuid("69F935BB-B8D0-43f5-AA2E-BBD0851CC9A6"))
-IVSFRipper :
-public IUnknown {
-    STDMETHOD(SetCallBack)(IVSFRipperCallback * pCallback) PURE;
+    IVSFRipper :
+    public IUnknown
+{
+    STDMETHOD(SetCallBack)(IVSFRipperCallback* pCallback) PURE;
     STDMETHOD(LoadParamFile)(CString fn) PURE;
     STDMETHOD(SetInput)(CString infn) PURE;
     STDMETHOD(SetOutput)(CString outfn) PURE;
-    STDMETHOD(GetRipperData)(VSFRipperData & rd) PURE;
-    STDMETHOD(UpdateRipperData)(VSFRipperData & rd) PURE;
+    STDMETHOD(GetRipperData)(VSFRipperData& rd) PURE;
+    STDMETHOD(UpdateRipperData)(VSFRipperData& rd) PURE;
     STDMETHOD(Index)() PURE;
     STDMETHOD(IsIndexing)() PURE;
     STDMETHOD(Abort)(bool bSavePartial) PURE;

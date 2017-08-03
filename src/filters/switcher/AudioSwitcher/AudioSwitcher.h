@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,10 +28,11 @@
 
 
 interface __declspec(uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE"))
-IAudioSwitcherFilter :
-public IUnknown {
-    STDMETHOD(GetInputSpeakerConfig)(DWORD * pdwChannelMask) PURE;
-    STDMETHOD(GetSpeakerConfig)(bool * pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) PURE;
+    IAudioSwitcherFilter :
+    public IUnknown
+{
+    STDMETHOD(GetInputSpeakerConfig)(DWORD* pdwChannelMask) PURE;
+    STDMETHOD(GetSpeakerConfig)(bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) PURE;
     STDMETHOD(SetSpeakerConfig)(bool fCustomChannelMapping, DWORD pSpeakerToChannelMap[AS_MAX_CHANNELS][AS_MAX_CHANNELS]) PURE;
     STDMETHOD_(int, GetNumberOfInputChannels)() PURE;
     STDMETHOD_(bool, IsDownSamplingTo441Enabled)() PURE;
@@ -39,10 +40,10 @@ public IUnknown {
     STDMETHOD_(REFERENCE_TIME, GetAudioTimeShift)() PURE;
     STDMETHOD(SetAudioTimeShift)(REFERENCE_TIME rtAudioTimeShift) PURE;
     // Deprecated
-    STDMETHOD(GetNormalizeBoost)(bool & fNormalize, bool & fNormalizeRecover, float & boost_dB) PURE;
+    STDMETHOD(GetNormalizeBoost)(bool& fNormalize, bool& fNormalizeRecover, float& boost_dB) PURE;
     // Deprecated
     STDMETHOD(SetNormalizeBoost)(bool fNormalize, bool fNormalizeRecover, float boost_dB) PURE;
-    STDMETHOD(GetNormalizeBoost2)(bool & fNormalize, UINT & nMaxNormFactor, bool & fNormalizeRecover, UINT & nBoost) PURE;
+    STDMETHOD(GetNormalizeBoost2)(bool& fNormalize, UINT& nMaxNormFactor, bool& fNormalizeRecover, UINT& nBoost) PURE;
     STDMETHOD(SetNormalizeBoost2)(bool fNormalize, UINT nMaxNormFactor, bool fNormalizeRecover, UINT nBoost) PURE;
 };
 

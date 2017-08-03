@@ -574,7 +574,7 @@ void CDirectVobSubFilter::InitSubPicQueue()
     HRESULT hr = S_OK;
 
     m_pSubPicQueue = m_subPicQueueSettings.nSize > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(m_subPicQueueSettings , pSubPicAllocator, &hr)
+                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(m_subPicQueueSettings, pSubPicAllocator, &hr)
                      : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_subPicQueueSettings, pSubPicAllocator, &hr);
 
     if (FAILED(hr)) {

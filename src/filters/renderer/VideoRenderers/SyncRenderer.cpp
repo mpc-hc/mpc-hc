@@ -3238,7 +3238,7 @@ bool CSyncAP::GetSampleFromMixer()
 
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
-            hr = m_pMixer->ProcessOutput(0 , 1, &dataBuffer, &dwStatus);
+            hr = m_pMixer->ProcessOutput(0, 1, &dataBuffer, &dwStatus);
             llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 

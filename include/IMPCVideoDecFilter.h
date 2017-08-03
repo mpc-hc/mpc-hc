@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,8 +53,9 @@ enum MPCVD_INTERLACED_FLAG {
 };
 
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
-IMPCVideoDecFilter :
-public IUnknown {
+    IMPCVideoDecFilter :
+    public IUnknown
+{
     STDMETHOD(Apply()) PURE;
 
     STDMETHOD(SetThreadNumber(int nValue)) PURE;
@@ -81,8 +82,9 @@ public IUnknown {
 };
 
 interface __declspec(uuid("F0ABC515-19ED-4D65-9D5F-59E36AE7F2AF"))
-IMPCVideoDecFilter2 :
-public IMPCVideoDecFilter {
+    IMPCVideoDecFilter2 :
+    public IMPCVideoDecFilter
+{
     STDMETHOD_(int, GetFrameType()) PURE;
 
     STDMETHOD(SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag)) PURE;

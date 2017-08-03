@@ -281,7 +281,7 @@ void CSubtitleDlDlg::OnOK()
         if (m_list.GetCheck(i) == TRUE) {
 
             SubtitlesInfo& subtitlesInfo = *(SubtitlesInfo*)(m_list.GetItemData(i));
-            LVITEMINDEX lvii = { i , -1 };
+            LVITEMINDEX lvii = { i, -1 };
             m_list.SetItemIndexState(&lvii, INDEXTOSTATEIMAGEMASK(0), LVIS_STATEIMAGEMASK);
             subtitlesInfo.Download(bActivate);
             bActivate = false;

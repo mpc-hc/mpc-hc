@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,8 +22,9 @@
 #pragma once
 
 interface __declspec(uuid("30AB78C7-5259-4594-AEFE-9C0FC2F08A5E"))
-IBitStream :
-public IUnknown {
+    IBitStream :
+    public IUnknown
+{
     STDMETHOD_(UINT64, GetPos)() PURE;
     STDMETHOD_(UINT64, Seek)(UINT64 pos) PURE;  // it's a _stream_, please don't seek if you don't have to
     STDMETHOD(ByteWrite)(const void* pData, int len) PURE;

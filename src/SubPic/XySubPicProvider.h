@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,11 +26,12 @@
 
 
 interface __declspec(uuid("63679E0A-93AB-4656-AF40-589E4E985991"))
-IXyCompatProvider :
-public IUnknown {
+    IXyCompatProvider :
+    public IUnknown
+{
     STDMETHOD(RequestFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, DWORD timeout) PURE;
-    STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame * subtitleFrame) PURE;
-    STDMETHOD(GetID)(ULONGLONG * id) PURE;
+    STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame) PURE;
+    STDMETHOD(GetID)(ULONGLONG* id) PURE;
 };
 
 class CXySubPicProvider

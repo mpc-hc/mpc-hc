@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -65,12 +65,13 @@ struct TrackExtendedInfoAudio {
 #pragma pack(pop)
 
 interface __declspec(uuid("03E98D51-DDE7-43aa-B70C-42EF84A3A23D"))
-ITrackInfo :
-public IUnknown {
+    ITrackInfo :
+    public IUnknown
+{
     STDMETHOD_(UINT, GetTrackCount)() = 0;
 
     // \param aTrackIdx the track index (from 0 to GetTrackCount()-1)
-    STDMETHOD_(BOOL, GetTrackInfo)(UINT aTrackIdx, struct TrackElement * pStructureToFill) = 0;
+    STDMETHOD_(BOOL, GetTrackInfo)(UINT aTrackIdx, struct TrackElement* pStructureToFill) = 0;
 
     // Get an extended information struct relative to the track type
     STDMETHOD_(BOOL, GetTrackExtendedInfo)(UINT aTrackIdx, void* pStructureToFill) = 0;

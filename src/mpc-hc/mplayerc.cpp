@@ -1021,7 +1021,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
             }
         }
         *pBytes = length / 2;
-        *ppData = new(std::nothrow) BYTE[*pBytes];
+        *ppData = new (std::nothrow) BYTE[*pBytes];
         if (!(*ppData)) {
             ASSERT(FALSE);
             return FALSE;
