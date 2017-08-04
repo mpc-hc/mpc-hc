@@ -387,19 +387,11 @@ public:
     void StartWebServer(int nPort);
     void StopWebServer();
 
-    int GetPlaybackMode() const {
-        return m_iPlaybackMode;
-    }
-    bool IsPlaybackCaptureMode() const {
-        return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE;
-    }
+    int GetPlaybackMode() const { return m_iPlaybackMode; }
+    bool IsPlaybackCaptureMode() const { return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE; }
     void SetPlaybackMode(int iNewStatus);
-    bool IsMuted() {
-        return m_wndToolBar.GetVolume() == -10000;
-    }
-    int GetVolume() {
-        return m_wndToolBar.m_volctrl.GetPos();
-    }
+    bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
+    int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }
 
 public:
     CMainFrame();
