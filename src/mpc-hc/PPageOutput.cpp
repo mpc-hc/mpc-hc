@@ -436,7 +436,7 @@ BOOL CPPageOutput::OnApply()
                s.iQTVideoRendererType != m_iQTVideoRendererType ||
                s.strAudioRendererDisplayName != m_AudioRendererDisplayNames[m_iAudioRendererType];
 
-    CRenderersSettings& r = s.m_RenderersSettings;
+    CRenderersSettings& r                   = s.m_RenderersSettings;
     s.iDSVideoRendererType                  = m_iDSVideoRendererType;
     s.iRMVideoRendererType                  = m_iRMVideoRendererType;
     s.iQTVideoRendererType                  = m_iQTVideoRendererType;
