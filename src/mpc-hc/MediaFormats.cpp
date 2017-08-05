@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -231,7 +231,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("dsm"),         StrRes(IDS_MFMT_DSM),         _T("dsm dsv dsa dss")));
         ADDFMT((_T("ivf"),         StrRes(IDS_MFMT_IVF),         _T("ivf")));
         ADDFMT((_T("swf"),         StrRes(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
-        ADDFMT((_T("other"),       StrRes(IDS_MFMT_OTHER),       _T("divx amv")));
+        ADDFMT((_T("other"),       StrRes(IDS_MFMT_OTHER),       _T("divx amv mxf")));
         ADDFMT((_T("ac3"),         StrRes(IDS_MFMT_AC3),         _T("ac3"), true));
         ADDFMT((_T("dts"),         StrRes(IDS_MFMT_DTS),         _T("dts dtshd dtsma"), true));
         ADDFMT((_T("aiff"),        StrRes(IDS_MFMT_AIFF),        _T("aif aifc aiff"), true));
@@ -256,7 +256,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("wav"),         StrRes(IDS_MFMT_WAV),         _T("wav"), true));
         ADDFMT((_T("wma"),         StrRes(IDS_MFMT_WMA),         _T("wma"), true));
         ADDFMT((_T("wavpack"),     StrRes(IDS_MFMT_WV),          _T("wv"), true));
-        ADDFMT((_T("other_audio"), StrRes(IDS_MFMT_OTHER_AUDIO), _T("aob mlp thd"), true));
+        ADDFMT((_T("other_audio"), StrRes(IDS_MFMT_OTHER_AUDIO), _T("aob mlp thd mpl spx caf"), true));
         ADDFMT((_T("pls"),         StrRes(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
         ADDFMT((_T("bdpls"),       StrRes(IDS_MFMT_BDPLS),       _T("mpls bdmv")));
         ADDFMT((_T("rar"),         StrRes(IDS_MFMT_RAR),         _T("rar"), false, _T("RARFileSource"), DirectShow, false));
