@@ -16972,5 +16972,7 @@ void CMainFrame::ReopenFileAtSamePos()
     if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
         return;
     }
-    OpenCurPlaylistItem(GetPos());
+
+    //restart from beginning if it's a stream
+    OpenCurPlaylistItem(GetDur() ? GetPos() : 0);
 }
