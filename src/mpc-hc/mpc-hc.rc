@@ -3678,7 +3678,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_PPAGEADVANCED_SNAPSHOT_NAME_FORMAT 
-                            "Filename format used for snapshots on ""Save Image"". %f is the video filename, %t is the current video position, %Y, %m, %d is the current year, month, day, etc."
+                            "Filename template that is used for snapshots on ""Save Image"". For example: ""%f_snapshot_%t_[%Y.%m.%d_%H.%M.%S]"", where %f equals video file name, %t current video timestamp, %Y current year, etc."
 END
 
 #endif    // English (United States) resources
