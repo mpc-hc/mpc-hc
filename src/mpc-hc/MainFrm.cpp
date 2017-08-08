@@ -4883,9 +4883,21 @@ static void ReplaceInvalidFormatSpecifiers(CString& str)
     }
 }
 
-static CString MakeSnapshotFileName(const CString& title, const CString& vidPos = _T(""))
+CString CMainFrame::MakeSnapshotFileName()
 {
     const auto& settings = AfxGetAppSettings();
+
+    CString title;
+    CString vidPos;
+    if (GetPlaybackMode() == PM_FILE) {
+        title = GetFileName();
+        vidPos = GetVidPos();
+    } else if (GetPlaybackMode() == PM_DVD) {
+        title = GetFileName();
+        vidPos = GetVidPos();
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        title = m_pDVBState->sChannelName;
+    }
 
     CString formatString = settings.strSnapshotNameFormat;
     CString escapedTitle = EscapeFormatSpecifiers(title);
@@ -4952,16 +4964,8 @@ void CMainFrame::OnFileSaveImage()
         return;
     }
 
+    CString snapshotName = MakeSnapshotFileName();
     CPath psrc(s.strSnapshotPath);
-
-    CString snapshotName = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        snapshotName = MakeSnapshotFileName(m_pDVBState->sChannelName);
-    }
     psrc.Combine(s.strSnapshotPath, snapshotName);
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
@@ -5022,15 +5026,7 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
-    CString snapshotName = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        snapshotName = MakeSnapshotFileName(GetFileName(), GetVidPos());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        snapshotName = MakeSnapshotFileName(m_pDVBState->sChannelName);
-    }
-
+    CString snapshotName = MakeSnapshotFileName();
     CString fn;
     fn.Format(_T("%s\\%s"), s.strSnapshotPath, snapshotName);
     SaveImage(fn);
@@ -5054,7 +5050,7 @@ void CMainFrame::OnFileSaveThumbnails()
     CPath psrc(s.strSnapshotPath);
     CString snapshotName = _T("snapshot");
     if (GetPlaybackMode() == PM_FILE) {
-        snapshotName = MakeSnapshotFileName(GetFileName());
+        snapshotName = MakeSnapshotFileName();
     } else {
         ASSERT(FALSE);
     }
