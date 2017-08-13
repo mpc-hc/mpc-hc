@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -875,11 +875,6 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-static int uintcomp(const void* i1, const void* i2)
-{
-    return (*((UINT*)i2) - * ((UINT*)i1));
-}
-
 void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
@@ -1048,7 +1043,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         items.Add(m_list.GetNextSelectedItem(pos));
                     }
 
-                    qsort(items.GetData(), items.GetCount(), sizeof(UINT), uintcomp);
+                    std::sort(items.GetData(), items.GetData() + items.GetCount(), std::greater<>());
 
                     for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
                         iItem = items[i];
@@ -1077,7 +1072,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         items.Add(m_list.GetNextSelectedItem(pos));
                     }
 
-                    qsort(items.GetData(), items.GetCount(), sizeof(UINT), uintcomp);
+                    std::sort(items.GetData(), items.GetData() + items.GetCount(), std::greater<>());
 
                     for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
                         iItem = items[i];

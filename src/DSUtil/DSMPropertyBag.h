@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -150,7 +150,10 @@ public:
     CDSMChapter();
     CDSMChapter(REFERENCE_TIME rt, LPCWSTR name);
     CDSMChapter& operator = (const CDSMChapter& c);
-    static int Compare(const void* a, const void* b);
+
+    bool operator <(const CDSMChapter& rhs) const {
+        return (rt != rhs.rt) ? rt < rhs.rt : order < rhs.order;
+    }
 };
 
 class IDSMChapterBagImpl : public IDSMChapterBag

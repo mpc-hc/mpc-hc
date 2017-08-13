@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -342,20 +342,6 @@ CDSMChapter& CDSMChapter::operator = (const CDSMChapter& c)
 
 int CDSMChapter::counter = 0;
 
-int CDSMChapter::Compare(const void* a, const void* b)
-{
-    const CDSMChapter* ca = static_cast<const CDSMChapter*>(a);
-    const CDSMChapter* cb = static_cast<const CDSMChapter*>(b);
-
-    if (ca->rt > cb->rt) {
-        return 1;
-    } else if (ca->rt < cb->rt) {
-        return -1;
-    }
-
-    return ca->order - cb->order;
-}
-
 //
 // IDSMChapterBagImpl
 //
@@ -454,7 +440,7 @@ STDMETHODIMP IDSMChapterBagImpl::ChapSort()
     if (m_fSorted) {
         return S_FALSE;
     }
-    qsort(m_chapters.GetData(), m_chapters.GetCount(), sizeof(CDSMChapter), CDSMChapter::Compare);
+    std::sort(m_chapters.GetData(), m_chapters.GetData() + m_chapters.GetCount());
     m_fSorted = true;
     return S_OK;
 }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -56,6 +56,10 @@ namespace Subtitle
 
     struct SubFile {
         CString fn; /*SubType type;*/
+
+        bool operator <(const SubFile& rhs) const {
+            return fn.CompareNoCase(rhs.fn) < 0;
+        }
     };
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);

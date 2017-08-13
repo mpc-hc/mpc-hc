@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -276,24 +276,20 @@ bool CPlaylist::RemoveAt(POSITION pos)
 struct plsort_t {
     UINT n;
     POSITION pos;
-};
 
-static int compare(const void* arg1, const void* arg2)
-{
-    UINT a1 = ((plsort_t*)arg1)->n;
-    UINT a2 = ((plsort_t*)arg2)->n;
-    return a1 > a2 ? 1 : a1 < a2 ? -1 : 0;
-}
+    bool operator <(const plsort_t& rhs) const {
+        return n < rhs.n;
+    }
+};
 
 struct plsort2_t {
     LPCTSTR  str;
     POSITION pos;
-};
 
-int compare2(const void* arg1, const void* arg2)
-{
-    return StrCmpLogicalW(((plsort2_t*)arg1)->str, ((plsort2_t*)arg2)->str);
-}
+    bool operator <(const plsort2_t& rhs) const {
+        return StrCmpLogicalW(str, rhs.str) < 0;
+    }
+};
 
 void CPlaylist::SortById()
 {
@@ -303,7 +299,7 @@ void CPlaylist::SortById()
     for (int i = 0; pos; i++, GetNext(pos)) {
         a[i].n = GetAt(pos).m_id, a[i].pos = pos;
     }
-    qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
+    std::sort(a.GetData(), a.GetData() + a.GetCount());
     for (size_t i = 0; i < a.GetCount(); i++) {
         MoveToTail(a[i].pos);
     }
@@ -319,7 +315,7 @@ void CPlaylist::SortByName()
         a[i].str = (LPCTSTR)fn + std::max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1;
         a[i].pos = pos;
     }
-    qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
+    std::sort(a.GetData(), a.GetData() + a.GetCount());
     for (size_t i = 0; i < a.GetCount(); i++) {
         MoveToTail(a[i].pos);
     }
@@ -333,7 +329,7 @@ void CPlaylist::SortByPath()
     for (int i = 0; pos; i++, GetNext(pos)) {
         a[i].str = GetAt(pos).m_fns.GetHead(), a[i].pos = pos;
     }
-    qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
+    std::sort(a.GetData(), a.GetData() + a.GetCount());
     for (size_t i = 0; i < a.GetCount(); i++) {
         MoveToTail(a[i].pos);
     }
@@ -348,7 +344,7 @@ void CPlaylist::Randomize()
     for (int i = 0; pos; i++, GetNext(pos)) {
         a[i].n = rand(), a[i].pos = pos;
     }
-    qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
+    std::sort(a.GetData(), a.GetData() + a.GetCount());
     for (size_t i = 0; i < a.GetCount(); i++) {
         MoveToTail(a[i].pos);
     }
@@ -432,7 +428,7 @@ void CPlaylist::SetShuffle(bool bEnable)
             positions[i].n = rand();
             positions[i].pos = pos;
         }
-        qsort(positions.GetData(), m_nShuffledListSize, sizeof(plsort_t), compare);
+        std::sort(positions.GetData(), positions.GetData() + m_nShuffledListSize);
         positions[m_nShuffledListSize].pos = nullptr; // Termination
 
         m_posHeadShuffle = positions[0].pos;

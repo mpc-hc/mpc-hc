@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -91,6 +91,10 @@ public:
         char cellid           = 0;
         __int64 celltimestamp = 0i64;
         bool bValid           = false;
+
+        bool operator <(const SubPos& rhs) const {
+            return start < rhs.start;
+        }
     };
 
     struct SubLang {

@@ -36,11 +36,6 @@ namespace
 
     LPCTSTR separators = _T(".\\-_");
     LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");
-
-    int SubFileCompare(const void* elem1, const void* elem2)
-    {
-        return ((Subtitle::SubFile*)elem1)->fn.CompareNoCase(((Subtitle::SubFile*)elem2)->fn);
-    }
 }
 
 LPCTSTR Subtitle::GetSubtitleFileExt(SubType type)
@@ -169,7 +164,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
     // sort files, this way the user can define the order (movie.00.English.srt, movie.01.Hungarian.srt, etc)
 
-    qsort(ret.GetData(), ret.GetCount(), sizeof(SubFile), SubFileCompare);
+    std::sort(ret.GetData(), ret.GetData() + ret.GetCount());
 }
 
 CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi)

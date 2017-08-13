@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2016 see Authors.txt
+ * (C) 2006-2013, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -111,11 +111,6 @@ STDMETHODIMP CDSMSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
     return S_OK;
 }
 
-static int compare_id(const void* id1, const void* id2)
-{
-    return (int) * (BYTE*)id1 - (int) * (BYTE*)id2;
-}
-
 HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 {
     CheckPointer(pAsyncReader, E_POINTER);
@@ -145,7 +140,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         ids.Add(id);
     }
 
-    qsort(ids.GetData(), ids.GetCount(), sizeof(BYTE), compare_id);
+    std::sort(ids.GetData(), ids.GetData() + ids.GetCount());
 
     for (size_t i = 0; i < ids.GetCount(); i++) {
         BYTE id = ids[i];

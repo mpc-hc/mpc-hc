@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -455,11 +455,6 @@ DWORD CVobSubFileRipper::ThreadProc()
 #pragma warning(pop)
 }
 
-static int SubPosSortProc(const void* e1, const void* e2)
-{
-    return ((int)(((CVobSubFile::SubPos*)e1)->start - ((CVobSubFile::SubPos*)e2)->start));
-}
-
 bool CVobSubFileRipper::Create()
 {
     CAutoLock cAutoLock(&m_csAccessLock);
@@ -777,7 +772,7 @@ bool CVobSubFileRipper::Create()
         m_langs[i].name = m_langs[i].alt = FindLangFromId(m_langs[i].id);
 
         CAtlArray<SubPos>& sp = m_langs[i].subpos;
-        qsort(sp.GetData(), sp.GetCount(), sizeof(SubPos), SubPosSortProc);
+        std::sort(sp.GetData(), sp.GetData() + sp.GetCount());
 
         if (m_rd.bForcedOnly) {
             Log(LOG_INFO, _T("Searching for forced subs..."));

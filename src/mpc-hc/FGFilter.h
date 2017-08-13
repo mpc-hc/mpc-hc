@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015 see Authors.txt
+ * (C) 2006-2013, 2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -140,8 +140,42 @@ class CFGFilterList
         CFGFilter* pFGF;
         int group;
         bool exactmatch, autodelete;
+
+        bool operator <(const filter_t& rhs) const {
+            if (group != rhs.group) {
+                return group < rhs.group;
+            }
+
+            if (pFGF->GetMerit() != rhs.pFGF->GetMerit()) {
+                return pFGF->GetMerit() > rhs.pFGF->GetMerit();
+            }
+
+            if (pFGF->GetCLSID() == rhs.pFGF->GetCLSID()) {
+                CFGFilterFile* fgfa = dynamic_cast<CFGFilterFile*>(pFGF);
+                CFGFilterFile* fgfb = dynamic_cast<CFGFilterFile*>(rhs.pFGF);
+
+                if (fgfa && !fgfb) {
+                    return true;
+                }
+                if (!fgfa && fgfb) {
+                    return false;
+                }
+            }
+
+            if (exactmatch && !rhs.exactmatch) {
+                return true;
+            }
+            if (!exactmatch && rhs.exactmatch) {
+                return false;
+            }
+
+            if (index != rhs.index) {
+                return index < rhs.index;
+            }
+
+            return false;
+        }
     };
-    static int filter_cmp(const void* a, const void* b);
     CAtlList<filter_t> m_filters;
     CAtlList<CFGFilter*> m_sortedfilters;
 
