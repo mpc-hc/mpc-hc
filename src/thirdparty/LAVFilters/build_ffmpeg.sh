@@ -72,13 +72,6 @@ configure() {
     --enable-muxer=spdif            \
     --disable-bsfs                  \
     --enable-bsf=extract_extradata,vp9_superframe \
-    --disable-hwaccels              \
-    --enable-hwaccel=h264_dxva2     \
-    --enable-hwaccel=hevc_dxva2     \
-    --enable-hwaccel=vc1_dxva2      \
-    --enable-hwaccel=wmv3_dxva2     \
-    --enable-hwaccel=mpeg2_dxva2    \
-    --enable-hwaccel=vp9_dxva2      \
     --disable-cuda                  \
     --disable-cuvid                 \
     --disable-nvenc                 \
@@ -109,7 +102,7 @@ configure() {
     EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib32"
   fi
 
-  sh ../../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
+  sh ../../../ffmpeg/configure --x86asmexe=yasm --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
 }
 
 build() {
