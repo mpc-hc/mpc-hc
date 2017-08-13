@@ -2945,15 +2945,6 @@ struct LSub {
     }
 };
 
-static int lscomp(const void* ls1, const void* ls2)
-{
-    int ret = ((LSub*)ls1)->layer - ((LSub*)ls2)->layer;
-    if (!ret) {
-        ret = ((LSub*)ls1)->readorder - ((LSub*)ls2)->readorder;
-    }
-    return ret;
-}
-
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
     CRect bbox2(0, 0, 0, 0);
