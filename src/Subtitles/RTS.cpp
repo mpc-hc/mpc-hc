@@ -1868,7 +1868,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
             ;
         }
         CStringW cmd = str.Mid(jOld, j - jOld);
-        cmd.Trim();
+        FastTrim(cmd);
         if (cmd.IsEmpty()) {
             continue;
         }
@@ -1902,7 +1902,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
                 }
             }
             CStringW param = str.Mid(jOld, j - jOld);
-            param.Trim();
+            FastTrim(param);
 
             while (!param.IsEmpty()) {
                 int k = param.Find(L','), l = param.Find(L'\\');
@@ -1914,7 +1914,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
                     }
                     param = k + 1 < param.GetLength() ? param.Mid(k + 1) : L"";
                 } else {
-                    param.Trim();
+                    FastTrim(param);
                     if (!param.IsEmpty()) {
                         tag.params.Add(param);
                     }

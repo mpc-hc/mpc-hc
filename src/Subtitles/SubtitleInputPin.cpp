@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -415,7 +415,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             CStringA str(pData, (int)pSample->data.size());
 
             str.Replace("\r\n", "\n");
-            str.Trim();
+            FastTrim(str);
 
             if (!str.IsEmpty()) {
                 pRTS->Add(AToW(str), false, pSample->rtStart, pSample->rtStop);
@@ -426,7 +426,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
         if (m_mt.subtype == MEDIASUBTYPE_UTF8) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
+            CStringW str = FastTrim(UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())));
             if (!str.IsEmpty()) {
                 pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
@@ -434,7 +434,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
+            CStringW str = FastTrim(UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())));
             if (!str.IsEmpty()) {
                 STSEntry stse;
 
