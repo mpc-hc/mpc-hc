@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,53 +21,16 @@
 
 #pragma once
 
-#include <vector>
-#include <memory>
-#include "../SubPic/ISubPic.h"
 #include "Ellipse.h"
+#include <memory>
+#include <vector>
+
 
 #define PT_MOVETONC         0xfe
 #define PT_BSPLINETO        0xfc
 #define PT_BSPLINEPATCHTO   0xfa
 
-struct RasterizerNfo {
-    int w;
-    int h;
-    int spdw;
-    int overlayp;
-    int pitch;
-    DWORD color;
-
-    int xo;
-    int yo;
-
-    const DWORD* sw;
-    byte* s;
-    byte* srcBody;
-    byte* srcBorder;
-    DWORD* dst;
-
-    byte* am;
-
-    RasterizerNfo(int w, int h, int xo, int yo, int overlayp, int spdw, int pitch, DWORD color,
-                  const DWORD* sw, byte* s, byte* srcBody, byte* srcBorder, DWORD* dst, byte* am)
-        : w(w)
-        , h(h)
-        , spdw(spdw)
-        , overlayp(overlayp)
-        , pitch(pitch)
-        , color(color)
-        , xo(xo)
-        , yo(yo)
-        , sw(sw)
-        , s(s)
-        , srcBody(srcBody)
-        , srcBorder(srcBorder)
-        , dst(dst)
-        , am(am) {
-    }
-};
-
+struct SubPicDesc;
 using tSpanBuffer = std::vector<std::pair<unsigned __int64, unsigned __int64>>;
 
 struct COutlineData {
@@ -173,9 +136,7 @@ protected:
     BYTE* mpPathTypes;
     POINT* mpPathPoints;
     int mPathPoints;
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-    bool m_bUseSSE2;
-#endif
+    bool m_bUseAVX2;
 
 private:
     enum {
@@ -208,23 +169,6 @@ private:
     template<int flag> __forceinline void _EvaluateLine(int x0, int y0, int x1, int y1);
     static void _OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy);
     void CreateWidenedRegionFast(int borderX, int borderY);
-    // helpers
-    void Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo);
-    void Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo);
-    void Draw_noAlpha_sp_Body_0(RasterizerNfo& rnfo);
-    void Draw_noAlpha_sp_noBody_0(RasterizerNfo& rnfo);
-    void Draw_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo);
-    void Draw_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo);
-    void Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo);
-    void Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo);
-    void Draw_Alpha_spFF_Body_0(RasterizerNfo& rnfo);
-    void Draw_Alpha_spFF_noBody_0(RasterizerNfo& rnfo);
-    void Draw_Alpha_sp_Body_0(RasterizerNfo& rnfo);
-    void Draw_Alpha_sp_noBody_0(RasterizerNfo& rnfo);
-    void Draw_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo);
-    void Draw_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo);
-    void Draw_Alpha_sp_Body_sse2(RasterizerNfo& rnfo);
-    void Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo);
 
 public:
     Rasterizer();
@@ -237,8 +181,8 @@ public:
     bool ScanConvert();
     bool CreateWidenedRegion(int borderX, int borderY);
     bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
-    int getOverlayWidth();
+    int getOverlayWidth() const;
 
-    CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const DWORD* switchpts, bool fBody, bool fBorder);
-    void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor);
+    CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const DWORD* switchpts, bool fBody, bool fBorder) const;
+    void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor) const;
 };

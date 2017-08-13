@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,24 +20,15 @@
  */
 
 #include "stdafx.h"
-#include <string.h>
-#include <cmath>
-#include <vector>
 #include <algorithm>
+#include <cmath>
 #include <intrin.h>
+#include <vector>
 #include "Rasterizer.h"
 #include "SeparableFilter.h"
+#include "../SubPic/ISubPic.h"
 
-// Statics constants for use by alpha_blend_sse2
-static const __m128i low_mask = _mm_set1_epi16(0xFF);
-static const __m128i red_mask = _mm_set1_epi32(0xFF);
-static const __m128i green_mask = _mm_set1_epi32(0xFF00);
-static const __m128i blue_mask = _mm_set1_epi32(0xFF0000);
-static const __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
-static const __m128i one = _mm_set1_epi16(1);
-static const __m128i inv_one = _mm_set1_epi16(0x100);
-
-int Rasterizer::getOverlayWidth()
+int Rasterizer::getOverlayWidth() const
 {
     return m_pOverlayData ? m_pOverlayData->mOverlayWidth * 8 : 0;
 }
@@ -50,13 +41,15 @@ Rasterizer::Rasterizer()
     , mpEdgeBuffer(nullptr)
     , mEdgeHeapSize(0)
     , mEdgeNext(0)
-    , mpScanBuffer(0)
+    , mpScanBuffer(nullptr)
 {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-    int cpuInfo[4] = { -1 };
-    __cpuid(cpuInfo, 1);
-    m_bUseSSE2 = !!(cpuInfo[3] & (1 << 26));
-#endif
+    int cpuInfo[4];
+    __cpuid(cpuInfo, 0);
+    if (cpuInfo[0] < 7) {
+        return;
+    }
+    __cpuidex(cpuInfo, 7, 0);
+    m_bUseAVX2 = !!(cpuInfo[1] & (1 << 5));
 }
 
 Rasterizer::~Rasterizer()
@@ -484,9 +477,7 @@ bool Rasterizer::ScanConvert()
 
         m_pOutlineData->mOutline.reserve(mEdgeNext / 2);
 
-        __int64 y = 0;
-
-        for (y = 0; y < m_pOutlineData->mHeight; ++y) {
+        for (__int64 y = 0; y < m_pOutlineData->mHeight; ++y) {
             int count = 0;
 
             // Detangle scanline into edge heap.
@@ -947,570 +938,770 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
-
-static __forceinline void pixmix(DWORD* dst, DWORD color, DWORD alpha)
+namespace
 {
-    DWORD a = (((alpha) * (color >> 24)) >> 6) & 0xff;
-    DWORD ia = 256 - a;
-    a += 1;
+    struct C {
 
-    DWORD tmp = (((((*dst >> 8) & 0x00ff0000) * ia) & 0xff000000) >> 24) & 0xFF;
-    UNREFERENCED_PARAMETER(tmp);
-    *dst = ((((*dst & 0x00ff00ff) * ia + (color & 0x00ff00ff) * a) & 0xff00ff00) >> 8)
-           | ((((*dst & 0x0000ff00) * ia + (color & 0x0000ff00) * a) & 0x00ff0000) >> 8)
-           | ((((*dst >> 8) & 0x00ff0000) * ia) & 0xff000000);
-}
+        static __forceinline DWORD safe_subtract(DWORD a, DWORD b) {
+            return a > b ? a - b : 0;
+        }
 
-static __forceinline void pixmix2(DWORD* dst, DWORD color, DWORD shapealpha, DWORD clipalpha)
-{
-    DWORD a = (((shapealpha) * (clipalpha) * (color >> 24)) >> 12) & 0xff;
-    DWORD ia = 256 - a;
-    a += 1;
+        static __forceinline void pix_mix(DWORD* dst, DWORD color, DWORD alpha) {
+            const int ROUNDING_ERR = 1 << (6 - 1);
+            DWORD a = (alpha * (color >> 24) + ROUNDING_ERR) >> 6;
+            DWORD ia = 256 - a;
+            a += 1;
 
-    *dst = ((((*dst & 0x00ff00ff) * ia + (color & 0x00ff00ff) * a) & 0xff00ff00) >> 8)
-           | ((((*dst & 0x0000ff00) * ia + (color & 0x0000ff00) * a) & 0x00ff0000) >> 8)
-           | ((((*dst >> 8) & 0x00ff0000) * ia) & 0xff000000);
-}
+            *dst = ((((*dst & 0x00ff00ff) * ia + (color & 0x00ff00ff) * a) & 0xff00ff00) >> 8) |
+                   ((((*dst & 0x0000ff00) * ia + (color & 0x0000ff00) * a) & 0x00ff0000) >> 8) |
+                   ((((*dst >> 8) & 0x00ff0000) * ia) & 0xff000000);
+        }
 
-// Alpha blend 8 pixels at once. This is just pixmix_sse2, but done in a more vectorized manner.
-static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYTE* s, int wt)
-{
-    __m128i zero = _mm_setzero_si128();
-    __m128i srcR = _mm_set1_epi32(original_color & 0xFF);
-    __m128i srcG = _mm_set1_epi32((original_color & 0xFF00) >> 8);
-    __m128i srcB = _mm_set1_epi32((original_color & 0xFF0000) >> 16);
-    __m128i src_alpha = _mm_set1_epi16((original_color & 0xFF000000) >> 24);
+        static __forceinline void pix_mix(DWORD* dst, DWORD color, DWORD shapealpha, DWORD clipalpha) {
+            const int ROUNDING_ERR = 1 << (12 - 1);
+            DWORD a = (shapealpha * clipalpha * (color >> 24) + ROUNDING_ERR) >> 12;
+            DWORD ia = 256 - a;
+            a += 1;
 
-    __m128i alpha_mask = _mm_loadl_epi64((__m128i*)&s[wt]);
+            *dst = ((((*dst & 0x00ff00ff) * ia + (color & 0x00ff00ff) * a) & 0xff00ff00) >> 8) |
+                   ((((*dst & 0x0000ff00) * ia + (color & 0x0000ff00) * a) & 0x00ff0000) >> 8) |
+                   ((((*dst >> 8) & 0x00ff0000) * ia) & 0xff000000);
+        }
 
-    // TODO: Do 16 pixels at once
-    alpha_mask = _mm_unpacklo_epi8(alpha_mask, zero);
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* __restrict dst, const BYTE* __restrict alpha, int w, DWORD color,
+                                              Args... args) {
+            DWORD* __restrict dst_w = reinterpret_cast<DWORD* __restrict>(dst);
+            for (int wt = 0; wt < w; ++wt) {
+                pix_mix(&dst_w[wt], color, alpha[wt], args[wt]...);
+            }
+        }
 
-    alpha_mask = _mm_mullo_epi16(alpha_mask, src_alpha);
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* __restrict dst, const BYTE alpha, int w, DWORD color, Args... args) {
+            DWORD* __restrict dst_w = reinterpret_cast<DWORD* __restrict>(dst);
+            for (int wt = 0; wt < w; ++wt) {
+                pix_mix(&dst_w[wt], color, alpha, args[wt]...);
+            }
+        }
 
-    alpha_mask = _mm_srli_epi16(alpha_mask, 6);
-    alpha_mask = _mm_and_si128(alpha_mask, low_mask);
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD border, DWORD, DWORD body) {
+            pix_mix(dst, color, safe_subtract(border, body));
+        }
 
-    __m128i inv_alpha = _mm_sub_epi16(inv_one, alpha_mask);
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD border, DWORD, DWORD body,
+                                          DWORD clipalpha) {
+            pix_mix(dst, color, safe_subtract(border, body), clipalpha);
+        }
+    };
 
-    alpha_mask = _mm_add_epi16(alpha_mask, one);
+    struct SSE2 {
 
-    __m128i dst_xmm = _mm_loadu_si128((__m128i*)&dst[wt]);
-    __m128i dst2_xmm = _mm_loadu_si128((__m128i*)&dst[wt + 4]);
+        static __forceinline DWORD safe_subtract(DWORD a, DWORD b) {
+            __m128i ap = _mm_cvtsi32_si128(a);
+            __m128i bp = _mm_cvtsi32_si128(b);
+            __m128i rp = _mm_subs_epu16(ap, bp);
 
-    __m128i alpha_mask_hi = _mm_unpackhi_epi16(alpha_mask, zero);
-    __m128i inv_alpha_hi = _mm_unpackhi_epi16(inv_alpha, zero);
+            return (DWORD)_mm_cvtsi128_si32(rp);
+        }
 
-    alpha_mask = _mm_unpacklo_epi16(alpha_mask, zero);
-    inv_alpha = _mm_unpacklo_epi16(inv_alpha, zero);
+        // Calculate alpha value SSE2
+        static __forceinline __m128i calc_alpha_value(__m128i alpha, DWORD color, size_t) {
+            const int ROUNDING_ERR = 1 << (6 - 1);
 
-    __m128i red = _mm_and_si128(dst_xmm, red_mask);
-    red = _mm_mullo_epi16(red, inv_alpha);
-    red = _mm_add_epi16(red, _mm_mullo_epi16(srcR, alpha_mask));
-    red = _mm_srli_epi16(red, 8);
+            const __m128i zero = _mm_setzero_si128();
+            const __m128i color_alpha_128 = _mm_set1_epi16(color >> 24);
+            const __m128i round_err_128 = _mm_set1_epi16(ROUNDING_ERR);
 
-    __m128i green = _mm_and_si128(dst_xmm, green_mask);
-    green = _mm_srli_epi32(green, 8);
-    green = _mm_mullo_epi16(green, inv_alpha);
-    green = _mm_add_epi16(green, _mm_mullo_epi16(srcG, alpha_mask));
-    green = _mm_srli_epi32(green, 8);
-    green = _mm_slli_epi32(green, 8);
+            __m128i srchi = alpha;
+            alpha = _mm_unpacklo_epi8(alpha, zero);
+            srchi = _mm_unpackhi_epi8(srchi, zero);
+            alpha = _mm_mullo_epi16(alpha, color_alpha_128);
+            srchi = _mm_mullo_epi16(srchi, color_alpha_128);
+            alpha = _mm_adds_epu16(alpha, round_err_128);
+            alpha = _mm_srli_epi16(alpha, 6);
+            srchi = _mm_adds_epu16(srchi, round_err_128);
+            srchi = _mm_srli_epi16(srchi, 6);
+            alpha = _mm_packus_epi16(alpha, srchi);
 
-    __m128i blue = _mm_and_si128(dst_xmm, blue_mask);
-    blue = _mm_srli_epi32(blue, 16);
-    blue = _mm_mullo_epi16(blue, inv_alpha);
-    blue = _mm_add_epi16(blue, _mm_mullo_epi16(srcB, alpha_mask));
-    blue = _mm_srli_epi32(blue, 8);
-    blue = _mm_slli_epi32(blue, 16);
+            return alpha;
+        }
 
-    __m128i alpha = _mm_and_si128(dst_xmm, alpha_bit_mask);
-    alpha = _mm_srli_epi32(alpha, 24);
-    alpha = _mm_mullo_epi16(alpha, inv_alpha);
-    alpha = _mm_srli_epi32(alpha, 8);
-    alpha = _mm_slli_epi32(alpha, 24);
+        static __forceinline __m128i calc_alpha_value(__m128i border, DWORD color, const BYTE* __restrict,
+                                                      const BYTE* __restrict body, size_t i) {
+            return calc_alpha_value(_mm_subs_epu8(border, _mm_loadu_si128(reinterpret_cast<const __m128i*>(body + i))),
+                                    color, 0);
+        }
 
-    dst_xmm = _mm_or_si128(red, green);
-    dst_xmm = _mm_or_si128(dst_xmm, blue);
-    dst_xmm = _mm_or_si128(dst_xmm, alpha);
+        static __forceinline __m128i calc_alpha_value(__m128i alpha, DWORD color, const BYTE* __restrict am, size_t i) {
+            const int ROUNDING_ERR = 1 << (12 - 1);
 
-    // Next 4 pixels
-    red = _mm_and_si128(dst2_xmm, red_mask);
-    red = _mm_mullo_epi16(red, inv_alpha_hi);
-    red = _mm_add_epi16(red, _mm_mullo_epi16(srcR, alpha_mask_hi));
-    red = _mm_srli_epi16(red, 8);
+            const __m128i color_alpha_128 = _mm_set1_epi16(color >> 24);
+            const __m128i round_err_128 = _mm_set1_epi16(ROUNDING_ERR >> 8);
 
-    green = _mm_and_si128(dst2_xmm, green_mask);
-    green = _mm_srli_epi32(green, 8);
-    green = _mm_mullo_epi16(green, inv_alpha_hi);
-    green = _mm_add_epi16(green, _mm_mullo_epi16(srcG, alpha_mask_hi));
-    green = _mm_srli_epi32(green, 8);
-    green = _mm_slli_epi32(green, 8);
+            const __m128i zero = _mm_setzero_si128();
 
-    blue = _mm_and_si128(dst2_xmm, blue_mask);
-    blue = _mm_srli_epi32(blue, 16);
-    blue = _mm_mullo_epi16(blue, inv_alpha_hi);
-    blue = _mm_add_epi16(blue, _mm_mullo_epi16(srcB, alpha_mask_hi));
-    blue = _mm_srli_epi32(blue, 8);
-    blue = _mm_slli_epi32(blue, 16);
+            __m128i mask = _mm_loadu_si128(reinterpret_cast<const __m128i*>(am + i));
+            __m128i src1hi = alpha;
+            __m128i maskhi = mask;
 
-    alpha = _mm_and_si128(dst2_xmm, alpha_bit_mask);
-    alpha = _mm_srli_epi32(alpha, 24);
-    alpha = _mm_mullo_epi16(alpha, inv_alpha_hi);
-    alpha = _mm_srli_epi32(alpha, 8);
-    alpha = _mm_slli_epi32(alpha, 24);
+            alpha = _mm_unpacklo_epi8(alpha, zero);
+            src1hi = _mm_unpackhi_epi8(src1hi, zero);
+            mask = _mm_unpacklo_epi8(zero, mask);
+            maskhi = _mm_unpackhi_epi8(zero, maskhi);
+            alpha = _mm_mullo_epi16(alpha, color_alpha_128);
+            src1hi = _mm_mullo_epi16(src1hi, color_alpha_128);
+            alpha = _mm_mulhi_epu16(alpha, mask);
+            src1hi = _mm_mulhi_epu16(src1hi, maskhi);
+            alpha = _mm_adds_epu16(alpha, round_err_128);
+            src1hi = _mm_adds_epu16(src1hi, round_err_128);
+            alpha = _mm_srli_epi16(alpha, 12 + 8 - 16);
+            src1hi = _mm_srli_epi16(src1hi, 12 + 8 - 16);
+            alpha = _mm_packus_epi16(alpha, src1hi);
 
-    dst2_xmm = _mm_or_si128(red, green);
-    dst2_xmm = _mm_or_si128(dst2_xmm, blue);
-    dst2_xmm = _mm_or_si128(dst2_xmm, alpha);
+            return alpha;
+        }
 
-    _mm_storeu_si128((__m128i*)&dst[wt], dst_xmm);
-    _mm_storeu_si128((__m128i*)&dst[wt + 4], dst2_xmm);
-}
+        static __forceinline __m128i calc_alpha_value(__m128i border, DWORD color, const BYTE* __restrict,
+                                                      const BYTE* __restrict body, const BYTE* __restrict am, size_t i) {
+            return calc_alpha_value(_mm_subs_epu8(border, _mm_loadu_si128(reinterpret_cast<const __m128i*>(body + i))),
+                                    color, am, i);
+        }
 
-static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
-{
-    alpha = (((alpha) * (color >> 24)) >> 6) & 0xff;
-    color &= 0xffffff;
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD alpha) {
+            const int ROUNDING_ERR = 1 << (6 - 1);
+            alpha = ((alpha * (color >> 24) + ROUNDING_ERR) >> 6) & 0xff;
+            color &= 0xffffff;
 
-    __m128i zero = _mm_setzero_si128();
-    __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
-    __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
-    __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
-    __m128i r = _mm_unpacklo_epi16(d, s);
+            __m128i zero = _mm_setzero_si128();
+            __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
+            __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
+            __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
+            __m128i r = _mm_unpacklo_epi16(d, s);
 
-    r = _mm_madd_epi16(r, a);
-    r = _mm_srli_epi32(r, 8);
-    r = _mm_packs_epi32(r, r);
-    r = _mm_packus_epi16(r, r);
+            r = _mm_madd_epi16(r, a);
+            r = _mm_srli_epi32(r, 8);
+            r = _mm_packs_epi32(r, r);
+            r = _mm_packus_epi16(r, r);
 
-    *dst = (DWORD)_mm_cvtsi128_si32(r);
-}
+            *dst = (DWORD)_mm_cvtsi128_si32(r);
+        }
 
-static __forceinline void pixmix2_sse2(DWORD* dst, DWORD color, DWORD shapealpha, DWORD clipalpha)
-{
-    DWORD alpha = (((shapealpha) * (clipalpha) * (color >> 24)) >> 12) & 0xff;
-    color &= 0xffffff;
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD shapealpha, DWORD clipalpha) {
+            const int ROUNDING_ERR = 1 << (12 - 1);
+            DWORD alpha = ((shapealpha * clipalpha * (color >> 24) + ROUNDING_ERR) >> 12) & 0xff;
+            color &= 0xffffff;
 
-    __m128i zero = _mm_setzero_si128();
-    __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
-    __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
-    __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
-    __m128i r = _mm_unpacklo_epi16(d, s);
+            __m128i zero = _mm_setzero_si128();
+            __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
+            __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
+            __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
+            __m128i r = _mm_unpacklo_epi16(d, s);
 
-    r = _mm_madd_epi16(r, a);
-    r = _mm_srli_epi32(r, 8);
-    r = _mm_packs_epi32(r, r);
-    r = _mm_packus_epi16(r, r);
+            r = _mm_madd_epi16(r, a);
+            r = _mm_srli_epi32(r, 8);
+            r = _mm_packs_epi32(r, r);
+            r = _mm_packus_epi16(r, r);
 
-    *dst = (DWORD)_mm_cvtsi128_si32(r);
-}
+            *dst = (DWORD)_mm_cvtsi128_si32(r);
+        }
 
-// Calculate a - b clamping to 0 instead of underflowing
-static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
-{
-#ifndef _WIN64
-    __m64 ap = _mm_cvtsi32_si64(a);
-    __m64 bp = _mm_cvtsi32_si64(b);
-    __m64 rp = _mm_subs_pu16(ap, bp);
-    DWORD r = (DWORD)_mm_cvtsi64_si32(rp);
-    _mm_empty();
-    return r;
-#else
-    // For whatever reason Microsoft's x64 compiler doesn't support MMX intrinsics
-    return (b > a) ? 0 : a - b;
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD border, DWORD, DWORD body) {
+            pix_mix(dst, color, safe_subtract(border, body));
+        }
+
+        static __forceinline void pix_mix(DWORD* __restrict dst, DWORD color, DWORD border, DWORD, DWORD body,
+                                          DWORD clipalpha) {
+            pix_mix(dst, color, safe_subtract(border, body), clipalpha);
+        }
+
+        static __forceinline __m128i pix_mix_row(const __m128i& dst, const __m128i& c_r, const __m128i& c_g,
+                                                 const __m128i& c_b, const __m128i& a) {
+            __m128i d_a, d_r, d_g, d_b;
+
+            d_a = _mm_srli_epi32(dst, 24);
+
+            d_r = _mm_slli_epi32(dst, 8);
+            d_r = _mm_srli_epi32(d_r, 24);
+
+            d_g = _mm_slli_epi32(dst, 16);
+            d_g = _mm_srli_epi32(d_g, 24);
+
+            d_b = _mm_slli_epi32(dst, 24);
+            d_b = _mm_srli_epi32(d_b, 24);
+
+            d_r = _mm_or_si128(d_r, c_r);
+            d_g = _mm_or_si128(d_g, c_g);
+            d_b = _mm_or_si128(d_b, c_b);
+
+            d_a = _mm_mullo_epi16(d_a, a);
+            d_r = _mm_madd_epi16(d_r, a);
+            d_g = _mm_madd_epi16(d_g, a);
+            d_b = _mm_madd_epi16(d_b, a);
+
+            d_a = _mm_srli_epi32(d_a, 8);
+            d_r = _mm_srli_epi32(d_r, 8);
+            d_g = _mm_srli_epi32(d_g, 8);
+            d_b = _mm_srli_epi32(d_b, 8);
+
+            d_a = _mm_slli_epi32(d_a, 24);
+            d_r = _mm_slli_epi32(d_r, 16);
+            d_g = _mm_slli_epi32(d_g, 8);
+
+            d_b = _mm_or_si128(d_b, d_g);
+            d_b = _mm_or_si128(d_b, d_r);
+
+            return _mm_or_si128(d_b, d_a);
+        }
+
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* __restrict dst, const BYTE* __restrict alpha, int w, DWORD color,
+                                              Args... args) {
+            const __m128i c_r = _mm_set1_epi32((color & 0xFF0000));
+            const __m128i c_g = _mm_set1_epi32((color & 0xFF00) << 8);
+            const __m128i c_b = _mm_set1_epi32((color & 0xFF) << 16);
+
+            const __m128i zero = _mm_setzero_si128();
+            const __m128i ones = _mm_set1_epi16(0x1);
+
+            const BYTE* alpha_end0 = alpha + (w & ~15);
+            const BYTE* alpha_end = alpha + w;
+
+            int i = 0;
+            for (; alpha < alpha_end0; alpha += 16, dst += 16 * 4, i += 16) {
+                __m128i a = _mm_loadu_si128(reinterpret_cast<const __m128i*>(alpha));
+                __m128i d1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst));
+                __m128i d2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 16));
+                __m128i d3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 32));
+                __m128i d4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 48));
+
+                a = calc_alpha_value(a, color, args..., i);
+                __m128i ra = _mm_cmpeq_epi32(zero, zero);
+                ra = _mm_xor_si128(ra, a);
+                __m128i a1 = _mm_unpacklo_epi8(ra, a);
+                __m128i a2 = _mm_unpackhi_epi8(a1, zero);
+                a1 = _mm_unpacklo_epi8(a1, zero);
+                a1 = _mm_add_epi16(a1, ones);
+                a2 = _mm_add_epi16(a2, ones);
+
+                __m128i a3 = _mm_unpackhi_epi8(ra, a);
+                __m128i a4 = _mm_unpackhi_epi8(a3, zero);
+                a3 = _mm_unpacklo_epi8(a3, zero);
+                a3 = _mm_add_epi16(a3, ones);
+                a4 = _mm_add_epi16(a4, ones);
+
+                d1 = pix_mix_row(d1, c_r, c_g, c_b, a1);
+                d2 = pix_mix_row(d2, c_r, c_g, c_b, a2);
+                d3 = pix_mix_row(d3, c_r, c_g, c_b, a3);
+                d4 = pix_mix_row(d4, c_r, c_g, c_b, a4);
+
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst), d1);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 16), d2);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 32), d3);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 48), d4);
+            }
+            DWORD* dst_w = reinterpret_cast<DWORD*>(dst);
+            for (; alpha < alpha_end; alpha++, dst_w++, i++) {
+                pix_mix(dst_w, color, *alpha, args[i]...);
+            }
+        }
+
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* dst, BYTE alpha, int w, DWORD color, Args... args) {
+            const __m128i c_r = _mm_set1_epi32((color & 0xFF0000));
+            const __m128i c_g = _mm_set1_epi32((color & 0xFF00) << 8);
+            const __m128i c_b = _mm_set1_epi32((color & 0xFF) << 16);
+
+            const int ROUNDING_ERR = 1 << (6 - 1);
+            const DWORD a_ = (alpha * (color >> 24) + ROUNDING_ERR) >> 6;
+            const __m128i a = _mm_set1_epi32(((a_ + 1) << 16) | (0x100 - a_));
+
+            const BYTE* dst_end0 = dst + ((4 * w) & ~63);
+            const BYTE* dst_end = dst + 4 * w;
+            for (; dst < dst_end0; dst += 16 * 4) {
+                __m128i d1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst));
+                __m128i d2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 16));
+                __m128i d3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 32));
+                __m128i d4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 48));
+
+                d1 = pix_mix_row(d1, c_r, c_g, c_b, a);
+                d2 = pix_mix_row(d2, c_r, c_g, c_b, a);
+                d3 = pix_mix_row(d3, c_r, c_g, c_b, a);
+                d4 = pix_mix_row(d4, c_r, c_g, c_b, a);
+
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst), d1);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 16), d2);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 32), d3);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 48), d4);
+            }
+            for (; dst < dst_end; dst += 4) {
+                pix_mix(reinterpret_cast<DWORD*>(dst), color, alpha, args...);
+            }
+        }
+    };
+
+    struct AVX2 {
+
+        // Calculate alpha value AVX2
+        static __forceinline __m256i __vectorcall calc_alpha_value(__m256i alpha, DWORD color, size_t) {
+            const int ROUNDING_ERR = 1 << (6 - 1);
+
+            const __m256i zero = _mm256_setzero_si256();
+            const __m256i color_alpha_128 = _mm256_set1_epi16(color >> 24);
+            const __m256i round_err_128 = _mm256_set1_epi16(ROUNDING_ERR);
+
+            __m256i srchi = alpha;
+            alpha = _mm256_unpacklo_epi8(alpha, zero);
+            srchi = _mm256_unpackhi_epi8(srchi, zero);
+            alpha = _mm256_mullo_epi16(alpha, color_alpha_128);
+            srchi = _mm256_mullo_epi16(srchi, color_alpha_128);
+            alpha = _mm256_adds_epu16(alpha, round_err_128);
+            alpha = _mm256_srli_epi16(alpha, 6);
+            srchi = _mm256_adds_epu16(srchi, round_err_128);
+            srchi = _mm256_srli_epi16(srchi, 6);
+            alpha = _mm256_packus_epi16(alpha, srchi);
+
+            return alpha;
+        }
+
+        static __forceinline __m256i calc_alpha_value(__m256i border, DWORD color, const BYTE* __restrict,
+                                                      const BYTE* __restrict body, size_t i) {
+            return calc_alpha_value(_mm256_subs_epu8(border, _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(body + i))),
+                                    color, 0);
+        }
+
+        static __forceinline __m256i calc_alpha_value(__m256i alpha, DWORD color, const BYTE* __restrict am, size_t i) {
+            const int ROUNDING_ERR = 1 << (12 - 1);
+
+            const __m256i color_alpha_128 = _mm256_set1_epi16(color >> 24);
+            const __m256i round_err_128 = _mm256_set1_epi16(ROUNDING_ERR >> 8);
+
+            const __m256i zero = _mm256_setzero_si256();
+
+            __m256i mask = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(am + i));
+            __m256i src1hi = alpha;
+            __m256i maskhi = mask;
+
+            alpha = _mm256_unpacklo_epi8(alpha, zero);
+            src1hi = _mm256_unpackhi_epi8(src1hi, zero);
+            mask = _mm256_unpacklo_epi8(zero, mask);
+            maskhi = _mm256_unpackhi_epi8(zero, maskhi);
+            alpha = _mm256_mullo_epi16(alpha, color_alpha_128);
+            src1hi = _mm256_mullo_epi16(src1hi, color_alpha_128);
+            alpha = _mm256_mulhi_epu16(alpha, mask);
+            src1hi = _mm256_mulhi_epu16(src1hi, maskhi);
+            alpha = _mm256_adds_epu16(alpha, round_err_128);
+            src1hi = _mm256_adds_epu16(src1hi, round_err_128);
+            alpha = _mm256_srli_epi16(alpha, 12 + 8 - 16);
+            src1hi = _mm256_srli_epi16(src1hi, 12 + 8 - 16);
+            alpha = _mm256_packus_epi16(alpha, src1hi);
+
+            return alpha;
+        }
+
+        static __forceinline __m256i calc_alpha_value(__m256i border, DWORD color, const BYTE* __restrict,
+                                                      const BYTE* __restrict body, const BYTE* __restrict am,
+                                                      size_t i) {
+            return calc_alpha_value(_mm256_subs_epu8(border, _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(body + i))),
+                                    color, am, i);
+        }
+
+        static __forceinline __m256i pix_mix_row(const __m256i& dst, const __m256i& c_r, const __m256i& c_g,
+                                                 const __m256i& c_b, const __m256i& a) {
+            __m256i d_a, d_r, d_g, d_b;
+
+            d_a = _mm256_srli_epi32(dst, 24);
+
+            d_r = _mm256_slli_epi32(dst, 8);
+            d_r = _mm256_srli_epi32(d_r, 24);
+
+            d_g = _mm256_slli_epi32(dst, 16);
+            d_g = _mm256_srli_epi32(d_g, 24);
+
+            d_b = _mm256_slli_epi32(dst, 24);
+            d_b = _mm256_srli_epi32(d_b, 24);
+
+            d_r = _mm256_or_si256(d_r, c_r);
+            d_g = _mm256_or_si256(d_g, c_g);
+            d_b = _mm256_or_si256(d_b, c_b);
+
+            d_a = _mm256_mullo_epi16(d_a, a);
+            d_r = _mm256_madd_epi16(d_r, a);
+            d_g = _mm256_madd_epi16(d_g, a);
+            d_b = _mm256_madd_epi16(d_b, a);
+
+            d_a = _mm256_srli_epi32(d_a, 8);
+            d_r = _mm256_srli_epi32(d_r, 8);
+            d_g = _mm256_srli_epi32(d_g, 8);
+            d_b = _mm256_srli_epi32(d_b, 8);
+
+            d_a = _mm256_slli_epi32(d_a, 24);
+            d_r = _mm256_slli_epi32(d_r, 16);
+            d_g = _mm256_slli_epi32(d_g, 8);
+
+            d_b = _mm256_or_si256(d_b, d_g);
+            d_b = _mm256_or_si256(d_b, d_r);
+
+            return _mm256_or_si256(d_b, d_a);
+        }
+
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* __restrict dst, const BYTE* __restrict alpha, int w, DWORD color,
+                                              Args... args) {
+            const __m256i c_r = _mm256_set1_epi32((color & 0xFF0000));
+            const __m256i c_g = _mm256_set1_epi32((color & 0xFF00) << 8);
+            const __m256i c_b = _mm256_set1_epi32((color & 0xFF) << 16);
+
+            const __m256i zero = _mm256_setzero_si256();
+            const __m256i ones = _mm256_set1_epi16(1);
+
+            const BYTE* alpha_end0 = alpha + (w & ~31);
+            const BYTE* alpha_end1 = alpha + (w & ~15);
+            const BYTE* alpha_end = alpha + w;
+
+            const __m256i perm_mask = _mm256_set_epi32(7, 3, 5, 1, 6, 2, 4, 0);
+
+            int i = 0;
+            for (; alpha < alpha_end0; alpha += 32, dst += 32 * 4, i += 32) {
+                // TODO: Refactor memory allocation and use aligned loads
+                __m256i a = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(alpha));
+
+                __m256i d1 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst));
+                __m256i d2 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 32));
+                __m256i d3 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 64));
+                __m256i d4 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 96));
+
+                a = calc_alpha_value(a, color, args..., i);
+                a = _mm256_permutevar8x32_epi32(a, perm_mask);
+
+                __m256i ra = _mm256_cmpeq_epi32(zero, zero);
+                ra = _mm256_xor_si256(ra, a);
+
+                __m256i a1 = _mm256_unpacklo_epi8(ra, a);
+                __m256i a2 = _mm256_unpackhi_epi8(ra, a);
+
+                __m256i a3 = _mm256_unpackhi_epi8(a1, zero);
+                a1 = _mm256_unpacklo_epi8(a1, zero);
+
+                __m256i a4 = _mm256_unpackhi_epi8(a2, zero);
+                a2 = _mm256_unpacklo_epi8(a2, zero);
+
+                a1 = _mm256_add_epi16(a1, ones);
+                a3 = _mm256_add_epi16(a3, ones);
+
+                a2 = _mm256_add_epi16(a2, ones);
+                a4 = _mm256_add_epi16(a4, ones);
+
+                d1 = pix_mix_row(d1, c_r, c_g, c_b, a1);
+                d2 = pix_mix_row(d2, c_r, c_g, c_b, a2);
+                d3 = pix_mix_row(d3, c_r, c_g, c_b, a3);
+                d4 = pix_mix_row(d4, c_r, c_g, c_b, a4);
+
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst), d1);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 32), d2);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 64), d3);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 96), d4);
+            }
+
+            // Zero upper halves of YMM registers to avoid AVX/SSE translation penalties
+            _mm256_zeroupper();
+
+            // We could compute tail with masked loads/stores, but they are expensive, so it is better to do 128-bit vectors
+            // instead
+            // for (; alpha < alpha_end1 - 16; alpha += 16, dst += 16 * 4, i += 16) {
+            if (alpha_end0 != alpha_end1) {
+                const auto zero_low = _mm256_castsi256_si128(zero);
+                const auto ones_low = _mm256_castsi256_si128(ones);
+
+                __m128i a = _mm_lddqu_si128(reinterpret_cast<const __m128i*>(alpha));
+                __m128i d1 = _mm_lddqu_si128(reinterpret_cast<const __m128i*>(dst));
+                __m128i d2 = _mm_lddqu_si128(reinterpret_cast<const __m128i*>(dst + 16));
+                __m128i d3 = _mm_lddqu_si128(reinterpret_cast<const __m128i*>(dst + 32));
+                __m128i d4 = _mm_lddqu_si128(reinterpret_cast<const __m128i*>(dst + 48));
+
+                a = SSE2::calc_alpha_value(a, color, args..., i);
+                __m128i ra = _mm_cmpeq_epi32(zero_low, zero_low);
+                ra = _mm_xor_si128(ra, a);
+                __m128i a1 = _mm_unpacklo_epi8(ra, a);
+                __m128i a2 = _mm_unpackhi_epi8(a1, zero_low);
+                a1 = _mm_unpacklo_epi8(a1, zero_low);
+                a1 = _mm_add_epi16(a1, ones_low);
+                a2 = _mm_add_epi16(a2, ones_low);
+
+                __m128i a3 = _mm_unpackhi_epi8(ra, a);
+                __m128i a4 = _mm_unpackhi_epi8(a3, zero_low);
+                a3 = _mm_unpacklo_epi8(a3, zero_low);
+                a3 = _mm_add_epi16(a3, ones_low);
+                a4 = _mm_add_epi16(a4, ones_low);
+
+                const auto c_r_low = _mm256_castsi256_si128(c_r);
+                const auto c_g_low = _mm256_castsi256_si128(c_g);
+                const auto c_b_low = _mm256_castsi256_si128(c_b);
+
+                d1 = SSE2::pix_mix_row(d1, c_r_low, c_g_low, c_b_low, a1);
+                d2 = SSE2::pix_mix_row(d2, c_r_low, c_g_low, c_b_low, a2);
+                d3 = SSE2::pix_mix_row(d3, c_r_low, c_g_low, c_b_low, a3);
+                d4 = SSE2::pix_mix_row(d4, c_r_low, c_g_low, c_b_low, a4);
+
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst), d1);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 16), d2);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 32), d3);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 48), d4);
+
+                alpha += 16, dst += 16 * 4, i += 16;
+            }
+
+            DWORD* dst_w = reinterpret_cast<DWORD*>(dst);
+            for (; alpha < alpha_end; alpha++, dst_w++, i++) {
+                SSE2::pix_mix(dst_w, color, *alpha, args[i]...);
+            }
+        }
+
+        template <typename... Args>
+        static __forceinline void pix_mix_row(BYTE* dst, BYTE alpha, int w, DWORD color, Args... args) {
+            const __m256i c_r = _mm256_set1_epi32((color & 0xFF0000));
+            const __m256i c_g = _mm256_set1_epi32((color & 0xFF00) << 8);
+            const __m256i c_b = _mm256_set1_epi32((color & 0xFF) << 16);
+
+            const int ROUNDING_ERR = 1 << (6 - 1);
+            const DWORD a_ = (alpha * (color >> 24) + ROUNDING_ERR) >> 6;
+            const __m256i a = _mm256_set1_epi32(((a_ + 1) << 16) | (0x100 - a_));
+
+            const BYTE* dst_end0 = dst + ((4 * w) & ~127);
+            const BYTE* dst_end = dst + 4 * w;
+            for (; dst < dst_end0; dst += 32 * 4) {
+                __m256i d1 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst));
+                __m256i d2 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 32));
+                __m256i d3 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 64));
+                __m256i d4 = _mm256_lddqu_si256(reinterpret_cast<const __m256i*>(dst + 96));
+
+                d1 = pix_mix_row(d1, c_r, c_g, c_b, a);
+                d2 = pix_mix_row(d2, c_r, c_g, c_b, a);
+                d3 = pix_mix_row(d3, c_r, c_g, c_b, a);
+                d4 = pix_mix_row(d4, c_r, c_g, c_b, a);
+
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst), d1);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 32), d2);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 64), d3);
+                _mm256_storeu_si256(reinterpret_cast<__m256i*>(dst + 96), d4);
+            }
+
+            // Zero upper halves of YMM registers to avoid AVX/SSE translation penalties
+            _mm256_zeroupper();
+
+            if (dst_end - dst_end0 >= 16 * 4) {
+                __m128i d1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst));
+                __m128i d2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 16));
+                __m128i d3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 32));
+                __m128i d4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(dst + 64));
+
+                auto c_r_low = _mm256_castsi256_si128(c_r);
+                auto c_g_low = _mm256_castsi256_si128(c_g);
+                auto c_b_low = _mm256_castsi256_si128(c_b);
+                auto a_low = _mm256_castsi256_si128(a);
+
+                d1 = SSE2::pix_mix_row(d1, c_r_low, c_g_low, c_b_low, a_low);
+                d2 = SSE2::pix_mix_row(d2, c_r_low, c_g_low, c_b_low, a_low);
+                d3 = SSE2::pix_mix_row(d3, c_r_low, c_g_low, c_b_low, a_low);
+                d4 = SSE2::pix_mix_row(d4, c_r_low, c_g_low, c_b_low, a_low);
+
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst), d1);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 16), d2);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 32), d3);
+                _mm_storeu_si128(reinterpret_cast<__m128i*>(dst + 48), d4);
+
+                dst += 4 * 16;
+            }
+
+            for (; dst < dst_end; dst += 4) {
+                SSE2::pix_mix(reinterpret_cast<DWORD*>(dst), color, alpha, args...);
+            }
+        }
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    // Draw single color fill or shadow
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts)
+    {
+        // The <<6 is due to pixmix expecting the alpha parameter to be
+        // the multiplication of two 6-bit unsigned numbers but we
+        // only have one here. (No alpha mask.)
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, width, switchpts[0]);
+            alpha += overlay_pitch;
+            dst += pitch;
+        }
+    }
+
+    // Draw single color border
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict srcBorder,
+                      const BYTE* __restrict srcBody)
+    {
+        // src contains two different bitmaps, interlaced per pixel.
+        // The first stored is the fill, the second is the widened
+        // fill region created by CreateWidenedRegion().
+        // Since we're drawing only the border, we must obtain that
+        // by subtracting the fill from the widened region. The
+        // subtraction must be saturating since the widened region
+        // pixel value can be smaller than the fill value.
+        // This happens when blur edges is used.
+
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, width, switchpts[0], srcBorder, srcBody);
+            srcBody += overlay_pitch;
+            alpha += overlay_pitch;
+            dst += pitch;
+        }
+    }
+
+    // Draw multi color fill or shadow
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, int xo)
+    {
+        // xo is the offset (usually negative) we have moved into the image
+        // So if we have passed the switchpoint (?) switch to another color
+        // (So switchpts stores both colours *and* coordinates?)
+        const int len = std::max(0, std::min(int(switchpts[3]) - xo, width));
+        const int len1 = width - len;
+        const int len_bytes = len * sizeof(DWORD);
+
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, len, switchpts[0]);
+            dst += len_bytes;
+            alpha += len;
+            VER::pix_mix_row(dst, alpha, len1, switchpts[2]);
+            dst += pitch - len_bytes;
+            alpha += overlay_pitch - len;
+        }
+    }
+
+    // Draw multi color border
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict srcBorder,
+                      const BYTE* __restrict srcBody, int xo)
+    {
+        const int len = std::max(0, std::min(int(switchpts[3]) - xo, width));
+        const int len1 = width - len;
+        const int len_bytes = len * sizeof(DWORD);
+
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, len, switchpts[0], srcBorder, srcBody);
+            dst += len_bytes;
+            alpha += len;
+            VER::pix_mix_row(dst, alpha, len1, switchpts[2], srcBorder, srcBody);
+            dst += pitch - len_bytes;
+            alpha += overlay_pitch - len;
+        }
+    }
+
+    // Draw single color border with alpha mask
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict srcBorder,
+                      const BYTE* __restrict srcBody, const BYTE* __restrict alpha_mask, int alpha_pitch)
+    {
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, width, switchpts[0], srcBorder, srcBody, alpha_mask);
+            alpha_mask += alpha_pitch;
+            srcBody += overlay_pitch;
+            alpha += overlay_pitch;
+            dst += pitch;
+        }
+    }
+
+    // Draw single color fill or shadow with alpha mask
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict alpha_mask,
+                      int alpha_pitch)
+    {
+        // Both s and am contain 6-bit bitmaps of two different
+        // alpha masks; s is the subtitle shape and am is the
+        // clipping mask.
+        // Multiplying them together yields a 12-bit number.
+        // I think some imprecision is introduced here??
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, width, switchpts[0], alpha_mask);
+            alpha_mask += alpha_pitch;
+            alpha += overlay_pitch;
+            dst += pitch;
+        }
+    }
+
+    // Draw multi color border with alpha mask
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict srcBorder,
+                      const BYTE* __restrict srcBody, const BYTE* __restrict alpha_mask, int alpha_pitch, int xo)
+    {
+        const int len = std::max(0, std::min(int(switchpts[3]) - xo, width));
+        const int len1 = width - len;
+        const int len_bytes = len * sizeof(DWORD);
+
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, len, switchpts[0], srcBorder, srcBody);
+            dst += len_bytes;
+            alpha += len;
+            alpha_mask += len;
+            VER::pix_mix_row(dst, alpha, len1, switchpts[2], srcBorder, srcBody);
+            dst += pitch - len_bytes;
+            alpha += overlay_pitch - len;
+            alpha_mask += alpha_pitch - len;
+        }
+    }
+
+    // Draw multi color fill or shadow with alpha mask
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, const BYTE* __restrict alpha, int overlay_pitch, int width,
+                      int height, const DWORD* __restrict switchpts, const BYTE* __restrict alpha_mask, int alpha_pitch,
+                      int xo)
+    {
+        const int len = std::max(0, std::min(int(switchpts[3]) - xo, width));
+        const int len1 = width - len;
+        const int len_bytes = len * sizeof(DWORD);
+
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, len, switchpts[0], alpha_mask);
+            dst += len_bytes;
+            alpha += len;
+            alpha_mask += len;
+            VER::pix_mix_row(dst, alpha, len1, switchpts[2], alpha_mask);
+            dst += pitch - len_bytes;
+            alpha += overlay_pitch - len;
+            alpha_mask += alpha_pitch - len;
+        }
+    }
+
+    template <typename VER>
+    void DrawInternal(BYTE* __restrict dst, int pitch, BYTE alpha, int width, int height, DWORD color)
+    {
+        while (height--) {
+            VER::pix_mix_row(dst, alpha, width, color);
+            dst += pitch;
+        }
+    }
+
+    template <class... Args>
+    __forceinline void DrawInternal(bool bUseAVX2, Args&& ... args)
+    {
+#ifndef __AVX2__
+        if (bUseAVX2) {
 #endif
-}
-
-static __forceinline DWORD safe_subtract_sse2(DWORD a, DWORD b)
-{
-    __m128i ap = _mm_cvtsi32_si128(a);
-    __m128i bp = _mm_cvtsi32_si128(b);
-    __m128i rp = _mm_subs_epu16(ap, bp);
-
-    return (DWORD)_mm_cvtsi128_si32(rp);
-}
-
-// some helper procedures (Draw is so big)
-void Rasterizer::Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    // The <<6 is due to pixmix expecting the alpha parameter to be
-    // the multiplication of two 6-bit unsigned numbers but we
-    // only have one here. (No alpha mask.)
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix(&dst[wt], color, s[wt]);
+            DrawInternal<AVX2>(std::forward<Args>(args)...);
+#ifndef __AVX2__
+        } else {
+            DrawInternal<SSE2>(std::forward<Args>(args)...);
         }
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    // src contains two different bitmaps, interlaced per pixel.
-    // The first stored is the fill, the second is the widened
-    // fill region created by CreateWidenedRegion().
-    // Since we're drawing only the border, we must otain that
-    // by subtracting the fill from the widened region. The
-    // subtraction must be saturating since the widened region
-    // pixel value can be smaller than the fill value.
-    // This happens when blur edges is used.
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix(&dst[wt], color, safe_subtract(srcBorder[wt], srcBody[wt]));
-        }
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    // xo is the offset (usually negative) we have moved into the image
-    // So if we have passed the switchpoint (?) switch to another colour
-    // (So switchpts stores both colours *and* coordinates?)
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix(&dst[wt], color, s[wt]);
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix(&dst[wt], color2, s[wt]);
-        }
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix(&dst[wt], color, safe_subtract(srcBorder[wt], srcBody[wt]));
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix(&dst[wt], color2, safe_subtract(srcBorder[wt], srcBody[wt]));
-        }
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_spFF_Body_0(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    // Both s and am contain 6-bit bitmaps of two different
-    // alpha masks; s is the subtitle shape and am is the
-    // clipping mask.
-    // Multiplying them together yields a 12-bit number.
-    // I think some imprecision is introduced here??
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix2(&dst[wt], color, s[wt], am[wt]);
-        }
-        am += rnfo.spdw;
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix2(&dst[wt], color, safe_subtract(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix2(&dst[wt], color2, safe_subtract(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        am += rnfo.spdw;
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_sp_Body_0(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix2(&dst[wt], color, s[wt], am[wt]);
-        }
-        am += rnfo.spdw;
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix2(&dst[wt], color, safe_subtract(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix2(&dst[wt], color2, safe_subtract(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        am += rnfo.spdw;
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}//Draw_Alpha_sp_noBody_0(w,h,xo,spd.w,color,spd.pitch,dst,src,sw,am);
-
-void Rasterizer::Draw_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    // The <<6 is due to pixmix expecting the alpha parameter to be
-    // the multiplication of two 6-bit unsigned numbers but we
-    // only have one here. (No alpha mask.)
-    int w = rnfo.w;
-    int end_w = ((w - 1) / 8) * 8;
-
-    while (h--) {
-        for (int wt = 0; wt < end_w; wt += 8) {
-            alpha_blend_sse2(dst, color, s, wt);
-        }
-        for (int wt = end_w; wt < w; ++wt) {
-            pixmix_sse2(&dst[wt], color, s[wt]);
-        }
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}//Draw_noAlpha_spFF_Body_sse2(w,h,color,spd.pitch,dst,s);
-
-void Rasterizer::Draw_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    // src contains two different bitmaps, interlaced per pixel.
-    // The first stored is the fill, the second is the widened
-    // fill region created by CreateWidenedRegion().
-    // Since we're drawing only the border, we must otain that
-    // by subtracting the fill from the widened region. The
-    // subtraction must be saturating since the widened region
-    // pixel value can be smaller than the fill value.
-    // This happens when blur edges is used.
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix_sse2(&dst[wt], color, safe_subtract_sse2(srcBorder[wt], srcBody[wt]));
-        }
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}//Draw_noAlpha_spFF_noBody_sse2(w,h,color,spd.pitch,dst,src);
-
-void Rasterizer::Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    // xo is the offset (usually negative) we have moved into the image
-    // So if we have passed the switchpoint (?) switch to another colour
-    // (So switchpts stores both colours *and* coordinates?)
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int end_gran = ((gran - 1) / 8) * 8;
-    int end_w = gran + ((rnfo.w - gran - 1) / 8) * 8;
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < end_gran; wt += 8) {
-            alpha_blend_sse2(dst, color, s, wt);
-        }
-        for (int wt = end_gran; wt < gran; ++wt) {
-            pixmix_sse2(&dst[wt], color, s[wt]);
-        }
-        for (int wt = gran; wt < end_w; wt += 8) {
-            alpha_blend_sse2(dst, color2, s, wt);
-        }
-        for (int wt = end_w; wt < rnfo.w; wt++) {
-            pixmix_sse2(&dst[wt], color2, s[wt]);
-        }
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
-{
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix_sse2(&dst[wt], color, safe_subtract_sse2(srcBorder[wt], srcBody[wt]));
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix_sse2(&dst[wt], color2, safe_subtract_sse2(srcBorder[wt], srcBody[wt]));
-        }
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-
-    // Both s and am contain 6-bit bitmaps of two different
-    // alpha masks; s is the subtitle shape and am is the
-    // clipping mask.
-    // Multiplying them together yields a 12-bit number.
-    // I think some imprecision is introduced here??
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix2_sse2(&dst[wt], color, s[wt], am[wt]);
-        }
-        am += rnfo.spdw;
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-
-    while (h--) {
-        for (int wt = 0; wt < rnfo.w; ++wt) {
-            pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        am += rnfo.spdw;
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    int color = rnfo.color;
-    byte* s = rnfo.s;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix2_sse2(&dst[wt], color, s[wt], am[wt]);
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix2_sse2(&dst[wt], color2, s[wt], am[wt]);
-        }
-        am += rnfo.spdw;
-        s += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
-    }
-}
-
-void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
-{
-    byte* am = rnfo.am;
-    int h = rnfo.h;
-    DWORD color = rnfo.color;
-    byte* srcBody = rnfo.srcBody;
-    byte* srcBorder = rnfo.srcBorder;
-    DWORD* dst = rnfo.dst;
-    int gran = std::max(0, std::min((int)rnfo.sw[3] - rnfo.xo, rnfo.w));
-    int color2 = rnfo.sw[2];
-    UNREFERENCED_PARAMETER(color2);
-
-    while (h--) {
-        for (int wt = 0; wt < gran; ++wt) {
-            pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        for (int wt = gran; wt < rnfo.w; ++wt) {
-            pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(srcBorder[wt], srcBody[wt]), am[wt]);
-        }
-        am += rnfo.spdw;
-        srcBody += rnfo.overlayp;
-        srcBorder += rnfo.overlayp;
-        dst = (DWORD*)((char*)dst + rnfo.pitch);
+#endif
+        // C version is not used, provided only for reference
+        // DrawInternal<C>(std::forward<Args>(args)...);
     }
 }
 
@@ -1524,7 +1715,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 // fBody tells whether to render the body of the subs.
 // fBorder tells whether to render the border of the subs.
 CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub,
-                       const DWORD* switchpts, bool fBody, bool fBorder)
+                       const DWORD* switchpts, bool fBody, bool fBorder) const
 {
     CRect bbox(0, 0, 0, 0);
 
@@ -1571,151 +1762,81 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     bbox.SetRect(x, y, x + w, y + h);
     bbox &= CRect(0, 0, spd.w, spd.h);
 
-    // The alpha bitmap of the subtitles?
-    byte* srcBody = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
-    byte* srcBorder = m_pOverlayData->mpOverlayBufferBorder + m_pOverlayData->mOverlayPitch * yo + xo;
-    // fill rasterize info
-    RasterizerNfo rnfo(w, h, xo, yo, m_pOverlayData->mOverlayPitch, spd.w, spd.pitch,
-                       // Grab the first colour
-                       switchpts[0],
-                       switchpts,
-                       // s points to what the "body" to use is
-                       fBorder ? srcBorder : srcBody,
-                       srcBody,
-                       srcBorder,
-                       // How would this differ from src?
-                       (DWORD*)((char*)spd.bits + (spd.pitch * y)) + x,
-                       // The complex "vector clip mask" I think.
-                       pAlphaMask + spd.w * y + x);
+    BYTE* srcBody = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
+    BYTE* srcBorder = m_pOverlayData->mpOverlayBufferBorder + m_pOverlayData->mOverlayPitch * yo + xo;
+    BYTE* alphaMask = pAlphaMask + spd.w * y + x;
+    BYTE* dst = (BYTE*)((DWORD*)(spd.bits + spd.pitch * y) + x);
+    BYTE* s = fBorder ? srcBorder : srcBody;
 
-    // Every remaining line in the bitmap to be rendered...
-    // Basic case of no complex clipping mask
-    if (!pAlphaMask) {
-        // If the first colour switching coordinate is at "infinite" we're
-        // never switching and can use some simpler code.
-        // ??? Is this optimisation really worth the extra readability issues it adds?
-        if (switchpts[1] == DWORD_MAX) {
-            // fBody is true if we're rendering a fill or a shadow.
-            if (fBody) {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_noAlpha_spFF_Body_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_noAlpha_spFF_Body_sse2(rnfo);
-                }
-            }
-            // Not painting body, ie. painting border without fill in it
-            else {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_noAlpha_spFF_noBody_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_noAlpha_spFF_noBody_sse2(rnfo);
-                }
-            }
-        }
-        // not (switchpts[1] == DWORD_MAX)
-        else {
-            // switchpts plays an important rule here
-            //const long *sw = switchpts;
+    enum {
+        NONE = 0,
+        ALPHA = 1,
+        BODY = 1 << 1,
+        SWITCHPOINT = 1 << 2,
+    };
 
-            if (fBody) {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_noAlpha_sp_Body_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_noAlpha_sp_Body_sse2(rnfo);
-                }
-            }
-            // Not body
-            else {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_noAlpha_sp_noBody_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_noAlpha_sp_noBody_sse2(rnfo);
-                }
-            }
-        }
+    int draw_op = 0;
+    draw_op |= pAlphaMask ? ALPHA : 0;
+    draw_op |= fBody ? BODY : 0;
+    draw_op |= switchpts[1] != DWORD_MAX ? SWITCHPOINT : 0;
+
+    switch (draw_op) {
+        case BODY:
+            // Draw single color fill or shadow
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts);
+            break;
+        case NONE:
+            // Draw single color border
+            ASSERT(s == srcBorder);
+            __assume(s == srcBorder);
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, srcBorder,
+                         srcBody);
+            break;
+        case BODY | SWITCHPOINT:
+            // Draw multi color fill or shadow
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, xo);
+            break;
+        case SWITCHPOINT:
+            // Draw multi color border
+            ASSERT(s == srcBorder);
+            __assume(s == srcBorder);
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, srcBorder,
+                         srcBody, xo);
+            break;
+        case ALPHA:
+            // Draw single color border with alpha mask
+            ASSERT(s == srcBorder);
+            __assume(s == srcBorder);
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, srcBorder,
+                         srcBody, alphaMask, spd.w);
+            break;
+        case ALPHA | BODY:
+            // Draw single color fill or shadow with alpha mask
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, alphaMask,
+                         spd.w);
+            break;
+        case ALPHA | SWITCHPOINT:
+            // Draw multi color border with alpha mask
+            ASSERT(s == srcBorder);
+            __assume(s == srcBorder);
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, srcBorder,
+                         srcBody, alphaMask, spd.w, xo);
+            break;
+        case ALPHA | BODY | SWITCHPOINT:
+            // Draw multi color fill or shadow with alpha mask
+            DrawInternal(m_bUseAVX2, dst, spd.pitch, s, m_pOverlayData->mOverlayPitch, w, h, switchpts, alphaMask,
+                         spd.w, xo);
+            break;
+        default:
+            UNREACHABLE_CODE();
     }
-    // Here we *do* have an alpha mask
-    else {
-        if (switchpts[1] == DWORD_MAX) {
-            if (fBody) {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_Alpha_spFF_Body_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_Alpha_spFF_Body_sse2(rnfo);
-                }
-            } else {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_Alpha_spFF_noBody_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_Alpha_spFF_noBody_sse2(rnfo);
-                }
-            }
-        } else {
-            //const long *sw = switchpts;
-
-            if (fBody) {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_Alpha_sp_Body_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_Alpha_sp_Body_sse2(rnfo);
-                }
-            } else {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-                if (!m_bUseSSE2) {
-                    Draw_Alpha_sp_noBody_0(rnfo);
-                } else
-#endif
-                {
-                    Draw_Alpha_sp_noBody_sse2(rnfo);
-                }
-            }
-        }
-    }
-    // Remember to EMMS!
-    // Rendering fails in funny ways if we don't do this.
-#ifndef _WIN64
-    _mm_empty();
-#endif
 
     return bbox;
 }
 
-void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor)
+void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor) const
 {
     ASSERT(spd.w >= x + nWidth && spd.h >= y + nHeight);
-
-    for (int wy = y; wy < y + nHeight; wy++) {
-        DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
-        for (int wt = 0; wt < nWidth; ++wt) {
-#if defined(_M_IX86_FP) && _M_IX86_FP < 2
-            if (!m_bUseSSE2) {
-                pixmix(&dst[wt], lColor, 0x40);
-            } else
-#endif
-            {
-                pixmix_sse2(&dst[wt], lColor, 0x40); // 0x40 because >> 6 in pixmix (to preserve tranparency)
-            }
-        }
-    }
+    BYTE* dst = (BYTE*)((DWORD*)(spd.bits + spd.pitch * y) + x);
+    DrawInternal(m_bUseAVX2, dst, spd.pitch, BYTE(0x40), nWidth, nHeight, lColor);
 }
