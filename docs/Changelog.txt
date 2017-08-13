@@ -20,6 +20,7 @@ next version - not released yet
 * Updated Unrar to v5.5.7
 * Split internal MPEG source filter option into a PS and TS variant
 * End of support for Windows XP
+* SSA/ASS subtitles: Add cache for alpha mask
 ! Fixed text subtitle rendering in Avisynth
 ! Fixed DPI scaling of non-client areas in main window
 ! Prevent crash for ASS subtitles with invalid (too high) blur values

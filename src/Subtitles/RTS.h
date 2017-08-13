@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,21 +21,63 @@
 
 #pragma once
 
+#include <list>
 #include <memory>
 #include "STS.h"
 #include "Rasterizer.h"
 #include "../SubPic/SubPicProviderImpl.h"
 #include "RenderingCache.h"
 
+class Effect;
 struct CTextDims;
 struct CPolygonPath {
     CAtlArray<BYTE> typesOrg;
     CAtlArray<CPoint> pointsOrg;
     CSize size;
 };
+
+struct CAlphaMask;
+
+struct alpha_mask_deleter {
+    explicit alpha_mask_deleter(std::list<CAlphaMask>& alphaMaskPool)
+        : m_alphaMaskPool(alphaMaskPool) {
+    }
+
+    void operator()(CAlphaMask* ptr) const noexcept;
+
+    std::list<CAlphaMask>& m_alphaMaskPool;
+};
+
+struct CAlphaMask final : std::unique_ptr<BYTE[]> {
+    CAlphaMask() = delete;
+    CAlphaMask(CAlphaMask&&) = default;
+    CAlphaMask(const CAlphaMask&) = delete;
+    CAlphaMask& operator=(const CAlphaMask&) = delete;
+
+    size_t m_size;
+
+    explicit CAlphaMask(size_t size)
+        : std::unique_ptr<BYTE[]>(std::make_unique<BYTE[]>(size))
+        , m_size(size) {
+    }
+
+    static std::shared_ptr<CAlphaMask> Alloc(std::list<CAlphaMask>& alphaMaskPool, size_t size) {
+        for (auto it = alphaMaskPool.begin(); it != alphaMaskPool.end(); ++it) {
+            auto& am = *it;
+            if (am.m_size >= size) {
+                auto ret = std::shared_ptr<CAlphaMask>(DEBUG_NEW CAlphaMask(std::move(am)), alpha_mask_deleter(alphaMaskPool));
+                alphaMaskPool.erase(it);
+                return std::move(ret);
+            }
+        }
+        return std::shared_ptr<CAlphaMask>(DEBUG_NEW CAlphaMask(size), alpha_mask_deleter(alphaMaskPool));
+    }
+};
+
 typedef std::shared_ptr<CPolygonPath> CPolygonPathSharedPtr;
 struct SSATag;
 typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
+typedef std::shared_ptr<CAlphaMask> CAlphaMaskSharedPtr;
 
 typedef CRenderingCache<CTextDimsKey, CTextDims, CKeyTraits<CTextDimsKey>> CTextDimsCache;
 typedef CRenderingCache<CPolygonPathKey, CPolygonPathSharedPtr, CKeyTraits<CPolygonPathKey>> CPolygonCache;
@@ -43,6 +85,7 @@ typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> C
 typedef CRenderingCache<CEllipseKey, CEllipseSharedPtr, CKeyTraits<CEllipseKey>> CEllipseCache;
 typedef CRenderingCache<COutlineKey, COutlineDataSharedPtr, CKeyTraits<COutlineKey>> COutlineCache;
 typedef CRenderingCache<COverlayKey, COverlayDataSharedPtr, CKeyTraits<COverlayKey>> COverlayCache;
+typedef CRenderingCache<CClipperKey, CAlphaMaskSharedPtr, CKeyTraits<CClipperKey>> CAlphaMaskCache;
 
 struct RenderingCaches {
     CTextDimsCache textDimsCache;
@@ -51,6 +94,9 @@ struct RenderingCaches {
     CEllipseCache ellipseCache;
     COutlineCache outlineCache;
     COverlayCache overlayCache;
+    // Be careful about the order alphaMaskCache need to be destroyed before alphaMaskPool.
+    std::list<CAlphaMask> alphaMaskPool;
+    CAlphaMaskCache alphaMaskCache;
 
     RenderingCaches()
         : textDimsCache(2048)
@@ -58,7 +104,8 @@ struct RenderingCaches {
         , SSATagsCache(2048)
         , ellipseCache(64)
         , outlineCache(128)
-        , overlayCache(128) {}
+        , overlayCache(128)
+        , alphaMaskCache(128) {}
 };
 
 class CMyFont : public CFont
@@ -154,6 +201,20 @@ public:
     virtual bool Append(CWord* w);
 };
 
+class Effect
+{
+public:
+    enum eftype type;
+    int param[9];
+    int t[4];
+
+    bool operator==(const Effect& rhs) const {
+        return type == rhs.type
+               && !memcmp(param, rhs.param, sizeof(param))
+               && !memcmp(t, rhs.t, sizeof(t));
+    }
+};
+
 class CClipper : public CPolygon
 {
 private:
@@ -163,13 +224,59 @@ private:
 public:
     CClipper(CStringW str, const CSize& size, double scalex, double scaley, bool inverse, const CPoint& cpOffset,
              RenderingCaches& renderingCaches);
-    virtual ~CClipper();
 
+    void CClipper::SetEffect(const Effect& effect, int effectType) {
+        m_effectType = effectType;
+        m_effect = effect;
+    }
+
+    CAlphaMaskSharedPtr GetAlphaMask(const std::shared_ptr<CClipper>& clipper);
+
+    ULONG Hash() const {
+        ULONG hash = CStringElementTraits<CString>::Hash(m_str);
+        hash += hash << 5;
+        hash += m_inverse;
+        hash += hash << 5;
+        hash += m_effectType;
+        hash += hash << 5;
+        hash += m_size.cx;
+        hash += hash << 5;
+        hash += m_size.cy;
+        hash += hash << 5;
+        hash += int(m_scalex * 1e6);
+        hash += hash << 5;
+        hash += int(m_scaley * 1e6);
+        for (const auto& param : m_effect.t) {
+            hash += hash << 5;
+            hash += param;
+        }
+        for (const auto& type : m_effect.t) {
+            hash += hash << 5;
+            hash += type;
+        }
+        return hash;
+    }
+
+    bool operator==(const CClipper& rhs) const {
+        return m_str == rhs.m_str
+               && std::abs(m_scalex - rhs.m_scalex) < 1e-6
+               && std::abs(m_scaley - rhs.m_scaley) < 1e-6
+               && m_size == rhs.m_size
+               && m_inverse == rhs.m_inverse
+               && m_effectType == rhs.m_effectType
+               && m_effect == rhs.m_effect;
+    }
+
+private:
     const CSize m_size;
     const bool m_inverse;
     const CPoint m_cpOffset;
-    BYTE* m_pAlphaMask;
+    CAlphaMaskSharedPtr m_pAlphaMask;
+    Effect m_effect;
+    int m_effectType;
 };
+
+using CClipperSharedPtr = std::shared_ptr<CClipper>;
 
 class CLine : public CAtlList<CWord*>
 {
@@ -278,14 +385,6 @@ enum eftype {
 
 #define EF_NUMBEROFEFFECTS 5
 
-class Effect
-{
-public:
-    enum eftype type;
-    int param[9];
-    int t[4];
-};
-
 class CSubtitle : public CAtlList<CLine*>
 {
     RenderingCaches& m_renderingCaches;
@@ -306,7 +405,7 @@ public:
 
     CAtlList<CWord*> m_words;
 
-    CClipper* m_pClipper;
+    CClipperSharedPtr m_pClipper;
 
     CRect m_rect, m_clip;
     int m_topborder, m_bottomborder;

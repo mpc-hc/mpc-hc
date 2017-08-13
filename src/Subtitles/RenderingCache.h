@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -190,4 +190,21 @@ public:
     void UpdateHash();
 
     bool operator==(const COverlayKey& overlayKey) const;
+};
+
+class CClipper;
+
+class CClipperKey
+{
+    ULONG m_hash;
+    std::shared_ptr<CClipper> m_clipper;
+
+public:
+    CClipperKey(const std::shared_ptr<CClipper>& clipper);
+
+    ULONG GetHash() const { return m_hash; };
+
+    void UpdateHash();
+
+    bool operator==(const CClipperKey& clipperKey) const;
 };

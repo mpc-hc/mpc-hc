@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014, 2016 see Authors.txt
+ * (C) 2013-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -125,9 +125,9 @@ void COutlineKey::UpdateHash()
     // CreatePath
     m_hash = __super::GetHash();
     m_hash += m_hash << 5;
-    m_hash += int(m_scalex);
+    m_hash += int(m_scalex * 1e6);
     m_hash += m_hash << 5;
-    m_hash += int(m_scaley);
+    m_hash += int(m_scaley * 1e6);
     m_hash += m_hash << 5;
     // Transform
     m_hash += int(m_style->fontScaleX);
@@ -205,4 +205,26 @@ bool COverlayKey::operator==(const COverlayKey& overlayKey) const
            && m_subp == overlayKey.m_subp
            && m_style->fBlur == overlayKey.m_style->fBlur
            && IsNearlyEqual(m_style->fGaussianBlur, overlayKey.m_style->fGaussianBlur, 1e-6);
+}
+
+CClipperKey::CClipperKey(const std::shared_ptr<CClipper>& clipper)
+    : m_clipper(clipper)
+{
+    UpdateHash();
+}
+
+void CClipperKey::UpdateHash()
+{
+    m_hash = m_clipper->Hash();
+}
+
+bool CClipperKey::operator==(const CClipperKey& clipperKey) const
+{
+    if (m_clipper == clipperKey.m_clipper) {
+        return true;
+    }
+    if (m_clipper && clipperKey.m_clipper) {
+        return *m_clipper == *clipperKey.m_clipper;
+    }
+    return false;
 }
