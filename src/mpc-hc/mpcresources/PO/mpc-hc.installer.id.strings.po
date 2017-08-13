@@ -5,13 +5,14 @@
 # Hatta.z, 2014
 # yoga.mardia <made.yoga12@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
+# zk, 2017
 # zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-08-02 14:48+0000\n"
+"Last-Translator: zk\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr "Ini akan memasang [name] di komputer Anda.\n\nSangat disarankan untuk me
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr ""
+msgstr "[name] membutuhkan Windows Vista atau lebih baru untuk dapat berjalan."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-08-01 18:43+0000\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-01 22:49+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1013,23 +1013,23 @@ msgstr "EDL-Ende festlegen"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
-msgstr "Pan & Scan: Um X-Achse spiegeln"
+msgstr "Pan&Scan: Um X-Achse spiegeln"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "PnS Rotate Y+"
-msgstr "Pan & Scan: Um Y-Achse drehen"
+msgstr "Pan&Scan: Um Y-Achse drehen"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "PnS Rotate Y-"
-msgstr "Pan & Scan: Um Y-Achse spiegeln"
+msgstr "Pan&Scan: Um Y-Achse spiegeln"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "PnS Rotate Z+"
-msgstr "Pan & Scan: Um Z-Achse drehen"
+msgstr "Pan&Scan: Um Z-Achse drehen"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "PnS Rotate Z-"
-msgstr "Pan & Scan: Um Z-Achse spiegeln"
+msgstr "Pan&Scan: Um Z-Achse spiegeln"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1785,27 +1785,27 @@ msgstr "Fenster immer im Vordergrund"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "Pan & Scan: Größe erhöhen"
+msgstr "Pan&Scan: Größe erhöhen"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "Pan & Scan: Breite erhöhen"
+msgstr "Pan&Scan: Breite erhöhen"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "Pan & Scan: Höhe erhöhen"
+msgstr "Pan&Scan: Höhe erhöhen"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "Pan & Scan: Größe verringern"
+msgstr "Pan&Scan: Größe verringern"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "Pan & Scan: Breite verringern"
+msgstr "Pan&Scan: Breite verringern"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "Pan & Scan: Höhe verringern"
+msgstr "Pan&Scan: Höhe verringern"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -1873,39 +1873,39 @@ msgstr "Bitte nur Zahlen zwischen 1 und 365 eingeben."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "Pan & Scan: Zentrieren"
+msgstr "Pan&Scan: Zentrieren"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "Pan & Scan: Nach links bewegen"
+msgstr "Pan&Scan: Nach links bewegen"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "Pan & Scan: Nach rechts bewegen"
+msgstr "Pan&Scan: Nach rechts bewegen"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "Pan & Scan: Nach oben bewegen"
+msgstr "Pan&Scan: Nach oben bewegen"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "Pan & Scan: Nach unten bewegen"
+msgstr "Pan&Scan: Nach unten bewegen"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
-msgstr "Pan & Scan: Nach oben-links bewegen"
+msgstr "Pan&Scan: Nach oben-links bewegen"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "Pan & Scan: Nach oben-rechts bewegen"
+msgstr "Pan&Scan: Nach oben-rechts bewegen"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
-msgstr "Pan & Scan: Nach unten-links bewegen"
+msgstr "Pan&Scan: Nach unten-links bewegen"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "PnS Down/Right"
-msgstr "Pan & Scan: Nach unten-rechts bewegen"
+msgstr "Pan&Scan: Nach unten-rechts bewegen"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2629,11 +2629,11 @@ msgstr "Videobild: Fenster von außen berühren"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Pan & Scan: Zurücksetzen"
+msgstr "Pan&Scan: Zurücksetzen"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
-msgstr "Pan & Scan: Um X-Achse drehen"
+msgstr "Pan&Scan: Um X-Achse drehen"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -3845,7 +3845,7 @@ msgstr "/playnext\t\tÖffnet die nächste Ordnerdatei (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr "/mute\t\t\tStartet den Player mit Ton aus."
+msgstr "/mute\t\tStartet den Player mit Ton aus."
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3921,7 +3921,7 @@ msgstr "/shaderpreset \"P\"\tLädt Shader-Profil \"P\"."
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"P\"\t\tLädt Pan & Scan-Profil \"P\"."
+msgstr "/pns \"P\"\t\tLädt Pan&Scan-Profil \"P\"."
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

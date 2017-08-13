@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:12+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-06 10:36+0000\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -611,7 +611,7 @@ msgstr "Vystrihnúť"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Predvolený filter pre vykresľovanie videa pri použití DirectShow. K prepnutiu na túto voľbu dochádza aj vtedy, keď sa z nejakého dôvodu nepodarí načítať iné filtre."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -627,7 +627,7 @@ msgstr "Dostupné, len ak je nainštalovaný DirectX 9. Veľmi stabilné, ale ni
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Rovnaké ako VMR-9 (v okne), ale s modulom Allocator-Presenter z MPC-HC pre titulkovanie. Zrkadlenie videa s prekrytím MOŽNO BUDE fungovať. Odporúčame použiť farebný priestor \"True Color\"."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -643,7 +643,7 @@ msgstr "Rovnaké ako voľba Null renderer, ale pripájať sa dajú iba nekomprim
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Rovnaké ako EVR, ale s modulom Allocator-Presenter programu MPC-HC pre titulkovanie a dodatočné úpravy. Odporúča sa."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -3839,7 +3839,7 @@ msgstr "/playnext\t\tPo prehraní otvoriť ďalší súbor v priečinku"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr ""
+msgstr "/mute\t\tStlmiť zvuk"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3847,7 +3847,7 @@ msgstr "/fullscreen\tSpustiť v režime na celú obrazovku"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tSpustiť so špecifickým prednastavením,\n\t\tkde N je buď \"1\" Minimálne, \"2\" Kompaktné alebo \"3\" Normálne"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3867,7 +3867,7 @@ msgstr "/randomize\tZapnúť náhodné prehrávanie v playliste"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tNastaviť hlasitosť, pričom N je z rozsahu 0 až 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"

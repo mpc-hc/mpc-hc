@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2017-07-31 11:37+0000\n"
-"Last-Translator: Roger <roger.espolet@gmail.com>\n"
+"PO-Revision-Date: 2017-08-13 20:49+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -190,7 +190,7 @@ msgstr "&Ajust automàtic"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Ajusta automàticament (si és massa &gran)"
+msgstr "Ajusta automàticament (si és més &gran)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -198,7 +198,7 @@ msgstr "Configuració del renderit&zador"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "Prova de &pipelleig"
+msgstr "Prova de &parpelleig (tearing)"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
@@ -206,7 +206,7 @@ msgstr "&Visualitza les estadístiques"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr "Visualitza el t&emps actual"
+msgstr "Mostra l'&hora actual"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
@@ -234,7 +234,7 @@ msgstr "&Pantalla completa D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "P&antalla completa D3D amb GUI"
+msgstr "Suport d'interfície (GUI) Direct3D (D3D) a pantalla completa"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -254,7 +254,7 @@ msgstr "Processa&ment en coma flotant parcial"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Desactiva la &composició de l'escriptori(&Aero)"
+msgstr "Desactiva la &composició de l'escriptori (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -402,11 +402,11 @@ msgstr "&Toca la finestra des de dins"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Zoom&1"
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Zoom&2"
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -702,7 +702,7 @@ msgstr "Comprova si hi ha &actualitzacions"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Opcions de la línia d’ordres"
+msgstr "&Opcions de la línia d'ordres"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

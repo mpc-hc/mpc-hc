@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-31 12:47+0000\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-02 07:01+0000\n"
 "Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -3919,7 +3919,7 @@ msgstr "/shaderpreset \"Pr\"\tΈναρξη με χρήση  \"Pr\" προκαθ�
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"όνομα\"\tΚαθορισμός το προεπιλεγμένο όνομα της Πανοραμικής οπτικής & Σάρωσης που θα χρησιμοποιηθεί"
+msgstr "/pns \"όνομα\"\tΚαθορισμός προεπιλεγμένου ονόματος Πανοραμικής οπτικής & Σάρωσης που θα χρησιμοποιηθεί"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

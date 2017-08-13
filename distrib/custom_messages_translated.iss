@@ -39,7 +39,7 @@ bn.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Bosnian
 bs_BA.WelcomeLabel2=Ovo će instalirati  [name] na vaš računar.%n%nPreporučljivo je da, prije nastavka, zatvorite sve ostale programe.
-bs_BA.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+bs_BA.WinVersionTooLowError=[name] za rad zahtijeva Windows Vista ili noviji.
 
 ; Catalan
 ca.WelcomeLabel2=Aquest auxiliar instal·larà [name] al vostre ordinador.%n%nSe recomana tancar totes les aplicacions abans de continuar.
@@ -79,7 +79,7 @@ fi.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; French (France)
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
-fr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+fr.WinVersionTooLowError=[name] nécessite Windows Vista ou plus récent pour fonctionner.
 
 ; Galician
 gl.WelcomeLabel2=Isto instalará [name] no teu ordenador.%n%nRecoméndase que peches todas as aplicacións antes de seguir.
@@ -103,7 +103,7 @@ hy.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Indonesian
 id.WelcomeLabel2=Ini akan memasang [name] di komputer Anda.%n%nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan.
-id.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+id.WinVersionTooLowError=[name] membutuhkan Windows Vista atau lebih baru untuk dapat berjalan.
 
 ; Italian
 it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
@@ -127,7 +127,7 @@ ms_MY.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Dutch (Neutral)
 nl.WelcomeLabel2=Dit programma zal [name] op uw computer installeren.%n%nHet is aanbevolen dat u alle andere toepassingen sluit voordat u verder gaat.
-nl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+nl.WinVersionTooLowError=[name] vereist Windows Vista of hoger om uit te voeren.
 
 ; Polish
 pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
@@ -139,7 +139,7 @@ pt_BR.WinVersionTooLowError=[name] requer Windows Vista ou posterior para rodar.
 
 ; Romanian
 ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideți toate celelalte aplicații înainte de a continua.
-ro.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+ro.WinVersionTooLowError=[name] necesită Windows Vista sau mai nou pentru a rula. 
 
 ; Russian
 ru.WelcomeLabel2=Эта программа установит [name] на ваш компьютер.%n%nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения.
@@ -147,7 +147,7 @@ ru.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
 
 ; Slovak
 sk.WelcomeLabel2=Teraz sa nainštaluje [name] do Vášho počítača.%n%nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy.
-sk.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+sk.WinVersionTooLowError=[name] vyžaduje na svoje fungovanie systém Windows Vista alebo novší.
 
 ; Slovenian
 sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
@@ -261,7 +261,7 @@ bs_BA.ViewChangelog=Pogledaj listu izmjena
 
 ; Catalan
 ca.langid=00001027
-ca.comp_mpciconlib=Col·lecció d’icones
+ca.comp_mpciconlib=Col·lecció d'icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Voleu suprimir les preferències de l'MPC-HC?%n%nSi planegeu tornar-lo a instal·lar no cal que les elimineu.
 #if defined(sse2_required)
@@ -271,7 +271,7 @@ ca.run_DownloadToolbarImages=Visita la nostra pàgina Wiki per descarregar imatg
 ca.tsk_AllUsers=Per a tots els usuaris
 ca.tsk_CurrentUser=Només per l'usuari actual
 ca.tsk_Other=Altres tasques:
-ca.tsk_ResetSettings=Reinicia la configuració
+ca.tsk_ResetSettings=Restableix la configuració
 ca.types_DefaultInstallation=Instal·lació per defecte
 ca.types_CustomInstallation=Instal·lació personalitzada
 ca.ViewChangelog=Visualitza el Registre de canvis

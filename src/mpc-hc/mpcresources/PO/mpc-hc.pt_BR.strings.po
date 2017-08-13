@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 23:55+0000\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-02 00:27+0000\n"
 "Last-Translator: Everton Leite <etcholeite@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -641,7 +641,7 @@ msgstr "Disponível apenas se você possuir o DirectX 9 instalado. É muito est�
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Igual ao VMR-9 (modo janela), mas com o plugin Allocator-Presenter do MPC-HC para exibir legendas. Sobreposição de espelhamento de vídeo PODE funcionar. É recomendado cores de desktop \"True Color\"."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."

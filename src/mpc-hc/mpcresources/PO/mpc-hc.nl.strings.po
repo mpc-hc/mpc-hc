@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # B512, 2015-2016
-# reneweesp <bmom43@hotmail.com>, 2016
+# reneweesp <bmom43@hotmail.com>, 2016-2017
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # dragnadh <dragnadh@gmail.com>, 2015-2017
 # DennisW, 2014,2016
@@ -19,9 +19,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-30 21:12+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-05 15:11+0000\n"
+"Last-Translator: reneweesp <bmom43@hotmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -503,7 +503,7 @@ msgstr "Externe filters"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Weergave::shaders"
+msgstr "Weergave::Shaders"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -523,7 +523,7 @@ msgstr "Weergave::Opname"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Weergave::Sync opbouw instellingen"
+msgstr "Weergave::Sync opbouw instelling"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -623,7 +623,7 @@ msgstr "Fragment"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Standaard video opbouw filter voor DirectShow. Alle anderen zullen op deze terugvallen, als ze om de één of andere reden niet geladen kunnen worden. "
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -639,7 +639,7 @@ msgstr "Alléén beschikbaar als DirectX 9 is geïnstallleerd. Zeer stabiel, maa
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Hetzelfde als VMR-9 (venster), maar met de Allocator-Presenter plugin van MPC-HC voor ondertiteling. Overlay video mirroring ZAL NIET werken. De kleurkwaliteit van het bureaublad kan het beste 'True Color' zijn."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -655,7 +655,7 @@ msgstr "Hetzelfde als de normale Null opbouwer, maar deze zal alleen verbinding 
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Hetzelfde als de EVR, maar met de Allocator-Presenter van MPC-HC voor ondertiteling en postprocessing. Aanbevolen."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -1727,7 +1727,7 @@ msgstr "OSD: Opbouw statistieken resetten"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Ondertiteling::Misc"
+msgstr "Ondertiteling::Overige"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -3851,7 +3851,7 @@ msgstr "/playnext\t\tVolgend bestaand open na afspelen"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr ""
+msgstr "/dempen\t\tDemp het geluid"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3859,7 +3859,7 @@ msgstr "/fullscreen\tStarten in volledig scherm"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/Voorvertoningbekijken N\tStart met specifieke voorvertoningen,\n\t\twaar N is ofwel \"1\" Minimaal, \"2\" Compact or \"3\" Normaal"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3879,7 +3879,7 @@ msgstr "/randomize\tRandomizeer de speellijst"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tStel Volume in, waar N de reikwijdte is van 0 tot 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"

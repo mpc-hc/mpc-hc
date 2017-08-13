@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-30 18:43:01+0000\n"
-"PO-Revision-Date: 2017-07-31 11:37+0000\n"
-"Last-Translator: Asakura\n"
+"POT-Creation-Date: 2017-08-01 20:44:32+0000\n"
+"PO-Revision-Date: 2017-08-07 04:09+0000\n"
+"Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -643,7 +643,7 @@ msgstr "標準の Null レンダラと同じですが、これは非圧縮タイ
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr "EVR と同じですが、字幕およびポストプロセッシング用の MPC-HC のアロケータ プレゼンタを備えています。使用を推奨します。"
+msgstr "EVR と同じですが、字幕およびポストプロセッシング用の MPC-HC のアロケータ プレゼンタを備えています。ご使用を推奨します。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -743,7 +743,7 @@ msgstr "MIME タイプ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "ご使用のブラウザに埋め込まれたリソースを表示するためには、ウェブ インターフェイスを有効にする必要があります。\n\n情報のみを保存したい場合、 「名前を付けて保存」 ボタンを使用します。"
+msgstr "ご使用のブラウザに埋め込まれたリソースを表示するためには、ウェブ インターフェイスを有効にする必要があります。\n\n情報のみを保存したい場合、 「名前を付けて保存」 ボタンを使用してください。"
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
@@ -3839,7 +3839,7 @@ msgstr "/playnext\t\t再生終了後にフォルダ内の次のファイルを�
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr ""
+msgstr "/mute\t\tオーディオをミュートする"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3847,7 +3847,7 @@ msgstr "/fullscreen\t全画面表示モードで起動する"
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\t特定のプリセットで開始する,\n\t\tN は \"1\" 最小, \"2\" コンパクト, \"3\" 標準 のいずれかを指定する"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3867,7 +3867,7 @@ msgstr "/randomize\t再生リストをランダム化する"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\t\t音量を設定する, N は 0 ～ 100 の範囲内で指定する"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"

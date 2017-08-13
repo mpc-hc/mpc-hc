@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # B512, 2015
-# reneweesp <bmom43@hotmail.com>, 2016
+# reneweesp <bmom43@hotmail.com>, 2016-2017
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # Devrim, 2013-2015
 # DennisW, 2014
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-07-30 21:09+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-08-05 15:09+0000\n"
+"Last-Translator: reneweesp <bmom43@hotmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1584,11 +1584,11 @@ msgstr "Online zoeken, ophalen en versturen ondertitels"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "Automatisch zoeken en ophalen van ondertitels als die lokaal niet worden gevonden."
+msgstr "Automatisch zoeken en ophalen van ondertitels indien lokaal niet gevonden."
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "Liever ondertitels voor slechthorenden (wanneer aangegeven door ondertitel verzorger)"
+msgstr "Liever ondertitels voor slechthorenden (indien aangegeven)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"

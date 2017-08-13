@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-07-31 11:49+0000\n"
+"PO-Revision-Date: 2017-08-02 07:11+0000\n"
 "Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -341,7 +341,7 @@ msgstr "Απομνημ. τελευταίου μεγέθους παραθύρου
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Απομνημ. τελ. Πανορ/κής οπτκής && Σάρωσης"
+msgstr "Απομνημ. τελ. Πανορ/κής οπτικής && Σάρωσης"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
