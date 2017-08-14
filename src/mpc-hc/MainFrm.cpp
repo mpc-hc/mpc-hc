@@ -16685,14 +16685,14 @@ void CMainFrame::UpdateDXVAStatus()
     // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
     if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
         CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
-        if (decoderName.Find(L"dxva") == 0 || decoderName == L"cuvid" || decoderName == L"quicksync") {
+        if (decoderName != L"avcodec") {
             m_HWAccelType = CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName);
             CString LAVDXVAInfo;
             LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), m_HWAccelType);
 
             if (!m_bUsingDXVA) { // Don't trust the hook
                 m_bUsingDXVA = true;
-                DXVAInfo.Format(_T("DXVA2        : %s"), LAVDXVAInfo);
+                DXVAInfo.Format(_T("H/W Decoder  : %s"), LAVDXVAInfo);
             } else {
                 DXVAInfo.AppendFormat(_T(" [%s]"), LAVDXVAInfo);
             }
