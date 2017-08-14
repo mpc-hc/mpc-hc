@@ -94,14 +94,10 @@ BOOL CAboutDlg::OnInitDialog()
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
-#if (_MSC_VER == 1910)                // 2017
-#if (_MSC_FULL_VER >= 191025017 && _MSC_FULL_VER <= 191025019)
-    m_MPCCompiler = _T("MSVC 2017");
-#else
+#if (_MSC_VER > 1910)
     m_MPCCompiler.Format(_T("MSVC v%.2d.%.2d.%.5d"), _MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 100000);
 #if _MSC_BUILD
     m_MPCCompiler.AppendFormat(_T(".%.2d"), _MSC_BUILD);
-#endif
 #endif
 #elif (_MSC_VER == 1900)                // 2015
 #if (_MSC_FULL_VER >= 190024210 && _MSC_FULL_VER <= 190024218)
