@@ -576,7 +576,7 @@ LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName
         }
     }
 
-    return _T("None");
+    return decoderName;
 }
 
 static LPCTSTR pixFmtSettingsMap[LAVOutPixFmt_NB] = {
