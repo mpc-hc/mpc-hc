@@ -94,7 +94,7 @@ BOOL CAboutDlg::OnInitDialog()
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
-#if (_MSC_VER > 1910)
+#if (_MSC_VER >= 1910)
     m_MPCCompiler.Format(_T("MSVC v%.2d.%.2d.%.5d"), _MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 100000);
 #if _MSC_BUILD
     m_MPCCompiler.AppendFormat(_T(".%.2d"), _MSC_BUILD);
