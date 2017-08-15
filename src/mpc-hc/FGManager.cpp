@@ -793,6 +793,19 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 if (SUCCEEDED(hr)) {
                     m_pUnks.AddTailList(&pUnks);
 
+                    CComQIPtr<IMediaSeeking> pMS = pPinOut;
+                    if (pMS) {
+                        REFERENCE_TIME rtDuration = 0;
+                        if (SUCCEEDED(pMS->GetDuration(&rtDuration))) {
+                            POSITION posInterface = pUnks.GetHeadPosition();
+                            while (posInterface) {
+                                if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP = pUnks.GetNext(posInterface)) {
+                                    pCAP->SetDuration(rtDuration);
+                                }
+                            }
+                        }
+                    }
+
                     // maybe the application should do this...
 
                     POSITION posInterface = pUnks.GetHeadPosition();

@@ -46,6 +46,7 @@ protected:
     CRect m_videoRect, m_windowRect;
 
     REFERENCE_TIME m_rtNow;
+    REFERENCE_TIME m_rtDuration;
     double m_fps;
     UINT m_refreshRate;
 
@@ -98,6 +99,7 @@ public:
     STDMETHODIMP_(bool) Paint(bool bAll) PURE;
 
     STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
+    STDMETHODIMP_(void) SetDuration(REFERENCE_TIME rtDuration);
     STDMETHODIMP_(void) SetSubtitleDelay(int delayMs);
     STDMETHODIMP_(int) GetSubtitleDelay() const;
     STDMETHODIMP_(double) GetFPS() const;

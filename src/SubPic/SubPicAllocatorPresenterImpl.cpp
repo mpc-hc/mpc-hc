@@ -49,6 +49,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_bPendingResetDevice(false)
     , m_SubtitleTextureLimit(STATIC)
     , m_bDefaultVideoAngleSwitchAR(false)
+    , m_rtDuration(0)
 {
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
@@ -212,6 +213,11 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
     }
 }
 
+STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetDuration(REFERENCE_TIME rtDuration)
+{
+    m_rtDuration = rtDuration;
+}
+
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delayMs)
 {
     REFERENCE_TIME delay = MILLISECONDS_TO_100NS_UNITS(delayMs);
@@ -286,7 +292,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
     if (m_defaultVideoAngle != v) {
         constexpr float pi_2 = float(M_PI_2);
 
-        // In theory it should be a multiple of 90°
+        // In theory it should be a multiple of 90Â°
         int zAnglePi2 = std::lround(v.z / pi_2);
         ASSERT(zAnglePi2 * pi_2 == v.z);
 

@@ -184,6 +184,7 @@ public IUnknown {
     STDMETHOD_(bool, Paint)(bool bAll) PURE;
 
     STDMETHOD_(void, SetTime)(REFERENCE_TIME rtNow) PURE;
+    STDMETHOD_(void, SetDuration)(REFERENCE_TIME rtDuration) PURE;
     STDMETHOD_(void, SetSubtitleDelay)(int delayMs) PURE;
     STDMETHOD_(int, GetSubtitleDelay)() const PURE;
     STDMETHOD_(double, GetFPS)() const PURE;

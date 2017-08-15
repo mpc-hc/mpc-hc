@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -390,20 +390,24 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
             start = stop;    // reset after 10 min (ps float has its limits in both range and accuracy)
         }
 
+        const float fOneSecond = 10000000.0f;
+        float fPosition = m_rtNow / fOneSecond;
+        float fDuration = m_rtDuration / fOneSecond;
+
 #if 1
         D3DSURFACE_DESC desc;
         m_pVideoTexture[m_nCurSurface]->GetLevelDesc(0, &desc);
 
         float fConstData[][4] = {
             {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-            {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
+            {1.0f / desc.Width, 1.0f / desc.Height, fPosition, fDuration},
         };
 #else
         CSize VideoSize = GetVisibleVideoSize();
 
         float fConstData[][4] = {
             {(float)VideoSize.cx, (float)VideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-            {1.0f / VideoSize.cx, 1.0f / VideoSize.cy, 0, 0},
+            {1.0f / VideoSize.cx, 1.0f / VideoSize.cy, fPosition, fDuration},
         };
 #endif
 
@@ -477,9 +481,13 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
             start = stop;    // reset after 10 min (ps float has its limits in both range and accuracy)
         }
 
+        const float fOneSecond = 10000000.0f;
+        float fPosition = m_rtNow / fOneSecond;
+        float fDuration = m_rtDuration / fOneSecond;
+
         float fConstData[][4] = {
             {(float)m_TemporaryScreenSpaceTextureSize.cx, (float)m_TemporaryScreenSpaceTextureSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-            {1.0f / m_TemporaryScreenSpaceTextureSize.cx, 1.0f / m_TemporaryScreenSpaceTextureSize.cy, 0, 0},
+            {1.0f / m_TemporaryScreenSpaceTextureSize.cx, 1.0f / m_TemporaryScreenSpaceTextureSize.cy, fPosition, fDuration},
         };
 
         hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
