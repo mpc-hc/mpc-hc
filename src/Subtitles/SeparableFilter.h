@@ -25,7 +25,7 @@
 
 #define LIBDIVIDE_USE_SSE2 1
 #pragma warning(push)
-#pragma warning(disable: 4244 4702)
+#pragma warning(disable: 4244 4456 4702)
 #include "libdivide.h"
 #pragma warning(pop)
 
