@@ -51,7 +51,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
     SET "MPCHC_GIT=C:\Program Files\Git"
     REM Optional, if you plan to modify the translations, install Python 2.7 or set the variable to its path
     SET "MPCHC_PYTHON=C:\Python27"
-    REM Optional, If you want to customize the winsdk you want to use, set the variable.
+    REM Optional, If you want to customize the Windows SDK version used, set the variable
     SET "MPCHC_WINSDK_VER=8.1"
     ```
 
