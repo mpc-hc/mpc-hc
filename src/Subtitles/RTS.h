@@ -204,9 +204,9 @@ public:
 class Effect
 {
 public:
-    enum eftype type;
-    int param[9];
-    int t[4];
+    enum eftype type = {};
+    int param[9] = {};
+    int t[4] = {};
 
     bool operator==(const Effect& rhs) const {
         return type == rhs.type
