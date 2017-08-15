@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -191,6 +191,7 @@
 #define IDS_RS_SNAPSHOTPATH                 _T("SnapshotPath")
 #define IDS_RS_PRIORITY                     _T("Priority")
 #define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")
+#define IDS_RS_SNAPSHOTNAMEFORMAT           _T("SnapshotNameFormat")
 #define IDS_RS_LAUNCHFULLSCREEN             _T("LaunchFullScreen")
 #define IDS_RS_WEBROOT                      _T("WebRoot")
 #define IDS_RS_WEBSERVERLOCALHOSTONLY       _T("WebServerLocalhostOnly")

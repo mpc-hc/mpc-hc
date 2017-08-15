@@ -1015,6 +1015,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, strSnapshotPath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, strSnapshotExt);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTNAMEFORMAT, strSnapshotNameFormat);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, iThumbRows);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, iThumbCols);
@@ -1680,6 +1681,7 @@ void CAppSettings::LoadSettings()
     }
     strSnapshotPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, MyPictures);
     strSnapshotExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, _T(".jpg"));
+    strSnapshotNameFormat = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTNAMEFORMAT, _T("%f_snapshot_%t_[%Y.%m.%d_%H.%M.%S]"));
 
     iThumbRows = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, 4);
     iThumbCols = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, 4);

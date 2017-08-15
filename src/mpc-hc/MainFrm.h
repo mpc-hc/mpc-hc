@@ -1021,6 +1021,7 @@ public:
     void        JumpOfNSeconds(int seconds);
 
     CString GetVidPos() const;
+    CString MakeSnapshotFileName();
 
     CComPtr<ITaskbarList3> m_pTaskbarList;
     HRESULT CreateThumbnailToolbar();

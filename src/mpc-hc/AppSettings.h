@@ -666,7 +666,7 @@ public:
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;
     // Save Image...
-    CString         strSnapshotPath, strSnapshotExt;
+    CString         strSnapshotPath, strSnapshotExt, strSnapshotNameFormat;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
     // Save Subtitle
