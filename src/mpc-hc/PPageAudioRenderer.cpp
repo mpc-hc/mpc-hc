@@ -70,6 +70,7 @@ CPPageAudioRenderer::CPPageAudioRenderer()
     , m_bExclusiveMode(FALSE)
     , m_bAllowBitstreaming(TRUE)
     , m_bCrossfeedEnabled(FALSE)
+    , m_bIgnoreSystemChannelMixer(TRUE)
 {
 }
 
@@ -79,6 +80,7 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_bExclusiveMode);
     DDX_Check(pDX, IDC_CHECK2, m_bAllowBitstreaming);
     DDX_Check(pDX, IDC_CHECK3, m_bCrossfeedEnabled);
+    DDX_Check(pDX, IDC_CHECK4, m_bIgnoreSystemChannelMixer);
     DDX_Control(pDX, IDC_COMBO1, m_combo1);
     DDX_Control(pDX, IDC_SLIDER1, m_slider1);
     DDX_Control(pDX, IDC_SLIDER2, m_slider2);
@@ -139,6 +141,7 @@ BOOL CPPageAudioRenderer::OnInitDialog()
 
     m_bAllowBitstreaming = s.sanear->GetAllowBitstreaming();
     m_bCrossfeedEnabled = s.sanear->GetCrossfeedEnabled();
+    m_bIgnoreSystemChannelMixer = s.sanear->GetIgnoreSystemChannelMixer();
 
     m_slider1.SetRangeMin(SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_MIN);
     m_slider1.SetRangeMax(SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_MAX);
@@ -177,6 +180,7 @@ BOOL CPPageAudioRenderer::OnApply()
     s.sanear->SetAllowBitstreaming(m_bAllowBitstreaming);
     s.sanear->SetCrossfeedSettings(m_slider1.GetPos(), m_slider2.GetPos());
     s.sanear->SetCrossfeedEnabled(m_bCrossfeedEnabled);
+    s.sanear->SetIgnoreSystemChannelMixer(m_bIgnoreSystemChannelMixer);
 
     return __super::OnApply();
 }

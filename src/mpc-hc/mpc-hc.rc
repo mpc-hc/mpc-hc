@@ -1123,7 +1123,7 @@ BEGIN
     COMBOBOX        IDC_COMBO1,20,20,262,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Exclusive mode",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,41,105,10
     CONTROL         "Allow bitstreaming",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,41,125,10
-    GROUPBOX        "Options",IDC_STATIC,7,67,282,69
+    GROUPBOX        "Options",IDC_STATIC,7,67,282,84
     GROUPBOX        "",IDC_STATIC,13,76,269,52
     CONTROL         "Enable stereo crossfeed (for headphones)",IDC_CHECK3,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,260,10
@@ -1135,8 +1135,10 @@ BEGIN
     LTEXT           "Level:",IDC_STATIC3,157,113,47,8,0,WS_EX_RIGHT
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,111,42,12
     LTEXT           "",IDC_STATIC4,250,113,30,8
-    GROUPBOX        "Note",IDC_STATIC,7,141,282,48
-    LTEXT           "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content.",IDC_STATIC,20,152,262,33
+    CONTROL         "Ignore system channel mixer (always ignored in exclusive WASAPI mode)",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,134,260,10
+    GROUPBOX        "Note",IDC_STATIC,7,157,282,48
+    LTEXT           "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content.",IDC_STATIC,20,168,262,33
 END
 
 IDD_SAVEIMAGEDIALOGTEMPL DIALOGEX 0, 0, 304, 20

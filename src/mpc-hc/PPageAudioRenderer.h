@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,6 +54,7 @@ protected:
     BOOL m_bExclusiveMode;
     BOOL m_bAllowBitstreaming;
     BOOL m_bCrossfeedEnabled;
+    BOOL m_bIgnoreSystemChannelMixer;
 
     CComboBox m_combo1;
     CSliderCtrl m_slider1;
