@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -145,9 +145,9 @@ template<class T>
 T& FastTrimRight(T& str)
 {
     if (!str.IsEmpty()) {
-        T::PCXSTR szStart = str;
-        T::PCXSTR szEnd   = szStart + str.GetLength() - 1;
-        T::PCXSTR szCur   = szEnd;
+        typename T::PCXSTR szStart = str;
+        typename T::PCXSTR szEnd   = szStart + str.GetLength() - 1;
+        typename T::PCXSTR szCur   = szEnd;
         for (; szCur >= szStart; szCur--) {
             if (!T::StrTraits::IsSpace(*szCur)) {
                 break;
@@ -178,7 +178,7 @@ int FindOneOf(const T& str, typename T::PCXSTR pszCharSet, int iStart) throw()
         return -1;
     }
 
-    T::PCXSTR psz = T::StrTraits::StringScanSet(str.GetString() + iStart, pszCharSet);
+    typename T::PCXSTR psz = T::StrTraits::StringScanSet(str.GetString() + iStart, pszCharSet);
     return ((psz == NULL) ? -1 : int(psz - str.GetString()));
 }
 
