@@ -1126,11 +1126,10 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
         textcolor |= 0xA0A0A0;
     }
 
-    CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : _T("Invalid");
-    CSize timesize(0, 0);
+    CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : CString(_T("Invalid"));
     CPoint timept(rcItem.right, 0);
     if (!time.IsEmpty()) {
-        timesize = pDC->GetTextExtent(time);
+        CSize timesize = pDC->GetTextExtent(time);
         if ((3 + timesize.cx + 3) < rcItem.Width() / 2) {
             timept = CPoint(rcItem.right - (3 + timesize.cx + 3), (rcItem.top + rcItem.bottom - timesize.cy) / 2);
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -139,7 +139,7 @@ namespace PathUtils
         p.Replace('\\', '/');
         p.TrimRight('/');
         p = p.Mid(p.ReverseFind('/') + 1);
-        return (p.IsEmpty() ? path : p);
+        return p.IsEmpty() ? CString(path) : p;
     }
 
     bool IsInDir(LPCTSTR path, LPCTSTR dir)

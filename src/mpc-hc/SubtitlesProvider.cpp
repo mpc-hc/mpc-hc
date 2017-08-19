@@ -612,7 +612,9 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
         std::string url(Url() + "/ppodnapisi/search");
         url += "?sXML=1";
         url += "&sAKA=1";
-        url += (!search.empty() ? "&sK=" + UrlEncode(search.c_str()) : "");
+        if (!search.empty()) {
+            url += "&sK=" + UrlEncode(search.c_str());
+        }
         url += (pFileInfo.year != -1 ? "&sY=" + std::to_string(pFileInfo.year) : "");
         url += (pFileInfo.seasonNumber != -1 ? "&sTS=" + std::to_string(pFileInfo.seasonNumber) : "");
         url += (pFileInfo.episodeNumber != -1 ? "&sTE=" + std::to_string(pFileInfo.episodeNumber) : "");

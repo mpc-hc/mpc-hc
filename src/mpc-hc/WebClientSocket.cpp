@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -108,7 +108,11 @@ void CWebClientSocket::HandleRequest()
         while (pos) {
             CAtlList<CStringA> sl2;
             Explode(sl.GetNext(pos), sl2, '=', 2);
-            m_cookie[sl2.GetHead()] = sl2.GetCount() == 2 ? UTF8To16(sl2.GetTail()) : _T("");
+            if (sl2.GetCount() == 2) {
+                m_cookie[sl2.GetHead()] = UTF8To16(sl2.GetTail());
+            } else {
+                m_cookie[sl2.GetHead()].Empty();
+            }
         }
     }
 

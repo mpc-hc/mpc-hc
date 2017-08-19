@@ -62,12 +62,12 @@ void CClip::SetOut(REFERENCE_TIME rtVal)
 
 CString CClip::GetIn() const
 {
-    return (m_rtIn == _I64_MIN) ? _T("") : ReftimeToString(m_rtIn);
+    return m_rtIn == _I64_MIN ? CString() : ReftimeToString(m_rtIn);
 }
 
 CString CClip::GetOut() const
 {
-    return (m_rtOut == _I64_MIN) ? _T("") : ReftimeToString(m_rtOut);
+    return m_rtOut == _I64_MIN ? CString() : ReftimeToString(m_rtOut);
 }
 
 IMPLEMENT_DYNAMIC(CEditListEditor, CPlayerBar)

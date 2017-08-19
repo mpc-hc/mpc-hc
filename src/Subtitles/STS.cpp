@@ -607,11 +607,11 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 i = j;
 
                 if (tag == L"font") {
-                    font = def.fontName.CompareNoCase(WToT(param)) ? param : L"";
+                    font = def.fontName.CompareNoCase(WToT(param)) ? param.GetString() : L"";
                 } else if (tag == L"colf") {
-                    color = def.colors[0] != (DWORD)wcstol(((LPCWSTR)param) + 2, 0, 16) ? param : L"";
+                    color = def.colors[0] != (DWORD)wcstol(((LPCWSTR)param) + 2, 0, 16) ? param.GetString() : L"";
                 } else if (tag == L"size") {
-                    size = def.fontSize != (double)wcstol(param, 0, 10) ? param : L"";
+                    size = def.fontSize != (double)wcstol(param, 0, 10) ? param.GetString() : L"";
                 } else if (tag == L"style") {
                     if (param.Find(L"no") >= 0) {
                         fBold = fItalic = fStriked = fUnderline = false;

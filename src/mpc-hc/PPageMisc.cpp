@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -125,10 +125,10 @@ BOOL CPPageMisc::OnInitDialog()
         m_ExportKeys.EnableWindow(FALSE);
     }
 
-    m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
-    m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
-    m_iHue ? m_sHue.Format(_T("%+d"), m_iHue) : m_sHue = _T("0");
-    m_iSaturation ? m_sSaturation.Format(_T("%+d"), m_iSaturation) : m_sSaturation = _T("0");
+    m_sBrightness.Format(m_iBrightness ? _T("%+d") : _T("%d"), m_iBrightness);
+    m_sContrast.Format(m_iContrast ? _T("%+d") : _T("%d"), m_iContrast);
+    m_sHue.Format(m_iHue ? _T("%+d") : _T("%d"), m_iHue);
+    m_sSaturation.Format(m_iSaturation ? _T("%+d") : _T("%d"), m_iSaturation);
 
     m_nUpdaterAutoCheck = s.nUpdaterAutoCheck;
     m_nUpdaterDelay = s.nUpdaterDelay;
@@ -162,19 +162,19 @@ void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     if (*pScrollBar == m_SliBrightness) {
         m_iBrightness = m_SliBrightness.GetPos();
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_Brightness, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
-        m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
+        m_sBrightness.Format(m_iBrightness ? _T("%+d") : _T("%d"), m_iBrightness);
     } else if (*pScrollBar == m_SliContrast) {
         m_iContrast = m_SliContrast.GetPos();
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_Contrast, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
-        m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
+        m_sContrast.Format(m_iContrast ? _T("%+d") : _T("%d"), m_iContrast);
     } else if (*pScrollBar == m_SliHue) {
         m_iHue = m_SliHue.GetPos();
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_Hue, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
-        m_iHue ? m_sHue.Format(_T("%+d"), m_iHue) : m_sHue = _T("0");
+        m_sHue.Format(m_iHue ? _T("%+d") : _T("%d"), m_iHue);
     } else if (*pScrollBar == m_SliSaturation) {
         m_iSaturation = m_SliSaturation.GetPos();
         ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_Saturation, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
-        m_iSaturation ? m_sSaturation.Format(_T("%+d"), m_iSaturation) : m_sSaturation = _T("0");
+        m_sSaturation.Format(m_iSaturation ? _T("%+d") : _T("%d"), m_iSaturation);
     }
 
     UpdateData(FALSE);
@@ -196,10 +196,10 @@ void CPPageMisc::OnBnClickedReset()
     m_SliHue.SetPos(m_iHue);
     m_SliSaturation.SetPos(m_iSaturation);
 
-    m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
-    m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
-    m_iHue ? m_sHue.Format(_T("%+d"), m_iHue) : m_sHue = _T("0");
-    m_iSaturation ? m_sSaturation.Format(_T("%+d"), m_iSaturation) : m_sSaturation = _T("0");
+    m_sBrightness.Format(m_iBrightness ? _T("%+d") : _T("%d"), m_iBrightness);
+    m_sContrast.Format(m_iContrast ? _T("%+d") : _T("%d"), m_iContrast);
+    m_sHue.Format(m_iHue ? _T("%+d") : _T("%d"), m_iHue);
+    m_sSaturation.Format(m_iSaturation ? _T("%+d") : _T("%d"), m_iSaturation);
 
     ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_All, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
 

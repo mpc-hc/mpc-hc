@@ -452,7 +452,11 @@ BOOL CPPageOutput::OnApply()
         r.iEvrBuffers = 5;
     }
 
-    r.D3D9RenderDevice = m_fD3D9RenderDevice ? m_D3D9GUIDNames[m_iD3D9RenderDevice] : _T("");
+    if (m_fD3D9RenderDevice) {
+        r.D3D9RenderDevice = m_D3D9GUIDNames[m_iD3D9RenderDevice];
+    } else {
+        r.D3D9RenderDevice.Empty();
+    }
 
     return __super::OnApply();
 }

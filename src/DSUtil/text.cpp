@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -143,7 +143,11 @@ CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
         for (i = 0; i < tag.GetLength() && _istspace(tag[i]); i++) {
             ;
         }
-        tag = i < tag.GetLength() ? tag.Mid(i) : _T("");
+        if (i < tag.GetLength()) {
+            tag = tag.Mid(i);
+        } else {
+            tag.Empty();
+        }
         if (!tag.IsEmpty() && tag[0] == '\"') {
             tag = tag.Mid(1);
             i = tag.Find('\"');
@@ -157,7 +161,11 @@ CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
         if (!param.IsEmpty()) {
             attribs[attrib] = param;
         }
-        tag = i + 1 < tag.GetLength() ? tag.Mid(i + 1) : _T("");
+        if (i + 1 < tag.GetLength()) {
+            tag = tag.Mid(i + 1);
+        } else {
+            tag.Empty();
+        }
     }
 
     return type;

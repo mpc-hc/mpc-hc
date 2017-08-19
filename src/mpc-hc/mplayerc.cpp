@@ -376,7 +376,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         CSocket s;
         s.Create();
         if (s.Connect(
-                    ProxyEnable ? ProxyServer : url.GetHostName(),
+                    ProxyEnable ? ProxyServer.GetString() : url.GetHostName(),
                     ProxyEnable ? ProxyPort : url.GetPortNumber())) {
             CStringA host = url.GetHostName();
             CStringA path = url.GetUrlPath();

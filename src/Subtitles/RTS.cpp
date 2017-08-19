@@ -1908,7 +1908,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
                     if (!s.IsEmpty()) {
                         tag.params.Add(s);
                     }
-                    param = k + 1 < param.GetLength() ? param.Mid(k + 1) : L"";
+                    param = k + 1 < param.GetLength() ? param.Mid(k + 1).GetString() : L"";
                 } else {
                     FastTrim(param);
                     if (!param.IsEmpty()) {

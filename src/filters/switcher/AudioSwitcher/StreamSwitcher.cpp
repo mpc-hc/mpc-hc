@@ -742,7 +742,7 @@ STDMETHODIMP CStreamSwitcherInputPin::BeginFlush()
         return hr;
     }
 
-    return IsActive() ? pSSF->DeliverBeginFlush() : Block(false), S_OK;
+    return IsActive() ? pSSF->DeliverBeginFlush() : (Block(false), S_OK);
 }
 
 STDMETHODIMP CStreamSwitcherInputPin::EndFlush()
@@ -762,7 +762,7 @@ STDMETHODIMP CStreamSwitcherInputPin::EndFlush()
         return hr;
     }
 
-    return IsActive() ? pSSF->DeliverEndFlush() : Block(true), S_OK;
+    return IsActive() ? pSSF->DeliverEndFlush() : (Block(true), S_OK);
 }
 
 STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()

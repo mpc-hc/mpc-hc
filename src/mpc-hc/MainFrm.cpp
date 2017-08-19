@@ -2702,7 +2702,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             case EC_BG_ERROR:
                 if (m_fCustomGraph) {
                     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-                    m_closingmsg = !str.IsEmpty() ? str : _T("Unspecified graph error");
+                    m_closingmsg = !str.IsEmpty() ? str : CString(_T("Unspecified graph error"));
                     m_wndPlaylistBar.SetCurValid(false);
                     return hr;
                 }
@@ -3206,17 +3206,31 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             }
         }
 
-        OAFilterState fs = GetMediaState();
-        CString UI_Text =
-            !msg.IsEmpty() ? msg :
-            fs == State_Stopped ? StrRes(IDS_CONTROLS_STOPPED) :
-            (fs == State_Paused || m_fFrameSteppingActive) ? StrRes(IDS_CONTROLS_PAUSED) :
-            fs == State_Running ? StrRes(IDS_CONTROLS_PLAYING) :
-            _T("");
-        if (m_bUsingDXVA && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
-            UI_Text.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR));
+        if (msg.IsEmpty()) {
+            int msg_id = 0;
+            switch (GetMediaState()) {
+                case State_Stopped:
+                    msg_id = IDS_CONTROLS_STOPPED;
+                    break;
+                case State_Paused:
+                    msg_id = IDS_CONTROLS_PAUSED;
+                    break;
+                case State_Running:
+                    msg_id = IDS_CONTROLS_PLAYING;
+                    break;
+            }
+            if (m_fFrameSteppingActive) {
+                msg_id = IDS_CONTROLS_PAUSED;
+            }
+            if (msg_id) {
+                msg.LoadString(msg_id);
+            }
         }
-        m_wndStatusBar.SetStatusMessage(UI_Text);
+
+        if (m_bUsingDXVA && (msg == ResStr(IDS_CONTROLS_PAUSED) || msg == ResStr(IDS_CONTROLS_PLAYING))) {
+            msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR));
+        }
+        m_wndStatusBar.SetStatusMessage(msg);
     } else if (GetLoadState() == MLS::CLOSING) {
         m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_CLOSING));
         if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
@@ -3657,7 +3671,9 @@ void CMainFrame::OnDvdAudio(UINT nID)
                                AATR.bQuantization,
                                AATR.bNumberOfChannels,
                                ResStr(AATR.bNumberOfChannels > 1 ? IDS_MAINFRM_13 : IDS_MAINFRM_12));
-                    str += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
+                    if (FAILED(hr)) {
+                        str += _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ");
+                    }
                     strMessage.Format(IDS_AUDIO_STREAM, str);
                     m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
                 }
@@ -3701,7 +3717,9 @@ void CMainFrame::OnDvdSub(UINT nID)
                     CString strMessage;
                     int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
                     lang.ReleaseBufferSetLength(std::max(len - 1, 0));
-                    lang += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
+                    if (FAILED(hr)) {
+                        lang += _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ");
+                    }
                     strMessage.Format(IDS_SUBTITLE_STREAM, lang);
                     m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
                 }
@@ -7992,7 +8010,7 @@ void CMainFrame::OnPlayColor(UINT nID)
             case ID_COLOR_BRIGHTNESS_DEC:
                 brightness -= 1;
                 SetColorControl(ProcAmp_Brightness, brightness, contrast, hue, saturation);
-                brightness ? tmp.Format(_T("%+d"), brightness) : tmp = _T("0");
+                tmp.Format(brightness ? _T("%+d") : _T("%d"), brightness);
                 str.Format(IDS_OSD_BRIGHTNESS, tmp);
                 break;
 
@@ -8002,7 +8020,7 @@ void CMainFrame::OnPlayColor(UINT nID)
             case ID_COLOR_CONTRAST_DEC:
                 contrast -= 1;
                 SetColorControl(ProcAmp_Contrast, brightness, contrast, hue, saturation);
-                contrast ? tmp.Format(_T("%+d"), contrast) : tmp = _T("0");
+                tmp.Format(contrast ? _T("%+d") : _T("%d"), contrast);
                 str.Format(IDS_OSD_CONTRAST, tmp);
                 break;
 
@@ -8012,7 +8030,7 @@ void CMainFrame::OnPlayColor(UINT nID)
             case ID_COLOR_HUE_DEC:
                 hue -= 1;
                 SetColorControl(ProcAmp_Hue, brightness, contrast, hue, saturation);
-                hue ? tmp.Format(_T("%+d"), hue) : tmp = _T("0");
+                tmp.Format(hue ? _T("%+d") : _T("%d"), hue);
                 str.Format(IDS_OSD_HUE, tmp);
                 break;
 
@@ -8022,7 +8040,7 @@ void CMainFrame::OnPlayColor(UINT nID)
             case ID_COLOR_SATURATION_DEC:
                 saturation -= 1;
                 SetColorControl(ProcAmp_Saturation, brightness, contrast, hue, saturation);
-                saturation ? tmp.Format(_T("%+d"), saturation) : tmp = _T("0");
+                tmp.Format(saturation ? _T("%+d") : _T("%d"), saturation);
                 str.Format(IDS_OSD_SATURATION, tmp);
                 break;
 
@@ -11555,7 +11573,7 @@ int CMainFrame::SetupAudioStreams()
 
                 // If the splitter is the internal LAV Splitter and no language preferences
                 // have been set at splitter level, we can override its choice safely
-                CComQIPtr<IBaseFilter> pBF = bIsSplitter ? (IUnknown*)pSS : pObject;
+                CComQIPtr<IBaseFilter> pBF = bIsSplitter ? pSS : pObject;
                 if (pBF && CFGFilterLAV::IsInternalInstance(pBF)) {
                     bSkipTrack = false;
                     if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
@@ -13611,7 +13629,10 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         AddTextPassThruFilter();
     }
 
-    CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
+    CString videoName;
+    if (GetPlaybackMode() == PM_FILE) {
+        videoName = m_wndPlaylistBar.GetCurFileName();
+    }
 
     if (!pSubStream) {
         CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));

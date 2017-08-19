@@ -718,7 +718,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                          &pp, &DisplayMode, &m_pD3DDevEx);
             }
 
-            m_D3DDevExError = FAILED(hr) ? GetWindowsErrorMessage(hr, m_hD3D9) : _T("");
+            if (FAILED(hr)) {
+                m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
+            } else {
+                m_D3DDevExError.Empty();
+            }
+
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_BackbufferType = pp.BackBufferFormat;
@@ -1939,7 +1944,7 @@ void CDX9AllocatorPresenter::DrawStats()
             strText.Format(L"Formats      : Surface %s    Backbuffer %s    Display %s     Device %s      %s",
                            GetD3DFormatStr(m_SurfaceType), GetD3DFormatStr(m_BackbufferType),
                            GetD3DFormatStr(m_DisplayType), m_pD3DDevEx ? L"D3DDevEx" : L"D3DDev",
-                           m_D3DDevExError.IsEmpty() ? _T("") : _T("D3DExError: ") + m_D3DDevExError);
+                           m_D3DDevExError.IsEmpty() ? _T("") : (_T("D3DExError: ") + m_D3DDevExError).GetString());
             drawText(rc, strText);
 
             if (m_bIsEVR) {

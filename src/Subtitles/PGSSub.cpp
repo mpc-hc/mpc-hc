@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -251,7 +251,7 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
 
         TRACE_PGSSUB(_T("CPGSSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
                      ReftimeToString(pPresentationSegment->rtStart),
-                     (pPresentationSegment->rtStop == UNKNOWN_TIME) ? _T("?") : ReftimeToString(pPresentationSegment->rtStop));
+                     pPresentationSegment->rtStop == UNKNOWN_TIME ? _T("?") : ReftimeToString(pPresentationSegment->rtStop).GetString());
 
         bbox.left = bbox.top = LONG_MAX;
         bbox.right = bbox.bottom = 0;
