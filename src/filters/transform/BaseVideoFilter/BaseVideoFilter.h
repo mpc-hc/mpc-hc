@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,7 +54,7 @@ protected:
     bool ConnectionWhitelistedForExtendedFormat();
 
 public:
-    CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
+    CBaseVideoFilter(LPCTSTR pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
     virtual ~CBaseVideoFilter();
 
     HRESULT ReconnectOutput(int w, int h, bool bSendSample = true, int realWidth = -1, int realHeight = -1);
@@ -86,7 +86,7 @@ class CBaseVideoInputPin : public CTransformInputPin
     CBaseVideoInputAllocator* m_pAllocator;
 
 public:
-    CBaseVideoInputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
+    CBaseVideoInputPin(LPCTSTR pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
     ~CBaseVideoInputPin();
 
     STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator);
@@ -96,7 +96,7 @@ public:
 class CBaseVideoOutputPin : public CTransformOutputPin
 {
 public:
-    CBaseVideoOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
+    CBaseVideoOutputPin(LPCTSTR pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
 
     HRESULT CheckMediaType(const CMediaType* mtOut);
 };

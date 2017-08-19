@@ -424,7 +424,7 @@ namespace Plugin
         }
 
         ScriptFunctionDef vobsub_func_defs[] = {
-            { (ScriptFunctionPtr)vobsubScriptConfig, "Config", "0s" },
+            { (ScriptFunctionPtr)vobsubScriptConfig, const_cast<char*>("Config"), const_cast<char*>("0s") },
             { nullptr },
         };
 
@@ -452,7 +452,7 @@ namespace Plugin
         };
 
         ScriptFunctionDef textsub_func_defs[] = {
-            { (ScriptFunctionPtr)textsubScriptConfig, "Config", "0si" },
+            { (ScriptFunctionPtr)textsubScriptConfig, const_cast<char*>("Config"), const_cast<char*>("0si") },
             { nullptr },
         };
 

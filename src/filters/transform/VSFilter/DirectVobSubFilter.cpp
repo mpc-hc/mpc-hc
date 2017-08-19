@@ -1352,7 +1352,7 @@ HRESULT CDirectVobSubFilter2::CheckInputType(const CMediaType* mtIn)
 bool CDirectVobSubFilter2::IsAppBlackListed()
 {
     // all entries must be lowercase!
-    TCHAR* blacklistedapps[] = {
+    constexpr LPCTSTR blacklistedapps[] = {
         _T("wm8eutil."),        // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
         _T("explorer."),        // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
         _T("producer."),        // this is real's producer

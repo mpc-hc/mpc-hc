@@ -32,7 +32,7 @@
 
 
 struct htmlcolor {
-    TCHAR* name;
+    LPCTSTR name;
     DWORD  color;
 }
 

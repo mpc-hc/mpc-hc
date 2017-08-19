@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015-2016 see Authors.txt
+ * (C) 2006-2013, 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,7 +37,7 @@
 // CDeCSSInputPin
 //
 
-CDeCSSInputPin::CDeCSSInputPin(TCHAR* pObjectName, CTransformFilter* pFilter, HRESULT* phr, LPWSTR pName)
+CDeCSSInputPin::CDeCSSInputPin(LPCTSTR pObjectName, CTransformFilter* pFilter, HRESULT* phr, LPCWSTR pName)
     : CTransformInputPin(pObjectName, pFilter, phr, pName)
     , m_varient(-1)
 {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015-2016 see Authors.txt
+ * (C) 2006-2013, 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,8 +35,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
+    {const_cast<LPWSTR>(L"Input"), FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesIn), sudPinTypesIn},
+    {const_cast<LPWSTR>(L"Output"), FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
@@ -392,7 +392,7 @@ STDMETHODIMP CStreamDriveThruFilter::GetPreroll(LONGLONG* pllPreroll)
 // CStreamDriveThruInputPin
 //
 
-CStreamDriveThruInputPin::CStreamDriveThruInputPin(TCHAR* pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+CStreamDriveThruInputPin::CStreamDriveThruInputPin(LPCTSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : CBasePin(pName, pFilter, pLock, phr, L"Input", PINDIR_INPUT)
 {
 }
@@ -486,7 +486,7 @@ STDMETHODIMP CStreamDriveThruInputPin::EndFlush()
 // CStreamDriveThruOutputPin
 //
 
-CStreamDriveThruOutputPin::CStreamDriveThruOutputPin(TCHAR* pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+CStreamDriveThruOutputPin::CStreamDriveThruOutputPin(LPCTSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : CBaseOutputPin(pName, pFilter, pLock, phr, L"Output")
 {
 }

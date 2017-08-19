@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,7 +88,7 @@ protected:
     CComQIPtr<IAsyncReader> m_pAsyncReader;
 
 public:
-    CBaseSplitterInputPin(TCHAR* pName, CBaseSplitterFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    CBaseSplitterInputPin(LPCTSTR pName, CBaseSplitterFilter* pFilter, CCritSec* pLock, HRESULT* phr);
     virtual ~CBaseSplitterInputPin();
 
     HRESULT GetAsyncReader(IAsyncReader** ppAsyncReader);

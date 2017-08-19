@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014, 2016 see Authors.txt
+ * (C) 2009-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -320,7 +320,7 @@ POSITION CEditListEditor::InsertClip(POSITION pos, CClip& newClip)
     lv.mask = LVIF_STATE | LVIF_TEXT;
     lv.iItem = FindIndex(pos);
     lv.iSubItem = 0;
-    lv.pszText = _T("");
+    lv.pszText = const_cast<LPTSTR>(_T(""));
     lv.state = m_list.GetItemCount() == 0 ? LVIS_SELECTED : 0;
     m_list.InsertItem(&lv);
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -120,7 +120,7 @@ STDMETHODIMP CDVSBasePPage::Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal
 
 /* CDVSBasePPage */
 
-CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int TitleId)
+CDVSBasePPage::CDVSBasePPage(LPCTSTR pName, LPUNKNOWN lpunk, int DialogId, int TitleId)
     : CBasePropertyPage(pName, lpunk, DialogId, TitleId)
     , m_fDisableInstantUpdate(false)
     , m_bIsInitialized(FALSE)

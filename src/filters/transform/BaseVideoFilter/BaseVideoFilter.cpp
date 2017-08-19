@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ typedef interface IDirect3DDevice9* LPDIRECT3DDEVICE9;
 //
 bool f_need_set_aspect;
 
-CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers)
+CBaseVideoFilter::CBaseVideoFilter(LPCTSTR pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers)
     : CTransformFilter(pName, lpunk, clsid)
     , m_cBuffers(cBuffers)
 {
@@ -710,7 +710,7 @@ STDMETHODIMP CBaseVideoInputAllocator::GetBuffer(IMediaSample** ppBuffer, REFERE
 // CBaseVideoInputPin
 //
 
-CBaseVideoInputPin::CBaseVideoInputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
+CBaseVideoInputPin::CBaseVideoInputPin(LPCTSTR pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
     : CTransformInputPin(pObjectName, pFilter, phr, pName)
     , m_pAllocator(nullptr)
 {
@@ -783,7 +783,7 @@ STDMETHODIMP CBaseVideoInputPin::ReceiveConnection(IPin* pConnector, const AM_ME
 // CBaseVideoOutputPin
 //
 
-CBaseVideoOutputPin::CBaseVideoOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
+CBaseVideoOutputPin::CBaseVideoOutputPin(LPCTSTR pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
     : CTransformOutputPin(pObjectName, pFilter, phr, pName)
 {
 }

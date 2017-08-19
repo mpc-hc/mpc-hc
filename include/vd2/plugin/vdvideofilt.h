@@ -471,8 +471,8 @@ typedef int (*VDXScriptIntFunctionPtr)(IVDXScriptInterpreter *, void *, const VD
 
 struct VDXScriptFunctionDef {
 	VDXScriptFunctionPtr func_ptr;
-	char *name;
-	char *arg_list;
+	const char *name;
+	const char *arg_list;
 };
 
 struct VDXScriptObject {

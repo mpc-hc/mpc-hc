@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,7 +29,7 @@ WNDPROC COpenDirHelper::CBProc;
 bool COpenDirHelper::m_incl_subdir;
 CString COpenDirHelper::strLastOpenDir;
 
-void COpenDirHelper::SetFont(HWND hwnd, const LPTSTR FontName, int FontSize)
+void COpenDirHelper::SetFont(HWND hwnd, LPCTSTR FontName, int FontSize)
 {
     HFONT hf, hfOld;
     LOGFONT lf;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,7 +31,7 @@
 
 /////////
 
-static DWORD EDC_crctable[256] = {
+static constexpr DWORD EDC_crctable[256] = {
     0x00000000l, 0x90910101l, 0x91210201l, 0x01b00300l,
     0x92410401l, 0x02d00500l, 0x03600600l, 0x93f10701l,
     0x94810801l, 0x04100900l, 0x05a00a00l, 0x95310b01l,
@@ -119,7 +119,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
+    {const_cast<LPWSTR>(L"Output"), FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, nullptr, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {

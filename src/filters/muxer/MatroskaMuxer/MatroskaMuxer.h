@@ -71,7 +71,7 @@ public:
 class CMatroskaMuxerOutputPin : public CBaseOutputPin
 {
 public:
-    CMatroskaMuxerOutputPin(TCHAR* pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    CMatroskaMuxerOutputPin(LPCTSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
     virtual ~CMatroskaMuxerOutputPin();
 
     DECLARE_IUNKNOWN;

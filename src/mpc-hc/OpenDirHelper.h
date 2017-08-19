@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015 see Authors.txt
+ * (C) 2006-2013, 2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,7 +28,7 @@ public:
     static bool m_incl_subdir;
     static CString strLastOpenDir;
 
-    static void SetFont(HWND hwnd, const LPTSTR FontName, int FontSize);
+    static void SetFont(HWND hwnd, LPCTSTR FontName, int FontSize);
     // Subclass procedure
     static LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

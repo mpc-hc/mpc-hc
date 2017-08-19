@@ -389,7 +389,7 @@ CAsyncOutputPin::Connect(
 #pragma warning(disable:4355)
 
 CAsyncReader::CAsyncReader(
-    TCHAR *pName,
+    LPCTSTR pName,
     LPUNKNOWN pUnk,
     CAsyncStream *pStream,
     HRESULT *phr,

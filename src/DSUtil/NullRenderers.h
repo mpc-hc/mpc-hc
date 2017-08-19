@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@ protected:
     virtual HRESULT DoRenderSample(IMediaSample* pSample) { return S_OK; }
 
 public:
-    CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
+    CNullRenderer(REFCLSID clsid, LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("579883A0-4E2D-481F-9436-467AAFAB7DE8"))

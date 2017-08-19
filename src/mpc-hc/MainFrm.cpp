@@ -9825,7 +9825,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             ASSERT(videoRect.Height() == lround(dScaledVRHeight));
 
             if (m_pMVRC) {
-                static constexpr const LPWSTR madVRModesMap[] = {
+                static constexpr const LPCWSTR madVRModesMap[] = {
                     L"50%",
                     L"100%",
                     L"200%",
@@ -9836,7 +9836,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                     L"touchInside"
                 };
 
-                m_pMVRC->SendCommandString("setZoomMode", madVRModesMap[iDefaultVideoSize]);
+                m_pMVRC->SendCommandString("setZoomMode", const_cast<LPWSTR>(madVRModesMap[iDefaultVideoSize]));
                 m_pMVRC->SendCommandDouble("setZoomFactorX", madVRZoomFactor * m_ZoomX);
                 m_pMVRC->SendCommandDouble("setZoomFactorY", madVRZoomFactor * m_ZoomY);
                 m_pMVRC->SendCommandDouble("setZoomOffsetX", 2 * m_PosX - 1.0);
@@ -9849,7 +9849,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                 SendStatusMessage(info, 3000);
             }
         } else if (m_pMVRC) {
-            m_pMVRC->SendCommandString("setZoomMode", L"autoDetect");
+            m_pMVRC->SendCommandString("setZoomMode", const_cast<LPWSTR>(L"autoDetect"));
         }
 
         windowRect.top -= nCompensateForMenubar;

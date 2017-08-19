@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -94,7 +94,7 @@ int CPacketQueue::GetSize()
 // CBaseSplitterInputPin
 //
 
-CBaseSplitterInputPin::CBaseSplitterInputPin(TCHAR* pName, CBaseSplitterFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+CBaseSplitterInputPin::CBaseSplitterInputPin(LPCTSTR pName, CBaseSplitterFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : CBasePin(pName, pFilter, pLock, phr, L"Input", PINDIR_INPUT)
 {
 }

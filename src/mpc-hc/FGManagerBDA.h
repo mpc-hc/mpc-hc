@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,7 +38,7 @@ public:
         , m_ulMappedPID(0) {
     }
 
-    CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM)
+    CDVBStream(LPCWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM)
         : m_pmt(pmt)
         , m_bFindExisting(bFindExisting)
         , m_Name(strName)
@@ -46,7 +46,7 @@ public:
         , m_ulMappedPID(0) {
     }
 
-    LPWSTR GetName() { return m_Name; };
+    LPCWSTR GetName() const { return m_Name; };
     const AM_MEDIA_TYPE* GetMediaType() { return m_pmt; };
     bool GetFindExisting() const { return m_bFindExisting; };
     IBaseFilter* GetFilter() { return m_pFilter; };
@@ -83,7 +83,7 @@ private:
     CComPtr<IBaseFilter>    m_pFilter;
     const AM_MEDIA_TYPE*    m_pmt;
     bool                    m_bFindExisting;
-    LPWSTR                  m_Name;
+    LPCWSTR                 m_Name;
     MEDIA_SAMPLE_CONTENT    m_nMsc;
     ULONG                   m_ulMappedPID;
 

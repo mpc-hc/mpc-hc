@@ -414,8 +414,8 @@ STDAPI_(WORD) GetBitCount(const GUID *pSubtype);
 //
 // STDAPI_(/* T */ CHAR *) GetSubtypeName(const GUID *pSubtype);
 
-STDAPI_(CHAR *) GetSubtypeNameA(const GUID *pSubtype);
-STDAPI_(WCHAR *) GetSubtypeNameW(const GUID *pSubtype);
+STDAPI_(LPCSTR) GetSubtypeNameA(const GUID *pSubtype);
+STDAPI_(LPCWSTR) GetSubtypeNameW(const GUID *pSubtype);
 
 #ifdef UNICODE
 #define GetSubtypeName GetSubtypeNameW
