@@ -1181,11 +1181,15 @@ public:
 	}
 
 	void swap(vdfastvector& x) {
-		T *p;
+		std::swap(mpBegin, x.mpBegin);
+		std::swap(mpEnd, x.mpEnd);
+		std::swap(m.eos, x.m.eos);
+	}
 
-		p = mpBegin;		mpBegin = x.mpBegin;		x.mpBegin = p;
-		p = mpEnd;			mpEnd = x.mpEnd;			x.mpEnd = p;
-		p = m.eos;			m.eos = x.m.eos;			x.m.eos = p;
+	void swap(vdfastvector&& x) {
+		std::swap(mpBegin, x.mpBegin);
+		std::swap(mpEnd, x.mpEnd);
+		std::swap(m.eos, x.m.eos);
 	}
 };
 

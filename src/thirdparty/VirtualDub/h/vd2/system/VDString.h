@@ -1194,11 +1194,15 @@ public:
 	}
 
 	void swap(this_type& x) {
-		value_type *p;
+		std::swap(mpBegin, x.mpBegin);
+		std::swap(mpEnd, x.mpEnd);
+		std::swap(mpEOS, x.mpEOS);
+	}
 
-		p = mpBegin;	mpBegin = x.mpBegin;	x.mpBegin = p;
-		p = mpEnd;		mpEnd = x.mpEnd;		x.mpEnd = p;
-		p = mpEOS;		mpEOS = x.mpEOS;		x.mpEOS = p;
+	void swap(this_type&& x) {
+		std::swap(mpBegin, x.mpBegin);
+		std::swap(mpEnd, x.mpEnd);
+		std::swap(mpEOS, x.mpEOS);
 	}
 
 	// 21.3.6 string operations
