@@ -22,6 +22,7 @@
 #include "ExceptionHandler.h"
 #include <windows.h>
 #include <psapi.h>
+#include <inttypes.h>
 
 #ifndef _DEBUG
 
@@ -115,21 +116,16 @@ void HandleCommonException(LPEXCEPTION_POINTERS exceptionInfo)
 {
     wchar_t message[MAX_PATH + 255];
     wchar_t module[MAX_PATH];
-    wchar_t* moduleName = nullptr;
-    if (GetExceptionModule(exceptionInfo->ExceptionRecord->ExceptionAddress, module)) {
-        moduleName = module;
-    } else {
-        moduleName = _T("[UNKNOWN]");
-    }
+    const wchar_t* moduleName = GetExceptionModule(exceptionInfo->ExceptionRecord->ExceptionAddress, module) ? module : _T("[UNKNOWN]");
 
-    uint64_t codeBase = (uint64_t)GetModuleHandle(NULL);
-    uint64_t offset   = (uint64_t)exceptionInfo->ExceptionRecord->ExceptionAddress - codeBase;
+    const uintptr_t codeBase = uintptr_t(GetModuleHandle(nullptr));
+    const uintptr_t offset   = uintptr_t(exceptionInfo->ExceptionRecord->ExceptionAddress) - codeBase;
 
     swprintf_s(message, _countof(message), _T(\
                                               "An error has occurred. MPC-HC will close now.\n\n"\
                                               "Exception:\n%s\n\n"\
                                               "Crashing module:\n%s\n"\
-                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n\n"),
+                                              "Offset: 0x%" PRIXPTR ", Codebase: 0x%" PRIXPTR "\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
                offset,
@@ -142,17 +138,12 @@ void HandleAccessViolation(LPEXCEPTION_POINTERS exceptionInfo)
 {
     wchar_t message[MAX_PATH + 255];
     wchar_t module[MAX_PATH];
-    wchar_t* moduleName = NULL;
-    if (GetExceptionModule(exceptionInfo->ExceptionRecord->ExceptionAddress, module)) {
-        moduleName = module;
-    } else {
-        moduleName = _T("[UNKNOWN]");
-    }
+    const wchar_t* moduleName = GetExceptionModule(exceptionInfo->ExceptionRecord->ExceptionAddress, module) ? module : _T("[UNKNOWN]");
 
-    uint64_t codeBase = (uint64_t)GetModuleHandle(NULL);
-    uint64_t offset   = (uint64_t)exceptionInfo->ExceptionRecord->ExceptionAddress - codeBase;
+    const uintptr_t codeBase = uintptr_t(GetModuleHandle(nullptr));
+    const uintptr_t offset   = uintptr_t(exceptionInfo->ExceptionRecord->ExceptionAddress) - codeBase;
 
-    wchar_t* accessType = NULL;
+    const wchar_t* accessType;
     switch (exceptionInfo->ExceptionRecord->ExceptionInformation[0]) {
         case 0:
             accessType = _T("read");
@@ -172,8 +163,8 @@ void HandleAccessViolation(LPEXCEPTION_POINTERS exceptionInfo)
                                               "An error has occurred. MPC-HC will close now.\n\n"\
                                               "Exception:\n%s\n\n"\
                                               "Crashing module:\n%s\n"\
-                                              "Offset: 0x%I64X, Codebase: 0x%I64X\n"\
-                                              "The thread %u tried to %s memory at address 0x%IX\n\n"),
+                                              "Offset: 0x%" PRIXPTR ", Codebase: 0x%" PRIXPTR "\n"\
+                                              "The thread %lu tried to %s memory at address 0x%" PRIXPTR "\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
                offset,
