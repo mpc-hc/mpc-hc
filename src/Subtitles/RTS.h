@@ -57,7 +57,7 @@ struct CAlphaMask final : std::unique_ptr<BYTE[]> {
     size_t m_size;
 
     explicit CAlphaMask(size_t size)
-        : std::unique_ptr<BYTE[]>(std::make_unique<BYTE[]>(size))
+        : std::unique_ptr<BYTE[]>(DEBUG_NEW BYTE[size])
         , m_size(size) {
     }
 
