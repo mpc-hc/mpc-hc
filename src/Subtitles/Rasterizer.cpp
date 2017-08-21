@@ -38,6 +38,7 @@ Rasterizer::Rasterizer()
     , mpPathTypes(nullptr)
     , mpPathPoints(nullptr)
     , mPathPoints(0)
+    , m_bUseAVX2(false)
     , mpEdgeBuffer(nullptr)
     , mEdgeHeapSize(0)
     , mEdgeNext(0)
@@ -49,7 +50,7 @@ Rasterizer::Rasterizer()
         return;
     }
     __cpuidex(cpuInfo, 7, 0);
-    m_bUseAVX2 = !!(cpuInfo[1] & (1 << 5));
+    m_bUseAVX2 = !!(cpuInfo[1] & (1 << 5)) && (_xgetbv(_XCR_XFEATURE_ENABLED_MASK) & 0x6) == 0x6;
 }
 
 Rasterizer::~Rasterizer()
