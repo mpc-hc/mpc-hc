@@ -524,7 +524,7 @@ namespace Plugin
                 dst.w = fa->src.w;
                 dst.h = fa->src.h;
                 dst.bpp = 32;
-                dst.pitch = fa->src.pitch;
+                dst.pitch = int(fa->src.pitch);
                 dst.bits = (BYTE*)fa->src.data;
 
                 Render(dst, 10000i64 * fa->pfsi->lSourceFrameMS, 1000.0f / fa->pfsi->lMicrosecsPerFrame);

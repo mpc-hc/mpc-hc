@@ -84,7 +84,7 @@ template<> struct vdhash<double> {
 		if (i == 0x8000000000000000ULL)
 			i = 0;
 
-		if (sizeof(size_t) < 8)
+		if constexpr (sizeof(size_t) < 8)
 			return (size_t)((i >> 32) ^ i);
 		else
 			return (size_t)i;

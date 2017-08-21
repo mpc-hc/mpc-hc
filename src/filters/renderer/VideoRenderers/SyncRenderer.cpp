@@ -274,7 +274,7 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
             v[i].t[j].v -= (float)(offset * dy);
         }
 
-        if (texcoords > 1) {
+        if constexpr (texcoords > 1) {
             v[i].t[texcoords - 1].u -= offset;
             v[i].t[texcoords - 1].v -= offset;
         }
