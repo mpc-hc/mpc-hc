@@ -276,17 +276,17 @@ struct wmcmd_base : public ACCEL {
 
     wmcmd_base()
         : ACCEL( { 0, 0, 0 })
-    , dwname(0)
-    , appcmd(0)
     , mouse(NONE)
-    , mouseFS(NONE) {}
+    , mouseFS(NONE)
+    , dwname(0)
+    , appcmd(0) {}
 
     constexpr wmcmd_base(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, BYTE _mouse = NONE, BYTE _mouseFS = NONE)
         : ACCEL{ _fVirt, _key, _cmd }
-        , dwname(_dwname)
-        , appcmd(_appcmd)
         , mouse(_mouse)
-        , mouseFS(_mouseFS) {}
+        , mouseFS(_mouseFS)
+        , dwname(_dwname)
+        , appcmd(_appcmd) {}
 
     constexpr wmcmd_base(const wmcmd_base&) = default;
     constexpr wmcmd_base(wmcmd_base&&) = default;
