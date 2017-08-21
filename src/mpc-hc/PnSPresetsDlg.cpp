@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -104,7 +104,7 @@ void CPnSPresetsDlg::StringToParams(CString str, CString& label, double& PosX, d
 CString CPnSPresetsDlg::ParamsToString(CString label, double PosX, double PosY, double ZoomX, double ZoomY)
 {
     CString str;
-    str.Format(_T("%s,%.3f,%.3f,%.3f,%.3f"), label, PosX, PosY, ZoomX, ZoomY);
+    str.Format(_T("%s,%.3f,%.3f,%.3f,%.3f"), label.GetString(), PosX, PosY, ZoomX, ZoomY);
     return str;
 }
 

@@ -140,7 +140,7 @@ CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
     if (uiVersionMin != UINT64_MAX) {
         version = strVersionMin;
         if (uiVersionMax != uiVersionMin) {
-            version.AppendFormat(_T(" - %s"), strVersionMax);
+            version.AppendFormat(_T(" - %s"), strVersionMax.GetString());
         }
     }
 

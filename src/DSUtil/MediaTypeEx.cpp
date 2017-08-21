@@ -468,11 +468,11 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
     sl.AddTail(ToString() + _T("\n"));
 
     sl.AddTail(_T("AM_MEDIA_TYPE: "));
-    str.Format(_T("majortype: %S %s"), GuidNames[majortype], major);
+    str.Format(_T("majortype: %S %s"), GuidNames[majortype], major.GetString());
     sl.AddTail(str);
-    str.Format(_T("subtype: %S %s"), GuidNames[subtype], sub);
+    str.Format(_T("subtype: %S %s"), GuidNames[subtype], sub.GetString());
     sl.AddTail(str);
-    str.Format(_T("formattype: %S %s"), GuidNames[formattype], format);
+    str.Format(_T("formattype: %S %s"), GuidNames[formattype], format.GetString());
     sl.AddTail(str);
     str.Format(_T("bFixedSizeSamples: %d"), bFixedSizeSamples);
     sl.AddTail(str);
@@ -641,7 +641,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
                 sl.AddTail(str);
                 str.Format(_T("dwChannelMask: 0x%08x"), wfextensible.dwChannelMask);
                 sl.AddTail(str);
-                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfextensible.SubFormat));
+                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfextensible.SubFormat).GetString());
                 sl.AddTail(str);
 
                 sl.AddTail(_T(""));
@@ -709,9 +709,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(_T("SUBTITLEINFO:"));
         str.Format(_T("dwOffset: %lu"), si.dwOffset);
         sl.AddTail(str);
-        str.Format(_T("IsoLang: %s"), CString(CStringA(si.IsoLang, sizeof(si.IsoLang) - 1)));
+        str.Format(_T("IsoLang: %S"), CStringA(si.IsoLang, sizeof(si.IsoLang) - 1).GetString());
         sl.AddTail(str);
-        str.Format(_T("TrackName: %s"), CString(CStringW(si.TrackName, sizeof(si.TrackName) - 1)));
+        str.Format(_T("TrackName: %s"), CStringW(si.TrackName, sizeof(si.TrackName) - 1).GetString());
         sl.AddTail(str);
 
         sl.AddTail(_T(""));

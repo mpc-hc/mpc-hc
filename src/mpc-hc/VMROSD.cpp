@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -311,12 +311,12 @@ void CVMROSD::DrawDebug()
         CString msg, tmp;
         POSITION pos;
         pos = m_debugMessages.GetHeadPosition();
-        msg.Format(_T("%s"), m_debugMessages.GetNext(pos));
+        msg.Format(_T("%s"), m_debugMessages.GetNext(pos).GetString());
 
         while (pos) {
             tmp = m_debugMessages.GetNext(pos);
             if (!tmp.IsEmpty()) {
-                msg.AppendFormat(_T("\r\n%s"), tmp);
+                msg.AppendFormat(_T("\r\n%s"), tmp.GetString());
             }
         }
 

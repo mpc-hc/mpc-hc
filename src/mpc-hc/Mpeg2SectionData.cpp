@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -720,7 +720,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
                         WORD logical_channel_number  = (WORD)gb.BitRead(10);
                         if (Channels.Lookup(service_id)) {
                             Channels[service_id].SetOriginNumber(logical_channel_number);
-                            BDA_LOG(_T("NIT association : %d -> %s"), logical_channel_number, Channels[service_id].ToString());
+                            BDA_LOG(_T("NIT association : %d -> %s"), logical_channel_number, Channels[service_id].ToString().GetString());
                         }
                     }
                     break;

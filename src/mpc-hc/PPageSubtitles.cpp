@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -284,8 +284,8 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
             };
             ::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 320);
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,
-                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN)),
-                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP)));
+                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN)).GetString(),
+                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP)).GetString());
             pTTT->lpszText = (LPTSTR)(LPCTSTR)m_strToolTip;
             bRet = true;
             break;

@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,16 +34,16 @@ UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& la
         case UPDATER_UPDATE_AVAILABLE:
         case UPDATER_UPDATE_AVAILABLE_IGNORED:
             m_text.Format(IDS_NEW_UPDATE_AVAILABLE,
-                          latestVersion.ToString(),
-                          UpdateChecker::MPC_HC_VERSION.ToString());
+                          latestVersion.ToString().GetString(),
+                          UpdateChecker::MPC_HC_VERSION.ToString().GetString());
             break;
         case UPDATER_LATEST_STABLE:
             m_text.LoadString(IDS_USING_LATEST_STABLE);
             break;
         case UPDATER_NEWER_VERSION:
             m_text.Format(IDS_USING_NEWER_VERSION,
-                          UpdateChecker::MPC_HC_VERSION.ToString(),
-                          latestVersion.ToString());
+                          UpdateChecker::MPC_HC_VERSION.ToString().GetString(),
+                          latestVersion.ToString().GetString());
             break;
         case UPDATER_ERROR:
             m_text.LoadString(IDS_UPDATE_ERROR);

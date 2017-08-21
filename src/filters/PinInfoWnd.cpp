@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -202,7 +202,7 @@ void CPinInfoWnd::OnSelectedPinChange()
             } else {
                 strName = filterInfo.achName;
             }
-            str.Format(_T("Filter : %s - CLSID : %s\n\n"), strName, CStringFromGUID(filterClsid));
+            str.Format(_T("Filter : %s - CLSID : %s\n\n"), strName.GetString(), CStringFromGUID(filterClsid).GetString());
             AddLine(str);
         }
     }
@@ -212,9 +212,9 @@ void CPinInfoWnd::OnSelectedPinChange()
     CComPtr<IPin> pPinTo;
     if (SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
         str.Format(_T("- Connected to:\n\nCLSID: %s\nFilter: %s\nPin: %s\n\n"),
-                   CString(CStringFromGUID(GetCLSID(pPinTo))),
-                   CString(GetFilterName(GetFilterFromPin(pPinTo))),
-                   CString(GetPinName(pPinTo)));
+                   CStringFromGUID(GetCLSID(pPinTo)).GetString(),
+                   static_cast<LPCTSTR>(GetFilterName(GetFilterFromPin(pPinTo))),
+                   static_cast<LPCTSTR>(GetPinName(pPinTo)));
 
         AddLine(str);
 

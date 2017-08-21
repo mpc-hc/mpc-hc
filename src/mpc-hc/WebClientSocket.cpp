@@ -786,11 +786,11 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
     status.Replace(_T("'"), _T("\\'"));
 
     body.Format("OnStatus(\"%s\", \"%s\", %ld, \"%s\", %ld, \"%s\", %d, %d, \"%s\")", // , \"%s\"
-                UTF8(title), UTF8(status),
-                std::lround(pos / 10000i64), UTF8(ReftimeToString2(pos)),
-                std::lround(dur / 10000i64), UTF8(ReftimeToString2(dur)),
+                UTF8(title).GetString(), UTF8(status).GetString(),
+                std::lround(pos / 10000i64), UTF8(ReftimeToString2(pos)).GetString(),
+                std::lround(dur / 10000i64), UTF8(ReftimeToString2(dur)).GetString(),
                 m_pMainFrame->IsMuted(), m_pMainFrame->GetVolume(),
-                UTF8(file)/*, UTF8(dir)*/);
+                UTF8(file).GetString()/*, UTF8(dir)*/);
 
     return true;
 }

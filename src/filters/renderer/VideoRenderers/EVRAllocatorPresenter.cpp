@@ -784,7 +784,6 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 {
     HRESULT hr = S_OK;
     AM_MEDIA_TYPE* pAMMedia = nullptr;
-    CString strTemp, strTemp1;
 
     CHECK_HR(CheckShutdown());
 
@@ -810,11 +809,11 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
         CAutoLock lock(&m_MediaTypeLock);
         m_pMediaType = pType;
 
-        strTemp = GetMediaTypeName(pAMMedia->subtype);
+        CString strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
-        strTemp1 = GetMediaTypeFormatDesc(pType);
+        CString strTemp1 = GetMediaTypeFormatDesc(pType);
         strTemp1.Replace(L"D3DFMT_", L"");
-        m_strStatsMsg[MSG_MIXEROUT].Format(L"Mixer output : %-10s    Type %-10s", strTemp, strTemp1);
+        m_strStatsMsg[MSG_MIXEROUT].Format(L"Mixer output : %-10s    Type %-10s", strTemp.GetString(), strTemp1.GetString());
     }
 
     pType->FreeRepresentation(FORMAT_VideoInfo2, (void*)pAMMedia);

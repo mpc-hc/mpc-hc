@@ -351,7 +351,7 @@ void CPlayerSeekBar::UpdateToolTipText()
     if (chapterName.Length() == 0) {
         m_tooltipText = time;
     } else {
-        m_tooltipText.Format(_T("%s - %s"), time, chapterName);
+        m_tooltipText.Format(_T("%s - %s"), time.GetString(), static_cast<LPCTSTR>(chapterName));
     }
 
     m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;

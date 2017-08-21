@@ -88,7 +88,7 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
         headersFmt += _T("\r\n");
 
         CString headers;
-        headers.Format(headersFmt, osVersionStr);
+        headers.Format(headersFmt, osVersionStr.GetString());
 
         CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
                                                                1,

@@ -596,7 +596,7 @@ void SubtitlesProviders::Upload(bool bShowConfirm)
 
         if (!pSubtitlesInfo.fileContents.empty()) {
             CString msg;
-            msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()));
+            msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()).GetString());
             if (!bShowConfirm
                     || IDYES == MessageBox(m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
                 InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo));

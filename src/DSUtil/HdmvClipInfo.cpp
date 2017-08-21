@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2014 see Authors.txt
+ * (C) 2008-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -295,7 +295,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
             SetFilePointerEx(m_hFile, Pos, nullptr, FILE_BEGIN);
             Pos.QuadPart += ReadShort() + 2;
             ReadBuffer(Buff, 5);
-            Item.m_strFileName.Format(_T("%s\\STREAM\\%c%c%c%c%c.M2TS"), Path, Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
+            Item.m_strFileName.Format(_T("%s\\STREAM\\%c%c%c%c%c.M2TS"), static_cast<LPCTSTR>(Path), Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
 
             ReadBuffer(Buff, 4);
             if (memcmp(Buff, "M2TS", 4)) {
@@ -415,7 +415,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
     strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
     strPath.Replace(_T("\\STREAM\\"), _T("\\"));
     strPath += _T("\\BDMV\\");
-    strFilter.Format(_T("%sPLAYLIST\\*.mpls"), strPath);
+    strFilter.Format(_T("%sPLAYLIST\\*.mpls"), strPath.GetString());
 
     HANDLE hFind = FindFirstFile(strFilter, &fd);
     if (hFind != INVALID_HANDLE_VALUE) {
@@ -423,7 +423,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
         REFERENCE_TIME rtCurrent;
         CString strCurrentPlaylist;
         do {
-            strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath, fd.cFileName);
+            strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath.GetString(), fd.cFileName);
             Playlist.RemoveAll();
 
             // Main movie shouldn't have duplicate M2TS filename...

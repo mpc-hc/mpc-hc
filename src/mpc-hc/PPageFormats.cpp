@@ -152,7 +152,7 @@ void CPPageFormats::LoadSettings()
         }
 
         CString label;
-        label.Format(_T("%s (%s)"), m_mf[i].GetDescription(), m_mf[i].GetExts());
+        label.Format(_T("%s (%s)"), m_mf[i].GetDescription().GetString(), m_mf[i].GetExts().GetString());
 
         int iItem = m_list.InsertItem(i, label);
         m_list.SetItemData(iItem, i);
@@ -562,7 +562,7 @@ void CPPageFormats::OnBnClickedResetExtensionsList()
         m_exts = mfc.GetExtsWithPeriod();
 
         CString label;
-        label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
+        label.Format(_T("%s (%s)"), mfc.GetDescription().GetString(), mfc.GetExts().GetString());
         m_list.SetItemText(iItem, COL_CATEGORY, label);
 
         UpdateMediaCategoryState(iItem);
@@ -586,7 +586,7 @@ void CPPageFormats::OnBnClickedSetExtensionsList()
         m_exts = mfc.GetExtsWithPeriod();
 
         CString label;
-        label.Format(_T("%s (%s)"), mfc.GetDescription(), mfc.GetExts());
+        label.Format(_T("%s (%s)"), mfc.GetDescription().GetString(), mfc.GetExts().GetString());
         m_list.SetItemText(iItem, COL_CATEGORY, label);
 
         UpdateMediaCategoryState(iItem);

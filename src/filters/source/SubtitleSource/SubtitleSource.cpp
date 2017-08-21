@@ -510,9 +510,9 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
             } else if (m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS)) {
                 CStringW line;
                 line.Format(L"%d,%d,%s,%s,%d,%d,%d,%s,%s",
-                            stse.readorder, stse.layer, CStringW(stse.style), CStringW(stse.actor),
+                            stse.readorder, stse.layer, stse.style.GetString(), stse.actor.GetString(),
                             stse.marginRect.left, stse.marginRect.right, (stse.marginRect.top + stse.marginRect.bottom) / 2,
-                            CStringW(stse.effect), m_rts.GetStrW(m_nPosition, true));
+                            stse.effect.GetString(), m_rts.GetStrW(m_nPosition, true).GetString());
 
                 CStringA str = UTF16To8(line);
                 memcpy((char*)pData, str, len = str.GetLength());

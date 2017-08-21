@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -140,7 +140,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
         StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
         CString szByteSize;
         szByteSize.Format(_T("%I64d"), size);
-        m_size.Format(_T("%s (%s %s)"), szFileSize, FormatNumber(szByteSize), ResStr(IDS_SIZE_UNIT_BYTES));
+        m_size.Format(_T("%s (%s %s)"), szFileSize, FormatNumber(szByteSize).GetString(), ResStr(IDS_SIZE_UNIT_BYTES).GetString());
     }
 
     if (!creationDate.IsEmpty()) {

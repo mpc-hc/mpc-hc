@@ -348,7 +348,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask) const
 {
     CString strTemp;
 
-    filter.AppendFormat(IsExtHidden() ? _T("%s|") : _T("%s (*.avi;*.mp4;*.mkv;...)|"), ResStr(IDS_AG_MEDIAFILES));
+    filter.AppendFormat(IsExtHidden() ? _T("%s|") : _T("%s (*.avi;*.mp4;*.mkv;...)|"), ResStr(IDS_AG_MEDIAFILES).GetString());
     mask.Add(_T(""));
 
     for (size_t i = 0; i < GetCount(); i++) {
@@ -376,7 +376,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask) co
 {
     CString strTemp;
 
-    filter.AppendFormat(IsExtHidden() ? _T("%s|") : _T("%s (*.mp3;*.aac;*.wav;...)|"), ResStr(IDS_AG_AUDIOFILES));
+    filter.AppendFormat(IsExtHidden() ? _T("%s|") : _T("%s (*.mp3;*.aac;*.wav;...)|"), ResStr(IDS_AG_AUDIOFILES).GetString());
     mask.Add(_T(""));
 
     for (size_t i = 0; i < GetCount(); i++) {

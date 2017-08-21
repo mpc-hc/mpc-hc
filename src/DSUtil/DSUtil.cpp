@@ -791,7 +791,7 @@ OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
                     trackData.Control &= 5;
                     if (trackData.Control == 0 || trackData.Control == 1) {
                         CString fn;
-                        fn.Format(_T("%s\\track%02Id.cda"), path, i);
+                        fn.Format(_T("%s\\track%02Id.cda"), path.GetString(), i);
                         files.AddTail(fn);
                     }
                 }

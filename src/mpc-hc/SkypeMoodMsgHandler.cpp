@@ -1,5 +1,5 @@
 /*
- * (C) 2013, 2015 see Authors.txt
+ * (C) 2013, 2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -81,7 +81,7 @@ bool SkypeMoodMsgHandler::HandleMessage(HWND hWnd, COPYDATASTRUCT* pCDS)
 
         CString msg = UTF8To16((char*)pCDS->lpData);
 
-        TRACE(_T("SkypeMoodMsgHandler::HandleMessage --> %s\n"), msg);
+        TRACE(_T("SkypeMoodMsgHandler::HandleMessage --> %s\n"), msg.GetString());
     }
 
     return bMsgHandled;
@@ -91,7 +91,7 @@ bool SkypeMoodMsgHandler::SendMessage(CString msg)
 {
     bool bSuccess = false;
 
-    TRACE(_T("SkypeMoodMsgHandler::SendMessage --> Sending \"%s\"\n"), msg);
+    TRACE(_T("SkypeMoodMsgHandler::SendMessage --> Sending \"%s\"\n"), msg.GetString());
 
     if (!m_hWndSkype) {
         TRACE(_T("SkypeMoodMsgHandler::SendMessage --> not connected\n"));

@@ -186,7 +186,7 @@ void CEditListEditor::SaveEditListToFile()
                 CClip&  CurClip = m_editList.GetAt(pos);
 
                 if (CurClip.HaveIn() && CurClip.HaveOut()) {
-                    strLine.Format(_T("%s\t%s\t%s\t%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut(), CurClip.GetName(), strUser, strHotFolders);
+                    strLine.Format(_T("%s\t%s\t%s\t%s\t%s\n"), CurClip.GetIn().GetString(), CurClip.GetOut().GetString(), CurClip.GetName().GetString(), strUser.GetString(), strHotFolders.GetString());
                     editListFile.WriteString(strLine);
                 }
             }

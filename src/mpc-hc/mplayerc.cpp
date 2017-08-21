@@ -392,7 +392,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
                 "User-Agent: MPC-HC\r\n"
                 "Host: %s\r\n"
                 "Accept: */*\r\n"
-                "\r\n", path, host);
+                "\r\n", path.GetString(), host.GetString());
 
             // MessageBox(nullptr, CString(hdr), _T("Sending..."), MB_OK);
 
@@ -823,7 +823,7 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
         if (subKey.IsEmpty()) {
             regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);
         } else {
-            regKey.Format(_T("Software\\%s\\%s\\%s"), m_pszRegistryKey, m_pszProfileName, subKey);
+            regKey.Format(_T("Software\\%s\\%s\\%s"), m_pszRegistryKey, m_pszProfileName, subKey.GetString());
         }
 
         FILE* fStream;
@@ -961,10 +961,10 @@ void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
         try {
             file.WriteString(_T("; MPC-HC\n"));
             for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
-                line.Format(_T("[%s]\n"), it1->first);
+                line.Format(_T("[%s]\n"), it1->first.GetString());
                 file.WriteString(line);
                 for (auto it2 = it1->second.begin(); it2 != it1->second.end(); ++it2) {
-                    line.Format(_T("%s=%s\n"), it2->first, it2->second);
+                    line.Format(_T("%s=%s\n"), it2->first.GetString(), it2->second.GetString());
                     file.WriteString(line);
                 }
             }
@@ -2087,18 +2087,18 @@ void CRemoteCtrlClient::Connect(CString addr)
     CAutoLock cAutoLock(&m_csLock);
 
     if (m_nStatus == CONNECTING && m_addr == addr) {
-        TRACE(_T("CRemoteCtrlClient (Connect): already connecting to %s\n"), addr);
+        TRACE(_T("CRemoteCtrlClient (Connect): already connecting to %s\n"), addr.GetString());
         return;
     }
 
     if (m_nStatus == CONNECTED && m_addr == addr) {
-        TRACE(_T("CRemoteCtrlClient (Connect): already connected to %s\n"), addr);
+        TRACE(_T("CRemoteCtrlClient (Connect): already connected to %s\n"), addr.GetString());
         return;
     }
 
     m_nStatus = CONNECTING;
 
-    TRACE(_T("CRemoteCtrlClient (Connect): connecting to %s\n"), addr);
+    TRACE(_T("CRemoteCtrlClient (Connect): connecting to %s\n"), addr.GetString());
 
     Close();
 
@@ -2155,7 +2155,7 @@ void CRemoteCtrlClient::OnReceive(int nErrorCode)
     }
     str.ReleaseBuffer(ret);
 
-    TRACE(_T("CRemoteCtrlClient (OnReceive): %S\n"), str);
+    TRACE(_T("CRemoteCtrlClient (OnReceive): %S\n"), str.GetString());
 
     OnCommand(str);
 
@@ -2178,7 +2178,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
                 && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);
-            TRACE(_T("CRemoteCtrlClient (calling command): %s\n"), wc.GetName());
+            TRACE(_T("CRemoteCtrlClient (calling command): %s\n"), wc.GetName().GetString());
             m_pWnd->SendMessage(WM_COMMAND, wc.cmd);
             break;
         }
@@ -2193,7 +2193,7 @@ CWinLircClient::CWinLircClient()
 
 void CWinLircClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CWinLircClient (OnCommand): %S\n"), str);
+    TRACE(_T("CWinLircClient (OnCommand): %S\n"), str.GetString());
 
     int i = 0, j = 0, repcnt = 0;
     for (CStringA token = str.Tokenize(" ", i);
@@ -2215,7 +2215,7 @@ CUIceClient::CUIceClient()
 
 void CUIceClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CUIceClient (OnCommand): %S\n"), str);
+    TRACE(_T("CUIceClient (OnCommand): %S\n"), str.GetString());
 
     CStringA cmd;
     int i = 0, j = 0;

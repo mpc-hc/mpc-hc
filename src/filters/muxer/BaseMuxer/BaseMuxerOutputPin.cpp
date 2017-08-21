@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015-2016 see Authors.txt
+ * (C) 2006-2013, 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -301,7 +301,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
                    pPacket->index + 1,
                    start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart / 10000) % 1000),
                    stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop / 10000) % 1000),
-                   CStringA(str));
+                   CStringA(str).GetString());
 
         pBitStream->StrWrite(str, true);
 
@@ -342,11 +342,11 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
         }
 
         str.Format("Dialogue: %s,%u:%02u:%02u.%02d,%u:%02u:%02u.%02d,%s,%s,%s,%s,%s,%s,%s\n",
-                   layer,
+                   layer.GetString(),
                    start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart / 100000) % 100),
                    stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop / 100000) % 100),
-                   style, actor, left, right, top, effect,
-                   CStringA(str));
+                   style.GetString(), actor.GetString(), left.GetString(), right.GetString(), top.GetString(), effect.GetString(),
+                   CStringA(str).GetString());
 
         pBitStream->StrWrite(str, true);
 

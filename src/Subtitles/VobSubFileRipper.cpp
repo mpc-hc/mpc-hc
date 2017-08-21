@@ -378,7 +378,7 @@ bool CVobSubFileRipper::LoadVob(CString fn)
     }
 
     if (vobs.GetCount() <= 0) {
-        Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn);
+        Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn.GetString());
         return false;
     }
 

@@ -253,7 +253,7 @@ void CAboutDlg::OnCopyToClipboard()
             if (key.QueryStringValue(_T("ProcessorNameString"), cpuName.GetBuffer(nChars), &nChars) == ERROR_SUCCESS) {
                 cpuName.ReleaseBuffer(nChars);
                 cpuName.Trim();
-                info.AppendFormat(_T("    CPU:                %s\r\n"), cpuName);
+                info.AppendFormat(_T("    CPU:                %s\r\n"), cpuName.GetString());
             }
         }
     }
@@ -268,13 +268,13 @@ void CAboutDlg::OnCopyToClipboard()
                 deviceName.Trim();
 
                 if (adapterCount > 1) {
-                    info.AppendFormat(_T("    GPU%u:               %s"), adapter + 1, deviceName);
+                    info.AppendFormat(_T("    GPU%u:               %s"), adapter + 1, deviceName.GetString());
                 } else {
-                    info.AppendFormat(_T("    GPU:                %s"), deviceName);
+                    info.AppendFormat(_T("    GPU:                %s"), deviceName.GetString());
                 }
                 if (adapterIdentifier.DriverVersion.QuadPart) {
                     info.AppendFormat(_T(" (driver version: %s)"),
-                                      FileVersionInfo::FormatVersionString(adapterIdentifier.DriverVersion.LowPart, adapterIdentifier.DriverVersion.HighPart));
+                                      FileVersionInfo::FormatVersionString(adapterIdentifier.DriverVersion.LowPart, adapterIdentifier.DriverVersion.HighPart).GetString());
                 }
                 info += _T("\r\n");
             }

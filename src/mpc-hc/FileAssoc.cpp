@@ -240,7 +240,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
 
                 /* icon_index value -1 means no icon was found in the iconlib for the file extension */
                 if (iconIndex >= 0 && ExtractIcon(AfxGetApp()->m_hInstance, m_iconLibPath, iconIndex)) {
-                    appIcon.Format(_T("\"%s\",%d"), m_iconLibPath, iconIndex);
+                    appIcon.Format(_T("\"%s\",%d"), m_iconLibPath.GetString(), iconIndex);
                 }
             }
 
@@ -739,7 +739,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
 
         /* icon_index value -1 means no icon was found in the iconlib for the file extension */
         if (iconIndex >= 0 && ExtractIcon(AfxGetApp()->m_hInstance, m_iconLibPath, iconIndex)) {
-            appIcon.Format(_T("\"%s\",%d"), m_iconLibPath, iconIndex);
+            appIcon.Format(_T("\"%s\",%d"), m_iconLibPath.GetString(), iconIndex);
         }
 
         /* no icon was found for the file extension, so use MPC-HC's icon */

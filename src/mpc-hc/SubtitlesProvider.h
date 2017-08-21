@@ -67,7 +67,7 @@ SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::string UserAgent() const override
 {
     return SubtitlesProvidersUtils::StringFormat("SubDB/1.0 (MPC-HC/%s; https://mpc-hc.org/)",
-                                                 VersionInfo::GetVersionString());
+                                                 VersionInfo::GetVersionString().GetString());
 }
 DEFINE_SUBTITLESPROVIDER_END
 

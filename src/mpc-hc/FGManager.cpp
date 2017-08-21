@@ -389,7 +389,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
 HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppBF)
 {
-    TRACE(_T("FGM: AddSourceFilter trying '%s'\n"), CStringFromGUID(pFGF->GetCLSID()));
+    TRACE(_T("FGM: AddSourceFilter trying '%s'\n"), CStringFromGUID(pFGF->GetCLSID()).GetString());
 
     CheckPointer(lpcwstrFileName, E_POINTER);
     CheckPointer(ppBF, E_POINTER);
@@ -747,7 +747,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 pFGF = pMadVRAllocatorPresenter;
             }
 
-            TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
+            TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName().GetString());
 
             CComPtr<IBaseFilter> pBF;
             CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
@@ -1342,7 +1342,7 @@ STDMETHODIMP CFGManager::GetDeadEnd(int iIndex, CAtlList<CStringW>& path, CAtlLi
         const path_t& p = m_deadends[iIndex]->GetNext(pos);
 
         CStringW str;
-        str.Format(L"%s::%s", p.filter, p.pin);
+        str.Format(L"%s::%s", p.filter.GetString(), p.pin.GetString());
         path.AddTail(str);
     }
 

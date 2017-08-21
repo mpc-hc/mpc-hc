@@ -550,7 +550,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
     bool bInsert = true;
 
     TRACE(_T("FGM: Inserting %d %d %016I64x '%s' --> "), group, exactmatch, pFGF->GetMerit(),
-          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
+          pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
 
     CFGFilterRegistry* pFGFR = dynamic_cast<CFGFilterRegistry*>(pFGF);
 
@@ -619,7 +619,7 @@ POSITION CFGFilterList::GetHeadPosition()
     POSITION pos = m_sortedfilters.GetHeadPosition();
     while (pos) {
         CFGFilter* pFGF = m_sortedfilters.GetNext(pos);
-        TRACE(_T("FGM: - %016I64x '%s'\n"), pFGF->GetMerit(), pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
+        TRACE(_T("FGM: - %016I64x '%s'\n"), pFGF->GetMerit(), pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()).GetString() : CString(pFGF->GetName()).GetString());
     }
 #endif
 

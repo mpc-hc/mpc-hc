@@ -52,9 +52,9 @@ BOOL CmdLineHelpDlg::OnInitDialog()
 
     if (!m_cmdLine.IsEmpty()) {
         m_text.LoadString(IDS_UNKNOWN_SWITCH);
-        m_text.AppendFormat(_T("%s\n\n"), m_cmdLine);
+        m_text.AppendFormat(_T("%s\n\n"), m_cmdLine.GetString());
     }
-    m_text.AppendFormat(_T("%s\n"), ResStr(IDS_USAGE));
+    m_text.AppendFormat(_T("%s\n"), ResStr(IDS_USAGE).GetString());
 
     constexpr int cmdArgs[] = {
         IDS_CMD_PATHNAME, IDS_CMD_DUB, IDS_CMD_DUBDELAY, IDS_CMD_D3DFS, IDS_CMD_SUB,

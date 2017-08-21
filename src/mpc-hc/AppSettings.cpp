@@ -964,7 +964,7 @@ void CAppSettings::SaveSettings()
             str.Format(_T("CommandMod%d"), i);
             CString str2;
             str2.Format(_T("%hu %hx %hx \"%S\" %d %hhu %u %hhu"),
-                        wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd,
+                        wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd.GetString(),
                         wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;
@@ -1763,7 +1763,7 @@ void CAppSettings::LoadSettings()
             m_DVBChannels.emplace_back(strChannel);
         } catch (CException* e) {
             // The tokenisation can fail if the input string was invalid
-            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), strChannel);
+            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), strChannel.GetString());
             ASSERT(FALSE);
             e->Delete();
         }

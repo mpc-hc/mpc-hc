@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -147,7 +147,7 @@ void CTunerScanDlg::OnBnClickedSave()
             }
         } catch (CException* e) {
             // The tokenisation can fail if the input string was invalid
-            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), m_ChannelList.GetItemText(i, TSCC_CHANNEL));
+            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), m_ChannelList.GetItemText(i, TSCC_CHANNEL).GetString());
             ASSERT(FALSE);
             e->Delete();
         }

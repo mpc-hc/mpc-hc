@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -264,7 +264,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 
             CString str = monitorName;
             if (monitorName == currentMonitorName) {
-                str.AppendFormat(_T(" - [%s]"), ResStr(IDS_FULLSCREENMONITOR_CURRENT));
+                str.AppendFormat(_T(" - [%s]"), ResStr(IDS_FULLSCREENMONITOR_CURRENT).GetString());
             }
 
             DISPLAY_DEVICE displayDevice = { sizeof(displayDevice) };

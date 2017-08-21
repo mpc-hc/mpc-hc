@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -74,7 +74,7 @@ BOOL CSaveDlg::OnInitDialog()
     if (out.GetLength() > 60) {
         out = out.Left(17) + _T("..") + out.Right(43);
     }
-    str.Format(_T("%s\r\n%s"), in, out);
+    str.Format(_T("%s\r\n%s"), in.GetString(), out.GetString());
     m_fromto.SetWindowText(str);
 
     m_progress.SetRange(0, 100);
@@ -263,8 +263,8 @@ void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
         unsigned int unitSpeed = AdaptUnit(dSpeed, _countof(speedUnits));
 
         str.Format(_T("%.2lf %s / %.2lf %s, %.2lf %s, %I64d s"),
-                   dPos, ResStr(sizeUnits[unitPos]), dDur, ResStr(sizeUnits[unitDur]),
-                   dSpeed, ResStr(speedUnits[unitSpeed]), speed > 0 ? (dur - pos) / speed : 0);
+                   dPos, ResStr(sizeUnits[unitPos]).GetString(), dDur, ResStr(sizeUnits[unitDur]).GetString(),
+                   dSpeed, ResStr(speedUnits[unitSpeed]).GetString(), speed > 0 ? (dur - pos) / speed : 0);
         m_report.SetWindowText(str);
 
         m_progress.SetPos(dur > 0 ? (int)(100 * pos / dur) : 0);

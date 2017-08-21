@@ -584,7 +584,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADING, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADING, CString(_fileInfo.Provider()->Name().c_str()).GetString(), CString(_fileInfo.fileName.c_str()).GetString());
     SetStatusText(statusMessage);
 
     return S_OK;
@@ -595,7 +595,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADED, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADED, CString(_fileInfo.Provider()->Name().c_str()).GetString(), CString(_fileInfo.fileName.c_str()).GetString());
     SetStatusText(statusMessage);
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {

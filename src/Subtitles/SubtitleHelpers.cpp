@@ -88,7 +88,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
                 extListSub.AppendChar(_T('|'));
             }
         }
-        regExpSub.Format(_T("([%s]+.+)?\\.(%s)$"), separators, extListSub);
+        regExpSub.Format(_T("([%s]+.+)?\\.(%s)$"), separators, extListSub.GetString());
         regExpVid.Format(_T(".+\\.(%s)$"), extListVid);
 
         const std::wregex::flag_type reFlags = std::wregex::icase | std::wregex::optimize;
@@ -264,7 +264,7 @@ CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& 
 
     name = fn.Mid(fn.ReverseFind('\\') + 1);
     if (name.GetLength() > 100) { // Cut some part of the filename if it's too long
-        name.Format(_T("%s...%s"), name.Left(50).TrimRight(_T(".-_ ")), name.Right(50).TrimLeft(_T(".-_ ")));
+        name.Format(_T("%s...%s"), name.Left(50).TrimRight(_T(".-_ ")).GetString(), name.Right(50).TrimLeft(_T(".-_ ")).GetString());
     }
 
     return name;

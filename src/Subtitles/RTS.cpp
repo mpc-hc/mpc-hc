@@ -3263,9 +3263,9 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
     }
     CStringW strName;
     if (!m_provider.IsEmpty()) {
-        strName.Format(L"[%s] %s\t%s", m_provider, m_name, strLanguage);
+        strName.Format(L"[%s] %s\t%s", m_provider.GetString(), m_name.GetString(), strLanguage.GetString());
     } else {
-        strName.Format(L"%s\t%s", m_name, strLanguage);
+        strName.Format(L"%s\t%s", m_name.GetString(), strLanguage.GetString());
     }
 
     *ppName = (WCHAR*)CoTaskMemAlloc((strName.GetLength() + 1) * sizeof(WCHAR));

@@ -609,7 +609,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/,
     fn.TrimRight(_T(".0123456789"));
     for (int i = 0; i < 100; i++) {
         CString vob;
-        vob.Format(_T("%s%d.vob"), fn, i);
+        vob.Format(_T("%s%d.vob"), fn.GetString(), i);
 
         CFileStatus status;
         if (!CFile::GetStatus(vob, status)) {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -238,8 +238,8 @@ public:
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 #define SAFE_CLOSE_HANDLE(p) { if (p) { if ((p) != INVALID_HANDLE_VALUE) VERIFY(CloseHandle(p)); (p) = nullptr; } }
 
-#define StrRes(id)  MAKEINTRESOURCE(id)
-#define ResStr(id)  CString(StrRes(id))
+#define StrRes(id)  MAKEINTRESOURCE((id))
+#define ResStr(id)  CString(StrRes((id)))
 
 #define UNREACHABLE_CODE()  \
     do {                    \

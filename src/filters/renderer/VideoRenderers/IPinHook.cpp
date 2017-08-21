@@ -766,7 +766,7 @@ static HRESULT STDMETHODCALLTYPE GetVideoAcceleratorGUIDsMine(IAMVideoAccelerato
 
         if (pGuidsSupported) {
             for (DWORD i = 0; i < *pdwNumGuidsSupported; i++) {
-                LOG(_T("[out] pGuidsSupported[%d] = %s"), i, CStringFromGUID(pGuidsSupported[i]));
+                LOG(_T("[out] pGuidsSupported[%d] = %s"), i, CStringFromGUID(pGuidsSupported[i]).GetString());
             }
         }
     }
@@ -779,7 +779,7 @@ static HRESULT STDMETHODCALLTYPE GetUncompFormatsSupportedMine(IAMVideoAccelerat
     LOG(_T("\nGetUncompFormatsSupported"));
 
     if (pGuid) {
-        LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
+        LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid).GetString());
     }
 
     if (pdwNumFormatsSupported) {
@@ -820,7 +820,7 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC* Thi
         g_nDXVAVersion = 1;
 
 #ifdef _DEBUG
-        LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
+        LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid).GetString());
 
         if (pdwNumTypesCompBuffers) {
             LOG(_T("[in] *pdwNumTypesCompBuffers = %d"), *pdwNumTypesCompBuffers);
@@ -967,9 +967,9 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
             LOG(_T("     ConfigRequested->bConfigSpatialResidInterleaved= %d"), ConfigRequested->bConfigSpatialResidInterleaved);
             LOG(_T("     ConfigRequested->bConfigSpecificIDCT           = %d"), ConfigRequested->bConfigSpecificIDCT);
             LOG(_T("     ConfigRequested->dwFunction                    = %d"), ConfigRequested->dwFunction);
-            LOG(_T("     ConfigRequested->guidConfigBitstreamEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigBitstreamEncryption));
-            LOG(_T("     ConfigRequested->guidConfigMBcontrolEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigMBcontrolEncryption));
-            LOG(_T("     ConfigRequested->guidConfigResidDiffEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigResidDiffEncryption));
+            LOG(_T("     ConfigRequested->guidConfigBitstreamEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigBitstreamEncryption).GetString());
+            LOG(_T("     ConfigRequested->guidConfigMBcontrolEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigMBcontrolEncryption).GetString());
+            LOG(_T("     ConfigRequested->guidConfigResidDiffEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigResidDiffEncryption).GetString());
         } else
             LOG(_T("[in] lpPrivateInputData = %02x %02x %02x %02x ..."),
                 ((BYTE*)lpPrivateInputData)[0],
@@ -1408,9 +1408,9 @@ static void LogDXVA2Config(const DXVA2_ConfigPictureDecode* pConfig)
     LOG(_T("    - ConfigSpatialResid8               %u"), pConfig->ConfigSpatialResid8);
     LOG(_T("    - ConfigSpatialResidInterleaved     %u"), pConfig->ConfigSpatialResidInterleaved);
     LOG(_T("    - ConfigSpecificIDCT                %u"), pConfig->ConfigSpecificIDCT);
-    LOG(_T("    - guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption));
-    LOG(_T("    - guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption));
-    LOG(_T("    - guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption));
+    LOG(_T("    - guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption).GetString());
+    LOG(_T("    - guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption).GetString());
+    LOG(_T("    - guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption).GetString());
 }
 
 static void LogDXVA2VideoDesc(const DXVA2_VideoDesc* pVideoDesc)

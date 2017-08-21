@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -129,11 +129,11 @@ CString CDVBChannel::ToString() const
                           m_nDefaultSubtitle);
 
     for (int i = 0; i < m_nAudioCount; i++) {
-        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Audios[i].ulPID, m_Audios[i].nType, m_Audios[i].nPesType, substituteEmpty(m_Audios[i].sLanguage));
+        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Audios[i].ulPID, m_Audios[i].nType, m_Audios[i].nPesType, substituteEmpty(m_Audios[i].sLanguage).GetString());
     }
 
     for (int i = 0; i < m_nSubtitleCount; i++) {
-        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Subtitles[i].ulPID, m_Subtitles[i].nType, m_Subtitles[i].nPesType, substituteEmpty(m_Subtitles[i].sLanguage));
+        strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Subtitles[i].ulPID, m_Subtitles[i].nType, m_Subtitles[i].nPesType, substituteEmpty(m_Subtitles[i].sLanguage).GetString());
     }
 
     strValue.AppendFormat(_T("|%d|%d|%lu|%lu|%d"),
@@ -151,7 +151,7 @@ CStringA CDVBChannel::ToJSON() const
     CStringA jsonChannel;
     jsonChannel.Format("{ \"index\" : %d, \"name\" : \"%s\" }",
                        m_nPrefNumber,
-                       EscapeJSONString(UTF16To8(m_strName)));
+                       EscapeJSONString(UTF16To8(m_strName)).GetString());
     return jsonChannel;
 }
 

@@ -304,7 +304,7 @@ namespace Plugin
             bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen) {
                 CStringA fn(GetFileName());
                 fn.Replace("\\", "\\\\");
-                _snprintf_s(buf, buflen, buflen, "Config(\"%s\")", fn);
+                _snprintf_s(buf, buflen, buflen, "Config(\"%s\")", fn.GetString());
                 return true;
             }
         };
@@ -337,7 +337,7 @@ namespace Plugin
 
             void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str) {
                 if (!GetFileName().IsEmpty()) {
-                    sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (%s, %d)", CStringA(GetFileName()), GetCharSet());
+                    sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (%s, %d)", CStringA(GetFileName()).GetString(), GetCharSet());
                 } else {
                     sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (empty)");
                 }
@@ -346,7 +346,7 @@ namespace Plugin
             bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen) {
                 CStringA fn(GetFileName());
                 fn.Replace("\\", "\\\\");
-                _snprintf_s(buf, buflen, buflen, "Config(\"%s\", %d)", fn, GetCharSet());
+                _snprintf_s(buf, buflen, buflen, "Config(\"%s\", %d)", fn.GetString(), GetCharSet());
                 return true;
             }
         };
