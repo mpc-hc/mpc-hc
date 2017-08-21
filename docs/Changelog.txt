@@ -16,6 +16,7 @@ next version - not released yet
 * Updated Little CMS to v2.9 (4be486f)
 * Updated nanosvg to 9a74da4
 * Updated rapidjson to v1.1.0
+* Updated RARFileSource to 55b2513
 * Updated Sanear to v0.3 (e1bebc9)
 * Updated tinyxml2 to v5.0.1
 * Updated Unrar to v5.5.7
