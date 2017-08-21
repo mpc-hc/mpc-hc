@@ -21,7 +21,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalOptions>/w34127 /w34701 /w34706 /wd4840 /Zo /std:c++latest /Zc:inline,referenceBinding,rvalueCast,ternary,throwingNew /Gw %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/w34127 /w34701 /w34706 /Zo /std:c++latest /Zc:inline,referenceBinding,rvalueCast,ternary,throwingNew /Gw %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd4005 /wd6031 /wd6246 /wd6309 /wd6387 /wd28204 %(AdditionalOptions)</AdditionalOptions>
       <EnablePREfast Condition="'$(ANALYZE)'=='true'">true</EnablePREfast>
       <BufferSecurityCheck>true</BufferSecurityCheck>
