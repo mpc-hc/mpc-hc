@@ -51,7 +51,7 @@ copy_libs() {
 clean() {
   cd ${FFMPEG_BUILD_PATH}
   echo Cleaning...
-  if [ -f config.mak ]; then
+  if [ -f ffbuild/config.mak ]; then
     make distclean > /dev/null 2>&1
   fi
   cd ${BASEDIR}
@@ -151,7 +151,7 @@ if [ "${3}" == "Clean" ]; then
   CONFIGRETVAL=$?
 else
   ## Check if configure was previously run
-  if [ -f config.mak ]; then
+  if [ -f ffbuild/config.mak ]; then
     CLEANBUILD=0
   else
     CLEANBUILD=1
