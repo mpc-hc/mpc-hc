@@ -14,6 +14,7 @@ next version - not released yet
 + Automatic encoding option for saving playlists. Uses UTF-8 encoding when applicable
 + Sanear: Added "Ignore system channel mixer" option
 * Updated Little CMS to v2.9 (d8a36d0)
+* Updated MediaInfoLib to v0.7.98
 * Updated nanosvg to 9a74da4
 * Updated rapidjson to v1.1.0
 * Updated RARFileSource to 55b2513

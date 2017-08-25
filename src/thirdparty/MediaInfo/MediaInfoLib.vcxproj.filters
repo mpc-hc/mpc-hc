@@ -146,6 +146,9 @@
     <ClInclude Include="library\Source\MediaInfo\XmlUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="library\Source\MediaInfo\OutputHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Base.h">
       <Filter>Header Files\Duplicate</Filter>
     </ClInclude>
@@ -686,6 +689,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\XmlUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Source\MediaInfo\OutputHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Image\File_ArriRaw.cpp">
