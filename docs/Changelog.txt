@@ -20,6 +20,7 @@ next version - not released yet
 * Updated Sanear to v0.3 (e1bebc9)
 * Updated tinyxml2 to v5.0.1
 * Updated Unrar to v5.5.7
+* Updated ZenLib to v0.4.36
 * Split internal MPEG source filter option into a PS and TS variant
 * End of support for Windows XP
 * SSA/ASS subtitles: Add cache for alpha mask
