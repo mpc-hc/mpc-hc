@@ -241,7 +241,7 @@ private:
     CComPtr<IUnknown> m_pProv;
 
     bool m_bUsingDXVA;
-    CString m_HWAccelType;
+    LPCTSTR m_HWAccelType;
     void UpdateDXVAStatus();
 
     void SetVolumeBoost(UINT nAudioBoost);

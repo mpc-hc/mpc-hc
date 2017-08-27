@@ -556,22 +556,22 @@ void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
     CFGFilterLAV::ShowPropertyPages<VIDEO_DECODER, CFGFilterLAVVideo, ILAVVideoSettings, 1>(pParendWnd);
 }
 
-LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName)
+LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const LPCWSTR decoderName)
 {
-    static constexpr std::pair<LPCTSTR, LPCTSTR> userFriendlyDecoderNames[] = {
-        std::make_pair(_T("avcodec"), _T("FFmpeg")),
-        std::make_pair(_T("dxva2n"), _T("DXVA2 Native")),
-        std::make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
-        std::make_pair(_T("dxva2cb direct"), _T("DXVA2 Copy-back (Direct)")),
-        std::make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
-        std::make_pair(_T("quicksync"), _T("Intel QuickSync")),
-        std::make_pair(_T("d3d11 cb direct"), _T("D3D11 Copy-back (Direct)")),
-        std::make_pair(_T("d3d11 cb"), _T("D3D11 Copy-back")),
-        std::make_pair(_T("d3d11 native"), _T("D3D11 Native")),
+    static constexpr std::pair<const LPCWSTR, const LPCTSTR> userFriendlyDecoderNames[] = {
+        std::make_pair(L"avcodec", _T("FFmpeg")),
+        std::make_pair(L"dxva2n", _T("DXVA2 Native")),
+        std::make_pair(L"dxva2cb", _T("DXVA2 Copy-back")),
+        std::make_pair(L"dxva2cb direct", _T("DXVA2 Copy-back (Direct)")),
+        std::make_pair(L"cuvid", _T("NVIDIA CUVID")),
+        std::make_pair(L"quicksync", _T("Intel QuickSync")),
+        std::make_pair(L"d3d11 cb direct", _T("D3D11 Copy-back (Direct)")),
+        std::make_pair(L"d3d11 cb", _T("D3D11 Copy-back")),
+        std::make_pair(L"d3d11 native", _T("D3D11 Native")),
     };
 
     for (const auto& name : userFriendlyDecoderNames) {
-        if (decoderName == name.first) {
+        if (wcscmp(decoderName, name.first) == 0) {
             return name.second;
         }
     }

@@ -694,6 +694,7 @@ CMainFrame::CMainFrame()
     : m_timer32Hz(this, TIMER_32HZ, 32)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
     , m_bUsingDXVA(false)
+    , m_HWAccelType(nullptr)
     , m_posFirstExtSub(nullptr)
     , m_bDelaySetOutputRect(false)
     , m_nJumpToSubMenusCount(0)
@@ -16698,19 +16699,20 @@ GUID CMainFrame::GetTimeFormat()
 void CMainFrame::UpdateDXVAStatus()
 {
     CString DXVADecoderDescription = GetDXVADecoderDescription();
-    m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
     m_HWAccelType = GetDXVAVersion();
+    m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
 
     CString DXVAInfo;
-    DXVAInfo.Format(_T("%-13s: %s"), m_HWAccelType.GetString(), DXVADecoderDescription.GetString());
+    DXVAInfo.Format(_T("%-13s: %s"), m_HWAccelType, DXVADecoderDescription.GetString());
 
     // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
     if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
-        CStringW decoderName = pLAVVideoStatus->GetActiveDecoderName();
-        if (decoderName != L"avcodec") {
+        const LPCWSTR decoderName = pLAVVideoStatus->GetActiveDecoderName();
+        ASSERT(decoderName != nullptr);
+        if (wcscmp(decoderName, L"avcodec") != 0 && wcscmp(decoderName, L"wmv9 mft") != 0 && wcscmp(decoderName, L"msdk mvc") != 0) {
             m_HWAccelType = CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName);
             CString LAVDXVAInfo;
-            LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), m_HWAccelType.GetString());
+            LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), m_HWAccelType);
 
             if (!m_bUsingDXVA) { // Don't trust the hook
                 m_bUsingDXVA = true;
@@ -16726,7 +16728,10 @@ void CMainFrame::UpdateDXVAStatus()
 bool CMainFrame::GetDecoderType(CString& type) const
 {
     if (!m_fAudioOnly) {
-        type = m_bUsingDXVA ? m_HWAccelType : StrRes(IDS_TOOLTIP_SOFTWARE_DECODING);
+        if (m_bUsingDXVA)
+            type = m_HWAccelType;
+        else
+            type.LoadString(IDS_TOOLTIP_SOFTWARE_DECODING);
         return true;
     }
     return false;

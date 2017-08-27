@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2016 see Authors.txt
+ * (C) 2013-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -190,7 +190,7 @@ public:
 
     static void ShowPropertyPages(CWnd* pParendWnd);
 
-    static LPCTSTR GetUserFriendlyDecoderName(const CString& decoderName);
+    static LPCTSTR GetUserFriendlyDecoderName(const LPCWSTR decoderName);
 };
 
 class CFGFilterLAVAudio : public CFGFilterLAV
