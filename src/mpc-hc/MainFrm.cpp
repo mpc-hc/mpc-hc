@@ -4837,11 +4837,42 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
 
-static CString MakeSnapshotFileName(LPCTSTR prefix)
+CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
 {
-    CTime t = CTime::GetCurrentTime();
+    CAppSettings& s = AfxGetAppSettings();
+    CString prefix;
     CString fn;
-    fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), AfxGetAppSettings().strSnapshotExt.GetString());
+
+    ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
+
+    if (GetPlaybackMode() == PM_FILE) {
+        if (thumbnails) {
+            prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
+        } else {
+            if (s.bSaveImagePosition) {
+                prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
+            } else {
+                prefix.Format(_T("%s"), GetFileName().GetString());
+            }
+        }
+    } else if (GetPlaybackMode() == PM_DVD) {
+        if (s.bSaveImagePosition) {
+            prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
+        } else {
+            prefix = _T("dvd_snapshot");
+        }
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
+    } else {
+        prefix = _T("snapshot");
+    }
+
+    if (!thumbnails && s.bSaveImageCurrentTime) {
+        CTime t = CTime::GetCurrentTime();
+        fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), s.strSnapshotExt.GetString());
+    } else {
+        fn.Format(_T("%s%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), s.strSnapshotExt.GetString());
+    }
     return fn;
 }
 
@@ -4898,16 +4929,7 @@ void CMainFrame::OnFileSaveImage()
     }
 
     CPath psrc(s.strSnapshotPath);
-
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -4967,18 +4989,9 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-
     CString fn;
-    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(prefix).GetString());
-    SaveImage(fn);
+    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE).GetString());
+    SaveImage(fn.GetString());
 }
 
 void CMainFrame::OnUpdateFileSaveImage(CCmdUI* pCmdUI)
@@ -4997,13 +5010,7 @@ void CMainFrame::OnFileSaveThumbnails()
     }
 
     CPath psrc(s.strSnapshotPath);
-    CStringW prefix = _T("thumbs");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
-    } else {
-        ASSERT(FALSE);
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(TRUE));
 
     CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
                              _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());

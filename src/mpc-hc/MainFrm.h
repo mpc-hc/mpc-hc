@@ -355,6 +355,7 @@ private:
 
     bool GetDIB(BYTE** ppData, long& size, bool fSilent = false);
     void SaveDIB(LPCTSTR fn, BYTE* pData, long size);
+    CString MakeSnapshotFileName(BOOL thumbnails);
     BOOL IsRendererCompatibleWithSaveImage();
     void SaveImage(LPCTSTR fn);
     void SaveThumbnails(LPCTSTR fn);

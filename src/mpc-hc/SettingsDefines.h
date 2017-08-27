@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -78,6 +78,8 @@
 //#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
 #define IDS_RS_DEFAULTTOOLBARSIZE           _T("DefaultToolbarSize")
+#define IDS_RS_SAVEIMAGE_POSITION           _T("SaveImagePosition")
+#define IDS_RS_SAVEIMAGE_CURRENTTIME        _T("SaveImageCurrentTime")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")

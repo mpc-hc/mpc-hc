@@ -511,6 +511,8 @@ public:
     UINT            nVolumeStep;
     UINT            nSpeedStep;
     int             nDefaultToolbarSize;
+    bool            bSaveImagePosition;
+    bool            bSaveImageCurrentTime;
 
     enum class AfterPlayback {
         DO_NOTHING,
