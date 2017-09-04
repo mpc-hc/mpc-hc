@@ -7163,14 +7163,16 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayFramestep(UINT nID)
 {
+    if (!m_pFS) return;
+
     m_OSD.EnableShowMessage(false);
-    if (m_pFS && m_fQuicktimeGraph) {
+    if (m_fQuicktimeGraph) {
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
         m_pFS->Step((nID == ID_PLAY_FRAMESTEP) ? 1 : -1, nullptr);
-    } else if (m_pFS && nID == ID_PLAY_FRAMESTEP) {
+    } else if (nID == ID_PLAY_FRAMESTEP) {
         if (GetMediaState() != State_Paused && !queue_ffdshow_support) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
@@ -7240,7 +7242,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && !m_fLiveWM
             && (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title))) {
-        if (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
+        if (m_pFS && (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME))) {
             fEnable = true;
         } else if (pCmdUI->m_nID == ID_PLAY_FRAMESTEP) {
             fEnable = true;
