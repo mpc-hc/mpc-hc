@@ -4058,7 +4058,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         SetForegroundWindow();
     }
 
-    s.nCLSwitches = CLSW_NONE;
+    s.nCLSwitches &= CLSW_OPEN;
 
     return TRUE;
 }
