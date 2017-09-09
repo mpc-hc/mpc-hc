@@ -4909,7 +4909,7 @@ void CMainFrame::OnFileSaveImage()
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
-    CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
+    CSaveImageDialog fd(s.nJpegQuality, _T("jpg"), (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
     if (s.strSnapshotExt == _T(".bmp")) {
