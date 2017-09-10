@@ -804,7 +804,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
         }
     } else {
         if (OpenFileData* p = DEBUG_NEW OpenFileData()) {
-            if (!isYoutubeURL(pli->m_fns.GetHead()) {
+            if (!isYoutubeURL(pli->m_fns.GetHead())) {
                 p->fns.AddTailList(&pli->m_fns);
                 p->subs.AddTailList(&pli->m_subs);
                 p->rtStart = rtStart;
@@ -1813,13 +1813,6 @@ void CPlayerPlaylistBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point
 
 bool CPlayerPlaylistBar::isYoutubeURL(CString url)
 {
-    if (url.Left(8) == _T("https:\\")) {
-        url = url.Right(url.GetLength() - 8);
-    }
-
-    if (url.Left(4) == _T("www.")) {
-        url = url.Right(url.GetLength() - 4);
-    }
-
-    return url.Left(17) == _T("youtube.com/watch");
+    return url.Left(29) == _T("https://www.youtube.com/watch") ||
+           url.Left(25) == _T("https://youtube.com/watch");
 }
