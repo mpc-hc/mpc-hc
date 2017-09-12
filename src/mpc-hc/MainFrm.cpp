@@ -17033,7 +17033,7 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString &video, CString &audio)
         return false;
     }
 
-    WaitForSingleObject(proc_info.hProcess, 0);
+    WaitForSingleObject(proc_info.hProcess, INFINITE);
 
     CloseHandle(proc_info.hProcess);
     CloseHandle(proc_info.hThread);
