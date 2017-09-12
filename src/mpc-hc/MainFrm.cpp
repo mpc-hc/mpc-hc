@@ -3830,6 +3830,14 @@ void CMainFrame::OnFileOpenmedia()
     SetForegroundWindow();
 
     CAtlList<CString> filenames;
+
+    if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
+        CString vstream;
+        CString astream;
+        GetYoutubeHttpsStreams(vstream, astream);
+        return;
+    }
+
     filenames.AddHeadList(&dlg.GetFileNames());
 
     if (!dlg.HasMultipleFiles()) {
@@ -16981,4 +16989,53 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     pSubtitlesInfo->fileContents = UTF16To8(content);
     return TRUE;
+}
+
+bool CMainFrame::IsYoutubeURL(CString url)
+{
+    return url.Left(29) == _T("https://www.youtube.com/watch") ||
+        url.Left(25) == _T("https://youtube.com/watch");
+}
+
+bool CMainFrame::GetYoutubeHttpsStreams(CString &video, CString &audio)
+{
+    const int bufsize = 2000; //2KB
+    PROCESS_INFORMATION proc_info;
+    STARTUPINFO startup_info;
+    SECURITY_ATTRIBUTES sec_attrib;
+    HANDLE hStdout_r, hStdout_w;
+    HANDLE hStderr_r, hStderr_w;
+    CString cmd(L"youtube-dl \"https://www.youtube.com/watch?v=FIcxqVRLEWI\"");
+
+    ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
+    ZeroMemory(&startup_info, sizeof(STARTUPINFO));
+
+    //child process must inherit the handles
+    sec_attrib.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sec_attrib.lpSecurityDescriptor = NULL;
+    sec_attrib.bInheritHandle = true;
+
+    if (!CreatePipe(&hStdout_r, &hStdout_w, &sec_attrib, bufsize)) {
+        return false;
+    }
+    if (!CreatePipe(&hStderr_r, &hStderr_w, &sec_attrib, bufsize)) {
+        return false;
+    }
+
+    startup_info.cb = sizeof(STARTUPINFO);
+    startup_info.hStdOutput = hStdout_w;
+    startup_info.hStdError = hStderr_w;
+    startup_info.wShowWindow = SW_HIDE;
+    startup_info.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+
+    if (!CreateProcess(NULL, cmd.GetBuffer(), NULL, NULL, true, 0,
+                       NULL, NULL, &startup_info, &proc_info)) {
+        return false;
+    }
+
+    WaitForSingleObject(proc_info.hProcess, 0);
+
+    CloseHandle(proc_info.hProcess);
+    CloseHandle(proc_info.hThread);
+    return true;
 }

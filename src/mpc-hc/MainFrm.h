@@ -1094,4 +1094,9 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
+
+private:
+    //youtube-dl integration methods
+    bool IsYoutubeURL(CString url);
+    bool GetYoutubeHttpsStreams(CString &video, CString &audio);
 };
