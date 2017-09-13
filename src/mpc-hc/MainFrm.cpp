@@ -3832,9 +3832,9 @@ void CMainFrame::OnFileOpenmedia()
     CAtlList<CString> filenames;
 
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
-        CString vstream;
-        CString astream;
-        GetYoutubeHttpsStreams(vstream, astream);
+        CAtlList<CString> vstreams;
+        CAtlList<CString> astreams;
+        GetYoutubeHttpsStreams(vstreams, astreams);
         return;
     }
 
@@ -16994,18 +16994,22 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 bool CMainFrame::IsYoutubeURL(CString url)
 {
     return url.Left(29) == _T("https://www.youtube.com/watch") ||
-        url.Left(25) == _T("https://youtube.com/watch");
+        url.Left(25) == _T("https://youtube.com/watch") ||
+        url.Left(32) == _T("https://www.youtube.com/playlist") ||
+        url.Left(28) == _T("https://youtube.com/playlist");
 }
 
-bool CMainFrame::GetYoutubeHttpsStreams(CString &video, CString &audio)
+bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
 {
-    const int bufsize = 2000; //2KB
+    const int bufsize = 2000;
+    std::vector<char> buf(bufsize, 0); //2KB
     PROCESS_INFORMATION proc_info;
     STARTUPINFO startup_info;
     SECURITY_ATTRIBUTES sec_attrib;
     HANDLE hStdout_r, hStdout_w;
     HANDLE hStderr_r, hStderr_w;
-    CString cmd(L"youtube-dl \"https://www.youtube.com/watch?v=FIcxqVRLEWI\"");
+
+    args = "youtube-dl " + args;
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));
@@ -17028,14 +17032,40 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString &video, CString &audio)
     startup_info.wShowWindow = SW_HIDE;
     startup_info.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
 
-    if (!CreateProcess(NULL, cmd.GetBuffer(), NULL, NULL, true, 0,
-                       NULL, NULL, &startup_info, &proc_info)) {
+    if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, true, 0,
+        NULL, NULL, &startup_info, &proc_info)) {
         return false;
     }
 
-    WaitForSingleObject(proc_info.hProcess, INFINITE);
+    CloseHandle(hStdout_w);
+    CloseHandle(hStderr_w);
+
+    DWORD read = 0;
+    DWORD exitcode;
+    bool bRes;
+    int idx = 0;
+    while (true) {
+        bRes = ReadFile(hStdout_r, buf.data() + idx, buf.capacity() - idx, &read, NULL);
+        idx += read;
+
+        if (!bRes && GetLastError() == ERROR_BROKEN_PIPE) {
+            break;
+        } else if (!bRes){
+            return false;
+        }
+
+        if (idx == buf.capacity()) {
+            buf.reserve(buf.capacity() * 2);
+        }
+    }
 
     CloseHandle(proc_info.hProcess);
     CloseHandle(proc_info.hThread);
     return true;
+}
+
+bool CMainFrame::GetYoutubeHttpsStreams(CAtlList<CString> &video, CAtlList<CString> &audio)
+{
+    CString out, err;
+    return CallYoutubeDL(CString("-g -- \"https://www.youtube.com/playlist?list=PLX4gVg4r8QaEUW7iVCGGBCUCx-1BTfCNa\""), out, err);
 }
