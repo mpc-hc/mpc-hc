@@ -16999,15 +16999,58 @@ bool CMainFrame::IsYoutubeURL(CString url)
         url.Left(28) == _T("https://youtube.com/playlist");
 }
 
+
+//////////////////////////////////////
+// Worker threads for CallYoutubeDL()
+//////////////////////////////////////
+
+HANDLE hStdout_r, hStdout_w;
+HANDLE hStderr_r, hStderr_w;
+int idx_out = 0;
+int idx_err = 0;
+
+DWORD WINAPI BuffOutThread(void *buf)
+{
+    auto buf_out = static_cast<std::vector<char>*>(buf);
+    DWORD read;
+
+    while (ReadFile(hStdout_r, buf_out->data() + idx_out, buf_out->capacity() - idx_out, &read, NULL)){
+        idx_out += read;
+        if (idx_out == buf_out->capacity()) {
+            buf_out->reserve(buf_out->capacity() * 2);
+        }
+    }
+
+    return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
+}
+
+DWORD WINAPI BuffErrThread(void *buf)
+{
+    auto buf_err = static_cast<std::vector<char>*>(buf);
+    DWORD read;
+
+    while (ReadFile(hStderr_r, buf_err->data() + idx_err, buf_err->capacity() - idx_err, &read, NULL)) {
+        idx_err += read;
+        if (idx_err == buf_err->capacity()) {
+            buf_err->reserve(buf_err->capacity() * 2);
+        }
+    }
+
+    return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
+}
+
 bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
 {
-    const int bufsize = 2000;
-    std::vector<char> buf(bufsize, 0); //2KB
+    const int bufsize = 2000;  //2KB initial buffer size
+
+    /////////////////////////////
+    // Set up youtube-dl process
+    /////////////////////////////
+
     PROCESS_INFORMATION proc_info;
     STARTUPINFO startup_info;
     SECURITY_ATTRIBUTES sec_attrib;
-    HANDLE hStdout_r, hStdout_w;
-    HANDLE hStderr_r, hStderr_w;
+
 
     args = "youtube-dl " + args;
 
@@ -17037,30 +17080,34 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
         return false;
     }
 
+    //we must close the parent process's write handles before calling ReadFile,
+    // otherwise it will block forever.
     CloseHandle(hStdout_w);
     CloseHandle(hStderr_w);
 
-    DWORD read = 0;
-    DWORD exitcode;
-    bool bRes;
-    int idx = 0;
-    while (true) {
-        bRes = ReadFile(hStdout_r, buf.data() + idx, buf.capacity() - idx, &read, NULL);
-        idx += read;
 
-        if (!bRes && GetLastError() == ERROR_BROKEN_PIPE) {
-            break;
-        } else if (!bRes){
-            return false;
-        }
+    /////////////////////////////////////////////////////
+    // Read in stdout and stderr through the pipe buffer
+    /////////////////////////////////////////////////////
 
-        if (idx == buf.capacity()) {
-            buf.reserve(buf.capacity() * 2);
-        }
-    }
+    std::vector<char> buf_out(bufsize, 0);
+    std::vector<char> buf_err(bufsize, 0);
+    HANDLE hThreadOut, hThreadErr;
+    idx_out = 0;
+    idx_err = 0;
+
+    hThreadOut = CreateThread(NULL, 0, BuffOutThread, &buf_out, NULL, NULL);
+    hThreadErr = CreateThread(NULL, 0, BuffErrThread, &buf_err, NULL, NULL);
+
+    WaitForSingleObject(hThreadOut, INFINITE);
+    WaitForSingleObject(hThreadErr, INFINITE);
 
     CloseHandle(proc_info.hProcess);
     CloseHandle(proc_info.hThread);
+    CloseHandle(hThreadOut);
+    CloseHandle(hThreadErr);
+    CloseHandle(hStdout_r);
+    CloseHandle(hStderr_r);
     return true;
 }
 
