@@ -3735,13 +3735,13 @@ void CMainFrame::OnDvdSubOnOff()
         return;
     }
 
-if (m_pDVDI && m_pDVDC) {
-    ULONG ulStreamsAvailable, ulCurrentStream;
-BOOL bIsDisabled;
-if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
-    m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
-}
-}
+    if (m_pDVDI && m_pDVDC) {
+        ULONG ulStreamsAvailable, ulCurrentStream;
+        BOOL bIsDisabled;
+        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
+            m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
+        }
+    }
 }
 
 //
@@ -3781,9 +3781,9 @@ void CMainFrame::OnFileOpenQuick()
     bool fMultipleFiles = false;
 
     if (fns.GetCount() > 1
-        || fns.GetCount() == 1
-        && (fns.GetHead()[fns.GetHead().GetLength() - 1] == '\\'
-            || fns.GetHead()[fns.GetHead().GetLength() - 1] == '*')) {
+            || fns.GetCount() == 1
+            && (fns.GetHead()[fns.GetHead().GetLength() - 1] == '\\'
+                || fns.GetHead()[fns.GetHead().GetLength() - 1] == '*')) {
         fMultipleFiles = true;
     }
 
@@ -3835,7 +3835,9 @@ void CMainFrame::OnFileOpenmedia()
         CAtlList<CString> vstreams;
         CAtlList<CString> astreams;
 
-        GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams);
+        if (!GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams)) {
+            return;
+        }
 
         if (!dlg.GetAppendToPlaylist()) {
             m_wndPlaylistBar.Empty();
@@ -12640,7 +12642,7 @@ void CMainFrame::SetupAudioSubMenu()
                                ATR.bQuantization,
                                ATR.bNumberOfChannels,
                                ResStr(ATR.bNumberOfChannels > 1 ? IDS_MAINFRM_13 : IDS_MAINFRM_12).GetString()
-                    );
+                              );
                 }
             }
 
@@ -16752,10 +16754,11 @@ void CMainFrame::UpdateDXVAStatus()
 bool CMainFrame::GetDecoderType(CString& type) const
 {
     if (!m_fAudioOnly) {
-        if (m_bUsingDXVA)
+        if (m_bUsingDXVA) {
             type = m_HWAccelType;
-        else
+        } else {
             type.LoadString(IDS_TOOLTIP_SOFTWARE_DECODING);
+        }
         return true;
     }
     return false;
@@ -17010,9 +17013,9 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 bool CMainFrame::IsYoutubeURL(CString url)
 {
     return url.Left(29) == _T("https://www.youtube.com/watch") ||
-        url.Left(25) == _T("https://youtube.com/watch") ||
-        url.Left(32) == _T("https://www.youtube.com/playlist") ||
-        url.Left(28) == _T("https://youtube.com/playlist");
+           url.Left(25) == _T("https://youtube.com/watch") ||
+           url.Left(32) == _T("https://www.youtube.com/playlist") ||
+           url.Left(28) == _T("https://youtube.com/playlist");
 }
 
 
@@ -17026,18 +17029,22 @@ int idx_out = 0;
 int idx_err = 0;
 size_t capacity_out, capacity_err;
 
-DWORD WINAPI BuffOutThread(void *buf)
+DWORD WINAPI BuffOutThread(void* buf)
 {
     char** buf_out = static_cast<char**>(buf);
     DWORD read;
 
-    while (ReadFile(hStdout_r, *buf_out + idx_out, capacity_out - idx_out, &read, NULL)){
+    while (ReadFile(hStdout_r, *buf_out + idx_out, capacity_out - idx_out, &read, NULL)) {
         idx_out += read;
         if (idx_out == capacity_out) {
             capacity_out *= 2;
             char* tmp = static_cast<char*>(std::realloc(*buf_out, capacity_out));
             if (tmp) {
                 *buf_out = tmp;
+            } else {
+                std::free(*buf_out);
+                *buf_out = nullptr;
+                return 0;
             }
         }
     }
@@ -17045,7 +17052,7 @@ DWORD WINAPI BuffOutThread(void *buf)
     return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
 }
 
-DWORD WINAPI BuffErrThread(void *buf)
+DWORD WINAPI BuffErrThread(void* buf)
 {
     char** buf_err = static_cast<char**>(buf);
     DWORD read;
@@ -17057,6 +17064,10 @@ DWORD WINAPI BuffErrThread(void *buf)
             char* tmp = static_cast<char*>(std::realloc(*buf_err, capacity_err));
             if (tmp) {
                 *buf_err = tmp;
+            } else {
+                std::free(*buf_err);
+                *buf_err = nullptr;
+                return 0;
             }
         }
     }
@@ -17064,7 +17075,7 @@ DWORD WINAPI BuffErrThread(void *buf)
     return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
 }
 
-bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
+bool CMainFrame::CallYoutubeDL(CString args, CString& out, CString& err)
 {
     const size_t bufsize = 2000;  //2KB initial buffer size
 
@@ -17101,7 +17112,8 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     startup_info.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
 
     if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, true, 0,
-        NULL, NULL, &startup_info, &proc_info)) {
+                       NULL, NULL, &startup_info, &proc_info)) {
+        AfxMessageBox(IDS_YOUTUBEDL_NOT_FOUND, MB_ICONERROR | MB_OK, 0);
         return false;
     }
 
@@ -17130,6 +17142,10 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     WaitForSingleObject(hThreadOut, INFINITE);
     WaitForSingleObject(hThreadErr, INFINITE);
 
+    if (!buf_out || !buf_err) {
+        throw std::bad_alloc();
+    }
+
     //NULL-terminate the data
     char* tmp;
     if (idx_out == capacity_out) {
@@ -17153,6 +17169,14 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
 
     std::free(buf_out);
     std::free(buf_err);
+
+    DWORD exitcode;
+    GetExitCodeProcess(proc_info.hProcess, &exitcode);
+    if (exitcode) {
+        AfxMessageBox(err.GetBuffer(), MB_ICONERROR, 0);
+        return false;
+    }
+
     CloseHandle(proc_info.hProcess);
     CloseHandle(proc_info.hThread);
     CloseHandle(hThreadOut);
@@ -17162,14 +17186,16 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     return true;
 }
 
-bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString> &video, CAtlList<CString> &audio)
+bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& audio)
 {
     CString out, err;
-    CallYoutubeDL(CString("-g -- \"" + url + "\""), out, err);
+    if (!CallYoutubeDL(CString("-g -- \"" + url + "\""), out, err)) {
+        return false;
+    }
 
     int idx = 0;
     int next;
-    while(true) {
+    while (true) {
         next = out.Find('\n', idx);
         if (next == -1) {
             break;
