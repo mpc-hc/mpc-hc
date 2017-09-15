@@ -3737,10 +3737,10 @@ void CMainFrame::OnDvdSubOnOff()
 
 if (m_pDVDI && m_pDVDC) {
     ULONG ulStreamsAvailable, ulCurrentStream;
-    BOOL bIsDisabled;
-    if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
-        m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
-    }
+BOOL bIsDisabled;
+if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
+    m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
+}
 }
 }
 
@@ -3837,6 +3837,9 @@ void CMainFrame::OnFileOpenmedia()
 
         GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams);
 
+        if (!dlg.GetAppendToPlaylist()) {
+            m_wndPlaylistBar.Empty();
+        }
         for (int i = 0; i < vstreams.GetCount(); i++) {
             filenames.RemoveAll();
             filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
