@@ -1099,5 +1099,5 @@ private:
     //youtube-dl integration methods
     bool IsYoutubeURL(CString url);
     bool CallYoutubeDL(CString cmd, CString &out, CString &err);
-    bool GetYoutubeHttpsStreams(CAtlList<CString> &video, CAtlList<CString> &audio);
+    bool GetYoutubeHttpsStreams(CString url, CAtlList<CString> &video, CAtlList<CString> &audio);
 };

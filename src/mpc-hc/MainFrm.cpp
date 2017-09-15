@@ -3735,13 +3735,13 @@ void CMainFrame::OnDvdSubOnOff()
         return;
     }
 
-    if (m_pDVDI && m_pDVDC) {
-        ULONG ulStreamsAvailable, ulCurrentStream;
-        BOOL bIsDisabled;
-        if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
-            m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
-        }
+if (m_pDVDI && m_pDVDC) {
+    ULONG ulStreamsAvailable, ulCurrentStream;
+    BOOL bIsDisabled;
+    if (SUCCEEDED(m_pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))) {
+        m_pDVDC->SetSubpictureState(bIsDisabled, DVD_CMD_FLAG_Block, nullptr);
     }
+}
 }
 
 //
@@ -3781,9 +3781,9 @@ void CMainFrame::OnFileOpenQuick()
     bool fMultipleFiles = false;
 
     if (fns.GetCount() > 1
-            || fns.GetCount() == 1
-            && (fns.GetHead()[fns.GetHead().GetLength() - 1] == '\\'
-                || fns.GetHead()[fns.GetHead().GetLength() - 1] == '*')) {
+        || fns.GetCount() == 1
+        && (fns.GetHead()[fns.GetHead().GetLength() - 1] == '\\'
+            || fns.GetHead()[fns.GetHead().GetLength() - 1] == '*')) {
         fMultipleFiles = true;
     }
 
@@ -3834,7 +3834,20 @@ void CMainFrame::OnFileOpenmedia()
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
         CAtlList<CString> vstreams;
         CAtlList<CString> astreams;
-        GetYoutubeHttpsStreams(vstreams, astreams);
+
+        GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams);
+
+        for (int i = 0; i < vstreams.GetCount(); i++) {
+            filenames.RemoveAll();
+            filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+            filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
+            m_wndPlaylistBar.Append(filenames, false);
+        }
+
+        if (!dlg.GetAppendToPlaylist()) {
+            m_wndPlaylistBar.SetFirst();
+            OpenCurPlaylistItem();
+        }
         return;
     }
 
@@ -17008,16 +17021,21 @@ HANDLE hStdout_r, hStdout_w;
 HANDLE hStderr_r, hStderr_w;
 int idx_out = 0;
 int idx_err = 0;
+size_t capacity_out, capacity_err;
 
 DWORD WINAPI BuffOutThread(void *buf)
 {
-    auto buf_out = static_cast<std::vector<char>*>(buf);
+    char** buf_out = static_cast<char**>(buf);
     DWORD read;
 
-    while (ReadFile(hStdout_r, buf_out->data() + idx_out, buf_out->capacity() - idx_out, &read, NULL)){
+    while (ReadFile(hStdout_r, *buf_out + idx_out, capacity_out - idx_out, &read, NULL)){
         idx_out += read;
-        if (idx_out == buf_out->capacity()) {
-            buf_out->reserve(buf_out->capacity() * 2);
+        if (idx_out == capacity_out) {
+            capacity_out *= 2;
+            char* tmp = static_cast<char*>(std::realloc(*buf_out, capacity_out));
+            if (tmp) {
+                *buf_out = tmp;
+            }
         }
     }
 
@@ -17026,13 +17044,17 @@ DWORD WINAPI BuffOutThread(void *buf)
 
 DWORD WINAPI BuffErrThread(void *buf)
 {
-    auto buf_err = static_cast<std::vector<char>*>(buf);
+    char** buf_err = static_cast<char**>(buf);
     DWORD read;
 
-    while (ReadFile(hStderr_r, buf_err->data() + idx_err, buf_err->capacity() - idx_err, &read, NULL)) {
+    while (ReadFile(hStderr_r, *buf_err + idx_err, capacity_err - idx_err, &read, NULL)) {
         idx_err += read;
-        if (idx_err == buf_err->capacity()) {
-            buf_err->reserve(buf_err->capacity() * 2);
+        if (idx_err == capacity_err) {
+            capacity_err *= 2;
+            char* tmp = static_cast<char*>(std::realloc(*buf_err, capacity_err));
+            if (tmp) {
+                *buf_err = tmp;
+            }
         }
     }
 
@@ -17041,7 +17063,7 @@ DWORD WINAPI BuffErrThread(void *buf)
 
 bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
 {
-    const int bufsize = 2000;  //2KB initial buffer size
+    const size_t bufsize = 2000;  //2KB initial buffer size
 
     /////////////////////////////
     // Set up youtube-dl process
@@ -17090,8 +17112,11 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     // Read in stdout and stderr through the pipe buffer
     /////////////////////////////////////////////////////
 
-    std::vector<char> buf_out(bufsize, 0);
-    std::vector<char> buf_err(bufsize, 0);
+    char* buf_out = static_cast<char*>(std::malloc(bufsize));
+    char* buf_err = static_cast<char*>(std::malloc(bufsize));
+    capacity_out = bufsize;
+    capacity_err = bufsize;
+
     HANDLE hThreadOut, hThreadErr;
     idx_out = 0;
     idx_err = 0;
@@ -17102,6 +17127,29 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     WaitForSingleObject(hThreadOut, INFINITE);
     WaitForSingleObject(hThreadErr, INFINITE);
 
+    //NULL-terminate the data
+    char* tmp;
+    if (idx_out == capacity_out) {
+        tmp = static_cast<char*>(std::realloc(buf_out, capacity_out + 1));
+        if (tmp) {
+            buf_out = tmp;
+        }
+    }
+    buf_out[idx_out] = '\0';
+
+    if (idx_err == capacity_err) {
+        tmp = static_cast<char*>(std::realloc(buf_err, capacity_err + 1));
+        if (tmp) {
+            buf_err = tmp;
+        }
+    }
+    buf_err[idx_err] = '\0';
+
+    out = buf_out;
+    err = buf_err;
+
+    std::free(buf_out);
+    std::free(buf_err);
     CloseHandle(proc_info.hProcess);
     CloseHandle(proc_info.hThread);
     CloseHandle(hThreadOut);
@@ -17111,8 +17159,28 @@ bool CMainFrame::CallYoutubeDL(CString args, CString &out, CString &err)
     return true;
 }
 
-bool CMainFrame::GetYoutubeHttpsStreams(CAtlList<CString> &video, CAtlList<CString> &audio)
+bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString> &video, CAtlList<CString> &audio)
 {
     CString out, err;
-    return CallYoutubeDL(CString("-g -- \"https://www.youtube.com/playlist?list=PLX4gVg4r8QaEUW7iVCGGBCUCx-1BTfCNa\""), out, err);
+    CallYoutubeDL(CString("-g -- \"" + url + "\""), out, err);
+
+    int idx = 0;
+    int next;
+    while(true) {
+        next = out.Find('\n', idx);
+        if (next == -1) {
+            break;
+        }
+        video.AddTail(out.Left(next).Right(next - idx));
+        idx = next + 1;
+
+        next = out.Find('\n', idx);
+        if (next == -1) {
+            return false;
+        }
+        audio.AddTail(out.Left(next).Right(next - idx));
+        idx = next + 1;
+    }
+
+    return true;
 }
