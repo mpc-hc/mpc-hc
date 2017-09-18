@@ -41,6 +41,7 @@ CPlaylistItem::CPlaylistItem()
     , m_ainput(-1)
     , m_country(0)
     , m_fInvalid(false)
+    , m_bUseLabelAsFilename(false)
 {
     m_id = m_globalid++;
 }

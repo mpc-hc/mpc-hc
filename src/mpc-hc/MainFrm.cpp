@@ -3834,8 +3834,12 @@ void CMainFrame::OnFileOpenmedia()
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
         CAtlList<CString> vstreams;
         CAtlList<CString> astreams;
+        CAtlList<CString> names;
 
         if (!GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams)) {
+            return;
+        }
+        if (!GetYoutubeNames(dlg.GetFileNames().GetHead(), names)) {
             return;
         }
 
@@ -3846,7 +3850,9 @@ void CMainFrame::OnFileOpenmedia()
             filenames.RemoveAll();
             filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
             filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
-            m_wndPlaylistBar.Append(filenames, false);
+            m_wndPlaylistBar.Append(filenames, false, nullptr,
+                                    names.GetAt(names.FindIndex(i))
+                                    + " (" + dlg.GetFileNames().GetHead() + ")");
         }
 
         if (!dlg.GetAppendToPlaylist()) {
@@ -6962,7 +6968,7 @@ void CMainFrame::OnPlayPlay()
                 strOSD.LoadString(IDS_PLAY_BD);
             } else {
                 strOSD = GetFileName();
-                if (!strOSD.IsEmpty()) {
+                if (!strOSD.IsEmpty() && !m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename) {
                     strOSD.TrimRight('/');
                     strOSD.Replace('\\', '/');
                     strOSD = strOSD.Mid(strOSD.ReverseFind('/') + 1);
@@ -12257,7 +12263,7 @@ void CMainFrame::SendNowPlayingToSkype()
 
                 if (GetPlaybackMode() == PM_FILE) {
                     CString fn = label;
-                    if (fn.Find(_T("://")) >= 0) {
+                    if (!pli.m_bUseLabelAsFilename && fn.Find(_T("://")) >= 0) {
                         int i = fn.Find('?');
                         if (i >= 0) {
                             fn = fn.Left(i);
@@ -16678,14 +16684,14 @@ CString CMainFrame::GetFileName()
 {
     CString path(m_wndPlaylistBar.GetCurFileName());
 
-    if (m_pFSF) {
+    if (!m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename && m_pFSF) {
         CComHeapPtr<OLECHAR> pFN;
         if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
             path = pFN;
         }
     }
 
-    return PathUtils::StripPathOrUrl(path);
+    return m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename ? path : PathUtils::StripPathOrUrl(path);
 }
 
 CString CMainFrame::GetCaptureTitle()
@@ -17208,6 +17214,27 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, C
             return false;
         }
         audio.AddTail(out.Left(next).Right(next - idx));
+        idx = next + 1;
+    }
+
+    return true;
+}
+
+bool CMainFrame::GetYoutubeNames(CString url, CAtlList<CString>& names)
+{
+    CString out, err;
+    if (!CallYoutubeDL(CString("-e -- \"" + url + "\""), out, err)) {
+        return false;
+    }
+
+    int idx = 0;
+    int next;
+    while (true) {
+        next = out.Find('\n', idx);
+        if (next == -1) {
+            break;
+        }
+        names.AddTail(out.Left(next).Right(next - idx));
         idx = next + 1;
     }
 
