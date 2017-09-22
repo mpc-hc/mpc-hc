@@ -3832,33 +3832,7 @@ void CMainFrame::OnFileOpenmedia()
     CAtlList<CString> filenames;
 
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
-        CAtlList<CString> vstreams;
-        CAtlList<CString> astreams;
-        CAtlList<CString> names;
-
-        if (!GetYoutubeHttpsStreams(dlg.GetFileNames().GetHead(), vstreams, astreams)) {
-            return;
-        }
-        if (!GetYoutubeNames(dlg.GetFileNames().GetHead(), names)) {
-            return;
-        }
-
-        if (!dlg.GetAppendToPlaylist()) {
-            m_wndPlaylistBar.Empty();
-        }
-        for (int i = 0; i < vstreams.GetCount(); i++) {
-            filenames.RemoveAll();
-            filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
-            filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
-            m_wndPlaylistBar.Append(filenames, false, nullptr,
-                                    names.GetAt(names.FindIndex(i))
-                                    + " (" + dlg.GetFileNames().GetHead() + ")");
-        }
-
-        if (!dlg.GetAppendToPlaylist()) {
-            m_wndPlaylistBar.SetFirst();
-            OpenCurPlaylistItem();
-        }
+        ProcessYoutubeURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist());
         return;
     }
 
@@ -9072,6 +9046,13 @@ void CMainFrame::OnRecentFile(UINT nID)
     nID -= ID_RECENT_FILE_START;
     CString fn;
     m_recentFilesMenu.GetMenuString(nID + 2, fn, MF_BYPOSITION);
+
+    if (IsYoutubeURL(fn)) {
+        OnPlayStop();
+        ProcessYoutubeURL(fn, false);
+        return;
+    }
+
     if (!m_wndPlaylistBar.SelectFileInPlaylist(fn)) {
         CAtlList<CString> fns;
         fns.AddTail(fn);
@@ -10602,7 +10583,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         }
 
         // We don't keep track of piped inputs since that hardly makes any sense
-        if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0) {
+        if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0 && pOFD->bAddToRecent) {
             CRecentFileList* pMRU = bMainFile ? &s.MRU : &s.MRUDub;
             pMRU->ReadList();
             pMRU->Add(fn);
@@ -17239,4 +17220,43 @@ bool CMainFrame::GetYoutubeNames(CString url, CAtlList<CString>& names)
     }
 
     return true;
+}
+
+void CMainFrame::ProcessYoutubeURL(CString url, bool append)
+{
+    auto& s = AfxGetAppSettings();
+    CAtlList<CString> vstreams;
+    CAtlList<CString> astreams;
+    CAtlList<CString> names;
+    CAtlList<CString> filenames;
+
+    if (!GetYoutubeHttpsStreams(url, vstreams, astreams)) {
+        return;
+    }
+    if (!GetYoutubeNames(url, names)) {
+        return;
+    }
+
+    if (!append) {
+        m_wndPlaylistBar.Empty();
+    }
+    for (int i = 0; i < vstreams.GetCount(); i++) {
+        filenames.RemoveAll();
+        filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+        filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
+        m_wndPlaylistBar.Append(filenames, false, nullptr,
+                                names.GetAt(names.FindIndex(i))
+                                + " (" + url + ")");
+    }
+
+    CRecentFileList* mru = &s.MRU;
+    mru->ReadList();
+    mru->Add(url);
+    mru->WriteList();
+
+    if (!append) {
+        m_wndPlaylistBar.SetFirst();
+        OpenCurPlaylistItem();
+    }
+    return;
 }

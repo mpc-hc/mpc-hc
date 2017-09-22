@@ -95,9 +95,10 @@ public:
 class OpenFileData : public OpenMediaData
 {
 public:
-    OpenFileData() : rtStart(0) {}
+    OpenFileData() : rtStart(0), bAddToRecent(true) {}
     CAtlList<CString> fns;
     REFERENCE_TIME rtStart;
+    bool bAddToRecent;
 };
 
 class OpenDVDData : public OpenMediaData
@@ -1109,4 +1110,5 @@ private:
     bool CallYoutubeDL(CString cmd, CString& out, CString& err);
     bool GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& audio);
     bool GetYoutubeNames(CString url, CAtlList<CString>& names);
+    void ProcessYoutubeURL(CString url, bool append);
 };

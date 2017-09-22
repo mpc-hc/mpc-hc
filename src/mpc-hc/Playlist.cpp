@@ -73,6 +73,7 @@ CPlaylistItem& CPlaylistItem::operator=(const CPlaylistItem& pli)
         m_country = pli.m_country;
         m_posNextShuffle = pli.m_posNextShuffle;
         m_posPrevShuffle = pli.m_posPrevShuffle;
+        m_bUseLabelAsFilename = pli.m_bUseLabelAsFilename;
     }
     return *this;
 }
