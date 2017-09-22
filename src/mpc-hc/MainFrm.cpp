@@ -17173,10 +17173,10 @@ bool CMainFrame::CallYoutubeDL(CString args, CString& out, CString& err)
     return true;
 }
 
-bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& audio)
+bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& audio, CAtlList<CString>& names)
 {
     CString out, err;
-    if (!CallYoutubeDL(CString("-g -- \"" + url + "\""), out, err)) {
+    if (!CallYoutubeDL(CString("-g -e -- \"" + url + "\""), out, err)) {
         return false;
     }
 
@@ -17185,7 +17185,14 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, C
     while (true) {
         next = out.Find('\n', idx);
         if (next == -1) {
-            break;
+            return true;
+        }
+        names.AddTail(out.Left(next).Right(next - idx));
+        idx = next + 1;
+
+        next = out.Find('\n', idx);
+        if (next == -1) {
+            return false;
         }
         video.AddTail(out.Left(next).Right(next - idx));
         idx = next + 1;
@@ -17197,29 +17204,6 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, C
         audio.AddTail(out.Left(next).Right(next - idx));
         idx = next + 1;
     }
-
-    return true;
-}
-
-bool CMainFrame::GetYoutubeNames(CString url, CAtlList<CString>& names)
-{
-    CString out, err;
-    if (!CallYoutubeDL(CString("-e -- \"" + url + "\""), out, err)) {
-        return false;
-    }
-
-    int idx = 0;
-    int next;
-    while (true) {
-        next = out.Find('\n', idx);
-        if (next == -1) {
-            break;
-        }
-        names.AddTail(out.Left(next).Right(next - idx));
-        idx = next + 1;
-    }
-
-    return true;
 }
 
 void CMainFrame::ProcessYoutubeURL(CString url, bool append)
@@ -17230,10 +17214,7 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     CAtlList<CString> names;
     CAtlList<CString> filenames;
 
-    if (!GetYoutubeHttpsStreams(url, vstreams, astreams)) {
-        return;
-    }
-    if (!GetYoutubeNames(url, names)) {
+    if (!GetYoutubeHttpsStreams(url, vstreams, astreams, names)) {
         return;
     }
 
