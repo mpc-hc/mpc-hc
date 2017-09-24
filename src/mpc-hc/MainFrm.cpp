@@ -17226,6 +17226,8 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     CAtlList<CString> names;
     CAtlList<CString> filenames;
 
+    m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_YOUTUBEDL));
+
     if (!GetYoutubeHttpsStreams(url, vstreams, astreams, names)) {
         return;
     }

@@ -1573,6 +1573,7 @@
 #define IDS_CMD_MUTE                    57537
 #define IDS_CMD_VOLUME                  57538
 #define IDS_YOUTUBEDL_NOT_FOUND         57539
+#define IDS_CONTROLS_YOUTUBEDL          57540
 
 // Next default values for new objects
 // 
