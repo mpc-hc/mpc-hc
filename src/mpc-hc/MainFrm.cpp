@@ -17024,8 +17024,8 @@ bool CMainFrame::IsYoutubeURL(CString url)
 
 HANDLE hStdout_r, hStdout_w;
 HANDLE hStderr_r, hStderr_w;
-int idx_out = 0;
-int idx_err = 0;
+unsigned int idx_out = 0;
+unsigned int idx_err = 0;
 size_t capacity_out, capacity_err;
 
 DWORD WINAPI BuffOutThread(void* buf)
@@ -17235,7 +17235,7 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     if (!append) {
         m_wndPlaylistBar.Empty();
     }
-    for (int i = 0; i < vstreams.GetCount(); i++) {
+    for (unsigned int i = 0; i < vstreams.GetCount(); i++) {
         filenames.RemoveAll();
         filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
         filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
