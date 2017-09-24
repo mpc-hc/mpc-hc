@@ -3833,6 +3833,7 @@ void CMainFrame::OnFileOpenmedia()
 
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
         ProcessYoutubeURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist());
+        OpenCurPlaylistItem();
         return;
     }
 
@@ -3997,6 +3998,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         PathUtils::ParseDirs(sl);
 
         bool fMulti = sl.GetCount() > 1;
+        bool fYoutube = IsYoutubeURL(sl.GetHead());
 
         if (!fMulti) {
             sl.AddTailList(&s.slDubs);
@@ -4021,7 +4023,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             m_dwLastRun = GetTickCount64();
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
-                m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
+                if (fYoutube) {
+                    ProcessYoutubeURL(sl.GetHead(), true);
+                } else {
+                    m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
+                }
                 applyRandomizeSwitch();
 
                 if (s.nCLSwitches & (CLSW_OPEN | CLSW_PLAY)) {
@@ -4032,8 +4038,13 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 //SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
-                m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
+                if (fYoutube) {
+                    ProcessYoutubeURL(sl.GetHead(), false);
+                } else {
+                    m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
+                }
                 applyRandomizeSwitch();
+                m_wndPlaylistBar.SetFirst();
                 OpenCurPlaylistItem((s.nCLSwitches & CLSW_STARTVALID) ? s.rtStart : 0);
 
                 s.nCLSwitches &= ~CLSW_STARTVALID;
@@ -9050,6 +9061,7 @@ void CMainFrame::OnRecentFile(UINT nID)
     if (IsYoutubeURL(fn)) {
         OnPlayStop();
         ProcessYoutubeURL(fn, false);
+        OpenCurPlaylistItem();
         return;
     }
 
@@ -17237,7 +17249,6 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
 
     if (!append) {
         m_wndPlaylistBar.SetFirst();
-        OpenCurPlaylistItem();
     }
     return;
 }
