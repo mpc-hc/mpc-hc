@@ -3833,7 +3833,9 @@ void CMainFrame::OnFileOpenmedia()
 
     if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
         ProcessYoutubeURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist());
-        OpenCurPlaylistItem();
+        if (!dlg.GetAppendToPlaylist()) {
+            OpenCurPlaylistItem();
+        }
         return;
     }
 
