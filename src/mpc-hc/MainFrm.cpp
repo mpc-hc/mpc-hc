@@ -17187,10 +17187,10 @@ bool CMainFrame::CallYoutubeDL(CString args, CString& out, CString& err)
     return true;
 }
 
-bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& audio, CAtlList<CString>& names)
+bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& names)
 {
     CString out, err;
-    if (!CallYoutubeDL(CString("-g -e -- \"" + url + "\""), out, err)) {
+    if (!CallYoutubeDL(CString("-g -f best -e -- \"" + url + "\""), out, err)) {
         return false;
     }
 
@@ -17210,13 +17210,6 @@ bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, C
         }
         video.AddTail(out.Left(next).Right(next - idx));
         idx = next + 1;
-
-        next = out.Find('\n', idx);
-        if (next == -1) {
-            return false;
-        }
-        audio.AddTail(out.Left(next).Right(next - idx));
-        idx = next + 1;
     }
 }
 
@@ -17224,13 +17217,12 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
 {
     auto& s = AfxGetAppSettings();
     CAtlList<CString> vstreams;
-    CAtlList<CString> astreams;
     CAtlList<CString> names;
     CAtlList<CString> filenames;
 
     m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_YOUTUBEDL));
 
-    if (!GetYoutubeHttpsStreams(url, vstreams, astreams, names)) {
+    if (!GetYoutubeHttpsStreams(url, vstreams, names)) {
         return;
     }
 
@@ -17240,7 +17232,6 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     for (unsigned int i = 0; i < vstreams.GetCount(); i++) {
         filenames.RemoveAll();
         filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
-        filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
         m_wndPlaylistBar.Append(filenames, false, nullptr,
                                 names.GetAt(names.FindIndex(i))
                                 + " (" + url + ")");
