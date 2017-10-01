@@ -3892,6 +3892,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_SLAVE) {
         SendAPICommand(CMD_CONNECT, L"%d", PtrToInt(GetSafeHwnd()));
+        s.nCLSwitches &= ~CLSW_SLAVE;
     }
 
     POSITION pos = s.slFilters.GetHeadPosition();
@@ -3960,6 +3961,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             p->subs.AddTailList(&s.slSubs);
         }
         OpenMedia(p);
+        s.nCLSwitches &= ~CLSW_DVD;
     } else if (s.nCLSwitches & CLSW_CD) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         fSetForegroundWindow = true;
@@ -3982,8 +3984,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         m_wndPlaylistBar.Open(sl, true);
         applyRandomizeSwitch();
         OpenCurPlaylistItem();
+        s.nCLSwitches &= ~CLSW_CD;
     } else if (s.nCLSwitches & CLSW_DEVICE) {
         SendMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+        s.nCLSwitches &= ~CLSW_DEVICE;
     } else if (!s.slFiles.IsEmpty()) {
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
@@ -4033,6 +4037,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 s.nCLSwitches &= ~CLSW_STARTVALID;
                 s.rtStart = 0;
             }
+            s.nCLSwitches &= ~CLSW_ADD;
         }
     } else {
         applyRandomizeSwitch();
@@ -4040,25 +4045,29 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_PRESET1) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_MINIMAL);
+        s.nCLSwitches &= ~CLSW_PRESET1;
     } else if (s.nCLSwitches & CLSW_PRESET2) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
+        s.nCLSwitches &= ~CLSW_PRESET2;
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
+        s.nCLSwitches &= ~CLSW_PRESET3;
     }
     if (s.nCLSwitches & CLSW_MUTE) {
         if (!IsMuted()) {
             SendMessage(WM_COMMAND, ID_VOLUME_MUTE);
         }
+        s.nCLSwitches &= ~CLSW_MUTE;
     }
     if (s.nCLSwitches & CLSW_VOLUME) {
         m_wndToolBar.SetVolume(s.nCmdVolume);
+        s.nCLSwitches &= ~CLSW_VOLUME;
     }
 
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
 
-    s.nCLSwitches = CLSW_NONE;
 
     return TRUE;
 }
@@ -14852,9 +14861,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         CloseMediaPrivate();
     }
 
-    // keep only those command-line switches
-    // TODO: I have no idea why we need it here in CloseMedia()/OnFilePostClosemedia()
-    s.nCLSwitches &= CLSW_OPEN | CLSW_PLAY | CLSW_AFTERPLAYBACK_MASK | CLSW_NOFOCUS;
 
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
