@@ -1105,9 +1105,5 @@ public:
     bool GetDecoderType(CString& type) const;
 
 private:
-    //youtube-dl integration methods
-    bool IsYoutubeURL(CString url);
-    bool CallYoutubeDL(CString cmd, CString& out, CString& err);
-    bool GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& names);
-    void ProcessYoutubeURL(CString url, bool append);
+    bool ProcessYoutubeDLURL(CString url, bool append);
 };

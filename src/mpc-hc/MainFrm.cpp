@@ -105,6 +105,9 @@
 #include <initguid.h>
 #include <qnetwork.h>
 
+#include "YoutubeDL.h"
+
+
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
@@ -3831,8 +3834,8 @@ void CMainFrame::OnFileOpenmedia()
 
     CAtlList<CString> filenames;
 
-    if (IsYoutubeURL(dlg.GetFileNames().GetHead())) {
-        ProcessYoutubeURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist());
+    if (dlg.GetFileNames().GetHead().Left(4) == _T("http")
+            && ProcessYoutubeDLURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist())) {
         if (!dlg.GetAppendToPlaylist()) {
             OpenCurPlaylistItem();
         }
@@ -4000,7 +4003,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         PathUtils::ParseDirs(sl);
 
         bool fMulti = sl.GetCount() > 1;
-        bool fYoutube = IsYoutubeURL(sl.GetHead());
+        bool fYoutubeDL = sl.GetHead().Left(4) == _T("http");
 
         if (!fMulti) {
             sl.AddTailList(&s.slDubs);
@@ -4025,9 +4028,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             m_dwLastRun = GetTickCount64();
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
-                if (fYoutube) {
-                    ProcessYoutubeURL(sl.GetHead(), true);
-                } else {
+                float r = false;
+                if (fYoutubeDL) {
+                    r = ProcessYoutubeDLURL(sl.GetHead(), true);
+                }
+                if (!r) { //not an http link, or youtube-dl unavailable
                     m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
                 }
                 applyRandomizeSwitch();
@@ -4040,9 +4045,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 //SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
-                if (fYoutube) {
-                    ProcessYoutubeURL(sl.GetHead(), false);
-                } else {
+                float r = false;
+                if (fYoutubeDL) { //not an http link or youtube-dl unavailable
+                    r = ProcessYoutubeDLURL(sl.GetHead(), false);
+                }
+                if (!r) {
                     m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
                 }
                 applyRandomizeSwitch();
@@ -9060,11 +9067,12 @@ void CMainFrame::OnRecentFile(UINT nID)
     CString fn;
     m_recentFilesMenu.GetMenuString(nID + 2, fn, MF_BYPOSITION);
 
-    if (IsYoutubeURL(fn)) {
+    if (fn.Left(4) == _T("http")) {
         OnPlayStop();
-        ProcessYoutubeURL(fn, false);
-        OpenCurPlaylistItem();
-        return;
+        if (ProcessYoutubeDLURL(fn, false)) {
+            OpenCurPlaylistItem();
+            return;
+        }
     }
 
     if (!m_wndPlaylistBar.SelectFileInPlaylist(fn)) {
@@ -17011,14 +17019,6 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
     return TRUE;
 }
 
-bool CMainFrame::IsYoutubeURL(CString url)
-{
-    return url.Left(29) == _T("https://www.youtube.com/watch") ||
-           url.Left(25) == _T("https://youtube.com/watch") ||
-           url.Left(32) == _T("https://www.youtube.com/playlist") ||
-           url.Left(28) == _T("https://youtube.com/playlist");
-}
-
 
 //////////////////////////////////////
 // Worker threads for CallYoutubeDL()
@@ -17030,200 +17030,23 @@ unsigned int idx_out = 0;
 unsigned int idx_err = 0;
 size_t capacity_out, capacity_err;
 
-DWORD WINAPI BuffOutThread(void* buf)
-{
-    char** buf_out = static_cast<char**>(buf);
-    DWORD read;
 
-    while (ReadFile(hStdout_r, *buf_out + idx_out, capacity_out - idx_out, &read, NULL)) {
-        idx_out += read;
-        if (idx_out == capacity_out) {
-            capacity_out *= 2;
-            char* tmp = static_cast<char*>(std::realloc(*buf_out, capacity_out));
-            if (tmp) {
-                *buf_out = tmp;
-            } else {
-                std::free(*buf_out);
-                *buf_out = nullptr;
-                return 0;
-            }
-        }
-    }
-
-    return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
-}
-
-DWORD WINAPI BuffErrThread(void* buf)
-{
-    char** buf_err = static_cast<char**>(buf);
-    DWORD read;
-
-    while (ReadFile(hStderr_r, *buf_err + idx_err, capacity_err - idx_err, &read, NULL)) {
-        idx_err += read;
-        if (idx_err == capacity_err) {
-            capacity_err *= 2;
-            char* tmp = static_cast<char*>(std::realloc(*buf_err, capacity_err));
-            if (tmp) {
-                *buf_err = tmp;
-            } else {
-                std::free(*buf_err);
-                *buf_err = nullptr;
-                return 0;
-            }
-        }
-    }
-
-    return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
-}
-
-bool CMainFrame::CallYoutubeDL(CString args, CString& out, CString& err)
-{
-    const size_t bufsize = 2000;  //2KB initial buffer size
-
-    /////////////////////////////
-    // Set up youtube-dl process
-    /////////////////////////////
-
-    PROCESS_INFORMATION proc_info;
-    STARTUPINFO startup_info;
-    SECURITY_ATTRIBUTES sec_attrib;
-
-
-    args = "youtube-dl " + args;
-
-    ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
-    ZeroMemory(&startup_info, sizeof(STARTUPINFO));
-
-    //child process must inherit the handles
-    sec_attrib.nLength = sizeof(SECURITY_ATTRIBUTES);
-    sec_attrib.lpSecurityDescriptor = NULL;
-    sec_attrib.bInheritHandle = true;
-
-    if (!CreatePipe(&hStdout_r, &hStdout_w, &sec_attrib, bufsize)) {
-        return false;
-    }
-    if (!CreatePipe(&hStderr_r, &hStderr_w, &sec_attrib, bufsize)) {
-        return false;
-    }
-
-    startup_info.cb = sizeof(STARTUPINFO);
-    startup_info.hStdOutput = hStdout_w;
-    startup_info.hStdError = hStderr_w;
-    startup_info.wShowWindow = SW_HIDE;
-    startup_info.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-
-    if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, true, 0,
-                       NULL, NULL, &startup_info, &proc_info)) {
-        AfxMessageBox(IDS_YOUTUBEDL_NOT_FOUND, MB_ICONERROR | MB_OK, 0);
-        return false;
-    }
-
-    //we must close the parent process's write handles before calling ReadFile,
-    // otherwise it will block forever.
-    CloseHandle(hStdout_w);
-    CloseHandle(hStderr_w);
-
-
-    /////////////////////////////////////////////////////
-    // Read in stdout and stderr through the pipe buffer
-    /////////////////////////////////////////////////////
-
-    char* buf_out = static_cast<char*>(std::malloc(bufsize));
-    char* buf_err = static_cast<char*>(std::malloc(bufsize));
-    capacity_out = bufsize;
-    capacity_err = bufsize;
-
-    HANDLE hThreadOut, hThreadErr;
-    idx_out = 0;
-    idx_err = 0;
-
-    hThreadOut = CreateThread(NULL, 0, BuffOutThread, &buf_out, NULL, NULL);
-    hThreadErr = CreateThread(NULL, 0, BuffErrThread, &buf_err, NULL, NULL);
-
-    WaitForSingleObject(hThreadOut, INFINITE);
-    WaitForSingleObject(hThreadErr, INFINITE);
-
-    if (!buf_out || !buf_err) {
-        throw std::bad_alloc();
-    }
-
-    //NULL-terminate the data
-    char* tmp;
-    if (idx_out == capacity_out) {
-        tmp = static_cast<char*>(std::realloc(buf_out, capacity_out + 1));
-        if (tmp) {
-            buf_out = tmp;
-        }
-    }
-    buf_out[idx_out] = '\0';
-
-    if (idx_err == capacity_err) {
-        tmp = static_cast<char*>(std::realloc(buf_err, capacity_err + 1));
-        if (tmp) {
-            buf_err = tmp;
-        }
-    }
-    buf_err[idx_err] = '\0';
-
-    out = buf_out;
-    err = buf_err;
-
-    std::free(buf_out);
-    std::free(buf_err);
-
-    DWORD exitcode;
-    GetExitCodeProcess(proc_info.hProcess, &exitcode);
-    if (exitcode) {
-        AfxMessageBox(err.GetBuffer(), MB_ICONERROR, 0);
-        return false;
-    }
-
-    CloseHandle(proc_info.hProcess);
-    CloseHandle(proc_info.hThread);
-    CloseHandle(hThreadOut);
-    CloseHandle(hThreadErr);
-    CloseHandle(hStdout_r);
-    CloseHandle(hStderr_r);
-    return true;
-}
-
-bool CMainFrame::GetYoutubeHttpsStreams(CString url, CAtlList<CString>& video, CAtlList<CString>& names)
-{
-    CString out, err;
-    if (!CallYoutubeDL(CString("-g -f best -e -- \"" + url + "\""), out, err)) {
-        return false;
-    }
-
-    int idx = 0;
-    int next;
-    while (true) {
-        next = out.Find('\n', idx);
-        if (next == -1) {
-            return true;
-        }
-        names.AddTail(out.Left(next).Right(next - idx));
-        idx = next + 1;
-
-        next = out.Find('\n', idx);
-        if (next == -1) {
-            return false;
-        }
-        video.AddTail(out.Left(next).Right(next - idx));
-        idx = next + 1;
-    }
-}
-
-void CMainFrame::ProcessYoutubeURL(CString url, bool append)
+bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
 {
     auto& s = AfxGetAppSettings();
     CAtlList<CString> vstreams;
+    CAtlList<CString> astreams;
     CAtlList<CString> names;
     CAtlList<CString> filenames;
+    CYoutubeDLInstance ydl;
 
     m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_YOUTUBEDL));
 
-    if (!GetYoutubeHttpsStreams(url, vstreams, names)) {
-        return;
+    if (!ydl.Run(url)) {
+        return false;
+    }
+    if (!ydl.GetHttpStreams(vstreams, astreams, names)) {
+        return false;
     }
 
     if (!append) {
@@ -17232,6 +17055,9 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     for (unsigned int i = 0; i < vstreams.GetCount(); i++) {
         filenames.RemoveAll();
         filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+        if (!astreams.IsEmpty()) {
+            filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
+        }
         m_wndPlaylistBar.Append(filenames, false, nullptr,
                                 names.GetAt(names.FindIndex(i))
                                 + " (" + url + ")");
@@ -17245,5 +17071,5 @@ void CMainFrame::ProcessYoutubeURL(CString url, bool append)
     if (!append) {
         m_wndPlaylistBar.SetFirst();
     }
-    return;
+    return true;
 }
