@@ -4272,6 +4272,7 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         }
     }
 
+    bool bAppend = !!(dropEffect & DROPEFFECT_APPEND);
     // Use the first subtitle file that was just loaded
     if (subInputSelected.pSubStream) {
         AfxGetAppSettings().fEnableSubtitles = true;
@@ -4286,7 +4287,17 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         }
         SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
     } else {
-        if (dropEffect & DROPEFFECT_APPEND) {
+        //load http url with youtube-dl, if available
+        if (slFiles.GetHead().Left(4) == _T("http")) {
+            if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
+                if (!bAppend) {
+                    OpenCurPlaylistItem();
+                }
+                return;
+            }
+        }
+
+        if (bAppend) {
             m_wndPlaylistBar.Append(slFiles, true);
         } else {
             m_wndPlaylistBar.Open(slFiles, true);
