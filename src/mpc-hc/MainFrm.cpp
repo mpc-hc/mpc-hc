@@ -17031,17 +17031,6 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 }
 
 
-//////////////////////////////////////
-// Worker threads for CallYoutubeDL()
-//////////////////////////////////////
-
-HANDLE hStdout_r, hStdout_w;
-HANDLE hStderr_r, hStderr_w;
-unsigned int idx_out = 0;
-unsigned int idx_err = 0;
-size_t capacity_out, capacity_err;
-
-
 bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
 {
     auto& s = AfxGetAppSettings();
