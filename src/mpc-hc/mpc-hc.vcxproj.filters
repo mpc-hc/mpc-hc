@@ -89,6 +89,9 @@
     <Filter Include="Subtitles">
       <UniqueIdentifier>{20afe682-61a3-4123-9012-4c918a03f482}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AudioExtract">
+      <UniqueIdentifier>{6d10d09b-b3e6-4b26-b845-79a007582550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -467,6 +470,15 @@
     </ClCompile>
     <ClCompile Include="ImageGrayer.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioExtract\AudioRecord.cpp">
+      <Filter>AudioExtract</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioExtract\MP3.CPP">
+      <Filter>AudioExtract</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioExtract\Mp3Enc.cpp">
+      <Filter>AudioExtract</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -874,6 +886,15 @@
     </ClInclude>
     <ClInclude Include="ImageGrayer.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioExtract\AudioRecord.h">
+      <Filter>AudioExtract</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioExtract\MP3.H">
+      <Filter>AudioExtract</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioExtract\MP3Enc.h">
+      <Filter>AudioExtract</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

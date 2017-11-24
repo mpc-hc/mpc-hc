@@ -132,11 +132,15 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>..\thirdparty\ZenLib\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
+    <ClCompile Include="AudioExtract\AudioRecord.cpp" />
+    <ClCompile Include="AudioExtract\MP3.CPP" />
+    <ClCompile Include="AudioExtract\Mp3Enc.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
     <ClCompile Include="BaseGraph.cpp" />
     <ClCompile Include="ChildView.cpp" />
@@ -276,6 +280,9 @@
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
+    <ClInclude Include="AudioExtract\AudioRecord.h" />
+    <ClInclude Include="AudioExtract\MP3.H" />
+    <ClInclude Include="AudioExtract\MP3Enc.h" />
     <ClInclude Include="AuthDlg.h" />
     <ClInclude Include="BaseGraph.h" />
     <ClInclude Include="ChildView.h" />
@@ -532,6 +539,9 @@
     <ProjectReference Include="..\DSUtil\DSUtil.vcxproj">
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\filters\muxer\WavTransfer\wavtransfer.vcxproj">
+      <Project>{e7bab2ed-83db-3ff7-19c0-21cef6cc77c8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
     </ProjectReference>
@@ -611,6 +621,12 @@
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\lame\vc_solution\vc9_libmp3lame.vcxproj">
+      <Project>{20536101-3b0e-43ef-94f9-080d595dac57}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\lame\vc_solution\vc9_mpglib.vcxproj">
+      <Project>{e2dab91a-8248-4625-8a85-2c2c2a390dd8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\LAVFilters\LAVFilters.vcxproj">
       <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>
@@ -717,4 +733,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="mpc-hc.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

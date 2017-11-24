@@ -323,3 +323,7 @@
 #define IDS_RS_SANEAR_CROSSFEED_ENABLED     _T("CrossfeedEnabled")
 #define IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ _T("CrossfeedCutoffFrequency")
 #define IDS_RS_SANEAR_CROSSFEED_LEVEL       _T("CrossfeedLevel")
+
+#define IDS_RS_AUDIORECORDPATH              _T("AudioRecordPath")
+#define IDS_RS_AUDIORECORDEXT               _T("AudioRecordExt")
+#define IDS_RS_GRABAUDIO					_T("GrabAudio")

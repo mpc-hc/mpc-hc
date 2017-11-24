@@ -159,7 +159,8 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
            clsid == __uuidof(CNullAudioRenderer) ||
            clsid == __uuidof(CNullUAudioRenderer) ||
            clsid == CLSID_SANEAR_INTERNAL ||
-           clsid == CLSID_SANEAR;
+           clsid == CLSID_SANEAR ||
+		   clsid == CLSID_InfTee; // allow the inftee to be connected from Audio Switch , 171003
 }
 
 IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)

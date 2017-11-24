@@ -662,6 +662,10 @@ public:
     int             iOnTop;
 
     // WINDOWS
+
+	// Save audio...
+	CString         strAudioRecordPath, strAudioRecordExt;
+	bool			bGrabAudio=false;
     // Add Favorite
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;
