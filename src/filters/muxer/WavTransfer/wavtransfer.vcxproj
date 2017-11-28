@@ -86,20 +86,12 @@
     <ClCompile Include="WavTransfer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="WavTransfer.def" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="IWavTransferProperty.h" />
     <ClInclude Include="resource.h">
       <ExcludedFromBuild Condition="!$(Configuration.Contains('Filter'))">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WavTransfer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="WavTransfer.rc">
-      <ExcludedFromBuild Condition="!$(Configuration.Contains('Filter'))">true</ExcludedFromBuild>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\thirdparty\BaseClasses\BaseClasses.vcxproj">

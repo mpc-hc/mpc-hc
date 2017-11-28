@@ -1,6 +1,6 @@
 /*
 
-* (C) 2017  Yong Wang , Xin Tong Wang
+* 
 *
 * This file is part of MPC-HC.
 *

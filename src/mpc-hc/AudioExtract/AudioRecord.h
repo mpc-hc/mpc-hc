@@ -1,6 +1,6 @@
 /*
 
-* (C) 2017  Yong Wang , Xin Tong Wang
+* 
 *
 * This file is part of MPC-HC.
 *
@@ -66,7 +66,6 @@ public:
 	{
 		thisobj = this;
 	}
-	//int DShowRecordWaveFile2(char *pSrcFileName, char *pFileName, WaveFmt pWaveFmt, bool pbMp3, int nSegmentCount, SEGMENTFRAME *SegmentList, bool pbFirstCall, bool pbIsPreview);
 	int  DShowRecordWaveFile(LPCTSTR pSrcFileName, LPCTSTR pFileName, WaveFmt pWaveFmt, bool pbMp3, bool pbFirstCall, bool pbIsPreview);
 	void StopWaveRecord();
 	static CWaveRecorder *thisobj ;
@@ -80,7 +79,6 @@ private:
 	int CopyDataToMP3File(char *inbuf, long pBufSize);
 	int CopyDataToWaveFile(char *inbuf, UINT size);
 	int DShowAddNextBuffer();
-	//int DShowopenWaveDev2(char *pSrcFileName, char *pFileName, WaveFmt pWaveFmt, int nSegmentCount, SEGMENTFRAME *SegmentList, bool pbFirstCall, bool pbIsPreview, int pnTrackNr);
 	int DShowopenWaveDev2(LPCTSTR pSrcFileName, LPCTSTR pFileName, WaveFmt pWaveFmt,  bool pbFirstCall, bool pbIsPreview, int pnTrackNr);
 	
 	int CerateWaveFileHeader(LPCTSTR pFileName);
