@@ -1,6 +1,6 @@
 /*
 
-* 
+* (C) 2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -77,19 +77,19 @@ private:
 //functions
 	
 	int CopyDataToMP3File(char *inbuf, long pBufSize);
-	int CopyDataToWaveFile(char *inbuf, UINT size);
+	//int CopyDataToWaveFile(char *inbuf, UINT size);
 	int DShowAddNextBuffer();
 	int DShowopenWaveDev2(LPCTSTR pSrcFileName, LPCTSTR pFileName, WaveFmt pWaveFmt,  bool pbFirstCall, bool pbIsPreview, int pnTrackNr);
 	
-	int CerateWaveFileHeader(LPCTSTR pFileName);
-	void WriteWavHeader(void);
+	//int CerateWaveFileHeader(LPCTSTR pFileName);
+	//void WriteWavHeader(void);
 	static DWORD WINAPI DumpMP3Data(LPVOID *p);
 	static DWORD WINAPI Recorder(LPVOID *p);
 	DWORD RecorderInThread(LPVOID *p);
 	DWORD DumpMP3DataInThread(LPVOID *p);
 	void InitPCMWaveFmt(WaveFmt pWaveFmt);
 
-	int CloseWaveFile();
+	//int CloseWaveFile();
 
 // members:
 	bool g_bSignal;  // if true has signal else no signal
@@ -97,7 +97,7 @@ private:
 	bool RecordStoped;
 	bool RecordPaused;
 
-	bool gWriteToFile; // the flag foor write file or not
+	bool gWriteToFile; // the flag for write file or not
 	bool gbMp3;  // if the dest file is MP3 or not
 
 	bool Mp3WriteOnce;//       has been write to file once

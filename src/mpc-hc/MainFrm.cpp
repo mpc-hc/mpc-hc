@@ -17179,7 +17179,7 @@ void CMainFrame::StartGrabAudio()
 	pWaveFmt.nChannels = 2;
 	pWaveFmt.nSamplesPerSec = 44100;
 	pWaveFmt.wBitsPerSample = 16;
-	pWaveFmt.wBitrate = 192;
+	pWaveFmt.wBitrate = 320;
 
 	CPath psrc(s.strAudioRecordPath);
 

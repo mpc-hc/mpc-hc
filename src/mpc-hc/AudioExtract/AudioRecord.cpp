@@ -1,6 +1,6 @@
 /*
 
-*  
+*  (C) 2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -51,10 +51,10 @@ void CWaveRecorder::WaveRecInBlock(WPARAM wParam, LPARAM lParam)
 					WaitForSingleObject(MP3Done, 1000);// INFINITE);
 					ResetEvent(MP3Done);
 				}
-				else
-				{
-					CopyDataToWaveFile(lpwh->lpData, (UINT)(((LPWAVEHDR)lParam)->dwBytesRecorded));
-				}
+				//else
+				//{
+				//	CopyDataToWaveFile(lpwh->lpData, (UINT)(((LPWAVEHDR)lParam)->dwBytesRecorded));
+				//}
 			}
 	}
 
@@ -83,21 +83,21 @@ int CWaveRecorder::CopyDataToMP3File(char *inbuf, long pBufSize)
 
 
 
-
-int CWaveRecorder::CopyDataToWaveFile(char *inbuf, UINT size)
-{
-	if (size == 0)
-		return 1;
-
-	_totalWritten += size;
-
-	g_dwTotalBytes += size;
-
-	if (WavLi != NULL)
-		fwrite(inbuf, 1, size, WavLi);
-	return 0;
-}
-
+//
+//int CWaveRecorder::CopyDataToWaveFile(char *inbuf, UINT size)
+//{
+//	if (size == 0)
+//		return 1;
+//
+//	_totalWritten += size;
+//
+//	g_dwTotalBytes += size;
+//
+//	if (WavLi != NULL)
+//		fwrite(inbuf, 1, size, WavLi);
+//	return 0;
+//}
+//
 
 
 
@@ -126,47 +126,47 @@ void CWaveRecorder::StopWaveRecord()
 	WaitForSingleObject(RecordHandle, 1000);
 }
 
-void CWaveRecorder::WriteWavHeader(void)
-{
-	WAVHDR wav;
-	ZeroMemory(&wav, sizeof(wav));
+//void CWaveRecorder::WriteWavHeader(void)
+//{
+//	WAVHDR wav;
+//	ZeroMemory(&wav, sizeof(wav));
+//
+//	memcpy(wav.riff, "RIFF", 4);
+//	wav.len = _totalWritten + 44 - 8;
+//	memcpy(wav.cWavFmt, "WAVEfmt ", 8);
+//	wav.dwHdrLen = 16;
+//	wav.wFormat = PCMWaveFmtRecord.wFormatTag;//1;
+//	wav.wNumChannels = PCMWaveFmtRecord.nChannels;
+//	wav.dwSampleRate = PCMWaveFmtRecord.nSamplesPerSec;
+//	wav.dwBytesPerSec = PCMWaveFmtRecord.nAvgBytesPerSec;//44100*2*2;
+//	wav.wBlockAlign = PCMWaveFmtRecord.nBlockAlign;//4;
+//	wav.wBitsPerSample = PCMWaveFmtRecord.wBitsPerSample;//16;
+//	memcpy(wav.cData, "data", 4);
+//	wav.dwDataLen = _totalWritten;
+//	fseek(WavLi, 0, SEEK_SET);
+//	fwrite(&wav, 1, sizeof(wav), WavLi);
+//}
 
-	memcpy(wav.riff, "RIFF", 4);
-	wav.len = _totalWritten + 44 - 8;
-	memcpy(wav.cWavFmt, "WAVEfmt ", 8);
-	wav.dwHdrLen = 16;
-	wav.wFormat = PCMWaveFmtRecord.wFormatTag;//1;
-	wav.wNumChannels = PCMWaveFmtRecord.nChannels;
-	wav.dwSampleRate = PCMWaveFmtRecord.nSamplesPerSec;
-	wav.dwBytesPerSec = PCMWaveFmtRecord.nAvgBytesPerSec;//44100*2*2;
-	wav.wBlockAlign = PCMWaveFmtRecord.nBlockAlign;//4;
-	wav.wBitsPerSample = PCMWaveFmtRecord.wBitsPerSample;//16;
-	memcpy(wav.cData, "data", 4);
-	wav.dwDataLen = _totalWritten;
-	fseek(WavLi, 0, SEEK_SET);
-	fwrite(&wav, 1, sizeof(wav), WavLi);
-}
-
-int CWaveRecorder::CerateWaveFileHeader(LPCTSTR pFileName)
-{
-	_totalWritten = 0;
-
-	char tmp[256];
-	sprintf(tmp, "%s", pFileName);
-
-	WavLi = fopen(tmp, "w+b");
-	if (WavLi == NULL)
-	{
-		sprintf(tmp, "File %s connot be opened for writing\nIf it's used by other appliction please close it and retry", pFileName);
-		//MessageBox(NULL, tmp, "Error", MB_OK);
-		return 1;
-	}
-
-	WriteWavHeader();
-
-	return 0;
-
-}
+//int CWaveRecorder::CerateWaveFileHeader(LPCTSTR pFileName)
+//{
+//	_totalWritten = 0;
+//
+//	char tmp[256];
+//	sprintf(tmp, "%s", pFileName);
+//
+//	WavLi = fopen(tmp, "w+b");
+//	if (WavLi == NULL)
+//	{
+//		sprintf(tmp, "File %s connot be opened for writing\nIf it's used by other appliction please close it and retry", pFileName);
+//		//MessageBox(NULL, tmp, "Error", MB_OK);
+//		return 1;
+//	}
+//
+//	WriteWavHeader();
+//
+//	return 0;
+//
+//}
 
 DWORD WINAPI CWaveRecorder::DumpMP3Data(LPVOID *p)
 {
@@ -287,11 +287,11 @@ int  CWaveRecorder::DShowRecordWaveFile(LPCTSTR pSrcFileName, LPCTSTR pFileName,
 			gMp3NewThreadBuf = NULL;
 			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DumpMP3Data, NULL, 0, &threadid);
 		}
-		else
-		{
-			if (CerateWaveFileHeader(pFileName))		// Wave File return !=0 error
-				return 2;
-		}
+		//else
+		//{
+		//	if (CerateWaveFileHeader(pFileName))		// Wave File return !=0 error
+		//		return 2;
+		//}
 	}
 
 	int vRc = DShowopenWaveDev2(pSrcFileName, pFileName, gWaveFmt,  pbFirstCall, pbIsPreview, vnTrackNr);
@@ -405,8 +405,8 @@ DWORD CWaveRecorder::RecorderInThread(LPVOID *p)
 
 			MP3EncodeClose(gMp3File, gMp3Buffer);
 		}
-		else
-			CloseWaveFile();
+		//else
+		//	CloseWaveFile();
 	}
 
 
@@ -425,15 +425,15 @@ DWORD CWaveRecorder::RecorderInThread(LPVOID *p)
 
 
 
-int CWaveRecorder::CloseWaveFile()
-{
-
-	WriteWavHeader();
-	fclose(WavLi);
-	WavLi = NULL;
-
-	return 0;
-
-}
+//int CWaveRecorder::CloseWaveFile()
+//{
+//
+//	WriteWavHeader();
+//	fclose(WavLi);
+//	WavLi = NULL;
+//
+//	return 0;
+//
+//}
 
 

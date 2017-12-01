@@ -87,9 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IWavTransferProperty.h" />
-    <ClInclude Include="resource.h">
-      <ExcludedFromBuild Condition="!$(Configuration.Contains('Filter'))">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WavTransfer.h" />
   </ItemGroup>

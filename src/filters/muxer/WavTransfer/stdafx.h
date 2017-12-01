@@ -1,5 +1,5 @@
 /*
- * (C) 2003-2006 Gabest
+ *  
  * (C) 2006-2013 see Authors.txt
  *
  * This file is part of MPC-HC.

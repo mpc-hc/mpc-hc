@@ -1,6 +1,6 @@
 /*
-
-* *
+* (C) 2017 see Authors.txt
+*  
 * This file is part of MPC-HC.
 *
 * MPC-HC is free software; you can redistribute it and/or modify

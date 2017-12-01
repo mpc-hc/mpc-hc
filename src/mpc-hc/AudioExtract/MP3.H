@@ -1,6 +1,6 @@
 /*
 
-*  
+*  (C) 2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
