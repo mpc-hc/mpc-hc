@@ -2353,62 +2353,19 @@ STDMETHODIMP CFGManagerCustom::AddFilter(IBaseFilter* pBF, LPCWSTR pName)
 CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerCustom(pName, pUnk)
     , m_hWnd(hWnd)
-    , m_vrmerit(MERIT64(MERIT_PREFERRED))
-    , m_armerit(MERIT64(MERIT_PREFERRED))
 {
     TRACE(_T("--> CFGManagerPlayer::CFGManagerPlayer on thread: %lu\n"), GetCurrentThreadId());
     CFGFilter* pFGF;
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (m_pFM) {
-        CComPtr<IEnumMoniker> pEM;
-
-        GUID guidsVideo[] = {MEDIATYPE_Video, MEDIASUBTYPE_NULL};
-
-        if (SUCCEEDED(m_pFM->EnumMatchingFilters(&pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
-                                                 TRUE, 1, guidsVideo, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
-            for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, nullptr); pMoniker = nullptr) {
-                CFGFilterRegistry f(pMoniker);
-                // RDP DShow Redirection Filter's merit is so high that it flaws the graph building process so we ignore it.
-                // Without doing that the renderer selected in MPC-HC is given a so high merit that filters that normally
-                // should connect between the video decoder and the renderer can't (e.g. VSFilter).
-                if (f.GetCLSID() != CLSID_RDPDShowRedirectionFilter) {
-                    m_vrmerit = std::max(m_vrmerit, f.GetMerit());
-                }
-            }
-        }
-
-        m_vrmerit += 0x100;
-
-        pEM.Release();
-
-        GUID guidsAudio[] = {MEDIATYPE_Audio, MEDIASUBTYPE_NULL};
-
-        if (SUCCEEDED(m_pFM->EnumMatchingFilters(&pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
-                                                 TRUE, 1, guidsAudio, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
-            for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, nullptr); pMoniker = nullptr) {
-                CFGFilterRegistry f(pMoniker);
-                // Use the same RDP DShow Redirection Filter hack with audio, too
-                if (f.GetCLSID() != CLSID_RDPDShowRedirectionFilter) {
-                    m_armerit = std::max(m_armerit, f.GetMerit());
-                }
-            }
-        }
-
-        BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-            CFGFilterRegistry f(pMoniker);
-            m_armerit = std::max(m_armerit, f.GetMerit());
-        }
-        EndEnumSysDev;
-
-        m_armerit += 0x100;
-    }
+    /* value is chosen so that it is higher than standard renderers, but lower than important intermediate filters like VSFilter */
+    UINT64 renderer_merit = MERIT64(0x800001) + 0x100;
 
     // Switchers
 
     if (s.fEnableAudioSwitcher) {
-        pFGF = DEBUG_NEW CFGFilterInternal<CAudioSwitcherFilter>(L"Audio Switcher", m_armerit + 0x100);
+        pFGF = DEBUG_NEW CFGFilterInternal<CAudioSwitcherFilter>(L"Audio Switcher", renderer_merit + 0x100);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
 
@@ -2420,31 +2377,31 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
     switch (s.iDSVideoRendererType) {
         case VIDRNDT_DS_OLDRENDERER:
-            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VideoRenderer, renderer_merit));
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, StrRes(IDS_PPAGE_OUTPUT_OVERLAYMIXER), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, StrRes(IDS_PPAGE_OUTPUT_OVERLAYMIXER), renderer_merit));
             break;
         case VIDRNDT_DS_VMR9WINDOWED:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, StrRes(IDS_PPAGE_OUTPUT_VMR9WINDOWED), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, StrRes(IDS_PPAGE_OUTPUT_VMR9WINDOWED), renderer_merit));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), renderer_merit));
             break;
         case VIDRNDT_DS_EVR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, StrRes(IDS_PPAGE_OUTPUT_EVR), renderer_merit));
             break;
         case VIDRNDT_DS_EVR_CUSTOM:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_EVR_CUSTOM), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_EVR_CUSTOM), renderer_merit));
             break;
         case VIDRNDT_DS_DXR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_DXR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_DXR), renderer_merit));
             break;
         case VIDRNDT_DS_MADVR:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MADVR), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_MADVR), renderer_merit));
             break;
         case VIDRNDT_DS_SYNC:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_SYNC), m_vrmerit));
+            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, StrRes(IDS_PPAGE_OUTPUT_SYNC), renderer_merit));
             break;
         case VIDRNDT_DS_NULL_COMP:
             pFGF = DEBUG_NEW CFGFilterInternal<CNullVideoRenderer>(StrRes(IDS_PPAGE_OUTPUT_NULL_COMP), MERIT64_ABOVE_DSHOW + 2);
@@ -2476,11 +2433,11 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
                 return SaneAudioRenderer::Factory::CreateFilter(AfxGetAppSettings().sanear, ppBF);
             }
         };
-        pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_INTERNAL, m_armerit + 0x99);
+        pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_INTERNAL, renderer_merit + 0x50);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
     } else if (!SelAudioRenderer.IsEmpty()) {
-        pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, m_armerit);
+        pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, renderer_merit);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
     }
@@ -2512,7 +2469,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
     // have to avoid the old video renderer
     if (s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER) {
-        m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit - 1));
+        m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", MERIT64_DO_USE));
     }
 
     // elecard's decoder isn't suited for dvd playback (atm)
@@ -2600,7 +2557,8 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
 CFGManagerCapture::CFGManagerCapture(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    CFGFilter* pFGF = DEBUG_NEW CFGFilterInternal<CDeinterlacerFilter>(L"Deinterlacer", m_vrmerit + 0x100);
+    // set merit higher than our video renderers
+    CFGFilter* pFGF = DEBUG_NEW CFGFilterInternal<CDeinterlacerFilter>(L"Deinterlacer", MERIT64(0x800001) + 0x200);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
     m_transform.AddTail(pFGF);
 
