@@ -46,6 +46,7 @@
 #include "PPageAdvanced.h"
 #include "TreePropSheet/TreePropSheet.h"
 #include "DpiHelper.h"
+#include "PPageAudioExtract.h"
 
 
 // CTreePropSheetTreeCtrl
@@ -103,7 +104,7 @@ private:
     CPPageTweaks m_tweaks;
     CPPageMisc m_misc;
     CPPageAdvanced m_advance;
-
+    CPPageAudioExtract m_AudioExtract;
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 

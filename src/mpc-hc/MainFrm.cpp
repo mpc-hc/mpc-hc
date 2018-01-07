@@ -17172,14 +17172,16 @@ LRESULT CMainFrame::Process_WIM_DATA(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::StartGrabAudio() 
 {
+    int MP3_BitRates[] = { 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 256, 320 };
+
 	if (GetLoadState() != MLS::LOADED)
 		return;
 	CAppSettings& s = AfxGetAppSettings();
 	WaveFmt pWaveFmt;
-	pWaveFmt.nChannels = 2;
+    pWaveFmt.nChannels = s.iMP3SteroeModeidx + 1;//;  index1=0 , Mono, ==1, Stereo
 	pWaveFmt.nSamplesPerSec = 44100;
 	pWaveFmt.wBitsPerSample = 16;
-	pWaveFmt.wBitrate = 320;
+    pWaveFmt.wBitrate = MP3_BitRates[s.iMP3BitRateidx];//128;// 320;
 
 	CPath psrc(s.strAudioRecordPath);
 

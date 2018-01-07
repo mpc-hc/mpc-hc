@@ -1179,6 +1179,21 @@ BEGIN
     PUSHBUTTON      "Quit MPC-HC",IDC_BUTTON2,175,220,120,14
 END
 
+IDD_PPAGEAudioExtract DIALOGEX 0, 0, 303, 235
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    LTEXT           "Grab Audio Settings",IDC_STATIC,7,7,90,8
+    LTEXT           "Output Folder:",IDC_STATIC,15,30,48,8
+    EDITTEXT        IDC_EDIT_AUDIO_OUTPUT_FOLDER,15,45,205,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BTN_AUDIO_FOLDER,231,45,50,14
+    LTEXT           "Bitrate(kbps)",IDC_STATIC,15,96,42,8
+    COMBOBOX        IDC_MP3_BITRATE,61,94,53,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Stereo Mode",IDC_STATIC,163,96,42,8
+    COMBOBOX        IDC_MP3_STEREO_MODE,210,94,71,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "MP3 Settings",IDC_STATIC,9,75,280,46
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1383,6 +1398,14 @@ BEGIN
     IDD_CRASH_REPORTER, DIALOG
     BEGIN
         BOTTOMMARGIN, 200
+    END
+
+    IDD_PPAGEAudioExtract, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -2239,6 +2262,62 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PPAGEAudioExtract AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_PPAGEAudioExtract DLGINIT
+BEGIN
+    IDC_MP3_BITRATE, 0x403, 2, 0
+0x0038, 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3432, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3034, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3834, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3038, "\000" 
+    IDC_MP3_BITRATE, 0x403, 3, 0
+0x3639, "\000" 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3131, 0x0032, 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3631, 0x0030, 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3931, 0x0032, 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_MP3_BITRATE, 0x403, 4, 0
+0x3233, 0x0030, 
+    IDC_MP3_STEREO_MODE, 0x403, 5, 0
+0x6f4d, 0x6f6e, "\000" 
+    IDC_MP3_STEREO_MODE, 0x403, 7, 0
+0x7453, 0x7265, 0x6f65, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
@@ -2404,6 +2483,11 @@ BEGIN
     IDD_PPAGEAUDIOSWITCHER  "Internal Filters::Audio Switcher"
     IDD_PPAGEEXTERNALFILTERS "External Filters"
     IDD_PPAGESHADERS        "Playback::Shaders"
+END
+
+STRINGTABLE
+BEGIN
+    IDD_PPAGEAudioExtract   "Grab Audio"
 END
 
 STRINGTABLE

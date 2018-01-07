@@ -245,10 +245,10 @@ int  CWaveRecorder::DShowRecordWaveFile(LPCTSTR pSrcFileName, LPCTSTR pFileName,
 	if (pbMp3)
 	{
 		// if it's mP3 , force to use the 44100, stereo and 16 bit
-		gWaveFmt.nChannels = 2;
+		//gWaveFmt.nChannels = 2;
 		gWaveFmt.nSamplesPerSec = 44100;
 		gWaveFmt.wBitsPerSample = 16;
-		gWaveFmt.wBitrate = 320;
+        //gWaveFmt.wBitrate = 128;//320;
 
 		MP3Init(gWaveFmt.nChannels, gdwInBufSize, gdwOutBufSize, gMp3Buffer, gWaveFmt);
 

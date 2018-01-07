@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
 EndProject
@@ -2596,6 +2596,7 @@ Global
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Debug|Win32.ActiveCfg = Debug|Win32
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Debug|Win32.Build.0 = Debug|Win32
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Debug|x64.ActiveCfg = Debug|Win32
+		{20536101-3B0E-43EF-94F9-080D595DAC57}.Debug|x64.Build.0 = Debug|Win32
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Release Filter|Win32.ActiveCfg = Release|Win32
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Release Filter|Win32.Build.0 = Release|Win32
 		{20536101-3B0E-43EF-94F9-080D595DAC57}.Release Filter|x64.ActiveCfg = Release|Win32
@@ -2641,6 +2642,7 @@ Global
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Debug|Win32.Build.0 = Debug|Win32
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Debug|x64.ActiveCfg = Debug|Win32
+		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Debug|x64.Build.0 = Debug|Win32
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Release Filter|Win32.ActiveCfg = Release|Win32
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Release Filter|Win32.Build.0 = Release|Win32
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8}.Release Filter|x64.ActiveCfg = Release|Win32
@@ -2736,5 +2738,8 @@ Global
 		{E7BAB2ED-83DB-3FF7-19C0-21CEF6CC77C8} = {49B5BAE3-749C-414C-80CC-A756DD548CE3}
 		{20536101-3B0E-43EF-94F9-080D595DAC57} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
 		{E2DAB91A-8248-4625-8A85-2C2C2A390DD8} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D286CB2E-4E7C-44DC-A048-CA7E027E946B}
 	EndGlobalSection
 EndGlobal

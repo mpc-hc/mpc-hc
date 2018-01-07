@@ -480,6 +480,9 @@
     <ClCompile Include="AudioExtract\Mp3Enc.cpp">
       <Filter>AudioExtract</Filter>
     </ClCompile>
+    <ClCompile Include="PPageAudioExtract.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -895,6 +898,9 @@
     </ClInclude>
     <ClInclude Include="AudioExtract\MP3Enc.h">
       <Filter>AudioExtract</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageAudioExtract.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

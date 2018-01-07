@@ -22,7 +22,7 @@
 #define _MP3_H_
 
 #include "AudioRecord.h"
-
+#include <string>
 typedef struct _tagMP3
 {
   char m_szArtist[31];
@@ -42,7 +42,7 @@ typedef struct _tagMP3
   BYTE m_trackNum;
 } MP3TAG;
 
-bool LoadMP3DLL();
+//bool LoadMP3DLL();
 
 int MP3EncodeClose(FILE *li,char *pMp3Buffer);
 DWORD MP3EncodeBuf(FILE *li,char *pInBuf,char *pOutBuf,DWORD pdwInBufSize,DWORD pdwOutBufSize);
