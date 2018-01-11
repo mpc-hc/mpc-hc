@@ -105,7 +105,7 @@ void CPPageAudioExtract::OnCbnSelchangeMp3StereoMode()
 
 BOOL CPPageAudioExtract::OnInitDialog()
 {
-    //int MP3_BitRates[] = { 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 256, 320 };
+    //int MP3_BitRates[] = { 128, 160, 192, 256, 320 };
     //std::string MP3_StereoModes[] = { "Mono","Stereo" };
 
     __super::OnInitDialog();

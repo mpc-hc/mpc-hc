@@ -665,7 +665,7 @@ public:
 
 	// audio Extract...
 	CString         strAudioRecordPath, strAudioRecordExt;
-    int             iMP3BitRateidx = 10;   // index of 128 bit
+    int             iMP3BitRateidx = 0;   // index of 128 bit
     int             iMP3SteroeModeidx=1; // Stereo
 	bool			bGrabAudio=false;
     // Add Favorite

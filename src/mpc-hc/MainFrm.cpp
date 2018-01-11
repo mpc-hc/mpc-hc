@@ -17172,7 +17172,7 @@ LRESULT CMainFrame::Process_WIM_DATA(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::StartGrabAudio() 
 {
-    int MP3_BitRates[] = { 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 256, 320 };
+    int MP3_BitRates[] = {128, 160, 192, 256, 320 };
 
 	if (GetLoadState() != MLS::LOADED)
 		return;
