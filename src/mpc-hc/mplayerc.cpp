@@ -1459,10 +1459,14 @@ BOOL CMPlayerCApp::InitInstance()
 
     // At this point we have not hooked this function yet so we get the real result
     if (!IsDebuggerPresent()) {
+        #if USE_DRDUMP_CRASH_REPORTER
         CrashReporter::Enable();
         if (!CrashReporter::IsEnabled()) {
             MPCExceptionHandler::Enable();
         }
+        #else
+        MPCExceptionHandler::Enable();
+        #endif
     }
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {

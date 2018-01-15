@@ -674,9 +674,11 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
+            #if USE_DRDUMP_CRASH_REPORTER
             if (CrashReporter::IsEnabled()) {
                 CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
             }
+            #endif
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);

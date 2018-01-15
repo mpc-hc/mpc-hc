@@ -1323,9 +1323,11 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
+    #if USE_DRDUMP_CRASH_REPORTER
     if (language && CrashReporter::IsEnabled()) {
         CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
     }
+    #endif
 
     CreateCommands();
 
@@ -2196,7 +2198,9 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == _T("debug")) {
                 fShowDebugInfo = true;
             } else if (sw == _T("nocrashreporter")) {
+                #if USE_DRDUMP_CRASH_REPORTER
                 CrashReporter::Disable();
+                #endif
                 MPCExceptionHandler::Enable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));

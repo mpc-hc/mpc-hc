@@ -1,4 +1,4 @@
-; (C) 2009-2017 see Authors.txt
+; (C) 2009-2018 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -260,11 +260,13 @@ Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
+#if USE_DRDUMP_CRASH_REPORTER
 #ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
 Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\crashrpt.dll;            DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\dbghelp.dll;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\sendrpt.exe;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+#endif
 #endif
 
 
