@@ -4,6 +4,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\BaseClasses;$(SolutionDir)src\thirdparty\soxr\libsoxr\src;$(SolutionDir)src\thirdparty\bs2b\libbs2b\src;$(SolutionDir)src\thirdparty\SoundTouch\soundtouch\include;$(SolutionDir)src\thirdparty\zita-resampler\zita-resampler\libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_CXX17_SHARED_PTR_UNIQUE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>
