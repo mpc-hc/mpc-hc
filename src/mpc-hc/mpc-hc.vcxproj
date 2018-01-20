@@ -618,9 +618,6 @@
     <ProjectReference Include="..\thirdparty\lcms2\lcms2.vcxproj">
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
-      <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
@@ -659,9 +656,6 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\VirtualDub\system\system.vcxproj">
       <Project>{c2082189-3ecb-4079-91fa-89d3c8a305c0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\ZenLib\ZenLib.vcxproj">
-      <Project>{0da1da7d-f393-4e7c-a7ce-cb5c6a67bc94}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\zita-resampler\zita-resampler.vcxproj">
       <Project>{f3d02050-f39a-4103-8343-09285359a495}</Project>

@@ -257,6 +257,9 @@ Source: {#platform}\d3dcompiler_{#MPC_D3D_COMPILER_VERSION}.dll; DestDir: {app};
 Source: {#platform}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;              DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;               DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 Source: {#bindir}\{#mpchc_exe};                 DestDir: {app}; Components: main;         Flags: ignoreversion
+#if !defined(MPCHC_LITE) & !USE_STATIC_MEDIAINFO
+Source: {#platform}\mediainfo.dll;              DestDir: {app}; Components: main;         Flags: ignoreversion
+#endif
 Source: ..\COPYING.txt;                         DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
