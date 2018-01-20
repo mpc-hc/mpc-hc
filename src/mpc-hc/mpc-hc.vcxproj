@@ -601,9 +601,6 @@
     <ProjectReference Include="..\Subtitles\Subtitles.vcxproj">
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\DoctorDump\DoctorDump.vcxproj">
-      <Project>{beceaff9-cdca-45ec-a1cf-658fa51818e6}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\bs2b\bs2b.vcxproj">
       <Project>{0fd9bf8f-2397-4e23-b41e-e4624f35d646}</Project>
       <Private>false</Private>
@@ -682,14 +679,6 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\TreePropSheet\TreePropSheet.vcxproj">
       <Project>{ab494732-ef6d-44d0-bcf8-80ff04858d10}</Project>
-    </ProjectReference>
-    <ProjectReference Include="CrashReporterDialog\CrashReporterDialog.vcxproj">
-      <Project>{5db958dd-8b25-45ef-8072-3356caf8ccd7}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\minhook\minhook.vcxproj">
       <Project>{303B855A-137D-45E9-AF6D-B7241C6E66D6}</Project>
