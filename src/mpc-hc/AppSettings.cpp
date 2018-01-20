@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2216,6 +2216,12 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_PLAYNEXT;
             } else if (sw == _T("hwgpu") && pos) {
                 iLAVGPUDevice = _tcstol(cmdln.GetNext(pos), nullptr, 10);
+            } else if (sw == _T("configlavsplitter")) {
+                nCLSwitches |= CLSW_CONFIGLAVSPLITTER;
+            } else if (sw == _T("configlavaudio")) {
+                nCLSwitches |= CLSW_CONFIGLAVAUDIO;
+            } else if (sw == _T("configlavvideo")) {
+                nCLSwitches |= CLSW_CONFIGLAVVIDEO;
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
