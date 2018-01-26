@@ -4028,7 +4028,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             m_dwLastRun = GetTickCount64();
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
-                float r = false;
+                bool r = false;
                 if (fYoutubeDL) {
                     r = ProcessYoutubeDLURL(sl.GetHead(), true);
                 }
@@ -4045,11 +4045,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 //SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
-                float r = false;
-                if (fYoutubeDL) { //not an http link or youtube-dl unavailable
+                bool r = false;
+                if (fYoutubeDL) {
                     r = ProcessYoutubeDLURL(sl.GetHead(), false);
                 }
-                if (!r) {
+                if (!r) { //not an http link or youtube-dl unavailable
                     m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
                 }
                 applyRandomizeSwitch();
