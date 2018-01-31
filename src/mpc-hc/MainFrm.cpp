@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -5948,6 +5948,9 @@ void CMainFrame::OnViewForceInputHighColorResolution()
 void CMainFrame::OnViewFullFloatingPointProcessing()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    if (!r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
+        if (AfxMessageBox(_T("WARNING: Full Floating Point processing can sometimes cause problems. With some videos it can cause the player to freeze, crash, or display corrupted video. This happens mostly with Intel GPUs.\n\nAre you really sure that you want to enable this setting?"), MB_YESNO) == IDNO) return;
+    }
     r.m_AdvRendSets.bVMR9FullFloatingPointProcessing = !r.m_AdvRendSets.bVMR9FullFloatingPointProcessing;
     if (r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
         r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing = false;
