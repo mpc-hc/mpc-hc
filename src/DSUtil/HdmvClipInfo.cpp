@@ -104,7 +104,8 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                 case VIDEO_STREAM_MPEG1:
                 case VIDEO_STREAM_MPEG2:
                 case VIDEO_STREAM_H264:
-                case VIDEO_STREAM_VC1: {
+                case VIDEO_STREAM_VC1:
+                case VIDEO_STREAM_HEVC: {
                     UINT8 Temp = ReadByte();
                     BDVM_VideoFormat VideoFormat = (BDVM_VideoFormat)(Temp >> 4);
                     BDVM_FrameRate FrameRate = (BDVM_FrameRate)(Temp & 0xf);
@@ -177,7 +178,7 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
         }
 
         ReadBuffer(Buff, 4);
-        if ((memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
+        if ((memcmp(Buff, "0300", 4) != 0) && (memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
@@ -217,6 +218,8 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
             return _T("H264");
         case VIDEO_STREAM_VC1:
             return _T("VC1");
+        case VIDEO_STREAM_HEVC:
+            return _T("HEVC");
         case AUDIO_STREAM_MPEG1:
             return _T("MPEG1");
         case AUDIO_STREAM_MPEG2:
@@ -271,7 +274,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
         }
 
         ReadBuffer(Buff, 4);
-        if ((memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
+        if ((memcmp(Buff, "0300", 4) != 0) && (memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
@@ -359,7 +362,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         }
 
         ReadBuffer(Buff, 4);
-        if ((memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
+        if ((memcmp(Buff, "0300", 4) != 0) && (memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
             SAFE_DELETE_ARRAY(rtOffset);
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
