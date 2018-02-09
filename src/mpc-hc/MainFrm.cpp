@@ -14019,6 +14019,11 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     }
     m_nStepForwardCount = 0;
 
+    // skip seeks to invalid position when duration is unknown
+    if (!m_wndSeekBar.HasDuration() && rtPos > 0) {
+        return;
+    }
+
     if (!IsPlaybackCaptureMode()) {
         __int64 start, stop;
         m_wndSeekBar.GetRange(start, stop);
