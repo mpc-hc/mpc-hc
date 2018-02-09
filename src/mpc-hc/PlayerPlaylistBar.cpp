@@ -792,7 +792,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
     }
 
     if (pli->m_type == CPlaylistItem::device) {
-        if (OpenDeviceData* p = DEBUG_NEW OpenDeviceData()) {
+        if (OpenDeviceAnalogData* p = DEBUG_NEW OpenDeviceAnalogData()) {
             POSITION pos = pli->m_fns.GetHeadPosition();
             for (int i = 0; i < _countof(p->DisplayName) && pos; i++) {
                 p->DisplayName[i] = pli->m_fns.GetNext(pos);

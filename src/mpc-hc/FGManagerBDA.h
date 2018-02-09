@@ -20,11 +20,13 @@
 
 #pragma once
 
+#include <atomic>
 #include "FGManager.h"
 #include "DVBChannel.h"
 #include <bdaiface.h>
 
 enum DVB_RebuildFilterGraph;
+#define P_SCAN L"/SCAN"
 typedef struct tagVIDEOINFOHEADER2 VIDEOINFOHEADER2;
 
 class CDVBStream
@@ -133,6 +135,8 @@ public:
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
     STDMETHODIMP UpdatePSI(const CDVBChannel* pChannel, EventDescriptor& NowNext);
+    std::atomic<bool*> m_pbStopRequested{ false };
+
 
 private:
 
@@ -157,6 +161,7 @@ private:
     HRESULT         SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nNewType);
     HRESULT         ChangeState(FILTER_STATE nRequested);
     HRESULT         ClearMaps();
+    void CheckScanStopRequested(HRESULT& hr);
     FILTER_STATE    GetState();
     void UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChannel* pChannel);
     HRESULT Flush(DVB_STREAM_TYPE nVideoType, DVB_STREAM_TYPE nAudioType);
@@ -173,4 +178,6 @@ private:
     }
 
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+    HRESULT CreateTunerScanGraph(CComPtr<IBaseFilter>& pMpeg2Demux);
+
 };

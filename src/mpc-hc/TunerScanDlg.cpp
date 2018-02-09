@@ -23,9 +23,9 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include "MainFrm.h"
 #include "TunerScanDlg.h"
-#include "DVBChannel.h"
+#include "TVToolsDlg.h"
+#include "MainFrm.h"
 
 
 enum TSC_COLUMN {
@@ -44,12 +44,16 @@ enum TSC_COLUMN {
 
 IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
-CTunerScanDlg::CTunerScanDlg(CMainFrame* pMainFrame)
-    : CDialog(CTunerScanDlg::IDD, pMainFrame)
-    , m_pMainFrame(pMainFrame)
+CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
+    : CDialog(CTunerScanDlg::IDD, pParent)
     , m_bInProgress(false)
+    , m_bStopRequested(false)
+    , m_bRemoveChannels(false)
+    , pTSD(DEBUG_NEW TunerScanData)
+    , m_pTVToolsThread(nullptr)
 {
     const CAppSettings& s = AfxGetAppSettings();
+    m_pParent = pParent;
 
     m_ulFrequencyStart = s.iBDAScanFreqStart;
     m_ulFrequencyEnd = s.iBDAScanFreqEnd;
@@ -57,6 +61,7 @@ CTunerScanDlg::CTunerScanDlg(CMainFrame* pMainFrame)
     m_bUseOffset = s.fBDAUseOffset;
     m_lOffset = s.iBDAOffset;
     m_bIgnoreEncryptedChannels = s.fBDAIgnoreEncryptedChannels;
+
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -66,6 +71,10 @@ CTunerScanDlg::~CTunerScanDlg()
 BOOL CTunerScanDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
+    m_pTVToolsThread = dynamic_cast<CTVToolsDlg*> (m_pParent)->m_pTVToolsThread;
+    if (!m_pTVToolsThread) {
+        ASSERT(FALSE);
+    }
 
     m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
@@ -83,6 +92,7 @@ BOOL CTunerScanDlg::OnInitDialog()
     m_Strength.SetRange(0, 100);
     m_Quality.SetRange(0, 100);
     m_btnSave.EnableWindow(FALSE);
+    GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(FALSE);
 
     return TRUE;
 }
@@ -102,6 +112,7 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHANNEL_LIST, m_ChannelList);
     DDX_Control(pDX, ID_START, m_btnStart);
     DDX_Control(pDX, ID_SAVE, m_btnSave);
+    DDX_Check(pDX, IDC_CHECK_REMOVE_CHANNELS, m_bRemoveChannels);
     DDX_Control(pDX, IDCANCEL, m_btnCancel);
     DDX_Control(pDX, IDC_OFFSET, m_OffsetEditBox);
 }
@@ -114,30 +125,63 @@ BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
     ON_BN_CLICKED(ID_SAVE, &CTunerScanDlg::OnBnClickedSave)
     ON_BN_CLICKED(ID_START, &CTunerScanDlg::OnBnClickedStart)
     ON_BN_CLICKED(IDCANCEL, &CTunerScanDlg::OnBnClickedCancel)
+    ON_BN_CLICKED(IDC_CHECK_REMOVE_CHANNELS, OnUpdateData)
     ON_BN_CLICKED(IDC_CHECK_OFFSET, &CTunerScanDlg::OnBnClickedCheckOffset)
 END_MESSAGE_MAP()
 
 // CTunerScanDlg message handlers
 
+void CTunerScanDlg::OnUpdateData()
+{
+    UpdateData(true);
+}
+
 void CTunerScanDlg::OnBnClickedSave()
 {
     auto& DVBChannels = AfxGetAppSettings().m_DVBChannels;
     const size_t maxChannelsNum = ID_NAVIGATE_JUMPTO_SUBITEM_END - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1;
+    CAppSettings& s = AfxGetAppSettings();
+    int iChannel = 0;
+
+    if (m_bRemoveChannels) {
+        // Remove only DVB Channels
+        auto new_end = std::remove_if(std::begin(DVBChannels), std::end(DVBChannels), [](const CDVBChannel & c) { return c.IsDVB(); });
+        DVBChannels.erase(new_end, DVBChannels.end());
+        s.uNextChannelCount = 0;
+    }
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
         try {
             CDVBChannel channel(m_ChannelList.GetItemText(i, TSCC_CHANNEL));
-            auto it = std::find(std::begin(DVBChannels), std::end(DVBChannels), channel);
-            if (it != DVBChannels.end()) {
-                // replace existing channel
-                channel.SetPrefNumber(it->GetPrefNumber());
-                *it = channel;
-            } else {
-                // add new channel to the end
+            bool bItemUpdated = false;
+            auto it = DVBChannels.begin();
+            while (it != DVBChannels.end() && !bItemUpdated) {
+                if (channel.IsDVB()) {
+                    if (it->GetONID() == channel.GetONID() && it->GetTSID() == channel.GetTSID()
+                            && it->GetSID() == channel.GetSID()) {
+                        // Update existing channel
+                        channel.SetPrefNumber(it->GetPrefNumber());
+                        *it = channel;
+                        iChannel = channel.GetPrefNumber();
+                        bItemUpdated = true;
+                    }
+                }
+                if (!bItemUpdated) {
+                    *it++;
+                }
+            }
+            if (!bItemUpdated) {
+                // Add new channel to the end
                 const size_t size = DVBChannels.size();
                 if (size < maxChannelsNum) {
-                    channel.SetPrefNumber((int)size);
+                    UINT nNextChannelID = s.uNextChannelCount;
+                    while (s.FindChannelByPref(nNextChannelID)) {
+                        nNextChannelID++;
+                    }
+                    channel.SetPrefNumber(nNextChannelID);
+                    s.uNextChannelCount = nNextChannelID + 1;
                     DVBChannels.push_back(channel);
+                    iChannel = channel.GetPrefNumber();
                 } else {
                     // Just to be safe. We have 600 channels limit, but we never know what user might load there.
                     CString msg;
@@ -152,16 +196,30 @@ void CTunerScanDlg::OnBnClickedSave()
             e->Delete();
         }
     }
-    m_pMainFrame->SetChannel(0);
 
-    OnOK();
+    // Update the preferred numbers
+    int nPrefNumber = 0;
+    int nDVBLastChannel = s.nDVBLastChannel;
+    for (auto& channel : s.m_DVBChannels) {
+        // Make sure the current channel number will be updated
+        if (channel.GetPrefNumber() == s.nDVBLastChannel) {
+            nDVBLastChannel = nPrefNumber;
+        }
+        channel.SetPrefNumber(nPrefNumber++);
+    }
+    s.nDVBLastChannel = nDVBLastChannel;
+
+    GetParent()->SendMessage(WM_CLOSE);
+    GetParent()->SendMessage(WM_DESTROY);
 }
 
 void CTunerScanDlg::OnBnClickedStart()
 {
     if (!m_bInProgress) {
         UpdateData(true);
-        CAutoPtr<TunerScanData> pTSD(DEBUG_NEW TunerScanData);
+        if (!pTSD) {
+            pTSD.m_p = DEBUG_NEW TunerScanData;
+        }
         pTSD->Hwnd           = m_hWnd;
         pTSD->FrequencyStart = m_ulFrequencyStart;
         pTSD->FrequencyStop  = m_ulFrequencyEnd;
@@ -170,22 +228,28 @@ void CTunerScanDlg::OnBnClickedStart()
         SaveScanSettings();
 
         m_ChannelList.DeleteAllItems();
-        m_pMainFrame->StartTunerScan(pTSD);
+        if (m_pTVToolsThread) {
+            m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
+        } else {
+            TRACE(_T("m_pTVToolsThread thread not found."));
+            ASSERT(FALSE);
+        }
 
         SetProgress(true);
     } else {
-        m_pMainFrame->StopTunerScan();
+        m_bStopRequested = true;
+        m_btnStart.EnableWindow(false);
     }
 }
 
 void CTunerScanDlg::OnBnClickedCancel()
 {
-    if (m_bInProgress) {
-        m_pMainFrame->StopTunerScan();
-    }
-    m_pMainFrame->SetChannel(AfxGetAppSettings().nDVBLastChannel);
+    m_btnCancel.EnableWindow(false);
+    m_btnStart.EnableWindow(false);
+    m_bStopRequested = true;
 
-    OnCancel();
+    GetParent()->SendMessage(WM_CLOSE);
+    GetParent()->SendMessage(WM_DESTROY);
 }
 
 void CTunerScanDlg::OnBnClickedCheckOffset()
@@ -203,6 +267,8 @@ LRESULT CTunerScanDlg::OnScanProgress(WPARAM wParam, LPARAM lParam)
 LRESULT CTunerScanDlg::OnScanEnd(WPARAM wParam, LPARAM lParam)
 {
     SetProgress(false);
+    m_bStopRequested = false;
+    m_btnStart.EnableWindow(true);
     return TRUE;
 }
 
@@ -236,6 +302,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
             strTemp.Format(_T("%d"), nChannelNumber);
             nItem = m_ChannelList.InsertItem(nItem, strTemp);
+            m_ChannelList.EnsureVisible(m_ChannelList.GetItemCount() - 1, false); // Scroll down to the bottom
 
             m_ChannelList.SetItemData(nItem, channel.GetOriginNumber());
 
@@ -282,11 +349,16 @@ void CTunerScanDlg::SetProgress(bool bState)
 {
     if (bState) {
         m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_STOP_SCAN));
-        m_btnSave.EnableWindow(FALSE);
     } else {
         m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_START_SCAN));
         m_Progress.SetPos(0);
-        m_btnSave.EnableWindow(TRUE);
+    }
+
+    m_btnSave.EnableWindow(!bState);
+    GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(!bState);
+    auto pParentWnd = dynamic_cast<CTVToolsDlg*>(GetParent());
+    if (pParentWnd->m_TabCtrl) {
+        pParentWnd->m_TabCtrl.EnableWindow(!bState);
     }
 
     m_bInProgress = bState;

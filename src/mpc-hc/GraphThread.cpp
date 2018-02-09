@@ -45,7 +45,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
     ON_THREAD_MESSAGE(TM_EXIT, OnExit)
     ON_THREAD_MESSAGE(TM_OPEN, OnOpen)
     ON_THREAD_MESSAGE(TM_RESET, OnReset)
-    ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
+    ON_THREAD_MESSAGE(TM_RECREATE, OnRecreate)
 END_MESSAGE_MAP()
 
 void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
@@ -102,10 +102,20 @@ void CGraphThread::OnReset(WPARAM wParam, LPARAM lParam)
     }
 }
 
-void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
+void CGraphThread::OnRecreate(WPARAM wParam, LPARAM lParam)
 {
-    if (m_pMainFrame) {
-        CAutoPtr<TunerScanData> pTSD((TunerScanData*)lParam);
-        m_pMainFrame->DoTunerScan(pTSD);
+    TRACE(_T("--> CGraphThread::OnRecreate on thread: %lu\n"), GetCurrentThreadId());
+    ASSERT(m_pMainFrame);
+    ASSERT(WaitForSingleObject(m_pMainFrame->m_evClosePrivateFinished, 0) == WAIT_TIMEOUT);
+    if (m_pMainFrame->GetLoadState() == MLS::CLOSING) {
+        m_pMainFrame->CloseMediaPrivate();
+    } else {
+        ASSERT(false);
     }
+    VERIFY(m_pMainFrame->m_evClosePrivateFinished.Set());
+    
+    CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
+    ASSERT(WaitForSingleObject(m_pMainFrame->m_evOpenPrivateFinished, 0) == WAIT_TIMEOUT);
+    m_pMainFrame->OpenMediaPrivate(pOMD);
+    VERIFY(m_pMainFrame->m_evOpenPrivateFinished.Set());
 }

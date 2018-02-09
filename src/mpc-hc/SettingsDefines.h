@@ -242,11 +242,13 @@
 
 #define IDS_RS_DEFAULT_CAPTURE              _T("DefaultCapture")
 #define IDS_R_CAPTURE                       _T("Capture")
+#define IDS_RS_ENABLE_ANALOGCAPTURE         _T("EnableAnalogCapture")
 #define IDS_RS_VIDEO_DISP_NAME              _T("VidDispName")
 #define IDS_RS_AUDIO_DISP_NAME              _T("AudDispName")
 #define IDS_RS_COUNTRY                      _T("Country")
 
 #define IDS_R_DVB                           _T("DVBConfiguration")
+#define IDS_RS_ENABLE_DVB                   _T("EnableDVB")
 #define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER                    _T("BDATuner")
 #define IDS_RS_BDA_RECEIVER                 _T("BDAReceiver")
@@ -258,8 +260,15 @@
 #define IDS_RS_BDA_OFFSET                   _T("BDAOffset")
 #define IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS _T("BDAIgnoreEncryptedChannels")
 #define IDS_RS_DVB_LAST_CHANNEL             _T("LastChannel")
+#define IDS_RS_DVB_NEXTCHANNELCOUNT         _T("NextChannelCount")
 #define IDS_RS_DVB_REBUILD_FG               _T("RebuildFilterGraph")
 #define IDS_RS_DVB_STOP_FG                  _T("StopFilterGraph")
+#define IDS_RS_ENABLE_IPTV                  _T("EnableIPTV")
+#define IDS_RS_USE_IGMPMEMBERSHIP           _T("UseIGMP_Membership")
+#define IDS_RS_IPTV_SD_ENTRY                _T("IPTV Services Discovery entry point")
+#define IDS_RS_IPTV_SD_PORT                 _T("IPTV Services Discovery port")
+#define IDS_RS_IPTV_SERV_PROVIDER_IP        _T("IPTV Service Provider")
+#define IDS_RS_IPTV_SERV_PROVIDER_PORT      _T("IPTV Service Provider port")
 
 #define IDS_RS_D3D9RENDERDEVICE             _T("D3D9RenderDevice")
 

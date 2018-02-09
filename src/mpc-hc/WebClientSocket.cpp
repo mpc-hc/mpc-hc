@@ -929,7 +929,7 @@ static CStringA GetChannelsJSON(const std::vector<CDVBChannel>& channels)
 
 bool CWebClientSocket::OnDVBChannels(CStringA& hdr, CStringA& body, CStringA& mime)
 {
-    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_TV) {
         mime = "application/json";
         body = GetChannelsJSON(AfxGetAppSettings().m_DVBChannels);
     } else {
@@ -946,7 +946,7 @@ bool CWebClientSocket::OnDVBSetChannel(CStringA& hdr, CStringA& body, CStringA& 
 {
     CString requestParam;
     int channelIdx;
-    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_TV) {
         // the 'idx' GET parameter should contain a valid integer of the
         // channel to switch to.
         if (m_get.Lookup("idx", requestParam)

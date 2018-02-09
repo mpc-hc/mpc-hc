@@ -46,9 +46,13 @@ void CDVBChannel::FromString(CString strValue)
     }
 
     m_strName       = strValue.Tokenize(_T("|"), i);
-    m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulBandwidth   = (nVersion > FORMAT_VERSION_4) ? _tstol(strValue.Tokenize(_T("|"), i))
+    m_strUrl = strValue.Tokenize(_T("|"), i);
+    if (!IsValidUrl(m_strUrl)) {
+        m_ulFrequency = _tstol(m_strUrl);
+        m_ulBandwidth   = (nVersion > FORMAT_VERSION_4) ? _tstol(strValue.Tokenize(_T("|"), i))
                       : AfxGetAppSettings().iBDABandwidth * 1000;
+        m_strUrl = _T("");
+    }
     m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
     m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_0) {
@@ -107,26 +111,48 @@ CString CDVBChannel::ToString() const
     };
 
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%lu|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
-                          FORMAT_VERSION_CURRENT,
-                          m_strName.GetString(),
-                          m_ulFrequency,
-                          m_ulBandwidth,
-                          m_nPrefNumber,
-                          m_nOriginNumber,
-                          m_bEncrypted,
-                          m_bNowNextFlag,
-                          m_ulONID,
-                          m_ulTSID,
-                          m_ulSID,
-                          m_ulPMT,
-                          m_ulPCR,
-                          m_ulVideoPID,
-                          m_nVideoType,
-                          m_nAudioCount,
-                          m_nDefaultAudio,
-                          m_nSubtitleCount,
-                          m_nDefaultSubtitle);
+    if (!IsIPTV()) {
+        strValue.AppendFormat(_T("%d|%s|%lu|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
+                              FORMAT_VERSION_CURRENT,
+                              m_strName.GetString(),
+                              m_ulFrequency,
+                              m_ulBandwidth,
+                              m_nPrefNumber,
+                              m_nOriginNumber,
+                              m_bEncrypted,
+                              m_bNowNextFlag,
+                              m_ulONID,
+                              m_ulTSID,
+                              m_ulSID,
+                              m_ulPMT,
+                              m_ulPCR,
+                              m_ulVideoPID,
+                              m_nVideoType,
+                              m_nAudioCount,
+                              m_nDefaultAudio,
+                              m_nSubtitleCount,
+                              m_nDefaultSubtitle);
+    } else {
+        strValue.AppendFormat(_T("%d|%s|%s|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
+                              FORMAT_VERSION_CURRENT,
+                              m_strName.GetString(),
+                              m_strUrl,
+                              m_nPrefNumber,
+                              m_nOriginNumber,
+                              m_bEncrypted,
+                              m_bNowNextFlag,
+                              m_ulONID,
+                              m_ulTSID,
+                              m_ulSID,
+                              m_ulPMT,
+                              m_ulPCR,
+                              m_ulVideoPID,
+                              m_nVideoType,
+                              m_nAudioCount,
+                              m_nDefaultAudio,
+                              m_nSubtitleCount,
+                              m_nDefaultSubtitle);
+    }
 
     for (int i = 0; i < m_nAudioCount; i++) {
         strValue.AppendFormat(_T("|%lu|%d|%d|%s"), m_Audios[i].ulPID, m_Audios[i].nType, m_Audios[i].nPesType, substituteEmpty(m_Audios[i].sLanguage).GetString());

@@ -41,10 +41,10 @@ BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
         return FALSE;
     }
 
+    AddAnchor(IDC_TAB1, TOP_LEFT, TOP_RIGHT);
     AddAnchor(IDC_LISTCHANNELS, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_NAVIGATION_INFO, BOTTOM_LEFT);
     AddAnchor(IDC_NAVIGATION_SCAN, BOTTOM_RIGHT);
-    AddAnchor(IDC_NAVIGATION_FILTERSTATIONS, BOTTOM_LEFT, BOTTOM_RIGHT);
 
     return TRUE;
 }
@@ -54,7 +54,8 @@ void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LISTCHANNELS, m_channelList);
     DDX_Control(pDX, IDC_NAVIGATION_INFO, m_buttonInfo);
-    DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_buttonFilterStations);
+    DDX_Control(pDX, IDC_NAVIGATION_SCAN, m_buttonTools);
+    DDX_Control(pDX, IDC_TAB1, m_tabSelChannelList);
 }
 
 BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
@@ -77,7 +78,7 @@ BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
     ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnShowChannelInfo)
     ON_UPDATE_COMMAND_UI(IDC_NAVIGATION_INFO, OnUpdateShowChannelInfoButton)
     ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
-    ON_BN_CLICKED(IDC_NAVIGATION_FILTERSTATIONS, OnTvRadioStations)
+    ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
 END_MESSAGE_MAP()
 
 
@@ -87,16 +88,10 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (m_bTVStations) {
-        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
-    } else {
-        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
-    }
 
     ATOM atom = ::GlobalAddAtom(MICROSOFT_TABLETPENSERVICE_PROPERTY);
     ::SetProp(m_channelList.GetSafeHwnd(), MICROSOFT_TABLETPENSERVICE_PROPERTY, nullptr);
     ::GlobalDeleteAtom(atom);
-
     return FALSE;  // return FALSE so that the dialog does not steal focus
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -105,6 +100,53 @@ void CPlayerNavigationDialog::OnDestroy()
 {
     m_channelList.ResetContent();
     __super::OnDestroy();
+}
+
+void CPlayerNavigationDialog::ResetTabs()
+{
+    CAppSettings& s = AfxGetAppSettings();
+    int i = 0;
+
+    // relative position of each tab. -1 means not present
+    m_tabDVB = -1;
+    m_tabIPTV = -1;
+    m_tabRadio = -1;
+    m_tabSelChannelList.DeleteAllItems();
+
+    if (s.bEnabledDVB && (!s.strBDATuner.IsEmpty())) {
+        m_tabDVB = i;
+        m_tabSelChannelList.InsertItem(i, ResStr(IDS_DTV_TAB_DVBT));
+        i++;
+    }
+
+    if (s.bEnabledIPTV) {
+        m_tabIPTV = i;
+        m_tabSelChannelList.InsertItem(i, ResStr(IDS_DTV_TAB_IPTV));
+        i++;
+    }
+
+    if (s.bEnabledDVB && (!s.strBDATuner.IsEmpty())) {
+        m_tabRadio = i;
+        m_tabSelChannelList.InsertItem(i, ResStr(IDS_DTV_TAB_RADIO));
+        i++;
+    }
+
+    if (s.strBDATuner.IsEmpty()) {
+        m_tabSelChannelList.SetCurSel(0);
+    } else {
+        // Select the tab where the current channel belongs by default
+        // Otherwise do nothing
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+        if (pChannel) {
+            if (pChannel->IsDVB() && pChannel->GetVideoPID() && m_tabDVB >= 0) {
+                m_tabSelChannelList.SetCurSel(m_tabDVB);
+            } else if (pChannel->IsDVB() && m_tabRadio >= 0) {
+                m_tabSelChannelList.SetCurSel(m_tabRadio);
+            } else if (pChannel->IsIPTV() && m_tabIPTV >= 0) {
+                m_tabSelChannelList.SetCurSel(m_tabIPTV);
+            }
+        }
+    }
 }
 
 void CPlayerNavigationDialog::OnChangeChannel()
@@ -118,17 +160,43 @@ void CPlayerNavigationDialog::OnChangeChannel()
 
 void CPlayerNavigationDialog::UpdateElementList()
 {
-    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_TV) {
         const auto& s = AfxGetAppSettings();
         m_channelList.ResetContent();
 
         for (const auto& channel : s.m_DVBChannels) {
-            if (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID()) {
-                int nItem = m_channelList.AddString(channel.GetName());
-                if (nItem != LB_ERR) {
-                    m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
-                    if (s.nDVBLastChannel == channel.GetPrefNumber()) {
-                        m_channelList.SetCurSel(nItem);
+            // Update only the active tab
+            if (m_tabSelChannelList.GetCurSel() == m_tabDVB) {
+                // DVB-T
+                if (channel.IsDVB() && (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID())) {
+                    int nItem = m_channelList.AddString(channel.GetName());
+                    if (nItem != LB_ERR) {
+                        m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
+                        if (s.nDVBLastChannel == channel.GetPrefNumber()) {
+                            m_channelList.SetCurSel(nItem);
+                        }
+                    }
+                }
+            } else if (m_tabSelChannelList.GetCurSel() == m_tabIPTV) {
+                // IPTV
+                if (channel.IsIPTV() && channel.GetVideoPID()) {
+                    int nItem = m_channelList.AddString(channel.GetName());
+                    if (nItem != LB_ERR) {
+                        m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
+                        if (s.nDVBLastChannel == channel.GetPrefNumber()) {
+                            m_channelList.SetCurSel(nItem);
+                        }
+                    }
+                }
+            } else if (m_tabSelChannelList.GetCurSel() == m_tabRadio) {
+                // Radio
+                if ((channel.GetVideoPID() == 0) && (channel.GetAudioCount() > 0)) {
+                    int nItem = m_channelList.AddString(channel.GetName());
+                    if (nItem != LB_ERR) {
+                        m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
+                        if (s.nDVBLastChannel == channel.GetPrefNumber()) {
+                            m_channelList.SetCurSel(nItem);
+                        }
                     }
                 }
             }
@@ -167,16 +235,10 @@ void CPlayerNavigationDialog::OnUpdateShowChannelInfoButton(CCmdUI* pCmdUI)
     pCmdUI->Enable(m_bChannelInfoAvailable);
 }
 
-void CPlayerNavigationDialog::OnTvRadioStations()
+void CPlayerNavigationDialog::OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    m_bTVStations = !m_bTVStations;
     UpdateElementList();
-
-    if (m_bTVStations) {
-        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
-    } else {
-        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
-    }
+    *pResult = 0;
 }
 
 void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -289,6 +351,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                 const auto it = findChannelByItemNumber(s.m_DVBChannels, nItem);
                 const int nRemovedPrefNumber = it->GetPrefNumber();
                 s.m_DVBChannels.erase(it);
+                s.uNextChannelCount = 0;
                 // Update channels pref number
                 for (CDVBChannel& channel : s.m_DVBChannels) {
                     const int nPrefNumber = channel.GetPrefNumber();

@@ -89,6 +89,9 @@
     <Filter Include="Subtitles">
       <UniqueIdentifier>{20afe682-61a3-4123-9012-4c918a03f482}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IPTV">
+      <UniqueIdentifier>{9897fa85-3159-410e-ad1b-af7c345d718c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -467,6 +470,21 @@
     </ClCompile>
     <ClCompile Include="ImageGrayer.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="TVToolsDlg.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="IPTVDiscoverySetupDlg.cpp">
+      <Filter>IPTV</Filter>
+    </ClCompile>
+    <ClCompile Include="IPTVScanDlg.cpp">
+      <Filter>IPTV</Filter>
+    </ClCompile>
+    <ClCompile Include="IPTVMcastTools.cpp">
+      <Filter>IPTV</Filter>
+    </ClCompile>
+    <ClCompile Include="PPageDigitalTV.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -854,6 +872,21 @@
     <ClInclude Include="DropTarget.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="TVToolsDlg.h">
+      <Filter>Modal Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="IPTVDiscoverySetupDlg.h">
+      <Filter>IPTV</Filter>
+    </ClInclude>
+    <ClInclude Include="IPTVScanDlg.h">
+      <Filter>IPTV</Filter>
+    </ClInclude>
+    <ClInclude Include="IPTVMcastTools.h">
+      <Filter>IPTV</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageDigitalTV.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>    
     <ClInclude Include="Logger.h">
       <Filter>Helpers</Filter>
     </ClInclude>

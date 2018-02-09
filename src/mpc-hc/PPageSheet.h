@@ -42,6 +42,7 @@
 #include "PPageTweaks.h"
 #include "PPageMisc.h"
 #include "PPageCapture.h"
+#include "PPageDigitalTV.h"
 #include "PPageShaders.h"
 #include "PPageAdvanced.h"
 #include "TreePropSheet/TreePropSheet.h"
@@ -91,6 +92,7 @@ private:
     CPPageFullscreen m_fullscreen;
     CPPageSync m_sync;
     CPPageCapture m_tuner;
+    CPPageDigitalTV m_digitalTV;
 #ifndef MPCHC_LITE
     CPPageInternalFilters m_internalfilters;
 #endif
