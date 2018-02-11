@@ -213,6 +213,8 @@ CAppSettings::CAppSettings()
     , iLAVGPUDevice(DWORD_MAX)
     , nCmdVolume(0)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
+    , iYDLMaxHeight(0)
+    , bYDLAudioOnly(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1089,6 +1091,9 @@ void CAppSettings::SaveSettings()
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL, uCrossfeedLevel);
     }
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
+
     pApp->FlushProfile();
 }
 
@@ -1825,6 +1830,9 @@ void CAppSettings::LoadSettings()
                                                      SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_CMOY),
                                  pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL,
                                                      SaneAudioRenderer::ISettings::CROSSFEED_LEVEL_CMOY));
+
+    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 0);
+    bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
 
     bInitialized = true;
 }

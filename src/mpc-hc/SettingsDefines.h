@@ -323,3 +323,6 @@
 #define IDS_RS_SANEAR_CROSSFEED_ENABLED     _T("CrossfeedEnabled")
 #define IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ _T("CrossfeedCutoffFrequency")
 #define IDS_RS_SANEAR_CROSSFEED_LEVEL       _T("CrossfeedLevel")
+
+#define IDS_RS_YDL_MAX_HEIGHT               _T("YDLMaxHeight")
+#define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")

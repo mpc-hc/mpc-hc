@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "YoutubeDL.h"
 #include "rapidjson/include/rapidjson/document.h"
+#include "mplayerc.h"
 
 typedef rapidjson::GenericValue<rapidjson::UTF16<>> Value;
 
@@ -178,7 +179,7 @@ DWORD WINAPI CYoutubeDLInstance::BuffErrThread(void* ydl_inst)
 
 
 //find highest resolution
-void filterVideo(const Value& formats, CString& url)
+void filterVideo(const Value& formats, CString& url, int reqheight = 0)
 {
     int maxheight = 0;
 
@@ -192,7 +193,7 @@ void filterVideo(const Value& formats, CString& url)
         if (formats[i].FindMember(_T("height")) != formats[i].MemberEnd() && !formats[i][_T("height")].IsNull()) {
             curheight = formats[i][_T("height")].GetInt();
         }
-        if (curheight >= maxheight) {
+        if (curheight >= maxheight && (!reqheight || reqheight >= curheight)) {
             maxheight = curheight;
             url = formats[i][_T("url")].GetString();
         }
@@ -228,6 +229,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
 {
     CString url;
     CString extractor = pJSON->d[_T("extractor")].GetString();
+    auto& s = AfxGetAppSettings();
 
     if (!bIsPlaylist) {
         names.AddTail(pJSON->d[_T("title")].GetString());
@@ -238,7 +240,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
             return true;
         }
 
-        filterVideo(pJSON->d[_T("formats")], url);
+        filterVideo(pJSON->d[_T("formats")], url, s.iYDLMaxHeight);
         videos.AddTail(url);
 
         //find separate audio stream, if applicable
@@ -249,7 +251,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
         const Value& entries = pJSON->d[_T("entries")];
 
         for (rapidjson::SizeType i = 0; i < entries.Size(); i++) {
-            filterVideo(entries[i][_T("formats")], url);
+            filterVideo(entries[i][_T("formats")], url, s.iYDLMaxHeight);
             videos.AddTail(url);
             names.AddTail(entries[i][_T("title")].GetString());
 
