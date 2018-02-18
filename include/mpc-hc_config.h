@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2013-2017 see Authors.txt
+ * (C) 2013-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,9 +40,13 @@
 
 #define USE_STATIC_UNRAR 1
 
-#ifndef MPCHC_LITE
-#define USE_STATIC_MEDIAINFO 1
+#ifdef MPCHC_LITE
+#define USE_STATIC_MEDIAINFO 0
+#else
+#define USE_STATIC_MEDIAINFO 0
 #endif
+
+#define USE_DRDUMP_CRASH_REPORTER 0
 
 #define SHADERS_DIR _T("Shaders")
 #define SHADERS_EXT _T(".hlsl")

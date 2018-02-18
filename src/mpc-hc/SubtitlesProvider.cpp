@@ -150,10 +150,12 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
                      (int)args[2]["limit"]).c_str());
 
     if (!xmlrpc->execute("SearchSubtitles", args, result)) {
+        LOG(_T("search failed"));
         return SR_FAILED;
     }
 
     if (result["data"].getType() != XmlRpcValue::Type::TypeArray) {
+        LOG(_T("search failed (invalid data)"));
         return SR_FAILED;
     }
 
@@ -189,6 +191,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
         pSubtitlesInfo.corrected = (int)data["SubBad"] ? -1 : 0;
         Set(pSubtitlesInfo);
     }
+    LOG(std::to_wstring(nCount).c_str());
     return SR_SUCCEEDED;
 }
 
@@ -204,6 +207,7 @@ SRESULT OpenSubtitles::Download(SubtitlesInfo& pSubtitlesInfo)
     LOG(LOG_INPUT, pSubtitlesInfo.id.c_str());
 
     if (result["data"].getType() != XmlRpcValue::Type::TypeArray) {
+        LOG(_T("download failed (invalid type)"));
         return SR_FAILED;
     }
 
@@ -228,13 +232,16 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
 
     CheckAbortAndReturn();
     if (!xmlrpc->execute("TryUploadSubtitles", args, result)) {
+        LOG(_T("TryUploadSubtitles failed"));
         return SR_FAILED;
     }
     CheckAbortAndReturn();
 
     if ((int)result["alreadyindb"] == 1) {
+        LOG(_T("File already in database"));
         return SR_EXISTS;
     } else if ((int)result["alreadyindb"] == 0) {
+        LOG(_T("Trying to determine IMDB ID"));
         // We need imdbid to proceed
         if (result["data"].getType() == XmlRpcValue::Type::TypeArray) {
             args[1]["baseinfo"]["idmovieimdb"] = result["data"][0]["IDMovieImdb"];
@@ -247,6 +254,7 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
                 _args[0] = token;
                 _args[1][0] = pSubtitlesInfo.fileHash;
                 if (!xmlrpc->execute("CheckMovieHash", _args, _result)) {
+                    LOG(_T("CheckMovieHash fail"));
                     return SR_FAILED;
                 }
 
@@ -326,6 +334,7 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
             //_args[1][0]["moviefps"];
             _args[1][0]["moviefilename"] = pSubtitlesInfo.fileName + "." + pSubtitlesInfo.fileExtension;
             if (!xmlrpc->execute("InsertMovieHash", _args, _result)) {
+                LOG(_T("InsertMovieHash fail"));
                 return SR_FAILED;
             }
             // REsult value is irrelevant
@@ -345,13 +354,16 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
             args[1]["cd1"]["subcontent"] = Base64::encode(StringGzipCompress(pSubtitlesInfo.fileContents));
 
             if (!xmlrpc->execute("UploadSubtitles", args, result)) {
+                LOG(_T("Upload failed"));
                 return SR_FAILED;
             }
             LOG(LOG_OUTPUT, (LPCSTR)result["data"]);
+            LOG(_T("Upload succeeded"));
 
             return SR_SUCCEEDED;
         }
     }
+    LOG(_T("Upload failed"));
     return SR_FAILED;
 }
 

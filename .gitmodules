@@ -3,7 +3,7 @@
     url = https://github.com/alexmarsev/libbs2b.git
 [submodule "LAVFilters"]
     path = src/thirdparty/LAVFilters/src
-    url = https://github.com/mpc-hc/LAVFilters.git
+    url = https://github.com/clsid2/LAVFilters.git
 [submodule "lcms2"]
     path = src/thirdparty/lcms2/library
     url = https://github.com/mm2/Little-CMS.git
@@ -15,7 +15,7 @@
     url = https://github.com/memononen/nanosvg.git
 [submodule "rapidjson"]
     path = src/thirdparty/rapidjson
-    url = https://github.com/miloyip/rapidjson.git
+    url = https://github.com/tencent/rapidjson.git
 [submodule "RARFileSource"]
     path = src/thirdparty/RARFileSource/library
     url = https://github.com/mpc-hc/rarfilesource.git

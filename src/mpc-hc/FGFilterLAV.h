@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2017 see Authors.txt
+ * (C) 2013-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,6 +38,7 @@ class CFGFilterLAV : public CFGFilterFile
 {
 protected:
     static CList<const IBaseFilter*> s_instances;
+    static QWORD lav_version;
 
     CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit);
 
@@ -174,6 +175,9 @@ public:
         DWORD dwDitherMode;
         DWORD dwHWAccelDeviceDXVA2;
         DWORD dwHWAccelDeviceDXVA2Desc;
+        DWORD dwHWAccelDeviceD3D11;
+        DWORD dwHWAccelDeviceD3D11Desc;
+        BOOL bHWAccelCUVIDXVA;
 
         void LoadSettings();
         void SaveSettings();

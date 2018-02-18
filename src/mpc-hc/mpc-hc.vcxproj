@@ -601,9 +601,6 @@
     <ProjectReference Include="..\Subtitles\Subtitles.vcxproj">
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\DoctorDump\DoctorDump.vcxproj">
-      <Project>{beceaff9-cdca-45ec-a1cf-658fa51818e6}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\bs2b\bs2b.vcxproj">
       <Project>{0fd9bf8f-2397-4e23-b41e-e4624f35d646}</Project>
       <Private>false</Private>
@@ -617,9 +614,6 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\lcms2\lcms2.vcxproj">
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
-      <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
@@ -660,9 +654,6 @@
     <ProjectReference Include="..\thirdparty\VirtualDub\system\system.vcxproj">
       <Project>{c2082189-3ecb-4079-91fa-89d3c8a305c0}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\ZenLib\ZenLib.vcxproj">
-      <Project>{0da1da7d-f393-4e7c-a7ce-cb5c6a67bc94}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\zita-resampler\zita-resampler.vcxproj">
       <Project>{f3d02050-f39a-4103-8343-09285359a495}</Project>
       <Private>false</Private>
@@ -688,14 +679,6 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\TreePropSheet\TreePropSheet.vcxproj">
       <Project>{ab494732-ef6d-44d0-bcf8-80ff04858d10}</Project>
-    </ProjectReference>
-    <ProjectReference Include="CrashReporterDialog\CrashReporterDialog.vcxproj">
-      <Project>{5db958dd-8b25-45ef-8072-3356caf8ccd7}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\minhook\minhook.vcxproj">
       <Project>{303B855A-137D-45E9-AF6D-B7241C6E66D6}</Project>
