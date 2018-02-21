@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "MainFrm.h"
 #include "mplayerc.h"
 #include "PPageOutput.h"
 #include "moreuuids.h"
@@ -406,9 +407,12 @@ BOOL CPPageOutput::OnInitDialog()
 
 BOOL CPPageOutput::OnApply()
 {
+    bool bChanged = false;
+
     UpdateData();
 
     CAppSettings& s = AfxGetAppSettings();
+    CMainFrame* pMainFrame = AfxGetMainFrame();
 
     if (!s.IsVideoRendererAvailable(m_iDSVideoRendererType)) {
         ((CPropertySheet*)GetParent())->SetActivePage(this);
@@ -427,6 +431,11 @@ BOOL CPPageOutput::OnApply()
         return FALSE;
     }
 
+    bChanged = s.iDSVideoRendererType != m_iDSVideoRendererType ||
+               s.iRMVideoRendererType != m_iRMVideoRendererType ||
+               s.iQTVideoRendererType != m_iQTVideoRendererType ||
+               s.strAudioRendererDisplayName != m_AudioRendererDisplayNames[m_iAudioRendererType];
+
     CRenderersSettings& r                   = s.m_RenderersSettings;
     s.iDSVideoRendererType                  = m_iDSVideoRendererType;
     s.iRMVideoRendererType                  = m_iRMVideoRendererType;
@@ -440,6 +449,9 @@ BOOL CPPageOutput::OnApply()
 
     if (m_SubtitleRendererCtrl.IsWindowEnabled()) {
         auto subrenderer = static_cast<CAppSettings::SubtitleRenderer>(m_SubtitleRendererCtrl.GetItemData(m_SubtitleRendererCtrl.GetCurSel()));
+        if (subrenderer != s.GetSubtitleRenderer()) {
+            bChanged = true;
+        }
         m_lastSubrenderer.first = true;
         m_lastSubrenderer.second = subrenderer;
         s.SetSubtitleRenderer(subrenderer);
@@ -456,6 +468,10 @@ BOOL CPPageOutput::OnApply()
         r.D3D9RenderDevice = m_D3D9GUIDNames[m_iD3D9RenderDevice];
     } else {
         r.D3D9RenderDevice.Empty();
+    }
+
+    if (pMainFrame && bChanged && pMainFrame->GetPlaybackMode() == PM_FILE) {
+        pMainFrame->ReopenFileAtSamePos();
     }
 
     return __super::OnApply();

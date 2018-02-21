@@ -420,6 +420,7 @@ protected:
     bool m_bFirstPlay;
     bool m_bOpeningInAutochangedMonitorMode;
     bool m_bPausedForAutochangeMonitorMode;
+    OAFilterState m_restartState;
 
     bool m_fAudioOnly;
     CString m_LastOpenBDPath;
@@ -1094,4 +1095,6 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
+
+    void ReopenFileAtSamePos();
 };
