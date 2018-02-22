@@ -46,7 +46,7 @@
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       7
-#define MPC_VERSION_PATCH       14
+#define MPC_VERSION_PATCH       15
 
 #ifndef NO_VERSION_REV_NEEDED
 
@@ -59,7 +59,7 @@
 #endif // NO_VERSION_REV_NEEDED
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
-#define MPC_COPYRIGHT_STR       _T("Copyright © 2002-2018 all contributors, see Authors.txt")
+#define MPC_COPYRIGHT_STR       _T("Copyright ï¿½ 2002-2018 all contributors, see Authors.txt")
 #define MPC_VERSION_COMMENTS    WEBSITE_URL
 
 
