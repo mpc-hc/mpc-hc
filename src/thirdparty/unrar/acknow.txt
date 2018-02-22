@@ -56,7 +56,7 @@
   Original Intel Slicing-by-8 code is licensed under BSD License
   available at http://www.opensource.org/licenses/bsd-license.html
 
-    Copyright (c) 2004-2006 Intel Corporation.
+    Copyright (c) 2004-2006 Intel Corporation. 
     All Rights Reserved
 
     Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@
 
     Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
-
+    
     Redistributions in binary form must reproduce the above copyright
     notice, this list of conditions and the following disclaimer
     in the documentation and/or other materials provided with
