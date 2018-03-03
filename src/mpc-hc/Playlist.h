@@ -35,7 +35,8 @@ class CPlaylistItem
 public:
     UINT m_id;
     CString m_label;
-    bool m_bUseLabelAsFilename;
+    bool m_bYoutubeDL;
+    CString m_ydlSourceURL;
     CAtlList<CString> m_fns;
     CAtlList<CString> m_subs;
     enum type_t { file, device } m_type;

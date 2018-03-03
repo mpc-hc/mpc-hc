@@ -6973,7 +6973,7 @@ void CMainFrame::OnPlayPlay()
                 strOSD.LoadString(IDS_PLAY_BD);
             } else {
                 strOSD = GetFileName();
-                if (!strOSD.IsEmpty() && !m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename) {
+                if (!strOSD.IsEmpty() && !m_wndPlaylistBar.GetCur()->m_bYoutubeDL) {
                     strOSD.TrimRight('/');
                     strOSD.Replace('\\', '/');
                     strOSD = strOSD.Mid(strOSD.ReverseFind('/') + 1);
@@ -8862,9 +8862,13 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         } else {
             CPlaylistItem pli;
             if (m_wndPlaylistBar.GetCur(pli)) {
-                POSITION pos = pli.m_fns.GetHeadPosition();
-                while (pos) {
-                    args.AddTail(pli.m_fns.GetNext(pos));
+                if (pli.m_bYoutubeDL) {
+                    args.AddTail(pli.m_ydlSourceURL);
+                } else {
+                    POSITION pos = pli.m_fns.GetHeadPosition();
+                    while (pos) {
+                        args.AddTail(pli.m_fns.GetNext(pos));
+                    }
                 }
             }
         }
@@ -9058,7 +9062,13 @@ void CMainFrame::PlayFavoriteFile(CString fav)
         }
     }
 
-    m_wndPlaylistBar.Open(args, false);
+    SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+
+    if (args.GetHead().Left(4) != _T("http")
+            || !ProcessYoutubeDLURL(args.GetHead(), false)) {
+        m_wndPlaylistBar.Open(args, false);
+    }
+
     if (GetPlaybackMode() == PM_FILE && args.GetHead() == m_lastOMD->title) {
         m_pMS->SetPositions(&rtStart, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         OnPlayPlay();
@@ -9079,7 +9089,7 @@ void CMainFrame::OnRecentFile(UINT nID)
     m_recentFilesMenu.GetMenuString(nID + 2, fn, MF_BYPOSITION);
 
     if (fn.Left(4) == _T("http")) {
-        OnPlayStop();
+        SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         if (ProcessYoutubeDLURL(fn, false)) {
             OpenCurPlaylistItem();
             return;
@@ -12277,7 +12287,7 @@ void CMainFrame::SendNowPlayingToSkype()
 
                 if (GetPlaybackMode() == PM_FILE) {
                     CString fn = label;
-                    if (!pli.m_bUseLabelAsFilename && fn.Find(_T("://")) >= 0) {
+                    if (!pli.m_bYoutubeDL && fn.Find(_T("://")) >= 0) {
                         int i = fn.Find('?');
                         if (i >= 0) {
                             fn = fn.Left(i);
@@ -16698,14 +16708,14 @@ CString CMainFrame::GetFileName()
 {
     CString path(m_wndPlaylistBar.GetCurFileName());
 
-    if (!m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename && m_pFSF) {
+    if (!m_wndPlaylistBar.GetCur()->m_bYoutubeDL && m_pFSF) {
         CComHeapPtr<OLECHAR> pFN;
         if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
             path = pFN;
         }
     }
 
-    return m_wndPlaylistBar.GetCur()->m_bUseLabelAsFilename ? path : PathUtils::StripPathOrUrl(path);
+    return m_wndPlaylistBar.GetCur()->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
 }
 
 CString CMainFrame::GetCaptureTitle()
@@ -17060,7 +17070,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
         }
         m_wndPlaylistBar.Append(filenames, false, nullptr,
                                 names.GetAt(names.FindIndex(i))
-                                + " (" + url + ")");
+                                + " (" + url + ")", url);
     }
 
     CRecentFileList* mru = &s.MRU;

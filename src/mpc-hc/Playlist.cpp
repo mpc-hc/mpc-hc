@@ -41,7 +41,8 @@ CPlaylistItem::CPlaylistItem()
     , m_ainput(-1)
     , m_country(0)
     , m_fInvalid(false)
-    , m_bUseLabelAsFilename(false)
+    , m_bYoutubeDL(false)
+    , m_ydlSourceURL(_T(""))
 {
     m_id = m_globalid++;
 }
@@ -73,7 +74,8 @@ CPlaylistItem& CPlaylistItem::operator=(const CPlaylistItem& pli)
         m_country = pli.m_country;
         m_posNextShuffle = pli.m_posNextShuffle;
         m_posPrevShuffle = pli.m_posPrevShuffle;
-        m_bUseLabelAsFilename = pli.m_bUseLabelAsFilename;
+        m_bYoutubeDL = pli.m_bYoutubeDL;
+        m_ydlSourceURL = pli.m_ydlSourceURL;
     }
     return *this;
 }
