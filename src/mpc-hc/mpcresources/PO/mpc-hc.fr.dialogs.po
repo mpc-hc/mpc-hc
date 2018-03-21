@@ -190,8 +190,8 @@ msgid "About"
 msgstr "A propos"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2017 see Authors.txt"
-msgstr "Copyright © 2002-2017 voir le fichier Authors.txt"
+msgid "Copyright © 2002-2018 see Authors.txt"
+msgstr "Copyright © 2002-2018 voir le fichier Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
