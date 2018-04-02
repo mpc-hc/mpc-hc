@@ -14028,8 +14028,8 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     }
     m_nStepForwardCount = 0;
 
-    // skip seeks to invalid position when duration is unknown
-    if (!m_wndSeekBar.HasDuration() && rtPos > 0) {
+    // skip seeks when duration is unknown
+    if (!m_wndSeekBar.HasDuration()) {
         return;
     }
 
