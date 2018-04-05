@@ -13944,7 +13944,7 @@ REFERENCE_TIME CMainFrame::GetDur() const
     return (GetLoadState() == MLS::LOADED ? stop : 0);
 }
 
-#define MAX_FASTSEEK_INACCURACY (20 * 10000000)
+#define MAX_FASTSEEK_INACCURACY 200000000LL
 
 bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const
 {
@@ -13954,7 +13954,7 @@ bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REF
         const auto cbegin = m_kfs.cbegin();
         const auto cend = m_kfs.cend();
         ASSERT(std::is_sorted(cbegin, cend));
-        auto upper = std::lower_bound(cbegin, cend, rtTarget);
+        auto upper = std::upper_bound(cbegin, cend, rtTarget);
         if (upper == cbegin) {
             // we assume that streams always start with keyframe
             rtUpper = *upper;
