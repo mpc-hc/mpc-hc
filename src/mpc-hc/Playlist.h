@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012, 2015 see Authors.txt
+ * (C) 2006-2012, 2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,6 +35,8 @@ class CPlaylistItem
 public:
     UINT m_id;
     CString m_label;
+    bool m_bYoutubeDL;
+    CString m_ydlSourceURL;
     CAtlList<CString> m_fns;
     CAtlList<CString> m_subs;
     enum type_t { file, device } m_type;

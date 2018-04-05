@@ -40,8 +40,12 @@ public:
     }
     virtual ~SettingsBase() = default;
 
-    CString GetToolTipText() const { return toolTipText; }
-    CString GetName() const { return name; }
+    CString GetToolTipText() const {
+        return toolTipText;
+    }
+    CString GetName() const {
+        return name;
+    }
     virtual bool IsDefault() const PURE;
     virtual void ResetDefault() PURE;
     virtual void Apply() PURE;
@@ -61,12 +65,24 @@ public:
         , settingReference(settingReference) {
     }
 
-    bool IsDefault() const { return currentValue == defaultValue; }
-    void ResetDefault() { SetValue(defaultValue); }
-    void SetValue(bool value) { currentValue = value; }
-    bool GetValue() const { return currentValue; }
-    void Apply() { settingReference = currentValue; }
-    void Toggle() { currentValue = !currentValue; }
+    bool IsDefault() const {
+        return currentValue == defaultValue;
+    }
+    void ResetDefault() {
+        SetValue(defaultValue);
+    }
+    void SetValue(bool value) {
+        currentValue = value;
+    }
+    bool GetValue() const {
+        return currentValue;
+    }
+    void Apply() {
+        settingReference = currentValue;
+    }
+    void Toggle() {
+        currentValue = !currentValue;
+    }
 };
 
 class SettingsInt : public SettingsBase
@@ -85,12 +101,24 @@ public:
         , range(std::move(range)) {
     }
 
-    bool IsDefault() const { return currentValue == defaultValue; }
-    void ResetDefault() { SetValue(defaultValue); }
-    void SetValue(int value) { currentValue = value; }
-    int GetValue() const { return currentValue; }
-    void Apply() { settingReference = currentValue; }
-    std::pair<int, int> GetRange() const { return range; }
+    bool IsDefault() const {
+        return currentValue == defaultValue;
+    }
+    void ResetDefault() {
+        SetValue(defaultValue);
+    }
+    void SetValue(int value) {
+        currentValue = value;
+    }
+    int GetValue() const {
+        return currentValue;
+    }
+    void Apply() {
+        settingReference = currentValue;
+    }
+    std::pair<int, int> GetRange() const {
+        return range;
+    }
 };
 
 class SettingsCombo : public SettingsInt
@@ -103,7 +131,9 @@ public:
         , list(std::move(list)) {
     }
 
-    std::deque<CString> GetList() const { return list; }
+    std::deque<CString> GetList() const {
+        return list;
+    }
 };
 
 class SettingsCString : public SettingsBase
@@ -120,11 +150,21 @@ public:
         , settingReference(settingReference) {
     }
 
-    bool IsDefault() const { return currentValue == defaultValue; }
-    void ResetDefault() { SetValue(defaultValue); }
-    void SetValue(const CString& value) { currentValue = value; }
-    CString GetValue() const { return currentValue; }
-    void Apply() { settingReference = currentValue; }
+    bool IsDefault() const {
+        return currentValue == defaultValue;
+    }
+    void ResetDefault() {
+        SetValue(defaultValue);
+    }
+    void SetValue(const CString& value) {
+        currentValue = value;
+    }
+    CString GetValue() const {
+        return currentValue;
+    }
+    void Apply() {
+        settingReference = currentValue;
+    }
 };
 
 class CPPageAdvanced : public CPPageBase
@@ -148,6 +188,8 @@ private:
         AUTO_DOWNLOAD_SCORE_SERIES,
         DEFAULT_TOOLBAR_SIZE,
         USE_LEGACY_TOOLBAR,
+        YDL_MAX_HEIGHT,
+        YDL_AUDIO_ONLY,
     };
 
     enum {

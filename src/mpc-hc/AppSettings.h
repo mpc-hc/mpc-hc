@@ -275,7 +275,9 @@ struct wmcmd_base : public ACCEL {
     };
 
     wmcmd_base()
-        : ACCEL( { 0, 0, 0 })
+        : ACCEL( {
+        0, 0, 0
+    })
     , mouse(NONE)
     , mouseFS(NONE)
     , dwname(0)
@@ -316,7 +318,9 @@ public:
         return cmd > 0 && cmd == wc.cmd;
     }
 
-    CString GetName() const { return ResStr(dwname); }
+    CString GetName() const {
+        return ResStr(dwname);
+    }
 
     void Restore() {
         ASSERT(default_cmd);
@@ -364,7 +368,9 @@ public:
     void SetHWND(HWND hWnd);
     void Connect(CString addr);
     void DisConnect();
-    int GetStatus() const { return m_nStatus; }
+    int GetStatus() const {
+        return m_nStatus;
+    }
 };
 
 class CWinLircClient : public CRemoteCtrlClient
@@ -416,7 +422,9 @@ public:
     DVD_HMSF_TIMECODE   DVDPosition;
 
     CSize sizeFixedWindow;
-    bool HasFixedWindowSize() const { return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0; }
+    bool HasFixedWindowSize() const {
+        return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0;
+    }
     //int           iFixedWidth, iFixedHeight;
     int             iMonitor;
 
@@ -722,7 +730,9 @@ public:
     };
 
     SubtitleRenderer GetSubtitleRenderer() const;
-    void  SetSubtitleRenderer(SubtitleRenderer renderer) { eSubtitleRenderer = renderer; }
+    void  SetSubtitleRenderer(SubtitleRenderer renderer) {
+        eSubtitleRenderer = renderer;
+    }
 
     static bool IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
 
@@ -732,7 +742,13 @@ public:
         ASSERT(fKeepAspectRatio && "Keep Aspect Ratio option have to be enabled if override value is used.");
         return sizeAspectRatio;
     };
-    void SetAspectRatioOverride(const CSize& ar) { sizeAspectRatio = ar; }
+    void SetAspectRatioOverride(const CSize& ar) {
+        sizeAspectRatio = ar;
+    }
+
+    //YoutubeDL settings
+    int iYDLMaxHeight;
+    bool bYDLAudioOnly;
 
 private:
     struct FilterKey {
@@ -779,10 +795,16 @@ public:
 
     void            SaveSettings();
     void            LoadSettings();
-    void            SaveExternalFilters() { if (bInitialized) { SaveExternalFilters(m_filters); } };
+    void            SaveExternalFilters() {
+        if (bInitialized) {
+            SaveExternalFilters(m_filters);
+        }
+    };
     void            UpdateSettings();
 
-    void            SetAsUninitialized() { bInitialized = false; };
+    void            SetAsUninitialized() {
+        bInitialized = false;
+    };
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);
