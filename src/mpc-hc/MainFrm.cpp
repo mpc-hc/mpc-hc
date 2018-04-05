@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -17064,7 +17064,12 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
     }
     for (unsigned int i = 0; i < vstreams.GetCount(); i++) {
         filenames.RemoveAll();
-        filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+
+        //only respect the Audio Only flag for sources that actually have separate audio streams (i.e. youtube)
+        if (astreams.IsEmpty() || !s.bYDLAudioOnly) {
+            filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+        }
+
         if (!astreams.IsEmpty()) {
             filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
         }
