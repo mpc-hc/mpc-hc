@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2017 see Authors.txt
+ * (C) 2009-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -325,3 +325,4 @@
 #define IDS_RS_SANEAR_CROSSFEED_ENABLED     _T("CrossfeedEnabled")
 #define IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ _T("CrossfeedCutoffFrequency")
 #define IDS_RS_SANEAR_CROSSFEED_LEVEL       _T("CrossfeedLevel")
+#define IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER   _T("IgnoreSystemChannelMixer")
