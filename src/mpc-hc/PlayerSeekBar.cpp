@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,7 +39,6 @@ CPlayerSeekBar::CPlayerSeekBar(CMainFrame* pMainFrame)
     , m_bEnabled(false)
     , m_bHasDuration(false)
     , m_rtHoverPos(0)
-    , m_bHovered(false)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
     , m_bDraggingThumb(false)
     , m_tooltipState(TOOLTIP_HIDDEN)
@@ -122,7 +121,8 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
     if (m_bHasDuration) {
         REFERENCE_TIME rtPos = PositionFromClientPoint(point);
         if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-            rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos);
+            REFERENCE_TIME rtMaxDiff = std::min(100000000LL, m_rtStop / 30);
+            rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos, rtMaxDiff);
         }
         SyncThumbToVideo(rtPos);
     }
@@ -131,6 +131,15 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
 void CPlayerSeekBar::SyncVideoToThumb()
 {
     GetParent()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_hWnd));
+}
+
+void CPlayerSeekBar::CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_time_change)
+{
+    if (m_rtPos != m_rtHoverPos && abs(m_rtHoverPos - m_rtPos) >= minimum_time_change) {
+        m_rtHoverPos = m_rtPos;
+        m_hoverPoint = point;
+        SyncVideoToThumb();
+    }
 }
 
 long CPlayerSeekBar::ChannelPointFromPosition(REFERENCE_TIME rtPos) const
@@ -404,7 +413,6 @@ void CPlayerSeekBar::SetRange(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
             HideToolTip();
             if (DraggingThumb()) {
                 ReleaseCapture();
-                KillTimer(TIMER_HOVER_CAPTURED);
             }
             Invalidate();
         }
@@ -542,11 +550,9 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
     CRect clientRect;
     GetClientRect(&clientRect);
     if (m_bEnabled && m_bHasDuration && clientRect.PtInRect(point)) {
-        m_bHovered = false;
         SetCapture();
         m_bDraggingThumb = true;
         MoveThumb(point);
-        VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
             MapWindowPoints(m_pMainFrame, &point, 1);
@@ -564,10 +570,8 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
     if (DraggingThumb()) {
         ReleaseCapture();
-        KillTimer(TIMER_HOVER_CAPTURED);
-        if (!m_bHovered || (!CMouse::PointEqualsImprecise(point.x, m_hoverPoint.x) && m_rtPos != m_rtHoverPos)) {
-            SyncVideoToThumb();
-        }
+        // update video position if seekbar moved at least 250 ms or 1/100th of duration
+        CheckScrollDistance(point, std::min(2500000LL, m_rtStop / 100));
     }
 }
 
@@ -606,7 +610,8 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
     if (DraggingThumb() && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
-        VERIFY(SetTimer(TIMER_HOVER_CAPTURED, HOVER_CAPTURED_TIMEOUT, nullptr));
+        // update video position if seekbar moved at least 5 sec or 1/30th of duration
+        CheckScrollDistance(point, std::min(50000000LL, m_rtStop / 30));
     }
     if (AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
@@ -650,15 +655,6 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
             } else {
                 KillTimer(TIMER_SHOWHIDE_TOOLTIP);
             }
-            break;
-        case TIMER_HOVER_CAPTURED:
-            if (DraggingThumb() && (!m_bHovered || m_rtHoverPos != m_rtPos)) {
-                m_bHovered = true;
-                m_rtHoverPos = m_rtPos;
-                m_hoverPoint = point;
-                SyncVideoToThumb();
-            }
-            KillTimer(TIMER_HOVER_CAPTURED);
             break;
         default:
             ASSERT(FALSE);

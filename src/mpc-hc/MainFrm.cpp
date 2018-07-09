@@ -7274,7 +7274,7 @@ void CMainFrame::OnPlaySeek(UINT nID)
 {
     const auto& s = AfxGetAppSettings();
 
-    REFERENCE_TIME rtSeekTo =
+    REFERENCE_TIME rtJumpDiff =
         nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64 * s.nJumpDistS :
         nID == ID_PLAY_SEEKFORWARDSMALL  ? +10000i64 * s.nJumpDistS :
         nID == ID_PLAY_SEEKBACKWARDMED   ? -10000i64 * s.nJumpDistM :
@@ -7287,28 +7287,22 @@ void CMainFrame::OnPlaySeek(UINT nID)
                             nID == ID_PLAY_SEEKFORWARDMED ||
                             nID == ID_PLAY_SEEKFORWARDLARGE);
 
-    if (rtSeekTo == 0) {
+    if (rtJumpDiff == 0) {
         ASSERT(FALSE);
         return;
     }
 
     if (m_fShockwaveGraph) {
         // HACK: the custom graph should support frame based seeking instead
-        rtSeekTo /= 10000i64 * 100;
+        rtJumpDiff /= 10000i64 * 100;
     }
 
     const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
-    rtSeekTo += rtPos;
+    REFERENCE_TIME rtSeekTo = rtPos + rtJumpDiff;
+    if (rtSeekTo < 0) rtSeekTo = 0;
 
     if (s.bFastSeek && !m_kfs.empty()) {
-        // seek to the closest keyframe, but never in the opposite direction
-        rtSeekTo = GetClosestKeyFrame(rtSeekTo);
-        if ((bSeekingForward && rtSeekTo <= rtPos) ||
-                (!bSeekingForward &&
-                 rtSeekTo >= rtPos - (GetMediaState() == State_Running ? 10000000 : 0))) {
-            OnPlaySeekKey(bSeekingForward ? ID_PLAY_SEEKKEYFORWARD : ID_PLAY_SEEKKEYBACKWARD);
-            return;
-        }
+        rtSeekTo = GetClosestKeyFrame(rtSeekTo, abs(rtJumpDiff) / 3);
     }
 
     SeekTo(rtSeekTo);
@@ -7344,16 +7338,23 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
     if (!m_kfs.empty()) {
         bool bSeekingForward = (nID == ID_PLAY_SEEKKEYFORWARD);
         const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
-        REFERENCE_TIME rtSeekTo = rtPos - (bSeekingForward ? 0 : (GetMediaState() == State_Running) ? 10000000 : 10000);
-        std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
+        REFERENCE_TIME rtKeyframe;
+        REFERENCE_TIME rtTarget;
+        REFERENCE_TIME rtMin;
+        REFERENCE_TIME rtMax;
+        if (bSeekingForward) {
+            rtMin = rtPos + 10000; // at least one millisecond later
+            rtMax = GetDur();
+            rtTarget = rtMin;
+        }
+        else {
+            rtMin = 0; 
+            rtMax = rtPos - 10000;
+            rtTarget = rtMax;
+        }
 
-        if (GetNeighbouringKeyFrames(rtSeekTo, keyframes)) {
-            rtSeekTo = bSeekingForward ? keyframes.second : keyframes.first;
-            if (bSeekingForward && rtSeekTo <= rtPos) {
-                // the end of stream is near, no keyframes before it
-                return;
-            }
-            SeekTo(rtSeekTo);
+        if (GetKeyFrame(rtTarget, rtMin, rtMax, false, rtKeyframe)) {
+            SeekTo(rtKeyframe);
         }
     }
 }
@@ -13944,42 +13945,6 @@ REFERENCE_TIME CMainFrame::GetDur() const
     return (GetLoadState() == MLS::LOADED ? stop : 0);
 }
 
-#define MAX_FASTSEEK_INACCURACY 200000000LL
-
-bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const
-{
-    bool ret = false;
-    REFERENCE_TIME rtLower, rtUpper;
-    if (!m_kfs.empty()) {
-        const auto cbegin = m_kfs.cbegin();
-        const auto cend = m_kfs.cend();
-        ASSERT(std::is_sorted(cbegin, cend));
-        auto upper = std::upper_bound(cbegin, cend, rtTarget);
-        if (upper == cbegin) {
-            // we assume that streams always start with keyframe
-            rtUpper = *upper;
-            rtLower = 0;
-        } else if (upper == cend) {
-            rtLower = rtUpper = *(--upper);
-        } else {
-            rtUpper = *upper;
-            rtLower = *(--upper);
-        }
-        // ignore keyframes if they are too far away
-        if ((rtLower > 0) && (abs(rtTarget - rtLower) > MAX_FASTSEEK_INACCURACY)) {
-            rtLower = rtTarget;
-        }
-        if (abs(rtUpper - rtTarget) > MAX_FASTSEEK_INACCURACY) {
-            rtUpper = rtTarget;
-        }
-        ret = true;
-    } else {
-        rtLower = rtUpper = rtTarget;
-    }
-    keyframes = std::make_pair(rtLower, rtUpper);
-    return ret;
-}
-
 void CMainFrame::LoadKeyFrames()
 {
     UINT nKFs = 0;
@@ -13993,19 +13958,72 @@ void CMainFrame::LoadKeyFrames()
     }
 }
 
-REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
+bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const
 {
-    REFERENCE_TIME ret = rtTarget;
-    std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
-    if (GetNeighbouringKeyFrames(rtTarget, keyframes)) {
-        const auto& s = AfxGetAppSettings();
-        if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
-            ret = (rtTarget - keyframes.first < keyframes.second - rtTarget) ? keyframes.first : keyframes.second;
+    ASSERT(rtTarget >= rtMin);
+    ASSERT(rtTarget <= rtMax);
+    if (!m_kfs.empty()) {
+        const auto cbegin = m_kfs.cbegin();
+        const auto cend = m_kfs.cend();
+        ASSERT(std::is_sorted(cbegin, cend));
+
+        auto foundkeyframe = std::lower_bound(cbegin, cend, rtTarget);
+
+        if (foundkeyframe == cbegin) {
+            // first keyframe
+            keyframetime = *foundkeyframe;
+            if ((keyframetime < rtMin) || (keyframetime > rtMax)) {
+                keyframetime = rtTarget;
+                return false;
+            }
+        } else if (foundkeyframe == cend) {
+            // last keyframe
+            keyframetime = *(--foundkeyframe);
+            if (keyframetime < rtMin) {
+                keyframetime = rtTarget;
+                return false;
+            }
         } else {
-            ret = keyframes.first;
+            keyframetime = *foundkeyframe;
+            if (keyframetime > rtMax) {
+                // use preceding keyframe
+                keyframetime = *(--foundkeyframe);
+                if (keyframetime < rtMin) {
+                    keyframetime = rtTarget;
+                    return false;
+                }
+            } else {
+                if (nearest) {
+                    const auto& s = AfxGetAppSettings();
+                    if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
+                        // use closest keyframe
+                        REFERENCE_TIME tmp_time = *(--foundkeyframe);
+                        if ((rtMin <= tmp_time)) {
+                            if ((rtMax - keyframetime) > (keyframetime - tmp_time)) {
+                                keyframetime = tmp_time;
+                            }
+                        }
+                    }
+                }
+            }
         }
+        return true;
+    } else {
+        keyframetime = rtTarget;
     }
-    return ret;
+    return false;
+}
+
+REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxDiff) const
+{
+    REFERENCE_TIME rtKeyframe;
+    REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxDiff, 0LL);
+    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxDiff, GetDur());
+
+    if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
+        return rtKeyframe;
+    }
+    return rtTarget;
 }
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
