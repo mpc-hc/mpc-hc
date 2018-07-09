@@ -1,21 +1,33 @@
-// ResizableState.cpp: implementation of the CResizableState class.
-//
 /////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2000-2002 by Paolo Messina
-// (http://www.geocities.com/ppescher - ppescher@yahoo.com)
+// This file is part of ResizableLib
+// https://github.com/ppescher/resizablelib
 //
-// The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License.
-// You may obtain a copy of the License at:
-// http://www.opensource.org/licenses/artistic-license.html
+// Copyright (C) 2000-2015 by Paolo Messina
+// mailto:ppescher@hotmail.com
+//
+// The contents of this file are subject to the Artistic License 2.0
+// http://opensource.org/licenses/Artistic-2.0
 //
 // If you find this code useful, credits would be nice!
 //
 /////////////////////////////////////////////////////////////////////////////
 
+/*!
+ *  @file
+ *  @brief Implementation of the CResizableState class.
+ */
+
 #include "stdafx.h"
 #include "ResizableState.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+LPCTSTR CResizableState::m_sDefaultStorePath = _T("ResizableState");
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -23,7 +35,7 @@
 
 CResizableState::CResizableState()
 {
-
+	m_sStorePath = m_sDefaultStorePath;
 }
 
 CResizableState::~CResizableState()
@@ -31,78 +43,90 @@ CResizableState::~CResizableState()
 
 }
 
-
-// used to save/restore window's size and position
-// either in the registry or a private .INI file
-// depending on your application settings
-
-#define PLACEMENT_ENT   _T("WindowPlacement")
-#define PLACEMENT_FMT   _T("%d,%d,%d,%d,%d,%d")
-
-BOOL CResizableState::SaveWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
+/*!
+ *  Static function to set the default path used to store state information.
+ *  This path is used to initialize all the instances of this class.
+ *  @sa GetDefaultStateStore GetStateStore SetStateStore
+ *
+ *  @param szPath String that specifies the new path to be set
+ */
+void CResizableState::SetDefaultStateStore(LPCTSTR szPath)
 {
-    CString data;
-    WINDOWPLACEMENT wp;
-
-    ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
-    wp.length = sizeof(WINDOWPLACEMENT);
-    if (!GetResizableWnd()->GetWindowPlacement(&wp))
-        return FALSE;
-
-    RECT& rc = wp.rcNormalPosition; // alias
-
-    if (bRectOnly)  // save size/pos only (normal state)
-    {
-        // use screen coordinates
-        GetResizableWnd()->GetWindowRect(&rc);
-
-        data.Format(PLACEMENT_FMT, rc.left, rc.top,
-            rc.right, rc.bottom, SW_NORMAL, 0);
-    }
-    else    // save also min/max state
-    {
-        // use workspace coordinates
-        data.Format(PLACEMENT_FMT, rc.left, rc.top,
-            rc.right, rc.bottom, wp.showCmd, wp.flags);
-    }
-
-    return AfxGetApp()->WriteProfileString(pszSection, PLACEMENT_ENT, data);
+	m_sDefaultStorePath = szPath;
 }
 
-BOOL CResizableState::LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
+/*!
+ *  Static function to retrieve the default path used to store state
+ *  information.
+ *  This path is used to initialize all the instances of this class.
+ *  @sa SetDefaultStateStore GetStateStore SetStateStore
+ *
+ *  @return The return value is a string that specifies the current path
+ */
+LPCTSTR CResizableState::GetDefaultStateStore()
 {
-    CString data;
-    WINDOWPLACEMENT wp;
+	return m_sDefaultStorePath;
+}
 
-    data = AfxGetApp()->GetProfileString(pszSection, PLACEMENT_ENT);
+/*!
+ *  This function sets the path used to store state information by
+ *  the current instance of the class.
+ *  @sa GetStateStore GetDefaultStateStore SetDefaultStateStore
+ *
+ *  @param szPath String that specifies the new path to be set
+ */
+void CResizableState::SetStateStore(LPCTSTR szPath)
+{
+	m_sStorePath = szPath;
+}
 
-    if (data.IsEmpty()) // never saved before
-        return FALSE;
+/*!
+ *  This function retrieves the path used to store state information by
+ *  the current instance of the class.
+ *  @sa SetStateStore GetDefaultStateStore SetDefaultStateStore
+ *
+ *  @return The return value is a string that specifies the current path
+ */
+LPCTSTR CResizableState::GetStateStore() const
+{
+	return m_sStorePath;
+}
 
-    ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
-    wp.length = sizeof(WINDOWPLACEMENT);
-    if (!GetResizableWnd()->GetWindowPlacement(&wp))
-        return FALSE;
+/*!
+ *  This function writes state information and associates it with some
+ *  identification text for later retrieval.
+ *  The base implementation uses the application profile to persist state
+ *  information, but this function can be overridden to implement
+ *  different methods.
+ *
+ *  @param szId String that identifies the stored settings
+ *  @param szState String that represents the state information to store
+ *
+ *  @return The return value is @a TRUE if settings have been successfully
+ *          stored, @a FALSE otherwise.
+ */
+BOOL CResizableState::WriteState(LPCTSTR szId, LPCTSTR szValue, LPCTSTR szState)
+{
+	// MPC-HC custom code
+	return AfxGetApp()->WriteProfileString(szId, szValue, szState);
+}
 
-    RECT& rc = wp.rcNormalPosition; // alias
-
-    if (_stscanf_s(data, PLACEMENT_FMT, &rc.left, &rc.top,
-        &rc.right, &rc.bottom, &wp.showCmd, &wp.flags) == 6)
-    {
-        // Do not restore if window would not be visible
-        if (::MonitorFromRect(&rc, MONITOR_DEFAULTTONULL) == NULL)
-            return FALSE;
-        if (bRectOnly)  // restore size/pos only
-        {
-            CRect rect(rc);
-            return GetResizableWnd()->SetWindowPos(NULL, rect.left, rect.top,
-                rect.Width(), rect.Height(), SWP_NOACTIVATE | SWP_NOZORDER |
-                SWP_NOREPOSITION);
-        }
-        else    // restore also min/max state
-        {
-            return GetResizableWnd()->SetWindowPlacement(&wp);
-        }
-    }
-    return FALSE;
+/*!
+ *  This function reads state information previously associated with some
+ *  identification text.
+ *  The base implementation uses the application profile to persist state
+ *  information, but this function can be overridden to implement
+ *  different methods.
+ *
+ *  @param szId String that identifies the stored settings
+ *  @param rsState String to be filled with the retrieved state information
+ *
+ *  @return The return value is @a TRUE if settings have been successfully
+ *          retrieved, @a FALSE otherwise.
+ */
+BOOL CResizableState::ReadState(LPCTSTR szId, LPCTSTR szValue, CString &rsState)
+{
+	// MPC-HC custom code
+	rsState = AfxGetApp()->GetProfileString(szId, szValue);
+	return !rsState.IsEmpty();
 }

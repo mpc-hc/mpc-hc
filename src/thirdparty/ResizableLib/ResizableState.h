@@ -1,18 +1,22 @@
-// ResizableState.h: interface for the CResizableState class.
-//
 /////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2000-2002 by Paolo Messina
-// (http://www.geocities.com/ppescher - ppescher@yahoo.com)
+// This file is part of ResizableLib
+// https://github.com/ppescher/resizablelib
 //
-// The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License.
-// You may obtain a copy of the License at:
-// http://www.opensource.org/licenses/artistic-license.html
+// Copyright (C) 2000-2015 by Paolo Messina
+// mailto:ppescher@hotmail.com
+//
+// The contents of this file are subject to the Artistic License 2.0
+// http://opensource.org/licenses/Artistic-2.0
 //
 // If you find this code useful, credits would be nice!
 //
 /////////////////////////////////////////////////////////////////////////////
+
+/*!
+ *  @file
+ *  @brief Interface for the CResizableState class.
+ */
 
 #if !defined(AFX_RESIZABLESTATE_H__INCLUDED_)
 #define AFX_RESIZABLESTATE_H__INCLUDED_
@@ -21,18 +25,51 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+/*! @addtogroup CoreComponents
+ *  @{
+ */
+
+//! @brief Provides basic persisting capabilities
+/*!
+ *  Derive from this class to persist user interface settings, or anything
+ *  suitable. The base implementation uses the application profile, which can
+ *  be set to either the Registry or an INI File. Other storing methods
+ *  can be implemented in derived classes.
+ */
 class CResizableState
 {
-protected:
-    // non-zero if successful
-    BOOL LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
-    BOOL SaveWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
+	static LPCTSTR m_sDefaultStorePath;
+	CString m_sStorePath;
 
-    virtual CWnd* GetResizableWnd() = 0;
+protected:
+
+	//! @brief Get default path where state is stored
+	static LPCTSTR GetDefaultStateStore();
+
+	//! @brief Set default path where state is stored
+	static void SetDefaultStateStore(LPCTSTR szPath);
+
+	//! @brief Get current path where state is stored
+	LPCTSTR GetStateStore() const;
+
+	//! @brief Set current path where state is stored
+	void SetStateStore(LPCTSTR szPath);
+
+	//! @name Overridables
+	//@{
+
+	//! @brief Read state information
+	virtual BOOL ReadState(LPCTSTR szId, LPCTSTR szValue, CString& rsState);
+
+	//! @brief Write state information
+	virtual BOOL WriteState(LPCTSTR szId, LPCTSTR szValue, LPCTSTR szState);
+
+	//@}
 
 public:
-    CResizableState();
-    virtual ~CResizableState();
+	CResizableState();
+	virtual ~CResizableState();
 };
 
+// @}
 #endif // !defined(AFX_RESIZABLESTATE_H__INCLUDED_)

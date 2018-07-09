@@ -215,13 +215,6 @@ void CSubtitleUpDlg::OnDestroy()
     __super::OnDestroy();
 }
 
-BOOL CSubtitleUpDlg::OnEraseBkgnd(CDC* pDC)
-{
-    EraseBackground(pDC);
-
-    return TRUE;
-}
-
 void CSubtitleUpDlg::DownloadSelectedSubtitles()
 {
     POSITION pos = m_list.GetFirstSelectedItemPosition();

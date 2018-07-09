@@ -35,6 +35,18 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResizableMsgSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizableSheetState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizableVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizableWndState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResizableDialog.h">
@@ -64,10 +76,14 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ResizableMsgSupport.inl">
+    <ClInclude Include="ResizableWndState.h">
       <Filter>Header Files</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="ResizableVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResizableSheetState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

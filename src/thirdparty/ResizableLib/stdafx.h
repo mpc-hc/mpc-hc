@@ -1,36 +1,68 @@
-/*
- * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
- *
- * This file is part of MPC-HC.
- *
- * MPC-HC is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * MPC-HC is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
+// stdafx.h : include file for standard system include files, or project
+// specific include files that are used frequently, but are changed infrequently
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+// This file is part of ResizableLib
+// https://github.com/ppescher/resizablelib
+//
+// Copyright (C) 2000-2015 by Paolo Messina
+// mailto:ppescher@hotmail.com
+//
+// The contents of this file are subject to the Artistic License 2.0
+// http://opensource.org/licenses/Artistic-2.0
+//
+// If you find this code useful, credits would be nice!
+//
+/////////////////////////////////////////////////////////////////////////////
 
+#if !defined(AFX_RESIZABLESTDAFX_H__INCLUDED_)
+#define AFX_RESIZABLESTDAFX_H__INCLUDED_
+
+#if _MSC_VER > 1000
 #pragma once
+#endif // _MSC_VER > 1000
 
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#endif
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
+// Set max target Windows platform
+#define WINVER 0x0501
+#define _WIN32_WINNT 0x0501
 
-#ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
-#endif
+// Use target Common Controls version for compatibility
+// with CPropertyPageEx, CPropertySheetEx
+#define _WIN32_IE 0x0500
 
-#include <afx.h>
+#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+
 #include <afxwin.h>         // MFC core and standard components
-#include <afxcmn.h>
-#include <afxdlgs.h>
+#include <afxext.h>         // MFC extensions
+#include <afxcmn.h>			// MFC support for Windows Common Controls
+#include <shlwapi.h>		// DLL Version support
+#if _WIN32_WINNT >= 0x0501
+#include <uxtheme.h>		// Windows XP Visual Style API support
+#endif
+
+#ifndef WS_EX_LAYOUTRTL
+#pragma message("Please update your Windows header files, get the latest SDK")
+#pragma message("WinUser.h is out of date!")
+
+#define WS_EX_LAYOUTRTL		0x00400000
+#endif
+
+#ifndef WC_BUTTON
+#pragma message("Please update your Windows header files, get the latest SDK")
+#pragma message("CommCtrl.h is out of date!")
+
+#define WC_BUTTON			TEXT("Button")
+#define WC_STATIC			TEXT("Static")
+#define WC_EDIT				TEXT("Edit")
+#define WC_LISTBOX			TEXT("ListBox")
+#define WC_COMBOBOX			TEXT("ComboBox")
+#define WC_SCROLLBAR		TEXT("ScrollBar")
+#endif
+
+#define RSZLIB_NO_XP_DOUBLE_BUFFER
+
+//{{AFX_INSERT_LOCATION}}
+// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+
+#endif // !defined(AFX_RESIZABLESTDAFX_H__INCLUDED_)

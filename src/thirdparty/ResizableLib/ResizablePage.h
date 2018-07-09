@@ -9,33 +9,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2000-2002 by Paolo Messina
-// (http://www.geocities.com/ppescher - ppescher@yahoo.com)
+// This file is part of ResizableLib
+// https://github.com/ppescher/resizablelib
 //
-// The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License.
-// You may obtain a copy of the License at:
-// http://www.opensource.org/licenses/artistic-license.html
+// Copyright (C) 2000-2015 by Paolo Messina
+// mailto:ppescher@hotmail.com
+//
+// The contents of this file are subject to the Artistic License 2.0
+// http://opensource.org/licenses/Artistic-2.0
 //
 // If you find this code useful, credits would be nice!
 //
 /////////////////////////////////////////////////////////////////////////////
 
 #include "ResizableLayout.h"
-
+#include "ResizableMinMax.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CResizablePage window
 
-class CResizablePage : public CPropertyPage, public CResizableLayout
+class CResizablePage : public CPropertyPage, public CResizableLayout,
+						public CResizableMinMax
 {
-    DECLARE_DYNCREATE(CResizablePage)
+	DECLARE_DYNCREATE(CResizablePage)
 
 // Construction
 public:
-    CResizablePage();
-    CResizablePage(UINT nIDTemplate, UINT nIDCaption = 0);
-    CResizablePage(LPCTSTR lpszTemplateName, UINT nIDCaption = 0);
+	CResizablePage();
+	explicit CResizablePage(UINT nIDTemplate, UINT nIDCaption = 0);
+	explicit CResizablePage(LPCTSTR lpszTemplateName, UINT nIDCaption = 0);
 
 // Attributes
 public:
@@ -44,30 +46,35 @@ public:
 public:
 
 // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CResizablePage)
-    //}}AFX_VIRTUAL
+	// ClassWizard generated virtual function overrides
+	//{{AFX_VIRTUAL(CResizablePage)
+	protected:
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-    virtual ~CResizablePage();
+	virtual ~CResizablePage();
 
 // callable from derived classes
 protected:
 
-    virtual CWnd* GetResizableWnd()
-    {
-        // make the layout know its parent window
-        return this;
-    };
+	virtual CWnd* GetResizableWnd() const
+	{
+		// make the layout know its parent window
+		return CWnd::FromHandle(m_hWnd);
+	};
 
 // Generated message map functions
 protected:
-    //{{AFX_MSG(CResizablePage)
-    afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-    //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
+	//{{AFX_MSG(CResizablePage)
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI);
+	virtual BOOL OnInitDialog();
+	afx_msg void OnDestroy();
+	//}}AFX_MSG
+	DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
