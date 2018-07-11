@@ -9,7 +9,7 @@ MinHook             1.3.3
 MultiMon            28 Aug '03 (modified)
 NanoSVG             git dc12d90
 QuickTime SDK       7.3
-RapidJSON           1.0.2
+RapidJSON           v1.1.0-401-g129d19ba
 RARFileSource       0.9.3 (modified)
 RealMedia SDK       -
 ResizableLib        1.5.1 (modified)
