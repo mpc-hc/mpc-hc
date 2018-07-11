@@ -26,14 +26,8 @@
 #include "Logger.h"
 #include <wininet.h>
 
-#if USE_STATIC_MEDIAINFO
-#include "MediaInfo/MediaInfo.h"
-using namespace MediaInfoLib;
-#define MediaInfo_int64u ZenLib::int64u
-#else
-#include "MediaInfoDLL/MediaInfoDLL.h"
+#include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
-#endif
 
 using namespace SubtitlesProvidersUtils;
 

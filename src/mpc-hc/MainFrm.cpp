@@ -117,13 +117,8 @@ static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 
-#if USE_STATIC_MEDIAINFO
-#include "MediaInfo/MediaInfo.h"
-using namespace MediaInfoLib;
-#else
-#include "MediaInfoDLL/MediaInfoDLL.h"
+#include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
-#endif
 
 class CSubClock : public CUnknown, public ISubClock
 {

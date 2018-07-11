@@ -44,9 +44,7 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, C
         AddPage(&m_res);
     }
 
-#if !USE_STATIC_MEDIAINFO
     if (CPPageFileMediaInfo::HasMediaInfo())
-#endif
         AddPage(&m_mi);
 }
 

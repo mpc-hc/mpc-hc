@@ -1,43 +1,37 @@
 [submodule "bs2b"]
-    path = src/thirdparty/bs2b/libbs2b
-    url = https://github.com/alexmarsev/libbs2b.git
+	path = src/thirdparty/bs2b/libbs2b
+	url = https://github.com/alexmarsev/libbs2b.git
 [submodule "LAVFilters"]
-    path = src/thirdparty/LAVFilters/src
-    url = https://github.com/clsid2/LAVFilters.git
+	path = src/thirdparty/LAVFilters/src
+	url = https://github.com/clsid2/LAVFilters.git
 [submodule "lcms2"]
-    path = src/thirdparty/lcms2/library
-    url = https://github.com/mm2/Little-CMS.git
-[submodule "MediaInfoLib"]
-    path = src/thirdparty/MediaInfo/library
-    url = https://github.com/MediaArea/MediaInfoLib.git
+	path = src/thirdparty/lcms2/library
+	url = https://github.com/mm2/Little-CMS.git
 [submodule "NanoSVG"]
-    path = src/thirdparty/nanosvg
-    url = https://github.com/memononen/nanosvg.git
+	path = src/thirdparty/nanosvg
+	url = https://github.com/memononen/nanosvg.git
 [submodule "rapidjson"]
-    path = src/thirdparty/rapidjson
-    url = https://github.com/tencent/rapidjson.git
+	path = src/thirdparty/rapidjson
+	url = https://github.com/tencent/rapidjson.git
 [submodule "RARFileSource"]
-    path = src/thirdparty/RARFileSource/library
-    url = https://github.com/mpc-hc/rarfilesource.git
+	path = src/thirdparty/RARFileSource/library
+	url = https://github.com/mpc-hc/rarfilesource.git
 [submodule "sanear"]
-    path = src/thirdparty/sanear/sanear
-    url = https://github.com/mpc-hc/sanear.git
-    branch = core
+	path = src/thirdparty/sanear/sanear
+	url = https://github.com/mpc-hc/sanear.git
+	branch = core
 [submodule "soundtouch"]
-    path = src/thirdparty/SoundTouch/soundtouch
-    url = https://github.com/alexmarsev/soundtouch.git
+	path = src/thirdparty/SoundTouch/soundtouch
+	url = https://github.com/alexmarsev/soundtouch.git
 [submodule "soxr"]
-    path = src/thirdparty/soxr/libsoxr
-    url = https://github.com/alexmarsev/soxr.git
+	path = src/thirdparty/soxr/libsoxr
+	url = https://github.com/alexmarsev/soxr.git
 [submodule "tinyxml2"]
-    path = src/thirdparty/tinyxml2/library
-    url = https://github.com/leethomason/tinyxml2.git
+	path = src/thirdparty/tinyxml2/library
+	url = https://github.com/leethomason/tinyxml2.git
 [submodule "XmlRpc4Win"]
-    path = src/thirdparty/XmlRpc4Win
-    url = https://github.com/drtimcooper/XmlRpc4Win.git
-[submodule "ZenLib"]
-    path = src/thirdparty/ZenLib/library
-    url = https://github.com/MediaArea/ZenLib.git
+	path = src/thirdparty/XmlRpc4Win
+	url = https://github.com/drtimcooper/XmlRpc4Win.git
 [submodule "src/thirdparty/minhook/minhook"]
-    path = src/thirdparty/minhook/minhook
-    url = https://github.com/TsudaKageyu/minhook.git
+	path = src/thirdparty/minhook/minhook
+	url = https://github.com/TsudaKageyu/minhook.git

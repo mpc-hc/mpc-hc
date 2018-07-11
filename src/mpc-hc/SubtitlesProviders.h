@@ -22,7 +22,7 @@
 
 #include "SubtitlesProvidersUtils.h"
 #include "../Subtitles/SubtitleHelpers.h"
-#include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
+#include "base64/base64.h"
 #include "VersionInfo.h"
 
 class CMainFrame;

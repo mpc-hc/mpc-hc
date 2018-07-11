@@ -24,7 +24,7 @@
 #include "mplayerc.h"
 #include "ISOLang.h"
 #include "Logger.h"
-#include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
+#include "base64/base64.h"
 #include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
 #include <wincrypt.h>
