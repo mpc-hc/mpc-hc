@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -117,13 +117,8 @@ static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 
-#if USE_STATIC_MEDIAINFO
-#include "MediaInfo/MediaInfo.h"
-using namespace MediaInfoLib;
-#else
-#include "MediaInfoDLL/MediaInfoDLL.h"
+#include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
-#endif
 
 class CSubClock : public CUnknown, public ISubClock
 {
@@ -674,9 +669,11 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
+            #if USE_DRDUMP_CRASH_REPORTER
             if (CrashReporter::IsEnabled()) {
                 CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
             }
+            #endif
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);
@@ -3892,6 +3889,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_SLAVE) {
         SendAPICommand(CMD_CONNECT, L"%d", PtrToInt(GetSafeHwnd()));
+        s.nCLSwitches &= ~CLSW_SLAVE;
     }
 
     POSITION pos = s.slFilters.GetHeadPosition();
@@ -3960,6 +3958,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             p->subs.AddTailList(&s.slSubs);
         }
         OpenMedia(p);
+        s.nCLSwitches &= ~CLSW_DVD;
     } else if (s.nCLSwitches & CLSW_CD) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         fSetForegroundWindow = true;
@@ -3982,8 +3981,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         m_wndPlaylistBar.Open(sl, true);
         applyRandomizeSwitch();
         OpenCurPlaylistItem();
+        s.nCLSwitches &= ~CLSW_CD;
     } else if (s.nCLSwitches & CLSW_DEVICE) {
         SendMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+        s.nCLSwitches &= ~CLSW_DEVICE;
     } else if (!s.slFiles.IsEmpty()) {
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
@@ -4033,6 +4034,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 s.nCLSwitches &= ~CLSW_STARTVALID;
                 s.rtStart = 0;
             }
+            s.nCLSwitches &= ~CLSW_ADD;
         }
     } else {
         applyRandomizeSwitch();
@@ -4040,25 +4042,29 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (s.nCLSwitches & CLSW_PRESET1) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_MINIMAL);
+        s.nCLSwitches &= ~CLSW_PRESET1;
     } else if (s.nCLSwitches & CLSW_PRESET2) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_COMPACT);
+        s.nCLSwitches &= ~CLSW_PRESET2;
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
+        s.nCLSwitches &= ~CLSW_PRESET3;
     }
     if (s.nCLSwitches & CLSW_MUTE) {
         if (!IsMuted()) {
             SendMessage(WM_COMMAND, ID_VOLUME_MUTE);
         }
+        s.nCLSwitches &= ~CLSW_MUTE;
     }
     if (s.nCLSwitches & CLSW_VOLUME) {
         m_wndToolBar.SetVolume(s.nCmdVolume);
+        s.nCLSwitches &= ~CLSW_VOLUME;
     }
 
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
 
-    s.nCLSwitches = CLSW_NONE;
 
     return TRUE;
 }
@@ -4837,11 +4843,42 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
 
-static CString MakeSnapshotFileName(LPCTSTR prefix)
+CString CMainFrame::MakeSnapshotFileName(BOOL thumbnails)
 {
-    CTime t = CTime::GetCurrentTime();
+    CAppSettings& s = AfxGetAppSettings();
+    CString prefix;
     CString fn;
-    fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), AfxGetAppSettings().strSnapshotExt.GetString());
+
+    ASSERT(!thumbnails || GetPlaybackMode() == PM_FILE);
+
+    if (GetPlaybackMode() == PM_FILE) {
+        if (thumbnails) {
+            prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
+        } else {
+            if (s.bSaveImagePosition) {
+                prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
+            } else {
+                prefix.Format(_T("%s"), GetFileName().GetString());
+            }
+        }
+    } else if (GetPlaybackMode() == PM_DVD) {
+        if (s.bSaveImagePosition) {
+            prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
+        } else {
+            prefix = _T("dvd_snapshot");
+        }
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
+    } else {
+        prefix = _T("snapshot");
+    }
+
+    if (!thumbnails && s.bSaveImageCurrentTime) {
+        CTime t = CTime::GetCurrentTime();
+        fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), t.Format(_T("%Y.%m.%d_%H.%M.%S")).GetString(), s.strSnapshotExt.GetString());
+    } else {
+        fn.Format(_T("%s%s"), PathUtils::FilterInvalidCharsFromFileName(prefix).GetString(), s.strSnapshotExt.GetString());
+    }
     return fn;
 }
 
@@ -4879,9 +4916,9 @@ CString CMainFrame::GetVidPos() const
         DVD_HMSF_TIMECODE tcDur = RT2HMSF(stop);
 
         if (tcDur.bHours > 0 || (pos >= stop && tcNow.bHours > 0)) {
-            posstr.Format(_T("%02u.%02u.%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+            posstr.Format(_T("%02u.%02u.%02u.%03u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds, pos % 1000);
         } else {
-            posstr.Format(_T("%02u.%02u"), tcNow.bMinutes, tcNow.bSeconds);
+            posstr.Format(_T("%02u.%02u.%03u"), tcNow.bMinutes, tcNow.bSeconds, pos % 1000);
         }
     }
 
@@ -4898,16 +4935,7 @@ void CMainFrame::OnFileSaveImage()
     }
 
     CPath psrc(s.strSnapshotPath);
-
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE));
 
     CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
                         _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -4967,18 +4995,9 @@ void CMainFrame::OnFileSaveImageAuto()
         return;
     }
 
-    CStringW prefix = _T("snapshot");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_snapshot_%s"), GetFileName().GetString(), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos().GetString());
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName.GetString());
-    }
-
     CString fn;
-    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(prefix).GetString());
-    SaveImage(fn);
+    fn.Format(_T("%s\\%s"), s.strSnapshotPath.GetString(), MakeSnapshotFileName(FALSE).GetString());
+    SaveImage(fn.GetString());
 }
 
 void CMainFrame::OnUpdateFileSaveImage(CCmdUI* pCmdUI)
@@ -4997,13 +5016,7 @@ void CMainFrame::OnFileSaveThumbnails()
     }
 
     CPath psrc(s.strSnapshotPath);
-    CStringW prefix = _T("thumbs");
-    if (GetPlaybackMode() == PM_FILE) {
-        prefix.Format(_T("%s_thumbs"), GetFileName().GetString());
-    } else {
-        ASSERT(FALSE);
-    }
-    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
+    psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(TRUE));
 
     CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
                              _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
@@ -5930,6 +5943,9 @@ void CMainFrame::OnViewForceInputHighColorResolution()
 void CMainFrame::OnViewFullFloatingPointProcessing()
 {
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
+    if (!r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
+        if (AfxMessageBox(_T("WARNING: Full Floating Point processing can sometimes cause problems. With some videos it can cause the player to freeze, crash, or display corrupted video. This happens mostly with Intel GPUs.\n\nAre you really sure that you want to enable this setting?"), MB_YESNO) == IDNO) return;
+    }
     r.m_AdvRendSets.bVMR9FullFloatingPointProcessing = !r.m_AdvRendSets.bVMR9FullFloatingPointProcessing;
     if (r.m_AdvRendSets.bVMR9FullFloatingPointProcessing) {
         r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing = false;
@@ -7156,14 +7172,16 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayFramestep(UINT nID)
 {
+    if (!m_pFS) return;
+
     m_OSD.EnableShowMessage(false);
-    if (m_pFS && m_fQuicktimeGraph) {
+    if (m_fQuicktimeGraph) {
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
         m_pFS->Step((nID == ID_PLAY_FRAMESTEP) ? 1 : -1, nullptr);
-    } else if (m_pFS && nID == ID_PLAY_FRAMESTEP) {
+    } else if (nID == ID_PLAY_FRAMESTEP) {
         if (GetMediaState() != State_Paused && !queue_ffdshow_support) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
@@ -7233,7 +7251,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && !m_fLiveWM
             && (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title))) {
-        if (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
+        if (m_pFS && (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME))) {
             fEnable = true;
         } else if (pCmdUI->m_nID == ID_PLAY_FRAMESTEP) {
             fEnable = true;
@@ -7251,7 +7269,7 @@ void CMainFrame::OnPlaySeek(UINT nID)
 {
     const auto& s = AfxGetAppSettings();
 
-    REFERENCE_TIME rtSeekTo =
+    REFERENCE_TIME rtJumpDiff =
         nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64 * s.nJumpDistS :
         nID == ID_PLAY_SEEKFORWARDSMALL  ? +10000i64 * s.nJumpDistS :
         nID == ID_PLAY_SEEKBACKWARDMED   ? -10000i64 * s.nJumpDistM :
@@ -7264,28 +7282,22 @@ void CMainFrame::OnPlaySeek(UINT nID)
                             nID == ID_PLAY_SEEKFORWARDMED ||
                             nID == ID_PLAY_SEEKFORWARDLARGE);
 
-    if (rtSeekTo == 0) {
+    if (rtJumpDiff == 0) {
         ASSERT(FALSE);
         return;
     }
 
     if (m_fShockwaveGraph) {
         // HACK: the custom graph should support frame based seeking instead
-        rtSeekTo /= 10000i64 * 100;
+        rtJumpDiff /= 10000i64 * 100;
     }
 
     const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
-    rtSeekTo += rtPos;
+    REFERENCE_TIME rtSeekTo = rtPos + rtJumpDiff;
+    if (rtSeekTo < 0) rtSeekTo = 0;
 
     if (s.bFastSeek && !m_kfs.empty()) {
-        // seek to the closest keyframe, but never in the opposite direction
-        rtSeekTo = GetClosestKeyFrame(rtSeekTo);
-        if ((bSeekingForward && rtSeekTo <= rtPos) ||
-                (!bSeekingForward &&
-                 rtSeekTo >= rtPos - (GetMediaState() == State_Running ? 10000000 : 0))) {
-            OnPlaySeekKey(bSeekingForward ? ID_PLAY_SEEKKEYFORWARD : ID_PLAY_SEEKKEYBACKWARD);
-            return;
-        }
+        rtSeekTo = GetClosestKeyFrame(rtSeekTo, abs(rtJumpDiff) / 3);
     }
 
     SeekTo(rtSeekTo);
@@ -7321,16 +7333,23 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
     if (!m_kfs.empty()) {
         bool bSeekingForward = (nID == ID_PLAY_SEEKKEYFORWARD);
         const REFERENCE_TIME rtPos = m_wndSeekBar.GetPos();
-        REFERENCE_TIME rtSeekTo = rtPos - (bSeekingForward ? 0 : (GetMediaState() == State_Running) ? 10000000 : 10000);
-        std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
+        REFERENCE_TIME rtKeyframe;
+        REFERENCE_TIME rtTarget;
+        REFERENCE_TIME rtMin;
+        REFERENCE_TIME rtMax;
+        if (bSeekingForward) {
+            rtMin = rtPos + 10000; // at least one millisecond later
+            rtMax = GetDur();
+            rtTarget = rtMin;
+        }
+        else {
+            rtMin = 0; 
+            rtMax = rtPos - 10000;
+            rtTarget = rtMax;
+        }
 
-        if (GetNeighbouringKeyFrames(rtSeekTo, keyframes)) {
-            rtSeekTo = bSeekingForward ? keyframes.second : keyframes.first;
-            if (bSeekingForward && rtSeekTo <= rtPos) {
-                // the end of stream is near, no keyframes before it
-                return;
-            }
-            SeekTo(rtSeekTo);
+        if (GetKeyFrame(rtTarget, rtMin, rtMax, false, rtKeyframe)) {
+            SeekTo(rtKeyframe);
         }
     }
 }
@@ -13921,33 +13940,6 @@ REFERENCE_TIME CMainFrame::GetDur() const
     return (GetLoadState() == MLS::LOADED ? stop : 0);
 }
 
-bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const
-{
-    bool ret = false;
-    REFERENCE_TIME rtLower, rtUpper;
-    if (!m_kfs.empty()) {
-        const auto cbegin = m_kfs.cbegin();
-        const auto cend = m_kfs.cend();
-        ASSERT(std::is_sorted(cbegin, cend));
-        auto upper = std::upper_bound(cbegin, cend, rtTarget);
-        if (upper == cbegin) {
-            // we assume that streams always start with keyframe
-            rtLower = *cbegin;
-            rtUpper = (++upper != cend) ? *upper : rtLower;
-        } else if (upper == cend) {
-            rtLower = rtUpper = *(--upper);
-        } else {
-            rtUpper = *upper;
-            rtLower = *(--upper);
-        }
-        ret = true;
-    } else {
-        rtLower = rtUpper = rtTarget;
-    }
-    keyframes = std::make_pair(rtLower, rtUpper);
-    return ret;
-}
-
 void CMainFrame::LoadKeyFrames()
 {
     UINT nKFs = 0;
@@ -13961,19 +13953,72 @@ void CMainFrame::LoadKeyFrames()
     }
 }
 
-REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget) const
+bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const
 {
-    REFERENCE_TIME ret = rtTarget;
-    std::pair<REFERENCE_TIME, REFERENCE_TIME> keyframes;
-    if (GetNeighbouringKeyFrames(rtTarget, keyframes)) {
-        const auto& s = AfxGetAppSettings();
-        if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
-            ret = (rtTarget - keyframes.first < keyframes.second - rtTarget) ? keyframes.first : keyframes.second;
+    ASSERT(rtTarget >= rtMin);
+    ASSERT(rtTarget <= rtMax);
+    if (!m_kfs.empty()) {
+        const auto cbegin = m_kfs.cbegin();
+        const auto cend = m_kfs.cend();
+        ASSERT(std::is_sorted(cbegin, cend));
+
+        auto foundkeyframe = std::lower_bound(cbegin, cend, rtTarget);
+
+        if (foundkeyframe == cbegin) {
+            // first keyframe
+            keyframetime = *foundkeyframe;
+            if ((keyframetime < rtMin) || (keyframetime > rtMax)) {
+                keyframetime = rtTarget;
+                return false;
+            }
+        } else if (foundkeyframe == cend) {
+            // last keyframe
+            keyframetime = *(--foundkeyframe);
+            if (keyframetime < rtMin) {
+                keyframetime = rtTarget;
+                return false;
+            }
         } else {
-            ret = keyframes.first;
+            keyframetime = *foundkeyframe;
+            if (keyframetime > rtMax) {
+                // use preceding keyframe
+                keyframetime = *(--foundkeyframe);
+                if (keyframetime < rtMin) {
+                    keyframetime = rtTarget;
+                    return false;
+                }
+            } else {
+                if (nearest) {
+                    const auto& s = AfxGetAppSettings();
+                    if (s.eFastSeekMethod == s.FASTSEEK_NEAREST_KEYFRAME) {
+                        // use closest keyframe
+                        REFERENCE_TIME tmp_time = *(--foundkeyframe);
+                        if ((rtMin <= tmp_time)) {
+                            if ((rtMax - keyframetime) > (keyframetime - tmp_time)) {
+                                keyframetime = tmp_time;
+                            }
+                        }
+                    }
+                }
+            }
         }
+        return true;
+    } else {
+        keyframetime = rtTarget;
     }
-    return ret;
+    return false;
+}
+
+REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxDiff) const
+{
+    REFERENCE_TIME rtKeyframe;
+    REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxDiff, 0LL);
+    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxDiff, GetDur());
+
+    if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
+        return rtKeyframe;
+    }
+    return rtTarget;
 }
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
@@ -13995,6 +14040,11 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
     }
     m_nStepForwardCount = 0;
+
+    // skip seeks when duration is unknown
+    if (!m_wndSeekBar.HasDuration()) {
+        return;
+    }
 
     if (!IsPlaybackCaptureMode()) {
         __int64 start, stop;
@@ -14843,9 +14893,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         CloseMediaPrivate();
     }
 
-    // keep only those command-line switches
-    // TODO: I have no idea why we need it here in CloseMedia()/OnFilePostClosemedia()
-    s.nCLSwitches &= CLSW_OPEN | CLSW_PLAY | CLSW_AFTERPLAYBACK_MASK | CLSW_NOFOCUS;
 
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
@@ -15563,7 +15610,7 @@ void CMainFrame::SendNowPlayingToApi()
         CStringW buff;
         buff.Format(L"%s|%s|%s|%s|%s", title.GetString(), author.GetString(), description.GetString(), label.GetString(), strDur.GetString());
 
-        SendAPICommand(CMD_NOWPLAYING, buff);
+        SendAPICommand(CMD_NOWPLAYING, L"%s", static_cast<LPCWSTR>(buff));
         SendSubtitleTracksToApi();
         SendAudioTracksToApi();
     }
@@ -15653,7 +15700,7 @@ void CMainFrame::SendSubtitleTracksToApi()
     } else {
         strSubs.Append(L"-2");
     }
-    SendAPICommand(CMD_LISTSUBTITLETRACKS, strSubs);
+    SendAPICommand(CMD_LISTSUBTITLETRACKS, L"%s", static_cast<LPCWSTR>(strSubs));
 }
 
 void CMainFrame::SendAudioTracksToApi()
@@ -15702,14 +15749,13 @@ void CMainFrame::SendAudioTracksToApi()
     } else {
         strAudios.Append(L"-2");
     }
-    SendAPICommand(CMD_LISTAUDIOTRACKS, strAudios);
+    SendAPICommand(CMD_LISTAUDIOTRACKS, L"%s", static_cast<LPCWSTR>(strAudios));
 
 }
 
 void CMainFrame::SendPlaylistToApi()
 {
     CStringW strPlaylist;
-    int index;
     POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition(), pos2;
 
     while (pos) {
@@ -15727,13 +15773,12 @@ void CMainFrame::SendPlaylistToApi()
             }
         }
     }
-    index = m_wndPlaylistBar.GetSelIdx();
     if (strPlaylist.IsEmpty()) {
         strPlaylist.Append(L"-1");
     } else {
-        strPlaylist.AppendFormat(L"|%d", index);
+        strPlaylist.AppendFormat(L"|%d", m_wndPlaylistBar.GetSelIdx());
     }
-    SendAPICommand(CMD_PLAYLIST, strPlaylist);
+    SendAPICommand(CMD_PLAYLIST, L"%s", static_cast<LPCWSTR>(strPlaylist));
 }
 
 void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)

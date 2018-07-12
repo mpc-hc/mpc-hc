@@ -45,9 +45,7 @@ public:
     // Dialog Data
     enum { IDD = IDD_FILEMEDIAINFO };
 
-#if !USE_STATIC_MEDIAINFO
     static bool HasMediaInfo();
-#endif
 
     void OnSaveAs();
 

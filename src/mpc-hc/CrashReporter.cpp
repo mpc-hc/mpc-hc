@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "CrashReporter.h"
-#ifndef _DEBUG
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
 #include "DoctorDump/CrashRpt.h"
@@ -42,7 +42,7 @@ namespace CrashReporter
 
 void CrashReporter::Enable(LPCTSTR langDll /*= nullptr*/)
 {
-#ifndef _DEBUG
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     crash_rpt::ApplicationInfo appInfo = {
         sizeof(appInfo),
         "31c48823-ce52-401b-8425-888388161757",
@@ -106,21 +106,21 @@ void CrashReporter::Enable(LPCTSTR langDll /*= nullptr*/)
 
 void CrashReporter::Disable()
 {
-#ifndef _DEBUG
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     g_bEnabled = false;
 #endif
 }
 
 bool CrashReporter::IsEnabled()
 {
-#ifndef _DEBUG
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     return g_bEnabled;
 #else
     return false;
 #endif
 }
 
-#ifndef _DEBUG
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
 CrashProcessingCallbackResult CALLBACK CrashReporter::CrashProcessingCallback(CrashProcessingCallbackStage stage,
         ExceptionInfo* pExceptionInfo,
         LPVOID pUserData)

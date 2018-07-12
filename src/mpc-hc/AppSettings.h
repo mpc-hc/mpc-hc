@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -89,9 +89,12 @@ enum : UINT64 {
     CLSW_PRESET1 = CLSW_RESET << 1,
     CLSW_PRESET2 = CLSW_PRESET1 << 1,
     CLSW_PRESET3 = CLSW_PRESET2 << 1,
-    CLSW_MUTE = CLSW_PRESET3 << 1,
+    CLSW_CONFIGLAVSPLITTER = CLSW_PRESET3 << 1,
+    CLSW_CONFIGLAVAUDIO = CLSW_CONFIGLAVSPLITTER << 1,
+    CLSW_CONFIGLAVVIDEO = CLSW_CONFIGLAVAUDIO << 1,
+    CLSW_MUTE = CLSW_CONFIGLAVVIDEO << 1,
     CLSW_VOLUME = CLSW_MUTE << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1 // 40
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_VOLUME << 1 // 46
 };
 
 enum MpcCaptionState {
@@ -511,6 +514,8 @@ public:
     UINT            nVolumeStep;
     UINT            nSpeedStep;
     int             nDefaultToolbarSize;
+    bool            bSaveImagePosition;
+    bool            bSaveImageCurrentTime;
 
     enum class AfterPlayback {
         DO_NOTHING,

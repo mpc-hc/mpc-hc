@@ -310,8 +310,8 @@ void CWebClientSocket::OnReceive(int nErrorCode)
 
         int nRead = Receive(m_buff + m_buffLen, m_buffMaxLen - m_buffLen - 1);
         if (nRead > 0) {
-            m_buff[nRead] = '\0';
             m_buffLen += nRead;
+            m_buff[m_buffLen] = '\0';
 
             switch (m_parsingState) {
                 case PARSING_HEADER: {

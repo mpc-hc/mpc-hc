@@ -1,4 +1,4 @@
-; (C) 2009-2017 see Authors.txt
+; (C) 2009-2018 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -73,12 +73,14 @@
   #define mpchc_ini     = "mpc-hc64.ini"
   #define lavfiltersdir = "LAVFilters64"
   #define OutFilename   = app_name + "." + app_ver + ".x64"
+  #define platform      = "x64"
 #else
   #define bindir        = AddBackslash(base_bindir) + "mpc-hc_x86"
   #define mpchc_exe     = "mpc-hc.exe"
   #define mpchc_ini     = "mpc-hc.ini"
   #define lavfiltersdir = "LAVFilters"
   #define OutFilename   = app_name + "." + app_ver + ".x86"
+  #define platform      = "x86"
 #endif
 
 #if defined(MPCHC_LITE)
@@ -251,20 +253,25 @@ Source: {#bindir}\{#lavfiltersdir}\*.dll;       DestDir: {app}\{#lavfiltersdir};
 Source: {#bindir}\{#lavfiltersdir}\*.ax;        DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
 Source: {#bindir}\{#lavfiltersdir}\*.manifest;  DestDir: {app}\{#lavfiltersdir}; Components: main; Flags: ignoreversion
 #endif
-Source: {#bindir}\d3dcompiler_{#MPC_D3D_COMPILER_VERSION}.dll; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#platform}\d3dcompiler_{#MPC_D3D_COMPILER_VERSION}.dll; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#platform}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;              DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;               DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 Source: {#bindir}\{#mpchc_exe};                 DestDir: {app}; Components: main;         Flags: ignoreversion
+#if !defined(MPCHC_LITE) & !USE_STATIC_MEDIAINFO
+Source: {#platform}\mediainfo.dll;              DestDir: {app}; Components: main;         Flags: ignoreversion
+#endif
 Source: ..\COPYING.txt;                         DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
+#if USE_DRDUMP_CRASH_REPORTER
 #ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
 Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\crashrpt.dll;            DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\dbghelp.dll;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 Source: {#crashreporter_dir}\sendrpt.exe;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+#endif
 #endif
 
 

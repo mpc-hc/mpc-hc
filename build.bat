@@ -333,6 +333,8 @@ EXIT /B
 
 
 :SubCopyDXDll
+REM SubCopyDXDll skipped
+EXIT /B
 IF /I "%BUILDCFG%" == "Debug" EXIT /B
 PUSHD "%BIN_DIR%"
 COPY /Y /V "%WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_%MPC_D3D_COMPILER_VERSION%.dll" "mpc-hc_%~1%~2" >NUL

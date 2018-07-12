@@ -2,19 +2,18 @@ Project             Version
 ----------------------------------------
 bs2b                3.1.0 (modified)
 CSizingControlBar   2.45 (modified)
-LAV Filters         0.70.2 (custom build based on stable v0.70.2)
-Little CMS          2.8 (d41071e)
+LAV Filters         0.72
+Little CMS          2.9rc1-34-gce6dea8
 Logitech SDK        3.01 (driver 8.00.100)
-MediaInfoLib        0.7.97
 MinHook             1.3.3
 MultiMon            28 Aug '03 (modified)
 NanoSVG             git dc12d90
 QuickTime SDK       7.3
-RapidJSON           1.0.2
+RapidJSON           v1.1.0-401-g129d19ba
 RARFileSource       0.9.3 (modified)
 RealMedia SDK       -
-ResizableLib        1.3
-sanear              0.2
+ResizableLib        1.5.1 (modified)
+sanear              0.3 (e1bebc9)
 SoundTouch          1.9.0
 soxr                0.1.2
 tinyxml2            4.0.1
@@ -22,6 +21,5 @@ TreePropSheet       7 Mar '03 (modified)
 UnRAR               5.5.6
 VirtualDub          1.10.4
 XmlRpcC4Win         1.0.13 (modified)
-ZenLib              0.4.35
 zita-resampler      1.3.0
 zlib                1.2.11

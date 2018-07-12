@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,14 +37,13 @@ public:
     virtual BOOL Create(CWnd* pParentWnd);
 
 private:
-    enum { TIMER_SHOWHIDE_TOOLTIP = 1, TIMER_HOVER_CAPTURED };
+    enum { TIMER_SHOWHIDE_TOOLTIP = 1 };
 
     CMainFrame* m_pMainFrame;
     REFERENCE_TIME m_rtStart, m_rtStop, m_rtPos;
     bool m_bEnabled;
     bool m_bHasDuration;
     REFERENCE_TIME m_rtHoverPos;
-    bool m_bHovered;
     CPoint m_hoverPoint;
     HCURSOR m_cursor;
     bool m_bDraggingThumb;
@@ -71,6 +70,7 @@ private:
 
     void MoveThumb(const CPoint& point);
     void SyncVideoToThumb();
+    void CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_time_change);
     long ChannelPointFromPosition(REFERENCE_TIME rtPos) const;
     REFERENCE_TIME PositionFromClientPoint(const CPoint& point) const;
     void SyncThumbToVideo(REFERENCE_TIME rtPos);

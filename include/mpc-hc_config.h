@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2013-2017 see Authors.txt
+ * (C) 2013-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,18 +31,22 @@
 #endif
 #endif
 
-#define WEBSITE_URL  _T("https://mpc-hc.org/")
-#define DOWNLOAD_URL _T("https://mpc-hc.org/downloads/")
-#define UPDATE_URL   _T("https://mpc-hc.org/version.txt")
+#define WEBSITE_URL  _T("https://github.com/clsid2/mpc-hc/releases")
+#define DOWNLOAD_URL _T("https://github.com/clsid2/mpc-hc/releases")
+#define UPDATE_URL   _T("https://github.com/clsid2/mpc-hc/raw/develop/version.txt")
 #define TRAC_URL     _T("https://trac.mpc-hc.org/")
 #define BUGS_URL     _T("https://trac.mpc-hc.org/wiki/How_to_Report_Issues")
 #define TOOLBARS_URL _T("https://trac.mpc-hc.org/wiki/Toolbar_images")
 
 #define USE_STATIC_UNRAR 1
 
-#ifndef MPCHC_LITE
-#define USE_STATIC_MEDIAINFO 1
+#ifdef MPCHC_LITE
+#define USE_STATIC_MEDIAINFO 0
+#else
+#define USE_STATIC_MEDIAINFO 0
 #endif
+
+#define USE_DRDUMP_CRASH_REPORTER 0
 
 #define SHADERS_DIR _T("Shaders")
 #define SHADERS_EXT _T(".hlsl")

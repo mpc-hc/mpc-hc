@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Névjegy"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2017 see Authors.txt"
-msgstr "Szerzői jog © 2002-2017 lásd Authors.txt fájl"
+msgid "Copyright © 2002-2018 see Authors.txt"
+msgstr "Szerzői jog © 2002-2018 lásd Authors.txt fájl"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."

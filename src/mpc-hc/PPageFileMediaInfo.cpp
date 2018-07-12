@@ -27,14 +27,8 @@
 #include "PPageFileMediaInfo.h"
 #include "WinAPIUtils.h"
 
-#if USE_STATIC_MEDIAINFO
-#include "MediaInfo/MediaInfo.h"
-using namespace MediaInfoLib;
-#define MediaInfo_int64u ZenLib::int64u
-#else
-#include "MediaInfoDLL/MediaInfoDLL.h"
+#include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
-#endif
 
 #define MEDIAINFO_BUFFER_SIZE 1024 * 256
 
@@ -84,13 +78,8 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
     }
 
     m_futureMIText = std::async(m_bSyncAnalysis ? std::launch::deferred : std::launch::async, [ = ]() {
-#if USE_STATIC_MEDIAINFO
-        MediaInfoLib::String filename = m_path;
-        MediaInfoLib::MediaInfo MI;
-#else
         MediaInfoDLL::String filename = m_path;
         MediaInfo MI;
-#endif
         // If we do a synchronous analysis on an optical drive, we pause the video during
         // the analysis to avoid concurrent accesses to the drive. Note that due to the
         // synchronous nature of the analysis, we are sure that the graph state will not
@@ -254,13 +243,11 @@ bool CPPageFileMediaInfo::OnKeyDownInEdit(MSG* pMsg)
     return bHandled;
 }
 
-#if !USE_STATIC_MEDIAINFO
 bool CPPageFileMediaInfo::HasMediaInfo()
 {
     MediaInfo MI;
     return MI.IsReady();
 }
-#endif
 
 void CPPageFileMediaInfo::OnSaveAs()
 {

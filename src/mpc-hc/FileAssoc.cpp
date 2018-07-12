@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014, 2016-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -431,7 +431,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt) const
     TCHAR   buff[MAX_PATH];
     ULONG   len = _countof(buff);
     CString strProgID = PROGID + strExt;
-    bool    registered = false;
+    bool    registered = true;
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
         CString strCommand(StrRes(IDS_OPEN_WITH_MPC));

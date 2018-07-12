@@ -194,7 +194,7 @@ msgid "About"
 msgstr "MPC-HC বিষয়ক"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2017 see Authors.txt"
+msgid "Copyright © 2002-2018 see Authors.txt"
 msgstr "কপিরাইট © ২০০২-২০১৭ বিস্তারিত দেখুন Authors.txtএ"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"

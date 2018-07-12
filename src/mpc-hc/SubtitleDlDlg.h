@@ -103,7 +103,6 @@ protected:
     afx_msg void OnOptions();
     afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDestroy();
-    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnRightClick(NMHDR* pNMHDR, LRESULT* pResult);

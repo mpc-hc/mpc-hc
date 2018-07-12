@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2017 see Authors.txt
+ * (C) 2013-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,11 +28,7 @@
 #include <initguid.h>
 #include "FGFilterLAV.h"
 
-#define LAV_FILTERS_VERSION_MAJOR      0
-#define LAV_FILTERS_VERSION_MINOR      67
-#define LAV_FILTERS_VERSION_REVISION   0
-#define LAV_FILTERS_VERSION_COMMIT_NUM 82
-#define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16 | LAV_FILTERS_VERSION_COMMIT_NUM)
+#define LAV_FILTERS_VERSION(major, minor, rev, commit) ((QWORD)(major) << 48 | (QWORD)(minor) << 32 | (QWORD)(rev) << 16 | (QWORD)(commit))
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
 #define IDS_R_INTERNAL_LAVVIDEO              IDS_R_INTERNAL_FILTERS  _T("\\LAVVideo")
@@ -51,6 +47,7 @@
 //
 
 CList<const IBaseFilter*> CFGFilterLAV::s_instances;
+QWORD CFGFilterLAV::lav_version = 0;
 
 CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool bAddLowMeritSuffix, UINT64 merit)
     : CFGFilterFile(clsid, path, name + (bAddLowMeritSuffix ? LowMeritSuffix : L""), merit)
@@ -99,9 +96,9 @@ CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 
 bool CFGFilterLAV::CheckVersion(CString filterPath)
 {
-    QWORD version = FileVersionInfo::GetFileVersionNum(filterPath);
+    lav_version = FileVersionInfo::GetFileVersionNum(filterPath);
 
-    return (version >= LAV_FILTERS_VERSION);
+    return lav_version >= LAV_FILTERS_VERSION(0, 67, 0, 82);
 }
 
 CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
@@ -640,6 +637,14 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
 
     dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+        dwHWAccelDeviceD3D11 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
+
+        dwHWAccelDeviceD3D11Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
+
+        bHWAccelCUVIDXVA = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
+    }
 }
 
 void CFGFilterLAVVideo::Settings::SaveSettings()
@@ -694,6 +699,14 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
+
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11);
+
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
+    }
 }
 
 bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings)
@@ -736,7 +749,13 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     dwHWDeintOutput = pLAVFSettings->GetHWAccelDeintOutput();
 
-    dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+        dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
+
+        dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
+
+        bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
+    }
 
     return true;
 }
@@ -781,7 +800,13 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintOutput((LAVDeintOutput)dwHWDeintOutput);
 
-    pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+        pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
+
+        pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_D3D11, dwHWAccelDeviceD3D11, dwHWAccelDeviceD3D11Desc);
+
+        pLAVFSettings->SetHWAccelDeintHQ(bHWAccelCUVIDXVA);
+    }
 
     // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);

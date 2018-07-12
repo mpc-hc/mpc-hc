@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014, 2017 see Authors.txt
+ * (C) 2013-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ private:
 public:
     CRenderingCache(size_t maxSize) : m_maxSize(maxSize) {};
 
-    bool Lookup(KINARGTYPE key, _Out_ typename VTraits::OUTARGTYPE value) {
+    bool Lookup(typename KTraits::INARGTYPE key, _Out_ typename VTraits::OUTARGTYPE value) {
         POSITION pos;
         bool bFound = __super::Lookup(key, pos);
 
@@ -48,7 +48,7 @@ public:
         return bFound;
     };
 
-    POSITION SetAt(KINARGTYPE key, typename VTraits::INARGTYPE value) {
+    POSITION SetAt(typename KTraits::INARGTYPE key, typename VTraits::INARGTYPE value) {
         POSITION pos;
         bool bFound = __super::Lookup(key, pos);
 

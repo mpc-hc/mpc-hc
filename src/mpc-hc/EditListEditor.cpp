@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014, 2016-2017 see Authors.txt
+ * (C) 2009-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -287,6 +287,7 @@ void CEditListEditor::SetOut(REFERENCE_TIME rtOut)
 void CEditListEditor::NewClip(REFERENCE_TIME rtVal)
 {
     CClip newClip;
+    newClip.SetIn(rtVal);
 
     if (m_curPos) {
         CClip& curClip = m_editList.GetAt(m_curPos);

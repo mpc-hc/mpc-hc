@@ -193,7 +193,11 @@ BEGIN
         BEGIN
             VALUE "Comments",         "Based on the original Media Player Classic v6.4.9.0 © Gabest"
             VALUE "CompanyName",      MPC_COMP_NAME_STR
+#ifdef _WIN64
+            VALUE "FileDescription",  "MPC-HC (x64)"
+#else
             VALUE "FileDescription",  "MPC-HC"
+#endif
             VALUE "FileVersion",      MPC_VERSION_STR_FULL
             VALUE "InternalName",     "mpc-hc"
             VALUE "LegalCopyright",   MPC_COPYRIGHT_STR

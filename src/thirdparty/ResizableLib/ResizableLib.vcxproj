@@ -50,9 +50,13 @@
     <ClCompile Include="ResizableGrip.cpp" />
     <ClCompile Include="ResizableLayout.cpp" />
     <ClCompile Include="ResizableMinMax.cpp" />
+    <ClCompile Include="ResizableMsgSupport.cpp" />
     <ClCompile Include="ResizablePage.cpp" />
     <ClCompile Include="ResizableSheet.cpp" />
+    <ClCompile Include="ResizableSheetState.cpp" />
     <ClCompile Include="ResizableState.cpp" />
+    <ClCompile Include="ResizableVersion.cpp" />
+    <ClCompile Include="ResizableWndState.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -65,11 +69,11 @@
     <ClInclude Include="ResizableMsgSupport.h" />
     <ClInclude Include="ResizablePage.h" />
     <ClInclude Include="ResizableSheet.h" />
+    <ClInclude Include="ResizableSheetState.h" />
     <ClInclude Include="ResizableState.h" />
+    <ClInclude Include="ResizableVersion.h" />
+    <ClInclude Include="ResizableWndState.h" />
     <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ResizableMsgSupport.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

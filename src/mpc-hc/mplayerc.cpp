@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2017 see Authors.txt
+ * (C) 2006-2018 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,6 +45,7 @@
 #include <winternl.h>
 #include <regex>
 #include "ExceptionHandler.h"
+#include "FGFilterLAV.h"
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
@@ -1459,10 +1460,14 @@ BOOL CMPlayerCApp::InitInstance()
 
     // At this point we have not hooked this function yet so we get the real result
     if (!IsDebuggerPresent()) {
+        #if USE_DRDUMP_CRASH_REPORTER
         CrashReporter::Enable();
         if (!CrashReporter::IsEnabled()) {
             MPCExceptionHandler::Enable();
         }
+        #else
+        MPCExceptionHandler::Enable();
+        #endif
     }
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
@@ -1695,6 +1700,20 @@ BOOL CMPlayerCApp::InitInstance()
 
             default:
                 ASSERT(FALSE);
+        }
+        return FALSE;
+    }
+
+    if (m_s->nCLSwitches & (CLSW_CONFIGLAVSPLITTER | CLSW_CONFIGLAVAUDIO | CLSW_CONFIGLAVVIDEO)) {
+        m_s->LoadSettings();
+        if (m_s->nCLSwitches & CLSW_CONFIGLAVSPLITTER) {
+            CFGFilterLAVSplitter::ShowPropertyPages(NULL);
+        }
+        if (m_s->nCLSwitches & CLSW_CONFIGLAVAUDIO) {
+            CFGFilterLAVAudio::ShowPropertyPages(NULL);
+        }
+        if (m_s->nCLSwitches & CLSW_CONFIGLAVVIDEO) {
+            CFGFilterLAVVideo::ShowPropertyPages(NULL);
         }
         return FALSE;
     }
