@@ -1057,7 +1057,12 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     if (bColorManagement) {
         // Get the ICC profile path
         TCHAR* iccProfilePath = 0;
-        HDC hDC = GetDC(m_hWnd);
+
+        HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+        MONITORINFOEX miex;
+        miex.cbSize = sizeof(miex);
+        GetMonitorInfo(hMonitor, &miex);
+        HDC hDC = CreateDC(_T("DISPLAY"), miex.szDevice, nullptr, nullptr);
 
         if (hDC != nullptr) {
             DWORD icmProfilePathSize = 0;
@@ -1068,7 +1073,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
                 iccProfilePath = 0;
             }
 
-            ReleaseDC(m_hWnd, hDC);
+            DeleteDC(hDC);
         }
 
         // Create the 3D LUT texture
