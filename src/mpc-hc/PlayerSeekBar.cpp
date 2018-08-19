@@ -553,6 +553,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         SetCapture();
         m_bDraggingThumb = true;
         MoveThumb(point);
+        SyncVideoToThumb();
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
             MapWindowPoints(m_pMainFrame, &point, 1);
