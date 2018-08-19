@@ -61,7 +61,7 @@ CMyFont::CMyFont(const STSStyle& style)
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
     if (!CreateFontIndirect(&lf)) {
-        _tcscpy_s(lf.lfFaceName, _T("Arial"));
+        _tcscpy_s(lf.lfFaceName, _T("Tahoma"));
         VERIFY(CreateFontIndirect(&lf));
     }
 
