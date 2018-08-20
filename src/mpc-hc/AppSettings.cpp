@@ -213,6 +213,8 @@ CAppSettings::CAppSettings()
     , iLAVGPUDevice(DWORD_MAX)
     , nCmdVolume(0)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
+    , iYDLMaxHeight(0)
+    , bYDLAudioOnly(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1095,6 +1097,9 @@ void CAppSettings::SaveSettings()
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, bIgnoreSystemChannelMixer);
     }
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
+
     pApp->FlushProfile();
 }
 
@@ -1326,11 +1331,11 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
-    #if USE_DRDUMP_CRASH_REPORTER
+#if USE_DRDUMP_CRASH_REPORTER
     if (language && CrashReporter::IsEnabled()) {
         CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
     }
-    #endif
+#endif
 
     CreateCommands();
 
@@ -1839,6 +1844,9 @@ void CAppSettings::LoadSettings()
 
     sanear->SetIgnoreSystemChannelMixer(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, TRUE));
 
+    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 0);
+    bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
+
     bInitialized = true;
 }
 
@@ -2203,9 +2211,9 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == _T("debug")) {
                 fShowDebugInfo = true;
             } else if (sw == _T("nocrashreporter")) {
-                #if USE_DRDUMP_CRASH_REPORTER
+#if USE_DRDUMP_CRASH_REPORTER
                 CrashReporter::Disable();
-                #endif
+#endif
                 MPCExceptionHandler::Enable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));

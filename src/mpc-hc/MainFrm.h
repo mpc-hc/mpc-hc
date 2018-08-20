@@ -95,9 +95,10 @@ public:
 class OpenFileData : public OpenMediaData
 {
 public:
-    OpenFileData() : rtStart(0) {}
+    OpenFileData() : rtStart(0), bAddToRecent(true) {}
     CAtlList<CString> fns;
     REFERENCE_TIME rtStart;
+    bool bAddToRecent;
 };
 
 class OpenDVDData : public OpenMediaData
@@ -388,11 +389,19 @@ public:
     void StartWebServer(int nPort);
     void StopWebServer();
 
-    int GetPlaybackMode() const { return m_iPlaybackMode; }
-    bool IsPlaybackCaptureMode() const { return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE; }
+    int GetPlaybackMode() const {
+        return m_iPlaybackMode;
+    }
+    bool IsPlaybackCaptureMode() const {
+        return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE;
+    }
     void SetPlaybackMode(int iNewStatus);
-    bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
-    int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }
+    bool IsMuted() {
+        return m_wndToolBar.GetVolume() == -10000;
+    }
+    int GetVolume() {
+        return m_wndToolBar.m_volctrl.GetPos();
+    }
 
 public:
     CMainFrame();
@@ -1095,4 +1104,7 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
+
+private:
+    bool ProcessYoutubeDLURL(CString url, bool append);
 };

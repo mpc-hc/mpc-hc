@@ -468,6 +468,7 @@
     <ClCompile Include="ImageGrayer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="YoutubeDL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -875,6 +876,7 @@
     <ClInclude Include="ImageGrayer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="YoutubeDL.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">
