@@ -9,7 +9,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
 
 ## Part A: Preparing the Visual Studio environment
 
-### Visual Studio 2017 or 2015
+### Visual Studio 2017
 
 1. Install Visual C++, part of Visual Studio (any edition will work fine).
    Make sure to select **Windows 8.1 SDK** and **MFC and ATL support** during installation.
