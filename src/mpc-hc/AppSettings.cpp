@@ -1844,7 +1844,7 @@ void CAppSettings::LoadSettings()
 
     sanear->SetIgnoreSystemChannelMixer(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, TRUE));
 
-    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 0);
+    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 2160);
     bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
 
     bInitialized = true;
