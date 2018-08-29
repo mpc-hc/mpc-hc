@@ -204,7 +204,8 @@ void CMainFrameControls::LoadState()
         pBar->LoadState(m_pMainFrame);
         if (pBar->IsFloating() && pBar->IsAutohidden()) {
             pBar->SetAutohidden(false);
-            m_pMainFrame->ShowControlBar(pBar, TRUE, TRUE);
+            bool delay = pair.first != CMainFrameControls::Panel::PLAYLIST;
+            m_pMainFrame->ShowControlBar(pBar, TRUE, delay);
         }
     }
 }
