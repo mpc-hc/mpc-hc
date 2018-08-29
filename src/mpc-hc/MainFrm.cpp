@@ -7338,7 +7338,8 @@ void CMainFrame::OnPlaySeek(UINT nID)
     if (rtSeekTo < 0) rtSeekTo = 0;
 
     if (s.bFastSeek && !m_kfs.empty()) {
-        rtSeekTo = GetClosestKeyFrame(rtSeekTo, abs(rtJumpDiff) / 3);
+        REFERENCE_TIME rtMaxDiff = std::min(100000000LL, abs(rtJumpDiff) * 3 / 10);
+        rtSeekTo = GetClosestKeyFrame(rtSeekTo, rtMaxDiff);
     }
 
     SeekTo(rtSeekTo);
