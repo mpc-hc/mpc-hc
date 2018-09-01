@@ -213,7 +213,7 @@ CAppSettings::CAppSettings()
     , iLAVGPUDevice(DWORD_MAX)
     , nCmdVolume(0)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
-    , iYDLMaxHeight(0)
+    , iYDLMaxHeight(1440)
     , bYDLAudioOnly(false)
 {
     // Internal source filter
@@ -1844,7 +1844,7 @@ void CAppSettings::LoadSettings()
 
     sanear->SetIgnoreSystemChannelMixer(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, TRUE));
 
-    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 2160);
+    iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 1440);
     bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
 
     bInitialized = true;
