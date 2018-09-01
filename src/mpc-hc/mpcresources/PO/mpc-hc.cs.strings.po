@@ -3585,10 +3585,6 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
-msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
-msgid "AssFilter"
-msgstr "ASSFiltr"
-
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Poskytovatel"
@@ -3644,6 +3640,70 @@ msgstr "Stav"
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
 msgstr "Připraveno..."
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"název\"\tPoužije předvolbu Pan & Scan určitého názvu"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tZnovu přiřadí ikony formátů souborů"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tSpustí MPC-HC v pozadí"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tSpustí webové rozhraní na zadaném portu"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tZobrazí ladicí informace v OSD"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tDisable the crash reporter"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tPoužije MPC-HC jako podřízený proces"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tNastaví index GPU použitého pro HW dekódování.\n\t\tDostupné pouze pro CUVID a DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tObnoví výchozí nastavení"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tZobrazí tento dialog"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Prahová hodnota hodnocení pro automaticky stahované titulky. Vyšší hodnota zajistí přesnější výsledky přiřazení, ale sníží pravděpodobnost nalezení titulků, nižší hodnota zvýší pravděpodobnost nalezení titulků, ale zvýší pravděpodobnost načtení chybných titulků. Neexistuje ideální hodnota. Zvolte takovou, která bude fungovat vám."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Posun zvuku (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Velikost výchozího panelu nástrojů v pixelech."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Použít starý panel nástrojů místo nového vektorového."
+
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr "ASSFiltr"
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr "Kopírovat adresu"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -3837,17 +3897,29 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tPo přehrání otevře další soubor v adresáři"
 
+msgctxt "IDS_CMD_VIEWPRESET"
+msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
+msgstr "/viewpreset N\tSpustí přehrávač se zvolenou předvolbou N, kde N je\n\t\t\"1\" Minimální, \"2\" Kompaktní nebo \"3\" Normální"
+
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
 msgstr "/mute\t\tZtlumí zvuk"
 
+msgctxt "IDS_CMD_VOLUME"
+msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
+msgstr "/volume N\tNastaví hlasitost N, kde N je v rozsahu od 0 do 100"
+
+msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
+msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_YOUTUBEDL"
+msgid "Calling youtube-dl..."
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tSpustí přehrávač v režimu na celou obrazovku"
-
-msgctxt "IDS_CMD_VIEWPRESET"
-msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr "/viewpreset N\tSpustí přehrávač se zvolenou předvolbou N, kde N je\n\t\t\"1\" Minimální, \"2\" Kompaktní nebo \"3\" Normální"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3864,10 +3936,6 @@ msgstr "/add\t\tPřidá \"cestu\" do seznamu stop, může být kombinován\n\t\t
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
 msgstr "/randomize\tNáhodně seřadí seznam stop"
-
-msgctxt "IDS_CMD_VOLUME"
-msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr "/volume N\tNastaví hlasitost N, kde N je v rozsahu od 0 do 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3912,64 +3980,4 @@ msgstr "/audiorenderer N\tPoužije audiorenderer N, kde N začíná od 1\n\t\t(v
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Př\"\tPoužije předvolbu shaderů \"Př\""
-
-msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"název\"\tPoužije předvolbu Pan & Scan určitého názvu"
-
-msgctxt "IDS_CMD_ICONASSOC"
-msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\tZnovu přiřadí ikony formátů souborů"
-
-msgctxt "IDS_CMD_NOFOCUS"
-msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\tSpustí MPC-HC v pozadí"
-
-msgctxt "IDS_CMD_WEBPORT"
-msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tSpustí webové rozhraní na zadaném portu"
-
-msgctxt "IDS_CMD_DEBUG"
-msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tZobrazí ladicí informace v OSD"
-
-msgctxt "IDS_CMD_NOCRASHREPORTER"
-msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tDisable the crash reporter"
-
-msgctxt "IDS_CMD_SLAVE"
-msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"hWnd\"\tPoužije MPC-HC jako podřízený proces"
-
-msgctxt "IDS_CMD_HWGPU"
-msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"index\"\tNastaví index GPU použitého pro HW dekódování.\n\t\tDostupné pouze pro CUVID a DXVA2 (copy-back)"
-
-msgctxt "IDS_CMD_RESET"
-msgid "/reset\t\tRestore default settings"
-msgstr "/reset\t\tObnoví výchozí nastavení"
-
-msgctxt "IDS_CMD_HELP"
-msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\tZobrazí tento dialog"
-
-msgctxt "IDS_PPAGEADVANCED_SCORE"
-msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr "Prahová hodnota hodnocení pro automaticky stahované titulky. Vyšší hodnota zajistí přesnější výsledky přiřazení, ale sníží pravděpodobnost nalezení titulků, nižší hodnota zvýší pravděpodobnost nalezení titulků, ale zvýší pravděpodobnost načtení chybných titulků. Neexistuje ideální hodnota. Zvolte takovou, která bude fungovat vám."
-
-msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay (ms)"
-msgstr "Posun zvuku (ms)"
-
-msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
-msgid "Size in pixels of the default toolbar."
-msgstr "Velikost výchozího panelu nástrojů v pixelech."
-
-msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
-msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "Použít starý panel nástrojů místo nového vektorového."
-
-msgctxt "IDS_SUBMENU_COPYURL"
-msgid "Copy URL"
-msgstr "Kopírovat adresu"
 

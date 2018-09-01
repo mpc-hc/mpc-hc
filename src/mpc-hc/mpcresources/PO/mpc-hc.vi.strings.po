@@ -3585,10 +3585,6 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
-msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
-msgid "AssFilter"
-msgstr "AssFilter"
-
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Nguồn cấp"
@@ -3644,6 +3640,70 @@ msgstr "Tình trạng"
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
 msgstr "Sẵn sàng..."
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"name\"\tChỉ định tên thiết lập Pan & Scan sẵn có để sử dụng"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tLiên kết lại các biểu tượng định dạng"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tMở MPC-HC dưới nền"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tKhởi động giao diện web ở cổng được chỉ định"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tHiện thông tin gỡ lỗi trên màn hình hiển thị"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tTắt báo cáo lỗi"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tSử dụng MPC-HC thụ động"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tThiết lập bảng chỉ mục của GPU để sử dụng cho việc giải mã phần cứng.\n\t\tChỉ có hiệu lực đối với CUVID và DXVA2 (sao chép-quay lại)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tPhục hồi các thiết lập mặc định"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tHiện trợ giúp về chuyển đổi chế độ dòng lệnh"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Giá trị ngưỡng cho điểm số của phụ đề sẽ được tự động tải về. Giá trị cao hơn có nghĩa là phụ đề được nạp sẽ phù hợp và chính xác hơn, giá trị thấp hơn có thể dẫn đến phụ đề được nạp không phù hợp và chính xác, tuy nhiên không có một giá trị nào là hoàn hảo. Hãy chọn một cái phù hợp nhất đối với bạn."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Độ trễ của âm thanh (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Kích cỡ điểm ảnh của thanh công cụ mặc định."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Sử dụng thanh công cụ kiểu cũ thay vì kiểu vectơ mới"
+
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr "AssFilter"
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr "Sao chép URL"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -3837,17 +3897,29 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tMở tập tin kế tiếp trong thư mục sau khi phát xong"
 
+msgctxt "IDS_CMD_VIEWPRESET"
+msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
+msgstr ""
+
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
+msgstr ""
+
+msgctxt "IDS_CMD_VOLUME"
+msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
+msgstr ""
+
+msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
+msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_YOUTUBEDL"
+msgid "Calling youtube-dl..."
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tKhởi động trong chế độ toàn màn hình"
-
-msgctxt "IDS_CMD_VIEWPRESET"
-msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3864,10 +3936,6 @@ msgstr "/add\t\tthêm \"đường dẫn\" vào danh sách phát, có thể kết
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
 msgstr "/randomize\tNgẫu nhiên hóa danh sách phát"
-
-msgctxt "IDS_CMD_VOLUME"
-msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3912,64 +3980,4 @@ msgstr "/audiorenderer N\tKhởi động sử dụng bộ dựng âm thanh N, v�
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tKhởi động sử dụng thiết lập đổ bóng sẵn có \"Pr\""
-
-msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"name\"\tChỉ định tên thiết lập Pan & Scan sẵn có để sử dụng"
-
-msgctxt "IDS_CMD_ICONASSOC"
-msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\tLiên kết lại các biểu tượng định dạng"
-
-msgctxt "IDS_CMD_NOFOCUS"
-msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\tMở MPC-HC dưới nền"
-
-msgctxt "IDS_CMD_WEBPORT"
-msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tKhởi động giao diện web ở cổng được chỉ định"
-
-msgctxt "IDS_CMD_DEBUG"
-msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tHiện thông tin gỡ lỗi trên màn hình hiển thị"
-
-msgctxt "IDS_CMD_NOCRASHREPORTER"
-msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tTắt báo cáo lỗi"
-
-msgctxt "IDS_CMD_SLAVE"
-msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"hWnd\"\tSử dụng MPC-HC thụ động"
-
-msgctxt "IDS_CMD_HWGPU"
-msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"index\"\tThiết lập bảng chỉ mục của GPU để sử dụng cho việc giải mã phần cứng.\n\t\tChỉ có hiệu lực đối với CUVID và DXVA2 (sao chép-quay lại)"
-
-msgctxt "IDS_CMD_RESET"
-msgid "/reset\t\tRestore default settings"
-msgstr "/reset\t\tPhục hồi các thiết lập mặc định"
-
-msgctxt "IDS_CMD_HELP"
-msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\tHiện trợ giúp về chuyển đổi chế độ dòng lệnh"
-
-msgctxt "IDS_PPAGEADVANCED_SCORE"
-msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr "Giá trị ngưỡng cho điểm số của phụ đề sẽ được tự động tải về. Giá trị cao hơn có nghĩa là phụ đề được nạp sẽ phù hợp và chính xác hơn, giá trị thấp hơn có thể dẫn đến phụ đề được nạp không phù hợp và chính xác, tuy nhiên không có một giá trị nào là hoàn hảo. Hãy chọn một cái phù hợp nhất đối với bạn."
-
-msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay (ms)"
-msgstr "Độ trễ của âm thanh (ms)"
-
-msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
-msgid "Size in pixels of the default toolbar."
-msgstr "Kích cỡ điểm ảnh của thanh công cụ mặc định."
-
-msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
-msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "Sử dụng thanh công cụ kiểu cũ thay vì kiểu vectơ mới"
-
-msgctxt "IDS_SUBMENU_COPYURL"
-msgid "Copy URL"
-msgstr "Sao chép URL"
 

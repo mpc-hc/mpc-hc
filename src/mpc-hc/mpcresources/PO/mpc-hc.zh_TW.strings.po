@@ -3595,10 +3595,6 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
-msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
-msgid "AssFilter"
-msgstr ""
-
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "提供者"
@@ -3654,6 +3650,70 @@ msgstr "狀態"
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
 msgstr "準備..."
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"name\"\t指定要使用的 Pan & Scan 初始設定名稱"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\t重新關聯檔案格式圖示"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\t在背景開啟 MPC-HC"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\t於指定埠號啟動網頁介面"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\t在 OSD 顯示除錯資訊"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\t關閉當機回報程式"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\t使用 MPC-HC 作為次要服務"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\t設定要用來硬體解碼的 GPU 索引。\n\t\t僅支援 CUVID 及 DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\t還原預設設定"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\t顯示有關指令列參數的說明"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "用來決定是否自動下載字幕的字幕分數門檻值。較高的數值將只有準確符合的字幕會被載入，較低的數值可能會載入不正確的字幕，這沒有絕對沒問題的數值。請選擇您覺得最佳的數值。"
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "音訊延遲 (毫秒)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "預設工具列字體大小 (像素)"
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "使用舊版工具列取代新的向量版工具列。"
+
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr ""
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr "複製網址"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -3847,17 +3907,29 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\t播放結束後開啟資料夾的下一個檔案"
 
+msgctxt "IDS_CMD_VIEWPRESET"
+msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
+msgstr ""
+
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
+msgstr ""
+
+msgctxt "IDS_CMD_VOLUME"
+msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
+msgstr ""
+
+msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
+msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_YOUTUBEDL"
+msgid "Calling youtube-dl..."
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\t使用全螢幕模式啟動"
-
-msgctxt "IDS_CMD_VIEWPRESET"
-msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3874,10 +3946,6 @@ msgstr "/add\t\t加入 \"pathname\" 到播放清單，可與 /open 及 /play 合
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
 msgstr "/randomize\t隨機播放清單"
-
-msgctxt "IDS_CMD_VOLUME"
-msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3922,64 +3990,4 @@ msgstr "/audiorenderer N\t使用音訊譜製器 N 啟動播放器，N 的範圍�
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\t使用 \"Pr\" 著色器初始設定啟動播放器"
-
-msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"name\"\t指定要使用的 Pan & Scan 初始設定名稱"
-
-msgctxt "IDS_CMD_ICONASSOC"
-msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\t重新關聯檔案格式圖示"
-
-msgctxt "IDS_CMD_NOFOCUS"
-msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\t在背景開啟 MPC-HC"
-
-msgctxt "IDS_CMD_WEBPORT"
-msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\t於指定埠號啟動網頁介面"
-
-msgctxt "IDS_CMD_DEBUG"
-msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\t在 OSD 顯示除錯資訊"
-
-msgctxt "IDS_CMD_NOCRASHREPORTER"
-msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\t關閉當機回報程式"
-
-msgctxt "IDS_CMD_SLAVE"
-msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"hWnd\"\t使用 MPC-HC 作為次要服務"
-
-msgctxt "IDS_CMD_HWGPU"
-msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"index\"\t設定要用來硬體解碼的 GPU 索引。\n\t\t僅支援 CUVID 及 DXVA2 (copy-back)"
-
-msgctxt "IDS_CMD_RESET"
-msgid "/reset\t\tRestore default settings"
-msgstr "/reset\t\t還原預設設定"
-
-msgctxt "IDS_CMD_HELP"
-msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\t顯示有關指令列參數的說明"
-
-msgctxt "IDS_PPAGEADVANCED_SCORE"
-msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr "用來決定是否自動下載字幕的字幕分數門檻值。較高的數值將只有準確符合的字幕會被載入，較低的數值可能會載入不正確的字幕，這沒有絕對沒問題的數值。請選擇您覺得最佳的數值。"
-
-msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay (ms)"
-msgstr "音訊延遲 (毫秒)"
-
-msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
-msgid "Size in pixels of the default toolbar."
-msgstr "預設工具列字體大小 (像素)"
-
-msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
-msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "使用舊版工具列取代新的向量版工具列。"
-
-msgctxt "IDS_SUBMENU_COPYURL"
-msgid "Copy URL"
-msgstr "複製網址"
 

@@ -3585,10 +3585,6 @@ msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
 
-msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
-msgid "AssFilter"
-msgstr "AssFilter"
-
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
 msgstr "Furnizor"
@@ -3644,6 +3640,70 @@ msgstr "Stare"
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
 msgstr "Pregătit..."
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
+msgstr "/pns \"nume\"\tSpecifică numele prestabilirii panoramării trunchiate ce va fi folosită"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tReasociază pictogramele specifice formatelor"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tDeschide MPC-HC în fundal"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tPornește interfața web pe portul specificat"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tArată informații de depanare în OSD"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tDezactivează raportorul de defecte"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tStabilește indexul plăcii grafice ce va fi folosită pentru decodare prin componentă fizică.\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tRestaurează stabilirile implicite"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Valoarea limită pentru scorul subtitlurilor ce vor fi descărcate automat. Valorile mai mari corespund încărcării acelor subtitluri ce se potrivesc cu mai multă acuratețe, valorile mai mici pot rezulta în încărcarea unor subtitluri incorecte, însă nu există o valoare perfectă. Alegeți acea valoare ce funcționează cel mai bine pentru dumneavoastră."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Întârziere audio (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Mărimea în pixeli a barei de instrumente implicite."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Folosește bara de instrumente tradițională în locul celei noi vectoriale."
+
+msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
+msgid "AssFilter"
+msgstr "AssFilter"
+
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr "Copiază URL-ul"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -3837,17 +3897,29 @@ msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tDeschide următorul fișier din dosar după redare"
 
+msgctxt "IDS_CMD_VIEWPRESET"
+msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
+msgstr "/viewpreset N\tÎncepe cu prestabilirea specifică,\n\t\tunde N poate fi \"1\" Minimal, \"2\" Compact sau \"3\" Normal"
+
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
 msgstr "/mute\t\tTrece audio pe silențios"
 
+msgctxt "IDS_CMD_VOLUME"
+msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
+msgstr "/volume N\tStabilește volumul, unde N se află în intervalul de la 0 la 100"
+
+msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
+msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
+msgstr ""
+
+msgctxt "IDS_CONTROLS_YOUTUBEDL"
+msgid "Calling youtube-dl..."
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tPornește în modul ecran complet"
-
-msgctxt "IDS_CMD_VIEWPRESET"
-msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr "/viewpreset N\tÎncepe cu prestabilirea specifică,\n\t\tunde N poate fi \"1\" Minimal, \"2\" Compact sau \"3\" Normal"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -3864,10 +3936,6 @@ msgstr "/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat cu /open 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
 msgstr "/randomize\tRedă lista aleatoriu"
-
-msgctxt "IDS_CMD_VOLUME"
-msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr "/volume N\tStabilește volumul, unde N se află în intervalul de la 0 la 100"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3912,64 +3980,4 @@ msgstr "/audiorenderer N\tPornește folosind randorul audio N, unde N începe de
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tPornește folosind prestabilirea „Pr” pentru nuanțator"
-
-msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"nume\"\tSpecifică numele prestabilirii panoramării trunchiate ce va fi folosită"
-
-msgctxt "IDS_CMD_ICONASSOC"
-msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\tReasociază pictogramele specifice formatelor"
-
-msgctxt "IDS_CMD_NOFOCUS"
-msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\tDeschide MPC-HC în fundal"
-
-msgctxt "IDS_CMD_WEBPORT"
-msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tPornește interfața web pe portul specificat"
-
-msgctxt "IDS_CMD_DEBUG"
-msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tArată informații de depanare în OSD"
-
-msgctxt "IDS_CMD_NOCRASHREPORTER"
-msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tDezactivează raportorul de defecte"
-
-msgctxt "IDS_CMD_SLAVE"
-msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent"
-
-msgctxt "IDS_CMD_HWGPU"
-msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"index\"\tStabilește indexul plăcii grafice ce va fi folosită pentru decodare prin componentă fizică.\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)"
-
-msgctxt "IDS_CMD_RESET"
-msgid "/reset\t\tRestore default settings"
-msgstr "/reset\t\tRestaurează stabilirile implicite"
-
-msgctxt "IDS_CMD_HELP"
-msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă"
-
-msgctxt "IDS_PPAGEADVANCED_SCORE"
-msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr "Valoarea limită pentru scorul subtitlurilor ce vor fi descărcate automat. Valorile mai mari corespund încărcării acelor subtitluri ce se potrivesc cu mai multă acuratețe, valorile mai mici pot rezulta în încărcarea unor subtitluri incorecte, însă nu există o valoare perfectă. Alegeți acea valoare ce funcționează cel mai bine pentru dumneavoastră."
-
-msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay (ms)"
-msgstr "Întârziere audio (ms)"
-
-msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
-msgid "Size in pixels of the default toolbar."
-msgstr "Mărimea în pixeli a barei de instrumente implicite."
-
-msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
-msgid "Use legacy toolbar instead of new vectorized one."
-msgstr "Folosește bara de instrumente tradițională în locul celei noi vectoriale."
-
-msgctxt "IDS_SUBMENU_COPYURL"
-msgid "Copy URL"
-msgstr "Copiază URL-ul"
 
