@@ -247,13 +247,26 @@ bool filterAudio(const Value& formats, CString& url)
 bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CString>& audio, CAtlList<CString>& names)
 {
     CString url;
-    CString extractor = pJSON->d[_T("extractor")].GetString();
+    CString extractor;
+
+    if (pJSON->d.IsObject() && pJSON->d.HasMember(_T("extractor"))) {
+        extractor = pJSON->d[_T("extractor")].GetString();
+    } else {
+        return false;
+    }
+
     auto& s = AfxGetAppSettings();
 
     if (!bIsPlaylist) {
-        names.AddTail(pJSON->d[_T("title")].GetString());
+        if (!pJSON->d.HasMember(_T("formats"))) {
+            return false;
+        }
 
-        //detect generic http link; JSON fields below may not exist
+        if (pJSON->d.HasMember(_T("title"))) {
+            names.AddTail(pJSON->d[_T("title")].GetString());
+        }
+
+        // detect generic http link
         if (extractor == _T("generic")) {
             videos.AddTail(pJSON->d[_T("formats")][0][_T("url")].GetString());
             return true;
@@ -262,11 +275,11 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
         filterVideo(pJSON->d[_T("formats")], url, s.iYDLMaxHeight);
         videos.AddTail(url);
 
-        //find separate audio stream, if applicable
+        // find separate audio stream, if applicable
         if (filterAudio(pJSON->d[_T("formats")], url)) {
             audio.AddTail(url);
         }
-    } else {
+    } else if(pJSON->d.HasMember(_T("entries"))) {
         const Value& entries = pJSON->d[_T("entries")];
 
         for (rapidjson::SizeType i = 0; i < entries.Size(); i++) {
@@ -279,7 +292,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
             }
         }
     }
-    return true;
+    return !videos.IsEmpty() || !audio.IsEmpty();
 }
 
 
