@@ -524,6 +524,7 @@ public:
     int             nDefaultToolbarSize;
     bool            bSaveImagePosition;
     bool            bSaveImageCurrentTime;
+    bool            bAllowInaccurateFastseek;
 
     enum class AfterPlayback {
         DO_NOTHING,

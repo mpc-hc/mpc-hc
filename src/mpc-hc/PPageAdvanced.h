@@ -191,7 +191,8 @@ private:
         YDL_MAX_HEIGHT,
         YDL_AUDIO_ONLY,
         SAVEIMAGE_POSITION,
-        SAVEIMAGE_CURRENTTIME
+        SAVEIMAGE_CURRENTTIME,
+        INACCURATE_FASTSEEK
     };
 
     enum {

@@ -527,7 +527,7 @@ public:
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
     bool GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFERENCE_TIME rtMax, bool nearest, REFERENCE_TIME& keyframetime) const;
-    REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxDiff) const;
+    REFERENCE_TIME GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const;
     void SeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
     void SetPlayingRate(double rate);
 

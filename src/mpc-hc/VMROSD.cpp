@@ -366,9 +366,10 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     m_llSeekPos = std::max(m_llSeekPos, m_llSeekMin);
     m_llSeekPos = std::min(m_llSeekPos, m_llSeekMax);
 
-    if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-        REFERENCE_TIME rtMaxDiff = std::min(100000000LL, m_llSeekMax / 30);
-        m_llSeekPos = m_pMainFrame->GetClosestKeyFrame(m_llSeekPos, rtMaxDiff);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+        REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, m_llSeekMax / 30);
+        m_llSeekPos = m_pMainFrame->GetClosestKeyFrame(m_llSeekPos, rtMaxDiff, rtMaxDiff);
     }
 
     if (m_pWnd) {

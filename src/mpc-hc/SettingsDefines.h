@@ -80,6 +80,7 @@
 #define IDS_RS_DEFAULTTOOLBARSIZE           _T("DefaultToolbarSize")
 #define IDS_RS_SAVEIMAGE_POSITION           _T("SaveImagePosition")
 #define IDS_RS_SAVEIMAGE_CURRENTTIME        _T("SaveImageCurrentTime")
+#define IDS_RS_ALLOW_INACCURATE_FASTSEEK    _T("AllowInaccurateFastseek")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")

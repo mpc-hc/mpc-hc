@@ -120,9 +120,10 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
 {
     if (m_bHasDuration) {
         REFERENCE_TIME rtPos = PositionFromClientPoint(point);
-        if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
-            REFERENCE_TIME rtMaxDiff = std::min(100000000LL, m_rtStop / 30);
-            rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos, rtMaxDiff);
+        const CAppSettings& s = AfxGetAppSettings();
+        if (s.bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
+            REFERENCE_TIME rtMaxDiff = s.bAllowInaccurateFastseek ? 200000000LL : std::min(100000000LL, m_rtStop / 30);
+            rtPos = m_pMainFrame->GetClosestKeyFrame(rtPos, rtMaxDiff, rtMaxDiff);
         }
         SyncThumbToVideo(rtPos);
     }

@@ -7338,8 +7338,20 @@ void CMainFrame::OnPlaySeek(UINT nID)
     if (rtSeekTo < 0) rtSeekTo = 0;
 
     if (s.bFastSeek && !m_kfs.empty()) {
-        REFERENCE_TIME rtMaxDiff = std::min(100000000LL, abs(rtJumpDiff) * 3 / 10);
-        rtSeekTo = GetClosestKeyFrame(rtSeekTo, rtMaxDiff);
+        REFERENCE_TIME rtMaxForwardDiff;
+        REFERENCE_TIME rtMaxBackwardDiff;
+        if (s.bAllowInaccurateFastseek && (nID != ID_PLAY_SEEKBACKWARDSMALL) && (nID != ID_PLAY_SEEKFORWARDSMALL)) {
+            if (rtJumpDiff > 0) {
+                rtMaxForwardDiff  = 200000000LL;
+                rtMaxBackwardDiff = rtJumpDiff / 2;
+            } else {
+                rtMaxForwardDiff  = -rtJumpDiff / 2;
+                rtMaxBackwardDiff = 200000000LL;
+            }
+        } else {
+            rtMaxForwardDiff = rtMaxBackwardDiff = std::min(100000000LL, abs(rtJumpDiff) * 3 / 10);
+        }
+        rtSeekTo = GetClosestKeyFrame(rtSeekTo, rtMaxForwardDiff, rtMaxBackwardDiff);
     }
 
     SeekTo(rtSeekTo);
@@ -7380,13 +7392,13 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
         REFERENCE_TIME rtMin;
         REFERENCE_TIME rtMax;
         if (bSeekingForward) {
-            rtMin = rtPos + 10000; // at least one millisecond later
+            rtMin = rtPos + 10000LL; // at least one millisecond later
             rtMax = GetDur();
             rtTarget = rtMin;
         }
         else {
             rtMin = 0; 
-            rtMax = rtPos - 10000;
+            rtMax = rtPos - 10000LL;
             rtTarget = rtMax;
         }
 
@@ -14081,11 +14093,11 @@ bool CMainFrame::GetKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMin, REFE
     return false;
 }
 
-REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxDiff) const
+REFERENCE_TIME CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget, REFERENCE_TIME rtMaxForwardDiff, REFERENCE_TIME rtMaxBackwardDiff) const
 {
     REFERENCE_TIME rtKeyframe;
-    REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxDiff, 0LL);
-    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxDiff, GetDur());
+    REFERENCE_TIME rtMin = std::max(rtTarget - rtMaxBackwardDiff, 0LL);
+    REFERENCE_TIME rtMax = std::min(rtTarget + rtMaxForwardDiff, GetDur());
 
     if (GetKeyFrame(rtTarget, rtMin, rtMax, true, rtKeyframe)) {
         return rtKeyframe;

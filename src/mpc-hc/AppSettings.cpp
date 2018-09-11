@@ -1072,6 +1072,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, bSaveImagePosition);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, bSaveImageCurrentTime);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, bAllowInaccurateFastseek);
+
     {
         CComHeapPtr<WCHAR> pDeviceId;
         BOOL bExclusive;
@@ -1823,6 +1825,8 @@ void CAppSettings::LoadSettings()
 
     bSaveImagePosition = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_POSITION, TRUE);
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);
+
+    bAllowInaccurateFastseek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, TRUE);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
