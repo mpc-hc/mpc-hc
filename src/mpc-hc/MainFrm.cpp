@@ -11540,19 +11540,30 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
             title = GetCaptureTitle();
         } else if (i == 1) { // Show filename or title
             if (GetPlaybackMode() == PM_FILE) {
-                title = GetFileName();
+                bool use_label = false;
+                // always use playlist title in case of URLs
+                CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+                if (pli && !pli->m_fns.IsEmpty() && pli->m_fns.GetHead().Left(4) == _T("http")) {
+                    if (pli->m_label && !pli->m_label.IsEmpty()) {
+                        title = pli->m_label;
+                        use_label = true;
+                    }
+                }
+                if (!use_label) {
+                    title = GetFileName();
 
-                if (s.fTitleBarTextTitle) {
-                    BeginEnumFilters(m_pGB, pEF, pBF) {
-                        if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
-                            CComBSTR bstr;
-                            if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
-                                title = CString(bstr.m_str);
-                                break;
+                    if (s.fTitleBarTextTitle) {
+                        BeginEnumFilters(m_pGB, pEF, pBF) {
+                            if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
+                                CComBSTR bstr;
+                                if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
+                                    title = CString(bstr.m_str);
+                                    break;
+                                }
                             }
                         }
+                        EndEnumFilters;
                     }
-                    EndEnumFilters;
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
                 title = _T("DVD");
