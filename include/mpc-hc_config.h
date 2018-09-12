@@ -52,7 +52,7 @@
 #define SHADERS_EXT _T(".hlsl")
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters
-#define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 0
+#define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 1
 
 #define DO_MAKE_STR(x)          _T(#x)
 #define MAKE_STR(x)             DO_MAKE_STR(x)
