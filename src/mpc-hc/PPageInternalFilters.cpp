@@ -507,6 +507,21 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("Opus"), AUDIO_DECODER, TRA_OPUS, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_WMA
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("WMA 1/2"), AUDIO_DECODER, TRA_WMA, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_WMAPRO
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("WMA Pro"), AUDIO_DECODER, TRA_WMAPRO, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_WMALL
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("WMA Lossless"), AUDIO_DECODER, TRA_WMALL, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_DECODER_REALAUDIO
     if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF));

@@ -353,6 +353,15 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_OPUS
     TraFiltersKeys[TRA_OPUS] = FilterKey(_T("TRA_OPUS"), true);
 #endif
+#if INTERNAL_DECODER_WMA
+    TraFiltersKeys[TRA_WMA] = FilterKey(_T("TRA_WMA"), false);
+#endif
+#if INTERNAL_DECODER_WMAPRO
+    TraFiltersKeys[TRA_WMAPRO] = FilterKey(_T("TRA_WMAPRO"), false);
+#endif
+#if INTERNAL_DECODER_WMALL
+    TraFiltersKeys[TRA_WMALL] = FilterKey(_T("TRA_WMALL"), false);
+#endif
 #if INTERNAL_DECODER_PCM
     TraFiltersKeys[TRA_PCM] = FilterKey(_T("TRA_PCM"), true);
 #endif
