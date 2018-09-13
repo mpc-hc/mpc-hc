@@ -1432,7 +1432,7 @@ BEGIN
     BEGIN
         MENUITEM "&Quick Open File...",         ID_FILE_OPENQUICK
         MENUITEM SEPARATOR
-        MENUITEM "&Open File...",               ID_FILE_OPENMEDIA
+        MENUITEM "&Open File/URL...",           ID_FILE_OPENMEDIA
         MENUITEM "Open &DVD/BD...",             ID_FILE_OPENDVDBD
         MENUITEM "Open De&vice...",             ID_FILE_OPENDEVICE
         MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
@@ -1682,7 +1682,7 @@ BEGIN
         BEGIN
             MENUITEM "&Quick Open File...",         ID_FILE_OPENQUICK
             MENUITEM SEPARATOR
-            MENUITEM "&Open File...",               ID_FILE_OPENMEDIA
+            MENUITEM "&Open File/URL...",           ID_FILE_OPENMEDIA
             MENUITEM "Open &DVD/BD...",             ID_FILE_OPENDVDBD
             MENUITEM "Open De&vice...",             ID_FILE_OPENDEVICE
             MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
@@ -1921,7 +1921,7 @@ BEGIN
         BEGIN
             MENUITEM "&Quick Open File...",         ID_FILE_OPENQUICK
             MENUITEM SEPARATOR
-            MENUITEM "&Open File...",               ID_FILE_OPENMEDIA
+            MENUITEM "&Open File/URL...",           ID_FILE_OPENMEDIA
             MENUITEM "Open &DVD/BD...",             ID_FILE_OPENDVDBD
             MENUITEM "Open De&vice...",             ID_FILE_OPENDEVICE
             MENUITEM "Open Dir&ectory...",          ID_FILE_OPENDIRECTORY
@@ -2683,7 +2683,7 @@ BEGIN
     IDS_AG_AUDIOFILES       "Audio files (all types)"
     IDS_AG_NOT_KNOWN        "Not known"
     IDS_MPLAYERC_0          "Quick Open File"
-    IDS_AG_OPEN_FILE        "Open File"
+    IDS_AG_OPEN_FILE        "Open File/URL"
     IDS_AG_OPEN_DVD         "Open DVD/BD"
 END
 
