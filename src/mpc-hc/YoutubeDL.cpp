@@ -57,7 +57,7 @@ bool CYoutubeDLInstance::Run(CString url)
     SECURITY_ATTRIBUTES sec_attrib;
 
 
-    CString args = "youtube-dl -J -- \"" + url + "\"";
+    CString args = "youtube-dl -J \"" + url + "\"";
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));
