@@ -30,7 +30,7 @@ msgid "&Quick Open File..."
 msgstr "Buka Berkas &Cepat..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "B&uka Berkas..."
 
 msgctxt "ID_FILE_OPENDVDBD"

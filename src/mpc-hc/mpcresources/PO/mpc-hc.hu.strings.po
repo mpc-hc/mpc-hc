@@ -1159,7 +1159,7 @@ msgid "Quick Open File"
 msgstr "Gyors fájl megnyitás"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "Fájl megnyitása"
 
 msgctxt "IDS_AG_OPEN_DVD"

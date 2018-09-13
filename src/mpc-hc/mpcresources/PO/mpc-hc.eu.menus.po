@@ -25,7 +25,7 @@ msgid "&Quick Open File..."
 msgstr "Agiri Irekitze A&zkarra..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "&Ireki Agiria..."
 
 msgctxt "ID_FILE_OPENDVDBD"

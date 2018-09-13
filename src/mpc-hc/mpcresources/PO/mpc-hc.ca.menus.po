@@ -33,7 +33,7 @@ msgid "&Quick Open File..."
 msgstr "Obertura &ràpida de fitxer..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "&Obre un fitxer…"
 
 msgctxt "ID_FILE_OPENDVDBD"

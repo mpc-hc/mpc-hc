@@ -1154,7 +1154,7 @@ msgid "Quick Open File"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DVD"

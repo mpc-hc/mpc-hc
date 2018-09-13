@@ -1158,7 +1158,7 @@ msgid "Quick Open File"
 msgstr "クイック再生"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "ファイルを開く"
 
 msgctxt "IDS_AG_OPEN_DVD"

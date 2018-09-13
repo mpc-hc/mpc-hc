@@ -27,7 +27,7 @@ msgid "&Quick Open File..."
 msgstr "&Hitro odpri datoteko..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "&Odpri datoteko..."
 
 msgctxt "ID_FILE_OPENDVDBD"

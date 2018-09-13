@@ -28,7 +28,7 @@ msgid "&Quick Open File..."
 msgstr "&Γρήγορο άνοιγμα αρχείου..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "Ά&νοιγμα αρχείου..."
 
 msgctxt "ID_FILE_OPENDVDBD"

@@ -29,7 +29,7 @@ msgid "&Quick Open File..."
 msgstr "Tiedoston pika-avaus"
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "Avaa tiedosto..."
 
 msgctxt "ID_FILE_OPENDVDBD"

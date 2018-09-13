@@ -26,7 +26,7 @@ msgid "&Quick Open File..."
 msgstr "파일 바로 열기(&Q)..."
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "파일 열기(&O)..."
 
 msgctxt "ID_FILE_OPENDVDBD"

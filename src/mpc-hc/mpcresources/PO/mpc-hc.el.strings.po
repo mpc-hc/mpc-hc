@@ -1162,7 +1162,7 @@ msgid "Quick Open File"
 msgstr "Γρήγορο άνοιγμα αρχείου"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "Άνοιγμα αρχείου"
 
 msgctxt "IDS_AG_OPEN_DVD"

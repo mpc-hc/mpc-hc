@@ -1166,7 +1166,7 @@ msgid "Quick Open File"
 msgstr "Obertura ràpida de fitxer"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "Obre un fitxer"
 
 msgctxt "IDS_AG_OPEN_DVD"

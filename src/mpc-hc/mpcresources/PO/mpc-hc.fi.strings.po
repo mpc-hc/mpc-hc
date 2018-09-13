@@ -1160,7 +1160,7 @@ msgid "Quick Open File"
 msgstr "Pika-avaa tiedosto"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "Avaa tiedosto"
 
 msgctxt "IDS_AG_OPEN_DVD"

@@ -1162,7 +1162,7 @@ msgid "Quick Open File"
 msgstr "Hızlı Dosya Aç"
 
 msgctxt "IDS_AG_OPEN_FILE"
-msgid "Open File"
+msgid "Open File/URL"
 msgstr "Dosya Aç"
 
 msgctxt "IDS_AG_OPEN_DVD"

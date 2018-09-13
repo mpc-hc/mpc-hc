@@ -26,7 +26,7 @@ msgid "&Quick Open File..."
 msgstr "দ্রুত ফাইল খুলি... (&Q)"
 
 msgctxt "ID_FILE_OPENMEDIA"
-msgid "&Open File..."
+msgid "&Open File/URL..."
 msgstr "ফাইল খুলি... (&O)"
 
 msgctxt "ID_FILE_OPENDVDBD"
