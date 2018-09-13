@@ -111,7 +111,7 @@ void SubtitlesInfo::OpenUrl() const
     "AC3|DTS(?:[-._ ]?ES)?|He-AAC|AAC-He|AAC"
 
 #define REGEX_VIDEOCODEC                                                        \
-    "XviD|DivX|DVDivX|[hx][-._ ]?26[45]|HEVC|Rv10|Mpeg2"
+    "XviD|DivX|DVDivX|[hx][-._ ]?26[45]|HEVC|AV1|Rv10|Mpeg2"
 
 #define REGEX_CAPTURE_RELEASEGROUP                                              \
     "(" REGEX_NOTDEAD "+)[\\[(-._ )\\]\\\\]+"

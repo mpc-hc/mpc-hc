@@ -362,6 +362,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_HEVC
     TraFiltersKeys[TRA_HEVC] = FilterKey(_T("TRA_HEVC"), true);
 #endif
+#if INTERNAL_DECODER_AV1
+    TraFiltersKeys[TRA_AV1] = FilterKey(_T("TRA_AV1"), true);
+#endif
 #if INTERNAL_DECODER_VC1
     TraFiltersKeys[TRA_VC1] = FilterKey(_T("TRA_VC1"), true);
 #endif

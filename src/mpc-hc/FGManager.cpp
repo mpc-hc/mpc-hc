@@ -1978,6 +1978,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HEVC);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_HM10);
 #endif
+#if INTERNAL_DECODER_AV1
+    pFGF = tra[TRA_AV1] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AV01);
+#endif
 #if INTERNAL_DECODER_VC1
     pFGF = tra[TRA_VC1] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
