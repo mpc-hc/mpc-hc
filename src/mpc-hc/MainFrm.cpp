@@ -17151,10 +17151,12 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
                                 + " (" + url + ")", url);
     }
 
-    CRecentFileList* mru = &s.MRU;
-    mru->ReadList();
-    mru->Add(url);
-    mru->WriteList();
+    if (s.fKeepHistory) {
+        CRecentFileList* mru = &s.MRU;
+        mru->ReadList();
+        mru->Add(url);
+        mru->WriteList();
+    }
 
     if (!append) {
         m_wndPlaylistBar.SetFirst();
