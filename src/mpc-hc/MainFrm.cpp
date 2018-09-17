@@ -4952,10 +4952,10 @@ CString CMainFrame::GetVidPos() const
         DVD_HMSF_TIMECODE tcNow = RT2HMSF(pos);
         DVD_HMSF_TIMECODE tcDur = RT2HMSF(stop);
 
-        if (tcDur.bHours > 0 || (pos >= stop && tcNow.bHours > 0)) {
-            posstr.Format(_T("%02u.%02u.%02u.%03u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds, pos % 1000);
+        if (tcDur.bHours > 0 || tcNow.bHours > 0) {
+            posstr.Format(_T("%02u.%02u.%02u.%03u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds, (pos / 10000) % 1000);
         } else {
-            posstr.Format(_T("%02u.%02u.%03u"), tcNow.bMinutes, tcNow.bSeconds, pos % 1000);
+            posstr.Format(_T("%02u.%02u.%03u"), tcNow.bMinutes, tcNow.bSeconds, (pos / 10000) % 1000);
         }
     }
 
