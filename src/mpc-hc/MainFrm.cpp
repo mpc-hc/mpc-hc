@@ -3831,7 +3831,7 @@ void CMainFrame::OnFileOpenmedia()
 
     CAtlList<CString> filenames;
 
-    if (dlg.GetFileNames().GetHead().Left(4) == _T("http")
+    if (CanSendToYoutubeDL(dlg.GetFileNames().GetHead())
             && ProcessYoutubeDLURL(dlg.GetFileNames().GetHead(), dlg.GetAppendToPlaylist())) {
         if (!dlg.GetAppendToPlaylist()) {
             OpenCurPlaylistItem();
@@ -4004,7 +4004,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         PathUtils::ParseDirs(sl);
 
         bool fMulti = sl.GetCount() > 1;
-        bool fYoutubeDL = sl.GetHead().Left(4) == _T("http");
+        bool fYoutubeDL = CanSendToYoutubeDL(sl.GetHead());
 
         if (!fMulti) {
             sl.AddTailList(&s.slDubs);
@@ -4294,7 +4294,7 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
     } else {
         //load http url with youtube-dl, if available
-        if (slFiles.GetHead().Left(4) == _T("http")) {
+        if (CanSendToYoutubeDL(slFiles.GetHead())) {
             if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
                 if (!bAppend) {
                     OpenCurPlaylistItem();
@@ -9100,7 +9100,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
 
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
-    if (args.GetHead().Left(4) != _T("http")
+    if (!CanSendToYoutubeDL(args.GetHead())
             || !ProcessYoutubeDLURL(args.GetHead(), false)) {
         m_wndPlaylistBar.Open(args, false);
     }
@@ -9124,7 +9124,7 @@ void CMainFrame::OnRecentFile(UINT nID)
     CString fn;
     m_recentFilesMenu.GetMenuString(nID + 2, fn, MF_BYPOSITION);
 
-    if (fn.Left(4) == _T("http")) {
+    if (CanSendToYoutubeDL(fn)) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         if (ProcessYoutubeDLURL(fn, false)) {
             OpenCurPlaylistItem();
@@ -17113,6 +17113,54 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
     return TRUE;
 }
 
+static const CString ydl_whitelist[] = {
+    _T("youtube.com/"),
+    _T("twitch.com/")
+};
+
+static const CString ydl_blacklist[] = {
+    _T("saunalahti.fi/")
+};
+
+bool CMainFrame::CanSendToYoutubeDL(const CString url)
+{
+    if (url.Left(4).MakeLower() == _T("http")) {
+        // Blacklist: don't use for IP addresses
+        std::wcmatch regmatch;
+        std::wregex regexp(LR"(https?:\/\/(\d{1,3}\.){3}\d{1,3}.*)");
+        if (std::regex_match(url.GetString(), regmatch, regexp)) {
+            return false;
+        }
+
+        // Whitelist: popular supported sites
+        for (int i = 0; i < _countof(ydl_whitelist); i++) {
+            if (url.Find(ydl_whitelist[i], 7) > 0) {
+                return true;
+            }
+        }
+
+        // Blacklist: unsupported sites where YDL causes an error or long delay
+        for (int i = 0; i < _countof(ydl_blacklist); i++) {
+            if (url.Find(ydl_blacklist[i], 7) > 0) {
+                return false;
+            }
+        }
+
+        // Blacklist: URL points to a file
+        if (url.Find(_T('?')) == -1) {
+            int p = url.ReverseFind(_T('.'));
+            if (p > 0 && (url.GetLength() - p <= 6)) {
+                CString ext = url.Mid(p);
+                if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    return false;
+}
 
 bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
 {

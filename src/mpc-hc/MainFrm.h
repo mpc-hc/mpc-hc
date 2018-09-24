@@ -1106,5 +1106,6 @@ public:
     bool GetDecoderType(CString& type) const;
 
 private:
+    bool CanSendToYoutubeDL(const CString url);
     bool ProcessYoutubeDLURL(CString url, bool append);
 };
