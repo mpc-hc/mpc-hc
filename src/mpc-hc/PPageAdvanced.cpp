@@ -143,8 +143,9 @@ void CPPageAdvanced::InitSettings()
     addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
                std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
     addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
-    addIntItem(YDL_MAX_HEIGHT, IDS_RS_YDL_MAX_HEIGHT, 1440, s.iYDLMaxHeight, std::make_pair(0, INT_MAX), StrRes(IDS_RS_YDL_MAX_HEIGHT));
-    addBoolItem(YDL_AUDIO_ONLY, IDS_RS_YDL_AUDIO_ONLY, false, s.bYDLAudioOnly, StrRes(IDS_RS_YDL_AUDIO_ONLY));
+    addBoolItem(USE_YDL, IDS_RS_USE_YDL, true, s.bUseYDL, _T("Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."));
+    addIntItem(YDL_MAX_HEIGHT, IDS_RS_YDL_MAX_HEIGHT, 1440, s.iYDLMaxHeight, std::make_pair(0, INT_MAX), _T("Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."));
+    addBoolItem(YDL_AUDIO_ONLY, IDS_RS_YDL_AUDIO_ONLY, false, s.bYDLAudioOnly, _T("Instructs Youtube-DL to prefer an audio-only stream (if available)"));
     addBoolItem(SAVEIMAGE_POSITION, IDS_RS_SAVEIMAGE_POSITION, true, s.bSaveImagePosition, _T("Include video position in filename"));
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, _T("Include current time in filename"));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, _T("When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."));

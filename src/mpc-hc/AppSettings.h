@@ -753,6 +753,7 @@ public:
     }
 
     //YoutubeDL settings
+    bool bUseYDL;
     int iYDLMaxHeight;
     bool bYDLAudioOnly;
 

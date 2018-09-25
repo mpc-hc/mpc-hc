@@ -213,6 +213,7 @@ CAppSettings::CAppSettings()
     , iLAVGPUDevice(DWORD_MAX)
     , nCmdVolume(0)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
+    , bUseYDL(true)
     , iYDLMaxHeight(1440)
     , bYDLAudioOnly(false)
 {
@@ -1111,6 +1112,7 @@ void CAppSettings::SaveSettings()
         pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, bIgnoreSystemChannelMixer);
     }
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, bUseYDL);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
 
@@ -1860,6 +1862,7 @@ void CAppSettings::LoadSettings()
 
     sanear->SetIgnoreSystemChannelMixer(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER, TRUE));
 
+    bUseYDL       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, TRUE);
     iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 1440);
     bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
 

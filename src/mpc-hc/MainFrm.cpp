@@ -17119,6 +17119,7 @@ static const CString ydl_whitelist[] = {
 };
 
 static const CString ydl_blacklist[] = {
+    _T("googlevideo.com/videoplayback"), // already processed URL
     _T("saunalahti.fi/")
 };
 
@@ -17157,7 +17158,7 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
             }
         }
 
-        return true;
+        return AfxGetAppSettings().bUseYDL;
     }
     return false;
 }

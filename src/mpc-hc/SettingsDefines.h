@@ -329,5 +329,6 @@
 
 #define IDS_RS_SANEAR_IGNORE_SYSTEM_MIXER   _T("IgnoreSystemChannelMixer")
 
+#define IDS_RS_USE_YDL                      _T("UseYDL")
 #define IDS_RS_YDL_MAX_HEIGHT               _T("YDLMaxHeight")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
