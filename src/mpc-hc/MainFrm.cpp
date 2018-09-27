@@ -7319,10 +7319,6 @@ void CMainFrame::OnPlaySeek(UINT nID)
         nID == ID_PLAY_SEEKFORWARDLARGE  ? +10000i64 * s.nJumpDistL :
         0;
 
-    bool bSeekingForward = (nID == ID_PLAY_SEEKFORWARDSMALL ||
-                            nID == ID_PLAY_SEEKFORWARDMED ||
-                            nID == ID_PLAY_SEEKFORWARDLARGE);
-
     if (rtJumpDiff == 0) {
         ASSERT(FALSE);
         return;
@@ -14878,8 +14874,6 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 {
-    auto& s = AfxGetAppSettings();
-
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
         // double close, should be prevented
         ASSERT(FALSE);
