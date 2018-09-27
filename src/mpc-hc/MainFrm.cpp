@@ -16779,16 +16779,18 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
 
 CString CMainFrame::GetFileName()
 {
-    CString path(m_wndPlaylistBar.GetCurFileName());
-
-    if (!m_wndPlaylistBar.GetCur()->m_bYoutubeDL && m_pFSF) {
-        CComHeapPtr<OLECHAR> pFN;
-        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
-            path = pFN;
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+    if (pli) {
+        CString path(m_wndPlaylistBar.GetCurFileName());    
+        if (!pli->m_bYoutubeDL && m_pFSF) {
+            CComHeapPtr<OLECHAR> pFN;
+            if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
+                path = pFN;
+            }
         }
+        return pli->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
     }
-
-    return m_wndPlaylistBar.GetCur()->m_bYoutubeDL ? path : PathUtils::StripPathOrUrl(path);
+    return _T("");
 }
 
 CString CMainFrame::GetCaptureTitle()
