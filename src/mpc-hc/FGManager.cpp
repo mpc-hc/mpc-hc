@@ -1535,8 +1535,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
     if (src[SRC_MPEG] || src[SRC_MPEGTS]) {
         // for Blu-ray playback
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330323030"));  // MPLS0200
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,8,,4D504C5330313030"));  // MPLS0100
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,494E4458")); // INDX (index.bdmv)
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,4D4F424A")); // MOBJ (MovieObject.bdmv)
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,4D504C53")); // MPLS
     }
 #endif
 
