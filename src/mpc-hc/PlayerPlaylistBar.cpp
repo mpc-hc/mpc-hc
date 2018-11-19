@@ -390,6 +390,9 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
             } else if (key == _T("subtitle")) {
                 value = CombinePath(base, value);
                 pli[i].m_subs.AddTail(value);
+            } else if (key == _T("ydlSourceURL")) {
+                pli[i].m_ydlSourceURL = value;
+                pli[i].m_bYoutubeDL = true;
             } else if (key == _T("video")) {
                 while (pli[i].m_fns.GetCount() < 2) {
                     pli[i].m_fns.AddTail(_T(""));
@@ -465,6 +468,10 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
                     fn2 = (LPCTSTR)p;
                 }
                 f.WriteString(idx + _T(",subtitle,") + fn2 + _T("\n"));
+            }
+            if (pli.m_bYoutubeDL && !pli.m_ydlSourceURL.IsEmpty())
+            {
+                f.WriteString(idx + _T(",ydlSourceURL,") + pli.m_ydlSourceURL + _T("\n"));
             }
         } else if (pli.m_type == CPlaylistItem::device && pli.m_fns.GetCount() == 2) {
             f.WriteString(idx + _T(",video,") + pli.m_fns.GetHead() + _T("\n"));
