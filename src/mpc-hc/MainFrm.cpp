@@ -4314,17 +4314,25 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
 
 void CMainFrame::OnFileSaveAs()
 {
-    CString ext, in = m_wndPlaylistBar.GetCurFileName(), out = GetFileName();
+    CString in, out, ext;
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+    if (pli && !pli->m_fns.IsEmpty()) {
+        in = pli->m_fns.GetHead();
+    } else {
+        return;
+    }
 
-    if (out.Find(_T("://")) < 0) {
+    if (in.Find(_T("://")) >=0) {
+        // URL
+        out = _T("choose_a_filename");
+    } else {
+        out = PathUtils::StripPathOrUrl(in);
         ext = CPath(out).GetExtension().MakeLower();
         if (ext == _T(".cda")) {
             out = out.Left(out.GetLength() - 4) + _T(".wav");
         } else if (ext == _T(".ifo")) {
             out = out.Left(out.GetLength() - 4) + _T(".vob");
         }
-    } else {
-        out.Empty();
     }
 
     CFileDialog fd(FALSE, 0, out,
@@ -4355,19 +4363,7 @@ void CMainFrame::OnFileSaveAs()
 
 void CMainFrame::OnUpdateFileSaveAs(CCmdUI* pCmdUI)
 {
-    if (GetLoadState() != MLS::LOADED || GetPlaybackMode() != PM_FILE) {
-        pCmdUI->Enable(FALSE);
-        return;
-    }
-
-    CString fn = m_wndPlaylistBar.GetCurFileName();
-
-    if (fn.Find(_T("://")) >= 0) {
-        pCmdUI->Enable(FALSE);
-        return;
-    }
-
-    pCmdUI->Enable(TRUE);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED && GetPlaybackMode() == PM_FILE);
 }
 
 bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
