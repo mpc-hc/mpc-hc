@@ -424,9 +424,9 @@ STDMETHODIMP CStreamDriveThruInputPin::NonDelegatingQueryInterface(REFIID riid, 
 
 HRESULT CStreamDriveThruInputPin::CheckMediaType(const CMediaType* pmt)
 {
-    return pmt->majortype == MEDIATYPE_Stream
+    return pmt->majortype == MEDIATYPE_Stream || pmt->majortype == MEDIATYPE_NULL
            ? S_OK
-           : E_INVALIDARG;
+           : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
 HRESULT CStreamDriveThruInputPin::CheckConnect(IPin* pPin)
@@ -543,7 +543,7 @@ HRESULT CStreamDriveThruOutputPin::CheckMediaType(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Stream
            ? S_OK
-           : E_INVALIDARG;
+           : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
 HRESULT CStreamDriveThruOutputPin::GetMediaType(int iPosition, CMediaType* pmt)

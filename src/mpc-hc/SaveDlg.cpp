@@ -155,7 +155,7 @@ BOOL CSaveDlg::OnInitDialog()
     }
 
     CComQIPtr<IBaseFilter> pSrc = pReader;
-    if (FAILED(pGB->AddFilter(pSrc, fnw))) {
+    if (FAILED(pGB->AddFilter(pSrc, _T("Source")))) {
         m_report.SetWindowText(_T("Sorry, can't save this file, press cancel"));
         return FALSE;
     }
@@ -176,20 +176,22 @@ BOOL CSaveDlg::OnInitDialog()
         return FALSE;
     }
 
-    hr = pGB->Connect(
+    hr = pGB->ConnectDirect(
              GetFirstPin((pSrc), PINDIR_OUTPUT),
-             GetFirstPin((pMid), PINDIR_INPUT));
+             GetFirstPin((pMid), PINDIR_INPUT), nullptr);
 
     if (FAILED(hr)) {
-        m_report.SetWindowText(_T("Error Connect pSrc / pMid"));
+        CString err;
+        err.Format(_T("Error Connect pSrc / pMid: 0x%x"), hr);        m_report.SetWindowText(err);
         return FALSE;
     }
 
-    hr = pGB->Connect(
+    hr = pGB->ConnectDirect(
              GetFirstPin((pMid), PINDIR_OUTPUT),
-             GetFirstPin((pDst), PINDIR_INPUT));
+             GetFirstPin((pDst), PINDIR_INPUT), nullptr);
     if (FAILED(hr)) {
-        m_report.SetWindowText(_T("Error Connect pMid / pDst"));
+        CString err;
+        err.Format(_T("Error Connect pMid / pDst: 0x%x"), hr);        m_report.SetWindowText(err);
         return FALSE;
     }
 
