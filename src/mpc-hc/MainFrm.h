@@ -1108,4 +1108,5 @@ public:
 private:
     bool CanSendToYoutubeDL(const CString url);
     bool ProcessYoutubeDLURL(CString url, bool append);
+    bool DownloadWithYoutubeDL(CString url, CString filename);
 };

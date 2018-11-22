@@ -4322,9 +4322,13 @@ void CMainFrame::OnFileSaveAs()
         return;
     }
 
-    if (in.Find(_T("://")) >=0) {
+    if (pli->m_bYoutubeDL || in.Find(_T("://")) >=0) {
         // URL
-        out = _T("choose_a_filename");
+        if (pli->m_bYoutubeDL) {
+            out = _T("%(title)s.%(ext)s");
+        } else {
+            out = _T("choose_a_filename");
+        }
     } else {
         out = PathUtils::StripPathOrUrl(in);
         ext = CPath(out).GetExtension().MakeLower();
@@ -4339,6 +4343,11 @@ void CMainFrame::OnFileSaveAs()
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
                    ResStr(IDS_ALL_FILES_FILTER), GetModalParent(), 0);
     if (fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
+        return;
+    }
+
+    if (pli->m_bYoutubeDL && !pli->m_ydlSourceURL.IsEmpty() && DownloadWithYoutubeDL(pli->m_ydlSourceURL, fd.GetPathName())) {
+        // Download with Youtube-DL was started successfully
         return;
     }
 
@@ -17205,5 +17214,30 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
     if (!append) {
         m_wndPlaylistBar.SetFirst();
     }
+    return true;
+}
+
+bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
+{
+    PROCESS_INFORMATION proc_info;
+    STARTUPINFO startup_info;
+
+    CString format;
+    if (AfxGetAppSettings().bYDLAudioOnly) {
+        format = _T("bestaudio");
+    } else {
+        format = _T("best");
+    }
+    CString args = "youtube-dl \"" + url + "\" -f " + format + " -o \"" + filename + "\"";
+
+    ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
+    ZeroMemory(&startup_info, sizeof(STARTUPINFO));
+    startup_info.cb = sizeof(STARTUPINFO);
+
+    if (!CreateProcess(NULL, args.GetBuffer(), NULL, NULL, false, 0,
+        NULL, NULL, &startup_info, &proc_info)) {
+        return false;
+    }
+
     return true;
 }
