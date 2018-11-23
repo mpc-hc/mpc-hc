@@ -17239,5 +17239,8 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
         return false;
     }
 
+    CloseHandle(proc_info.hProcess);
+    CloseHandle(proc_info.hThread);
+
     return true;
 }
