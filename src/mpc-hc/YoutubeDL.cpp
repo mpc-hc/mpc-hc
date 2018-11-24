@@ -202,17 +202,17 @@ void filterVideo(const Value& formats, CString& url, int reqheight = 0)
 {
     int maxheight = 0;
 
-    //no heights to compare, just return last format
+    //no heights to compare, just return first format
     if (formats[0].FindMember(_T("height")) == formats[0].MemberEnd()) {
-        url = formats[formats.Size() - 1][_T("url")].GetString();
+        url = formats[0][_T("url")].GetString();
     }
 
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
-        int curheight = 0;
+        int curheight = 1;
         if (formats[i].FindMember(_T("height")) != formats[i].MemberEnd() && !formats[i][_T("height")].IsNull()) {
             curheight = formats[i][_T("height")].GetInt();
         }
-        if (curheight >= maxheight && (!reqheight || reqheight >= curheight)) {
+        if (curheight > maxheight && (!reqheight || reqheight >= curheight)) {
             maxheight = curheight;
             url = formats[i][_T("url")].GetString();
         }
