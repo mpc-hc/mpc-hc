@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by mpc-hc.rc
 //
+#define IDD_PPAGEAudioExtract           107
 #define IDR_MAINFRAME                   128
 #define IDR_POPUP                       130
 #define IDR_POPUPMAIN                   133
@@ -662,6 +663,10 @@
 #define IDC_ASSOCIATE_VIDEO_FORMATS     22083
 #define IDC_ASSOCIATE_AUDIO_FORMATS     22084
 #define IDC_CLEAR_ALL_ASSOCIATIONS      22085
+#define IDC_EDIT_AUDIO_OUTPUT_FOLDER    22086
+#define IDC_BTN_AUDIO_FOLDER            22087
+#define IDC_MP3_BITRATE                 22088
+#define IDC_MP3_STEREO_MODE             22089
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1026,6 +1031,11 @@
 #define ID_PLAY_REPEAT_FOREVER          33449
 #define ID_PLAY_REPEAT_ONEFILE          33450
 #define ID_PLAY_REPEAT_WHOLEPLAYLIST    33451
+#define ID__GRAB                        33452
+#define ID__GRABAUDIO                   33453
+#define ID__PLAY_GRABAUDIO              33454
+#define ID_PLAY_GRABAUDIO               33455
+#define ID__GRABAUDIO33456              33456
 #define IDS_MFMT_AVI                    39001
 #define IDS_MFMT_MPEG                   39002
 #define IDS_MFMT_MPEGTS                 39003
@@ -1577,9 +1587,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20018
-#define _APS_NEXT_COMMAND_VALUE         33452
-#define _APS_NEXT_CONTROL_VALUE         22086
+#define _APS_NEXT_RESOURCE_VALUE        20020
+#define _APS_NEXT_COMMAND_VALUE         33457
+#define _APS_NEXT_CONTROL_VALUE         22090
 #define _APS_NEXT_SYMED_VALUE           24044
 #endif
 #endif

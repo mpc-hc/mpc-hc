@@ -44,6 +44,8 @@
 #include "TimerWrappers.h"
 #include "VMROSD.h"
 
+#include "../filters/muxer/WavTransfer/WavTransfer.h"
+#include "AudioExtract\AudioRecord.h"
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
 class CDebugShadersDlg;
@@ -1094,4 +1096,49 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
+// ------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------
+// for audio grab
+	bool m_bGrabAudio = false;
+	int m_nChannels;
+	int m_nSamplesPerSec;
+	int m_nBitsPerSample;
+
+ 
+	IBaseFilter *m_NULLRenderAudio;
+	IBaseFilter  *m_pWavTrans,*m_pPCM, *m_AudioTee;
+	 
+	CWavTransferFilter *m_pWavTransfer=nullptr;
+ 
+	HRESULT  FindAudioCompressor(IBaseFilter **ppFilter);
+	HRESULT GetUnconnectedPin(
+		IBaseFilter *pFilter,   // Pointer to the filter.
+		PIN_DIRECTION PinDir,   // Direction of the pin to find.
+		IPin **ppPin);    
+	
+	IPin * GetInPin(IBaseFilter *pFilter, int Num);
+	IPin * GetOutPin(IBaseFilter *pFilter, int Num);
+
+	HRESULT CountFilterPins(IBaseFilter *pFilter, ULONG *pulInPins, ULONG *pulOutPins);
+	HRESULT CountTotalFilterPins(IBaseFilter *pFilter, ULONG *pulPins);
+	HRESULT FindRenderer(IGraphBuilder *pGB, const GUID *mediatype, IBaseFilter **ppFilter);
+	HRESULT FindAudioRenderer(IGraphBuilder *pGB, IBaseFilter **ppFilter);
+	void UtilDeleteMediaType(AM_MEDIA_TYPE *pmt);
+	void UtilFreeMediaType(AM_MEDIA_TYPE& mt);
+	HRESULT GetPin(IBaseFilter * pFilter, PIN_DIRECTION dirrequired, int iNum, IPin **ppPin);
+	
+	void SetBufferEvent();
+	void waveInAddBuffer(LPWAVEHDR pwh, UINT cbwh);
+	void SetWavParameters(int nChannels, int nSamplesPerSec, int nBitsPerSample);
+	HRESULT  CMainFrame::AddAudioGrabFilters();
+
+	afx_msg LRESULT Process_WIM_DATA(WPARAM wParam, LPARAM lParam);
+																				  //unsigned long  HandleVolume(WPARAM wReq);
+	CWaveRecorder *m_pWavRecorder;
+
+	void StartGrabAudio();
+	afx_msg void OnPlayGrabaudio();
+	afx_msg void OnUpdatePlayGrabaudio(CCmdUI *pCmdUI);
+
+// end  for audio grab
 };

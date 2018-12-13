@@ -1016,6 +1016,10 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, strSnapshotPath);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, strSnapshotExt);
 
+	pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORECORDPATH, strAudioRecordPath);
+	pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORECORDEXT, strAudioRecordExt);
+	pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GRABAUDIO, bGrabAudio);
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, iThumbRows);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, iThumbCols);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, iThumbWidth);
@@ -1665,7 +1669,7 @@ void CAppSettings::LoadSettings()
     strWebServerCGI = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WEBSERVERCGI);
 
     CString MyPictures;
-
+	CString MyMusic;
     CRegKey key;
     // grrrrr
     // if (!SHGetSpecialFolderPath(nullptr, MyPictures.GetBufferSetLength(MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
@@ -1677,9 +1681,21 @@ void CAppSettings::LoadSettings()
         } else {
             MyPictures.Empty();
         }
-    }
+
+		if (ERROR_SUCCESS == key.QueryStringValue(_T("My Music"), MyMusic.GetBuffer(MAX_PATH), &lenValue)) {
+			MyMusic.ReleaseBufferSetLength(lenValue);
+		}
+		else {
+			MyMusic.Empty();
+		}
+
+	}
     strSnapshotPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, MyPictures);
     strSnapshotExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, _T(".jpg"));
+
+	strAudioRecordPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORECORDPATH, MyMusic);
+	strAudioRecordExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORECORDEXT, _T(".mp3"));
+	bGrabAudio = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GRABAUDIO, FALSE);
 
     iThumbRows = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, 4);
     iThumbCols = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, 4);

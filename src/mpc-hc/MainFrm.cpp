@@ -105,6 +105,16 @@
 #include <initguid.h>
 #include <qnetwork.h>
 
+// new 
+
+
+
+#include "../filters/muxer/WavTransfer/WavTransfer.h"
+#include "../filters/muxer/WavTransfer/IWavTransferProperty.h"
+#include "..\DSUtil\DSUtil.h"
+
+
+
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
@@ -518,7 +528,16 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE(WM_LOADSUBTITLES, OnLoadSubtitles)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
-END_MESSAGE_MAP()
+
+
+	ON_MESSAGE(WIM_DATA, &CMainFrame::Process_WIM_DATA)
+
+		ON_COMMAND(ID_PLAY_GRABAUDIO, &CMainFrame::OnPlayGrabaudio)
+		ON_UPDATE_COMMAND_UI(ID_PLAY_GRABAUDIO, &CMainFrame::OnUpdatePlayGrabaudio)
+		END_MESSAGE_MAP()
+
+
+
 
 #ifdef _DEBUG
 const TCHAR* GetEventString(LONG evCode)
@@ -807,10 +826,13 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::SYSTEM_MENU_POPUP_UNINITIALIZED);
     fires.insert(MpcEvent::DPI_CHANGED);
     GetEventd().Connect(m_eventc, receives, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
+	m_pWavRecorder = new CWaveRecorder();
+	m_pWavRecorder->setMainFrm(this);
 }
 
 CMainFrame::~CMainFrame()
 {
+	delete m_pWavRecorder;
 }
 
 int CMainFrame::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
@@ -2313,6 +2335,8 @@ void CMainFrame::DoAfterPlaybackEvent()
 void CMainFrame::GraphEventComplete()
 {
     CAppSettings& s = AfxGetAppSettings();
+	
+	if (m_pWavRecorder) m_pWavRecorder->StopWaveRecord();  // stop the audio recorder as long as one track finished.
 
     if (m_bRememberFilePos) {
         FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
@@ -2385,6 +2409,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         hr = m_pME->FreeEventParams(evCode, evParam1, evParam2);
 
         switch (evCode) {
+			case EC_BBUFFER_READY:  // new for audio data sent from AudioFeed Filter
+				PostMessage(WIM_DATA, 0, (WPARAM)evParam2);
+				break;
             case EC_COMPLETE:
                 GraphEventComplete();
                 break;
@@ -4845,6 +4872,15 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
     return fn;
 }
 
+
+static CString MakeAudioClipFileName(LPCTSTR prefix)
+{
+	CTime t = CTime::GetCurrentTime();
+	CString fn;
+	fn.Format(_T("%s_[%s]%s"), PathUtils::FilterInvalidCharsFromFileName(prefix), t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strAudioRecordExt);
+	return fn;
+}
+
 BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 {
     BOOL result = TRUE;
@@ -6902,6 +6938,9 @@ void CMainFrame::OnPlayPlay()
         m_pMC->Run();
         SetTimersPlay();
 
+		if (m_bGrabAudio && bVideoWndNeedReset)
+			StartGrabAudio();
+
         if (m_fFrameSteppingActive) {
             m_pFS->CancelStep();
             m_fFrameSteppingActive = false;
@@ -7026,6 +7065,9 @@ void CMainFrame::OnApiPlay()
 
 void CMainFrame::OnPlayStop()
 {
+	if (m_pWavRecorder!=nullptr)
+		m_pWavRecorder->StopWaveRecord();
+
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE);
     m_bOpeningInAutochangedMonitorMode = false;
     m_bPausedForAutochangeMonitorMode = false;
@@ -10617,6 +10659,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     SetupChapters();
 
     SetPlaybackMode(PM_FILE);
+	AddAudioGrabFilters();
+ 
 }
 
 void CMainFrame::SetupChapters()
@@ -16981,4 +17025,616 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     pSubtitlesInfo->fileContents = UTF16To8(content);
     return TRUE;
+}
+
+//new
+
+HRESULT CMainFrame::GetUnconnectedPin(
+	IBaseFilter *pFilter,   // Pointer to the filter.
+	PIN_DIRECTION PinDir,   // Direction of the pin to find.
+	IPin **ppPin)           // Receives a pointer to the pin.
+{
+	*ppPin = 0;
+	IEnumPins *pEnum = 0;
+	IPin *pPin = 0;
+	HRESULT hr = pFilter->EnumPins(&pEnum);
+	if (FAILED(hr))
+	{
+		return hr;
+	}
+	while (pEnum->Next(1, &pPin, NULL) == S_OK)
+	{
+		PIN_DIRECTION ThisPinDir;
+		pPin->QueryDirection(&ThisPinDir);
+		if (ThisPinDir == PinDir)
+		{
+			IPin *pTmp = 0;
+			hr = pPin->ConnectedTo(&pTmp);
+			if (SUCCEEDED(hr))  // Already connected, not the pin we want.
+			{
+				pTmp->Release();
+			}
+			else  // Unconnected, this is the pin we want.
+			{
+				pEnum->Release();
+				*ppPin = pPin;
+				return S_OK;
+			}
+		}
+		pPin->Release();
+	}
+	pEnum->Release();
+	// Did not find a matching pin.
+	return E_FAIL;
+}
+
+HRESULT  CMainFrame::FindAudioCompressor(IBaseFilter **ppFilter)
+{
+	HRESULT hr;
+	char vszName[200];
+	BSTR bstr;
+
+#ifdef _DEBUG	
+	*ppFilter = NULL;
+
+#endif
+
+	CString strTag;
+
+
+	ICreateDevEnum *pSysDevEnum = NULL;
+
+	hr = CoCreateInstance(CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC_SERVER,
+		IID_ICreateDevEnum, (void **)&pSysDevEnum);
+	if (FAILED(hr))
+	{
+		return hr;
+	}
+
+	// Obtain a class enumerator for the video compressor category.
+	IEnumMoniker *pEnumCat = NULL;
+	hr = pSysDevEnum->CreateClassEnumerator(CLSID_AudioCompressorCategory, &pEnumCat, 0);
+
+	if (hr == S_OK)
+	{
+		// Enumerate the monikers.
+		IMoniker *pMoniker = NULL;
+		ULONG cFetched;
+		while (pEnumCat->Next(1, &pMoniker, &cFetched) == S_OK)
+		{
+			IPropertyBag *pPropBag;
+			hr = pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void **)&pPropBag);
+			if (SUCCEEDED(hr))
+			{
+				// To retrieve the filter's friendly name, do the following:
+				VARIANT varName;
+				VariantInit(&varName);
+				hr = pPropBag->Read(L"FriendlyName", &varName, 0);
+				if (SUCCEEDED(hr))
+				{
+					// Display the name in your UI somehow.
+					bstr = varName.bstrVal;
+					strTag = bstr;
+
+				}
+				VariantClear(&varName);
+
+				// To create an instance of the filter, do the following:
+				IBaseFilter *pFilter;
+				if (strTag == "PCM")
+				{
+					hr = pMoniker->BindToObject(NULL, NULL, IID_IBaseFilter, (void**)&pFilter);
+					*ppFilter = pFilter;
+					pPropBag->Release();
+					pMoniker->Release();
+					break;
+				}
+				// Now add the filter to the graph. 
+				//Remember to release pFilter later.
+				pPropBag->Release();
+			}
+			pMoniker->Release();
+		}
+		pEnumCat->Release();
+	}
+	pSysDevEnum->Release();
+
+	return hr;
+}
+EXTERN_C const CLSID CLSID_NullRenderer;//The actual numeric value is exported from strmiids.lib.
+
+
+void CMainFrame::SetBufferEvent()
+{
+	if (m_pWavTransfer != NULL)
+		m_pWavTransfer->SetBufferEvent();
+}
+
+void CMainFrame::waveInAddBuffer(LPWAVEHDR pwh, UINT cbwh)
+{
+	if (m_pWavTransfer != NULL)
+		m_pWavTransfer->AddBuffer(pwh, cbwh);
+}
+
+void CMainFrame::SetWavParameters(int nChannels, int nSamplesPerSec, int nBitsPerSample)
+{
+	m_nChannels = nChannels;
+	m_nSamplesPerSec = nSamplesPerSec;
+	m_nBitsPerSample = nBitsPerSample;
+}
+
+
+LRESULT CMainFrame::Process_WIM_DATA(WPARAM wParam, LPARAM lParam)
+{
+	m_pWavRecorder->WaveRecInBlock(wParam, lParam);
+	return S_OK;
+}
+
+void CMainFrame::StartGrabAudio() 
+{
+    int MP3_BitRates[] = {128, 160, 192, 256, 320 };
+
+	if (GetLoadState() != MLS::LOADED)
+		return;
+	CAppSettings& s = AfxGetAppSettings();
+	WaveFmt pWaveFmt;
+    pWaveFmt.nChannels = s.iMP3SteroeModeidx + 1;//;  index1=0 , Mono, ==1, Stereo
+	pWaveFmt.nSamplesPerSec = 44100;
+	pWaveFmt.wBitsPerSample = 16;
+    pWaveFmt.wBitrate = MP3_BitRates[s.iMP3BitRateidx];//128;// 320;
+
+	CPath psrc(s.strAudioRecordPath);
+
+	CStringW prefix = _T("audioclip");
+	if (GetPlaybackMode() == PM_FILE) {
+		prefix.Format(_T("%s_audioclip_%s"), GetFileName(), GetVidPos());
+	}
+	else if (GetPlaybackMode() == PM_DVD) {
+		prefix.Format(_T("dvd_audioclip_%s"), GetVidPos());
+	}
+	else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+		prefix.Format(_T("%s_audioclip"), m_pDVBState->sChannelName);
+	}
+	psrc.Combine(s.strAudioRecordPath, MakeAudioClipFileName(prefix));
+
+	m_pWavRecorder->DShowRecordWaveFile(_T(""), psrc, pWaveFmt, true, false, true);
+}
+void CMainFrame::OnPlayGrabaudio()
+{
+	// TODO: Add your command handler code here
+	m_bGrabAudio = !m_bGrabAudio;
+	if (m_bGrabAudio) 
+		StartGrabAudio();
+	else
+		m_pWavRecorder->StopWaveRecord();
+}
+
+
+void CMainFrame::OnUpdatePlayGrabaudio(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	//if (pCmdUI->m_nID == ID_PLAY_GRABAUDIO)
+	{
+		
+		pCmdUI->SetCheck(m_bGrabAudio);
+	}
+}
+
+
+HRESULT  CMainFrame::AddAudioGrabFilters()
+{
+	HRESULT hr;
+	IBaseFilter *AudioRenderFilter;
+	IAMStreamConfig *StreamConfig;
+	WAVEFORMATEX set_parms;
+	AM_MEDIA_TYPE vAudioType;
+
+
+	IPin *pPinIn = 0;
+	IPin *pPinOut = 0;
+
+	hr = FindAudioRenderer(m_pGB, &AudioRenderFilter);
+	if (AudioRenderFilter == NULL)
+		return E_NOINTERFACE; 
+
+	IGraphConfig * pConfig;
+	hr = m_pGB->QueryInterface(__uuidof(IGraphConfig), (void **)&pConfig);
+	hr = CoCreateInstance(CLSID_InfTee, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&m_AudioTee);
+	hr = m_pGB->AddFilter(m_AudioTee, L"Smart Audio Tee");
+	if (FAILED(hr))
+		return hr;
+
+	hr = GetPin(AudioRenderFilter, PINDIR_INPUT, 0, &pPinIn);
+	pPinIn->ConnectedTo(&pPinOut);
+	hr = pConfig->Reconnect(pPinOut, pPinIn, NULL, m_AudioTee, NULL, 0);
+
+	pPinIn->Release();
+	pPinOut->Release();
+
+	hr = FindAudioCompressor(&m_pPCM);
+	if (FAILED(hr))
+		return hr;
+	
+	if (m_pPCM != NULL)
+	{
+		hr = m_pGB->AddFilter(m_pPCM, L"PCM resample");
+		if (FAILED(hr))
+		return hr;
+	}
+
+	hr = GetUnconnectedPin(m_AudioTee, PINDIR_OUTPUT, &pPinOut);
+
+	if (m_pPCM != NULL)
+	{
+		hr = GetPin(m_pPCM, PINDIR_INPUT, 0, &pPinIn);
+		hr = m_pGB->ConnectDirect(pPinOut, pPinIn, NULL);
+		pPinIn->Release();
+		pPinOut->Release();
+		hr = GetPin(m_pPCM, PINDIR_OUTPUT, 0, &pPinOut);
+	}
+
+
+	m_pWavTransfer = DEBUG_NEW CWavTransferFilter(nullptr, &hr);
+
+	if (FAILED(hr))
+		return E_NOINTERFACE;
+	
+	hr = m_pGB->AddFilter(m_pWavTransfer, L"WAV Transfer");
+	if (FAILED(hr))
+		return hr;
+
+	hr = GetPin(m_pWavTransfer, PINDIR_INPUT, 0, &pPinIn);
+	hr = m_pGB->ConnectDirect(pPinOut, pPinIn, NULL);
+
+	pPinIn->Release();
+	pPinOut->Release();
+
+
+	hr = CoCreateInstance(CLSID_NullRenderer, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&m_NULLRenderAudio);
+	if (FAILED(hr))
+		return hr;
+
+	hr = m_pGB->AddFilter((IBaseFilter *)m_NULLRenderAudio, L"Null Audio Render");
+	if (FAILED(hr))
+		return hr;
+
+	hr = GetPin(m_NULLRenderAudio, PINDIR_INPUT, 0, &pPinIn);
+	hr = GetPin(m_pWavTransfer, PINDIR_OUTPUT, 0, &pPinOut);
+
+	hr = m_pGB->ConnectDirect(pPinOut, pPinIn, NULL);
+	pPinIn->Release();
+	pPinOut->Release();
+
+	if (m_pPCM != NULL)
+	{
+		hr = GetPin(m_pPCM, PINDIR_OUTPUT, 0, &pPinOut);
+		hr = pPinOut->QueryInterface(IID_IAMStreamConfig, (PVOID*)&StreamConfig);
+		if (FAILED(hr))
+		{
+			pPinOut->Release();
+			return hr;
+		}
+
+		// Read current media type/format
+		AM_MEDIA_TYPE *pmt = { 0 };
+		hr = StreamConfig->GetFormat(&pmt);
+
+		if (SUCCEEDED(hr))
+		{
+	// Fill in values for the new format
+			WAVEFORMATEX *pWF = (WAVEFORMATEX *)pmt->pbFormat;
+
+			//if (m_nOutput_Type == 1)            //mp3          
+			{
+			pWF->nChannels = 2;
+			pWF->nSamplesPerSec = 44100;
+			pWF->wBitsPerSample = 16;
+
+			}
+			//else
+			//{
+			//	pWF->nChannels = 2;// m_nChannels;
+			//	pWF->nSamplesPerSec = 44100;// m_nSamplesPerSec;
+			//	pWF->wBitsPerSample = 16;// m_nBitsPerSample;
+			//}                         
+
+			pWF->nAvgBytesPerSec = ((pWF->wBitsPerSample) / 8) *pWF->nChannels *pWF->nSamplesPerSec;// lBytesPerSecond;
+			pWF->nBlockAlign = (WORD)(pWF->wBitsPerSample / 8 * pWF->nChannels);
+
+			// Set the new formattype for the output pin
+			hr = StreamConfig->SetFormat(pmt);
+			UtilDeleteMediaType(pmt);
+		}
+
+		StreamConfig->Release();
+	}
+
+	AudioRenderFilter->Release();
+	SAFE_RELEASE(pConfig)
+	return S_OK;// hr;
+}
+
+
+
+HRESULT CMainFrame::FindRenderer(IGraphBuilder *pGB, const GUID *mediatype, IBaseFilter **ppFilter)
+{
+	HRESULT hr;
+	IEnumFilters *pEnum = NULL;
+	IBaseFilter *pFilter = NULL;
+	IPin *pPin;
+	ULONG ulFetched, ulInPins, ulOutPins;
+	BOOL bFound = FALSE;
+
+	// Verify graph builder interface
+	if (!pGB)
+		return E_NOINTERFACE;
+
+	// Verify that a media type was passed
+	if (!mediatype)
+		return E_POINTER;
+
+	// Clear the filter pointer in case there is no match
+	if (ppFilter)
+		*ppFilter = NULL;
+
+	// Get filter enumerator
+	hr = pGB->EnumFilters(&pEnum);
+	if (FAILED(hr))
+		return hr;
+
+	pEnum->Reset();
+
+	// Enumerate all filters in the graph
+	while (!bFound && (pEnum->Next(1, &pFilter, &ulFetched) == S_OK))
+	{
+#ifdef DEBUG
+		// Read filter name for debugging purposes
+		FILTER_INFO FilterInfo;
+		TCHAR szName[256];
+
+		hr = pFilter->QueryFilterInfo(&FilterInfo);
+		if (SUCCEEDED(hr))
+		{
+			// Show filter name in debugger
+#ifdef UNICODE
+			lstrcpyn(szName, FilterInfo.achName, 256);
+#else
+			WideCharToMultiByte(CP_ACP, 0, FilterInfo.achName, -1, szName, 256, 0, 0);
+#endif
+			FilterInfo.pGraph->Release();
+		}
+		szName[255] = 0;        // Null-terminate
+#endif
+
+								// Find a filter with one input and no output pins
+		hr = CountFilterPins(pFilter, &ulInPins, &ulOutPins);
+		if (FAILED(hr))
+			break;
+
+		if ((ulInPins == 1) && (ulOutPins == 0))
+		{
+			// Get the first pin on the filter
+			pPin = 0;
+			pPin = GetInPin(pFilter, 0);
+
+			// Read this pin's major media type
+			AM_MEDIA_TYPE type = { 0 };
+			hr = pPin->ConnectionMediaType(&type);
+			if (FAILED(hr))
+				break;
+
+			// Is this pin's media type the requested type?
+			// If so, then this is the renderer for which we are searching.
+			// Copy the interface pointer and return.
+			if (type.majortype == *mediatype)
+			{
+				// Found our filter
+				*ppFilter = pFilter;
+				bFound = TRUE;
+			}
+			// This is not the renderer, so release the interface.
+			else
+				pFilter->Release();
+
+			// Delete memory allocated by ConnectionMediaType()
+			UtilFreeMediaType(type);
+		}
+		else
+		{
+			// No match, so release the interface
+			pFilter->Release();
+		}
+	}
+
+	pEnum->Release();
+	return hr;
+}
+
+HRESULT CMainFrame::FindAudioRenderer(IGraphBuilder *pGB, IBaseFilter **ppFilter)
+{
+	return FindRenderer(pGB, &MEDIATYPE_Audio, ppFilter);
+}
+
+
+
+
+HRESULT CMainFrame::GetPin(IBaseFilter * pFilter, PIN_DIRECTION dirrequired, int iNum, IPin **ppPin)
+{
+	CComPtr< IEnumPins > pEnum;
+	*ppPin = NULL;
+
+	if (!pFilter)
+		return E_POINTER;
+
+	HRESULT hr = pFilter->EnumPins(&pEnum);
+	if (FAILED(hr))
+		return hr;
+
+	ULONG ulFound;
+	IPin *pPin;
+	hr = E_FAIL;
+
+	while (S_OK == pEnum->Next(1, &pPin, &ulFound))
+	{
+		PIN_DIRECTION pindir = (PIN_DIRECTION)3;
+
+		pPin->QueryDirection(&pindir);
+		if (pindir == dirrequired)
+		{
+			if (iNum == 0)
+			{
+				*ppPin = pPin;  // Return the pin's interface
+				hr = S_OK;      // Found requested pin, so clear error
+				break;
+			}
+			iNum--;
+		}
+
+		pPin->Release();
+	}
+
+	return hr;
+}
+
+
+void CMainFrame::UtilDeleteMediaType(AM_MEDIA_TYPE *pmt)
+{
+	// Allow NULL pointers for coding simplicity
+	if (pmt == NULL) {
+		return;
+	}
+
+	// Free media type's format data
+	if (pmt->cbFormat != 0)
+	{
+		CoTaskMemFree((PVOID)pmt->pbFormat);
+
+		// Strictly unnecessary but tidier
+		pmt->cbFormat = 0;
+		pmt->pbFormat = NULL;
+	}
+
+	// Release interface
+	if (pmt->pUnk != NULL)
+	{
+		pmt->pUnk->Release();
+		pmt->pUnk = NULL;
+	}
+
+	// Free media type
+	CoTaskMemFree((PVOID)pmt);
+}
+
+
+void CMainFrame::UtilFreeMediaType(AM_MEDIA_TYPE& mt)
+{
+	if (mt.cbFormat != 0)
+	{
+		CoTaskMemFree((PVOID)mt.pbFormat);
+
+		// Strictly unnecessary but tidier
+		mt.cbFormat = 0;
+		mt.pbFormat = NULL;
+	}
+	if (mt.pUnk != NULL)
+	{
+		mt.pUnk->Release();
+		mt.pUnk = NULL;
+	}
+}
+
+
+
+HRESULT CMainFrame::CountFilterPins(IBaseFilter *pFilter, ULONG *pulInPins, ULONG *pulOutPins)
+{
+	HRESULT hr = S_OK;
+	IEnumPins *pEnum = 0;
+	ULONG ulFound;
+	IPin *pPin;
+
+	// Verify input
+	if (!pFilter || !pulInPins || !pulOutPins)
+		return E_POINTER;
+
+	// Clear number of pins found
+	*pulInPins = 0;
+	*pulOutPins = 0;
+
+	// Get pin enumerator
+	hr = pFilter->EnumPins(&pEnum);
+	if (FAILED(hr))
+		return hr;
+
+	pEnum->Reset();
+
+	// Count every pin on the filter
+	while (S_OK == pEnum->Next(1, &pPin, &ulFound))
+	{
+		PIN_DIRECTION pindir = (PIN_DIRECTION)3;
+
+		hr = pPin->QueryDirection(&pindir);
+
+		if (pindir == PINDIR_INPUT)
+			(*pulInPins)++;
+		else
+			(*pulOutPins)++;
+
+		pPin->Release();
+	}
+
+	pEnum->Release();
+	return hr;
+}
+
+
+HRESULT CMainFrame::CountTotalFilterPins(IBaseFilter *pFilter, ULONG *pulPins)
+{
+	HRESULT hr;
+	IEnumPins *pEnum = 0;
+	ULONG ulFound;
+	IPin *pPin;
+
+	// Verify input
+	if (!pFilter || !pulPins)
+		return E_POINTER;
+
+	// Clear number of pins found
+	*pulPins = 0;
+
+	// Get pin enumerator
+	hr = pFilter->EnumPins(&pEnum);
+	if (FAILED(hr))
+		return hr;
+
+	// Count every pin on the filter, ignoring direction
+	while (S_OK == pEnum->Next(1, &pPin, &ulFound))
+	{
+		(*pulPins)++;
+		pPin->Release();
+	}
+
+	pEnum->Release();
+	return hr;
+}
+
+// NOTE: The GetInPin and GetOutPin methods DO NOT increment the reference count
+// of the returned pin.  Use CComPtr interface pointers in your code to prevent
+// memory leaks caused by reference counting problems.  The SDK samples that use
+// these methods all use CComPtr<IPin> interface pointers.
+// 
+//     For example:  CComPtr<IPin> pPin = GetInPin(pFilter,0);
+//
+IPin * CMainFrame::GetInPin(IBaseFilter * pFilter, int nPin)
+{
+	CComPtr<IPin> pComPin;
+	GetPin(pFilter, PINDIR_INPUT, nPin, &pComPin);
+	return pComPin;
+}
+
+
+IPin * CMainFrame::GetOutPin(IBaseFilter * pFilter, int nPin)
+{
+	CComPtr<IPin> pComPin;
+	GetPin(pFilter, PINDIR_OUTPUT, nPin, &pComPin);
+	return pComPin;
 }

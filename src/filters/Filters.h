@@ -36,3 +36,4 @@
 #include "transform/BufferFilter/BufferFilter.h"
 #include "transform/DeCSSFilter/DeCSSFilter.h"
 #include "RARFileSource/library/RFS.h"
+#include "muxer/WavTransfer/WavTransfer.h"

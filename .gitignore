@@ -15,6 +15,7 @@
 /.git-rewrite
 /.vs
 /bin
+/bin15
 /bin17
 /build.user.bat
 /contrib/[Aa][Ss]tyle.exe

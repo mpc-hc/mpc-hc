@@ -662,6 +662,12 @@ public:
     int             iOnTop;
 
     // WINDOWS
+
+	// audio Extract...
+	CString         strAudioRecordPath, strAudioRecordExt;
+    int             iMP3BitRateidx = 0;   // index of 128 bit
+    int             iMP3SteroeModeidx=1; // Stereo
+	bool			bGrabAudio=false;
     // Add Favorite
     bool            bFavRememberPos;
     bool            bFavRelativeDrive;

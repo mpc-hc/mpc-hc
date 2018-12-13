@@ -1,10 +1,11 @@
-Active (sorted by name)
+﻿Active (sorted by name)
 -----------------------
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 JellyFrog               -                                       Server and Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
 XhmikosR                <xhmikosr@gmail.com>                    Various stuff, Project manager
-
+Yong Wang		<kashwy@hotmail.com>			code
+Xin Tong Wang		<xintong.wang1995@gmail.com>		code
 
 Inactive
 --------
