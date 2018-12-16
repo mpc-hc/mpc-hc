@@ -196,58 +196,142 @@ DWORD WINAPI CYoutubeDLInstance::BuffErrThread(void* ydl_inst)
     return GetLastError() == ERROR_BROKEN_PIPE ? 0 : GetLastError();
 }
 
+struct YDLStreamDetails {
+    CString protocol;
+    CString url;
+    int width;
+    int height;
+    CString vcodec;
+    CString acodec;
+    bool has_video;
+    bool has_audio;
+    int vbr;
+    int abr;
+};
 
-//find highest resolution
-void filterVideo(const Value& formats, CString& url, int reqheight = 0)
-{
-    int maxheight = 0;
-
-    //no heights to compare, just return first format
-    if (formats[0].FindMember(_T("height")) == formats[0].MemberEnd()) {
-        url = formats[0][_T("url")].GetString();
-    }
-
-    for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
-        int curheight = 1;
-        if (formats[i].FindMember(_T("height")) != formats[i].MemberEnd() && !formats[i][_T("height")].IsNull()) {
-            curheight = formats[i][_T("height")].GetInt();
+bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
+    details.protocol = format.HasMember(_T("protocol")) && !format[_T("protocol")].IsNull() ? format[_T("protocol")].GetString() : nullptr;
+    if (details.protocol && details.protocol != _T("http_dash_segments")) {
+        details.url       = format[_T("url")].GetString();
+        details.width     = format.HasMember(_T("width"))  && !format[_T("width")].IsNull()  ? format[_T("width")].GetInt() : 0;
+        details.height    = format.HasMember(_T("height")) && !format[_T("height")].IsNull() ? format[_T("height")].GetInt() : 0;
+        details.vcodec    = format.HasMember(_T("vcodec")) && !format[_T("vcodec")].IsNull() ? format[_T("vcodec")].GetString() : _T("none");
+        details.has_video = details.vcodec != _T("none");
+        details.acodec    = format.HasMember(_T("acodec")) && !format[_T("acodec")].IsNull() ? format[_T("acodec")].GetString() : _T("none");
+        details.has_audio = details.acodec != _T("none");
+        details.vbr       = details.has_video && format.HasMember(_T("vbr")) && !format[_T("vbr")].IsNull() ? (int) format[_T("vbr")].GetFloat() : 0;
+        details.abr       = details.has_audio && format.HasMember(_T("abr")) && !format[_T("abr")].IsNull() ? (int) format[_T("abr")].GetFloat() : 0;
+        if (details.vbr == 0 && details.has_video) {
+            details.vbr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
         }
-        if (curheight > maxheight && (!reqheight || reqheight >= curheight)) {
-            maxheight = curheight;
-            url = formats[i][_T("url")].GetString();
+        if (details.abr == 0 && details.has_audio) {
+            details.abr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
         }
+        TRACE(_T("w=%d, h=%d, vbr=%d, abr=%d, vcodec=%s, acodec=%s"), details.width, details.height, details.vbr, details.abr, details.vcodec.GetString(), details.acodec.GetString());
+        return !details.url.IsEmpty();
     }
+    return false;
 }
 
-//find audio track with highest bitrate (some sites (youtube, vidme) have audio and videos streams separate)
-bool filterAudio(const Value& formats, CString& url)
+bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate) {  
+    if (first.has_video) {
+        // We want separate audio/video streams
+        if (separate && first.has_audio && !second.has_audio) {
+            return true;
+        }
+
+        // Video format
+        if (first.vcodec.Left(4) == _T("av01") && second.vcodec.Left(4) != _T("av01")) {
+            return true;
+        }
+
+        // Video resolution
+        if (max_height > 0 && first.height > max_height && first.height > second.height) {
+            return true;
+        }
+        if (max_height > 0 && second.height > max_height) {
+            return false;
+        }
+        if (second.height > first.height) {
+            return true;
+        } else {
+            if (second.height = first.height) {
+                if (second.width > first.width) {
+                    return true;
+                }
+                if (second.width < first.width) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    else {
+        // Audio format
+        if (first.vcodec.Left(4) != _T("opus") && second.vcodec.Left(4) == _T("opus")) {
+            return true;
+        }
+    }
+
+    // Prefer HTTP protocol
+    if (first.protocol.Left(4) != _T("http") && second.protocol.Left(4) == _T("http")) {
+        return true;
+    }
+
+    // Bitrate
+    if (first.has_video) {
+        if (second.vbr > first.vbr) {
+            return true;
+        }
+    } else {
+        if (second.abr > first.abr) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// find best video track
+bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height, bool separate)
 {
-    float maxtbr = 0.0;
+    YDLStreamDetails current;
     bool found = false;
 
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
-        //only want audio streams
-        //youtube and vidme mark audio-only with vcodec = "none"
-        if (formats[i].HasMember(_T("vcodec")) &&
-                !formats[i][_T("vcodec")].IsNull() &&
-                CString(formats[i][_T("vcodec")].GetString()) == _T("none") &&
-                formats[i].HasMember(_T("tbr")) &&
-                !formats[i][_T("tbr")].IsNull()) {
-            float curtbr = formats[i][_T("tbr")].GetFloat();
-            if (curtbr >= maxtbr) {
-                maxtbr = curtbr;
-                url = formats[i][_T("url")].GetString();
-                found = true;
+        if (GetYDLStreamDetails(formats[i], current) && current.has_video) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, max_height, separate)) {
+                ydl_sd = current;
             }
+            found = true;
         }
     }
     return found;
 }
 
-bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CString>& audio, CAtlList<CString>& names)
+// find best audio track (in case we use separate streams)
+bool filterAudio(const Value& formats, YDLStreamDetails& ydl_sd)
+{
+    YDLStreamDetails current;
+    bool found = false;
+
+    for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
+        if (GetYDLStreamDetails(formats[i], current) && !current.has_video) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, 0, true)) {
+                ydl_sd = current;
+            }
+            found = true;
+        }
+    }
+    return found;
+}
+
+bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
 {
     CString url;
     CString extractor;
+    YDLStreamDetails ydl_sd;
+    YDLStreamURL stream;
 
     if (pJSON->d.IsObject() && pJSON->d.HasMember(_T("extractor"))) {
         extractor = pJSON->d[_T("extractor")].GetString();
@@ -263,38 +347,49 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<CString>& videos, CAtlList<CStr
         }
 
         if (pJSON->d.HasMember(_T("title"))) {
-            names.AddTail(pJSON->d[_T("title")].GetString());
+            stream.title = pJSON->d[_T("title")].GetString();
+        } else {
+            stream.title = _T("");
         }
 
         // detect generic http link
         if (extractor == _T("generic")) {
-            videos.AddTail(pJSON->d[_T("formats")][0][_T("url")].GetString());
+            stream.video_url = pJSON->d[_T("formats")][0][_T("url")].GetString();
             return true;
         }
 
-        filterVideo(pJSON->d[_T("formats")], url, s.iYDLMaxHeight);
-        videos.AddTail(url);
-
-        // find separate audio stream, if applicable
-        if (filterAudio(pJSON->d[_T("formats")], url)) {
-            audio.AddTail(url);
+        if (filterVideo(pJSON->d[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
+            stream.video_url = ydl_sd.url;
+            stream.audio_url = _T("");
+            // find separate audio stream
+            if (!ydl_sd.has_audio) {
+                if (filterAudio(pJSON->d[_T("formats")], ydl_sd)) {
+                    stream.audio_url = ydl_sd.url;
+                }
+            }
         }
-    } else if(pJSON->d.HasMember(_T("entries"))) {
-        const Value& entries = pJSON->d[_T("entries")];
+        streams.AddTail(stream);
+    } else {
+        if (pJSON->d.HasMember(_T("entries"))) {
+            const Value& entries = pJSON->d[_T("entries")];
 
-        for (rapidjson::SizeType i = 0; i < entries.Size(); i++) {
-            filterVideo(entries[i][_T("formats")], url, s.iYDLMaxHeight);
-            videos.AddTail(url);
-            names.AddTail(entries[i][_T("title")].GetString());
-
-            if (filterAudio(entries[i][_T("formats")], url)) {
-                audio.AddTail(url);
+            for (rapidjson::SizeType i = 0; i < entries.Size(); i++) {
+                if (filterVideo(entries[i][_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
+                    stream.video_url = ydl_sd.url;
+                    stream.title = entries[i][_T("title")].GetString();
+                    stream.audio_url = _T("");
+                    if (!ydl_sd.has_audio) {
+                        if (filterAudio(entries[i][_T("formats")], ydl_sd)) {
+                            stream.audio_url = ydl_sd.url;
+                        }
+                    }
+                }
+                streams.AddTail(stream);
             }
         }
     }
-    return !videos.IsEmpty() || !audio.IsEmpty();
+    return !streams.IsEmpty();
 }
-
 
 bool CYoutubeDLInstance::loadJSON()
 {

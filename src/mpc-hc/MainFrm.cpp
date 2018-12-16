@@ -17170,9 +17170,7 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
 bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
 {
     auto& s = AfxGetAppSettings();
-    CAtlList<CString> vstreams;
-    CAtlList<CString> astreams;
-    CAtlList<CString> names;
+    CAtlList<CYoutubeDLInstance::YDLStreamURL> streams;
     CAtlList<CString> filenames;
     CYoutubeDLInstance ydl;
 
@@ -17181,27 +17179,23 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
     if (!ydl.Run(url)) {
         return false;
     }
-    if (!ydl.GetHttpStreams(vstreams, astreams, names)) {
+    if (!ydl.GetHttpStreams(streams)) {
         return false;
     }
 
     if (!append) {
         m_wndPlaylistBar.Empty();
     }
-    for (unsigned int i = 0; i < vstreams.GetCount(); i++) {
+
+    for (unsigned int i = 0; i < streams.GetCount(); i++) {
         filenames.RemoveAll();
-
-        //only respect the Audio Only flag for sources that actually have separate audio streams (i.e. youtube)
-        if (astreams.IsEmpty() || !s.bYDLAudioOnly) {
-            filenames.AddTail(vstreams.GetAt(vstreams.FindIndex(i)));
+        if (!s.bYDLAudioOnly || streams.GetAt(streams.FindIndex(i)).audio_url.IsEmpty()) {
+            filenames.AddTail(streams.GetAt(streams.FindIndex(i)).video_url);
         }
-
-        if (!astreams.IsEmpty()) {
-            filenames.AddTail(astreams.GetAt(astreams.FindIndex(i)));
+        if (!streams.GetAt(streams.FindIndex(i)).audio_url.IsEmpty()) {
+            filenames.AddTail(streams.GetAt(streams.FindIndex(i)).audio_url);
         }
-        m_wndPlaylistBar.Append(filenames, false, nullptr,
-                                names.GetAt(names.FindIndex(i))
-                                + " (" + url + ")", url);
+        m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
     }
 
     if (s.fKeepHistory) {

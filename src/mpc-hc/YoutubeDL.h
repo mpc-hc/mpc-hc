@@ -28,8 +28,14 @@ public:
     CYoutubeDLInstance();
     ~CYoutubeDLInstance();
 
+    struct YDLStreamURL {
+        CString video_url;
+        CString audio_url;
+        CString title;
+    };
+
     bool Run(CString url);
-    bool GetHttpStreams(CAtlList<CString>& videos, CAtlList<CString>& audio, CAtlList<CString>& names);
+    bool GetHttpStreams(CAtlList<YDLStreamURL>& streams);
 
 private:
     CUtf16JSON* pJSON;
