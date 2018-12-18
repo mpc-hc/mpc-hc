@@ -227,7 +227,6 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
         if (details.abr == 0 && details.has_audio) {
             details.abr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
         }
-        TRACE(_T("w=%d, h=%d, vbr=%d, abr=%d, vcodec=%s, acodec=%s"), details.width, details.height, details.vbr, details.abr, details.vcodec.GetString(), details.acodec.GetString());
         return !details.url.IsEmpty();
     }
     return false;
@@ -241,8 +240,14 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
         }
 
         // Video format
-        if (first.vcodec.Left(4) == _T("av01") && second.vcodec.Left(4) != _T("av01")) {
-            return true;
+        if (first.vcodec.Left(4) == _T("av01")) {
+            if (second.vcodec.Left(4) != _T("av01")) {
+                return true;
+            }
+        } else {
+            if (second.vcodec.Left(4) == _T("av01")) {
+                return false;
+            }
         }
 
         // Video resolution
@@ -255,7 +260,7 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
         if (second.height > first.height) {
             return true;
         } else {
-            if (second.height = first.height) {
+            if (second.height == first.height) {
                 if (second.width > first.width) {
                     return true;
                 }
@@ -266,17 +271,28 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
                 return false;
             }
         }
-    }
-    else {
+    } else {
         // Audio format
-        if (first.vcodec.Left(4) != _T("opus") && second.vcodec.Left(4) == _T("opus")) {
-            return true;
+        if (first.vcodec.Left(4) == _T("opus")) {
+            if (second.vcodec.Left(4) != _T("opus")) {
+                return false;
+            }
+        } else {
+            if (second.vcodec.Left(4) == _T("opus")) {
+                return true;
+            }
         }
     }
 
     // Prefer HTTP protocol
-    if (first.protocol.Left(4) != _T("http") && second.protocol.Left(4) == _T("http")) {
-        return true;
+    if (first.protocol.Left(4) == _T("http")) {
+        if (second.protocol.Left(4) != _T("http")) {
+            return false;
+        }
+    } else {
+        if (second.protocol.Left(4) == _T("http")) {
+            return true;
+        }
     }
 
     // Bitrate
