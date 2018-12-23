@@ -219,13 +219,19 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
         details.has_video = details.vcodec != _T("none");
         details.acodec    = format.HasMember(_T("acodec")) && !format[_T("acodec")].IsNull() ? format[_T("acodec")].GetString() : _T("none");
         details.has_audio = details.acodec != _T("none");
-        details.vbr       = details.has_video && format.HasMember(_T("vbr")) && !format[_T("vbr")].IsNull() ? (int) format[_T("vbr")].GetFloat() : 0;
-        details.abr       = details.has_audio && format.HasMember(_T("abr")) && !format[_T("abr")].IsNull() ? (int) format[_T("abr")].GetFloat() : 0;
-        if (details.vbr == 0 && details.has_video) {
-            details.vbr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
-        }
-        if (details.abr == 0 && details.has_audio) {
-            details.abr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
+        if (details.has_video || details.has_audio) {
+            details.vbr = details.has_video && format.HasMember(_T("vbr")) && !format[_T("vbr")].IsNull() ? (int) format[_T("vbr")].GetFloat() : 0;
+            details.abr = details.has_audio && format.HasMember(_T("abr")) && !format[_T("abr")].IsNull() ? (int) format[_T("abr")].GetFloat() : 0;
+            if (details.vbr == 0 && details.has_video) {
+                details.vbr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
+            }
+            if (details.abr == 0 && details.has_audio) {
+                details.abr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int) format[_T("tbr")].GetFloat() : 0;
+            }
+        } else {
+            // format details unknown, make assumption
+            details.has_video = (details.width > 0) || (details.height > 0);
+            details.has_audio = true;
         }
         return !details.url.IsEmpty();
     }
@@ -371,6 +377,8 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
         // detect generic http link
         if (extractor == _T("generic")) {
             stream.video_url = pJSON->d[_T("formats")][0][_T("url")].GetString();
+            stream.audio_url = _T("");
+            streams.AddTail(stream);
             return true;
         }
 
@@ -378,13 +386,19 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
             stream.video_url = ydl_sd.url;
             stream.audio_url = _T("");
             // find separate audio stream
-            if (!ydl_sd.has_audio) {
+            if (ydl_sd.has_video && !ydl_sd.has_audio) {
                 if (filterAudio(pJSON->d[_T("formats")], ydl_sd)) {
                     stream.audio_url = ydl_sd.url;
                 }
             }
+            streams.AddTail(stream);
+        } else {
+            if (filterAudio(pJSON->d[_T("formats")], ydl_sd)) {
+                stream.audio_url = ydl_sd.url;
+                stream.video_url = _T("");
+                streams.AddTail(stream);
+            }
         }
-        streams.AddTail(stream);
     } else {
         if (pJSON->d.HasMember(_T("entries"))) {
             const Value& entries = pJSON->d[_T("entries")];
@@ -394,13 +408,20 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
                     stream.video_url = ydl_sd.url;
                     stream.title = entries[i][_T("title")].GetString();
                     stream.audio_url = _T("");
-                    if (!ydl_sd.has_audio) {
+                    if (ydl_sd.has_video && !ydl_sd.has_audio) {
                         if (filterAudio(entries[i][_T("formats")], ydl_sd)) {
                             stream.audio_url = ydl_sd.url;
                         }
                     }
+                    streams.AddTail(stream);
+                } else {
+                    if (filterAudio(entries[i][_T("formats")], ydl_sd)) {
+                        stream.audio_url = ydl_sd.url;
+                        stream.title = entries[i][_T("title")].GetString();
+                        stream.video_url = _T("");
+                        streams.AddTail(stream);
+                    }
                 }
-                streams.AddTail(stream);
             }
         }
     }

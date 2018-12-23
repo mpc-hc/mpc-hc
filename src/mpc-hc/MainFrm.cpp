@@ -17188,12 +17188,15 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
     }
 
     for (unsigned int i = 0; i < streams.GetCount(); i++) {
+        CString v_url = streams.GetAt(streams.FindIndex(i)).video_url;
+        CString a_url = streams.GetAt(streams.FindIndex(i)).audio_url;
         filenames.RemoveAll();
-        if (!s.bYDLAudioOnly || streams.GetAt(streams.FindIndex(i)).audio_url.IsEmpty()) {
-            filenames.AddTail(streams.GetAt(streams.FindIndex(i)).video_url);
+        if (!v_url.IsEmpty() && (!s.bYDLAudioOnly || a_url.IsEmpty())) {
+            filenames.AddTail(v_url);
+            
         }
-        if (!streams.GetAt(streams.FindIndex(i)).audio_url.IsEmpty()) {
-            filenames.AddTail(streams.GetAt(streams.FindIndex(i)).audio_url);
+        if (!a_url.IsEmpty()) {
+            filenames.AddTail(a_url);
         }
         m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
     }
