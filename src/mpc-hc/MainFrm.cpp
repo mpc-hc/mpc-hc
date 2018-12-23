@@ -4650,12 +4650,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    int cols = std::max(1, std::min(10, s.iThumbCols));
-    int rows = std::max(1, std::min(20, s.iThumbRows));
+    int cols = std::max(1, std::min(16, s.iThumbCols));
+    int rows = std::max(1, std::min(40, s.iThumbRows));
 
     const int margin = 5;
     const int infoheight = 70;
-    int width = std::max(256, std::min(2560, s.iThumbWidth));
+    int width = std::max(256, std::min(3840, s.iThumbWidth));
     int height = width * szVideoARCorrected.cy / szVideoARCorrected.cx * rows / cols + infoheight;
 
     int dibsize = sizeof(BITMAPINFOHEADER) + width * height * 4;
