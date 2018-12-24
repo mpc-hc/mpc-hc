@@ -17219,13 +17219,11 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
     PROCESS_INFORMATION proc_info;
     STARTUPINFO startup_info;
 
-    CString format;
+    CString args = _T("youtube-dl \"") + url + _T("\"");
     if (AfxGetAppSettings().bYDLAudioOnly) {
-        format = _T("bestaudio");
-    } else {
-        format = _T("best");
+        args.Append(_T(" -f bestaudio"));
     }
-    CString args = "youtube-dl \"" + url + "\" -f " + format + " -o \"" + filename + "\"";
+    args.Append(_T(" -o \"" + filename + "\""));
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));
