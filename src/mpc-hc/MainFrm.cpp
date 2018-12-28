@@ -4315,6 +4315,7 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
 void CMainFrame::OnFileSaveAs()
 {
     CString in, out, ext;
+
     CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
     if (pli && !pli->m_fns.IsEmpty()) {
         in = pli->m_fns.GetHead();
@@ -4339,19 +4340,23 @@ void CMainFrame::OnFileSaveAs()
         }
     }
 
-    CFileDialog fd(FALSE, 0, out,
-                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                   ResStr(IDS_ALL_FILES_FILTER), GetModalParent(), 0);
-    if (fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
+    if (!pli->m_bYoutubeDL || pli->m_ydlSourceURL.IsEmpty() || (AfxGetAppSettings().sYDLCommandLine.Find(_T("-o ")) < 0)) {
+        CFileDialog fd(FALSE, 0, out,
+                       OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
+                       ResStr(IDS_ALL_FILES_FILTER), GetModalParent(), 0);
+        if (fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
+            return;
+        } else {
+            out = fd.GetPathName();
+        }
+    }
+
+    if (pli->m_bYoutubeDL && !pli->m_ydlSourceURL.IsEmpty()) {
+        DownloadWithYoutubeDL(pli->m_ydlSourceURL, out);
         return;
     }
 
-    if (pli->m_bYoutubeDL && !pli->m_ydlSourceURL.IsEmpty() && DownloadWithYoutubeDL(pli->m_ydlSourceURL, fd.GetPathName())) {
-        // Download with Youtube-DL was started successfully
-        return;
-    }
-
-    CPath p(fd.GetPathName());
+    CPath p(out);
     if (!ext.IsEmpty()) {
         p.AddExtension(ext);
     }
@@ -17218,12 +17223,19 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
 {
     PROCESS_INFORMATION proc_info;
     STARTUPINFO startup_info;
+    const auto& s = AfxGetAppSettings();
 
     CString args = _T("youtube-dl \"") + url + _T("\"");
-    if (AfxGetAppSettings().bYDLAudioOnly) {
+    if (!s.sYDLCommandLine.IsEmpty()) {
+        args.Append(_T(" "));
+        args.Append(s.sYDLCommandLine);
+    }
+    if (s.bYDLAudioOnly && (s.sYDLCommandLine.Find(_T("-f ")) < 0)) {
         args.Append(_T(" -f bestaudio"));
     }
-    args.Append(_T(" -o \"" + filename + "\""));
+    if (s.sYDLCommandLine.Find(_T("-o ")) < 0) {
+        args.Append(_T(" -o \"" + filename + "\""));
+    }
 
     ZeroMemory(&proc_info, sizeof(PROCESS_INFORMATION));
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));

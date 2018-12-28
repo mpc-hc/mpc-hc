@@ -191,6 +191,7 @@ private:
         USE_YDL,
         YDL_MAX_HEIGHT,
         YDL_AUDIO_ONLY,
+        YDL_COMMAND_LINE,
         SAVEIMAGE_POSITION,
         SAVEIMAGE_CURRENTTIME,
         INACCURATE_FASTSEEK

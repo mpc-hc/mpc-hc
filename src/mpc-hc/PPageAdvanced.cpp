@@ -76,9 +76,10 @@ BOOL CPPageAdvanced::OnInitDialog()
 
     InitSettings();
 
-    for (int i = 0; i < m_list.GetHeaderCtrl()->GetItemCount(); ++i) {
-        m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+    for (int i = m_list.GetHeaderCtrl()->GetItemCount() - 1; i >= 0; --i) {
+        m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
     }
+
     SetRedraw(TRUE);
     return TRUE;
 }
@@ -146,6 +147,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(USE_YDL, IDS_RS_USE_YDL, true, s.bUseYDL, _T("Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."));
     addIntItem(YDL_MAX_HEIGHT, IDS_RS_YDL_MAX_HEIGHT, 1440, s.iYDLMaxHeight, std::make_pair(0, INT_MAX), _T("Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."));
     addBoolItem(YDL_AUDIO_ONLY, IDS_RS_YDL_AUDIO_ONLY, false, s.bYDLAudioOnly, _T("Instructs Youtube-DL to prefer an audio-only stream (if available)"));
+    addCStringItem(YDL_COMMAND_LINE, IDS_RS_YDL_COMMAND_LINE, _T(""), s.sYDLCommandLine, _T("Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s\""));
     addBoolItem(SAVEIMAGE_POSITION, IDS_RS_SAVEIMAGE_POSITION, true, s.bSaveImagePosition, _T("Include video position in filename"));
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, _T("Include current time in filename"));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, _T("When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."));

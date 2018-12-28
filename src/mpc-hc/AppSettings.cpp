@@ -216,6 +216,7 @@ CAppSettings::CAppSettings()
     , bUseYDL(true)
     , iYDLMaxHeight(1440)
     , bYDLAudioOnly(false)
+    , sYDLCommandLine(_T(""))
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1115,6 +1116,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, bUseYDL);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, sYDLCommandLine);
 
     pApp->FlushProfile();
 }
@@ -1865,6 +1867,7 @@ void CAppSettings::LoadSettings()
     bUseYDL       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, TRUE);
     iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 1440);
     bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
+    sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
 
     bInitialized = true;
 }

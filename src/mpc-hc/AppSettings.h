@@ -752,10 +752,11 @@ public:
         sizeAspectRatio = ar;
     }
 
-    //YoutubeDL settings
+    // YoutubeDL settings
     bool bUseYDL;
     int iYDLMaxHeight;
     bool bYDLAudioOnly;
+    CString sYDLCommandLine;
 
 private:
     struct FilterKey {
