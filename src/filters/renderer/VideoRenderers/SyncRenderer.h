@@ -26,8 +26,6 @@
 #include "AllocatorCommon.h"
 #include "../../../DSUtil/WinapiFunc.h"
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include <dxva2api.h>
 #include <d3dx9.h>
 
@@ -117,9 +115,6 @@ namespace GothSync
         HMODULE m_hDWMAPI;
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
         HRESULT(__stdcall* m_pDwmEnableComposition)(UINT uCompositionAction);
-        HMODULE m_hD3D9;
-        HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
-        decltype(&Direct3DCreate9) m_pDirect3DCreate9;
 
         CCritSec m_allocatorLock;
         CComPtr<IDirect3D9Ex> m_pD3DEx;

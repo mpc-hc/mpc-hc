@@ -26,8 +26,6 @@
 #include "../../../mpc-hc/mplayerc.h"
 #include <mpc-hc_config.h>
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include <d3dx9.h>
 
 void CRenderersSettings::UpdateData(bool fSave)

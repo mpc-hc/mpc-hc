@@ -57,12 +57,9 @@ namespace DSObjects
         CRenderersSettings::CAdvRendererSettings m_LastRendererSettings;
 
         HMODULE m_hDWMAPI;
-        HMODULE m_hD3D9;
 
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
         HRESULT(__stdcall* m_pDwmEnableComposition)(UINT uCompositionAction);
-        HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
-        decltype(&Direct3DCreate9) m_pDirect3DCreate9;
 
         CCritSec m_RenderLock;
         CComPtr<IDirectDraw> m_pDirectDraw;

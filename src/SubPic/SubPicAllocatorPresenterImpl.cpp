@@ -28,8 +28,6 @@
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include <evr.h>
 #include <dxva2api.h>
 

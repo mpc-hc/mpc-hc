@@ -219,9 +219,8 @@ BOOL CPPageOutput::OnInitDialog()
 
     UpdateSubtitleRendererList();
 
-    const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
-    CComPtr<IDirect3D9> pD3D9;
-    if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
+    IDirect3D9* pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
+    if (pD3D9) {
         TCHAR strGUID[50];
         CString cstrGUID;
         CString d3ddevice_str = _T("");
@@ -254,6 +253,7 @@ BOOL CPPageOutput::OnInitDialog()
                 }
             }
         }
+        pD3D9->Release();
     }
     CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 

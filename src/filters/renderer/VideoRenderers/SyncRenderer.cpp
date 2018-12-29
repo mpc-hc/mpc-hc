@@ -29,8 +29,6 @@
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include <d3dx9.h>
 #include <vmr9.h>
 #include <evr.h>
@@ -69,9 +67,6 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_hDWMAPI(nullptr)
     , m_pDwmIsCompositionEnabled(nullptr)
     , m_pDwmEnableComposition(nullptr)
-    , m_hD3D9(nullptr)
-    , m_pDirect3DCreate9Ex(nullptr)
-    , m_pDirect3DCreate9(nullptr)
     , m_pOuterEVR(nullptr)
     , m_SurfaceType(D3DFMT_UNKNOWN)
     , m_BackbufferType(D3DFMT_UNKNOWN)
@@ -171,31 +166,17 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_hD3D9 = LoadLibrary(L"d3d9.dll");
-    if (m_hD3D9) {
-        (FARPROC&)m_pDirect3DCreate9 = GetProcAddress(m_hD3D9, "Direct3DCreate9");
 #ifndef DISABLE_USING_D3D9EX
-        (FARPROC&)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
-#endif
-    }
-#ifndef DISABLE_USING_D3D9EX
-    if (m_pDirect3DCreate9Ex) {
-        TRACE(_T("m_pDirect3DCreate9Ex\n"));
-        m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-        if (!m_pD3DEx) {
-            m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-        }
+    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+    if (!m_pD3DEx) {
+        Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
     }
 #endif
 
     if (!m_pD3DEx) {
-        ASSERT(m_pDirect3DCreate9);
-        m_pD3D.Attach(m_pDirect3DCreate9(D3D_SDK_VERSION));
+        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
         if (!m_pD3D) {
-            m_pD3D.Attach(m_pDirect3DCreate9(D3D9b_SDK_VERSION));
-        }
-        if (m_pD3D) {
-            TRACE(_T("m_pDirect3DCreate9\n"));
+            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
         }
     } else {
         m_pD3D = m_pD3DEx;
@@ -253,10 +234,6 @@ CBaseAP::~CBaseAP()
     if (m_hDWMAPI) {
         FreeLibrary(m_hDWMAPI);
         m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
     }
 }
 
@@ -659,7 +636,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
 
     if (FAILED(hr)) {
-        _Error.AppendFormat(_T("CreateDevice failed: %s\n"), GetWindowsErrorMessage(hr, m_hD3D9).GetString());
+        _Error.AppendFormat(_T("CreateDevice failed: %s\n"), GetWindowsErrorMessage(hr, nullptr).GetString());
 
         return hr;
     }
@@ -825,12 +802,12 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             DisplayMode.Format = m_pp.BackBufferFormat;
             m_pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
             if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                _Error += GetWindowsErrorMessage(hr, nullptr);
                 return hr;
             }
         } else if (m_pD3DDev) {
             if (FAILED(m_pD3DDev->Reset(&m_pp))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                _Error += GetWindowsErrorMessage(hr, nullptr);
                 return hr;
             }
         } else {
@@ -860,11 +837,11 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         }
         if (m_pD3DDevEx)
             if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                _Error += GetWindowsErrorMessage(hr, nullptr);
                 return hr;
             } else if (m_pD3DDev)
                 if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                    _Error += GetWindowsErrorMessage(hr, nullptr);
                     return hr;
                 } else {
                     _Error += L"No device.\n";

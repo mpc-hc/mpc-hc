@@ -64,11 +64,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_MainThreadId(0)
     , m_bIsRendering(false)
     , m_hDWMAPI(nullptr)
-    , m_hD3D9(nullptr)
     , m_pDwmIsCompositionEnabled(nullptr)
     , m_pDwmEnableComposition(nullptr)
-    , m_pDirect3DCreate9Ex(nullptr)
-    , m_pDirect3DCreate9(nullptr)
     , m_pDirectDraw(nullptr)
     , m_LastAdapterCheck(0)
     , m_nTearingPos(0)
@@ -180,25 +177,14 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         (FARPROC&)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_hD3D9 = LoadLibrary(L"d3d9.dll");
-    if (m_hD3D9) {
-        (FARPROC&)m_pDirect3DCreate9 = GetProcAddress(m_hD3D9, "Direct3DCreate9");
-#ifndef DISABLE_USING_D3D9EX
-        (FARPROC&)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
-#endif
-    }
-
-    if (m_pDirect3DCreate9Ex) {
-        m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-        if (!m_pD3DEx) {
-            m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-        }
+    Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+    if (!m_pD3DEx) {
+        Direct3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
     }
     if (!m_pD3DEx) {
-        ASSERT(m_pDirect3DCreate9);
-        m_pD3D.Attach(m_pDirect3DCreate9(D3D_SDK_VERSION));
+        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
         if (!m_pD3D) {
-            m_pD3D.Attach(m_pDirect3DCreate9(D3D9b_SDK_VERSION));
+            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
         }
     } else {
         m_pD3D = m_pD3DEx;
@@ -254,10 +240,6 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     if (m_hDWMAPI) {
         FreeLibrary(m_hDWMAPI);
         m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
     }
 }
 
@@ -719,7 +701,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             }
 
             if (FAILED(hr)) {
-                m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
+                m_D3DDevExError = GetWindowsErrorMessage(hr, nullptr);
             } else {
                 m_D3DDevExError.Empty();
             }
