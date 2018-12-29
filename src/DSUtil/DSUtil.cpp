@@ -28,8 +28,6 @@
 #include "Mpeg2Def.h"
 #include <emmintrin.h>
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include "NullRenderers.h"
 
 #include <initguid.h>

@@ -22,20 +22,19 @@
 #include "stdafx.h"
 #include "NullRenderers.h"
 #include "moreuuids.h"
-#include "WinapiFunc.h"
 
 #define USE_DXVA
 
 #ifdef USE_DXVA
 
 #include <d3d9.h>
-#include <d3d10.h>
-#include <dxgi.h>
 #include <dxva.h>
 #include <dxva2api.h>   // DXVA2
 #include <evr.h>
 #include <mfapi.h>      // API Media Foundation
 #include <Mferror.h>
+
+#pragma comment (lib, "d3d9.lib")
 
 // dxva.dll
 typedef HRESULT(__stdcall* PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
@@ -182,12 +181,9 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
 
 void CNullVideoRendererInputPin::CreateSurface()
 {
-    const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
-    if (fnDirect3DCreate9) {
-        m_pD3D.Attach(fnDirect3DCreate9(D3D_SDK_VERSION));
-        if (!m_pD3D) {
-            m_pD3D.Attach(fnDirect3DCreate9(D3D9b_SDK_VERSION));
-        }
+    m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
+    if (!m_pD3D) {
+        m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
     }
 
     m_hWnd = nullptr;  // TODO : put true window
@@ -325,6 +321,13 @@ HRESULT CNullUVideoRenderer::CheckMediaType(const CMediaType* pmt)
                || pmt->subtype == MEDIASUBTYPE_YVYU
                || pmt->subtype == MEDIASUBTYPE_UYVY
                || pmt->subtype == MEDIASUBTYPE_Y211
+               || pmt->subtype == MEDIASUBTYPE_AYUV
+               || pmt->subtype == MEDIASUBTYPE_YV16
+               || pmt->subtype == MEDIASUBTYPE_YV24
+               || pmt->subtype == MEDIASUBTYPE_P010
+               || pmt->subtype == MEDIASUBTYPE_P016
+               || pmt->subtype == MEDIASUBTYPE_P210
+               || pmt->subtype == MEDIASUBTYPE_P216
                || pmt->subtype == MEDIASUBTYPE_RGB1
                || pmt->subtype == MEDIASUBTYPE_RGB4
                || pmt->subtype == MEDIASUBTYPE_RGB8
