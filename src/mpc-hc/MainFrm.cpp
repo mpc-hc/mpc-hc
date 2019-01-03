@@ -10205,6 +10205,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
     if (!s.HasFixedWindowSize()) {
         ShowWindow(SW_SHOWNOACTIVATE);
         if (dScale == ZOOM_DEFAULT_LEVEL) {
+            if (s.fRememberWindowSize) return; // ignore default auto-zoom setting
             dScale =
                 s.iZoomLevel == 0 ? 0.5 :
                 s.iZoomLevel == 1 ? 1.0 :
