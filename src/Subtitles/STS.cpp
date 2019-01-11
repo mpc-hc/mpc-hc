@@ -468,7 +468,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 {
     CStringW buff, start, end;
     while (file->ReadString(buff)) {
-        FastTrim(buff);
+        FastTrimRight(buff);
         if (buff.IsEmpty()) {
             continue;
         }
@@ -505,7 +505,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 bool bFoundEmpty = false;
 
                 while (file->ReadString(tmp)) {
-                    FastTrim(tmp);
+                    FastTrimRight(tmp);
                     if (tmp.IsEmpty()) {
                         bFoundEmpty = true;
                     }

@@ -149,7 +149,7 @@ T& FastTrimRight(T& str)
         typename T::PCXSTR szEnd   = szStart + str.GetLength() - 1;
         typename T::PCXSTR szCur   = szEnd;
         for (; szCur >= szStart; szCur--) {
-            if (!T::StrTraits::IsSpace(*szCur)) {
+            if (!T::StrTraits::IsSpace(*szCur) || *szCur == 133) { // allow ellipsis character
                 break;
             }
         }
