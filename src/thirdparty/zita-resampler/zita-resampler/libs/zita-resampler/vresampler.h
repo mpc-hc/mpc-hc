@@ -48,14 +48,15 @@ public:
     double inpdist (void) const;
     int    process (void);
     
+    void set_phase (double p);
     void set_rrfilt (double t);
     void set_rratio (double r);    
 
     unsigned int         inp_count;
     unsigned int         out_count;
-    float               *inp_data;
+    const float         *inp_data;
     float               *out_data;
-    void                *inp_list;
+    const void          *inp_list;
     void                *out_list;
 
 private:

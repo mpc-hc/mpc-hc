@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-//  Copyright (C) 2006-2012 Fons Adriaensen <fons@linuxaudio.org>
+//  Copyright (C) 2006-2013 Fons Adriaensen <fons@linuxaudio.org>
 //    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ int VResampler::setup (double       ratio,
                        unsigned int nchan,
                        unsigned int hlen)
 {
-    if ((hlen < 8) || (hlen > 96) || (16 * ratio < 1) || (ratio > 64)) return 1;
+    if ((hlen < 8) || (hlen > 96) || (16 * ratio < 1) || (ratio > 256)) return 1;
     return setup (ratio, nchan, hlen, 1.0 - 2.6 / hlen);
 }
 
@@ -110,6 +110,13 @@ void VResampler::clear (void)
 }
 
 
+void VResampler::set_phase (double p)
+{
+    if (!_table) return;
+    _phase = (p - floor (p)) * _table->_np;
+}
+
+
 void VResampler::set_rrfilt (double t)
 {
     if (!_table) return;
@@ -150,14 +157,9 @@ int VResampler::reset (void)
     out_data = 0;
     _index = 0;
     _phase = 0; 
-    _nread = 0;
+    _nread = 2 * _table->_hl;
     _nzero = 0;
-    if (_table)
-    {
-        _nread = 2 * _table->_hl;
-	return 0;
-    }
-    return 1;
+    return 0;
 }
 
 
@@ -267,3 +269,4 @@ int VResampler::process (void)
 
     return 0;
 }
+

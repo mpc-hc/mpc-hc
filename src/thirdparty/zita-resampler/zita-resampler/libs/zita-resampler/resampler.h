@@ -53,9 +53,9 @@ public:
 
     unsigned int         inp_count;
     unsigned int         out_count;
-    float               *inp_data;
+    const float         *inp_data;
     float               *out_data;
-    void                *inp_list;
+    const void          *inp_list;
     void                *out_list;
 
 private:

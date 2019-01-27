@@ -18,6 +18,10 @@
 // ----------------------------------------------------------------------------
 
 
+#if defined(_WIN32)
+#define _USE_MATH_DEFINES 1
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

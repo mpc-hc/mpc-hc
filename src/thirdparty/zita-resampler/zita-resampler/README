@@ -3,10 +3,16 @@ audio signals. Full documentation is available in HTML format,
 see the 'docs' directory.
 
 
-Release 1.3.0  (26/10/2012)
+Release 1.6.2  (25/08/2018)
 ---------------------------
 
-* Bugfix for 64-bit systems.
+* Maintenance release.
+
+
+Release 1.6.0  (16/10/2016)
+---------------------------
+
+* Added VResampler::set_phase ().
 
 
 Release 1.2.0  (25/09/2012)
