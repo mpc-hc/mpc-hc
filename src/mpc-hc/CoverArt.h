@@ -24,7 +24,7 @@
 
 namespace CoverArt
 {
-    CString FindExternal(const CString& path, const CString& author);
+    CString FindExternal(const CString& filename_no_ext, const CString& path, const CString& author);
 
     bool FindEmbedded(CComPtr<IFilterGraph> pFilterGraph, std::vector<BYTE>& internalCover);
 }

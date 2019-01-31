@@ -16512,22 +16512,29 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             break;
         case UPDATE_LOGO:
             if (GetLoadState() == MLS::LOADED && m_fAudioOnly && s.bEnableCoverArt) {
-                CPath path(m_wndPlaylistBar.GetCurFileName());
-                path.RemoveFileSpec();
+                CString filename = m_wndPlaylistBar.GetCurFileName();
+                CString filename_no_ext;
+                CString filedir;
+                CPath path = CPath(filename);
+                if (path.FileExists()) {
+                    path.RemoveExtension();
+                    filename_no_ext = path.m_strPath;
+                    path.RemoveFileSpec();
+                    filedir = path.m_strPath;
+                }
 
                 CString author;
                 m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
-                CString strPath = path;
 
                 CComQIPtr<IFilterGraph> pFilterGraph = m_pGB;
                 std::vector<BYTE> internalCover;
                 if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
                     m_wndView.LoadImg(internalCover);
-                    m_currentCoverPath = m_wndPlaylistBar.GetCurFileName();
+                    m_currentCoverPath = filename;
                     m_currentCoverAuthor = author;
-                } else if (m_currentCoverPath != strPath || m_currentCoverAuthor != author) {
-                    m_wndView.LoadImg(CoverArt::FindExternal(strPath, author));
-                    m_currentCoverPath = strPath;
+                } else if (!filedir.IsEmpty() && (m_currentCoverPath != filedir || m_currentCoverAuthor != author)) {
+                    m_wndView.LoadImg(CoverArt::FindExternal(filename_no_ext, filedir, author));
+                    m_currentCoverPath = filedir;
                     m_currentCoverAuthor = author;
                 } else if (!m_wndView.IsCustomImgLoaded()) {
                     m_wndView.LoadImg();

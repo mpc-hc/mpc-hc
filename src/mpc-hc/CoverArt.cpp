@@ -23,10 +23,15 @@
 #include "CoverArt.h"
 #include "DSMPropertyBag.h"
 
-CString CoverArt::FindExternal(const CString& path, const CString& author)
+CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& path, const CString& author)
 {
     if (!path.IsEmpty()) {
         CAtlList<CString> files;
+        FindFiles(filename_no_ext + _T(".png"), files);
+        FindFiles(filename_no_ext + _T(".jp*g"), files);
+        FindFiles(filename_no_ext + _T(".bmp"), files);
+        if (!files.IsEmpty()) return files.GetHead();
+
         FindFiles(path + _T("\\*front*.png"), files);
         FindFiles(path + _T("\\*front*.jp*g"), files);
         FindFiles(path + _T("\\*front*.bmp"), files);
@@ -36,14 +41,21 @@ CString CoverArt::FindExternal(const CString& path, const CString& author)
         FindFiles(path + _T("\\*folder*.png"), files);
         FindFiles(path + _T("\\*folder*.jp*g"), files);
         FindFiles(path + _T("\\*folder*.bmp"), files);
+        int maxlen = path.GetLength() + 25;
+        POSITION pos = files.GetHeadPosition();
+        while (pos) {
+            CString curfile = files.GetNext(pos);
+            if (curfile.GetLength() < maxlen) {
+                return curfile;
+            }
+        }
+
         if (!author.IsEmpty()) {
+            files.RemoveAll();
             FindFiles(path + _T("\\*") + author + _T("*.png"), files);
             FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
             FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
-        }
-
-        if (!files.IsEmpty()) {
-            return files.GetHead();
+            if (!files.IsEmpty()) return files.GetHead();
         }
     }
     return _T("");
