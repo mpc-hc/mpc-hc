@@ -565,6 +565,7 @@ LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const LPCWSTR decoderName)
         std::make_pair(L"d3d11 cb direct", _T("D3D11 Copy-back (Direct)")),
         std::make_pair(L"d3d11 cb", _T("D3D11 Copy-back")),
         std::make_pair(L"d3d11 native", _T("D3D11 Native")),
+        std::make_pair(L"msdk mvc hw", _T("Intel H.264 (MVC 3D)")),
     };
 
     for (const auto& name : userFriendlyDecoderNames) {
@@ -627,6 +628,10 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     bHWFormats[HWCodec_HEVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
 
     bHWFormats[HWCodec_VP9] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 73, 1, 14)) {
+        bHWFormats[HWCodec_H264MVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("h264mvc"), bHWFormats[HWCodec_H264MVC]);
+    }
 
     dwHWAccelResFlags = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
 
