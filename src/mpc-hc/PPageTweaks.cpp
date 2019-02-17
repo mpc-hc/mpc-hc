@@ -138,7 +138,10 @@ BOOL CPPageTweaks::OnInitDialog()
     CorrectComboListWidth(m_FontType);
     int iSel = m_FontType.FindStringExact(0, m_strOSDFont);
     if (iSel == CB_ERR) {
-        iSel = 0;
+        iSel = m_FontType.FindString(0, m_strOSDFont);
+        if (iSel == CB_ERR) {
+            iSel = 0;
+        }
     }
     m_FontType.SetCurSel(iSel);
 
