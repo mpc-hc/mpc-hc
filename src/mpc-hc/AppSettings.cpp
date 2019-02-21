@@ -1461,8 +1461,8 @@ void CAppSettings::LoadSettings()
     fRememberWindowSize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, FALSE);
     CString str = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_PANSCANZOOM);
     if (_stscanf_s(str, _T("%lf,%lf"), &dZoomX, &dZoomY) == 2 &&
-            dZoomX >= 0.196 && dZoomX <= 3.06 && // 0.196 = 0.2 / 1.02
-            dZoomY >= 0.196 && dZoomY <= 3.06) { // 3.06 = 3 * 1.02
+            dZoomX >= 0.196 && dZoomX <= 5.0 &&
+            dZoomY >= 0.196 && dZoomY <= 5.0) {
         fSavePnSZoom = true;
     } else {
         fSavePnSZoom = false;

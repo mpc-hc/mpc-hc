@@ -6629,28 +6629,28 @@ void CMainFrame::OnViewPanNScan(UINT nID)
             break;
     }
 
-    if (x > 0 && m_ZoomX < 3) {
-        m_ZoomX *= 1.02;
+    if (x > 0 && m_ZoomX < 5.0) {
+        m_ZoomX = std::min(m_ZoomX * 1.02, 5.0);
     } else if (x < 0 && m_ZoomX > 0.2) {
-        m_ZoomX /= 1.02;
+        m_ZoomX = std::max(m_ZoomX / 1.02, 0.2);
     }
 
-    if (y > 0 && m_ZoomY < 3) {
-        m_ZoomY *= 1.02;
+    if (y > 0 && m_ZoomY < 5.0) {
+        m_ZoomY = std::min(m_ZoomY * 1.02, 5.0);
     } else if (y < 0 && m_ZoomY > 0.2) {
-        m_ZoomY /= 1.02;
+        m_ZoomY = std::max(m_ZoomY / 1.02, 0.2);
     }
 
-    if (dx < 0 && m_PosX > 0) {
-        m_PosX = std::max(m_PosX - 0.005 * m_ZoomX, 0.0);
-    } else if (dx > 0 && m_PosX < 1) {
-        m_PosX = std::min(m_PosX + 0.005 * m_ZoomX, 1.0);
+    if (dx < 0 && m_PosX > -0.5) {
+        m_PosX = std::max(m_PosX - 0.005 * m_ZoomX, -0.5);
+    } else if (dx > 0 && m_PosX < 1.5) {
+        m_PosX = std::min(m_PosX + 0.005 * m_ZoomX, 1.5);
     }
 
-    if (dy < 0 && m_PosY > 0) {
-        m_PosY = std::max(m_PosY - 0.005 * m_ZoomY, 0.0);
-    } else if (dy > 0 && m_PosY < 1) {
-        m_PosY = std::min(m_PosY + 0.005 * m_ZoomY, 1.0);
+    if (dy < 0 && m_PosY > -0.5) {
+        m_PosY = std::max(m_PosY - 0.005 * m_ZoomY, -0.5);
+    } else if (dy > 0 && m_PosY < 1.5) {
+        m_PosY = std::min(m_PosY + 0.005 * m_ZoomY, 1.5);
     }
 
     MoveVideoWindow(true);
@@ -6719,10 +6719,10 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
         return;
     }
 
-    m_PosX = std::min(std::max(m_PosX, 0.0), 1.0);
-    m_PosY = std::min(std::max(m_PosY, 0.0), 1.0);
-    m_ZoomX = std::min(std::max(m_ZoomX, 0.2), 3.0);
-    m_ZoomY = std::min(std::max(m_ZoomY, 0.2), 3.0);
+    m_PosX = std::min(std::max(m_PosX, -0.5), 1.5);
+    m_PosY = std::min(std::max(m_PosY, -0.5), 1.5);
+    m_ZoomX = std::min(std::max(m_ZoomX, 0.2), 5.0);
+    m_ZoomY = std::min(std::max(m_ZoomY, 0.2), 5.0);
 
     MoveVideoWindow(true);
 }

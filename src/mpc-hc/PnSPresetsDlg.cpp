@@ -235,10 +235,10 @@ void CPnSPresetsDlg::OnUpdateButton1(CCmdUI* pCmdUI)
     UpdateData();
     pCmdUI->Enable(m_list.GetCurSel() >= 0
                    && !m_label.IsEmpty() // && m_label.Find(',') < 0
-                   && m_PosX >= 0 && m_PosX <= 1
-                   && m_PosY >= 0 && m_PosY <= 1
-                   && m_ZoomX >= 0.2 && m_ZoomX <= 3.0
-                   && m_ZoomY >= 0.2 && m_ZoomY <= 3.0);
+                   && m_PosX >= -0.5 && m_PosX <= 1.5
+                   && m_PosY >= -0.5 && m_PosY <= 1.5
+                   && m_ZoomX >= 0.2 && m_ZoomX <= 5.0
+                   && m_ZoomY >= 0.2 && m_ZoomY <= 5.0);
 }
 
 void CPnSPresetsDlg::OnOK()
