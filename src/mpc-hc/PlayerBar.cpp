@@ -109,33 +109,37 @@ void CPlayerBar::LoadState(CFrameWnd* pParent)
 {
     CWinApp* pApp = AfxGetApp();
 
-    CRect rcDesktop;
-    GetDesktopWindow()->GetWindowRect(&rcDesktop);
+    CRect rcPrimary, rcExtendedDesktop;
+    GetDesktopWindow()->GetWindowRect(&rcPrimary);
+    rcExtendedDesktop.left   = GetSystemMetrics(SM_XVIRTUALSCREEN);
+    rcExtendedDesktop.top    = GetSystemMetrics(SM_YVIRTUALSCREEN);
+    rcExtendedDesktop.right  = rcExtendedDesktop.left + GetSystemMetrics(SM_CXVIRTUALSCREEN);
+    rcExtendedDesktop.bottom = rcExtendedDesktop.top  + GetSystemMetrics(SM_CYVIRTUALSCREEN);
 
     CString section = _T("ToolBars\\") + m_strSettingName;
 
     __super::LoadState(section + _T("\\State"));
 
-    UINT dockBarID = pApp->GetProfileInt(section, _T("DockState"), m_defDockBarID);
+    UINT dockBarID = (UINT)pApp->GetProfileInt(section, _T("DockState"), m_defDockBarID);
 
     CPoint p;
     p.x = pApp->GetProfileInt(section, _T("DockPosX"), CW_USEDEFAULT);
     p.y = pApp->GetProfileInt(section, _T("DockPosY"), CW_USEDEFAULT);
     if (p.x != CW_USEDEFAULT && p.y != CW_USEDEFAULT) {
-        if (p.x < rcDesktop.left) {
-            p.x = rcDesktop.left;
+        if (p.x < rcExtendedDesktop.left) {
+            p.x = rcExtendedDesktop.left;
         }
-        if (p.y < rcDesktop.top) {
-            p.y = rcDesktop.top;
+        if (p.y < rcExtendedDesktop.top) {
+            p.y = rcExtendedDesktop.top;
         }
-        if (p.x >= rcDesktop.right) {
-            p.x = rcDesktop.right - 1;
+        if (p.x >= rcExtendedDesktop.right) {
+            p.x = rcExtendedDesktop.right - 50;
         }
-        if (p.y >= rcDesktop.bottom) {
-            p.y = rcDesktop.bottom - 1;
+        if (p.y >= rcExtendedDesktop.bottom) {
+            p.y = rcExtendedDesktop.bottom - 50;
         }
     } else {
-        p = rcDesktop.CenterPoint();
+        p = rcPrimary.CenterPoint();
         p.x -= m_szFloat.cx / 2;
         p.y -= m_szFloat.cy / 2;
     }
@@ -168,7 +172,7 @@ void CPlayerBar::SaveState()
         pApp->WriteProfileInt(section, _T("DockPosY"), r.top);
     }
 
-    pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
+    pApp->WriteProfileInt(section, _T("DockState"), (INT)dockBarID);
 }
 
 void CPlayerBar::SetAutohidden(bool bValue)
