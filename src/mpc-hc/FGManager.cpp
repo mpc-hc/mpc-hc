@@ -2249,21 +2249,18 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             case CAppSettings::SubtitleRenderer::VS_FILTER:
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_ABOVE_DSHOW));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_ABOVE_DSHOW));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
                 break;
             case CAppSettings::SubtitleRenderer::ASS_FILTER:
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
@@ -2277,6 +2274,31 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
     // Blacklist Accusoft PICVideo M-JPEG Codec 2.1 since causes a DEP crash
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{4C4CD9E1-F876-11D2-962F-00500471FDDC}")), MERIT64_DO_NOT_USE));
+
+    // Add preferred subtitle filter
+    switch (s.GetSubtitleRenderer()) {
+        case CAppSettings::SubtitleRenderer::VS_FILTER:
+            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_ABOVE_DSHOW);
+            if (pFGF) {
+                pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
+                m_override.AddTail(pFGF);
+            }
+            break;
+        case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
+            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
+            if (pFGF) {
+                pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
+                m_override.AddTail(pFGF);
+            }
+            break;
+        case CAppSettings::SubtitleRenderer::ASS_FILTER:
+            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
+            if (pFGF) {
+                pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
+                m_override.AddTail(pFGF);
+            }
+            break;
+    }
 
     // Overrides
 
