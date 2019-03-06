@@ -2290,6 +2290,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
                 pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
                 m_override.AddTail(pFGF);
             }
+            pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_ABOVE_DSHOW);
+            if (pFGF) {
+                pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
+                pFGF->AddType(MEDIATYPE_Subtitle, MEDIASUBTYPE_NULL);
+                m_override.AddTail(pFGF);
+            }
             break;
         case CAppSettings::SubtitleRenderer::ASS_FILTER:
             pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
