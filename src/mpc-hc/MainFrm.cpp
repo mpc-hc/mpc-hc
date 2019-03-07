@@ -17165,10 +17165,12 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
         }
 
         // Blacklist: URL points to a file
-        if (url.Find(_T('?')) == -1) {
-            int p = url.ReverseFind(_T('.'));
-            if (p > 0 && (url.GetLength() - p <= 6)) {
-                CString ext = url.Mid(p);
+        int q = url.Find(_T('?'));
+        if (q > 0) {
+            CString baseurl = url.Left(q);
+            int p = baseurl.ReverseFind(_T('.'));
+            if (p > 0 && (q - p <= 6)) {
+                CString ext = baseurl.Mid(p);
                 if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
                     return false;
                 }
