@@ -12,7 +12,7 @@ Choose `Use Git from the Windows command prompt`. This isn't mandatory, so if yo
 ### Visual Studio 2017
 
 1. Install Visual C++, part of Visual Studio (any edition will work fine).
-   Make sure to select **Windows 8.1 SDK** and **MFC and ATL support** during installation.
+   Make sure to select **Windows 8.1 SDK** and **MFC and ATL support** and **Windows Universal CRT SDK** during installation.
 2. Make sure you have installed all available updates from Microsoft Update
 3. Install the DirectX SDK (June 2010) → <https://go.microsoft.com/fwlink/?LinkID=71193>
 
