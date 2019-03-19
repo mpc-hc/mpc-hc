@@ -1616,7 +1616,10 @@ BOOL CMPlayerCApp::InitInstance()
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
             if (playlistPath.FileExists()) {
-                CFile::Remove(playlistPath);
+                try {
+                    CFile::Remove(playlistPath);
+                }
+                catch (...) {}
             }
         }
     }
