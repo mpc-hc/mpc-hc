@@ -96,9 +96,10 @@ CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 
 bool CFGFilterLAV::CheckVersion(CString filterPath)
 {
-    lav_version = FileVersionInfo::GetFileVersionNum(filterPath);
+    QWORD fversion = FileVersionInfo::GetFileVersionNum(filterPath);
+    if (fversion >= 0 && (lav_version == 0 || lav_version > fversion)) lav_version = fversion;
 
-    return lav_version >= LAV_FILTERS_VERSION(0, 67, 0, 82);
+    return fversion >= LAV_FILTERS_VERSION(0, 67, 0, 82);
 }
 
 CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
