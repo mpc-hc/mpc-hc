@@ -99,7 +99,7 @@ bool CFGFilterLAV::CheckVersion(CString filterPath)
     QWORD fversion = FileVersionInfo::GetFileVersionNum(filterPath);
     if (fversion >= 0 && (lav_version == 0 || lav_version > fversion)) lav_version = fversion;
 
-    return fversion >= LAV_FILTERS_VERSION(0, 67, 0, 82);
+    return fversion >= LAV_FILTERS_VERSION(0, 68, 0, 0);
 }
 
 CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
@@ -640,15 +640,17 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     dwHWDeintOutput = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
+        dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+        dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+    }
 
-    dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         dwHWAccelDeviceD3D11 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
-
         dwHWAccelDeviceD3D11Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
+    }
 
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         bHWAccelCUVIDXVA = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
     }
 }
@@ -702,15 +704,17 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
+    }
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
-
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), dwHWAccelDeviceD3D11);
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11Desc);
+    }
 
-        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11Desc"), dwHWAccelDeviceD3D11);
-
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelCUVIDXVA"), bHWAccelCUVIDXVA);
     }
 }
@@ -755,11 +759,13 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     dwHWDeintOutput = pLAVFSettings->GetHWAccelDeintOutput();
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
         dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
-
+    }
+    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
-
+    }
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
     }
 
@@ -806,11 +812,13 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintOutput((LAVDeintOutput)dwHWDeintOutput);
 
-    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 2, 33)) {
+    if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
         pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
-
+    }
+    if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_D3D11, dwHWAccelDeviceD3D11, dwHWAccelDeviceD3D11Desc);
-
+    }
+    if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         pLAVFSettings->SetHWAccelDeintHQ(bHWAccelCUVIDXVA);
     }
 
