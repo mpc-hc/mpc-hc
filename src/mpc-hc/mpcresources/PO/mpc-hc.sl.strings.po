@@ -149,16 +149,16 @@ msgid "Repeat Forever"
 msgstr "Ponavljaj brez konca"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "Nikoli (najhitrejši način)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "Samo pri preklopu različnih vrst videa (privzeto)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "Vedno (najpočasnejša možnost)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -168,17 +168,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "Hitro razen pri preklapljanju med različnimi video pretoki. Samo en video dekoder prisoten v filterskem grafu."
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "Ni priporočljivo. Samo za namene testiranja."
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "Nikoli če je mogoče (najhitrejše, vendar nepodprto pri večini filtrov)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "Samo pri preklopu med različnimi vrstami videa (privzeto)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

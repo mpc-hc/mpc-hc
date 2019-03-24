@@ -146,16 +146,16 @@ msgid "Repeat Forever"
 msgstr "Repetă la nesfârșit"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "Niciodată (cea mai rapidă metodă)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "Doar când se schimbă tipurile video diferite (implicit)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "Întotdeauna (cea mai lentă metodă)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -165,17 +165,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "Rapid, cu excepția cazului când se schimbă fluxuri video diferite. Doar un decodor video este prezent în graficul filtrelor."
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "Nu este recomandată. Doar pentru testare."
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "Niciodată, dacă este posibil (cea mai rapidă, dar nu este sprijinită de cele mai multe filtre)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "Doar când se schimbă tipuri video diferite (implicit)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

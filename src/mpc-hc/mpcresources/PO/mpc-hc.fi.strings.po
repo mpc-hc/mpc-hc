@@ -148,16 +148,16 @@ msgid "Repeat Forever"
 msgstr "Toista ikuisesti"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "Ei koskaan (nopein lähestyminen)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "Vain vaihdettaessa eri videotyyppejä (oletus)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "Aina (hitain vaihtoehto)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -167,17 +167,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "Nopea paitsi vaihdettaessa eri videovirtojen välillä. Vain yksi videodekooderi suodinkaaviossa."
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "Ei suositella. Vain testaukseen."
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "Ei koskaan jos mahdollista (nopein, mutta useimmat suotimet eivät tue)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "Vain vaihdettaessa eri videotyyppejä (oletus)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

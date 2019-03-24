@@ -149,16 +149,16 @@ msgid "Repeat Forever"
 msgstr "অনন্তকাল ধরে পুনরাবৃত্তি"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "কখনোই না (সবচেয়ে দ্রুত পদ্ধতি)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "শুধুমাত্র বিভিন্ন ভিডিওর ধরন পরিবর্তনের সময় (ডিফল্ট)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "সবসময় (সবচেয়ে ধীরগতির অপশন)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -168,17 +168,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "দ্রুতগতির, শুধু বিভিন্ন ভিডিও স্ট্রিম পরিবর্তনের সময় ব্যতীত। শুধুমাত্র একটি ভিডিও ডিকোডার ফিল্টার গ্রাফে বর্তমান থাকে।"
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "ব্যবহার না করণেই পরামর্শ দেওয়া যাচ্ছে। শুধুমাত্র পরীক্ষামূলক কাজের জন্যে।"
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "সম্ভব হলে কখনোই না (সবচেয়ে দ্রুত, কিন্তু বেশিরভাগ ফিল্টার দ্বারাই সমর্থন করে না)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "শুধুমাত্র বিভিন্ন ধরনের ভিডিও পরিবর্তনের সময় (ডিফল্ট)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

@@ -147,16 +147,16 @@ msgid "Repeat Forever"
 msgstr "วนซ้ำตลอดไป"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "ไม่ต้อง (วิธีที่เร็วสุด)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "เฉพาะเมื่อกำลังสลับชนิดวิดีโอที่ต่างกัน (ค่าตั้งต้น)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "เสมอ (ตัวเลือกที่ช้าสุด)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -166,17 +166,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "เร็ว, ยกเว้นเมื่อกำลังสลับกระแสวิดีโอที่ต่างกัน หนึ่งตัวถอดรหัสวิดีโอเท่านั้นที่ปรากฏในกราฟตัวกรอง"
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "ไม่แนะนำ มีวัตถุประสงค์เพื่อการทดสอบเท่านั้น"
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "ไม่ต้อง ถ้าเป็นไปได้ (เร็วสุด แต่ตัวกรองส่วนใหญ่ไม่สนับสนุน)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "เฉพาะเมื่อกำลังสลับชนิดวิดีโอที่ต่างกัน (ค่าตั้งต้น)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

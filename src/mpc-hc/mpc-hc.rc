@@ -2284,16 +2284,16 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPAGE_CAPTURE_FG0   "Never (fastest approach)"
-    IDS_PPAGE_CAPTURE_FG1   "Only when switching different video types (default)"
-    IDS_PPAGE_CAPTURE_FG2   "Always (slowest option)"
+    IDS_PPAGE_CAPTURE_FG0   "Never"
+    IDS_PPAGE_CAPTURE_FG1   "Only when switching different video types"
+    IDS_PPAGE_CAPTURE_FG2   "Always (default)"
     IDS_PPAGE_CAPTURE_FGDESC0 
                             "Not supported by some devices. Two video decoders always present in the filter graph."
     IDS_PPAGE_CAPTURE_FGDESC1 
                             "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-    IDS_PPAGE_CAPTURE_FGDESC2 "Not recommended. Only for testing purposes."
+    IDS_PPAGE_CAPTURE_FGDESC2 ""
     IDS_PPAGE_CAPTURE_SFG0  "Never if possible (fastest, but not supported by most filters)"
-    IDS_PPAGE_CAPTURE_SFG1  "Only when switching different video types (default)"
+    IDS_PPAGE_CAPTURE_SFG1  "Only when switching different video types"
     IDS_PPAGE_CAPTURE_SFG2  "Always (may be required by some devices)"
     IDS_INFOBAR_PARENTAL_RATING "Parental rating"
     IDS_PARENTAL_RATING     "%d+"

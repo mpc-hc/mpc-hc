@@ -145,16 +145,16 @@ msgid "Repeat Forever"
 msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "Երբեք (արագ է)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "Միայն երբ անցում է կատարում այլ տեսակի տեսանյութի (ծրագրային)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "Մշտապես (դանդաղ է)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -164,17 +164,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "Արագ բացառություն, երբ անցում է կատարվում տարբեր տեսահոսքերի միջև: Միայն մեկ տեսակոդավորիչ է ներկայացված ֆիլտրի գրաֆայում:"
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "Խորհուրդ չի տրվում:Միայն թեստավորման համար:"
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "Երբեք, եթե հնարավոր է (արագ է, բայց որոշ ֆիլտրեր չեն աջակցում)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "Միայն երբ անցում է կատարում այլ տեսակի տեսանյութի (ծրագրային)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"

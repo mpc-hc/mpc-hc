@@ -146,16 +146,16 @@ msgid "Repeat Forever"
 msgstr "Lặp lại mãi"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
-msgid "Never (fastest approach)"
-msgstr "Không bao giờ (cách tiếp cận nhanh nhất)"
+msgid "Never"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
-msgid "Only when switching different video types (default)"
-msgstr "Chỉ khi chuyển đổi các định dạng video khác nhau (mặc định)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
-msgid "Always (slowest option)"
-msgstr "Luôn luôn (tùy chọn thấp nhất)"
+msgid "Always (default)"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -165,17 +165,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
 msgstr "Nhanh chóng trừ khi chuyển đổi giữa các dòng video khác nhau. Chỉ có một bộ giải mã video hiện trong đồ thị bộ lọc."
 
-msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
-msgid "Not recommended. Only for testing purposes."
-msgstr "Không khuyến khích. Chỉ dành cho mục đích thử nghiệm."
-
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
 msgstr "Không bao giờ nếu có thể (nhanh nhất, nhưng không được hỗ trợ bởi hầu hết các bộ lọc)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
-msgid "Only when switching different video types (default)"
-msgstr "Chỉ khi chuyển đổi các định dạng video khác nhau (mặc định)"
+msgid "Only when switching different video types"
+msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
