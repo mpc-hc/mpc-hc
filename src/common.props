@@ -11,14 +11,6 @@
     <LinkIncremental Condition="$(Configuration.Contains('Release'))">false</LinkIncremental>
     <UseCommonOutputDirectory>True</UseCommonOutputDirectory>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <IntDir>$(SolutionDir)bin15\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)bin15\lib\$(Configuration)_$(PlatformName)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">$(SolutionDir)bin15\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin15\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin15\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin15\Filters_x64\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>/w34127 /w34701 /w34706 /Zo /std:c++latest /Zc:inline,referenceBinding,rvalueCast,ternary,throwingNew /Gw %(AdditionalOptions)</AdditionalOptions>

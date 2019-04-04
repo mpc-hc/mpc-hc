@@ -3,8 +3,9 @@
   <PropertyGroup Label="Configuration">
     <WindowsTargetPlatformVersion Condition="'$(MPCHC_WINSDK_VER)' == ''">8.1</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(MPCHC_WINSDK_VER)' != ''">$(MPCHC_WINSDK_VER)</WindowsTargetPlatformVersion>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+    <SpectreMitigation Condition="'$(VisualStudioVersion)' >= '15.0'">false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup>
     <UseNativeEnvironment>true</UseNativeEnvironment>

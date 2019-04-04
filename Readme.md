@@ -32,7 +32,6 @@ MPC-HC makes use of the following third-party code:
 | libdivide         | zlib License              | <http://libdivide.com/> |
 | Little CMS        | MIT License               | <http://www.littlecms.com/> |
 | Logitech SDK      | -                         | - |
-| MediaInfoLib      | Simplified BSD License    | <https://mediaarea.net/MediaInfo> |
 | MinHook           | Simplified BSD License    | <https://github.com/TsudaKageyu/minhook> |
 | MultiMon          | CPOL                      | <https://www.codeproject.com/Articles/3690/> |
 | NanoSVG           | zlib License              | <https://github.com/memononen/nanosvg> |
@@ -50,6 +49,5 @@ MPC-HC makes use of the following third-party code:
 | UnRAR             | freeware                  | <http://www.rarlab.com/rar_add.htm> |
 | VirtualDub        | GPLv2+                    | <http://www.virtualdub.org/> |
 | XmlRpc4Win        | MIT License               | <https://github.com/drtimcooper/XmlRpc4Win> |
-| ZenLib            | zlib License              | <https://github.com/MediaArea/ZenLib> |
 | zita-resampler    | GPLv3                     | <http://kokkinizita.linuxaudio.org/linuxaudio/> |
 | zlib              | zlib License              | <http://zlib.net/> |

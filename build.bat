@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2017 see Authors.txt
+REM (C) 2009-2019 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -25,7 +25,6 @@ SET ARG=%ARG:-=%
 SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
-SET ARGCOMP=0
 SET ARGPL=0
 SET INPUT=0
 SET VALID=0
@@ -55,8 +54,6 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET "NO_INST=True"
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
-  IF /I "%%G" == "VS2015"       SET "COMPILER=VS2015"    & SET /A ARGCOMP+=1
-  IF /I "%%G" == "VS2017"       SET "COMPILER=VS2017"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1
@@ -76,14 +73,13 @@ CALL "%COMMON%" :SubPreBuild
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
-SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGCOMP%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFORM=Both")
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2017")
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -92,16 +88,10 @@ IF /I "%ZIP%" == "True"         IF "%NO_ZIP%" == "True"  GOTO UnsupportedSwitch
 IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
 IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
-IF /I "%COMPILER%" == "VS2017" (
-  IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubVSPath
-  IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
-  SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
-  SET "BIN_DIR=bin"
-) ELSE (
-  IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
-  SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=bin15"
-)
+IF NOT EXIST "%MPCHC_VS_PATH%" CALL "%COMMON%" :SubVSPath
+IF NOT EXIST "!MPCHC_VS_PATH!" GOTO MissingVar
+SET "TOOLSET=!MPCHC_VS_PATH!\Common7\Tools\vsdevcmd"
+SET "BIN_DIR=bin"
 IF NOT EXIST "%TOOLSET%" GOTO MissingVar
 
 IF EXIST "%FILE_DIR%signinfo.txt" (
@@ -146,11 +136,7 @@ IF /I "%CLEAN%" == "LAVFilters" CALL "src\thirdparty\LAVFilters\build_lavfilters
 IF %ERRORLEVEL% NEQ 0 ENDLOCAL & EXIT /B
 
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=amd64)
-IF /I "%COMPILER%" == "VS2017" (
-  CALL "%TOOLSET%" -no_logo -arch=%ARCH% -winsdk=%MPCHC_WINSDK_VER%
-) ELSE (
-  CALL "%TOOLSET%" %ARCH% %MPCHC_WINSDK_VER%
-)
+CALL "%TOOLSET%" -no_logo -arch=%ARCH% -winsdk=%MPCHC_WINSDK_VER%
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 IF /I "%CONFIG%" == "Filters" (
@@ -361,9 +347,6 @@ IF DEFINED MPCHC_LITE (
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
-IF /I "%COMPILER%" == "VS2015" (
-  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2015
-)
 CALL "%COMMON%" :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
@@ -417,9 +400,6 @@ IF /I "%BUILDCFG%" == "Debug" (
   SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
 )
 
-IF /I "%COMPILER%" == "VS2015" (
-  SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%"
-)
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
 IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
@@ -499,14 +479,14 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2015^|VS2017] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both MPCHC Release VS2015"
+ECHO "%~nx0 Build Both MPCHC Release"
 ECHO. & ECHO.
 ECHO Examples:
 ECHO %~nx0 x86 Resources     -Builds the x86 resources
