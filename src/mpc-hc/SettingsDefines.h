@@ -331,5 +331,6 @@
 
 #define IDS_RS_USE_YDL                      _T("UseYDL")
 #define IDS_RS_YDL_MAX_HEIGHT               _T("YDLMaxHeight")
+#define IDS_RS_YDL_VIDEO_FORMAT             _T("YDLVideoFormat")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
 #define IDS_RS_YDL_COMMAND_LINE             _T("YDLCommandLine")

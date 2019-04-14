@@ -215,6 +215,7 @@ CAppSettings::CAppSettings()
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
     , bUseYDL(true)
     , iYDLMaxHeight(1440)
+    , iYDLVideoFormat(0)
     , bYDLAudioOnly(false)
     , sYDLCommandLine(_T(""))
 {
@@ -1115,6 +1116,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, bUseYDL);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, iYDLMaxHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_VIDEO_FORMAT, iYDLVideoFormat);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, bYDLAudioOnly);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, sYDLCommandLine);
 
@@ -1866,7 +1868,8 @@ void CAppSettings::LoadSettings()
 
     bUseYDL       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_YDL, TRUE);
     iYDLMaxHeight = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_MAX_HEIGHT, 1440);
-    bYDLAudioOnly = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
+    iYDLVideoFormat = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_VIDEO_FORMAT, 0);
+    bYDLAudioOnly   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_YDL_AUDIO_ONLY, FALSE);
     sYDLCommandLine = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_YDL_COMMAND_LINE, _T(""));
 
     bInitialized = true;

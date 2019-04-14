@@ -207,6 +207,7 @@ struct YDLStreamDetails {
     bool has_audio;
     int vbr;
     int abr;
+    int fps;
 };
 
 bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
@@ -233,12 +234,21 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
             details.has_video = (details.width > 0) || (details.height > 0);
             details.has_audio = true;
         }
+        details.fps = details.has_video && format.HasMember(_T("fps")) && !format[_T("fps")].IsNull() ? format[_T("fps")].GetInt() : 0;
         return !details.url.IsEmpty();
     }
     return false;
 }
 
-bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate) {  
+#define YDL_FORMAT_AUTO    0
+#define YDL_FORMAT_H264_30 1
+#define YDL_FORMAT_H264_60 2
+#define YDL_FORMAT_VP9_30  3
+#define YDL_FORMAT_VP9_60  4
+#define YDL_FORMAT_AV1_30  5
+#define YDL_FORMAT_AV1_60  6
+
+bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate, int preferred_format) {  
     if (first.has_video) {
         // We want separate audio/video streams
         if (separate && first.has_audio && !second.has_audio) {
@@ -246,13 +256,37 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
         }
 
         // Video format
-        if (first.vcodec.Left(4) == _T("av01")) {
-            if (second.vcodec.Left(4) != _T("av01")) {
-                return true;
+        CString vcodec1 = first.vcodec.Left(4);
+        CString vcodec2 = second.vcodec.Left(4);
+        if (vcodec1 != vcodec2) {
+            // AV1
+            if (vcodec1 == _T("av01")) {
+                return (preferred_format != YDL_FORMAT_AV1_30 && preferred_format != YDL_FORMAT_AV1_60);
+            } else {
+                if (vcodec2 == _T("av01")) {
+                    return (preferred_format == YDL_FORMAT_AV1_30 || preferred_format == YDL_FORMAT_AV1_60);
+                }
             }
-        } else {
-            if (second.vcodec.Left(4) == _T("av01")) {
-                return false;
+            // H.264
+            if ((preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_H264_60)) {
+                if (vcodec1 == _T("avc1")) {
+                    return false;
+                } else {
+                    if (vcodec2 == _T("avc1")) {
+                        return true;
+                    }
+                }
+            }
+            // VP9
+            if ((preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9_60)) {
+                if (vcodec1 == _T("vp9")) {
+                    return false;
+                }
+                else {
+                    if (vcodec2 == _T("vp9")) {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -275,6 +309,23 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
                 }
             } else {
                 return false;
+            }
+        }
+
+        // Framerate
+        if (preferred_format != YDL_FORMAT_AUTO && first.fps != second.fps && first.fps > 0 && second.fps > 0) {
+            if (preferred_format == YDL_FORMAT_H264_60 || preferred_format == YDL_FORMAT_VP9_60 || preferred_format == YDL_FORMAT_AV1_60) {
+                if (second.fps > first.fps) {
+                    return true;
+                } else if (first.fps > second.fps) {
+                    return false;
+                }
+            } else if (preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_AV1_30) {
+                if (first.fps > 30 && first.fps > second.fps) {
+                    return true;
+                } else if (second.fps > 30 && second.fps > first.fps) {
+                    return false;
+                }
             }
         }
     } else {
@@ -315,14 +366,14 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
 }
 
 // find best video track
-bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height, bool separate)
+bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height, bool separate, int preferred_format)
 {
     YDLStreamDetails current;
     bool found = false;
 
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
         if (GetYDLStreamDetails(formats[i], current) && current.has_video) {
-            if (!found || IsBetterYDLStream(ydl_sd, current, max_height, separate)) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, max_height, separate, preferred_format)) {
                 ydl_sd = current;
             }
             found = true;
@@ -339,7 +390,7 @@ bool filterAudio(const Value& formats, YDLStreamDetails& ydl_sd)
 
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
         if (GetYDLStreamDetails(formats[i], current) && !current.has_video) {
-            if (!found || IsBetterYDLStream(ydl_sd, current, 0, true)) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, 0, true, 0)) {
                 ydl_sd = current;
             }
             found = true;
@@ -382,7 +433,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
             return true;
         }
 
-        if (filterVideo(pJSON->d[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
+        if (filterVideo(pJSON->d[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly, s.iYDLVideoFormat)) {
             stream.video_url = ydl_sd.url;
             stream.audio_url = _T("");
             // find separate audio stream
@@ -404,7 +455,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams)
             const Value& entries = pJSON->d[_T("entries")];
 
             for (rapidjson::SizeType i = 0; i < entries.Size(); i++) {
-                if (filterVideo(entries[i][_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
+                if (filterVideo(entries[i][_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly, s.iYDLVideoFormat)) {
                     stream.video_url = ydl_sd.url;
                     stream.title = entries[i][_T("title")].GetString();
                     stream.audio_url = _T("");

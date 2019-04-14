@@ -190,6 +190,7 @@ private:
         USE_LEGACY_TOOLBAR,
         USE_YDL,
         YDL_MAX_HEIGHT,
+        YDL_VIDEO_FORMAT,
         YDL_AUDIO_ONLY,
         YDL_COMMAND_LINE,
         SAVEIMAGE_POSITION,

@@ -755,6 +755,7 @@ public:
     // YoutubeDL settings
     bool bUseYDL;
     int iYDLMaxHeight;
+    int iYDLVideoFormat;
     bool bYDLAudioOnly;
     CString sYDLCommandLine;
 

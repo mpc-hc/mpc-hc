@@ -146,6 +146,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
     addBoolItem(USE_YDL, IDS_RS_USE_YDL, true, s.bUseYDL, _T("Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."));
     addIntItem(YDL_MAX_HEIGHT, IDS_RS_YDL_MAX_HEIGHT, 1440, s.iYDLMaxHeight, std::make_pair(0, INT_MAX), _T("Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."));
+    addIntItem(YDL_VIDEO_FORMAT, IDS_RS_YDL_VIDEO_FORMAT, 0, s.iYDLVideoFormat, std::make_pair(0, 6), _T("Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: AV1 30fps\n6: AV1 60fps"));
     addBoolItem(YDL_AUDIO_ONLY, IDS_RS_YDL_AUDIO_ONLY, false, s.bYDLAudioOnly, _T("Instructs Youtube-DL to prefer an audio-only stream (if available)"));
     addCStringItem(YDL_COMMAND_LINE, IDS_RS_YDL_COMMAND_LINE, _T(""), s.sYDLCommandLine, _T("Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s\""));
     addBoolItem(SAVEIMAGE_POSITION, IDS_RS_SAVEIMAGE_POSITION, true, s.bSaveImagePosition, _T("Include video position in filename"));
