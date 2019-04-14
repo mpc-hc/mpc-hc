@@ -240,13 +240,15 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
     return false;
 }
 
-#define YDL_FORMAT_AUTO    0
-#define YDL_FORMAT_H264_30 1
-#define YDL_FORMAT_H264_60 2
-#define YDL_FORMAT_VP9_30  3
-#define YDL_FORMAT_VP9_60  4
-#define YDL_FORMAT_AV1_30  5
-#define YDL_FORMAT_AV1_60  6
+#define YDL_FORMAT_AUTO      0
+#define YDL_FORMAT_H264_30   1
+#define YDL_FORMAT_H264_60   2
+#define YDL_FORMAT_VP9_30    3
+#define YDL_FORMAT_VP9_60    4
+#define YDL_FORMAT_VP9P2_30  5
+#define YDL_FORMAT_VP9P2_60  6
+#define YDL_FORMAT_AV1_30    7
+#define YDL_FORMAT_AV1_60    8
 
 bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate, int preferred_format) {  
     if (first.has_video) {
@@ -277,13 +279,34 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
                     }
                 }
             }
-            // VP9
-            if ((preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9_60)) {
-                if (vcodec1 == _T("vp9")) {
+        }
+        if (first.vcodec != second.vcodec) {
+            // VP9P2
+            if ((preferred_format == YDL_FORMAT_VP9P2_30 || preferred_format == YDL_FORMAT_VP9P2_60)) {
+                if (first.vcodec == _T("vp9.2")) {
                     return false;
                 }
                 else {
-                    if (vcodec2 == _T("vp9")) {
+                    if (second.vcodec == _T("vp9.2")) {
+                        return true;
+                    }
+                }
+                // Prefer VP9P0 over others
+                if (first.vcodec.Left(3) == _T("vp9")) {
+                    return false;
+                } else {
+                    if (second.vcodec.Left(3) == _T("vp9")) {
+                        return true;
+                    }
+                }
+            }
+            // VP9
+            if ((preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9_60)) {
+                if (first.vcodec == _T("vp9") || first.vcodec == _T("vp9.0")) {
+                    return false;
+                }
+                else {
+                    if (second.vcodec == _T("vp9") || second.vcodec == _T("vp9.0")) {
                         return true;
                     }
                 }
@@ -314,13 +337,13 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
 
         // Framerate
         if (preferred_format != YDL_FORMAT_AUTO && first.fps != second.fps && first.fps > 0 && second.fps > 0) {
-            if (preferred_format == YDL_FORMAT_H264_60 || preferred_format == YDL_FORMAT_VP9_60 || preferred_format == YDL_FORMAT_AV1_60) {
+            if (preferred_format == YDL_FORMAT_H264_60 || preferred_format == YDL_FORMAT_VP9_60 || preferred_format == YDL_FORMAT_VP9P2_60 || preferred_format == YDL_FORMAT_AV1_60) {
                 if (second.fps > first.fps) {
                     return true;
                 } else if (first.fps > second.fps) {
                     return false;
                 }
-            } else if (preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_AV1_30) {
+            } else if (preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9P2_30 || preferred_format == YDL_FORMAT_AV1_30) {
                 if (first.fps > 30 && first.fps > second.fps) {
                     return true;
                 } else if (second.fps > 30 && second.fps > first.fps) {
