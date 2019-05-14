@@ -782,6 +782,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
             */
             if (SUCCEEDED(hr)) {
+                TRACE(_T("     --> Filter connected\n"));
                 if (!IsStreamEnd(pBF)) {
                     fDeadEnd = false;
                 }
@@ -860,10 +861,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 }
             }
 
-            EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             TRACE(_T("     --> Failed to connect\n"));
+            EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             pUnks.RemoveAll();
-            pBF.Release();
+            /* FIXME: removing DirectVobSub may cause a hang on rare occasions, happens on end of block when pBF pointer gets released */
         }
     }
 
