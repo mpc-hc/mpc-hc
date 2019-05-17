@@ -4023,7 +4023,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount64() - m_dwLastRun) < 500ULL)) {
+            if (m_dwLastRun && ((GetTickCount64() - m_dwLastRun) < 1000ULL)) {
                 s.nCLSwitches |= CLSW_ADD;
             }
             m_dwLastRun = GetTickCount64();
