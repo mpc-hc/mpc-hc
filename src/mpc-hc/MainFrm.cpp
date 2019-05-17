@@ -7403,8 +7403,11 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
             rtTarget = rtMin;
         }
         else {
-            rtMin = 0; 
-            rtMax = rtPos - 10000LL;
+            rtMin = 0;
+            if (GetMediaState() == State_Paused)
+                rtMax = rtPos - 10000LL;
+            else
+                rtMax = rtPos - 5000000LL;
             rtTarget = rtMax;
         }
 
