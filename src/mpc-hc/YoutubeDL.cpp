@@ -321,6 +321,10 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             return false;
         }
         if (second.height > first.height) {
+            if (max_height > 0) {
+                // calculate maximum width based on 16:9 AR
+                return (max_height * 16 / 9 + 1) >= second.width;
+            }
             return true;
         } else {
             if (second.height == first.height) {
