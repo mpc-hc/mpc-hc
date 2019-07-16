@@ -864,7 +864,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             TRACE(_T("     --> Failed to connect\n"));
             EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             pUnks.RemoveAll();
-            /* FIXME: removing DirectVobSub may cause a hang on rare occasions, happens on end of block when pBF pointer gets released */
+            pBF.Release();
         }
     }
 
