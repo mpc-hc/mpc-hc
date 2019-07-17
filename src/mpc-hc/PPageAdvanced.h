@@ -195,7 +195,8 @@ private:
         YDL_COMMAND_LINE,
         SAVEIMAGE_POSITION,
         SAVEIMAGE_CURRENTTIME,
-        INACCURATE_FASTSEEK
+        INACCURATE_FASTSEEK,
+        LOOP_FOLDER_NEXT_FILE
     };
 
     enum {

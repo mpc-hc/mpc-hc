@@ -2247,7 +2247,7 @@ void CMainFrame::DoAfterPlaybackEvent()
         bExitFullScreen = true;
         LockWorkStation();
     } else if (s.nCLSwitches & CLSW_PLAYNEXT) {
-        if (!SearchInDir(true, (s.fLoopForever || m_nLoops < s.nLoops))) {
+        if (!SearchInDir(true, (s.fLoopForever || m_nLoops < s.nLoops || s.bLoopFolderOnPlayNextFile))) {
             m_fEndOfStream = true;
             bExitFullScreen = true;
             bNoMoreMedia = true;
@@ -2255,7 +2255,7 @@ void CMainFrame::DoAfterPlaybackEvent()
     } else {
         switch (s.eAfterPlayback) {
             case CAppSettings::AfterPlayback::PLAY_NEXT:
-                if (!SearchInDir(true)) {
+                if (!SearchInDir(true, s.bLoopFolderOnPlayNextFile)) {
                     m_fEndOfStream = true;
                     bExitFullScreen = true;
                     bNoMoreMedia = true;
@@ -8542,16 +8542,17 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
 {
     if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
         if (m_wndPlaylistBar.GetCount() == 1) {
-            if (GetPlaybackMode() == PM_ANALOG_CAPTURE || !AfxGetAppSettings().fUseSearchInFolder) {
+            CAppSettings& s = AfxGetAppSettings();
+            if (GetPlaybackMode() == PM_ANALOG_CAPTURE || !s.fUseSearchInFolder) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP); // do not remove this, unless you want a circular call with OnPlayPlay()
                 SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             } else {
                 if (nID == ID_NAVIGATE_SKIPBACKFILE) {
-                    if (!SearchInDir(false)) {
+                    if (!SearchInDir(false, s.bLoopFolderOnPlayNextFile)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
-                    if (!SearchInDir(true)) {
+                    if (!SearchInDir(true, s.bLoopFolderOnPlayNextFile)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
                     }
                 }

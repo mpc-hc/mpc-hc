@@ -525,6 +525,7 @@ public:
     bool            bSaveImagePosition;
     bool            bSaveImageCurrentTime;
     bool            bAllowInaccurateFastseek;
+    bool            bLoopFolderOnPlayNextFile;
 
     enum class AfterPlayback {
         DO_NOTHING,
