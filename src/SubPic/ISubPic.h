@@ -198,6 +198,12 @@ public IUnknown {
 
     STDMETHOD_(bool, ResetDevice)() PURE;
     STDMETHOD_(bool, DisplayChange)() PURE;
+
+	bool m_3DEnabled;
+	bool m_3DSquish;
+	int m_3DLeftVerticalOffset;
+	int m_3DSeperation;
+	float m_3DZoom;
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))

@@ -3673,6 +3673,18 @@ BEGIN
     IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
+STRINGTABLE
+BEGIN
+	IDS_3D_TOGGLE "3D Mode Enable/Disable"
+	IDS_3D_MOVE_APART "3D Increase Distance"
+	IDS_3D_MOVE_CLOSER "3D Decrease Distance"
+	IDS_3D_RAISE_LEFT_REL_TO_RIGHT "3D Raise Left Eye Relative to Right"
+	IDS_3D_LOWER_LEFT_REL_TO_RIGHT "3D Lower Left Eye Relative to Right"
+	IDS_3D_ENLARGE "3D Enlarge Both Images"
+	IDS_3D_SHRINK "3D Shrink Both Images"
+	IDS_3D_TOGGLE_HORZIONTAL_SQUISH  "3D Squish Each Eye's Width 50% Enable/Disable"
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
