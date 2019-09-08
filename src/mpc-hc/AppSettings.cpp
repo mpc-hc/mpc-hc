@@ -440,7 +440,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_SUBTITLES_LOAD,             'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLES },
     { ID_FILE_SUBTITLES_SAVE,             'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLES },
     { ID_FILE_SUBTITLES_DOWNLOAD,         'D', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_DOWNLOAD },
-    { ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD },
+    { ID_FILE_SUBTITLES_UPLOAD,             0, FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD },
     { ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE },
     { ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES },
     { ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT },
@@ -564,7 +564,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_MENU_PLAYER_SHORT,           VK_APPS, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_77, 0, wmcmd::RUP, wmcmd::RUP },
     { ID_MENU_PLAYER_LONG,                  0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_78 },
     { ID_MENU_FILTERS,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_FILTERS_MENU },
-    { ID_VIEW_OPTIONS,                    'O', FVIRTKEY | FNOINVERT,                    IDS_AG_OPTIONS },
+    { ID_VIEW_OPTIONS,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_OPTIONS },
     { ID_STREAM_AUDIO_NEXT,               'A', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_AUDIO },
     { ID_STREAM_AUDIO_PREV,               'A', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_AUDIO },
     { ID_STREAM_SUB_NEXT,                 'S', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_SUBTITLE },
@@ -585,7 +585,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_SHADERS_PRESET_PREV,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_PREV },
     { ID_D3DFULLSCREEN_TOGGLE,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_99 },
     { ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100 },
-    { ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101 },
+    { ID_GOTO_NEXT_SUB,                     0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101 },
     { ID_SHIFT_SUB_DOWN,              VK_NEXT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_102 },
     { ID_SHIFT_SUB_UP,               VK_PRIOR, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_103 },
     { ID_VIEW_DISPLAY_RENDERER_STATS,     'J', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_OSD_DISPLAY_RENDERER_STATS },
@@ -612,7 +612,17 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN },
     { ID_EDL_OUT,                           0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_OUT },
     { ID_EDL_NEWCLIP,                       0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_NEW_CLIP },
-    { ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE }
+    { ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE },
+
+    { ID_3D_TOGGLE,                       '3', FVIRTKEY | FNOINVERT,                    IDS_3D_TOGGLE },
+    { ID_3D_MOVE_APART,                   'J', FVIRTKEY | FNOINVERT,                    IDS_3D_MOVE_APART },
+    { ID_3D_MOVE_CLOSER,                  'L', FVIRTKEY | FNOINVERT,                    IDS_3D_MOVE_CLOSER },
+    { ID_3D_RAISE_LEFT_REL_TO_RIGHT,      'I', FVIRTKEY | FNOINVERT,                    IDS_3D_RAISE_LEFT_REL_TO_RIGHT },
+    { ID_3D_LOWER_LEFT_REL_TO_RIGHT,      'K', FVIRTKEY | FNOINVERT,                    IDS_3D_LOWER_LEFT_REL_TO_RIGHT },
+    { ID_3D_ENLARGE,                      'O', FVIRTKEY | FNOINVERT,                    IDS_3D_ENLARGE },
+    { ID_3D_SHRINK,                       'U', FVIRTKEY | FNOINVERT,                    IDS_3D_SHRINK },
+    { ID_3D_TOGGLE_HORZIONTAL_SQUISH,     'S', FVIRTKEY | FNOINVERT,                    IDS_3D_TOGGLE_HORZIONTAL_SQUISH }
+
 };
 
 void CAppSettings::CreateCommands()

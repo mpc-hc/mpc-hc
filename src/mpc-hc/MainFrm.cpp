@@ -321,6 +321,16 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
     ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
 
+	//3D Hotkey Handling
+	ON_COMMAND(ID_3D_TOGGLE, On3DToggle)
+	ON_COMMAND(ID_3D_TOGGLE_HORZIONTAL_SQUISH, On3DSquish)
+	ON_COMMAND(ID_3D_RAISE_LEFT_REL_TO_RIGHT, On3DLeftMoveUp)
+	ON_COMMAND(ID_3D_LOWER_LEFT_REL_TO_RIGHT, On3DLeftMoveDown)
+	ON_COMMAND(ID_3D_MOVE_CLOSER, On3DMoveTogether)
+	ON_COMMAND(ID_3D_MOVE_APART, On3DMoveApart)
+	ON_COMMAND(ID_3D_ENLARGE, On3DZoomIn)
+	ON_COMMAND(ID_3D_SHRINK, On3DZoomOut)
+		
     // Casimir666
     ON_UPDATE_COMMAND_UI(ID_VIEW_TEARING_TEST, OnUpdateViewTearingTest)
     ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
@@ -776,6 +786,11 @@ CMainFrame::CMainFrame()
     , m_dLastVideoScaleFactor(0)
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
+	, m_3DEnabled(false)
+	, m_3DSquish(true)
+	, m_3DLeftVerticalOffset(0)
+	, m_3DSeperation(0)
+	, m_3DZoom(1.0f)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
@@ -6842,6 +6857,54 @@ void CMainFrame::OnUpdateViewOntop(CCmdUI* pCmdUI)
     }
 }
 
+void CMainFrame::On3DToggle()
+{
+	m_3DEnabled = !m_3DEnabled;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DSquish()
+{
+	m_3DSquish = !m_3DSquish;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DLeftMoveUp()
+{
+	m_3DLeftVerticalOffset += 2;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DLeftMoveDown()
+{
+	m_3DLeftVerticalOffset -= 2;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DMoveTogether()
+{
+	m_3DSeperation -= 10;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DMoveApart()
+{
+	m_3DSeperation += 10;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DZoomIn()
+{
+	m_3DZoom *= 1.0246983032;
+	set3DSettingsIn_pCAP();
+}
+
+void CMainFrame::On3DZoomOut()
+{
+	m_3DZoom *= 0.975897;
+	set3DSettingsIn_pCAP();
+}
+
 void CMainFrame::OnViewOptions()
 {
     ShowOptions();
@@ -11574,7 +11637,7 @@ int CMainFrame::SetupAudioStreams()
 
                 // If the splitter is the internal LAV Splitter and no language preferences
                 // have been set at splitter level, we can override its choice safely
-                CComQIPtr<IBaseFilter> pBF = bIsSplitter ? pSS : pObject;
+                CComQIPtr<IBaseFilter> pBF = (CComQIPtr<IBaseFilter>)(bIsSplitter ? (CComQIPtr<IBaseFilter>) pSS : (CComQIPtr<IBaseFilter>)pObject);
                 if (pBF && CFGFilterLAV::IsInternalInstance(pBF)) {
                     bSkipTrack = false;
                     if (CComQIPtr<ILAVFSettings> pLAVFSettings = pBF) {
@@ -11867,6 +11930,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pMVRS = m_pCAP;
         m_pMVRSR = m_pCAP;
         pMVTO = m_pCAP;
+
+		set3DSettingsIn_pCAP();
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             if (pVMB) {

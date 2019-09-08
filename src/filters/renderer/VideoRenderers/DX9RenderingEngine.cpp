@@ -292,7 +292,108 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
     }
 
     if (m_RenderingPath == RENDERING_PATH_DRAW) {
-        return RenderVideoDrawPath(pRenderTarget, srcRect, destRect);
+		if (m_3DEnabled)
+		{
+			//Left eye
+
+			CRect leftDestCopy(destRect);
+			CRect leftSrcCopy(srcRect);
+
+			int w = leftDestCopy.Width();
+			int h = leftDestCopy.Height();
+
+			//move to left quarter
+			leftDestCopy.left -= w / 4;
+			leftDestCopy.right -= w / 4;
+
+			//half the output size (pring in bpth left and riht)
+			//as left eye is half the size of a full both eyes
+			leftDestCopy.left += w / 4;
+			leftDestCopy.right -= w / 4;
+
+			w = leftDestCopy.Width();
+			h = leftDestCopy.Height();
+
+			//Shift up/down as required
+			leftDestCopy.top -= (m_3DLeftVerticalOffset * h)/1000;
+			leftDestCopy.bottom -= (m_3DLeftVerticalOffset * h) / 1000;
+			
+			//Shift inward/outward as required
+			leftDestCopy.left -= (m_3DSeperation * w)/1000;
+			leftDestCopy.right -= (m_3DSeperation * w)/1000;
+
+			//half the output again as we need to squish so wide expand corrects.
+			if (m_3DSquish)
+			{
+				w = leftDestCopy.Width();
+				leftDestCopy.left += w / 4;
+				leftDestCopy.right -= w / 4;
+			}
+
+			//Zoom
+			w = leftDestCopy.Width();
+			leftDestCopy.left -= (int)((float)w * m_3DZoom - (float)w);
+			leftDestCopy.right += (int)((float)w * m_3DZoom - (float)w);
+			h = leftDestCopy.Height();
+			leftDestCopy.top -= (int)((float)h * m_3DZoom - (float)h);
+			leftDestCopy.bottom += (int)((float)h * m_3DZoom - (float)h);
+
+			//Trim right half off source
+			leftSrcCopy.right -= leftSrcCopy.Width() / 2;
+			RenderVideoDrawPath(pRenderTarget, leftSrcCopy, leftDestCopy);
+
+			//Right eye
+
+			CRect rightDestCopy(destRect);
+			CRect rightSrcCopy(srcRect);
+
+			w = rightDestCopy.Width();
+
+			//move to left quarter
+			rightDestCopy.left += w / 4;
+			rightDestCopy.right += w / 4;
+
+			//half the output size (pring in bpth left and riht)
+			//as left eye is half the size of a full both eyes
+			rightDestCopy.left += w / 4;
+			rightDestCopy.right -= w / 4;
+
+			w = rightDestCopy.Width();
+			h = rightDestCopy.Height();
+
+			//Shift up/down as required
+			rightDestCopy.top += (m_3DLeftVerticalOffset * h) / 1000;
+			rightDestCopy.bottom += (m_3DLeftVerticalOffset * h) / 1000;
+
+			//Shift inward/outward as required
+			rightDestCopy.left += (m_3DSeperation * w) / 1000;
+			rightDestCopy.right += (m_3DSeperation * w) / 1000;
+
+			//half the output again as we need to squish so wide expand corrects.
+			if (m_3DSquish)
+			{
+				w = rightDestCopy.Width();
+				rightDestCopy.left += w / 4;
+				rightDestCopy.right -= w / 4;
+			}
+
+			//Zoom
+			w = rightDestCopy.Width();
+			rightDestCopy.left -= (int)((float)w * m_3DZoom - (float)w);
+			rightDestCopy.right += (int)((float)w * m_3DZoom - (float)w);
+			h = rightDestCopy.Height();
+			rightDestCopy.top -= (int)((float)h * m_3DZoom - (float)h);
+			rightDestCopy.bottom += (int)(float)(h * m_3DZoom - (float)h);
+
+			//Trim left half off source
+			rightSrcCopy.left += rightSrcCopy.Width() / 2;
+
+			return RenderVideoDrawPath(pRenderTarget, rightSrcCopy, rightDestCopy);
+		}
+		else
+		{
+			return RenderVideoDrawPath(pRenderTarget, srcRect, destRect);
+		}
     } else {
         return RenderVideoStretchRectPath(pRenderTarget, srcRect, destRect);
     }

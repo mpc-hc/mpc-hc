@@ -1572,6 +1572,22 @@
 #define IDS_CMD_VIEWPRESET              57536
 #define IDS_CMD_MUTE                    57537
 #define IDS_CMD_VOLUME                  57538
+#define IDS_3D_TOGGLE                   58000
+#define IDS_3D_MOVE_APART               58001
+#define IDS_3D_MOVE_CLOSER              58002
+#define IDS_3D_RAISE_LEFT_REL_TO_RIGHT  58003
+#define IDS_3D_LOWER_LEFT_REL_TO_RIGHT  58004
+#define IDS_3D_ENLARGE				    58005
+#define IDS_3D_SHRINK				    58006
+#define IDS_3D_TOGGLE_HORZIONTAL_SQUISH 58007
+#define ID_3D_TOGGLE                    58010
+#define ID_3D_MOVE_APART                58011
+#define ID_3D_MOVE_CLOSER               58012
+#define ID_3D_RAISE_LEFT_REL_TO_RIGHT   58013
+#define ID_3D_LOWER_LEFT_REL_TO_RIGHT   58014
+#define ID_3D_ENLARGE				    58015
+#define ID_3D_SHRINK				    58016
+#define ID_3D_TOGGLE_HORZIONTAL_SQUISH  58017
 
 // Next default values for new objects
 // 

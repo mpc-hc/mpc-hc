@@ -344,6 +344,24 @@ private:
 
     bool m_fLiveWM;
 
+	bool m_3DEnabled;
+	bool m_3DSquish;
+	int m_3DLeftVerticalOffset;
+	int m_3DSeperation;
+	float m_3DZoom;
+	
+	void set3DSettingsIn_pCAP()
+	{
+		if (m_pCAP)
+		{
+			m_pCAP->m_3DEnabled = m_3DEnabled;
+			m_pCAP->m_3DSquish = m_3DSquish;
+			m_pCAP->m_3DLeftVerticalOffset = m_3DLeftVerticalOffset;
+			m_pCAP->m_3DSeperation = m_3DSeperation;
+			m_pCAP->m_3DZoom = m_3DZoom;
+		}
+	}
+
     void SendStatusMessage(CString msg, int nTimeOut);
     CString m_playingmsg, m_closingmsg;
 
@@ -668,6 +686,17 @@ public:
     afx_msg void OnExitSizeMove();
     afx_msg void OnDisplayChange();
     afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
+
+
+	afx_msg void On3DToggle();
+	afx_msg void On3DSquish();
+	afx_msg void On3DLeftMoveUp();
+	afx_msg void On3DLeftMoveDown();
+	afx_msg void On3DMoveTogether();
+	afx_msg void On3DMoveApart();
+	afx_msg void On3DZoomIn();
+	afx_msg void On3DZoomOut();
+
 
     LRESULT OnDpiChanged(WPARAM wParam, LPARAM lParam);
 
