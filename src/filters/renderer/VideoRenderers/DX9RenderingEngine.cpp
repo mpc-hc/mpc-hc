@@ -311,13 +311,16 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
 			leftDestCopy.left += w / 4;
 			leftDestCopy.right -= w / 4;
 
+			w = leftDestCopy.Width();
+			h = leftDestCopy.Height();
+
 			//Shift up/down as required
-			leftDestCopy.top -= m_3DLeftVerticalOffset;
-			leftDestCopy.bottom -= m_3DLeftVerticalOffset;
+			leftDestCopy.top -= (m_3DLeftVerticalOffset * h)/1000;
+			leftDestCopy.bottom -= (m_3DLeftVerticalOffset * h) / 1000;
 			
 			//Shift inward/outward as required
-			leftDestCopy.left -= m_3DSeperation;
-			leftDestCopy.right -= m_3DSeperation;
+			leftDestCopy.left -= (m_3DSeperation * w)/1000;
+			leftDestCopy.right -= (m_3DSeperation * w)/1000;
 
 			//half the output again as we need to squish so wide expand corrects.
 			if (m_3DSquish)
@@ -355,13 +358,16 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
 			rightDestCopy.left += w / 4;
 			rightDestCopy.right -= w / 4;
 
+			w = rightDestCopy.Width();
+			h = rightDestCopy.Height();
+
 			//Shift up/down as required
-			rightDestCopy.top += m_3DLeftVerticalOffset;
-			rightDestCopy.bottom += m_3DLeftVerticalOffset;
+			rightDestCopy.top += (m_3DLeftVerticalOffset * h) / 1000;
+			rightDestCopy.bottom += (m_3DLeftVerticalOffset * h) / 1000;
 
 			//Shift inward/outward as required
-			rightDestCopy.left += m_3DSeperation;
-			rightDestCopy.right += m_3DSeperation;
+			rightDestCopy.left += (m_3DSeperation * w) / 1000;
+			rightDestCopy.right += (m_3DSeperation * w) / 1000;
 
 			//half the output again as we need to squish so wide expand corrects.
 			if (m_3DSquish)
@@ -382,9 +388,7 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
 			//Trim left half off source
 			rightSrcCopy.left += rightSrcCopy.Width() / 2;
 
-			RenderVideoDrawPath(pRenderTarget, rightSrcCopy, rightDestCopy);
-
-			return S_OK;
+			return RenderVideoDrawPath(pRenderTarget, rightSrcCopy, rightDestCopy);
 		}
 		else
 		{
