@@ -285,6 +285,11 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
 
 int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
 {
+    if (pGBuffer->RemainingSize() < 11) {
+        ASSERT(FALSE);
+        return 0;
+    }
+
     m_pCurrentPresentationSegment.Free();
     m_pCurrentPresentationSegment.Attach(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
 
@@ -299,6 +304,11 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
 
     TRACE_PGSSUB(_T("CPGSSub::ParsePresentationSegment Size = %d, state = %#x, nObjectNumber = %d\n"), pGBuffer->GetSize(),
                  m_pCurrentPresentationSegment->composition_descriptor.bState, m_pCurrentPresentationSegment->objectCount);
+
+    if (pGBuffer->RemainingSize() < (m_pCurrentPresentationSegment->objectCount * 8)) {
+        ASSERT(FALSE);
+        return 0;
+    }
 
     for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
         std::unique_ptr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
@@ -357,13 +367,17 @@ void CPGSSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
 
 void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 {
+    if ((nSize - 2) % sizeof(HDMV_PALETTE) != 0) {
+        ASSERT(FALSE);
+        return;
+    }
+
     BYTE palette_id = pGBuffer->ReadByte();
     HDMV_CLUT& CLUT = m_CLUTs[palette_id];
 
     CLUT.id = palette_id;
     CLUT.version_number = pGBuffer->ReadByte();
 
-    ASSERT((nSize - 2) % sizeof(HDMV_PALETTE) == 0);
     CLUT.size = WORD((nSize - 2) / sizeof(HDMV_PALETTE));
 
     for (WORD i = 0; i < CLUT.size; i++) {
@@ -378,6 +392,9 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 
 void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
 {
+    if (nUnitSize <= 4) {
+        return;
+    }
     short object_id = pGBuffer->ReadShort();
     if (object_id < 0 || size_t(object_id) >= m_compositionObjects.size()) {
         ASSERT(FALSE); // This is not supposed to happen
@@ -390,6 +407,10 @@ void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
     BYTE m_sequence_desc = pGBuffer->ReadByte();
 
     if (m_sequence_desc & 0x80) {
+        if (nUnitSize <= 8) {
+            return;
+        }
+
         int object_data_length = (int)pGBuffer->BitRead(24);
 
         pObject.m_width = pGBuffer->ReadShort();
@@ -420,6 +441,10 @@ bool CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_
     pCompositionObject->m_vertical_position = pGBuffer->ReadShort();
 
     if (pCompositionObject->m_object_cropped_flag) {
+        if (pGBuffer->RemainingSize() < 8) {
+            ASSERT(FALSE);
+            return false;
+        }
         pCompositionObject->m_cropping_horizontal_position = pGBuffer->ReadShort();
         pCompositionObject->m_cropping_vertical_position = pGBuffer->ReadShort();
         pCompositionObject->m_cropping_width = pGBuffer->ReadShort();
