@@ -1846,7 +1846,7 @@ void CAppSettings::LoadSettings()
     bSaveImageCurrentTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SAVEIMAGE_CURRENTTIME, FALSE);
 
     bAllowInaccurateFastseek = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_INACCURATE_FASTSEEK, TRUE);
-    bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, TRUE);    
+    bLoopFolderOnPlayNextFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP_FOLDER_NEXT_FILE, FALSE);    
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;

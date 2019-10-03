@@ -152,7 +152,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(SAVEIMAGE_POSITION, IDS_RS_SAVEIMAGE_POSITION, true, s.bSaveImagePosition, _T("Include video position in filename"));
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, _T("Include current time in filename"));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, _T("When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."));
-    addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, true, s.bLoopFolderOnPlayNextFile, _T("Loop back to first file in folder after playing the last file."));
+    addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, false, s.bLoopFolderOnPlayNextFile, _T("Loop back to first file in folder after playing the last file."));
 }
 
 BOOL CPPageAdvanced::OnApply()
