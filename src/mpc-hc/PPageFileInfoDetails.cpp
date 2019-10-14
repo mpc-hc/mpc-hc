@@ -33,9 +33,9 @@
 
 // CPPageFileInfoDetails dialog
 
-IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
+IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CMPCThemePropertyPage)
 CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
-    : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
+    : CMPCThemePropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
     , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
@@ -314,7 +314,7 @@ void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT7, m_trackInfo);
 }
 
-BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
+BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CMPCThemePropertyPage)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoDetails message handlers

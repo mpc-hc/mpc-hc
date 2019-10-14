@@ -22,15 +22,17 @@
 
 #include <future>
 #include "mpc-hc_config.h"
+#include "CMPCThemePropertyPage.h"
+#include "CMPCThemeEdit.h"
 
 // CPPageFileMediaInfo dialog
 
-class CPPageFileMediaInfo : public CPropertyPage
+class CPPageFileMediaInfo : public CMPCThemePropertyPage
 {
     DECLARE_DYNAMIC(CPPageFileMediaInfo)
 
 private:
-    CEdit m_mediainfo;
+    CMPCThemeEdit m_mediainfo;
     CFont m_font;
 
     CString m_fn, m_path;

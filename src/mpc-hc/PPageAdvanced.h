@@ -20,13 +20,16 @@
 
 #pragma once
 
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
 #include "resource.h"
 #include "EventDispatcher.h"
 #include <utility>
 #include <memory>
 #include <map>
 #include <deque>
+#include "CMPCThemeComboBox.h"
+#include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 class SettingsBase
 {
@@ -167,7 +170,7 @@ public:
     }
 };
 
-class CPPageAdvanced : public CPPageBase
+class CPPageAdvanced : public CMPCThemePPageBase
 {
 public:
     CPPageAdvanced();
@@ -207,8 +210,8 @@ private:
     EventClient m_eventc;
 
     CFont m_fontBold;
-    CComboBox m_comboBox;
-    CSpinButtonCtrl m_spinButtonCtrl;
+    CMPCThemeComboBox m_comboBox;
+    CMPCThemeSpinButtonCtrl m_spinButtonCtrl;
 
     std::map<ADVANCED_SETTINGS, std::shared_ptr<SettingsBase>> m_hiddenOptions;
 
@@ -226,9 +229,10 @@ private:
         }
         return iItem;
     };
+    CRect editRect;
 
 protected:
-    CListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
     virtual BOOL OnInitDialog() override;

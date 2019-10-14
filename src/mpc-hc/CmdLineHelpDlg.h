@@ -21,10 +21,10 @@
 #pragma once
 
 #include <afxwin.h>
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeResizableDialog.h"
 #include "resource.h"
 
-class CmdLineHelpDlg : public CResizableDialog
+class CmdLineHelpDlg : public CMPCThemeResizableDialog
 {
 private:
     CStatic m_icon;

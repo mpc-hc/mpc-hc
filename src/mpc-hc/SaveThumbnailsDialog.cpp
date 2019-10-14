@@ -22,7 +22,8 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveThumbnailsDialog.h"
-
+#include "CMPCThemeStatic.h"
+#undef SubclassWindow
 
 // CSaveThumbnailsDialog
 

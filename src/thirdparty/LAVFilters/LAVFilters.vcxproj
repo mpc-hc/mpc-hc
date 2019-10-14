@@ -48,6 +48,7 @@
     <NMakeReBuildCommandLine>build_lavfilters.bat Rebuild $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>build_lavfilters.bat Clean $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeCleanCommandLine>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>

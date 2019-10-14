@@ -553,8 +553,7 @@ void CSizingControlBar::OnNcPaint()
 
     // erase the NC background
 //mpc-hc custom code start
-    mdc.FillRect(rcDraw, CBrush::FromHandle(
-        (HBRUSH) GetClassLongPtr(m_hWnd, GCLP_HBRBACKGROUND)));
+    mpc_fillNcBG(&mdc, rcDraw);
 //mpc-hc custom code end
 
     if (m_dwSCBStyle & SCBS_SHOWEDGES)
@@ -1230,6 +1229,13 @@ void CSizingControlBar::GlobalSaveState(CFrameWnd* pFrame,
             pBar->SaveState(lpszProfileName);
     }
 }
+
+//mpc-hc custom code start
+void CSizingControlBar::mpc_fillNcBG(CDC* mdc, CRect rcDraw) {
+    mdc->FillRect(rcDraw, CBrush::FromHandle(
+        (HBRUSH)GetClassLongPtr(m_hWnd, GCLP_HBRBACKGROUND)));
+}
+//mpc-hc custom code end
 
 #ifdef _SCB_REPLACE_MINIFRAME
 #ifndef _SCB_MINIFRAME_CAPTION

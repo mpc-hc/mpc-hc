@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "ComPropertyPage.h"
-
+#include "CMPCThemeComPropertyPage.h"
+#include "CMPCThemeUtil.h"
 
 interface IComPropertyPageDirty
 {
@@ -31,13 +31,15 @@ interface IComPropertyPageDirty
 
 // CComPropertySheet
 
-class CComPropertySheet : public CPropertySheet, public IComPropertyPageDirty
+class CComPropertySheet : public CPropertySheet
+    , public IComPropertyPageDirty
+    , public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CComPropertySheet)
 
     CComPtr<IPropertyPageSite> m_pSite;
     CInterfaceList<ISpecifyPropertyPages> m_spp;
-    CAutoPtrList<CComPropertyPage> m_pages;
+    CAutoPtrList<CMPCThemeComPropertyPage> m_pages;
     CSize m_size;
 
 public:
@@ -58,6 +60,9 @@ public:
     }
 
     virtual BOOL OnInitDialog();
+    void fulfillThemeReqs();
+
+    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 
 protected:
     DECLARE_MESSAGE_MAP()

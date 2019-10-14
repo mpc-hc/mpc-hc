@@ -140,6 +140,10 @@ msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
 msgstr "ਡੀਬੱਗਰ ਸ਼ੇਡਰ(&D)"
 
+msgctxt "ID_VIEW_MPCTHEME"
+msgid "Dark Theme (restart)"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Presets..."
 msgstr "...ਪ੍ਰੀਸੈਟ(&P)"

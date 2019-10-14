@@ -22,18 +22,20 @@
 #pragma once
 
 #include <afxwin.h>
-
+#include "CMPCThemePropertyPage.h"
+#include "CMPCThemeToolTipCtrl.h"
+#include "CMPCThemeEdit.h"
 
 // CPPageFileInfoClip dialog
 
-class CPPageFileInfoClip : public CPropertyPage
+class CPPageFileInfoClip : public CMPCThemePropertyPage
 {
     DECLARE_DYNAMIC(CPPageFileInfoClip)
 
 private:
     HICON m_hIcon;
-    CToolTipCtrl m_tooltip;
-    CEdit m_locationCtrl;
+    CMPCThemeToolTipCtrl m_tooltip;
+    CMPCThemeEdit m_locationCtrl;
 
     CStatic m_icon;
     CString m_fn, m_path;

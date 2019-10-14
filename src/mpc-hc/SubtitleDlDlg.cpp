@@ -26,8 +26,10 @@
 #include "MainFrm.h"
 #include "ISOLang.h"
 #include "PPageSubMisc.h"
+#include "CMPCTheme.h"
+#include "CMPCThemeMenu.h"
 
-BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CListCtrl)
+BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CMPCThemePlayerListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolNeedText)
 END_MESSAGE_MAP()
 
@@ -86,7 +88,7 @@ enum {
 };
 
 CSubtitleDlDlg::CSubtitleDlDlg(CMainFrame* pParentWnd)
-    : CResizableDialog(IDD, pParentWnd)
+    : CMPCThemeResizableDialog(IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
     , m_bIsRefreshed(false)
     , m_pMainFrame(pParentWnd)
@@ -99,6 +101,7 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_STATUSBAR, m_status);
+    fulfillThemeReqs();
 }
 
 void CSubtitleDlDlg::SetStatusText(const CString& status, BOOL bPropagate/* = TRUE*/)
@@ -180,13 +183,18 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
 BOOL CSubtitleDlDlg::OnInitDialog()
 {
     __super::OnInitDialog();
-
     m_progress.SetParent(&m_status);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        SetWindowTheme(m_progress.GetSafeHwnd(), _T(""), _T(""));
+        m_progress.SetBarColor(CMPCTheme::ProgressBarColor);
+        m_progress.SetBkColor(CMPCTheme::ProgressBarBGColor);
+    }
     m_progress.UpdateWindow();
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle()
-                            | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
-                            | LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
+                            /*| LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT */
+                            | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+    m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT);
 
     m_list.SetImageList(&m_pMainFrame->m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
 
@@ -243,7 +251,9 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     AddAnchor(IDOK, BOTTOM_RIGHT);
     AddAnchor(IDC_STATUSBAR, BOTTOM_LEFT, BOTTOM_RIGHT);
 
-    const CSize s(500, 250);
+    CRect cr;
+    GetClientRect(cr);
+    const CSize s(cr.Width(), 250);
     SetMinTrackSize(s);
     EnableSaveRestore(IDS_R_DLG_SUBTITLEDL, TRUE);
 
@@ -409,7 +419,7 @@ void CSubtitleDlDlg::DownloadSelectedSubtitles()
 }
 
 // ON_UPDATE_COMMAND_UI does not work for modeless dialogs
-BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CMPCThemeResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
     ON_COMMAND(IDC_BUTTON1, OnRefresh)
@@ -468,12 +478,15 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
             COPY_URL
         };
 
-        CMenu m;
+        CMPCThemeMenu m;
         m.CreatePopupMenu();
         m.AppendMenu(MF_STRING | (m_list.GetCheck(lpnmlv->iItem) != -1 ? MF_ENABLED : MF_DISABLED), DOWNLOAD, ResStr(IDS_SUBMENU_DOWNLOAD));
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
         m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), COPY_URL, ResStr(IDS_SUBMENU_COPYURL));
+        if (AfxGetAppSettings().bMPCThemeLoaded) {
+            m.fulfillThemeReqs();
+        }
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);

@@ -22,13 +22,14 @@
 #pragma once
 
 #include <afxwin.h>
+#include "CMPCThemePropertyPage.h"
 
 
 // CPPageFileInfoDetails dialog
 
 struct ISubPicAllocatorPresenter;
 
-class CPPageFileInfoDetails : public CPropertyPage
+class CPPageFileInfoDetails : public CMPCThemePropertyPage
 {
     DECLARE_DYNAMIC(CPPageFileInfoDetails)
 

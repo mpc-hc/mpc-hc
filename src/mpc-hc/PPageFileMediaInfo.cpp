@@ -34,9 +34,9 @@ using namespace MediaInfoDLL;
 
 // CPPageFileMediaInfo dialog
 
-IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
+IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CMPCThemePropertyPage)
 CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI, CMainFrame* pMainFrame)
-    : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
+    : CMPCThemePropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
     , m_bSyncAnalysis(false)
@@ -162,7 +162,7 @@ BOOL CPPageFileMediaInfo::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
+BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CMPCThemePropertyPage)
     ON_WM_SHOWWINDOW()
     ON_WM_DESTROY()
     ON_MESSAGE_VOID(WM_MEDIAINFO_READY, OnMediaInfoReady)
@@ -178,10 +178,16 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     ZeroMemory(&lf, sizeof(lf));
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
     // The empty string will fall back to the first font that matches the other specified attributes.
-    LPCTSTR fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
+    LPCTSTR fonts[] = { _T("Consolas"), _T("Lucida Console"), _T("Courier New"), _T("") };
     // Use a negative value to match the character height instead of the cell height.
-    const int fonts_size[] = { 10, 11, 11 };
-    size_t i = 0;
+    const int fonts_size[] = { 12, 12, 13, 13 };
+    size_t i;
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        i = 0; //added Consolas to the beginning for CMPCTheme
+    } else {
+        i = 1; //otherwise honor the old order (overly respectful of Lucida for old windows :) )
+    }
+
     bool bSuccess;
     DpiHelper dpi;
     do {

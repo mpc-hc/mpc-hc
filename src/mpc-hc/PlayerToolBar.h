@@ -22,6 +22,7 @@
 #pragma once
 
 #include "VolumeCtrl.h"
+#include "CMPCThemeToolTipCtrl.h"
 
 #include <atlimage.h>
 
@@ -39,6 +40,8 @@ private:
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
+    bool mouseDown;
+    CMPCThemeToolTipCtrl themedToolTip;
 
     int m_nButtonHeight;
     std::unique_ptr<CImageList> m_pButtonsImages;
@@ -84,4 +87,6 @@ protected:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };

@@ -22,6 +22,9 @@
 #include "resource.h"
 #include "WinHotkeyCtrl.h"
 #include "vkCodes.h"
+#include "mplayerc.h"
+#include "CMPCThemeButton.h"
+#include "CMPCThemeMenu.h"
 
 #define WM_KEY (WM_USER + 444)
 
@@ -132,6 +135,18 @@ void CWinHotkeyCtrl::SetWinHotkey(UINT vkCode, UINT fModifiers)
     m_fIsPressed = FALSE;
 
     UpdateText();
+}
+
+void CWinHotkeyCtrl::DrawButton(CRect rectButton) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        CWindowDC dc(this);
+        bool disabled = 0 != (GetStyle() & (ES_READONLY | WS_DISABLED));
+        bool selected = GetButtonThemeState() == PBS_PRESSED;
+        bool highlighted = GetButtonThemeState() == PBS_HOT;
+        CMPCThemeButton::drawButtonBase(&dc, rectButton, GetButtonText(), selected, highlighted, false, disabled, true);
+    } else {
+        __super::DrawButton(rectButton);
+    }
 }
 
 LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
@@ -245,15 +260,18 @@ void CWinHotkeyCtrl::OnKillFocus(CWnd* pNewWnd)
 
 void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
 {
-    HMENU hmenu = CreatePopupMenu();
+    CMPCThemeMenu menu;
+    menu.CreatePopupMenu();
     UINT cod = 0, mod = 0;
-    AppendMenu(hmenu, MF_STRING, 1, ResStr(IDS_APPLY));
-    AppendMenu(hmenu, MF_STRING, 2, ResStr(IDS_CLEAR));
-    AppendMenu(hmenu, MF_STRING, 3, ResStr(IDS_CANCEL));
+    menu.AppendMenu(MF_STRING, 1, ResStr(IDS_APPLY));
+    menu.AppendMenu(MF_STRING, 2, ResStr(IDS_CLEAR));
+    menu.AppendMenu(MF_STRING, 3, ResStr(IDS_CANCEL));
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        menu.fulfillThemeReqs();
+    }
 
-    UINT uMenuID = TrackPopupMenu(hmenu,
-                                  TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_NONOTIFY | TPM_RETURNCMD,
-                                  pt.x, pt.y, 0, GetSafeHwnd(), nullptr);
+    UINT uMenuID = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_NONOTIFY | TPM_RETURNCMD,
+                                  pt.x, pt.y, this, nullptr);
 
     if (uMenuID) {
         switch (uMenuID) {
@@ -280,7 +298,6 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
         GetParent() ->SetFocus();
     }
 
-    DestroyMenu(hmenu);
 }
 
 void CWinHotkeyCtrl::OnDestroy()

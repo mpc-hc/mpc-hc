@@ -20,28 +20,29 @@
 
 #pragma once
 
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
 #include <afxcmn.h>
 #include <afxwin.h>
+#include "CMPCThemeComboBox.h"
 
 // CPPageCapture dialog
 
-class CPPageCapture : public CPPageBase
+class CPPageCapture : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageCapture)
 
 private:
     CAtlArray<CString> m_vidnames, m_audnames, m_providernames, m_tunernames, m_receivernames;
 
-    CComboBox m_cbAnalogVideo;
-    CComboBox m_cbAnalogAudio;
-    CComboBox m_cbAnalogCountry;
-    CComboBox m_cbDigitalNetworkProvider;
-    CComboBox m_cbDigitalTuner;
-    CComboBox m_cbDigitalReceiver;
+    CMPCThemeComboBox m_cbAnalogVideo;
+    CMPCThemeComboBox m_cbAnalogAudio;
+    CMPCThemeComboBox m_cbAnalogCountry;
+    CMPCThemeComboBox m_cbDigitalNetworkProvider;
+    CMPCThemeComboBox m_cbDigitalTuner;
+    CMPCThemeComboBox m_cbDigitalReceiver;
     int m_iDefaultDevice;
-    CComboBox m_cbRebuildFilterGraph;
-    CComboBox m_cbStopFilterGraph;
+    CMPCThemeComboBox m_cbRebuildFilterGraph;
+    CMPCThemeComboBox m_cbStopFilterGraph;
 
     void FindAnalogDevices();
     void FindDigitalDevices();

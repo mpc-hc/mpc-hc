@@ -22,11 +22,16 @@
 #pragma once
 
 #include "InternalPropertyPage.h"
+#include "stdafx.h"
 #include "../mpc-hc/DpiHelper.h"
+#include "../mpc-hc/CMPCThemeStatic.h"
+#include "../mpc-hc/CMPCThemeComboBox.h"
+#include "../mpc-hc/CMPCThemeEdit.h"
+#include "../mpc-hc/CMPCThemeUtil.h"
 #include <atlcoll.h>
 
 class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
-    CPinInfoWnd : public CInternalPropertyPageWnd
+    CPinInfoWnd : public CInternalPropertyPageWnd, CMPCThemeUtil
 {
     CComQIPtr<IBaseFilter> m_pBF;
 
@@ -35,9 +40,9 @@ class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
         IDC_PP_EDIT1
     };
 
-    CStatic m_pin_static;
-    CComboBox m_pin_combo;
-    CEdit m_info_edit;
+    CMPCThemeStatic m_pin_static;
+    CMPCThemeComboBox m_pin_combo;
+    CMPCThemeEdit m_info_edit;
 
     DpiHelper m_dpi;
 
@@ -56,7 +61,8 @@ public:
     static CSize GetWindowSize() { return { 0, 0 }; }
 
     DECLARE_MESSAGE_MAP()
-
+    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     void OnSelectedPinChange();
 
 protected:

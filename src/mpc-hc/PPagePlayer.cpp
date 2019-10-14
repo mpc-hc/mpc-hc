@@ -29,9 +29,9 @@
 
 // CPPagePlayer dialog
 
-IMPLEMENT_DYNAMIC(CPPagePlayer, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPagePlayer, CMPCThemePPageBase)
 CPPagePlayer::CPPagePlayer()
-    : CPPageBase(CPPagePlayer::IDD, CPPagePlayer::IDD)
+    : CMPCThemePPageBase(CPPagePlayer::IDD, CPPagePlayer::IDD)
     , m_iAllowMultipleInst(0)
     , m_iTitleBarTextStyle(0)
     , m_bTitleBarTextTitle(0)
@@ -88,7 +88,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO1, m_langsComboBox);
 }
 
-BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPagePlayer, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_CHECK13, OnUpdateCheck13)
     ON_UPDATE_COMMAND_UI(IDC_DVD_POS, OnUpdatePos)
     ON_UPDATE_COMMAND_UI(IDC_FILE_POS, OnUpdatePos)

@@ -27,7 +27,7 @@
 
 // CPlayerCaptureBar
 
-IMPLEMENT_DYNAMIC(CPlayerCaptureBar, CPlayerBar)
+IMPLEMENT_DYNAMIC(CPlayerCaptureBar, CMPCThemePlayerBar)
 CPlayerCaptureBar::CPlayerCaptureBar(CMainFrame* pMainFrame)
     : m_capdlg(pMainFrame)
 {
@@ -91,5 +91,5 @@ BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerCaptureBar, CPlayerBar)
+BEGIN_MESSAGE_MAP(CPlayerCaptureBar, CMPCThemePlayerBar)
 END_MESSAGE_MAP()

@@ -25,8 +25,9 @@
 #include "PPageInternalFilters.h"
 #include "../filters/Filters.h"
 #include "InternalFiltersConfig.h"
+#include "CMPCThemeMenu.h"
 
-IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CListCtrl)
+IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CMPCThemePlayerListCtrl)
 CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<filter_t>& filters)
     : m_filters(filters)
     , m_n(n)
@@ -40,7 +41,7 @@ void CPPageInternalFiltersListBox::PreSubclassWindow()
 {
     __super::PreSubclassWindow();
     GetToolTips()->Activate(FALSE);
-    EnableToolTips(TRUE);
+    //EnableToolTips(TRUE);
 }
 
 INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
@@ -54,14 +55,14 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
     GetItemRect(row, r, LVIR_BOUNDS);
     pTI->rect = r;
     pTI->hwnd = m_hWnd;
-    pTI->uId = (UINT)row;
+    pTI->uId = (UINT)(row+1); //uId should not be zero for MPCThemeTT
     pTI->lpszText = LPSTR_TEXTCALLBACK;
     pTI->uFlags |= TTF_ALWAYSTIP;
 
     return pTI->uId;
 }
 
-BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CListCtrl)
+BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CMPCThemePlayerListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
@@ -70,7 +71,7 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 {
     TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-    filter_t* f = (filter_t*)GetItemData(static_cast<int>(pNMHDR->idFrom));
+    filter_t* f = (filter_t*)GetItemData(static_cast<int>(pNMHDR->idFrom - 1));
     if (f->nHintID == 0) {
         return FALSE;
     }
@@ -131,7 +132,7 @@ void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
         ScreenToClient(&point);
     }
 
-    CMenu m;
+    CMPCThemeMenu m;
     m.CreatePopupMenu();
 
     enum {
@@ -166,6 +167,9 @@ void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
         m.AppendMenu(MF_STRING | state, ENABLE_VIDEO, ResStr(IDS_ENABLE_VIDEO_FILTERS));
         state = (m_nbChecked[VIDEO_DECODER] != 0) ? MF_ENABLED : MF_GRAYED;
         m.AppendMenu(MF_STRING | state, DISABLE_VIDEO, ResStr(IDS_DISABLE_VIDEO_FILTERS));
+    }
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        m.fulfillThemeReqs();
     }
 
     ClientToScreen(&point);
@@ -229,9 +233,9 @@ void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
 
 // CPPageInternalFilters dialog
 
-IMPLEMENT_DYNAMIC(CPPageInternalFilters, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageInternalFilters, CMPCThemePPageBase)
 CPPageInternalFilters::CPPageInternalFilters()
-    : CPPageBase(CPPageInternalFilters::IDD, CPPageInternalFilters::IDD)
+    : CMPCThemePPageBase(CPPageInternalFilters::IDD, CPPageInternalFilters::IDD)
     , m_listSrc(0, m_filters)
     , m_listTra(1, m_filters)
 {
@@ -248,7 +252,7 @@ void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST2, m_listTra);
 }
 
-BEGIN_MESSAGE_MAP(CPPageInternalFilters, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageInternalFilters, CMPCThemePPageBase)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnItemChanged)
     ON_BN_CLICKED(IDC_SPLITTER_CONF, OnBnClickedSplitterConf)
@@ -267,8 +271,10 @@ BOOL CPPageInternalFilters::OnInitDialog()
     m_listSrc.InsertColumn(0, _T(""));
     m_listTra.InsertColumn(0, _T(""));
 
-    m_listSrc.SetExtendedStyle(m_listSrc.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
-    m_listTra.SetExtendedStyle(m_listTra.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
+    m_listSrc.SetExtendedStyle(m_listSrc.GetExtendedStyle() | LVS_EX_CHECKBOXES /*| LVS_EX_DOUBLEBUFFER*/);
+    m_listSrc.setAdditionalStyles(LVS_EX_DOUBLEBUFFER);
+    m_listTra.SetExtendedStyle(m_listTra.GetExtendedStyle() | LVS_EX_CHECKBOXES /*| LVS_EX_DOUBLEBUFFER*/);
+    m_listTra.setAdditionalStyles(LVS_EX_DOUBLEBUFFER);
 
     InitFiltersList();
 

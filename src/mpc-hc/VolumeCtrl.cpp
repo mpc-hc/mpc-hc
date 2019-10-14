@@ -23,6 +23,8 @@
 #include "mplayerc.h"
 #include "VolumeCtrl.h"
 #include "AppSettings.h"
+#include "CMPCTheme.h"
+#undef SubclassWindow
 
 
 // CVolumeCtrl
@@ -30,6 +32,8 @@
 IMPLEMENT_DYNAMIC(CVolumeCtrl, CSliderCtrl)
 CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     : m_fSelfDrawn(fSelfDrawn)
+    ,m_bDrag(false)
+    ,m_bHover(false)
 {
 }
 
@@ -50,6 +54,13 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
     SetPageSize(s.nVolumeStep);
     SetLineSize(0);
 
+    if (s.bMPCThemeLoaded) {
+        CToolTipCtrl* pTip = GetToolTips();
+        if (NULL != pTip) {
+            themedToolTip.SubclassWindow(pTip->m_hWnd);
+        }
+    }
+
     return true;
 }
 
@@ -57,6 +68,7 @@ void CVolumeCtrl::SetPosInternal(int pos)
 {
     SetPos(pos);
     GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(pos), SB_THUMBPOSITION), reinterpret_cast<LPARAM>(m_hWnd)); // this will be reflected back on us
+    m_bDrag = true;
 }
 
 void CVolumeCtrl::IncreaseVolume()
@@ -81,6 +93,9 @@ BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
     ON_WM_SETCURSOR()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_MOUSEWHEEL()
+    ON_WM_MOUSEMOVE()
+    ON_WM_LBUTTONUP()
+    ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
@@ -91,6 +106,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
     LRESULT lr = CDRF_DODEFAULT;
 
+    const CAppSettings& s = AfxGetAppSettings();
     if (m_fSelfDrawn)
         switch (pNMCD->dwDrawStage) {
             case CDDS_PREPAINT:
@@ -98,9 +114,16 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
 
             case CDDS_ITEMPREPAINT:
+
                 if (pNMCD->dwItemSpec == TBCD_CHANNEL) {
                     CDC dc;
                     dc.Attach(pNMCD->hdc);
+
+                    if (s.bMPCThemeLoaded) {
+                        CRect rect;
+                        GetClientRect(rect);
+                        dc.FillSolidRect(&rect, CMPCTheme::PlayerBGColor);
+                    }
 
                     CRect channelRect;
                     GetChannelRect(channelRect);
@@ -108,15 +131,29 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     GetThumbRect(thumbRect);
 
                     CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
-                    CPen shadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
-                    CPen light(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
-                    CPen* old = dc.SelectObject(&light);
-                    dc.MoveTo(pNMCD->rc.right, pNMCD->rc.top);
-                    dc.LineTo(pNMCD->rc.right, pNMCD->rc.bottom);
-                    dc.LineTo(pNMCD->rc.left, pNMCD->rc.bottom);
-                    dc.SelectObject(&shadow);
-                    dc.LineTo(pNMCD->rc.right, pNMCD->rc.top);
-                    dc.SelectObject(old);
+
+                    CPen shadow;
+                    CPen light;
+                    if (s.bMPCThemeLoaded) {
+                        shadow.CreatePen(PS_SOLID, 1, CMPCTheme::ShadowColor);
+                        light.CreatePen(PS_SOLID, 1, CMPCTheme::LightColor);
+                        CRect r(pNMCD->rc);
+                        r.DeflateRect(0, 6, 0, 6);
+                        dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
+                        CBrush fb;
+                        fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+                        dc.FrameRect(r, &fb);
+                    } else {
+                        shadow.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
+                        light.CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
+                        CPen* old = dc.SelectObject(&light);
+                        dc.MoveTo(pNMCD->rc.right, pNMCD->rc.top);
+                        dc.LineTo(pNMCD->rc.right, pNMCD->rc.bottom);
+                        dc.LineTo(pNMCD->rc.left, pNMCD->rc.bottom);
+                        dc.SelectObject(&shadow);
+                        dc.LineTo(pNMCD->rc.right, pNMCD->rc.top);
+                        dc.SelectObject(old);
+                    }
 
                     dc.Detach();
                     lr = CDRF_SKIPDEFAULT;
@@ -129,12 +166,26 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
                     COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
                     COLORREF light = GetSysColor(COLOR_3DHILIGHT);
-                    dc.Draw3dRect(&r, light, 0);
-                    r.DeflateRect(0, 0, 1, 1);
-                    dc.Draw3dRect(&r, light, shadow);
-                    r.DeflateRect(1, 1, 1, 1);
-                    dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
-                    dc.SetPixel(r.left + 7, r.top - 1, GetSysColor(COLOR_BTNFACE));
+                    if (s.bMPCThemeLoaded) {
+                        CBrush fb;
+                        if (m_bDrag) {
+                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
+                        } else if(m_bHover) {
+                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
+                        } else {
+                            dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
+                        }
+                        fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+                        dc.FrameRect(r, &fb);
+                    } else {
+
+                        dc.Draw3dRect(&r, light, 0);
+                        r.DeflateRect(0, 0, 1, 1);
+                        dc.Draw3dRect(&r, light, shadow);
+                        r.DeflateRect(1, 1, 1, 1);
+                        dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+                        dc.SetPixel(r.left + 7, r.top - 1, GetSysColor(COLOR_BTNFACE));
+                    }
 
                     dc.Detach();
                     lr = CDRF_SKIPDEFAULT;
@@ -173,7 +224,8 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
             SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w / 2)) / w);
         }
     }
-
+    m_bDrag = true;
+    invalidateThumb();
     CSliderCtrl::OnLButtonDown(nFlags, point);
 }
 
@@ -223,4 +275,41 @@ BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
         return FALSE;
     }
     return TRUE;
+}
+
+void CVolumeCtrl::invalidateThumb() {
+    SetRangeMax(100, TRUE);
+}
+
+
+void CVolumeCtrl::checkHover(CPoint point) {
+    CRect thumbRect;
+    GetThumbRect(thumbRect);
+    bool oldHover = m_bHover;
+    m_bHover = false;
+    if (thumbRect.PtInRect(point)) {
+        m_bHover = true;
+    }
+
+    if (m_bHover != oldHover)
+        invalidateThumb();
+}
+
+void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
+    checkHover(point);
+    CSliderCtrl::OnMouseMove(nFlags, point);
+}
+
+
+void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
+    m_bDrag = false;
+    invalidateThumb();
+    checkHover(point);
+    CSliderCtrl::OnLButtonUp(nFlags, point);
+}
+
+
+void CVolumeCtrl::OnMouseLeave() {
+    checkHover(CPoint(-1 - 1));
+    CSliderCtrl::OnMouseLeave();
 }

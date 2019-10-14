@@ -22,6 +22,7 @@
 #pragma once
 
 #include "SaveImageDialog.h"
+#include "CMPCThemeUtil.h"
 
 // CSaveThumbnailsDialog
 
@@ -40,10 +41,10 @@ protected:
     DECLARE_MESSAGE_MAP()
     virtual BOOL OnInitDialog();
     virtual BOOL OnFileNameOK();
-
 public:
     int m_rows, m_cols, m_width;
     CSpinButtonCtrl m_rowsctrl;
     CSpinButtonCtrl m_colsctrl;
     CSpinButtonCtrl m_widthctrl;
+    CEdit edit3;
 };

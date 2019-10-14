@@ -26,10 +26,14 @@
 #include "StaticLink.h"
 #include "WinHotkeyCtrl.h"
 #include "vkCodes.h"
+#include "CMPCThemePPageBase.h"
+#include "CMPCThemePlayerListCtrl.h"
+#include "CMPCThemeStaticLink.h"
+#include "CMPCThemeEdit.h"
 
 // CPPageAccelTbl dialog
 
-class CPPageAccelTbl : public CPPageBase
+class CPPageAccelTbl : public CMPCThemePPageBase
 {
 private:
     enum {
@@ -48,15 +52,15 @@ private:
     CList<wmcmd> m_wmcmds;
     int m_counter;
 
-    CPlayerListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
     BOOL m_fWinLirc;
     CString m_WinLircAddr;
-    CEdit m_WinLircEdit;
-    CStaticLink m_WinLircLink;
+    CMPCThemeEdit m_WinLircEdit;
+    CMPCThemeStaticLink m_WinLircLink;
     BOOL m_fUIce;
     CString m_UIceAddr;
-    CEdit m_UIceEdit;
-    CStaticLink m_UIceLink;
+    CMPCThemeEdit m_UIceEdit;
+    CMPCThemeStaticLink m_UIceLink;
     UINT_PTR m_nStatusTimerID;
     BOOL m_fGlobalMedia;
 

@@ -30,6 +30,7 @@
 #include "PathUtils.h"
 #include "SVGImage.h"
 #include "ImageGrayer.h"
+#include "CMPCTheme.h"
 
 // CPlayerToolBar
 
@@ -38,6 +39,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
     , m_volumeMinSizeInc(0)
+    , mouseDown(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -84,8 +86,14 @@ void CPlayerToolBar::LoadToolbarImage()
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
     float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
 
-    CImage image;
+    CImage image, themedImage, origImage;
     if (LoadExternalToolBar(image) || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
+        origImage = image;
+        const CAppSettings& s = AfxGetAppSettings();
+        if (s.bMPCThemeLoaded) {
+            ImageGrayer::UpdateColor(image, themedImage, false, ImageGrayer::mpcMono);
+            image = themedImage;
+        }
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();
@@ -100,7 +108,7 @@ void CPlayerToolBar::LoadToolbarImage()
                 m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
 
                 CImage imageDisabled;
-                if (ImageGrayer::Gray(image, imageDisabled)) {
+                if (ImageGrayer::UpdateColor(origImage, imageDisabled, true, s.bMPCThemeLoaded ? ImageGrayer::mpcMono : ImageGrayer::classicGrayscale)) {
                     m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
                     m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
                     m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
@@ -123,7 +131,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
     VERIFY(__super::CreateEx(pParentWnd,
                              TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_AUTOSIZE | TBSTYLE_CUSTOMERASE,
-                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM | CBRS_TOOLTIPS,
+                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM /*| CBRS_TOOLTIPS*/,
                              CRect(2, 2, 0, 1)));
 
     VERIFY(LoadToolBar(IDB_PLAYERTOOLBAR));
@@ -163,6 +171,16 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     m_nButtonHeight = 16; // reset m_nButtonHeight
 
     LoadToolbarImage();
+
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.bMPCThemeLoaded) {
+        themedToolTip.enableFlickerHelper(); //avoid flicker on button hover
+        themedToolTip.Create(this, TTS_ALWAYSTIP);
+        tb.SetToolTips(&themedToolTip);
+    } else {
+        tb.EnableToolTips();
+    }
 
     return TRUE;
 }
@@ -266,34 +284,66 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
+    ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
+
+void drawButtonBG(NMCUSTOMDRAW nmcd, COLORREF c) {
+    CDC dc;
+    dc.Attach(nmcd.hdc);
+    CRect br;
+    br.CopyRect(&nmcd.rc);
+    br.DeflateRect(0, 0, 1, 1); //we aren't offsetting button when pressed, so try to center better
+
+    dc.FillSolidRect(br, c);
+
+    CBrush fb;
+    fb.CreateSolidBrush(CMPCTheme::PlayerButtonBorderColor);
+    dc.FrameRect(br, &fb);
+
+    dc.Detach();
+}
 
 void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMTBCUSTOMDRAW pTBCD = reinterpret_cast<LPNMTBCUSTOMDRAW>(pNMHDR);
     LRESULT lr = CDRF_DODEFAULT;
+    const CAppSettings& s = AfxGetAppSettings();
+
     switch (pTBCD->nmcd.dwDrawStage) {
         case CDDS_PREERASE:
             m_volctrl.Invalidate();
             lr = CDRF_DODEFAULT;
             break;
-        case CDDS_PREPAINT: {
-            // paint the control background, this is needed for XP
-            CDC dc;
-            dc.Attach(pTBCD->nmcd.hdc);
-            RECT r;
-            GetClientRect(&r);
-            dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
-            dc.Detach();
-        }
-        lr |= CDRF_NOTIFYITEMDRAW;
-        break;
+        case CDDS_PREPAINT:
+            {
+                // paint the control background, this is needed for XP
+                CDC dc;
+                dc.Attach(pTBCD->nmcd.hdc);
+                RECT r;
+                GetClientRect(&r);
+                if (s.bMPCThemeLoaded) {
+                    dc.FillSolidRect(&r, CMPCTheme::PlayerBGColor);
+                } else {
+                    dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
+                }
+                dc.Detach();
+            }
+            lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
+            break;
         case CDDS_ITEMPREPAINT:
-            // notify we want to paint after the system's paint cycle
             lr |= CDRF_NOTIFYPOSTPAINT;
-            lr |= CDRF_NOTIFYITEMDRAW;
+            {
+                if (s.bMPCThemeLoaded) {
+                    lr |= TBCDRF_NOBACKGROUND | TBCDRF_NOOFFSET;
+                    if (pTBCD->nmcd.uItemState & CDIS_CHECKED) {
+                        drawButtonBG(pTBCD->nmcd, CMPCTheme::PlayerButtonCheckedColor);
+                    } else if (pTBCD->nmcd.uItemState & CDIS_HOT) {
+                        drawButtonBG(pTBCD->nmcd, mouseDown ? CMPCTheme::PlayerButtonClickedColor : CMPCTheme::PlayerButtonHotColor);
+                    }
+                }
+            }
             break;
         case CDDS_ITEMPOSTPAINT:
             // paint over the duplicated separator
@@ -301,7 +351,11 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             dc.Attach(pTBCD->nmcd.hdc);
             RECT r;
             GetItemRect(11, &r);
-            dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+            if (s.bMPCThemeLoaded) {
+                dc.FillSolidRect(&r, CMPCTheme::PlayerBGColor);
+            } else {
+                dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+            }
             dc.Detach();
             lr |= CDRF_SKIPDEFAULT;
             break;
@@ -357,7 +411,12 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
     cr.OffsetRect(-wr.left, -wr.top);
     wr.OffsetRect(-wr.left, -wr.top);
     dc.ExcludeClipRect(&cr);
-    dc.FillSolidRect(wr, GetSysColor(COLOR_BTNFACE));
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        dc.FillSolidRect(wr, CMPCTheme::PlayerBGColor);
+    } else {
+        dc.FillSolidRect(wr, ::GetSysColor(COLOR_BTNFACE));
+    }
 
     // Do not call CToolBar::OnNcPaint() for painting messages
 
@@ -385,6 +444,7 @@ BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
     int i = getHitButtonIdx(point);
+    mouseDown = true;
 
     if (!m_pMainFrame->m_fFullScreen && (i < 0 || (GetButtonStyle(i) & (TBBS_SEPARATOR | TBBS_DISABLED)))) {
         MapWindowPoints(m_pMainFrame, &point, 1);
@@ -423,8 +483,8 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     if (nID != ID_VOLUME_MUTE) {
         return FALSE;
     }
-
     CToolBarCtrl& tb = GetToolBarCtrl();
+
     TBBUTTONINFO bi;
     bi.cbSize = sizeof(bi);
     bi.dwMask = TBIF_IMAGE;
@@ -444,5 +504,11 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = 0;
 
+
     return TRUE;    // message was handled
+}
+
+void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point) {
+    mouseDown = false;
+    CToolBar::OnLButtonUp(nFlags, point);
 }

@@ -121,6 +121,7 @@
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">false</ShowIncludes>
     </ClCompile>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -135,12 +136,52 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\MessageBoxDialog\MessageBoxDialog.cpp" />
+    <ClCompile Include="..\thirdparty\XeScrollBar\XeScrollBarBase.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
     <ClCompile Include="BaseGraph.cpp" />
+    <ClCompile Include="CMPCThemeButton.cpp" />
+    <ClCompile Include="CMPCThemeFrameUtil.cpp" />
+    <ClCompile Include="CMPCThemeFrameWnd.cpp" />
+    <ClCompile Include="CMPCThemeTitleBarControlButton.cpp" />
+    <ClCompile Include="CMPCThemeUtil.cpp" />
+    <ClCompile Include="CMPCThemeComboBox.cpp" />
+    <ClCompile Include="CMPCThemeDialog.cpp" />
+    <ClCompile Include="CMPCThemeDockBar.cpp" />
+    <ClCompile Include="CMPCThemeEdit.cpp" />
+    <ClCompile Include="CMPCThemeHeaderCtrl.cpp" />
+    <ClCompile Include="CMPCThemeInlineEdit.cpp" />
+    <ClCompile Include="CMPCThemeGroupBox.cpp" />
+    <ClCompile Include="CMPCThemeLinkCtrl.cpp" />
+    <ClCompile Include="CMPCThemeListBox.cpp" />
+    <ClCompile Include="CMPCThemeMenu.cpp" />
+    <ClCompile Include="CMPCThemePlayerListCtrl.cpp" />
+    <ClCompile Include="CMPCThemePPageBase.cpp" />
+    <ClCompile Include="CMPCThemePropPageFrame.cpp" />
+    <ClCompile Include="CMPCThemeRadioOrCheck.cpp" />
+    <ClCompile Include="CMPCThemeScrollBar.cpp" />
+    <ClCompile Include="CMPCThemeScrollBarHelper.cpp" />
+    <ClCompile Include="CMPCThemeSliderCtrl.cpp" />
+    <ClCompile Include="CMPCThemeSpinButtonCtrl.cpp" />
+    <ClCompile Include="CMPCThemeStatic.cpp" />
+    <ClCompile Include="CMPCThemeStaticLink.cpp" />
+    <ClCompile Include="CMPCTheme.cpp" />
+    <ClCompile Include="CMPCThemeToolTipCtrl.cpp" />
+    <ClCompile Include="CMPCThemeTreeCtrl.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="CmdLineHelpDlg.cpp" />
+    <ClCompile Include="CMPCThemeCmdUIDialog.cpp" />
+    <ClCompile Include="CMPCThemeComPropertyPage.cpp" />
+    <ClCompile Include="CMPCThemeMaskedEdit.cpp" />
+    <ClCompile Include="CMPCThemeMsgBox.cpp" />
+    <ClCompile Include="CMPCThemePlayerBar.cpp" />
+    <ClCompile Include="CMPCThemePropertyPage.cpp" />
+    <ClCompile Include="CMPCThemePropertySheet.cpp" />
+    <ClCompile Include="CMPCThemeResizableDialog.cpp" />
+    <ClCompile Include="CMPCThemeStatusBar.cpp" />
+    <ClCompile Include="CMPCThemeTabCtrl.cpp" />
     <ClCompile Include="ColorButton.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
@@ -275,12 +316,52 @@
     <ClCompile Include="YoutubeDL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\thirdparty\MessageBoxDialog\MessageBoxDialog.h" />
+    <ClInclude Include="..\thirdparty\XeScrollBar\xescrollbarbase.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
     <ClInclude Include="BaseGraph.h" />
+    <ClInclude Include="CMPCThemeButton.h" />
+    <ClInclude Include="CMPCThemeFrameUtil.h" />
+    <ClInclude Include="CMPCThemeFrameWnd.h" />
+    <ClInclude Include="CMPCThemeTitleBarControlButton.h" />
+    <ClInclude Include="CMPCThemeUtil.h" />
+    <ClInclude Include="CMPCThemeComboBox.h" />
+    <ClInclude Include="CMPCThemeDialog.h" />
+    <ClInclude Include="CMPCThemeDockBar.h" />
+    <ClInclude Include="CMPCThemeEdit.h" />
+    <ClInclude Include="CMPCThemeHeaderCtrl.h" />
+    <ClInclude Include="CMPCThemeInlineEdit.h" />
+    <ClInclude Include="CMPCThemeGroupBox.h" />
+    <ClInclude Include="CMPCThemeLinkCtrl.h" />
+    <ClInclude Include="CMPCThemeListBox.h" />
+    <ClInclude Include="CMPCThemeMenu.h" />
+    <ClInclude Include="CMPCThemePlayerListCtrl.h" />
+    <ClInclude Include="CMPCThemePPageBase.h" />
+    <ClInclude Include="CMPCThemePropPageFrame.h" />
+    <ClInclude Include="CMPCThemeRadioOrCheck.h" />
+    <ClInclude Include="CMPCThemeScrollBar.h" />
+    <ClInclude Include="CMPCThemeScrollBarHelper.h" />
+    <ClInclude Include="CMPCThemeSliderCtrl.h" />
+    <ClInclude Include="CMPCThemeSpinButtonCtrl.h" />
+    <ClInclude Include="CMPCThemeStatic.h" />
+    <ClInclude Include="CMPCThemeStaticLink.h" />
+    <ClInclude Include="CMPCTheme.h" />
+    <ClInclude Include="CMPCThemeToolTipCtrl.h" />
+    <ClInclude Include="CMPCThemeTreeCtrl.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="CmdLineHelpDlg.h" />
+    <ClInclude Include="CMPCThemeCmdUIDialog.h" />
+    <ClInclude Include="CMPCThemeComPropertyPage.h" />
+    <ClInclude Include="CMPCThemeMaskedEdit.h" />
+    <ClInclude Include="CMPCThemeMsgBox.h" />
+    <ClInclude Include="CMPCThemePlayerBar.h" />
+    <ClInclude Include="CMPCThemePropertyPage.h" />
+    <ClInclude Include="CMPCThemePropertySheet.h" />
+    <ClInclude Include="CMPCThemeResizableDialog.h" />
+    <ClInclude Include="CMPCThemeStatusBar.h" />
+    <ClInclude Include="CMPCThemeTabCtrl.h" />
     <ClInclude Include="ColorButton.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
@@ -690,6 +771,16 @@
     <Image Include="res\check_all.bmp" />
     <Image Include="res\check_audio.bmp" />
     <Image Include="res\check_video.bmp" />
+    <Image Include="res\darktheme\checkboxes-120.png" />
+    <Image Include="res\darktheme\checkboxes-144.png" />
+    <Image Include="res\darktheme\checkboxes-192.png" />
+    <Image Include="res\darktheme\checkboxes-96.png" />
+    <Image Include="res\darktheme\radios-120.png" />
+    <Image Include="res\darktheme\radios-144.png" />
+    <Image Include="res\darktheme\radios-192.png" />
+    <Image Include="res\darktheme\radios-96.png" />
+    <Image Include="res\logo.4.png" />
+    <Image Include="res\logo.4_x64.png" />
     <Image Include="res\uncheck_all.bmp" />
   </ItemGroup>
   <ItemGroup>

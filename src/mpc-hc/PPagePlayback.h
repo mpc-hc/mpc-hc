@@ -21,12 +21,15 @@
 
 #pragma once
 
-#include "PPageBase.h"
-
+#include "CMPCThemePPageBase.h"
+#include "CMPCThemeComboBox.h"
+#include "CMPCThemeSliderCtrl.h"
+#include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemeEdit.h"
 
 // CPPagePlayback dialog
 
-class CPPagePlayback : public CPPageBase
+class CPPagePlayback : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPagePlayback)
 
@@ -37,24 +40,24 @@ public:
     CPPagePlayback();
     virtual ~CPPagePlayback();
 
-    CSliderCtrl m_volumectrl;
-    CSliderCtrl m_balancectrl;
+    CMPCThemeSliderCtrl m_volumectrl;
+    CMPCThemeSliderCtrl m_balancectrl;
     int m_nVolume;
     int m_nBalance;
     int m_nVolumeStep;
-    CSpinButtonCtrl m_VolumeStepCtrl;
+    CMPCThemeSpinButtonCtrl m_VolumeStepCtrl;
     int m_nSpeedStep;
-    CSpinButtonCtrl m_SpeedStepCtrl;
+    CMPCThemeSpinButtonCtrl m_SpeedStepCtrl;
     int m_iLoopForever;
     int m_iLoopMode;
-    CComboBox m_LoopMode;
-    CEdit m_loopnumctrl;
+    CMPCThemeComboBox m_LoopMode;
+    CMPCThemeEdit m_loopnumctrl;
     int m_nLoops;
     int m_iAfterPlayback;
     int m_iZoomLevel;
     BOOL m_iRememberZoomLevel;
     int m_nAutoFitFactor;
-    CSpinButtonCtrl m_AutoFitFactorCtrl;
+    CMPCThemeSpinButtonCtrl m_AutoFitFactorCtrl;
     BOOL m_fAutoloadAudio;
     BOOL m_fEnableWorkerThreadForOpening;
     BOOL m_fReportFailedPins;
@@ -62,8 +65,8 @@ public:
     CString m_audiosLanguageOrder;
     BOOL m_fAllowOverridingExternalSplitterChoice;
 
-    CComboBox m_zoomlevelctrl;
-    CComboBox m_afterPlayback;
+    CMPCThemeComboBox m_zoomlevelctrl;
+    CMPCThemeComboBox m_afterPlayback;
 
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYBACK };
@@ -74,7 +77,7 @@ protected:
     virtual BOOL OnApply();
 
     DECLARE_MESSAGE_MAP()
-
+    CMPCThemeToolTipCtrl themedToolTip;
 public:
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg void OnBnClickedRadio12(UINT nID);
@@ -86,4 +89,5 @@ public:
     afx_msg void OnBalanceTextDblClk();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnCancel();
+    BOOL PreTranslateMessage(MSG * pMsg);
 };

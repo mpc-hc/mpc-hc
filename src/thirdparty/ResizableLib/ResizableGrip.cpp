@@ -61,7 +61,7 @@ void CResizableGrip::UpdateSizeGrip()
 		| (IsSizeGripVisible() ? SWP_SHOWWINDOW : SWP_HIDEWINDOW));
 }
 
-// pbStatus points to a variable, maintained by the caller, that
+// pStatus points to a variable, maintained by the caller, that
 // holds its visibility status. Initialize the variable with 1
 // to allow to temporarily hide the grip, 0 to allow to
 // temporarily show the grip (with respect to the dwMask bit).

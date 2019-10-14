@@ -33,7 +33,7 @@
 #include "FakeFilterMapper2.h"
 
 
-IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CListCtrl)
+IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CMPCThemePlayerListCtrl)
 CPPageExternalFiltersListBox::CPPageExternalFiltersListBox()
 {
 }
@@ -42,7 +42,7 @@ void CPPageExternalFiltersListBox::PreSubclassWindow()
 {
     __super::PreSubclassWindow();
     GetToolTips()->Activate(FALSE);
-    EnableToolTips(TRUE);
+    //EnableToolTips(TRUE);
 }
 
 INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
@@ -54,14 +54,14 @@ INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 
     pTI->uFlags |= TTF_ALWAYSTIP;
     pTI->hwnd = m_hWnd;
-    pTI->uId = (UINT)item;
+    pTI->uId = (UINT)item + 1;
     VERIFY(GetItemRect(item, &pTI->rect, LVIR_BOUNDS));
     pTI->lpszText = LPSTR_TEXTCALLBACK;
 
     return pTI->uId;
 }
 
-BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CListCtrl)
+BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CMPCThemePlayerListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -78,9 +78,9 @@ BOOL CPPageExternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 // CPPageExternalFilters dialog
 
-IMPLEMENT_DYNAMIC(CPPageExternalFilters, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageExternalFilters, CMPCThemePPageBase)
 CPPageExternalFilters::CPPageExternalFilters()
-    : CPPageBase(CPPageExternalFilters::IDD, CPPageExternalFilters::IDD)
+    : CMPCThemePPageBase(CPPageExternalFilters::IDD, CPPageExternalFilters::IDD)
     , m_pLastSelFilter(nullptr)
     , m_iLoadType(FilterOverride::PREFERRED)
 {
@@ -97,6 +97,7 @@ void CPPageExternalFilters::DoDataExchange(CDataExchange* pDX)
     DDX_Radio(pDX, IDC_RADIO1, m_iLoadType);
     DDX_Control(pDX, IDC_EDIT1, m_dwMerit);
     DDX_Control(pDX, IDC_TREE1, m_tree);
+    m_tree.fulfillThemeReqs();
 }
 
 void CPPageExternalFilters::Exchange(CListCtrl& list, int i, int j)
@@ -317,7 +318,7 @@ void CPPageExternalFilters::SetupSubTypes(CAtlArray<GUID>& guids)
     guids.Add(MEDIASUBTYPE_WAVE_DTS);
 }
 
-BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageExternalFilters, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateFilter)
     ON_UPDATE_COMMAND_UI(IDC_RADIO1, OnUpdateFilter)
     ON_UPDATE_COMMAND_UI(IDC_RADIO2, OnUpdateFilter)
@@ -358,7 +359,8 @@ BOOL CPPageExternalFilters::OnInitDialog()
     __super::OnInitDialog();
 
     m_filters.InsertColumn(0, _T(""));
-    m_filters.SetExtendedStyle(m_filters.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
+    m_filters.SetExtendedStyle(m_filters.GetExtendedStyle() | LVS_EX_CHECKBOXES /*| LVS_EX_DOUBLEBUFFER*/);
+    m_filters.setAdditionalStyles(LVS_EX_DOUBLEBUFFER);
 
     m_dropTarget.Register(this);
 
@@ -926,7 +928,7 @@ BOOL CPPageExternalFilters::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pRe
 {
     TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-    int nIndex = (int)pNMHDR->idFrom;
+    int nIndex = (int)pNMHDR->idFrom - 1;
     if (0 <= nIndex && nIndex < m_filters.GetItemCount()) {
         if (POSITION pos = (POSITION)m_filters.GetItemData(nIndex)) {
             CAutoPtr<FilterOverride>& f = m_pFilters.GetAt(pos);

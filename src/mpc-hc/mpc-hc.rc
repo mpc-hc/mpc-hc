@@ -8,7 +8,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
-
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -32,8 +31,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
+    "#include ""afxres.h""\0"
 END
 
 3 TEXTINCLUDE 
@@ -390,7 +388,7 @@ BEGIN
     GROUPBOX        "Association",IDC_STATIC3,5,157,286,26
     CONTROL         "Use the format-specific icons",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,169,190,8
     PUSHBUTTON      "Run as &administrator",IDC_BUTTON1,10,166,135,14
-    PUSHBUTTON      "Set as &default program",IDC_BUTTON7,202,160,85,20,BS_MULTILINE
+    PUSHBUTTON      "Set as &default program",IDC_BUTTON7,201,163,85,14,BS_MULTILINE
     GROUPBOX        "Real-Time Streaming Protocol handler (for rtsp://... URLs)",IDC_STATIC,5,186,286,24
     CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,198,50,8
     CONTROL         "QuickTime",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,64,198,50,8
@@ -458,34 +456,34 @@ BEGIN
     PUSHBUTTON      "Reset List",IDC_BUTTON8,221,222,70,14
 END
 
-IDD_FILEPROPDETAILS DIALOGEX 0, 0, 234, 202
+IDD_FILEPROPDETAILS DIALOGEX 0, 0, 284, 252
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
+    ICON            "",IDC_DEFAULTICON,5,5,20,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,268,1
     LTEXT           "Type:",IDC_STATIC,10,36,60,8
-    EDITTEXT        IDC_EDIT4,72,36,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT4,72,36,206,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Size:",IDC_STATIC,10,51,60,8
-    EDITTEXT        IDC_EDIT3,72,51,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT3,72,51,204,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Media length:",IDC_STATIC,10,66,60,8
-    EDITTEXT        IDC_EDIT2,72,66,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT2,72,66,203,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Video size:",IDC_STATIC,10,81,60,8
-    EDITTEXT        IDC_EDIT5,72,81,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_EDIT5,72,81,205,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Created:",IDC_STATIC,10,96,60,8
-    EDITTEXT        IDC_EDIT6,72,96,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,111,211,1
-    EDITTEXT        IDC_EDIT7,10,115,213,77,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_EDIT6,72,96,205,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,111,268,1
+    EDITTEXT        IDC_EDIT7,10,115,267,131,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
 END
 
-IDD_FILEPROPCLIP DIALOGEX 0, 0, 234, 202
+IDD_FILEPROPCLIP DIALOGEX 0, 0, 284, 252
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
+    ICON            "",IDC_DEFAULTICON,5,5,20,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,268,1
     LTEXT           "Clip:",IDC_STATIC,10,36,50,8
     EDITTEXT        IDC_EDIT4,62,36,162,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Author:",IDC_STATIC,10,51,50,8
@@ -494,19 +492,19 @@ BEGIN
     EDITTEXT        IDC_EDIT2,62,66,162,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Rating:",IDC_STATIC,10,81,50,8
     EDITTEXT        IDC_EDIT5,62,81,162,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,96,212,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,96,268,1
     LTEXT           "Location:",IDC_STATIC,10,102,50,8
     EDITTEXT        IDC_EDIT6,62,102,162,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,117,212,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,117,268,1
     LTEXT           "Description:",IDC_STATIC,10,121,50,8
-    EDITTEXT        IDC_EDIT7,62,121,162,71,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT7,62,121,214,124,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
 END
 
-IDD_FILEMEDIAINFO DIALOGEX 0, 0, 234, 202
+IDD_FILEMEDIAINFO DIALOGEX 0, 0, 284, 252
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_MIEDIT,0,0,233,201,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL | NOT WS_TABSTOP
+    EDITTEXT        IDC_MIEDIT,0,0,283,252,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL | NOT WS_TABSTOP
 END
 
 IDD_FAVADD DIALOGEX 0, 0, 252, 84
@@ -533,7 +531,7 @@ BEGIN
     PUSHBUTTON      "Move Up",IDC_BUTTON3,214,43,58,14
     PUSHBUTTON      "Move Down",IDC_BUTTON4,214,58,58,14
     PUSHBUTTON      "Delete",IDC_BUTTON2,214,84,58,14
-    DEFPUSHBUTTON   "OK",IDOK,214,151,58,14
+    DEFPUSHBUTTON   "OK",IDOK,214,148,58,14
 END
 
 IDD_PNSPRESET_DLG DIALOGEX 0, 0, 210, 120
@@ -751,9 +749,9 @@ BEGIN
     CONTROL         "Internal:",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,5,207,59,8
     CONTROL         "External:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,5,224,58,8
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_ARROWKEYS | UDS_HORZ,64,205,36,13
-    RTEXT           "",IDC_AUTHOR,100,207,190,8
     EDITTEXT        IDC_LOGOFILENAME,64,222,173,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "Browse...",IDC_BUTTON2,241,222,50,14
+    EDITTEXT        IDC_AUTHOR,103,205,187,13,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY
 END
 
 IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 241
@@ -856,15 +854,15 @@ BEGIN
     CONTROL         "",IDC_PROGRESS1,"msctls_progress32",PBS_SMOOTH,213,166,82,14
 END
 
-IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
+IDD_FILEPROPRES DIALOGEX 0, 0, 284, 252
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,35,221,144
-    PUSHBUTTON      "Save As...",IDC_BUTTON1,5,183,64,14
+    ICON            "",IDC_DEFAULTICON,5,5,20,20,SS_REALSIZEIMAGE
+    EDITTEXT        IDC_EDIT1,32,13,245,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,269,1
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,35,273,191
+    PUSHBUTTON      "Save As...",IDC_BUTTON1,5,231,64,14
 END
 
 IDD_PPAGEMISC DIALOGEX 0, 0, 296, 241
@@ -1268,6 +1266,10 @@ BEGIN
         VERTGUIDE, 62
     END
 
+    IDD_FILEMEDIAINFO, DIALOG
+    BEGIN
+    END
+
     IDD_FAVADD, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1291,6 +1293,10 @@ BEGIN
     BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 119
+    END
+
+    IDD_PPAGEINTERNALFILTERS, DIALOG
+    BEGIN
     END
 
     IDD_PPAGELOGO, DIALOG
@@ -1318,6 +1324,10 @@ BEGIN
     BEGIN
     END
 
+    IDD_FILEPROPRES, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEMISC, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1340,6 +1350,22 @@ BEGIN
         VERTGUIDE, 244
         VERTGUIDE, 288
         HORZGUIDE, 204
+    END
+
+    IDD_PPAGESUBMISC, DIALOG
+    BEGIN
+    END
+
+    IDD_UPDATE_DIALOG, DIALOG
+    BEGIN
+    END
+
+    IDD_PPAGESHADERS, DIALOG
+    BEGIN
+    END
+
+    IDD_DEBUGSHADERS_DLG, DIALOG
+    BEGIN
     END
 
     IDD_PPAGEADVANCED, DIALOG
@@ -1470,6 +1496,7 @@ BEGIN
         MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
         MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
         MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
+        MENUITEM "Dark Theme (restart)",        ID_VIEW_MPCTHEME
         POPUP "&Presets..."
         BEGIN
             MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
@@ -1831,6 +1858,7 @@ BEGIN
             MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
             MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
+            MENUITEM "Dark Theme (restart)",        ID_VIEW_MPCTHEME
             POPUP "&Presets..."
             BEGIN
                 MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
@@ -1957,6 +1985,7 @@ BEGIN
             MENUITEM "Captu&re",                    ID_VIEW_CAPTURE
             MENUITEM "Na&vigation",                 ID_VIEW_NAVIGATION
             MENUITEM "&Debug Shaders",              ID_VIEW_DEBUGSHADERS
+            MENUITEM "Dark Theme (restart)",        ID_VIEW_MPCTHEME
             POPUP "&Presets..."
             BEGIN
                 MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
@@ -2238,6 +2267,79 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// PNG
+//
+
+IDB_DT_CB_96            PNG                     "res\\darktheme\\checkboxes-96.png"
+
+IDB_DT_CB_120           PNG                     "res\\darktheme\\checkboxes-120.png"
+
+IDB_DT_CB_144           PNG                     "res\\darktheme\\checkboxes-144.png"
+
+IDB_DT_CB_192           PNG                     "res\\darktheme\\checkboxes-192.png"
+
+IDB_DT_RADIO_96         PNG                     "res\\darktheme\\radios-96.png"
+
+IDB_DT_RADIO_120        PNG                     "res\\darktheme\\radios-120.png"
+
+IDB_DT_RADIO_144        PNG                     "res\\darktheme\\radios-144.png"
+
+IDB_DT_RADIO_192        PNG                     "res\\darktheme\\radios-192.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SUBTITLEDL_DLG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FAVORGANIZE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PPAGEFORMATS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILEMEDIAINFO AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILEPROPCLIP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILEPROPDETAILS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_FILEPROPRES AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PPAGEEXTERNALFILTERS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PPAGELOGO AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
@@ -2291,7 +2393,6 @@ BEGIN
                             "Not supported by some devices. Two video decoders always present in the filter graph."
     IDS_PPAGE_CAPTURE_FGDESC1 
                             "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-    IDS_PPAGE_CAPTURE_FGDESC2 ""
     IDS_PPAGE_CAPTURE_SFG0  "Never if possible (fastest, but not supported by most filters)"
     IDS_PPAGE_CAPTURE_SFG1  "Only when switching different video types"
     IDS_PPAGE_CAPTURE_SFG2  "Always (may be required by some devices)"
@@ -3677,6 +3778,25 @@ BEGIN
     IDS_CMD_MONITOR         "/monitor N\tStart player on monitor N, where N starts from 1"
     IDS_CMD_AUDIORENDERER   "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see ""Output"" settings)"
     IDS_CMD_SHADERPRESET    "/shaderpreset ""Pr""\tStart using ""Pr"" shader preset"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MESSAGEBOX_CANCEL   "Cancel"
+    IDS_MESSAGEBOX_ABORT    "&Abort"
+    IDS_MESSAGEBOX_RETRY    "&Retry"
+    IDS_MESSAGEBOX_IGNORE   "&Ignore"
+    IDS_MESSAGEBOX_OK       "OK"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MESSAGEBOX_CONTINUE "&Continue"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_AG_TOGGLE_MPCTHEME  "Toggle Dark Theme"
 END
 
 #endif    // English (United States) resources

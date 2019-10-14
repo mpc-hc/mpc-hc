@@ -26,9 +26,9 @@
 
 // CPPageFileInfoRes dialog
 
-IMPLEMENT_DYNAMIC(CPPageFileInfoRes, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageFileInfoRes, CMPCThemePPageBase)
 CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
-    : CPPageBase(CPPageFileInfoRes::IDD, CPPageFileInfoRes::IDD)
+    : CMPCThemePPageBase(CPPageFileInfoRes::IDD, CPPageFileInfoRes::IDD)
     , m_hIcon(nullptr)
     , m_fn(path)
 {
@@ -77,7 +77,7 @@ void CPPageFileInfoRes::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-BEGIN_MESSAGE_MAP(CPPageFileInfoRes, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageFileInfoRes, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnSaveAs)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateSaveAs)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnOpenEmbeddedResInBrowser)
@@ -94,7 +94,8 @@ BOOL CPPageFileInfoRes::OnInitDialog()
         m_icon.SetIcon(m_hIcon);
     }
 
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    //m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT);
     m_list.InsertColumn(0, ResStr(IDS_EMB_RESOURCES_VIEWER_NAME), LVCFMT_LEFT, 187);
     m_list.InsertColumn(1, ResStr(IDS_EMB_RESOURCES_VIEWER_TYPE), LVCFMT_LEFT, 127);
     for (size_t i = 0, count = m_res.size(); i < count; i++) {

@@ -24,6 +24,7 @@
 #include "PlayerStatusBar.h"
 #include "MainFrm.h"
 #include "DSUtil.h"
+#include "CMPCTheme.h"
 
 // CPlayerStatusBar
 
@@ -57,13 +58,21 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 
     // Should never be RTLed
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
-
-    m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
-    m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
-    m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
-    m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
-    m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
-    m_tooltip.AddTool(&m_status);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        themedToolTip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        themedToolTip.SetDelayTime(TTDT_INITIAL, 0);
+        themedToolTip.SetDelayTime(TTDT_AUTOPOP, 2500);
+        themedToolTip.SetDelayTime(TTDT_RESHOW, 0);
+        themedToolTip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
+        themedToolTip.AddTool(&m_status);
+    } else {
+        m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
+        m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
+        m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
+        m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
+        m_tooltip.AddTool(&m_status);
+    }
 
     return ret;
 }
@@ -393,7 +402,15 @@ void CPlayerStatusBar::OnPaint()
         r.InflateRect(1, 0, 1, 0);
     }
 
-    dc.Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT));
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        dc.FillSolidRect(&r, CMPCTheme::NoBorderColor);
+        CRect top(r.left, r.top, r.right, r.top+1);
+        dc.FillSolidRect(&top, CMPCTheme::WindowBGColor);
+    } else {
+        dc.Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT));
+    }
+
 
     r.DeflateRect(1, 1);
 
@@ -491,7 +508,11 @@ HBRUSH CPlayerStatusBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
 {
-    m_tooltip.RelayEvent(pMsg);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        themedToolTip.RelayEvent(pMsg);
+    } else {
+        m_tooltip.RelayEvent(pMsg);
+    }
 
     return __super::PreTranslateMessage(pMsg);
 }
@@ -529,6 +550,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
     }
     m_timerMenu.AppendMenu(nFlags, HIGH_PRECISION, ResStr(IDS_TIMER_HIGH_PRECISION));
 
+    m_timerMenu.fulfillThemeReqs();
     switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
         case REMAINING_TIME:
             s.fRemainingTime = !s.fRemainingTime;

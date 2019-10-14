@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "PlayerBar.h"
-#include "PlayerListCtrl.h"
+#include "CMPCThemePlayerBar.h"
+#include "CMPCThemePlayerListCtrl.h"
 #include "../Subtitles/STS.h"
 #include "../Subtitles/VobSubFile.h"
 #include <map>
@@ -34,7 +34,9 @@ interface ISubStream;
 
 // CPlayerSubresyncBar
 
-class CPlayerSubresyncBar : public CPlayerBar
+
+class CPlayerSubresyncBar : public CMPCThemePlayerBar
+    ,public CMPCThemeListCtrlCustomInterface
 {
     DECLARE_DYNAMIC(CPlayerSubresyncBar)
 
@@ -42,7 +44,7 @@ private:
     CString m_strYes, m_strNo;
     CString m_strYesMenu, m_strNoMenu;
 
-    CPlayerListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
 
     CMainFrame* m_pMainFrame;
 
@@ -151,6 +153,9 @@ public:
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual void GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk);
+    virtual void DoCustomPrePaint();
+    virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor);
 
     bool HandleShortCuts(const MSG* pMsg);
 
@@ -165,5 +170,5 @@ protected:
     afx_msg void OnRclickList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLvnKeydownList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
+    void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
 };

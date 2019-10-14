@@ -24,9 +24,9 @@
 // CPPageLogo dialog
 
 #include "MPCPngImage.h"
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
 
-class CPPageLogo : public CPPageBase
+class CPPageLogo : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageLogo)
 

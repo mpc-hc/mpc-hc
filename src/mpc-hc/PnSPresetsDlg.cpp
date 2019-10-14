@@ -26,9 +26,9 @@
 
 // CPnSPresetsDlg dialog
 
-IMPLEMENT_DYNAMIC(CPnSPresetsDlg, CCmdUIDialog)
+IMPLEMENT_DYNAMIC(CPnSPresetsDlg, CMPCThemeCmdUIDialog)
 CPnSPresetsDlg::CPnSPresetsDlg(CWnd* pParent /*=nullptr*/)
-    : CCmdUIDialog(CPnSPresetsDlg::IDD, pParent)
+    : CMPCThemeCmdUIDialog(CPnSPresetsDlg::IDD, pParent)
 {
 }
 
@@ -45,6 +45,7 @@ void CPnSPresetsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT5, m_ZoomY);
     DDX_Text(pDX, IDC_EDIT1, m_label);
     DDX_Control(pDX, IDC_LIST1, m_list);
+    fulfillThemeReqs();
 }
 
 BOOL CPnSPresetsDlg::OnInitDialog()
@@ -108,7 +109,7 @@ CString CPnSPresetsDlg::ParamsToString(CString label, double PosX, double PosY, 
     return str;
 }
 
-BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CCmdUIDialog)
+BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CMPCThemeCmdUIDialog)
     ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButton2)

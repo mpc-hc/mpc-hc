@@ -23,8 +23,11 @@
 #include "EventDispatcher.h"
 #include "PPageBase.h"
 #include "Shaders.h"
+#include "CMPCThemePPageBase.h"
+#include "CMPCThemeListBox.h"
+#include "CMPCThemeComboBox.h"
 
-class CShaderListBox : public CListBox
+class CShaderListBox : public CMPCThemeListBox
 {
 public:
     CShaderListBox();
@@ -58,8 +61,9 @@ protected:
     DECLARE_MESSAGE_MAP();
 };
 
-class CPPageShaders : public CPPageBase
+class CPPageShaders : public CMPCThemePPageBase
 {
+    DECLARE_DYNAMIC(CPPageShaders)
 public:
     CPPageShaders();
 
@@ -71,7 +75,7 @@ private:
 
 protected:
     CShaderListBox m_Shaders, m_PreResize, m_PostResize;
-    CComboBox m_PresetsBox;
+    CMPCThemeComboBox m_PresetsBox;
     ShaderSelection::ShaderPresetMap m_Presets;
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
@@ -109,4 +113,6 @@ protected:
     void OnUpdateRemoveShader(CCmdUI* pCmdUI);
 
     DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnLbnSelchangeList1();
 };

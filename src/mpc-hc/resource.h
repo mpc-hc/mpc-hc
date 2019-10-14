@@ -585,6 +585,21 @@
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
 #define IDD_CRASH_REPORTER              20017
+#define IDB_DT_CB_96                    20050
+#define IDB_DT_CB_120                   20051
+#define IDB_DT_CB_144                   20052
+#define IDB_DT_CB_192                   20053
+#define IDB_DT_RADIO_96                 20054
+#define IDB_DT_RADIO_120                20055
+#define IDB_DT_RADIO_144                20056
+#define IDB_DT_RADIO_129                20057
+#define IDB_DT_RADIO_192                20057
+#define IDS_MESSAGEBOX_CANCEL           20059
+#define IDS_MESSAGEBOX_ABORT            20060
+#define IDS_MESSAGEBOX_RETRY            20061
+#define IDS_MESSAGEBOX_IGNORE           20062
+#define IDS_MESSAGEBOX_OK               20063
+#define IDS_MESSAGEBOX_CONTINUE         20064
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -683,6 +698,10 @@
 #define ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC 24042
 #define ID_VIEW_HALFFLOATINGPOINTPROCESSING 24043
 #define ID_FILE_RECYCLE                 24044
+#define ID_VIEW_MPCTHEME                24045
+#define IDS_AG_TOGGLE_MPCTHEME          24046
+#define PLAYER_PLAYLIST_LVN_ITEMCHANGED 24048
+#define IDF_LOGO4                       24050
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
@@ -1579,9 +1598,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20018
+#define _APS_NEXT_RESOURCE_VALUE        20065
 #define _APS_NEXT_COMMAND_VALUE         33452
-#define _APS_NEXT_CONTROL_VALUE         22086
-#define _APS_NEXT_SYMED_VALUE           24044
+#define _APS_NEXT_CONTROL_VALUE         22087
+#define _APS_NEXT_SYMED_VALUE           24051
 #endif
 #endif

@@ -23,6 +23,9 @@
 #include "mplayerc.h"
 #include "PPageSheet.h"
 #include "SettingsDefines.h"
+#include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
+#include <prsht.h>
 
 // CPPageSheet
 
@@ -80,10 +83,24 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
             }
         }
     }
+
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        CMPCThemeUtil::ModifyTemplates(this, RUNTIME_CLASS(CPPageShaders), IDC_LIST1, LBS_OWNERDRAWFIXED | LBS_HASSTRINGS);
+        CMPCThemeUtil::ModifyTemplates(this, RUNTIME_CLASS(CPPageShaders), IDC_LIST2, LBS_OWNERDRAWFIXED | LBS_HASSTRINGS);
+        CMPCThemeUtil::ModifyTemplates(this, RUNTIME_CLASS(CPPageShaders), IDC_LIST3, LBS_OWNERDRAWFIXED | LBS_HASSTRINGS);
+        CMPCThemeUtil::ModifyTemplates(this, RUNTIME_CLASS(CPPageDVD), IDC_LIST1, LBS_OWNERDRAWFIXED | LBS_HASSTRINGS);
+        CMPCThemeUtil::ModifyTemplates(this, RUNTIME_CLASS(CPPageExternalFilters), IDC_LIST1, LBS_OWNERDRAWFIXED | LBS_HASSTRINGS);
+    }
+
 }
 
-CPPageSheet::~CPPageSheet()
-{
+CPPageSheet::~CPPageSheet() {
+}
+
+void CPPageSheet::fulfillThemeReqs() {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
+    }
 }
 
 void CPPageSheet::EventCallback(MpcEvent ev)
@@ -97,15 +114,38 @@ void CPPageSheet::EventCallback(MpcEvent ev)
     }
 }
 
-CTreeCtrl* CPPageSheet::CreatePageTreeObject()
+CMPCThemeTreeCtrl* CPPageSheet::CreatePageTreeObject()
 {
-    return DEBUG_NEW CTreePropSheetTreeCtrl();
+    return DEBUG_NEW CMPCThemeTreeCtrl();
 }
+
+void CPPageSheet::SetTreeCtrlTheme(CTreeCtrl * ctrl) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        ((CMPCThemeTreeCtrl*)ctrl)->fulfillThemeReqs();
+    } else {
+        __super::SetTreeCtrlTheme(ctrl);
+    }
+}
+
+void CPPageSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        CDC* pDC = GetDC();
+        CMPCThemeUtil::getFontByType(tabFont, pDC, CMPCThemeUtil::CaptionFont);
+        ctrl->SetFont(&tabFont);
+        ReleaseDC(pDC);
+    } else {
+        __super::SetTabCtrlFont(ctrl);
+    }
+}
+
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
     ON_WM_CONTEXTMENU()
     ON_COMMAND(ID_APPLY_NOW, OnApply)
+    ON_WM_CTLCOLOR()
+    ON_WM_DRAWITEM()
 END_MESSAGE_MAP()
+
 
 BOOL CPPageSheet::OnInitDialog()
 {
@@ -121,6 +161,7 @@ BOOL CPPageSheet::OnInitDialog()
         GetPageTreeControl()->EnableWindow(FALSE);
     }
 
+    fulfillThemeReqs();
     return bResult;
 }
 
@@ -140,6 +181,31 @@ void CPPageSheet::OnApply()
         EndDialog(APPLY_LANGUAGE_CHANGE);
     }
 }
+
+TreePropSheet::CPropPageFrame* CPPageSheet::CreatePageFrame() {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        return DEBUG_NEW CMPCThemePropPageFrame;
+    } else {
+        return __super::CreatePageFrame();
+    }
+}
+
+
+HBRUSH CPPageSheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        LRESULT lResult;
+        if (pWnd->SendChildNotifyLastMsg(&lResult)) {
+            return (HBRUSH)lResult;
+        }
+        pDC->SetTextColor(CMPCTheme::TextFGColor);
+        pDC->SetBkColor(CMPCTheme::ControlAreaBGColor);
+        return controlAreaBrush;
+    } else {
+        HBRUSH hbr = __super::OnCtlColor(pDC, pWnd, nCtlColor);
+        return hbr;
+    }
+}
+
 
 // CTreePropSheetTreeCtrl
 

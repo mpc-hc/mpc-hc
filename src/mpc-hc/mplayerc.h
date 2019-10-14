@@ -32,6 +32,7 @@
 #include "resource.h"
 
 #include <atlsync.h>
+#include <afxwinappex.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include <vmr9.h>
@@ -100,7 +101,7 @@ struct COLORPROPERTY_RANGE {
 
 class CAppSettings;
 
-class CMPlayerCApp : public CWinApp
+class CMPlayerCApp : public CWinAppEx
 {
     HMODULE m_hNTDLL;
 
@@ -127,6 +128,8 @@ class CMPlayerCApp : public CWinApp
 public:
     CMPlayerCApp();
     ~CMPlayerCApp();
+
+	int DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt);
 
     EventRouter m_eventd;
 

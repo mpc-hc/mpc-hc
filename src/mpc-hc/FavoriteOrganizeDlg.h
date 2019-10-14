@@ -23,12 +23,13 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
-#include "ResizableLib/ResizableDialog.h"
-
+#include "CMPCThemeResizableDialog.h"
+#include "CMPCThemeTabCtrl.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 // CFavoriteOrganizeDlg dialog
 
-class CFavoriteOrganizeDlg : public CResizableDialog
+class CFavoriteOrganizeDlg : public CMPCThemeResizableDialog
 {
     //  DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
 
@@ -44,8 +45,8 @@ public:
     // Dialog Data
     enum { IDD = IDD_FAVORGANIZE };
 
-    CTabCtrl m_tab;
-    CListCtrl m_list;
+    CMPCThemeTabCtrl m_tab;
+    CMPCThemePlayerListCtrl m_list;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

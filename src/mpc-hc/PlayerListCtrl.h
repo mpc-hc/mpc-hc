@@ -22,6 +22,7 @@
 #pragma once
 
 #include "WinHotkeyCtrl.h"
+#include "CMPCThemeComboBox.h"
 
 #define LVN_DOLABELEDIT (LVN_FIRST+1)
 
@@ -87,7 +88,7 @@ public:
     afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
-class CInPlaceComboBox : public CComboBox
+class CInPlaceComboBox : public CMPCThemeComboBox
 {
 private:
     int m_iItem;
@@ -169,7 +170,6 @@ public:
     bool m_fInPlaceDirty;
 
 protected:
-    virtual void PreSubclassWindow();
     virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
     virtual ULONG GetGestureStatus(CPoint) override { return 0; };
 

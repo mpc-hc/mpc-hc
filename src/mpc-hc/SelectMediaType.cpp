@@ -27,9 +27,9 @@
 
 // CSelectMediaType dialog
 
-IMPLEMENT_DYNAMIC(CSelectMediaType, CCmdUIDialog)
+IMPLEMENT_DYNAMIC(CSelectMediaType, CMPCThemeCmdUIDialog)
 CSelectMediaType::CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent /*=nullptr*/)
-    : CCmdUIDialog(CSelectMediaType::IDD, pParent)
+    : CMPCThemeCmdUIDialog(CSelectMediaType::IDD, pParent)
     , m_guids(guids)
     , m_guid(guid)
 {
@@ -45,10 +45,11 @@ void CSelectMediaType::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_CBString(pDX, IDC_COMBO1, m_guidstr);
     DDX_Control(pDX, IDC_COMBO1, m_guidsctrl);
+    fulfillThemeReqs();
 }
 
 
-BEGIN_MESSAGE_MAP(CSelectMediaType, CCmdUIDialog)
+BEGIN_MESSAGE_MAP(CSelectMediaType, CMPCThemeCmdUIDialog)
     ON_CBN_EDITCHANGE(IDC_COMBO1, OnCbnEditchangeCombo1)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOK)
 END_MESSAGE_MAP()
@@ -58,7 +59,7 @@ END_MESSAGE_MAP()
 
 BOOL CSelectMediaType::OnInitDialog()
 {
-    CCmdUIDialog::OnInitDialog();
+    CMPCThemeCmdUIDialog::OnInitDialog();
 
     for (size_t i = 0; i < m_guids.GetCount(); i++) {
         m_guidsctrl.AddString(GetMediaTypeName(m_guids[i]));
@@ -93,5 +94,5 @@ void CSelectMediaType::OnOK()
     int i = m_guidsctrl.GetCurSel();
     m_guid = i >= 0 ? m_guids[i] : GUIDFromCString(m_guidstr);
 
-    CCmdUIDialog::OnOK();
+    CMPCThemeCmdUIDialog::OnOK();
 }

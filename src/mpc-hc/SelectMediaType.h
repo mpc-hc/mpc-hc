@@ -22,12 +22,12 @@
 #pragma once
 
 #include <afxwin.h>
-#include "ResizableLib/ResizableDialog.h"
-
+#include "CMPCThemeCmdUIDialog.h"
+#include "CMPCThemeComboBox.h"
 
 // CSelectMediaType dialog
 
-class CSelectMediaType : public CCmdUIDialog
+class CSelectMediaType : public CMPCThemeCmdUIDialog
 {
     DECLARE_DYNAMIC(CSelectMediaType)
 
@@ -43,7 +43,7 @@ public:
     // Dialog Data
     enum { IDD = IDD_SELECTMEDIATYPE };
     CString m_guidstr;
-    CComboBox m_guidsctrl;
+    CMPCThemeComboBox m_guidsctrl;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

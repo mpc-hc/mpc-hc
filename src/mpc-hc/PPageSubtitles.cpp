@@ -28,9 +28,9 @@
 
 // CPPageSubtitles dialog
 
-IMPLEMENT_DYNAMIC(CPPageSubtitles, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageSubtitles, CMPCThemePPageBase)
 CPPageSubtitles::CPPageSubtitles()
-    : CPPageBase(CPPageSubtitles::IDD, CPPageSubtitles::IDD)
+    : CMPCThemePPageBase(CPPageSubtitles::IDD, CPPageSubtitles::IDD)
     , m_bOverridePlacement(FALSE)
     , m_nHorPos(0)
     , m_nVerPos(0)
@@ -70,7 +70,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageSubtitles, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageSubtitles, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT2, OnUpdatePosOverride)
     ON_UPDATE_COMMAND_UI(IDC_SPIN2, OnUpdatePosOverride)
     ON_UPDATE_COMMAND_UI(IDC_EDIT3, OnUpdatePosOverride)

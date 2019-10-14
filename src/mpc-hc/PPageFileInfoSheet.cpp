@@ -24,13 +24,14 @@
 #include "MainFrm.h"
 #include "PPageFileInfoSheet.h"
 #include "PPageFileMediaInfo.h"
+#include "CMPCTheme.h"
 
 
 // CPPageFileInfoSheet
 
-IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
+IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CMPCThemePropertySheet)
 CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, CWnd* pParentWnd)
-    : CPropertySheet(IDS_PROPSHEET_PROPERTIES, pParentWnd, 0)
+    : CMPCThemePropertySheet(IDS_PROPSHEET_PROPERTIES, pParentWnd, 0)
     , m_clip(path, pMainFrame->m_pGB, pMainFrame->m_pFSF, pMainFrame->m_pDVDI)
     , m_details(path, pMainFrame->m_pGB, pMainFrame->m_pCAP, pMainFrame->m_pFSF, pMainFrame->m_pDVDI)
     , m_res(path, pMainFrame->m_pGB, pMainFrame->m_pFSF)
@@ -53,7 +54,7 @@ CPPageFileInfoSheet::~CPPageFileInfoSheet()
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageFileInfoSheet, CPropertySheet)
+BEGIN_MESSAGE_MAP(CPPageFileInfoSheet, CMPCThemePropertySheet)
     ON_BN_CLICKED(IDC_BUTTON_MI, OnSaveAs)
 END_MESSAGE_MAP()
 

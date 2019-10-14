@@ -27,9 +27,9 @@
 
 // CPPageSubStyle dialog
 
-IMPLEMENT_DYNAMIC(CPPageSubStyle, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageSubStyle, CMPCThemePPageBase)
 CPPageSubStyle::CPPageSubStyle()
-    : CPPageBase(CPPageSubStyle::IDD, CPPageSubStyle::IDD)
+    : CMPCThemePPageBase(CPPageSubStyle::IDD, CPPageSubStyle::IDD)
     , m_stss(AfxGetAppSettings().subtitlesDefStyle)
     , m_bDefaultStyle(true)
     , m_iCharset(0)
@@ -73,7 +73,7 @@ void CPPageSubStyle::AskColor(int i)
 
 void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
 {
-    CPPageBase::DoDataExchange(pDX);
+    CMPCThemePPageBase::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_BUTTON1, m_font);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iCharset);
     DDX_Control(pDX, IDC_COMBO1, m_cbCharset);
@@ -116,7 +116,7 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageSubStyle, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageSubStyle, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnChooseFont)
     ON_BN_CLICKED(IDC_COLORPRI, OnChoosePrimaryColor)
     ON_BN_CLICKED(IDC_COLORSEC, OnChooseSecondaryColor)

@@ -24,18 +24,20 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageAudioSwitcher.h"
+#include "CMPCTheme.h"
+#include "CMPCThemeHeaderCtrl.h"
 
 
 // CPPageAudioSwitcher dialog
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
-IMPLEMENT_DYNAMIC(CPPageAudioSwitcher, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageAudioSwitcher, CMPCThemePPageBase)
 CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
 #ifdef MPCHC_LITE
-    : CPPageBase(CPPageAudioSwitcher::IDD, IDS_AUDIOSWITCHER)
+    : CMPCThemePPageBase(CPPageAudioSwitcher::IDD, IDS_AUDIOSWITCHER)
 #else
-    : CPPageBase(CPPageAudioSwitcher::IDD, CPPageAudioSwitcher::IDD)
+    : CMPCThemePPageBase(CPPageAudioSwitcher::IDD, CPPageAudioSwitcher::IDD)
 #endif
     , m_pSpeakerToChannelMap()
     , m_dwChannelMask(0)
@@ -88,7 +90,7 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK4, m_fAudioTimeShiftCtrl);
 }
 
-BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CMPCThemePPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
     ON_WM_DRAWITEM()
     ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
@@ -142,6 +144,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
     m_nChannels = s.nSpeakerChannels;
     m_nChannelsSpinCtrl.SetRange(1, AS_MAX_CHANNELS);
 
+    m_list.setAdditionalStyles(0); //cleans up styles if necessary for mpc theme
     m_list.InsertColumn(0, _T(""), LVCFMT_LEFT, 100);
     m_list.InsertItem(0, _T(""));
     m_list.InsertItem(1, ResStr(IDS_FRONT_LEFT));
@@ -173,7 +176,17 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
         //      m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
     }
 
-    EnableToolTips(TRUE);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        themedToolTip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        themedToolTip.Activate(TRUE);
+        themedToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
+        //must add manually the ones we support.
+        themedToolTip.AddTool(GetDlgItem(IDC_SLIDER1), LPSTR_TEXTCALLBACK);
+        themedToolTip.AddTool(GetDlgItem(IDC_EDIT2), LPSTR_TEXTCALLBACK);
+        themedToolTip.AddTool(GetDlgItem(IDC_SPIN2), LPSTR_TEXTCALLBACK);
+    } else {
+        EnableToolTips(TRUE);
+    }
     m_tooltip.Create(this);
     m_tooltip.Activate(TRUE);
 
@@ -256,7 +269,24 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 
     pDC->SetBkMode(TRANSPARENT);
 
-    CPen p(PS_INSIDEFRAME, 1, 0xe0e0e0);
+    COLORREF frameClr, textClr, textDisabledClr, textNAClr;
+    COLORREF oldBkColor = pDC->GetBkColor();
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        frameClr = CMPCTheme::AudioSwitcherGridColor;
+        textClr = CMPCTheme::TextFGColor;
+        textDisabledClr = CMPCTheme::ContentTextDisabledFGColorFade;
+        textNAClr = CMPCTheme::ContentTextDisabledFGColorFade2;
+        pDC->SetBkColor(CMPCTheme::ContentBGColor);
+        CRect bgRect = lpDrawItemStruct->rcItem;
+        pDC->FillSolidRect(bgRect, CMPCTheme::ContentBGColor);
+    } else {
+        frameClr = 0xe0e0e0;
+        textClr = 0;
+        textDisabledClr = 0xb0b0b0;
+        textNAClr = 0xe0e0e0;
+    }
+
+    CPen p(PS_INSIDEFRAME, 1, frameClr);
     CPen* old = pDC->SelectObject(&p);
 
     pDC->MoveTo(lpDrawItemStruct->rcItem.left, lpDrawItemStruct->rcItem.bottom - 1);
@@ -282,11 +312,11 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
                 pDC->MoveTo(0, 0);
                 pDC->LineTo(r.right, r.bottom - 1);
             } else {
-                pDC->SetTextColor(m_list.IsWindowEnabled() ? 0 : 0xb0b0b0);
+                pDC->SetTextColor(m_list.IsWindowEnabled() ? textClr : textDisabledClr);
                 pDC->TextOut(r.left + 1, (r.top + r.bottom - s.cy) / 2, m_list.GetItemText(lpDrawItemStruct->itemID, i));
             }
         } else {
-            pDC->SetTextColor(i > m_nChannels ? 0xe0e0e0 : (!m_list.IsWindowEnabled() ? 0xb0b0b0 : 0));
+            pDC->SetTextColor(i > m_nChannels ? textNAClr : (!m_list.IsWindowEnabled() ? textDisabledClr : textClr));
 
             if (lpDrawItemStruct->itemID == 0) {
                 pDC->TextOut((r.left + r.right - s.cx) / 2, (r.top + r.bottom - s.cy) / 2, m_list.GetItemText(lpDrawItemStruct->itemID, i));
@@ -303,7 +333,7 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
                     if (nBitsSet == i) {
                         COLORREF tmp = pDC->GetTextColor();
 
-                        pDC->SetTextColor(0xe0e0e0);
+                        pDC->SetTextColor(textNAClr);
                         CFont f;
                         f.CreatePointFont(MulDiv(100, 96, pDC->GetDeviceCaps(LOGPIXELSX)), _T("Marlett"));
                         CFont* old2 = pDC->SelectObject(&f);
@@ -327,6 +357,7 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
         }
     }
 
+    pDC->SetBkColor(oldBkColor);
     pDC->SelectObject(old);
 }
 
@@ -410,4 +441,13 @@ void CPPageAudioSwitcher::OnCancel()
     }
 
     __super::OnCancel();
+}
+
+BOOL CPPageAudioSwitcher::PreTranslateMessage(MSG* pMsg) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (IsWindow(themedToolTip)) {
+            themedToolTip.RelayEvent(pMsg);
+        }
+    }
+    return __super::PreTranslateMessage(pMsg);
 }

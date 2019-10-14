@@ -130,7 +130,7 @@ protected:
     CComPtr<IApplicationAssociationRegistration> m_pAAR;
 
     std::mutex m_checkIconsAssocMutex;
-    ::CEvent m_checkIconsAssocInactiveEvent;
+    ATL::CEvent m_checkIconsAssocInactiveEvent;
 
     std::array<Handler, 4> m_handlers;
 };

@@ -30,7 +30,7 @@
 
 //IMPLEMENT_DYNAMIC(CMediaTypesDlg, CResizableDialog)
 CMediaTypesDlg::CMediaTypesDlg(IGraphBuilderDeadEnd* pGBDE, CWnd* pParent /*=nullptr*/)
-    : CResizableDialog(CMediaTypesDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(CMediaTypesDlg::IDD, pParent)
     , m_pGBDE(pGBDE)
     , m_type(UNKNOWN)
     , m_subtype(GUID_NULL)
@@ -75,7 +75,7 @@ void CMediaTypesDlg::AddMediaType(const AM_MEDIA_TYPE* pmt)
     }
 }
 
-BEGIN_MESSAGE_MAP(CMediaTypesDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(CMediaTypesDlg, CMPCThemeResizableDialog)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
 
@@ -106,6 +106,7 @@ BOOL CMediaTypesDlg::OnInitDialog()
     AddAnchor(IDOK, BOTTOM_RIGHT);
 
     SetMinTrackSize(CSize(300, 200));
+    fulfillThemeReqs();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

@@ -512,9 +512,9 @@ static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd =
 
 // CPlayerCaptureDialog dialog
 
-//IMPLEMENT_DYNAMIC(CPlayerCaptureDialog, CResizableDialog)
+//IMPLEMENT_DYNAMIC(CPlayerCaptureDialog, CMPCThemeResizableDialog)
 CPlayerCaptureDialog::CPlayerCaptureDialog(CMainFrame* pMainFrame)
-    : CResizableDialog(CPlayerCaptureDialog::IDD, nullptr)
+    : CMPCThemeResizableDialog(CPlayerCaptureDialog::IDD, nullptr)
     , m_pMainFrame(pMainFrame)
     , m_bInitialized(false)
     , m_vidfps(0)
@@ -577,11 +577,13 @@ void CPlayerCaptureDialog::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK4, m_audpreview);
     DDX_Text(pDX, IDC_EDIT4, m_file);
     DDX_Control(pDX, IDC_BUTTON2, m_recordbtn);
+    DDX_Control(pDX, IDC_BUTTON3, m_openFile);
     DDX_Text(pDX, IDC_EDIT5, m_nVidBuffers);
     DDX_Text(pDX, IDC_EDIT6, m_nAudBuffers);
     DDX_Check(pDX, IDC_CHECK5, m_fSepAudio);
     DDX_CBIndex(pDX, IDC_COMBO14, m_muxtype);
     DDX_Control(pDX, IDC_COMBO14, m_muxctrl);
+    fulfillThemeReqs();
 }
 
 BOOL CPlayerCaptureDialog::PreTranslateMessage(MSG* pMsg)
@@ -1300,7 +1302,7 @@ int CPlayerCaptureDialog::GetAudioInput() const
     return (int)m_audinput.GetItemData(i);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerCaptureDialog, CResizableDialog)
+BEGIN_MESSAGE_MAP(CPlayerCaptureDialog, CMPCThemeResizableDialog)
     ON_WM_DESTROY()
     ON_CBN_SELCHANGE(IDC_COMBO4, OnVideoInput)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnVideoType)

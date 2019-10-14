@@ -31,14 +31,16 @@
 #include "WinapiFunc.h"
 #include <afxole.h>
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+CAboutDlg::CAboutDlg() : CMPCThemeDialog(CAboutDlg::IDD)
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
+}
+
+CAboutDlg::~CAboutDlg() {
 }
 
 BOOL CAboutDlg::OnInitDialog()
@@ -179,6 +181,7 @@ BOOL CAboutDlg::OnInitDialog()
     UpdateData(FALSE);
 
     GetDlgItem(IDOK)->SetFocus();
+    fulfillThemeReqs();
 
     return FALSE;
 }
@@ -203,7 +206,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_STATIC4, m_OSVersion);
 }
 
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
+BEGIN_MESSAGE_MAP(CAboutDlg, CMPCThemeDialog)
     //{{AFX_MSG_MAP(CAboutDlg)
     // No message handlers
     //}}AFX_MSG_MAP
@@ -307,3 +310,5 @@ void CAboutDlg::OnCopyToClipboard()
         }
     }
 }
+
+

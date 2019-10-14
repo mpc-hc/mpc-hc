@@ -23,9 +23,10 @@
 #include "MainFrm.h"
 #include "PathUtils.h"
 #include "mplayerc.h"
+#undef SubclassWindow
 
 CShaderListBox::CShaderListBox()
-    : CListBox()
+    : CMPCThemeListBox()
 {
 }
 
@@ -165,8 +166,12 @@ CString CShaderListBox::GetTitle(const Shader& shader)
 
 void CShaderListBox::PreSubclassWindow()
 {
-    CListBox::PreSubclassWindow();
-    EnableToolTips(TRUE);
+    CMPCThemeListBox::PreSubclassWindow();
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        EnableToolTips(FALSE);
+    } else {
+        EnableToolTips(TRUE);
+    }
 }
 
 INT_PTR CShaderListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
@@ -178,7 +183,7 @@ INT_PTR CShaderListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
     }
     pTI->uFlags |= TTF_ALWAYSTIP;
     pTI->hwnd = m_hWnd;
-    pTI->uId = item;
+    pTI->uId = item + 1; //0 -> crash for addtool, add 1 and subtract later
     VERIFY(GetItemRect(item, &pTI->rect) != LB_ERR);
     pTI->lpszText = LPSTR_TEXTCALLBACK;
     return pTI->uId;
@@ -188,7 +193,7 @@ BOOL CShaderListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
     static CString text;
     if (pNMHDR->idFrom <= INT_MAX) {
-        int item = (int)pNMHDR->idFrom;
+        int item = (int)pNMHDR->idFrom - 1;
         ASSERT(m_List.size() <= INT_MAX);
         if ((item < GetCount()) && (item < (int)m_List.size())) {
             text = m_List.at(item).filePath;
@@ -202,12 +207,14 @@ BOOL CShaderListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     return TRUE;
 }
 
-BEGIN_MESSAGE_MAP(CShaderListBox, CListBox)
+BEGIN_MESSAGE_MAP(CShaderListBox, CMPCThemeListBox)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
+IMPLEMENT_DYNAMIC(CPPageShaders, CMPCThemePPageBase)
+
 CPPageShaders::CPPageShaders()
-    : CPPageBase(IDD, IDD)
+    : CMPCThemePPageBase(IDD, IDD)
     , m_bCurrentPresetChanged(false)
 {
     EventRouter::EventSelection fires;
@@ -218,6 +225,7 @@ CPPageShaders::CPPageShaders()
 void CPPageShaders::DoDataExchange(CDataExchange* pDX)
 {
     CPPageBase::DoDataExchange(pDX);
+
     DDX_Control(pDX, IDC_LIST1, m_Shaders);
     DDX_Control(pDX, IDC_LIST2, m_PreResize);
     DDX_Control(pDX, IDC_LIST3, m_PostResize);
@@ -226,7 +234,7 @@ void CPPageShaders::DoDataExchange(CDataExchange* pDX)
 
 BOOL CPPageShaders::OnInitDialog()
 {
-    CPPageBase::OnInitDialog();
+    __super::OnInitDialog();
     const auto& s = AfxGetAppSettings();
 
     m_Shaders.SetList(ShaderList::GetDefaultShaders());
@@ -249,15 +257,16 @@ BOOL CPPageShaders::OnInitDialog()
         VERIFY(m_PresetsBox.SelectString(-1, preset) != CB_ERR);
     }
 
-    SetButtonIcon(IDC_BUTTON6, IDB_SHADER_UP);
-    SetButtonIcon(IDC_BUTTON7, IDB_SHADER_DOWN);
-    SetButtonIcon(IDC_BUTTON8, IDB_SHADER_DEL);
-    SetButtonIcon(IDC_BUTTON9, IDB_SHADER_UP);
-    SetButtonIcon(IDC_BUTTON10, IDB_SHADER_DOWN);
-    SetButtonIcon(IDC_BUTTON11, IDB_SHADER_DEL);
+    SetMPCThemeButtonIcon(IDC_BUTTON6, IDB_SHADER_UP);
+    SetMPCThemeButtonIcon(IDC_BUTTON7, IDB_SHADER_DOWN);
+    SetMPCThemeButtonIcon(IDC_BUTTON8, IDB_SHADER_DEL);
+    SetMPCThemeButtonIcon(IDC_BUTTON9, IDB_SHADER_UP);
+    SetMPCThemeButtonIcon(IDC_BUTTON10, IDB_SHADER_DOWN);
+    SetMPCThemeButtonIcon(IDC_BUTTON11, IDB_SHADER_DEL);
 
     m_bCurrentPresetChanged = false;
 
+    fulfillThemeReqs();
     return TRUE;
 }
 
@@ -533,7 +542,7 @@ void CPPageShaders::OnUpdateRemoveShader(CCmdUI* pCmdUI)
     pCmdUI->Enable(bEnable);
 }
 
-BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageShaders, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnAddToPreResize)
     ON_BN_CLICKED(IDC_BUTTON2, OnAddToPostResize)
     ON_BN_CLICKED(IDC_BUTTON3, OnLoadShaderPreset)
@@ -561,4 +570,10 @@ BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON11, OnUpdateRemovePostResize)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON12, OnUpdateAddShaderFile)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON13, OnUpdateRemoveShader)
+    ON_LBN_SELCHANGE(IDC_LIST1, &CPPageShaders::OnLbnSelchangeList1)
 END_MESSAGE_MAP()
+
+
+void CPPageShaders::OnLbnSelchangeList1() {
+    // TODO: Add your control notification handler code here
+}

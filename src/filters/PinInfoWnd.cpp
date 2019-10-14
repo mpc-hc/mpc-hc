@@ -113,7 +113,7 @@ bool CPinInfoWnd::OnActivate()
                          _T("EDIT"),
                          _T(""),
                          dwStyle |
-                         WS_BORDER |
+                        /* WS_BORDER | */ // equivalent to WS_EX_CLIENTEDGE 
                          WS_VSCROLL |
                          WS_HSCROLL |
                          ES_MULTILINE |
@@ -129,7 +129,7 @@ bool CPinInfoWnd::OnActivate()
         pWnd->SetFont(&m_font, FALSE);
     }
 
-    m_info_edit.SetFont(&m_monospacefont);
+    m_info_edit.SetFixedWidthFont(m_monospacefont);
 
     // subclass the edit control
     OldControlProc = (WNDPROC)SetWindowLongPtr(m_info_edit.m_hWnd, GWLP_WNDPROC, (LONG_PTR)ControlProc);
@@ -153,12 +153,16 @@ bool CPinInfoWnd::OnApply()
 
 BOOL CPinInfoWnd::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-    SetDirty(false);
-    return __super::OnWndMsg(message, wParam, lParam, pResult);
+    //we don't need this anymore, as we bypass the CInternalPropertyPageWnd which is what sets it dirty
+    //SetDirty(false); 
+    //we call CWnd implementation because CInternalPropertyPageWnd will set it right back to dirty on a scroll/command message
+    return CWnd::OnWndMsg(message, wParam, lParam, pResult);
 }
 
 BEGIN_MESSAGE_MAP(CPinInfoWnd, CInternalPropertyPageWnd)
     ON_CBN_SELCHANGE(IDC_PP_COMBO1, OnSelectedPinChange)
+    ON_WM_CTLCOLOR()
+    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 void CPinInfoWnd::AddLine(CString str)
@@ -254,4 +258,24 @@ void CPinInfoWnd::OnSelectedPinChange()
     EndEnumMediaTypes(pmt);
 
     m_info_edit.SetSel(0, 0);
+}
+
+
+HBRUSH CPinInfoWnd::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+    HBRUSH ret;
+    ret = getCtlColor(pDC, pWnd, nCtlColor);
+    if (nullptr != ret) {
+        return ret;
+    } else {
+        return __super::OnCtlColor(pDC, pWnd, nCtlColor);
+    }
+}
+
+BOOL CPinInfoWnd::OnEraseBkgnd(CDC* pDC) {
+    bool ret = MPCThemeEraseBkgnd(pDC, this, CTLCOLOR_DLG);
+    if (ret) {
+        return ret;
+    } else {
+        return __super::OnEraseBkgnd(pDC);
+    }
 }

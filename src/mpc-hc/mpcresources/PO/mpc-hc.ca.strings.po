@@ -3985,3 +3985,31 @@ msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
 msgstr "/shaderpreset \"Pr\"\tS'inicia fent servir el preajustament \"Pr\" de shader (ombrejador)"
 
+msgctxt "IDS_MESSAGEBOX_CANCEL"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "IDS_MESSAGEBOX_ABORT"
+msgid "&Abort"
+msgstr ""
+
+msgctxt "IDS_MESSAGEBOX_RETRY"
+msgid "&Retry"
+msgstr ""
+
+msgctxt "IDS_MESSAGEBOX_IGNORE"
+msgid "&Ignore"
+msgstr ""
+
+msgctxt "IDS_MESSAGEBOX_OK"
+msgid "OK"
+msgstr ""
+
+msgctxt "IDS_MESSAGEBOX_CONTINUE"
+msgid "&Continue"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_MPCTHEME"
+msgid "Toggle Dark Theme"
+msgstr ""
+

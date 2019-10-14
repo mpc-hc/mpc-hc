@@ -24,7 +24,8 @@
 #include "ComPropertySheet.h"
 #include "DSUtil.h"
 #include "../filters/InternalPropertyPage.h"
-
+#include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
 
 // CComPropertyPageSite
 
@@ -153,7 +154,7 @@ bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)
     pPage->GetPageInfo(&ppi);
     m_size.cx = std::max(m_size.cx, ppi.size.cx);
     m_size.cy = std::max(m_size.cy, ppi.size.cy);
-    CAutoPtr<CComPropertyPage> p(DEBUG_NEW CComPropertyPage(pPage));
+    CAutoPtr<CMPCThemeComPropertyPage> p(DEBUG_NEW CMPCThemeComPropertyPage(pPage));
     __super::AddPage(p);
     m_pages.AddTail(p);
 
@@ -233,6 +234,7 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 
 
 BEGIN_MESSAGE_MAP(CComPropertySheet, CPropertySheet)
+    ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -246,5 +248,27 @@ BOOL CComPropertySheet::OnInitDialog()
         CenterWindow();
     }
 
+    fulfillThemeReqs();
     return bResult;
+}
+
+void CComPropertySheet::fulfillThemeReqs() {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
+    }
+}
+
+HBRUSH CComPropertySheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        LRESULT lResult;
+        if (pWnd->SendChildNotifyLastMsg(&lResult)) {
+            return (HBRUSH)lResult;
+        }
+        pDC->SetTextColor(CMPCTheme::TextFGColor);
+        pDC->SetBkColor(CMPCTheme::ControlAreaBGColor);
+        return controlAreaBrush;
+    } else {
+        HBRUSH hbr = __super::OnCtlColor(pDC, pWnd, nCtlColor);
+        return hbr;
+    }
 }

@@ -23,6 +23,8 @@
 #include "PlayerSeekBar.h"
 #include "MainFrm.h"
 #include "mplayerc.h"
+#include "CMPCTheme.h"
+
 
 #define TOOLTIP_SHOW_DELAY 100
 #define TOOLTIP_HIDE_TIMEOUT 3000
@@ -41,6 +43,7 @@ CPlayerSeekBar::CPlayerSeekBar(CMainFrame* pMainFrame)
     , m_rtHoverPos(0)
     , m_cursor(AfxGetApp()->LoadStandardCursor(IDC_HAND))
     , m_bDraggingThumb(false)
+    , m_bHoverThumb(false)
     , m_tooltipState(TOOLTIP_HIDDEN)
     , m_bIgnoreLastTooltipPoint(true)
 {
@@ -63,11 +66,17 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
         return FALSE;
     }
 
+    if (!AfxGetAppSettings().bMPCThemeLoaded) {
+        CMPCThemeUtil::getFontByType(mpcThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont);
+        SetFont(&mpcThemeFont);
+    }
+
     // Should never be RTLed
     ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
+
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
-    m_tooltip.SetMaxTipWidth(SHRT_MAX);
+    m_tooltip.SetMaxTipWidth(-1);
 
     m_ti.uFlags = TTF_IDISHWND | TTF_TRACK | TTF_ABSOLUTE;
     m_ti.hwnd = m_hWnd;
@@ -207,26 +216,34 @@ void CPlayerSeekBar::CreateThumb(bool bEnabled, CDC& parentDC)
         VERIFY(bmp.CreateCompatibleBitmap(&parentDC, r.Width(), r.Height()));
         VERIFY(pThumb->SelectObject(bmp));
 
-        pThumb->Draw3dRect(&r, light, 0);
-        r.DeflateRect(0, 0, 1, 1);
-        pThumb->Draw3dRect(&r, light, shadow);
-        r.DeflateRect(1, 1, 1, 1);
+        const CAppSettings& s = AfxGetAppSettings();
+        if (s.bMPCThemeLoaded) {
+            //just a rectangle, we will draw from scratch
+        } else {
+            pThumb->Draw3dRect(&r, light, 0);
+            r.DeflateRect(0, 0, 1, 1);
+            pThumb->Draw3dRect(&r, light, shadow);
+            r.DeflateRect(1, 1, 1, 1);
 
-        if (bEnabled) {
+            if (bEnabled) {
+                pThumb->ExcludeClipRect(ri);
+                ri.InflateRect(0, 1, 0, 1);
+                pThumb->FillSolidRect(ri, white);
+                pThumb->SetPixel(ri.CenterPoint().x, ri.top, 0);
+                pThumb->SetPixel(ri.CenterPoint().x, ri.bottom - 1, 0);
+            }
             pThumb->ExcludeClipRect(ri);
-            ri.InflateRect(0, 1, 0, 1);
-            pThumb->FillSolidRect(ri, white);
-            pThumb->SetPixel(ri.CenterPoint().x, ri.top, 0);
-            pThumb->SetPixel(ri.CenterPoint().x, ri.bottom - 1, 0);
+
+            ri.InflateRect(1, 1, 1, 1);
+            pThumb->Draw3dRect(&ri, shadow, bkg);
+            pThumb->ExcludeClipRect(ri);
+
+            CBrush b(bkg);
+            pThumb->FillRect(&r, &b);
         }
-        pThumb->ExcludeClipRect(ri);
 
-        ri.InflateRect(1, 1, 1, 1);
-        pThumb->Draw3dRect(&ri, shadow, bkg);
-        pThumb->ExcludeClipRect(ri);
 
-        CBrush b(bkg);
-        pThumb->FillRect(&r, &b);
+
     } else {
         ASSERT(FALSE);
     }
@@ -484,66 +501,135 @@ void CPlayerSeekBar::OnPaint()
     light  = GetSysColor(COLOR_3DHILIGHT),
     bkg    = GetSysColor(COLOR_BTNFACE);
 
-    // Thumb
-    {
-        auto& pThumb = m_bEnabled ? m_pEnabledThumb : m_pDisabledThumb;
-        if (!pThumb) {
-            CreateThumb(m_bEnabled, dc);
-            ASSERT(pThumb);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        // Thumb
+        {
+            CRect r(GetThumbRect());
+            if (DraggingThumb()) {
+                dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
+            } else if (m_bHoverThumb) {
+                dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
+            } else if (m_bEnabled) {
+                dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
+            } else {
+                dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
+            }
+            CBrush fb;
+            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+            dc.FrameRect(r, &fb);
+
+            CRgn rg;
+            VERIFY(rg.CreateRectRgnIndirect(&r));
+            ExtSelectClipRgn(dc, rg, RGN_XOR);
+
+            m_lastThumbRect = r;
         }
-        CRect r(GetThumbRect());
-        CRect ri(GetInnerThumbRect(m_bEnabled, r));
 
-        CRgn rg, rgi;
-        VERIFY(rg.CreateRectRgnIndirect(&r));
-        VERIFY(rgi.CreateRectRgnIndirect(&ri));
+        const CRect channelRect(GetChannelRect());
 
-        ExtSelectClipRgn(dc, rgi, RGN_DIFF);
-        VERIFY(dc.BitBlt(r.TopLeft().x, r.TopLeft().y, r.Width(), r.Height(), pThumb.get(), 0, 0, SRCCOPY));
-        ExtSelectClipRgn(dc, rg, RGN_XOR);
-
-        m_lastThumbRect = r;
-    }
-
-    const CRect channelRect(GetChannelRect());
-
-    // Chapters
-    if (m_bHasDuration) {
-        CAutoLock lock(&m_csChapterBag);
-        if (m_pChapterBag) {
-            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
-                REFERENCE_TIME rtChap;
-                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
-                    long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
-                    CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
-                    if (r.right < channelRect.right) {
-                        r.right++;
+        // Chapters
+        if (m_bHasDuration) {
+            CAutoLock lock(&m_csChapterBag);
+            if (m_pChapterBag) {
+                for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
+                    REFERENCE_TIME rtChap;
+                    if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
+                        long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
+                        CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
+                        if (r.right < channelRect.right) {
+                            r.right++;
+                        }
+                        ASSERT(r.right <= channelRect.right);
+                        dc.FillSolidRect(&r, CMPCTheme::ScrollChapterColor);
+                        dc.ExcludeClipRect(&r);
+                    } else {
+                        ASSERT(FALSE);
                     }
-                    ASSERT(r.right <= channelRect.right);
-                    dc.FillSolidRect(&r, dark);
-                    dc.ExcludeClipRect(&r);
-                } else {
-                    ASSERT(FALSE);
                 }
             }
         }
+
+        // Channel
+        {
+            dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor: CMPCTheme::ScrollBGColor);
+            CRect r(channelRect);
+            CBrush fb;
+            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
+            dc.FrameRect(&r, &fb);
+            dc.ExcludeClipRect(&r);
+        }
+
+        // Background
+        {
+            CRect r;
+            GetClientRect(&r);
+            dc.FillSolidRect(&r, CMPCTheme::ContentBGColor);
+        }
+    } else {
+        // Thumb
+        {
+            auto& pThumb = m_bEnabled ? m_pEnabledThumb : m_pDisabledThumb;
+            if (!pThumb) {
+                CreateThumb(m_bEnabled, dc);
+                ASSERT(pThumb);
+            }
+            CRect r(GetThumbRect());
+            CRect ri(GetInnerThumbRect(m_bEnabled, r));
+
+            CRgn rg, rgi;
+            VERIFY(rg.CreateRectRgnIndirect(&r));
+            VERIFY(rgi.CreateRectRgnIndirect(&ri));
+
+            ExtSelectClipRgn(dc, rgi, RGN_DIFF);
+            VERIFY(dc.BitBlt(r.TopLeft().x, r.TopLeft().y, r.Width(), r.Height(), pThumb.get(), 0, 0, SRCCOPY));
+            ExtSelectClipRgn(dc, rg, RGN_XOR);
+
+            m_lastThumbRect = r;
+        }
+
+        const CRect channelRect(GetChannelRect());
+
+        // Chapters
+        if (m_bHasDuration) {
+            CAutoLock lock(&m_csChapterBag);
+            if (m_pChapterBag) {
+                for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
+                    REFERENCE_TIME rtChap;
+                    if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
+                        long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
+                        CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
+                        if (r.right < channelRect.right) {
+                            r.right++;
+                        }
+                        ASSERT(r.right <= channelRect.right);
+                        dc.FillSolidRect(&r, dark);
+                        dc.ExcludeClipRect(&r);
+                    } else {
+                        ASSERT(FALSE);
+                    }
+                }
+            }
+        }
+
+        // Channel
+        {
+            dc.FillSolidRect(&channelRect, m_bEnabled ? white : bkg);
+            CRect r(channelRect);
+            r.InflateRect(1, 1);
+            dc.Draw3dRect(&r, shadow, light);
+            dc.ExcludeClipRect(&r);
+        }
+
+        // Background
+        {
+            CRect r;
+            GetClientRect(&r);
+            dc.FillSolidRect(&r, bkg);
+        }
     }
 
-    // Channel
-    {
-        dc.FillSolidRect(&channelRect, m_bEnabled ? white : bkg);
-        CRect r(channelRect);
-        r.InflateRect(1, 1);
-        dc.Draw3dRect(&r, shadow, light);
-        dc.ExcludeClipRect(&r);
-    }
 
-    // Background
-    {
-        CRect r;
-        GetClientRect(&r);
-        dc.FillSolidRect(&r, bkg);
-    }
 }
 
 void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
@@ -555,6 +641,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
         m_bDraggingThumb = true;
         MoveThumb(point);
         SyncVideoToThumb();
+        invalidateThumb();
     } else {
         if (!m_pMainFrame->m_fFullScreen) {
             MapWindowPoints(m_pMainFrame, &point, 1);
@@ -574,7 +661,9 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
         ReleaseCapture();
         // update video position if seekbar moved at least 250 ms or 1/100th of duration
         CheckScrollDistance(point, std::min(2500000LL, m_rtStop / 100));
+        invalidateThumb();
     }
+    checkHover(point);
 }
 
 void CPlayerSeekBar::OnXButtonDown(UINT nFlags, UINT nButton, CPoint point)
@@ -608,8 +697,25 @@ void CPlayerSeekBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
     OnXButtonDown(nFlags, nButton, point);
 }
 
+void CPlayerSeekBar::checkHover(CPoint point) {
+    CRect tRect(GetThumbRect());
+    bool oldHover = m_bHoverThumb;
+    m_bHoverThumb = false;
+    if (m_bEnabled && m_bHasDuration && tRect.PtInRect(point)) {
+        m_bHoverThumb = true;
+    }
+
+    if (m_bHoverThumb != oldHover) invalidateThumb();
+}
+
+void CPlayerSeekBar::invalidateThumb() {
+    CRect tRect(GetThumbRect());
+    InvalidateRect(tRect);
+}
+
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
+
     if (DraggingThumb() && (nFlags & MK_LBUTTON)) {
         MoveThumb(point);
         // update video position if seekbar moved at least 5 sec or 1/30th of duration
@@ -618,6 +724,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
     if (AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
     }
+    checkHover(point);
 }
 
 BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
@@ -667,6 +774,7 @@ void CPlayerSeekBar::OnMouseLeave()
 {
     HideToolTip();
     m_bIgnoreLastTooltipPoint = true;
+    checkHover(CPoint(0, 0));
 }
 
 LRESULT CPlayerSeekBar::OnThemeChanged()

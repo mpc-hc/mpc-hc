@@ -140,7 +140,10 @@ BOOL CPPageBase::OnSetActive()
 {
     ASSERT(IS_INTRESOURCE(m_pPSP->pszTemplate));
     AfxGetAppSettings().nLastUsedPage = (WORD)(ULONG_PTR)m_pPSP->pszTemplate;
-    return __super::OnSetActive();
+    SetRedraw(false); //adipose: disable redraw due to CPropertyPage::OnSetActive forcing ddx, which causes "optimized" redraw of comboboxes without consulting subclass paint method
+    BOOL ret = __super::OnSetActive();
+    SetRedraw(true); //adipose: reenable redraw. no regressions observed by enabling after ddx
+    return ret;
 }
 
 BOOL CPPageBase::OnApply()

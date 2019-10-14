@@ -23,11 +23,13 @@
 
 #include "PPageBase.h"
 #include "resource.h"
+#include "CMPCThemePPageBase.h"
+#include "CMPCThemeComboBox.h"
 
 
 // CPPageOutput dialog
 
-class CPPageOutput : public CPPageBase
+class CPPageOutput : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageOutput)
 
@@ -37,15 +39,15 @@ private:
     CImageList m_tickcross;
     HICON m_tick, m_cross;
 
-    CComboBox m_iDSVideoRendererTypeCtrl;
-    CComboBox m_iAudioRendererTypeCtrl;
-    CComboBox m_SubtitleRendererCtrl;
-    CComboBox m_iRMVideoRendererTypeCtrl;
-    CComboBox m_iQTVideoRendererTypeCtrl;
-    CComboBox m_iD3D9RenderDeviceCtrl;
-    CComboBox m_APSurfaceUsageCtrl;
-    CComboBox m_DX9ResizerCtrl;
-    CComboBox m_EVRBuffersCtrl;
+    CMPCThemeComboBox m_iDSVideoRendererTypeCtrl;
+    CMPCThemeComboBox m_iAudioRendererTypeCtrl;
+    CMPCThemeComboBox m_SubtitleRendererCtrl;
+    CMPCThemeComboBox m_iRMVideoRendererTypeCtrl;
+    CMPCThemeComboBox m_iQTVideoRendererTypeCtrl;
+    CMPCThemeComboBox m_iD3D9RenderDeviceCtrl;
+    CMPCThemeComboBox m_APSurfaceUsageCtrl;
+    CMPCThemeComboBox m_DX9ResizerCtrl;
+    CMPCThemeComboBox m_EVRBuffersCtrl;
 
     CStatic m_iDSDXVASupport;
     CStatic m_iDSSubtitleSupport;

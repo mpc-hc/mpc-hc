@@ -20,13 +20,14 @@
 
 #pragma once
 
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 class SubtitlesProviders;
 
 // CPPageSubMisc dialog
 
-class CPPageSubMisc : public CPPageBase
+class CPPageSubMisc : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageSubMisc)
 
@@ -64,13 +65,16 @@ protected:
     CString m_strSubtitlesProviders;
     CString m_strSubtitlesLanguageOrder;
     CString m_strAutoloadPaths;
-    CListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
+    CMPCThemeToolTipCtrl themedToolTip;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
+
+    BOOL PreTranslateMessage(MSG * pMsg);
 
     DECLARE_MESSAGE_MAP()
 

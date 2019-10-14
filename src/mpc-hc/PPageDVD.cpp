@@ -176,9 +176,9 @@ static constexpr LCIDNameList[] = {
 
 // CPPageDVD dialog
 
-IMPLEMENT_DYNAMIC(CPPageDVD, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageDVD, CMPCThemePPageBase)
 CPPageDVD::CPPageDVD()
-    : CPPageBase(CPPageDVD::IDD, CPPageDVD::IDD)
+    : CMPCThemePPageBase(CPPageDVD::IDD, CPPageDVD::IDD)
     , m_iDVDLocation(0)
     , m_iDVDLangType(0)
     , m_idMenuLang(0)
@@ -221,7 +221,7 @@ void CPPageDVD::UpdateLCIDList()
     }
 }
 
-BEGIN_MESSAGE_MAP(CPPageDVD, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageDVD, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
     ON_CONTROL_RANGE(BN_CLICKED, IDC_RADIO3, IDC_RADIO5, OnBnClickedLangradio123)
     ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)

@@ -27,10 +27,10 @@
 
 // CPPageSubMisc dialog
 
-IMPLEMENT_DYNAMIC(CPPageSubMisc, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageSubMisc, CMPCThemePPageBase)
 
 CPPageSubMisc::CPPageSubMisc()
-    : CPPageBase(CPPageSubMisc::IDD, CPPageSubMisc::IDD)
+    : CMPCThemePPageBase(CPPageSubMisc::IDD, CPPageSubMisc::IDD)
     , m_pSubtitlesProviders(nullptr)
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
@@ -51,7 +51,7 @@ CPPageSubMisc::~CPPageSubMisc()
 
 void CPPageSubMisc::DoDataExchange(CDataExchange* pDX)
 {
-    CPPageBase::DoDataExchange(pDX);
+    CMPCThemePPageBase::DoDataExchange(pDX);
     DDX_Check(pDX, IDC_CHECK1, m_fPreferDefaultForcedSubtitles);
     DDX_Check(pDX, IDC_CHECK2, m_fPrioritizeExternalSubtitles);
     DDX_Check(pDX, IDC_CHECK3, m_fDisableInternalSubtitles);
@@ -86,8 +86,9 @@ BOOL CPPageSubMisc::OnInitDialog()
     GetDlgItem(IDC_EDIT2)->EnableWindow(m_bAutoDownloadSubtitles);
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle()
-                            | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
+                            /*| LVS_EX_DOUBLEBUFFER*/ | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+    m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER);
 
     // Do not check dynamic_cast, because if it fails we cannot recover from the error anyway.
     const CMainFrame* pMainFrame = AfxGetMainFrame();
@@ -137,7 +138,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     CheckDlgButton(IDC_CHECK6, FALSE);
     GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
 
-    EnableToolTips(TRUE);
+//    EnableToolTips(TRUE);
     CreateToolTip();
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_SUB_AUTODL_IGNORE_TOOLTIP));
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
@@ -174,7 +175,7 @@ BOOL CPPageSubMisc::OnApply()
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageSubMisc, CMPCThemePPageBase)
     ON_MESSAGE_VOID(WM_SUPPORTED_LANGUAGES_READY, OnSupportedLanguagesReady)
     ON_WM_DESTROY()
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedResetSubsPath)
@@ -334,4 +335,13 @@ int CALLBACK CPPageSubMisc::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM l
     size_t left = ((SubtitlesProvider*)list.GetItemData((int)lParam1))->Index();
     size_t right = ((SubtitlesProvider*)list.GetItemData((int)lParam2))->Index();
     return int(left - right);
+}
+
+BOOL CPPageSubMisc::PreTranslateMessage(MSG* pMsg) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (IsWindow(themedToolTip)) {
+            themedToolTip.RelayEvent(pMsg);
+        }
+    }
+    return __super::PreTranslateMessage(pMsg);
 }

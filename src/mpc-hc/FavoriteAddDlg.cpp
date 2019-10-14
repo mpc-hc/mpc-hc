@@ -28,9 +28,9 @@
 
 // CFavoriteAddDlg dialog
 
-IMPLEMENT_DYNAMIC(CFavoriteAddDlg, CCmdUIDialog)
+IMPLEMENT_DYNAMIC(CFavoriteAddDlg, CMPCThemeCmdUIDialog)
 CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pParent /*=nullptr*/)
-    : CCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
+    : CMPCThemeCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
     , m_shortname(shortname)
     , m_fullname(fullname)
     , m_bRememberPos(TRUE)
@@ -49,6 +49,7 @@ void CFavoriteAddDlg::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_COMBO1, m_name);
     DDX_Check(pDX, IDC_CHECK1, m_bRememberPos);
     DDX_Check(pDX, IDC_CHECK2, m_bRelativeDrive);
+    fulfillThemeReqs();
 }
 
 BOOL CFavoriteAddDlg::OnInitDialog()
@@ -79,7 +80,7 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 }
 
 
-BEGIN_MESSAGE_MAP(CFavoriteAddDlg, CCmdUIDialog)
+BEGIN_MESSAGE_MAP(CFavoriteAddDlg, CMPCThemeCmdUIDialog)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
 END_MESSAGE_MAP()
 

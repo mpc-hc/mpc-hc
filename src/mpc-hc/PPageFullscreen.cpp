@@ -23,6 +23,7 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PPageFullscreen.h"
+#include "CMPCTheme.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
@@ -31,9 +32,9 @@
 
 // CPPagePlayer dialog
 
-IMPLEMENT_DYNAMIC(CPPageFullscreen, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageFullscreen, CMPCThemePPageBase)
 CPPageFullscreen::CPPageFullscreen()
-    : CPPageBase(CPPageFullscreen::IDD, CPPageFullscreen::IDD)
+    : CMPCThemePPageBase(CPPageFullscreen::IDD, CPPageFullscreen::IDD)
     , m_iFullScreenMonitor(0)
     , m_bLaunchFullscreen(FALSE)
     , m_fExitFullScreenAtTheEnd(FALSE)
@@ -197,7 +198,7 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SPIN1, m_delaySpinner);
 }
 
-BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageFullscreen, CMPCThemePPageBase)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnUpdateFullScreenMonitor)
     ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateHideControls)
     ON_UPDATE_COMMAND_UI(IDC_CHECK6, OnUpdateHideControls)
@@ -288,13 +289,15 @@ BOOL CPPageFullscreen::OnInitDialog()
         GetDlgItem(IDC_COMBO1)->EnableWindow(FALSE);
     }
 
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER
-                            | LVS_EX_GRIDLINES | LVS_EX_BORDERSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_CHECKBOXES | LVS_EX_FLATSB);
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /*| LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER
+                            | LVS_EX_GRIDLINES */ | LVS_EX_BORDERSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_CHECKBOXES | LVS_EX_FLATSB);
+    m_list.setAdditionalStyles(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
     m_list.InsertColumn(COL_N, ResStr(IDS_PPAGE_FS_CLN_ON_OFF), LVCFMT_LEFT, 60);
     m_list.InsertColumn(COL_FRAMERATE_START, ResStr(IDS_PPAGE_FS_CLN_FROM_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_FRAMERATE_STOP, ResStr(IDS_PPAGE_FS_CLN_TO_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_DISPLAY_MODE, ResStr(IDS_PPAGE_FS_CLN_DISPLAY_MODE), LVCFMT_LEFT, 135);
     m_list.InsertColumn(COL_AUDIO_DELAY, ResStr(IDS_PPAGE_FS_CLN_AUDIO_DELAY), LVCFMT_LEFT, 52);
+    m_list.setCheckedColors((COLORREF)-1, (COLORREF)-1, CMPCTheme::ContentTextDisabledFGColorFade); //for mpc theme highlighting since nmcustdraw will be ignored on CMPCThemelistctrl
 
     m_bHideFullscreenControls = s.bHideFullscreenControls;
     m_uHideFullscreenControlsDelay = s.uHideFullscreenControlsDelay;

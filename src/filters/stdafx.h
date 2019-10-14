@@ -30,6 +30,13 @@
 #include <afx.h>
 #include <afxwin.h>                         // MFC core and standard components
 
+#include <algorithm>
+namespace Gdiplus {
+    using std::min;
+    using std::max;
+};
+#include <afxbutton.h>
+
 #include <dshow.h>
 #include "BaseClasses/streams.h"
 #include <dvdmedia.h>

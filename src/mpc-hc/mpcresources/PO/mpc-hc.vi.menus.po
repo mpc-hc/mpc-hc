@@ -141,6 +141,10 @@ msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
 msgstr "&Hiệu chỉnh bộ đổ bóng"
 
+msgctxt "ID_VIEW_MPCTHEME"
+msgid "Dark Theme (restart)"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Presets..."
 msgstr "&Thiết lập sẵn"

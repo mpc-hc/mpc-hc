@@ -21,13 +21,13 @@
 #pragma once
 
 #include "PlayerNavigationDialog.h"
-#include "PlayerBar.h"
+#include "CMPCThemePlayerBar.h"
 
 // CPlayerNavigationBar
 
 class CMainFrame;
 
-class CPlayerNavigationBar : public CPlayerBar
+class CPlayerNavigationBar : public CMPCThemePlayerBar
 {
     DECLARE_DYNAMIC(CPlayerNavigationBar)
 

@@ -285,6 +285,10 @@ protected:
     */
     virtual CTreeCtrl* CreatePageTreeObject();
 
+    //added for mpc-hc theming
+    virtual void SetTabCtrlFont(CTabCtrl* ctrl);
+    virtual void SetTreeCtrlTheme(CTreeCtrl* ctrl);
+
     /**
     Will be called during creation process, to create the object, that
     is responsible for drawing the frame around the pages, drawing the
@@ -299,6 +303,7 @@ protected:
 
 // Implementation helpers
 protected:
+    CFont tabFont; //mpc-hc to allow scaled fonts in tab--used in classic mode as well
     /**
     Moves all childs by the specified amount of pixels.
 

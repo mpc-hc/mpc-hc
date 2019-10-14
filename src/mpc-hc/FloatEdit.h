@@ -20,17 +20,17 @@
  */
 
 #pragma once
-
+#include "CMPCThemeEdit.h"
 // CFloatEdit
 
-class CFloatEdit : public CEdit
+class CMPCThemeFloatEdit : public CMPCThemeEdit
 {
 public:
     bool GetFloat(float& f);
     double operator = (double d);
     operator double();
 
-    DECLARE_DYNAMIC(CFloatEdit)
+    DECLARE_DYNAMIC(CMPCThemeFloatEdit)
     DECLARE_MESSAGE_MAP()
 
 public:
@@ -39,10 +39,10 @@ public:
 
 // CIntEdit
 
-class CIntEdit : public CEdit
+class CMPCThemeIntEdit : public CMPCThemeEdit
 {
 public:
-    DECLARE_DYNAMIC(CIntEdit)
+    DECLARE_DYNAMIC(CMPCThemeIntEdit)
     DECLARE_MESSAGE_MAP()
 
 public:
@@ -51,14 +51,14 @@ public:
 
 // CHexEdit
 
-class CHexEdit : public CEdit
+class CMPCThemeHexEdit : public CMPCThemeEdit
 {
 public:
     bool GetDWORD(DWORD& dw);
     DWORD operator = (DWORD dw);
     operator DWORD();
 
-    DECLARE_DYNAMIC(CHexEdit)
+    DECLARE_DYNAMIC(CMPCThemeHexEdit)
     DECLARE_MESSAGE_MAP()
 
 public:

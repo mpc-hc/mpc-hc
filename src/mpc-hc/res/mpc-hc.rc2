@@ -133,10 +133,12 @@ IDF_LOGO0                        PNG                     "res\\logo.0.png"
 IDF_LOGO1                        PNG                     "res\\logo.1_x64.png"
 IDF_LOGO2                        PNG                     "res\\logo.2_x64.png"
 IDF_LOGO3                        PNG                     "res\\logo.3_x64.png"
+IDF_LOGO4                        PNG                     "res\\logo.4_x64.png"
 #else
 IDF_LOGO1                        PNG                     "res\\logo.1.png"
 IDF_LOGO2                        PNG                     "res\\logo.2.png"
 IDF_LOGO3                        PNG                     "res\\logo.3.png"
+IDF_LOGO4                        PNG                     "res\\logo.4.png"
 #endif
 IDF_RIGHTBOTTOMSIDE_PNG          PNG                     "res\\web\\img\\rightbottomside.png"
 IDF_RIGHTSIDE_PNG                PNG                     "res\\web\\img\\rightside.png"

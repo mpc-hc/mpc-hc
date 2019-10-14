@@ -29,9 +29,9 @@
 
 // COpenDlg dialog
 
-//IMPLEMENT_DYNAMIC(COpenDlg, CResizableDialog)
+//IMPLEMENT_DYNAMIC(COpenDlg, CMPCThemeResizableDialog)
 COpenDlg::COpenDlg(CWnd* pParent /*=nullptr*/)
-    : CResizableDialog(COpenDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(COpenDlg::IDD, pParent)
     , m_bAppendToPlaylist(FALSE)
     , m_bMultipleFiles(false)
 {
@@ -51,10 +51,11 @@ void COpenDlg::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_COMBO2, m_pathDub);
     DDX_Control(pDX, IDC_STATIC1, m_labelDub);
     DDX_Check(pDX, IDC_CHECK1, m_bAppendToPlaylist);
+    fulfillThemeReqs();
 }
 
 
-BEGIN_MESSAGE_MAP(COpenDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(COpenDlg, CMPCThemeResizableDialog)
     ON_BN_CLICKED(IDC_BUTTON1, OnBrowseFile)
     ON_BN_CLICKED(IDC_BUTTON2, OnBrowseDubFile)
     ON_BN_CLICKED(IDOK, OnOk)
@@ -119,6 +120,8 @@ BOOL COpenDlg::OnInitDialog()
     SetMinTrackSize(size);
     size.cx = 1000;
     SetMaxTrackSize(size);
+
+    fulfillThemeReqs();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

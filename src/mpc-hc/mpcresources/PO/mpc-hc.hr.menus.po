@@ -142,6 +142,10 @@ msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
 msgstr "&Debugiranje shadera"
 
+msgctxt "ID_VIEW_MPCTHEME"
+msgid "Dark Theme (restart)"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Presets..."
 msgstr "&Profili"

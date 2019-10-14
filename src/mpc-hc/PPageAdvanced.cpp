@@ -26,7 +26,7 @@
 #include <strsafe.h>
 
 CPPageAdvanced::CPPageAdvanced()
-    : CPPageBase(IDD, IDD)
+    : CMPCThemePPageBase(IDD, IDD)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
@@ -53,7 +53,8 @@ BOOL CPPageAdvanced::OnInitDialog()
     }
 
     SetRedraw(FALSE);
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_AUTOSIZECOLUMNS | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP);
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ | LVS_EX_AUTOSIZECOLUMNS /*| LVS_EX_DOUBLEBUFFER */| LVS_EX_INFOTIP);
+    m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT);
     m_list.InsertColumn(COL_NAME, ResStr(IDS_PPAGEADVANCED_COL_NAME), LVCFMT_LEFT);
     m_list.InsertColumn(COL_VALUE, ResStr(IDS_PPAGEADVANCED_COL_VALUE), LVCFMT_RIGHT);
 
@@ -61,6 +62,9 @@ BOOL CPPageAdvanced::OnInitDialog()
         // Set topmost for tooltip window. Workaround bug https://connect.microsoft.com/VisualStudio/feedback/details/272350
         pToolTip->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
     }
+
+    GetDlgItem(IDC_EDIT1)->GetWindowRect(editRect);
+    ScreenToClient(editRect);
 
     m_spinButtonCtrl.SetBuddy(GetDlgItem(IDC_EDIT1));
 
@@ -90,10 +94,11 @@ void CPPageAdvanced::InitSettings()
 
     auto addBoolItem = [this](int nItem, CString name, bool defaultValue, bool & settingReference, CString toolTipText) {
         auto pItem = std::make_shared<SettingsBool>(name, defaultValue, settingReference, toolTipText);
+        auto eSetting = static_cast<ADVANCED_SETTINGS>(nItem);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
-        m_list.SetItemText(iItem, COL_VALUE, (pItem->GetValue() ? m_strTrue : m_strFalse));
+        m_hiddenOptions[eSetting] = pItem;
+        m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, (pItem->GetValue() ? m_strTrue : m_strFalse), !IsDefault(eSetting));
         m_list.SetItemData(iItem, nItem);
-        m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
     // The range parameter defines range (inclusive) that particular option can have.
@@ -105,29 +110,33 @@ void CPPageAdvanced::InitSettings()
             settingReference = defaultValue;
         }
         auto pItem = std::make_shared<SettingsInt>(name, defaultValue, settingReference, range, toolTipText);
+        auto eSetting = static_cast<ADVANCED_SETTINGS>(nItem);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
+        m_hiddenOptions[eSetting] = pItem;
+
         CString str;
         str.Format(_T("%d"), pItem->GetValue());
-        m_list.SetItemText(iItem, COL_VALUE, str);
+        m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, str, !IsDefault(eSetting));
         m_list.SetItemData(iItem, nItem);
-        m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
     // The list parameter defines list of the strings that will be in the combobox.
     auto addComboItem = [this](int nItem, CString name, int defaultValue, int& settingReference, std::deque<CString> list, CString toolTipText) {
         auto pItem = std::make_shared<SettingsCombo>(name, defaultValue, settingReference, list, toolTipText);
+        auto eSetting = static_cast<ADVANCED_SETTINGS>(nItem);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
-        m_list.SetItemText(iItem, COL_VALUE, list.at(settingReference));
+        m_hiddenOptions[eSetting] = pItem;
+        m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, list.at(settingReference), !IsDefault(eSetting));
         m_list.SetItemData(iItem, nItem);
-        m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
     auto addCStringItem = [this](int nItem, CString name, CString defaultValue, CString & settingReference, CString toolTipText) {
         auto pItem = std::make_shared<SettingsCString>(name, defaultValue, settingReference, toolTipText);
+        auto eSetting = static_cast<ADVANCED_SETTINGS>(nItem);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
-        m_list.SetItemText(iItem, COL_VALUE, pItem->GetValue());
+        m_hiddenOptions[eSetting] = pItem;
+        m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, pItem->GetValue(), !IsDefault(eSetting));
         m_list.SetItemData(iItem, nItem);
-        m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
     addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, StrRes(IDS_PPAGEADVANCED_HIDE_WINDOWED));
@@ -191,7 +200,7 @@ bool CPPageAdvanced::IsDefault(ADVANCED_SETTINGS eSetting) const
     return m_hiddenOptions.at(eSetting)->IsDefault();
 }
 
-BEGIN_MESSAGE_MAP(CPPageAdvanced, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageAdvanced, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedDefaultButton)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateDefaultButton)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnNMDblclk)
@@ -237,7 +246,7 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
             UNREACHABLE_CODE();
         }
 
-        m_list.SetItemText(iItem, COL_VALUE, str);
+        m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, str, !IsDefault(eSetting));
         UpdateData(FALSE);
         m_list.Update(iItem);
         SetModified();
@@ -263,8 +272,8 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
         auto pItem = m_hiddenOptions.at(eSetting);
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             pItemBool->Toggle();
-            m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE,
-                               pItemBool->GetValue() ? m_strTrue : m_strFalse);
+            m_list.setItemTextWithDefaultFlag(pNMItemActivate->iItem, COL_VALUE,
+                               pItemBool->GetValue() ? m_strTrue : m_strFalse, !IsDefault(eSetting));
             if (pItemBool->GetValue()) {
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
             } else {
@@ -349,6 +358,10 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(0, ES_NUMBER, 0);
                 const auto& range = pItemInt->GetRange();
+                if (!m_spinButtonCtrl.GetBuddy()) {
+                    GetDlgItem(IDC_EDIT1)->MoveWindow(editRect, TRUE);
+                    m_spinButtonCtrl.SetBuddy(GetDlgItem(IDC_EDIT1));
+                }
                 m_spinButtonCtrl.SetRange32(range.first, range.second);
                 m_spinButtonCtrl.SetPos32(pItemInt->GetValue());
                 m_spinButtonCtrl.ShowWindow(SW_SHOW);
@@ -357,6 +370,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
                 SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
+                m_spinButtonCtrl.SetBuddy(NULL);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else {
                 UNREACHABLE_CODE();
@@ -378,7 +392,7 @@ void CPPageAdvanced::OnBnClickedRadio1()
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             pItemBool->SetValue(true);
-            m_list.SetItemText(iItem, COL_VALUE, m_strTrue);
+            m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, m_strTrue, !IsDefault(eSetting));
             UpdateData(FALSE);
             m_list.Update(iItem);
             SetModified();
@@ -395,7 +409,7 @@ void CPPageAdvanced::OnBnClickedRadio2()
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             pItemBool->SetValue(false);
-            m_list.SetItemText(iItem, COL_VALUE, m_strFalse);
+            m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, m_strFalse, !IsDefault(eSetting));
             UpdateData(FALSE);
             m_list.Update(iItem);
             SetModified();
@@ -414,7 +428,7 @@ void CPPageAdvanced::OnCbnSelchangeCombobox()
         if (auto pItemCombo = std::dynamic_pointer_cast<SettingsCombo>(pItem)) {
             auto list = pItemCombo->GetList();
             pItemCombo->SetValue(iItem);
-            m_list.SetItemText(nItem, COL_VALUE, list.at(iItem));
+            m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, list.at(iItem), !IsDefault(eSetting));
             UpdateData(FALSE);
             m_list.Update(nItem);
             if (m_comboBox.IsWindowVisible()) {
@@ -459,7 +473,7 @@ void CPPageAdvanced::OnEnChangeEdit()
         }
 
         if (bChanged) {
-            m_list.SetItemText(iItem, COL_VALUE, str);
+            m_list.setItemTextWithDefaultFlag(iItem, COL_VALUE, str, !IsDefault(eSetting));
             m_list.Update(iItem);
             UpdateData(FALSE);
             SetModified();

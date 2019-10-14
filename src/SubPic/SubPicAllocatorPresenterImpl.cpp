@@ -30,6 +30,7 @@
 #include <d3d9.h>
 #include <evr.h>
 #include <dxva2api.h>
+#include <functional>
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)

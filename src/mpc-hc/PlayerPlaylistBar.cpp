@@ -31,8 +31,12 @@
 #include "InternalFiltersConfig.h"
 #include "PathUtils.h"
 #include "WinAPIUtils.h"
+#include "CMPCTheme.h"
+#undef SubclassWindow
 
-IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
+
+
+IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CMPCThemePlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_list(0)
@@ -281,8 +285,6 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
-
     ResolveLinkFiles(fns);
 
     CAtlList<CString> sl;
@@ -312,6 +314,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     } else {
 #if INTERNAL_SOURCEFILTER_MPEG
+        const CAppSettings& s = AfxGetAppSettings();
         if (ct == "application/x-bdmv-playlist" && (s.SrcFilters[SRC_MPEG] || s.SrcFilters[SRC_MPEGTS])) {
             ParseBDMVPlayList(fns.GetHead());
             return;
@@ -542,6 +545,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
         if (iFirstAdded) { // Select the first added item only if some were already present
             m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
         }
+        m_list.updateSB();
     }
 }
 
@@ -909,7 +913,7 @@ void CPlayerPlaylistBar::SavePlaylist()
     }
 }
 
-BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
+BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CMPCThemePlayerBar)
     ON_WM_DESTROY()
     ON_WM_SIZE()
     ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
@@ -924,10 +928,13 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_TIMER()
     ON_WM_CONTEXTMENU()
+    ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_PLAYLIST, OnLvnBeginlabeleditList)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_PLAYLIST, OnLvnEndlabeleditList)
     ON_WM_XBUTTONDOWN()
     ON_WM_XBUTTONUP()
     ON_WM_XBUTTONDBLCLK()
+    ON_WM_ERASEBKGND()
+    ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -984,6 +991,7 @@ void CPlayerPlaylistBar::ResizeListColumn()
         m_list.SetRedraw(TRUE);
 
         Invalidate();
+        m_list.updateSB();
         m_list.RedrawWindow(nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
     }
 }
@@ -1122,6 +1130,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
         return;
     }
 
+
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
@@ -1129,17 +1138,35 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     CPlaylistItem& pli = m_pl.GetAt(pos);
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-        FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
-        FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
+        if (s.bMPCThemeLoaded) {
+            FillRect(pDC->m_hDC, rcItem, CBrush(CMPCTheme::ContentSelectedColor));
+        } else {
+            FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
+            FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
+        }
     } else {
-        FillRect(pDC->m_hDC, rcItem, CBrush(GetSysColor(COLOR_WINDOW)));
+        if (s.bMPCThemeLoaded) {
+            FillRect(pDC->m_hDC, rcItem, CBrush(CMPCTheme::ContentBGColor));
+        } else {
+            FillRect(pDC->m_hDC, rcItem, CBrush(GetSysColor(COLOR_WINDOW)));
+        }
     }
 
-    COLORREF textcolor = fSelected ? 0xff : 0;
-    if (pli.m_fInvalid) {
-        textcolor |= 0xA0A0A0;
+    COLORREF textcolor;
+
+    if (s.bMPCThemeLoaded) {
+        textcolor = CMPCTheme::TextFGColor;
+        if (pli.m_fInvalid) {
+            textcolor = CMPCTheme::ContentTextDisabledFGColorFade2;
+        }
+    } else {
+        textcolor = fSelected ? 0xff : 0;
+        if (pli.m_fInvalid) {
+            textcolor |= 0xA0A0A0;
+        }
     }
 
     CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : CString(_T("Invalid"));
@@ -1431,7 +1458,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
     POSITION pos = FindPos(lvhti.iItem);
     bool bIsLocalFile = bOnItem ? PathUtils::Exists(m_pl.GetAt(pos).m_fns.GetHead()) : false;
 
-    CMenu m;
+    CMPCThemeMenu m;
     m.CreatePopupMenu();
 
     enum {
@@ -1477,8 +1504,12 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bShufflePlaylistItems ? MF_CHECKED : MF_UNCHECKED), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHidePlaylistFullScreen ? MF_CHECKED : MF_UNCHECKED), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));
+    if (s.bMPCThemeLoaded) {
+        m.fulfillThemeReqs();
+    }
 
-    int nID = (int)m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this);
+    //use mainframe as parent to take advantage of measure redirect (was 'this' but text was not printed)
+    int nID = (int)m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, m_pMainFrame); 
     switch (nID) {
         case M_OPEN:
             m_pl.SetPos(pos);
@@ -1779,6 +1810,15 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
     }
 }
 
+void CPlayerPlaylistBar::OnLvnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult) {
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        HWND e_hwnd = (HWND)m_list.SendMessage(LVM_GETEDITCONTROL);
+        if (::IsWindow(m_edit.m_hWnd)) m_edit.UnsubclassWindow();
+        m_edit.SubclassWindow(e_hwnd);
+    }
+}
+
 void CPlayerPlaylistBar::OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 {
     NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
@@ -1788,7 +1828,10 @@ void CPlayerPlaylistBar::OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
         pli.m_label = pDispInfo->item.pszText;
         m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
     }
-
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        if (::IsWindow(m_edit.m_hWnd)) m_edit.UnsubclassWindow();
+    }
     *pResult = 0;
 }
 

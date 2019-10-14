@@ -27,9 +27,9 @@
 
 // CGoToDlg dialog
 
-IMPLEMENT_DYNAMIC(CGoToDlg, CDialog)
+IMPLEMENT_DYNAMIC(CGoToDlg, CMPCThemeDialog)
 CGoToDlg::CGoToDlg(REFERENCE_TIME time, REFERENCE_TIME maxTime, double fps, CWnd* pParent /*=nullptr*/)
-    : CDialog(CGoToDlg::IDD, pParent)
+    : CMPCThemeDialog(CGoToDlg::IDD, pParent)
     , m_time(time)
     , m_maxTime(maxTime)
     , m_fps(fps)
@@ -54,6 +54,7 @@ void CGoToDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT2, m_framestr);
     DDX_Control(pDX, IDC_EDIT1, m_timeedit);
     DDX_Control(pDX, IDC_EDIT2, m_frameedit);
+    fulfillThemeReqs();
 }
 
 BOOL CGoToDlg::OnInitDialog()
@@ -111,7 +112,7 @@ BOOL CGoToDlg::OnInitDialog()
 }
 
 
-BEGIN_MESSAGE_MAP(CGoToDlg, CDialog)
+BEGIN_MESSAGE_MAP(CGoToDlg, CMPCThemeDialog)
     ON_BN_CLICKED(IDC_OK1, OnParseTimeCode)
     ON_BN_CLICKED(IDC_OK2, OnParseFrameCode)
 END_MESSAGE_MAP()

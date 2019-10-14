@@ -273,8 +273,8 @@ void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 // CInPlaceComboBox
 
-CInPlaceComboBox::CInPlaceComboBox(int iItem, int iSubItem, CAtlList<CString>& lstItems, int nSel)
-    : m_iItem(iItem)
+CInPlaceComboBox::CInPlaceComboBox(int iItem, int iSubItem, CAtlList<CString>& lstItems, int nSel) : CMPCThemeComboBox()
+    , m_iItem(iItem)
     , m_iSubItem(iSubItem)
 {
     m_lstItems.AddTailList(&lstItems);
@@ -286,7 +286,7 @@ CInPlaceComboBox::~CInPlaceComboBox()
 {
 }
 
-BEGIN_MESSAGE_MAP(CInPlaceComboBox, CComboBox)
+BEGIN_MESSAGE_MAP(CInPlaceComboBox, CMPCThemeComboBox)
     //{{AFX_MSG_MAP(CInPlaceComboBox)
     ON_WM_CREATE()
     ON_WM_KILLFOCUS()
@@ -301,7 +301,7 @@ END_MESSAGE_MAP()
 
 int CInPlaceComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CComboBox::OnCreate(lpCreateStruct) == -1) {
+    if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 
@@ -329,12 +329,12 @@ BOOL CInPlaceComboBox::PreTranslateMessage(MSG* pMsg)
         }
     }
 
-    return CComboBox::PreTranslateMessage(pMsg);
+    return __super::PreTranslateMessage(pMsg);
 }
 
 void CInPlaceComboBox::OnKillFocus(CWnd* pNewWnd)
 {
-    CComboBox::OnKillFocus(pNewWnd);
+    __super::OnKillFocus(pNewWnd);
 
     CString str;
     GetWindowText(str);
@@ -364,12 +364,12 @@ void CInPlaceComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-    CComboBox::OnChar(nChar, nRepCnt, nFlags);
+    __super::OnChar(nChar, nRepCnt, nFlags);
 }
 
 void CInPlaceComboBox::OnNcDestroy()
 {
-    CComboBox::OnNcDestroy();
+    __super::OnNcDestroy();
 
     delete this;
 }
@@ -401,6 +401,7 @@ BEGIN_MESSAGE_MAP(CInPlaceListBox, CListBox)
     ON_WM_CHAR()
     ON_WM_NCDESTROY()
     //}}AFX_MSG_MAP
+    ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -493,15 +494,9 @@ CPlayerListCtrl::CPlayerListCtrl(int tStartEditingDelay)
 {
 }
 
+
 CPlayerListCtrl::~CPlayerListCtrl()
 {
-}
-
-void CPlayerListCtrl::PreSubclassWindow()
-{
-    EnableToolTips(TRUE);
-
-    CListCtrl::PreSubclassWindow();
 }
 
 int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const
@@ -510,10 +505,12 @@ int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const
         *col = 0;
     }
 
-    int row = HitTest(CPoint(0, point.y), nullptr);
-
-    if ((GetWindowLongPtr(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT) {
+    int row;
+    if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT) { 
+        row = HitTest(point, nullptr);//adipose to keep from breaking list view, use point.x
         return row;
+    } else {
+        row = HitTest(CPoint(0, point.y), nullptr); //in report mode x=0 is ok?
     }
 
     int nColumnCount = ((CHeaderCtrl*)GetDlgItem(0))->GetItemCount();
@@ -981,6 +978,7 @@ void CPlayerListCtrl::OnLvnInsertitem(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
     UNREFERENCED_PARAMETER(pNMLV);
     m_nItemClicked = -1;
+
     *pResult = 0;
 }
 
@@ -999,7 +997,7 @@ void CPlayerListCtrl::OnEnChangeEdit1()
 
 void CPlayerListCtrl::OnCbnDropdownCombo1()
 {
-    CComboBox* pCombo = (CComboBox*)GetDlgItem(IDC_COMBO1);
+    CMPCThemeComboBox* pCombo = (CMPCThemeComboBox*)GetDlgItem(IDC_COMBO1);
 
     CRect ir;
     GetItemRect(m_nItemClicked, &ir, LVIR_BOUNDS);
@@ -1040,6 +1038,7 @@ INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
     }
 
     CHeaderCtrl* pHeader = (CHeaderCtrl*)GetDlgItem(0);
+    if (nullptr == pHeader) return -1; //no header ctrl
     int nColumnCount = pHeader->GetItemCount();
 
     CRect rect;

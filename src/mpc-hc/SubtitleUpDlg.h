@@ -21,13 +21,15 @@
 #pragma once
 
 #include "resource.h"
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeResizableDialog.h"
+#include "CMPCThemeStatusBar.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 class CMainFrame;
 class SubtitlesProvider;
 enum SRESULT;
 
-class CSubtitleUpDlg : public CResizableDialog
+class CSubtitleUpDlg : public CMPCThemeResizableDialog
 {
     enum {
         COL_PROVIDER,
@@ -36,9 +38,9 @@ class CSubtitleUpDlg : public CResizableDialog
         COL_TOTAL_COLUMNS
     };
 
-    CListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
     CProgressCtrl m_progress;
-    CStatusBarCtrl m_status;
+    CMPCThemeStatusBar m_status;
     CMainFrame* m_pMainFrame;
 
     void DownloadSelectedSubtitles();

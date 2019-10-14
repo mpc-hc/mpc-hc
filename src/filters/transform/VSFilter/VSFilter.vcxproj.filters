@@ -58,7 +58,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mpc-hc\ColorButton.cpp">
-      <Filter>Controls</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +116,7 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mpc-hc\ColorButton.h">
-      <Filter>Controls</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

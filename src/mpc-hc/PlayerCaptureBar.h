@@ -21,12 +21,12 @@
 
 #pragma once
 
-#include "PlayerBar.h"
+#include "CMPCThemePlayerBar.h"
 #include "PlayerCaptureDialog.h"
 
 // CPlayerCaptureBar
 
-class CPlayerCaptureBar : public CPlayerBar
+class CPlayerCaptureBar : public CMPCThemePlayerBar
 {
     DECLARE_DYNAMIC(CPlayerCaptureBar)
 

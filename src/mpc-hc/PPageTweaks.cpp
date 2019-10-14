@@ -28,9 +28,9 @@
 
 // CPPageTweaks dialog
 
-IMPLEMENT_DYNAMIC(CPPageTweaks, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageTweaks, CMPCThemePPageBase)
 CPPageTweaks::CPPageTweaks()
-    : CPPageBase(CPPageTweaks::IDD, CPPageTweaks::IDD)
+    : CMPCThemePPageBase(CPPageTweaks::IDD, CPPageTweaks::IDD)
     , m_nJumpDistS(0)
     , m_nJumpDistM(0)
     , m_nJumpDistL(0)
@@ -207,7 +207,7 @@ BOOL CPPageTweaks::OnApply()
     return __super::OnApply();
 }
 
-BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageTweaks, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_COMBO4, OnUpdateFastSeek)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
     ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)

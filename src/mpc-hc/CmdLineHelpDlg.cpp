@@ -24,7 +24,7 @@
 #include "SettingsDefines.h"
 
 CmdLineHelpDlg::CmdLineHelpDlg(const CString& cmdLine /*= _T("")*/)
-    : CResizableDialog(CmdLineHelpDlg::IDD)
+    : CMPCThemeResizableDialog(CmdLineHelpDlg::IDD)
     , m_cmdLine(cmdLine)
 {
 }
@@ -38,10 +38,11 @@ void CmdLineHelpDlg::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_STATIC1, m_icon);
     DDX_Text(pDX, IDC_EDIT1, m_text);
+    fulfillThemeReqs();
 }
 
 
-BEGIN_MESSAGE_MAP(CmdLineHelpDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(CmdLineHelpDlg, CMPCThemeResizableDialog)
 END_MESSAGE_MAP()
 
 BOOL CmdLineHelpDlg::OnInitDialog()
@@ -83,6 +84,7 @@ BOOL CmdLineHelpDlg::OnInitDialog()
     AddAnchor(IDOK, BOTTOM_RIGHT);
 
     EnableSaveRestore(IDS_R_DLG_CMD_LINE_HELP);
+    fulfillThemeReqs();
 
     return FALSE;
 }

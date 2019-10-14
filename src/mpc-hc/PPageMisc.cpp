@@ -30,9 +30,9 @@
 
 // CPPageMisc dialog
 
-IMPLEMENT_DYNAMIC(CPPageMisc, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageMisc, CMPCThemePPageBase)
 CPPageMisc::CPPageMisc()
-    : CPPageBase(CPPageMisc::IDD, CPPageMisc::IDD)
+    : CMPCThemePPageBase(CPPageMisc::IDD, CPPageMisc::IDD)
     , m_iBrightness(0)
     , m_iContrast(0)
     , m_iHue(0)
@@ -73,7 +73,7 @@ void CPPageMisc::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageMisc, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageMisc, CMPCThemePPageBase)
     ON_WM_HSCROLL()
     ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
     ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)

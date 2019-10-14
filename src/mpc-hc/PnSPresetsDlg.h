@@ -23,11 +23,11 @@
 
 #include "FloatEdit.h"
 #include "resource.h"
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeCmdUIDialog.h"
 
 // CPnSPresetsDlg dialog
 
-class CPnSPresetsDlg : public CCmdUIDialog
+class CPnSPresetsDlg : public CMPCThemeCmdUIDialog
 {
     DECLARE_DYNAMIC(CPnSPresetsDlg)
 
@@ -45,10 +45,10 @@ public:
 
     // Dialog Data
     enum { IDD = IDD_PNSPRESET_DLG };
-    CFloatEdit m_PosX;
-    CFloatEdit m_PosY;
-    CFloatEdit m_ZoomX;
-    CFloatEdit m_ZoomY;
+    CMPCThemeFloatEdit m_PosX;
+    CMPCThemeFloatEdit m_PosY;
+    CMPCThemeFloatEdit m_ZoomX;
+    CMPCThemeFloatEdit m_ZoomY;
     CString    m_label;
     CListBox   m_list;
 

@@ -24,10 +24,10 @@
 #include "PPageSync.h"
 
 
-IMPLEMENT_DYNAMIC(CPPageSync, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageSync, CMPCThemePPageBase)
 
 CPPageSync::CPPageSync()
-    : CPPageBase(CPPageSync::IDD, CPPageSync::IDD)
+    : CMPCThemePPageBase(CPPageSync::IDD, CPPageSync::IDD)
     , m_bSynchronizeVideo(FALSE)
     , m_bSynchronizeDisplay(FALSE)
     , m_bSynchronizeNearest(FALSE)
@@ -105,7 +105,7 @@ BOOL CPPageSync::OnApply()
     return __super::OnApply();
 }
 
-BEGIN_MESSAGE_MAP(CPPageSync, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageSync, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_SYNCVIDEO, OnBnClickedSyncVideo)
     ON_BN_CLICKED(IDC_SYNCDISPLAY, OnBnClickedSyncDisplay)
     ON_BN_CLICKED(IDC_SYNCNEAREST, OnBnClickedSyncNearest)

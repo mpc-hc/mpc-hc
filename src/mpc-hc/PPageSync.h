@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
 #include "resource.h"
 
 
-class CPPageSync: public CPPageBase
+class CPPageSync: public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageSync)
 

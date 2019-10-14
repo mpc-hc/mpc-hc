@@ -24,6 +24,7 @@
 #include "EventDispatcher.h"
 #include "DSMPropertyBag.h"
 #include <memory>
+#include "CMPCThemeToolTipCtrl.h"
 
 class CMainFrame;
 
@@ -46,13 +47,14 @@ private:
     REFERENCE_TIME m_rtHoverPos;
     CPoint m_hoverPoint;
     HCURSOR m_cursor;
-    bool m_bDraggingThumb;
+    bool m_bDraggingThumb, m_bHoverThumb;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
-    CToolTipCtrl m_tooltip;
+    CMPCThemeToolTipCtrl m_tooltip;
     enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;
+    CFont mpcThemeFont;
     TOOLINFO m_ti;
     CPoint m_tooltipPoint;
     bool m_bIgnoreLastTooltipPoint;
@@ -70,6 +72,8 @@ private:
 
     void MoveThumb(const CPoint& point);
     void SyncVideoToThumb();
+    void checkHover(CPoint point);
+    void invalidateThumb();
     void CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_time_change);
     long ChannelPointFromPosition(REFERENCE_TIME rtPos) const;
     REFERENCE_TIME PositionFromClientPoint(const CPoint& point) const;

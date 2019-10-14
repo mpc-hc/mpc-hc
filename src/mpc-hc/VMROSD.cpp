@@ -24,6 +24,7 @@
 #include "DSMPropertyBag.h"
 #include "MainFrm.h"
 #include <mvrInterfaces.h>
+#include "CMPCTheme.h"
 
 #define SEEKBAR_HEIGHT       60
 #define SLIDER_BAR_MARGIN    10
@@ -51,13 +52,25 @@ CVMROSD::CVMROSD(CMainFrame* pMainFrame)
     , m_bShowMessage(true)
     , m_nMessagePos(OSD_NOMESSAGE)
 {
-    m_colors[OSD_TRANSPARENT] = RGB(0,     0,   0);
-    m_colors[OSD_BACKGROUND]  = RGB(32,   40,  48);
-    m_colors[OSD_BORDER]      = RGB(48,   56,  62);
-    m_colors[OSD_TEXT]        = RGB(224, 224, 224);
-    m_colors[OSD_BAR]         = RGB(64,   72,  80);
-    m_colors[OSD_CURSOR]      = RGB(192, 200, 208);
-    m_colors[OSD_DEBUGCLR]    = RGB(128, 136, 144);
+
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded) {
+        m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
+        m_colors[OSD_BACKGROUND] = CMPCTheme::ContentBGColor;
+        m_colors[OSD_BORDER] = CMPCTheme::WindowBorderColorDim;
+        m_colors[OSD_TEXT] = CMPCTheme::TextFGColor;
+        m_colors[OSD_BAR] = CMPCTheme::ContentBGColor;
+        m_colors[OSD_CURSOR] = CMPCTheme::TextFGColor;
+        m_colors[OSD_DEBUGCLR] = CMPCTheme::DebugColorRed;
+    } else {
+        m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
+        m_colors[OSD_BACKGROUND] = RGB(32, 40, 48);
+        m_colors[OSD_BORDER] = RGB(48, 56, 62);
+        m_colors[OSD_TEXT] = RGB(224, 224, 224);
+        m_colors[OSD_BAR] = RGB(64, 72, 80);
+        m_colors[OSD_CURSOR] = RGB(192, 200, 208);
+        m_colors[OSD_DEBUGCLR] = RGB(128, 136, 144);
+    }
 
     m_penBorder.CreatePen(PS_SOLID, 1, m_colors[OSD_BORDER]);
     m_penCursor.CreatePen(PS_SOLID, 4, m_colors[OSD_CURSOR]);

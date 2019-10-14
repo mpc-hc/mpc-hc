@@ -25,16 +25,16 @@
 
 // CFloatEdit
 
-IMPLEMENT_DYNAMIC(CFloatEdit, CEdit)
+IMPLEMENT_DYNAMIC(CMPCThemeFloatEdit, CMPCThemeEdit)
 
-bool CFloatEdit::GetFloat(float& f)
+bool CMPCThemeFloatEdit::GetFloat(float& f)
 {
     CString s;
     GetWindowText(s);
     return (_stscanf_s(s, _T("%f"), &f) == 1);
 }
 
-double CFloatEdit::operator = (double d)
+double CMPCThemeFloatEdit::operator = (double d)
 {
     CString s;
     s.Format(_T("%.4f"), d);
@@ -42,7 +42,7 @@ double CFloatEdit::operator = (double d)
     return d;
 }
 
-CFloatEdit::operator double()
+CMPCThemeFloatEdit::operator double()
 {
     CString s;
     GetWindowText(s);
@@ -50,11 +50,11 @@ CFloatEdit::operator double()
     return (_stscanf_s(s, _T("%f"), &f) == 1 ? f : 0);
 }
 
-BEGIN_MESSAGE_MAP(CFloatEdit, CEdit)
+BEGIN_MESSAGE_MAP(CMPCThemeFloatEdit, CMPCThemeEdit)
     ON_WM_CHAR()
 END_MESSAGE_MAP()
 
-void CFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CMPCThemeFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     if (!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b')) {
         return;
@@ -74,18 +74,18 @@ void CFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-    CEdit::OnChar(nChar, nRepCnt, nFlags);
+    CMPCThemeEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 // CIntEdit
 
-IMPLEMENT_DYNAMIC(CIntEdit, CEdit)
+IMPLEMENT_DYNAMIC(CMPCThemeIntEdit, CMPCThemeEdit)
 
-BEGIN_MESSAGE_MAP(CIntEdit, CEdit)
+BEGIN_MESSAGE_MAP(CMPCThemeIntEdit, CMPCThemeEdit)
     ON_WM_CHAR()
 END_MESSAGE_MAP()
 
-void CIntEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CMPCThemeIntEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     if (!(nChar >= '0' && nChar <= '9' || nChar == '-' || nChar == '\b')) {
         return;
@@ -106,21 +106,21 @@ void CIntEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-    CEdit::OnChar(nChar, nRepCnt, nFlags);
+    CMPCThemeEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 // CHexEdit
 
-IMPLEMENT_DYNAMIC(CHexEdit, CEdit)
+IMPLEMENT_DYNAMIC(CMPCThemeHexEdit, CMPCThemeEdit)
 
-bool CHexEdit::GetDWORD(DWORD& dw)
+bool CMPCThemeHexEdit::GetDWORD(DWORD& dw)
 {
     CString s;
     GetWindowText(s);
     return (_stscanf_s(s, _T("%lx"), &dw) == 1);
 }
 
-DWORD CHexEdit::operator = (DWORD dw)
+DWORD CMPCThemeHexEdit::operator = (DWORD dw)
 {
     CString s;
     s.Format(_T("%08lx"), dw);
@@ -128,7 +128,7 @@ DWORD CHexEdit::operator = (DWORD dw)
     return dw;
 }
 
-CHexEdit::operator DWORD()
+CMPCThemeHexEdit::operator DWORD()
 {
     CString s;
     GetWindowText(s);
@@ -136,11 +136,11 @@ CHexEdit::operator DWORD()
     return (_stscanf_s(s, _T("%lx"), &dw) == 1 ? dw : 0);
 }
 
-BEGIN_MESSAGE_MAP(CHexEdit, CEdit)
+BEGIN_MESSAGE_MAP(CMPCThemeHexEdit, CMPCThemeEdit)
     ON_WM_CHAR()
 END_MESSAGE_MAP()
 
-void CHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CMPCThemeHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     if (!(nChar >= 'A' && nChar <= 'F' || nChar >= 'a' && nChar <= 'f'
             || nChar >= '0' && nChar <= '9' || nChar == '\b')) {
@@ -161,5 +161,5 @@ void CHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-    CEdit::OnChar(nChar, nRepCnt, nFlags);
+    CMPCThemeEdit::OnChar(nChar, nRepCnt, nFlags);
 }

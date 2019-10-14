@@ -106,7 +106,11 @@
 #include <qnetwork.h>
 
 #include "YoutubeDL.h"
+#include "CMPCThemeMenu.h"
+#include "CMPCThemeDockBar.h"
 
+#include <dwmapi.h>
+#undef SubclassWindow
 
 // IID_IAMLine21Decoder
 DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
@@ -153,13 +157,14 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
+IMPLEMENT_DYNAMIC(CMainFrame, CMPCThemeFrameWnd)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
+BEGIN_MESSAGE_MAP(CMainFrame, CMPCThemeFrameWnd)
     ON_WM_NCCREATE()
     ON_WM_CREATE()
     ON_WM_DESTROY()
     ON_WM_CLOSE()
+    ON_WM_MEASUREITEM()
 
     ON_REGISTERED_MESSAGE(s_uTaskbarRestart, OnTaskBarRestart)
     ON_REGISTERED_MESSAGE(WM_NOTIFYICON, OnNotifyIcon)
@@ -228,7 +233,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_DVD_SUB_NEXT, ID_DVD_SUB_PREV, OnDvdSub)
     ON_COMMAND(ID_DVD_SUB_ONOFF, OnDvdSubOnOff)
 
-
     ON_COMMAND(ID_FILE_OPENQUICK, OnFileOpenQuick)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENMEDIA, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_OPENMEDIA, OnFileOpenmedia)
@@ -286,6 +290,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTURE, OnUpdateViewCapture)
     ON_COMMAND(ID_VIEW_DEBUGSHADERS, OnViewDebugShaders)
     ON_UPDATE_COMMAND_UI(ID_VIEW_DEBUGSHADERS, OnUpdateViewDebugShaders)
+    ON_COMMAND(ID_VIEW_MPCTHEME, OnViewMPCTheme)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_MPCTHEME, OnUpdateViewMPCTheme)
     ON_COMMAND(ID_VIEW_PRESETS_MINIMAL, OnViewMinimal)
     ON_UPDATE_COMMAND_UI(ID_VIEW_PRESETS_MINIMAL, OnUpdateViewMinimal)
     ON_COMMAND(ID_VIEW_PRESETS_COMPACT, OnViewCompact)
@@ -362,7 +368,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_D3DFULLSCREEN, OnUpdateViewD3DFullscreen)
     ON_UPDATE_COMMAND_UI(ID_VIEW_DISABLEDESKTOPCOMPOSITION, OnUpdateViewDisableDesktopComposition)
     ON_UPDATE_COMMAND_UI(ID_VIEW_ALTERNATIVEVSYNC, OnUpdateViewAlternativeVSync)
-
 
     ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_INCREASE, OnUpdateViewVSyncOffsetIncrease)
     ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_DECREASE, OnUpdateViewVSyncOffsetDecrease)
@@ -516,7 +521,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE(WM_LOADSUBTITLES, OnLoadSubtitles)
     ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
-END_MESSAGE_MAP()
+    ON_WM_DRAWITEM()
+    ON_WM_SETTINGCHANGE()
+    END_MESSAGE_MAP()
 
 #ifdef _DEBUG
 const TCHAR* GetEventString(LONG evCode)
@@ -776,11 +783,13 @@ CMainFrame::CMainFrame()
     , m_dLastVideoScaleFactor(0)
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
+    , watchingFileDialog(false)
+    , fileDialogHookHelper(nullptr)
 {
-    // Don't let CFrameWnd handle automatically the state of the menu items.
+    // Don't let CMPCThemeFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
     // disabled but it avoids some unwanted cases where programmatically
-    // disabled menu items are always re-enabled by CFrameWnd.
+    // disabled menu items are always re-enabled by CMPCThemeFrameWnd.
     m_bAutoMenuEnable = FALSE;
 
     EventRouter::EventSelection receives;
@@ -811,6 +820,7 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
+    if (defaultMPCThemeMenu != nullptr) delete defaultMPCThemeMenu;
 }
 
 int CMainFrame::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
@@ -966,7 +976,20 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     UpdateSkypeHandler();
 
+    m_popupMenu.fulfillThemeReqs();
+    m_mainPopupMenu.fulfillThemeReqs();
     return 0;
+}
+
+void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct) {
+    if (lpMeasureItemStruct->CtlType == ODT_MENU)  {
+        if (CMPCThemeMenu* cm = CMPCThemeMenu::getParentMenu(lpMeasureItemStruct->itemID)) {
+            cm->MeasureItem(lpMeasureItemStruct);
+            return;
+        }
+    }
+    
+    CMPCThemeFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }
 
 void CMainFrame::OnDestroy()
@@ -1216,6 +1239,25 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
     if (r.Height() < min.y || r.Width() < min.x) {
         r |= CRect(r.TopLeft(), CSize(min));
         MoveWindow(r);
+    }
+}
+
+void CMainFrame::EnableDocking(DWORD dwDockStyle) {
+    ASSERT((dwDockStyle & ~(CBRS_ALIGN_ANY | CBRS_FLOAT_MULTI)) == 0);
+
+    m_pFloatingFrameClass = RUNTIME_CLASS(CMiniDockFrameWnd);
+    for (int i = 0; i < 4; i++) {
+        if (dwDockBarMap[i][1] & dwDockStyle & CBRS_ALIGN_ANY) {
+            CMPCThemeDockBar* pDock = (CMPCThemeDockBar*)GetControlBar(dwDockBarMap[i][0]);
+            if (pDock == NULL) {
+                pDock = new CMPCThemeDockBar;
+                if (!pDock->Create(this,
+                    WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CHILD | WS_VISIBLE |
+                    dwDockBarMap[i][1], dwDockBarMap[i][0])) {
+                    AfxThrowResourceException();
+                }
+            }
+        }
     }
 }
 
@@ -1575,6 +1617,7 @@ LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam)
 {
     m_dpi.Override(LOWORD(wParam), HIWORD(wParam));
     m_eventc.FireEvent(MpcEvent::DPI_CHANGED);
+    CMPCThemeMenu::clearDimensions();
     MoveWindow(reinterpret_cast<RECT*>(lParam));
     RecalcLayout();
     return 0;
@@ -2335,7 +2378,6 @@ void CMainFrame::GraphEventComplete()
     //    m_pSubtitlesProviders->Upload();
     //}
 
-
     if (s.fLoopForever || m_nLoops < s.nLoops) {
         if (bBreak) {
             DoAfterPlaybackEvent();
@@ -2816,7 +2858,7 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
             itemID = mii.wID;
         }
 
-        CMenu* pSubMenu = nullptr;
+        CMPCThemeMenu* pSubMenu = nullptr;
 
         if (itemID == ID_FAVORITES) {
             SetupFavoritesSubMenu();
@@ -2833,6 +2875,7 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
             mii.fState = (pSubMenu->GetMenuItemCount()) > 0 ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
             mii.hSubMenu = *pSubMenu;
             VERIFY(pMenu->SetMenuItemInfo(i, &mii, TRUE));
+            pSubMenu->fulfillThemeReqs();
         }
     }
 }
@@ -2892,7 +2935,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             VERIFY(pPopupMenu->GetMenuItemInfo(i, &mii, TRUE));
             itemID = mii.wID;
         }
-        CMenu* pSubMenu = nullptr;
+        CMPCThemeMenu* pSubMenu = nullptr;
 
         if (itemID == ID_FILE_OPENDISC) {
             SetupOpenCDSubMenu();
@@ -2919,6 +2962,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         } else if (itemID == ID_NAVIGATE_GOTO) {
             // ID_NAVIGATE_GOTO is just a marker we use to insert the appropriate submenus
             SetupJumpToSubMenus(pPopupMenu, i + 1);
+            uiMenuCount = pPopupMenu->GetMenuItemCount(); //SetupJumpToSubMenus could actually reduce the menu count!
         } else if (itemID == ID_FAVORITES) {
             SetupFavoritesSubMenu();
             pSubMenu = &m_favoritesMenu;
@@ -2937,6 +2981,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             mii.fState = (pSubMenu->GetMenuItemCount() > 0) ? MF_ENABLED : (MF_DISABLED | MF_GRAYED);
             mii.hSubMenu = *pSubMenu;
             VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
+            pSubMenu->fulfillThemeReqs();
         }
     }
 
@@ -3009,11 +3054,17 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
             int k = 0;
             CString label = s.m_pnspresets[i].Tokenize(_T(","), k);
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START + i, label));
+            CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
         }
         //if (j > 0)
         {
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START + i, ResStr(IDS_PANSCAN_EDIT)));
             VERIFY(pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND | MF_SEPARATOR));
+            if (s.bMPCThemeLoaded) {
+                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, (UINT)(ID_PANNSCAN_PRESETS_START + i), true);
+                UINT pos = CMPCThemeMenu::getPosFromID(pPopupMenu, ID_VIEW_RESET); //separator is inserted right before view_reset
+                CMPCThemeMenu::fulfillThemeReqsItem(pPopupMenu, pos-1);
+            }
         }
     }
 
@@ -4090,7 +4141,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
     if (fSetForegroundWindow && !(s.nCLSwitches & CLSW_NOFOCUS)) {
         SetForegroundWindow();
     }
-
 
     return TRUE;
 }
@@ -5379,6 +5429,7 @@ void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
     CString Temp;
     Temp.Format(L"%d", r.m_AdvRendSets.iVMR9VSyncOffset);
     pCmdUI->SetText(Temp);
+    CMPCThemeMenu::updateItem(pCmdUI);
 }
 
 void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
@@ -6215,6 +6266,7 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
     } else {
         VERIFY(AdjustWindowRectEx(windowRect, GetWindowStyle(m_hWnd), dwMenuFlags == AFX_MBV_KEEPVISIBLE, GetWindowExStyle(m_hWnd)));
     }
+
     VERIFY(SetWindowPos(nullptr, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(), uFlags));
 }
 
@@ -6229,6 +6281,7 @@ void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
     const auto& s = AfxGetAppSettings();
     const UINT next[] = { IDS_VIEW_HIDEMENU, IDS_VIEW_FRAMEONLY, IDS_VIEW_BORDERLESS, IDS_VIEW_CAPTIONMENU };
     pCmdUI->SetText(ResStr(next[s.eCaptionMenuMode % MpcCaptionState::MODE_COUNT]));
+    CMPCThemeMenu::updateItem(pCmdUI);
 }
 
 void CMainFrame::OnViewControlBar(UINT nID)
@@ -6394,6 +6447,16 @@ void CMainFrame::OnUpdateViewDebugShaders(CCmdUI* pCmdUI)
 {
     const auto& dlg = m_pDebugShaders;
     pCmdUI->SetCheck(dlg && dlg->m_hWnd && dlg->IsWindowVisible());
+}
+
+void CMainFrame::OnUpdateViewMPCTheme(CCmdUI* pCmdUI) {
+    const CAppSettings& s = AfxGetAppSettings();
+    pCmdUI->SetCheck(s.bMPCTheme);
+}
+
+void CMainFrame::OnViewMPCTheme() {
+    CAppSettings& s = AfxGetAppSettings();
+    s.bMPCTheme = !s.bMPCTheme;
 }
 
 void CMainFrame::OnViewMinimal()
@@ -7892,7 +7955,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         styles.Add(val);
                     }
 
-                    CPropertySheet dlg(IDS_SUBTITLES_STYLES_CAPTION, GetModalParent());
+                    CMPCThemePropertySheet dlg(IDS_SUBTITLES_STYLES_CAPTION, GetModalParent());
                     for (size_t l = 0; l < pages.GetCount(); l++) {
                         dlg.AddPage(pages[l]);
                     }
@@ -8017,7 +8080,6 @@ void CMainFrame::SetVolumeBoost(UINT nAudioBoost)
         bool fNormalize, fNormalizeRecover;
         UINT nMaxNormFactor, nBoost;
         pASF->GetNormalizeBoost2(fNormalize, nMaxNormFactor, fNormalizeRecover, nBoost);
-
 
         CString strBoost;
         strBoost.Format(IDS_BOOST_OSD, nAudioBoost);
@@ -8265,10 +8327,15 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
     }
 
     if (IsMenu(*pCmdUI->m_pMenu)) {
-        MENUITEMINFO mii;
+        MENUITEMINFO mii, cii;
+        ZeroMemory(&cii, sizeof(MENUITEMINFO));
+        cii.cbSize = sizeof(cii);
+        cii.fMask = MIIM_FTYPE;
+        pCmdUI->m_pMenu->GetMenuItemInfo(pCmdUI->m_nID, &cii);
+
         mii.cbSize = sizeof(mii);
         mii.fMask = MIIM_FTYPE | MIIM_STATE;
-        mii.fType = (bRadio ? MFT_RADIOCHECK : 0);
+        mii.fType = (bRadio ? MFT_RADIOCHECK : 0) | (cii.fType & MFT_OWNERDRAW); //preserve owner draw flag
         mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
         VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
     }
@@ -10062,7 +10129,6 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
             videoSize = GetVideoSize();
         }
 
-
         CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
 
         CSize controlsSize;
@@ -10208,7 +10274,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
 
     if (!s.HasFixedWindowSize()) {
         ShowWindow(SW_SHOWNOACTIVATE);
-        if (dScale == ZOOM_DEFAULT_LEVEL) {
+        if (dScale == (double)ZOOM_DEFAULT_LEVEL) {
             if (s.fRememberWindowSize) return; // ignore default auto-zoom setting
             dScale =
                 s.iZoomLevel == 0 ? 0.5 :
@@ -10216,9 +10282,9 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
                 s.iZoomLevel == 2 ? 2.0 :
                 s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
                 s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
-        } else if (dScale == ZOOM_AUTOFIT) {
+        } else if (dScale == (double)ZOOM_AUTOFIT) {
             dScale = GetZoomAutoFitScale(false);
-        } else if (dScale == ZOOM_AUTOFIT_LARGER) {
+        } else if (dScale == (double)ZOOM_AUTOFIT_LARGER) {
             dScale = GetZoomAutoFitScale(true);
         } else if (dScale <= 0.0) {
             ASSERT(FALSE);
@@ -11447,7 +11513,6 @@ void CMainFrame::UpdateChapterInInfoBar()
     }
 }
 
-
 void CMainFrame::OpenSetupStatsBar()
 {
     m_wndStatsBar.RemoveAllLines();
@@ -12380,7 +12445,6 @@ void CMainFrame::SendNowPlayingToSkype()
     m_pSkypeMoodMsgHandler->SendMoodMessage(msg);
 }
 
-
 // dynamic menus
 
 void CMainFrame::CreateDynamicMenus()
@@ -12465,7 +12529,7 @@ void CMainFrame::SetupOpenCDSubMenu()
 
 void CMainFrame::SetupFiltersSubMenu()
 {
-    CMenu& subMenu = m_filtersMenu;
+    CMPCThemeMenu& subMenu = m_filtersMenu;
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
@@ -12647,6 +12711,7 @@ void CMainFrame::SetupFiltersSubMenu()
             VERIFY(subMenu.InsertMenu(0, MF_STRING | MF_ENABLED | MF_BYPOSITION, ID_FILTERS_COPY_TO_CLIPBOARD, ResStr(IDS_FILTERS_COPY_TO_CLIPBOARD)));
             VERIFY(subMenu.InsertMenu(1, MF_SEPARATOR | MF_ENABLED | MF_BYPOSITION));
         }
+        subMenu.fulfillThemeReqs();
     }
 }
 
@@ -13056,7 +13121,8 @@ void CMainFrame::SetupVideoStreamsSubMenu()
 
 void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInsertPos /*= -1*/)
 {
-    auto emptyMenu = [&](CMenu & menu) {
+    const CAppSettings& s = AfxGetAppSettings();
+    auto emptyMenu = [&](CMPCThemeMenu & menu) {
         while (menu.RemoveMenu(0, MF_BYPOSITION));
     };
 
@@ -13093,6 +13159,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         if (parentMenu && iInsertPos >= 0) {
             if (parentMenu->InsertMenu(iInsertPos + m_nJumpToSubMenusCount, MF_POPUP | MF_BYPOSITION,
                                        (UINT_PTR)(HMENU)subMenu, subMenuName)) {
+                CMPCThemeMenu::fulfillThemeReqsItem(parentMenu, iInsertPos + m_nJumpToSubMenusCount);
                 m_nJumpToSubMenusCount++;
             } else {
                 ASSERT(FALSE);
@@ -13213,8 +13280,6 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
             addSubMenuIfPossible(StrRes(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
         }
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        const CAppSettings& s = AfxGetAppSettings();
-
         menuStartRadioSection();
         for (const auto& channel : s.m_DVBChannels) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
@@ -14989,7 +15054,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         CloseMediaPrivate();
     }
 
-
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
 }
@@ -15404,7 +15468,6 @@ void CMainFrame::SetClosedCaptions(bool enable)
     }
 }
 
-
 LPCTSTR CMainFrame::GetDVDAudioFormatName(const DVD_AudioAttributes& ATR) const
 {
     switch (ATR.AudioFormat) {
@@ -15628,7 +15691,6 @@ void CMainFrame::SendNowPlayingToApi()
     if (!AfxGetAppSettings().hMasterWnd) {
         return;
     }
-
 
     if (GetLoadState() == MLS::LOADED) {
         CPlaylistItem pli;
@@ -15938,7 +16000,6 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
         }
     }
 }
-
 
 // TODO : to be finished !
 //void CMainFrame::AutoSelectTracks()
@@ -16322,6 +16383,31 @@ HRESULT CMainFrame::UpdateThumbnailClip()
     return m_pTaskbarList->SetThumbnailClip(m_hWnd, &r);
 }
 
+BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT & rect, CWnd * pParentWnd, LPCTSTR lpszMenuName, DWORD dwExStyle, CCreateContext * pContext)
+{
+    if (defaultMPCThemeMenu == nullptr) defaultMPCThemeMenu = new CMPCThemeMenu();
+    if (lpszMenuName != NULL) {
+        defaultMPCThemeMenu->LoadMenu(lpszMenuName);
+
+        if (!CreateEx(dwExStyle, lpszClassName, lpszWindowName, dwStyle,
+            rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, pParentWnd->GetSafeHwnd(), defaultMPCThemeMenu->m_hMenu, (LPVOID)pContext)) {
+            return FALSE;
+        }
+        defaultMPCThemeMenu->fulfillThemeReqs(true);
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void CMainFrame::enableFileDialogHook(CMPCThemeUtil* helper) {
+    if (AfxGetAppSettings().bWindows10DarkThemeActive) { //hard coded behavior for windows 10 dark theme file dialogs, irrespsective of theme loaded by user (fixing windows bugs)
+        watchingFileDialog = true;
+        fileDialogHookHelper = helper;
+        fileDialogHandle = nullptr;
+    }
+}
+
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
@@ -16352,6 +16438,19 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
                 break;
         }
         return 0;
+    } else if (watchingFileDialog && message == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE) {
+        fileDialogHandle = (HWND)lParam;
+        watchingFileDialog = false;
+        //capture but process message normally
+    } else if (message == WM_GETICON && nullptr != fileDialogHandle) {
+        HWND duiview = ::FindWindowEx(fileDialogHandle, NULL, _T("DUIViewWndClassName"), NULL);
+        HWND duihwnd = ::FindWindowEx(duiview, NULL, _T("DirectUIHWND"), NULL);
+        HWND firstchild = ::GetWindow(duihwnd, GW_CHILD);
+        if (nullptr != firstchild) {
+            fileDialogHookHelper->subClassFileDialog(this, duihwnd);
+            ::RedrawWindow(duiview, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+            fileDialogHandle = nullptr;
+        }
     }
 
     LRESULT ret = 0;
@@ -16576,7 +16675,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
 
 void CMainFrame::UpdateUILanguage()
 {
-    CMenu  defaultMenu;
+//    CMenu  defaultMenu;
     CMenu* oldMenu;
 
     // Destroy the dynamic menus before reloading the main menus
@@ -16589,14 +16688,21 @@ void CMainFrame::UpdateUILanguage()
     m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
 
     oldMenu = GetMenu();
-    defaultMenu.LoadMenu(IDR_MAINFRAME);
+    defaultMPCThemeMenu = new CMPCThemeMenu(); //will have been destroyed
+    defaultMPCThemeMenu->LoadMenu(IDR_MAINFRAME);
     if (oldMenu) {
         // Attach the new menu to the window only if there was a menu before
-        SetMenu(&defaultMenu);
+        SetMenu(defaultMPCThemeMenu);
         // and then destroy the old one
         oldMenu->DestroyMenu();
     }
-    m_hMenuDefault = defaultMenu.Detach();
+    //we don't detach because we retain the cmenu
+    //m_hMenuDefault = defaultMenu.Detach();
+    m_hMenuDefault = defaultMPCThemeMenu->GetSafeHmenu();
+
+    m_popupMenu.fulfillThemeReqs();
+    m_mainPopupMenu.fulfillThemeReqs();
+    defaultMPCThemeMenu->fulfillThemeReqs(true);
 
     // Reload the dynamic menus
     CreateDynamicMenus();
@@ -17264,4 +17370,15 @@ bool CMainFrame::DownloadWithYoutubeDL(CString url, CString filename)
     CloseHandle(proc_info.hThread);
 
     return true;
+}
+
+void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection) {
+    __super::OnSettingChange(uFlags, lpszSection);
+    if (SPI_SETNONCLIENTMETRICS == uFlags) {
+        CMPCThemeMenu::clearDimensions();
+        if (nullptr != defaultMPCThemeMenu) {
+            UpdateUILanguage(); //cheap way to rebuild menus--we want to do this to force them to re-measure
+        }
+        RecalcLayout();
+    }
 }

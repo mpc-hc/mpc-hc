@@ -102,6 +102,8 @@ public:
         {m_dwSCBStyle = (dwSCBStyle & ~SCBS_EDGEALL);}
 
 //mpc-hc custom code start
+    virtual void mpc_fillNcBG(CDC *mdc, CRect rcDraw);
+
     void SetHeight(const int nHeight)
     {
         m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;

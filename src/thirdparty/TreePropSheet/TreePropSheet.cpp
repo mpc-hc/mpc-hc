@@ -249,6 +249,25 @@ CTreeCtrl* CTreePropSheet::CreatePageTreeObject()
     return new CTreeCtrl;
 }
 
+void CTreePropSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
+    if (nullptr == tabFont.m_hObject) {
+        CFont* dialogfont = GetFont();
+        LOGFONT lf;
+        dialogfont->GetLogFont(&lf);
+        NONCLIENTMETRICS ncMetrics;
+        ncMetrics.cbSize = sizeof(NONCLIENTMETRICS);
+        ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncMetrics, 0);
+        lf.lfHeight = ncMetrics.lfCaptionFont.lfHeight;
+        tabFont.CreateFontIndirect(&lf);
+        ctrl->SetFont(&tabFont);
+    }
+}
+
+//added for mpc-hc theming
+void CTreePropSheet::SetTreeCtrlTheme(CTreeCtrl *ctrl) {
+    SetWindowTheme(ctrl->GetSafeHwnd(), L"Explorer", NULL);
+}
+
 
 CPropPageFrame* CTreePropSheet::CreatePageFrame()
 {
@@ -787,6 +806,7 @@ BOOL CTreePropSheet::OnInitDialog()
     // calculate caption height
     CTabCtrl    wndTabCtrl;
     wndTabCtrl.Create(WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS, rectFrame, this, 0x1234);
+    SetTabCtrlFont(&wndTabCtrl);
     wndTabCtrl.InsertItem(0, _T(""));
     CRect   rectFrameCaption;
     wndTabCtrl.GetItemRect(0, rectFrameCaption);
@@ -842,7 +862,8 @@ BOOL CTreePropSheet::OnInitDialog()
         m_pwndPageTree->SetImageList(&m_Images, TVSIL_STATE);
     }
 
-    SetWindowTheme(m_pwndPageTree->GetSafeHwnd(), L"Explorer", NULL);
+    //SetWindowTheme(m_pwndPageTree->GetSafeHwnd(), L"Explorer", NULL);
+    SetTreeCtrlTheme(m_pwndPageTree);
 
     // Fill the tree ctrl
     RefillPageTree();

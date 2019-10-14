@@ -26,9 +26,9 @@
 
 // CPlayerNavigationDialog dialog
 
-// IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
+// IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CMPCThemeResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog(CMainFrame* pMainFrame)
-    : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
+    : CMPCThemeResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
     , m_pMainFrame(pMainFrame)
     , m_bChannelInfoAvailable(false)
     , m_bTVStations(true)
@@ -55,6 +55,7 @@ void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LISTCHANNELS, m_channelList);
     DDX_Control(pDX, IDC_NAVIGATION_INFO, m_buttonInfo);
     DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_buttonFilterStations);
+    fulfillThemeReqs();
 }
 
 BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
@@ -70,7 +71,7 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
+BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CMPCThemeResizableDialog)
     ON_WM_DESTROY()
     ON_WM_CONTEXTMENU()
     ON_LBN_SELCHANGE(IDC_LISTCHANNELS, OnChangeChannel)

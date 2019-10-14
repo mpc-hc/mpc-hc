@@ -23,13 +23,14 @@
 #include "mplayerc.h"
 #include "SaveDlg.h"
 #include "../filters/Filters.h"
-
+#include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
 
 // CSaveDlg dialog
 
-IMPLEMENT_DYNAMIC(CSaveDlg, CCmdUIDialog)
+IMPLEMENT_DYNAMIC(CSaveDlg, CMPCThemeCmdUIDialog)
 CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=nullptr*/)
-    : CCmdUIDialog(CSaveDlg::IDD, pParent)
+    : CMPCThemeCmdUIDialog(CSaveDlg::IDD, pParent)
     , m_in(in)
     , m_out(out)
     , m_nIDTimerEvent((UINT_PTR) - 1)
@@ -42,15 +43,16 @@ CSaveDlg::~CSaveDlg()
 
 void CSaveDlg::DoDataExchange(CDataExchange* pDX)
 {
-    CCmdUIDialog::DoDataExchange(pDX);
+    CMPCThemeCmdUIDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_ANIMATE1, m_anim);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_REPORT, m_report);
     DDX_Control(pDX, IDC_FROMTO, m_fromto);
+    fulfillThemeReqs();
 }
 
 
-BEGIN_MESSAGE_MAP(CSaveDlg, CCmdUIDialog)
+BEGIN_MESSAGE_MAP(CSaveDlg, CMPCThemeCmdUIDialog)
     ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
     ON_MESSAGE(WM_GRAPHNOTIFY, OnGraphNotify)
     ON_WM_TIMER()
@@ -61,7 +63,7 @@ END_MESSAGE_MAP()
 
 BOOL CSaveDlg::OnInitDialog()
 {
-    CCmdUIDialog::OnInitDialog();
+    CMPCThemeCmdUIDialog::OnInitDialog();
 
     // We can't use m_anim.Open(IDR_AVI_FILECOPY) since we want to load the AVI from the main executable
     m_anim.SendMessage(ACM_OPEN, (WPARAM)AfxGetInstanceHandle(), (LPARAM)IDR_AVI_FILECOPY);
@@ -78,6 +80,7 @@ BOOL CSaveDlg::OnInitDialog()
     m_fromto.SetWindowText(str);
 
     m_progress.SetRange(0, 100);
+    CMPCThemeUtil::fulfillThemeReqs(&m_progress);
 
     if (FAILED(pGB.CoCreateInstance(CLSID_FilterGraph)) || !(pMC = pGB) || !(pME = pGB) || !(pMS = pGB)
             || FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
@@ -182,7 +185,8 @@ BOOL CSaveDlg::OnInitDialog()
 
     if (FAILED(hr)) {
         CString err;
-        err.Format(_T("Error Connect pSrc / pMid: 0x%x"), hr);        m_report.SetWindowText(err);
+        err.Format(_T("Error Connect pSrc / pMid: 0x%x"), hr);
+        m_report.SetWindowText(err);
         return FALSE;
     }
 
@@ -191,7 +195,8 @@ BOOL CSaveDlg::OnInitDialog()
              GetFirstPin((pDst), PINDIR_INPUT), nullptr);
     if (FAILED(hr)) {
         CString err;
-        err.Format(_T("Error Connect pMid / pDst: 0x%x"), hr);        m_report.SetWindowText(err);
+        err.Format(_T("Error Connect pMid / pDst: 0x%x"), hr);
+        m_report.SetWindowText(err);
         return FALSE;
     }
 
@@ -272,5 +277,5 @@ void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
         m_progress.SetPos(dur > 0 ? (int)(100 * pos / dur) : 0);
     }
 
-    CCmdUIDialog::OnTimer(nIDEvent);
+    CMPCThemeCmdUIDialog::OnTimer(nIDEvent);
 }

@@ -29,9 +29,9 @@
 
 // CPPagePlayback dialog
 
-IMPLEMENT_DYNAMIC(CPPagePlayback, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPagePlayback, CMPCThemePPageBase)
 CPPagePlayback::CPPagePlayback()
-    : CPPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
+    : CMPCThemePPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
     , m_oldVolume(0)
     , m_nVolume(0)
     , m_nBalance(0)
@@ -85,7 +85,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_COMBO3, m_iLoopMode);
 }
 
-BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPagePlayback, CMPCThemePPageBase)
     ON_WM_HSCROLL()
     ON_CONTROL_RANGE(BN_CLICKED, IDC_RADIO1, IDC_RADIO2, OnBnClickedRadio12)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
@@ -158,7 +158,18 @@ BOOL CPPagePlayback::OnInitDialog()
     UDACCEL accel = { 0, 10 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
-    EnableToolTips(TRUE);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        themedToolTip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        themedToolTip.Activate(TRUE);
+        themedToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
+        //must add manually the ones we support.
+        themedToolTip.AddTool(GetDlgItem(IDC_COMBO1), LPSTR_TEXTCALLBACK);
+        themedToolTip.AddTool(GetDlgItem(IDC_COMBO2), LPSTR_TEXTCALLBACK);
+        themedToolTip.AddTool(GetDlgItem(IDC_SLIDER1), LPSTR_TEXTCALLBACK);
+        themedToolTip.AddTool(GetDlgItem(IDC_SLIDER2), LPSTR_TEXTCALLBACK);
+    } else {
+        EnableToolTips(TRUE);
+    }
     CreateToolTip();
 
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_LANG_PREF_EXAMPLE));
@@ -309,4 +320,14 @@ void CPPagePlayback::OnCancel()
     }
 
     __super::OnCancel();
+}
+
+
+BOOL CPPagePlayback::PreTranslateMessage(MSG* pMsg) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (IsWindow(themedToolTip)) {
+            themedToolTip.RelayEvent(pMsg);
+        }
+    }
+    return __super::PreTranslateMessage(pMsg);
 }

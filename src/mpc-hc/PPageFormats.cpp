@@ -34,9 +34,9 @@
 // CPPageFormats dialog
 
 
-IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageFormats, CMPCThemePPageBase)
 CPPageFormats::CPPageFormats()
-    : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
+    : CMPCThemePPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
     , m_list(0)
     , m_bInsufficientPrivileges(false)
     , m_bFileExtChanged(false)
@@ -97,7 +97,7 @@ void CPPageFormats::UpdateMediaCategoryState(int iItem)
 
     CFileAssoc::reg_state_t state = s.fileAssoc.IsRegistered(m_mf[m_list.GetItemData(iItem)]);
 
-    SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
+    SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? BST_INDETERMINATE : (state == CFileAssoc::ALL_REGISTERED) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 bool CPPageFormats::IsNeededIconsLib()
@@ -111,7 +111,7 @@ bool CPPageFormats::IsNeededIconsLib()
     return false;
 }
 
-BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageFormats, CMPCThemePPageBase)
     ON_NOTIFY(NM_CLICK, IDC_LIST1, OnMediaCategoryClicked)
     ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnMediaCategoryKeyDown)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnMediaCategorySelected)
@@ -167,7 +167,7 @@ void CPPageFormats::LoadSettings()
         if (!m_bHaveRegisteredCategory && state != CFileAssoc::NOT_REGISTERED) {
             m_bHaveRegisteredCategory = true;
         }
-        SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
+        SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? BST_INDETERMINATE : (state == CFileAssoc::ALL_REGISTERED) ? BST_CHECKED : BST_UNCHECKED);
 
         if (!fSetContextFiles && s.fileAssoc.AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
             fSetContextFiles = TRUE;
@@ -202,7 +202,9 @@ BOOL CPPageFormats::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    //m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT);
+
 
     m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 290);
     m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 50);
@@ -214,14 +216,15 @@ BOOL CPPageFormats::OnInitDialog()
     m_onoff.Create(12, 12, ILC_COLOR4 | ILC_MASK, 0, 3);
     m_onoff.Add(CBitmap::FromHandle(onoff), 0xffffff);
     m_list.SetImageList(&m_onoff, LVSIL_SMALL);
+    m_list.setHasCBImages(true);
 
     LoadSettings();
     CreateToolTip();
 
-    SetButtonIcon(IDC_ASSOCIATE_ALL_FORMATS,   IDB_CHECK_ALL);
-    SetButtonIcon(IDC_ASSOCIATE_AUDIO_FORMATS, IDB_CHECK_AUDIO);
-    SetButtonIcon(IDC_ASSOCIATE_VIDEO_FORMATS, IDB_CHECK_VIDEO);
-    SetButtonIcon(IDC_CLEAR_ALL_ASSOCIATIONS,  IDB_UNCHECK_ALL);
+    SetMPCThemeButtonIcon(IDC_ASSOCIATE_ALL_FORMATS,   IDB_CHECK_ALL, ImageGrayer::mpcGrayDisabled);
+    SetMPCThemeButtonIcon(IDC_ASSOCIATE_AUDIO_FORMATS, IDB_CHECK_AUDIO, ImageGrayer::mpcGrayDisabled);
+    SetMPCThemeButtonIcon(IDC_ASSOCIATE_VIDEO_FORMATS, IDB_CHECK_VIDEO, ImageGrayer::mpcGrayDisabled);
+    SetMPCThemeButtonIcon(IDC_CLEAR_ALL_ASSOCIATIONS,  IDB_UNCHECK_ALL, ImageGrayer::mpcGrayDisabled);
 
     if (!IsUserAnAdmin()) {
         GetDlgItem(IDC_EDIT1)->EnableWindow(FALSE);

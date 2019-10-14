@@ -66,7 +66,7 @@ namespace
 }
 
 CPPageAudioRenderer::CPPageAudioRenderer()
-    : CPPageBase(IDD, VersionInfo::IsLite() ? IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND : IDD_PPAGEAUDIORENDERER)
+    : CMPCThemePPageBase(IDD, VersionInfo::IsLite() ? IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND : IDD_PPAGEAUDIORENDERER)
     , m_bExclusiveMode(FALSE)
     , m_bAllowBitstreaming(TRUE)
     , m_bCrossfeedEnabled(FALSE)
@@ -86,7 +86,7 @@ void CPPageAudioRenderer::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLIDER2, m_slider2);
 }
 
-BEGIN_MESSAGE_MAP(CPPageAudioRenderer, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageAudioRenderer, CMPCThemePPageBase)
     ON_WM_HSCROLL()
     ON_UPDATE_COMMAND_UI(IDC_CHECK2, OnUpdateAllowBitstreamingCheckbox)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateCrossfeedGroup)

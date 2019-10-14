@@ -22,11 +22,15 @@
 #pragma once
 
 #include "FloatEdit.h"
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeResizableDialog.h"
 #include "resource.h"
 #include <atlcoll.h>
 #include <dvdmedia.h>
-
+#include "CMPCThemeComboBox.h"
+#include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemeEdit.h"
+#include "CMPCThemeButton.h"
+#include "CMPCThemeRadioOrCheck.h"
 
 class CMainFrame;
 
@@ -346,7 +350,7 @@ typedef CAtlArray<Codec> CCodecArray;
 
 // CPlayerCaptureDialog dialog
 
-class CPlayerCaptureDialog : public CResizableDialog
+class CPlayerCaptureDialog : public CMPCThemeResizableDialog
 {
     //DECLARE_DYNAMIC(CPlayerCaptureDialog)
 
@@ -354,36 +358,37 @@ private:
     CMainFrame* m_pMainFrame;
     bool m_bInitialized;
 
-    CComboBox m_vidinput;
-    CComboBox m_vidtype;
-    CComboBox m_viddimension;
-    CSpinButtonCtrl m_vidhor;
-    CSpinButtonCtrl m_vidver;
-    CEdit m_vidhoredit;
-    CEdit m_vidveredit;
-    CFloatEdit m_vidfpsedit;
+    CMPCThemeButton m_openFile;
+    CMPCThemeComboBox m_vidinput;
+    CMPCThemeComboBox m_vidtype;
+    CMPCThemeComboBox m_viddimension;
+    CMPCThemeSpinButtonCtrl m_vidhor;
+    CMPCThemeSpinButtonCtrl m_vidver;
+    CMPCThemeEdit m_vidhoredit;
+    CMPCThemeEdit m_vidveredit;
+    CMPCThemeFloatEdit m_vidfpsedit;
     float m_vidfps;
-    CButton m_vidsetres;
-    CComboBox m_audinput;
-    CComboBox m_audtype;
-    CComboBox m_auddimension;
-    CComboBox m_vidcodec;
-    CComboBox m_vidcodectype;
-    CComboBox m_vidcodecdimension;
-    CButton m_vidoutput;
-    CButton m_vidpreview;
-    CComboBox m_audcodec;
-    CComboBox m_audcodectype;
-    CComboBox m_audcodecdimension;
-    CButton m_audoutput;
-    CButton m_audpreview;
+    CMPCThemeButton m_vidsetres;
+    CMPCThemeComboBox m_audinput;
+    CMPCThemeComboBox m_audtype;
+    CMPCThemeComboBox m_auddimension;
+    CMPCThemeComboBox m_vidcodec;
+    CMPCThemeComboBox m_vidcodectype;
+    CMPCThemeComboBox m_vidcodecdimension;
+    CMPCThemeRadioOrCheck m_vidoutput;
+    CMPCThemeRadioOrCheck m_vidpreview;
+    CMPCThemeComboBox m_audcodec;
+    CMPCThemeComboBox m_audcodectype;
+    CMPCThemeComboBox m_audcodecdimension;
+    CMPCThemeRadioOrCheck m_audoutput;
+    CMPCThemeRadioOrCheck m_audpreview;
     int m_nVidBuffers;
     int m_nAudBuffers;
-    CButton m_recordbtn;
+    CMPCThemeButton m_recordbtn;
     UINT_PTR m_nRecordTimerID;
     BOOL m_fSepAudio;
     int m_muxtype;
-    CComboBox m_muxctrl;
+    CMPCThemeComboBox m_muxctrl;
     bool m_fEnableOgm;
 
     // video input

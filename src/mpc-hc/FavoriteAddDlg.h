@@ -21,12 +21,13 @@
 
 #pragma once
 
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeCmdUIDialog.h"
+#include "CMPCThemeComboBox.h" 
 
 
 // CFavoriteAddDlg dialog
 
-class CFavoriteAddDlg : public CCmdUIDialog
+class CFavoriteAddDlg : public CMPCThemeCmdUIDialog
 {
     DECLARE_DYNAMIC(CFavoriteAddDlg)
 
@@ -40,7 +41,7 @@ public:
     // Dialog Data
     enum { IDD = IDD_FAVADD };
 
-    CComboBox m_namectrl;
+    CMPCThemeComboBox m_namectrl;
     CString m_name;
     BOOL m_bRememberPos;
     BOOL m_bRelativeDrive;

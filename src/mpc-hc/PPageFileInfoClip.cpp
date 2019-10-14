@@ -31,9 +31,9 @@
 
 // CPPageFileInfoClip dialog
 
-IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CPropertyPage)
+IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CMPCThemePropertyPage)
 CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
-    : CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
+    : CMPCThemePropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
     , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
@@ -127,7 +127,7 @@ BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
+BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CMPCThemePropertyPage)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoClip message handlers

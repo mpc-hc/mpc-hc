@@ -22,13 +22,14 @@
 #pragma once
 
 #include <afxwin.h>
-#include "ResizableLib/ResizableDialog.h"
+#include "CMPCThemeResizableDialog.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 class FilterOverride;
 
 // CRegFilterChooserDlg dialog
 
-class CRegFilterChooserDlg : public CResizableDialog
+class CRegFilterChooserDlg : public CMPCThemeResizableDialog
 {
     //  DECLARE_DYNAMIC(CRegFilterChooserDlg)
 
@@ -43,7 +44,7 @@ public:
 
     // Dialog Data
     enum { IDD = IDD_ADDREGFILTER };
-    CListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

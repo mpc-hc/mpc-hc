@@ -25,7 +25,7 @@
 
 // CPlayerNavigationBar
 
-IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
+IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CMPCThemePlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
     : m_pParent(nullptr)
     , m_navdlg(pMainFrame)
@@ -34,7 +34,7 @@ CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-    if (!CPlayerBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION, defDockBarID, _T("Navigation Bar"))) {
+    if (!CMPCThemePlayerBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION, defDockBarID, _T("Navigation Bar"))) {
         return FALSE;
     }
 
@@ -105,7 +105,7 @@ BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
     return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerNavigationBar, CPlayerBar)
+BEGIN_MESSAGE_MAP(CPlayerNavigationBar, CMPCThemePlayerBar)
     ON_WM_SIZE()
     ON_WM_NCLBUTTONUP()
 END_MESSAGE_MAP()

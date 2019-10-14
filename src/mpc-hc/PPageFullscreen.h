@@ -21,12 +21,15 @@
 
 #pragma once
 
-#include "PPageBase.h"
+#include "CMPCThemePPageBase.h"
 #include "PlayerListCtrl.h"
+#include "CMPCThemeComboBox.h"
+#include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 // CPPageFullscreen dialog
 
-class CPPageFullscreen : public CPPageBase
+class CPPageFullscreen : public CMPCThemePPageBase
 {
     DECLARE_DYNAMIC(CPPageFullscreen)
 
@@ -34,13 +37,13 @@ private:
     std::vector<CString> m_monitorDisplayNames;
     CStringW m_fullScreenMonitor;
     int m_iFullScreenMonitor;
-    CComboBox m_fullScreenMonitorCtrl;
+    CMPCThemeComboBox m_fullScreenMonitorCtrl;
 
     BOOL m_bLaunchFullscreen;
     BOOL m_fExitFullScreenAtTheEnd;
 
     BOOL m_bHideFullscreenControls;
-    CComboBox m_hidePolicy;
+    CMPCThemeComboBox m_hidePolicy;
     unsigned m_uHideFullscreenControlsDelay;
     BOOL m_bHideFullscreenDockedPanels;
 
@@ -55,7 +58,7 @@ private:
     BOOL m_bAutoChangeFSModeRestoreResAfterProgExit;
     unsigned m_uAutoChangeFullscrResDelay;
 
-    CPlayerListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
     enum {
         COL_N,
         COL_FRAMERATE_START,
@@ -64,7 +67,7 @@ private:
         COL_AUDIO_DELAY
     };
 
-    CSpinButtonCtrl m_delaySpinner;
+    CMPCThemeSpinButtonCtrl m_delaySpinner;
 
     void ModesUpdate();
 

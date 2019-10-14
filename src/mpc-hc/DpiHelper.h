@@ -42,6 +42,9 @@ public:
     inline int ScaleSystemToOverrideX(int x) const { return MulDiv(x, m_dpix, m_sdpix); }
     inline int ScaleSystemToOverrideY(int y) const { return MulDiv(y, m_dpiy, m_sdpiy); }
 
+    inline int DPIX() { return m_dpix; }
+    inline int DPIY() { return m_dpiy; }
+
 private:
 
     int m_dpix, m_dpiy;

@@ -288,10 +288,10 @@ struct cc_t {
 
 // CPPageCapture dialog
 
-IMPLEMENT_DYNAMIC(CPPageCapture, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageCapture, CMPCThemePPageBase)
 
 CPPageCapture::CPPageCapture()
-    : CPPageBase(CPPageCapture::IDD, CPPageCapture::IDD)
+    : CMPCThemePPageBase(CPPageCapture::IDD, CPPageCapture::IDD)
     , m_iDefaultDevice(0)
 {
 }
@@ -302,7 +302,7 @@ CPPageCapture::~CPPageCapture()
 
 void CPPageCapture::DoDataExchange(CDataExchange* pDX)
 {
-    CPPageBase::DoDataExchange(pDX);
+    CMPCThemePPageBase::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_COMBO1, m_cbAnalogVideo);
     DDX_Control(pDX, IDC_COMBO2, m_cbAnalogAudio);
     DDX_Control(pDX, IDC_COMBO9, m_cbAnalogCountry);
@@ -314,7 +314,7 @@ void CPPageCapture::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO7, m_cbStopFilterGraph);
 }
 
-BEGIN_MESSAGE_MAP(CPPageCapture, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageCapture, CMPCThemePPageBase)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAnalog)
     ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateAnalog)
     ON_UPDATE_COMMAND_UI(IDC_COMBO9, OnUpdateAnalog)

@@ -28,12 +28,11 @@
 #include <initguid.h>
 #include <dmo.h>
 
-
 // CRegFilterChooserDlg dialog
 
-//IMPLEMENT_DYNAMIC(CRegFilterChooserDlg, CResizableDialog)
+//IMPLEMENT_DYNAMIC(CRegFilterChooserDlg, CMPCThemeResizableDialog)
 CRegFilterChooserDlg::CRegFilterChooserDlg(CWnd* pParent /*=nullptr*/)
-    : CResizableDialog(CRegFilterChooserDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(CRegFilterChooserDlg::IDD, pParent)
 {
 }
 
@@ -66,7 +65,7 @@ void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
 }
 
 
-BEGIN_MESSAGE_MAP(CRegFilterChooserDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(CRegFilterChooserDlg, CMPCThemeResizableDialog)
     ON_LBN_DBLCLK(IDC_LIST1, OnLbnDblclkList1)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOK)
     ON_BN_CLICKED(IDOK, OnBnClickedOk)
@@ -102,6 +101,9 @@ BOOL CRegFilterChooserDlg::OnInitDialog()
     AddAnchor(IDCANCEL, BOTTOM_RIGHT);
 
     SetMinTrackSize(CSize(300, 100));
+
+    m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER);
+    fulfillThemeReqs();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

@@ -22,18 +22,19 @@
 #pragma once
 
 #include <afxcoll.h>
-#include "PlayerBar.h"
-#include "PlayerListCtrl.h"
+#include "CMPCThemePlayerBar.h"
+#include "CMPCThemePlayerListCtrl.h"
 #include "Playlist.h"
 #include "DropTarget.h"
 #include "../Subtitles/TextFile.h"
+#include "CMPCThemeInlineEdit.h"
 
 
 class OpenMediaData;
 
 class CMainFrame;
 
-class CPlayerPlaylistBar : public CPlayerBar, public CDropClient
+class CPlayerPlaylistBar : public CMPCThemePlayerBar, public CDropClient
 {
     DECLARE_DYNAMIC(CPlayerPlaylistBar)
 
@@ -41,12 +42,13 @@ private:
     enum { COL_NAME, COL_TIME };
 
     CMainFrame* m_pMainFrame;
+    CMPCThemeInlineEdit m_edit;
 
     CFont m_font;
     void ScaleFont();
 
     CImageList m_fakeImageList;
-    CPlayerListCtrl m_list;
+    CMPCThemePlayerListCtrl m_list;
 
     int m_itemHeight = 0;
     EventClient m_eventc;
@@ -156,6 +158,7 @@ public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
+    afx_msg void OnLvnBeginlabeleditList(NMHDR * pNMHDR, LRESULT * pResult);
     afx_msg void OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
     afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);

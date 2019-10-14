@@ -29,9 +29,9 @@
 
 // CPPageOutput dialog
 
-IMPLEMENT_DYNAMIC(CPPageOutput, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageOutput, CMPCThemePPageBase)
 CPPageOutput::CPPageOutput()
-    : CPPageBase(CPPageOutput::IDD, CPPageOutput::IDD)
+    : CMPCThemePPageBase(CPPageOutput::IDD, CPPageOutput::IDD)
     , m_tick(nullptr)
     , m_cross(nullptr)
     , m_iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
@@ -92,7 +92,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_CBString(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
 }
 
-BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageOutput, CMPCThemePPageBase)
     ON_CBN_SELCHANGE(IDC_VIDRND_COMBO, &CPPageOutput::OnDSRendererChange)
     ON_CBN_SELCHANGE(IDC_RMRND_COMBO, &CPPageOutput::OnRMRendererChange)
     ON_CBN_SELCHANGE(IDC_QTRND_COMBO, &CPPageOutput::OnQTRendererChange)

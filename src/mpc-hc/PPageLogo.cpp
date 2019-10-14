@@ -23,18 +23,21 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageLogo.h"
+#include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
 
 // CPPageLogo dialog
 
-IMPLEMENT_DYNAMIC(CPPageLogo, CPPageBase)
+IMPLEMENT_DYNAMIC(CPPageLogo, CMPCThemePPageBase)
 CPPageLogo::CPPageLogo()
-    : CPPageBase(CPPageLogo::IDD, CPPageLogo::IDD)
+    : CMPCThemePPageBase(CPPageLogo::IDD, CPPageLogo::IDD)
     , m_intext(0)
 {
     m_logoids.AddTail(IDF_LOGO0);
     m_logoids.AddTail(IDF_LOGO1);
     m_logoids.AddTail(IDF_LOGO2);
     m_logoids.AddTail(IDF_LOGO3);
+    m_logoids.AddTail(IDF_LOGO4);
     m_logoidpos = m_logoids.GetHeadPosition();
 }
 
@@ -52,7 +55,7 @@ void CPPageLogo::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageLogo, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageLogo, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_RADIO1, OnBnClickedInternalRadio)
     ON_BN_CLICKED(IDC_RADIO2, OnBnClickedExternalRadio)
     ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN1, OnDeltaposSpin1)
@@ -74,8 +77,17 @@ BOOL CPPageLogo::OnInitDialog()
     UpdateData(FALSE);
 
     m_logoidpos = m_logoids.GetHeadPosition();
+    UINT useLogoId = s.nLogoId;
+    if ((UINT)-1 == useLogoId) { //if the user has never chosen a logo, we can try loading a theme default logo
+        if (s.bMPCThemeLoaded) {
+            useLogoId = CMPCThemeUtil::defaultLogo();
+        } else {
+            useLogoId = DEF_LOGO;
+        }
+    }
+
     for (POSITION pos = m_logoids.GetHeadPosition(); pos; m_logoids.GetNext(pos)) {
-        if (m_logoids.GetAt(pos) == s.nLogoId) {
+        if (m_logoids.GetAt(pos) == useLogoId) {
             m_logoidpos = pos;
             break;
         }
@@ -193,3 +205,4 @@ void CPPageLogo::GetDataFromRes()
     }
     m_logopreview.SetBitmap(m_logo);
 }
+

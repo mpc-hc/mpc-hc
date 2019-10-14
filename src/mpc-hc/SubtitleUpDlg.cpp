@@ -25,6 +25,9 @@
 #include "AuthDlg.h"
 #include "PPageSubMisc.h"
 #include "mplayerc.h"
+#include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
+#include "CMPCThemeMenu.h"
 
 // User Defined Window Messages
 enum {
@@ -37,7 +40,7 @@ enum {
 };
 
 CSubtitleUpDlg::CSubtitleUpDlg(CMainFrame* pParentWnd)
-    : CResizableDialog(IDD, pParentWnd)
+    : CMPCThemeResizableDialog(IDD, pParentWnd)
     , m_pMainFrame(pParentWnd)
 {
 }
@@ -48,6 +51,7 @@ void CSubtitleUpDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_STATUSBAR, m_status);
+    fulfillThemeReqs();
 }
 
 void CSubtitleUpDlg::SetStatusText(const CString& status, BOOL bPropagate/* = TRUE*/)
@@ -63,7 +67,7 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     __super::OnInitDialog();
 
     m_progress.SetParent(&m_status);
-    m_progress.UpdateWindow();
+    CMPCThemeUtil::fulfillThemeReqs(&m_progress);
 
     int n = 0, curPos = 0;
     CArray<int> columnWidth;
@@ -80,8 +84,10 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     }
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle()
-                            | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
+                            /* | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT */
                             | LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
+    m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT);
+
 
     m_list.SetImageList(&m_pMainFrame->m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
 
@@ -123,7 +129,9 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     AddAnchor(IDOK, BOTTOM_RIGHT);
     AddAnchor(IDC_STATUSBAR, BOTTOM_LEFT, BOTTOM_RIGHT);
 
-    const CSize s(500, 250);
+    CRect cr;
+    GetClientRect(cr);
+    const CSize s(cr.Width(), 250);
     SetMinTrackSize(s);
     EnableSaveRestore(IDS_R_DLG_SUBTITLEUP, TRUE);
 
@@ -228,7 +236,7 @@ void CSubtitleUpDlg::DownloadSelectedSubtitles()
 }
 
 // ON_UPDATE_COMMAND_UI dows not work for modless dialogs
-BEGIN_MESSAGE_MAP(CSubtitleUpDlg, CResizableDialog)
+BEGIN_MESSAGE_MAP(CSubtitleUpDlg, CMPCThemeResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
     ON_COMMAND(IDC_BUTTON1, OnAbort)
@@ -285,7 +293,7 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
             COPY_URL
         };
 
-        CMenu m;
+        CMPCThemeMenu m;
         m.CreatePopupMenu();
         m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS,
                      ResStr(IDS_SUBMENU_SETUP));
@@ -298,6 +306,9 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
         m.AppendMenu(MF_STRING | MF_ENABLED, COPY_URL, ResStr(IDS_SUBMENU_COPYURL));
+        if (s.bMPCThemeLoaded) {
+            m.fulfillThemeReqs();
+        }
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);

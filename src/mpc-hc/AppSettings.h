@@ -20,7 +20,6 @@
  */
 
 #pragma once
-
 #include "../Subtitles/STS.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "../thirdparty/sanear/sanear/src/Interfaces.h"
@@ -29,7 +28,7 @@
 #include "FilterEnum.h"
 #include "MediaFormats.h"
 #include "MediaPositionList.h"
-#include "RenderersSettings.h"
+#include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
 
@@ -627,6 +626,10 @@ public:
     CString         strAutoDownloadSubtitlesExclude;
     bool            bAutoUploadSubtitles;
     bool            bPreferHearingImpairedSubtitles;
+    bool            bMPCThemeLoaded;
+    bool            bMPCTheme;
+    bool            bWindows10DarkThemeActive;
+    bool            bWindows10AccentColorsEnabled;
     CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
 
