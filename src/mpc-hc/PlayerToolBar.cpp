@@ -60,18 +60,24 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
         paths.emplace_back(appDataPath);
     }
     const std::vector<CString> extensions({ _T("png"), _T("bmp") });
+    CString basetbname;
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        basetbname = _T("toolbar_dark.");
+    } else {
+        basetbname = _T("toolbar.");
+    }
 
     // TODO: Find a better solution?
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
-        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, _T("toolbar.svg")), image, dpiScaling))) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, basetbname + _T("svg")), image, dpiScaling))) {
             return true;
         }
 
         for (const auto& ext : extensions) {
-            if (SUCCEEDED(image.Load(PathUtils::CombinePaths(path, _T("toolbar.") + ext)))) {
+            if (SUCCEEDED(image.Load(PathUtils::CombinePaths(path, basetbname + ext)))) {
                 return true;
             }
         }
