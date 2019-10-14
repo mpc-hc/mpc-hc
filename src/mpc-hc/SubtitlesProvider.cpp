@@ -371,6 +371,9 @@ const std::set<std::string>& OpenSubtitles::Languages() const
 {
     static std::once_flag initialized;
     static std::set<std::string> result;
+#if 1
+    result = {"af","an","ar","at","az","be","bg","bn","br","bs","ca","cs","da","de","el","en","eo","es","et","eu","ex","fa","fi","fr","ga","gd","gl","he","hi","hr","hu","hy","id","ig","is","it","ja","ka","kk","km","kn","ko","ku","lb","lt","lv","ma","me","mk","ml","mn","ms","my","nl","no","oc","pb","pl","pm","pt","ro","ru","sd","se","si","sk","sl","so","sq","sr","sv","sw","sy","ta","te","th","tl","tr","tt","uk","ur","vi","ze","zh","zt"};
+#else
 
     try {
         std::call_once(initialized, [this]() {
@@ -408,6 +411,7 @@ const std::set<std::string>& OpenSubtitles::Languages() const
         UNREFERENCED_PARAMETER(e);
         LOG(LOG_ERROR, e.what());
     }
+#endif
     return result;
 }
 
@@ -538,6 +542,9 @@ const std::set<std::string>& SubDB::Languages() const
 {
     static std::once_flag initialized;
     static std::set<std::string> result;
+#if 1
+    result = {"en","es","fr","it","nl","pl","pt","ro","sv","tr"};
+#else
     try {
         std::call_once(initialized, [this]() {
             if (!CheckInternetConnection()) {
@@ -555,6 +562,7 @@ const std::set<std::string>& SubDB::Languages() const
         UNREFERENCED_PARAMETER(e);
         LOG(LOG_ERROR, e.what());
     }
+#endif
     return result;
 }
 
