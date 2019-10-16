@@ -19,7 +19,9 @@ CMPCThemeToolTipCtrl::~CMPCThemeToolTipCtrl() {
 }
 
 void CMPCThemeToolTipCtrl::enableFlickerHelper() {
-    this->useFlickerHelper = true;
+    if (IsAppThemed() && IsThemeActive()) { //in classic mode, the helper gets wiped out by the fade, so we disable it
+        this->useFlickerHelper = true;
+    }
 }
 
 IMPLEMENT_DYNAMIC(CMPCThemeToolTipCtrl, CToolTipCtrl)
@@ -30,6 +32,7 @@ BEGIN_MESSAGE_MAP(CMPCThemeToolTipCtrl, CToolTipCtrl)
     ON_WM_MOVE()
     ON_WM_SHOWWINDOW()
     ON_WM_SIZE()
+    ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 
 void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& rect, bool calcRect) {
@@ -45,10 +48,15 @@ void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& re
         calcStyle = DT_CALCRECT;
     }
     rect.DeflateRect(6, 2);
-    if (maxWidth == -1)
-        dc.DrawText(text, rect, DT_VCENTER | DT_CENTER | DT_SINGLELINE | calcStyle);
-    else
+    if (maxWidth == -1) {
+        if (calcRect) {
+            dc.DrawText(text, rect, DT_LEFT | DT_SINGLELINE | calcStyle);
+        } else {
+            dc.DrawText(text, rect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+        }
+    } else {
         dc.DrawText(text, rect, DT_LEFT | DT_WORDBREAK | calcStyle);
+    }
     rect.InflateRect(6, 2); //when calculating, put it back
 
 
@@ -168,26 +176,28 @@ void CMPCThemeToolTipCtrl::OnShowWindow(BOOL bShow, UINT nStatus) {
 }
 
 void CMPCThemeToolTipCtrl::OnSize(UINT nType, int cx, int cy) {
-    if (AfxGetAppSettings().bMPCThemeLoaded) {
-        //hack to make it fit if fonts differ from parent. can be manually avoided
-        //if the parent widget is set to same font (see CMPCThemePlayerListCtrl using MessageFont now)
-        if (GetMaxTipWidth() == -1) {
-            CWindowDC dc(this);
-
-            CRect cr, origCr, wr, origWr;
-            GetWindowRect(wr);
-            GetClientRect(cr);
-            origCr = cr;
-            origWr = wr;
-            drawText(dc, this, cr, true);//calculate crect required to fit the text
-            wr.right += cr.Width() - origCr.Width();//add the difference to the window
-            if (origWr.right != wr.right) {
-                MoveWindow(wr, FALSE);
-            }
-        }
-    }
     CToolTipCtrl::OnSize(nType, cx, cy);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         makeHelper();
+    }
+}
+
+
+void CMPCThemeToolTipCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos) {
+    CToolTipCtrl::OnWindowPosChanging(lpwndpos);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        //hack to make it fit if fonts differ from parent. can be manually avoided
+        //if the parent widget is set to same font (see CMPCThemePlayerListCtrl using MessageFont now)
+        CString text;
+        GetWindowText(text);
+        if (text.GetLength() > 0 && GetMaxTipWidth() == -1) {
+            CWindowDC dc(this);
+
+            CRect cr;
+            drawText(dc, this, cr, true);//calculate crect required to fit the text
+
+            lpwndpos->cx = cr.Width();
+            lpwndpos->cy = cr.Height();
+        }
     }
 }

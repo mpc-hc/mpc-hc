@@ -545,7 +545,6 @@ UINT CMPCThemeUtil::getResourceByDPI(CDC* pDC, const UINT* resources) {
 }
 
 const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton *button) {
-    int index;
     DpiHelper dpiWindow;
     dpiWindow.Override(button->GetSafeHwnd());
 
