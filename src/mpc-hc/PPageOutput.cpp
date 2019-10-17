@@ -297,6 +297,9 @@ BOOL CPPageOutput::OnInitDialog()
             case VIDRNDT_DS_SYNC:
                 resName = IDS_PPAGE_OUTPUT_SYNC;
                 break;
+            case VIDRNDT_DS_MPCVR:
+                resName = IDS_PPAGE_OUTPUT_MPCVR;
+                break;
             default:
                 ASSERT(FALSE);
                 return;
@@ -313,19 +316,21 @@ BOOL CPPageOutput::OnInitDialog()
     CComboBox& m_iDSVRTC = m_iDSVideoRendererTypeCtrl;
     m_iDSVRTC.SetRedraw(FALSE); // Do not draw the control while we are filling it with items
     addRenderer(VIDRNDT_DS_DEFAULT);
-    addRenderer(VIDRNDT_DS_OLDRENDERER);
-    addRenderer(VIDRNDT_DS_OVERLAYMIXER);
-    addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_EVR);
     addRenderer(VIDRNDT_DS_EVR_CUSTOM);
     addRenderer(VIDRNDT_DS_SYNC);
-    addRenderer(VIDRNDT_DS_DXR);
+    addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
+    addRenderer(VIDRNDT_DS_VMR9WINDOWED);
     addRenderer(VIDRNDT_DS_MADVR);
+    addRenderer(VIDRNDT_DS_MPCVR);
+    addRenderer(VIDRNDT_DS_DXR);
+    addRenderer(VIDRNDT_DS_OLDRENDERER);
+    addRenderer(VIDRNDT_DS_OVERLAYMIXER);
     addRenderer(VIDRNDT_DS_NULL_COMP);
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
-    for (int j = 0; j < m_iDSVRTC.GetCount(); ++j) {
+    m_iDSVRTC.SetCurSel(0);
+    for (int j = 1; j < m_iDSVRTC.GetCount(); ++j) {
         if ((UINT)m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
             m_iDSVRTC.SetCurSel(j);
             break;
@@ -619,6 +624,11 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_DXR:
             m_iDSSaveImageSupport.SetIcon(m_tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSDXR), GetDlgItem(IDC_VIDRND_COMBO));
+            break;
+        case VIDRNDT_DS_MPCVR:
+            m_iDSDXVASupport.SetIcon(m_tick);
+            m_iDSSaveImageSupport.SetIcon(m_tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSMPCVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
     }
 

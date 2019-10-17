@@ -705,6 +705,7 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
                 case VIDRNDT_DS_DXR:
                 case VIDRNDT_DS_SYNC:
                 case VIDRNDT_DS_MADVR:
+                case VIDRNDT_DS_MPCVR:
                     return true;
             }
             break;
@@ -741,6 +742,8 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
             return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
         case VIDRNDT_DS_MADVR:
             return IsCLSIDRegistered(CLSID_madVR);
+        case VIDRNDT_DS_MPCVR:
+            return IsCLSIDRegistered(CLSID_MPCVR);
         default:
             return true;
     }

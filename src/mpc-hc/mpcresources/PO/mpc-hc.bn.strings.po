@@ -576,6 +576,10 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
+msgid "MPC Video Renderer"
+msgstr ""
+
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "প্লেয়ার::কীসমূহ"
@@ -647,6 +651,10 @@ msgstr ""
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "উচ্চ-বৈশিষ্ট্যগুণ সম্পন্ন রেনডারার, ব্যবহার করতে এমন একটি GPUএর প্রয়োজন হবে যা D3D9 বা পরবর্তী সংস্করণসমূহ সমর্থন করে।"
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -2313,8 +2321,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "থাম্ব্‌নেইলসমূহ আকারে খুব ছোট হবে, ফাইলটি তৈরি করা যাচ্ছে না।\n\nথাম্ব্‌নেইলসমূহের সংখ্যা কমিয়ে অথবা সম্পূর্ণ সাইজটি বাড়িয়ে চেষ্টা করুন।"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "সাবটাইটেল লোড করার জন্য আপনাকে ভিডিও রেনডারার ধরন পরিবর্তন করতে হবে এবং পুনরায় ফাইলটি চালনা করতে হবে।\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR অথবা Haali\n- RealMedia: RealMediaর জন্য বিশেষ রেনডারার, অথবা DirectShow দিয়ে চালনা করুন\n- QuickTime: QuickTimeএর জন্য DX7 অথবা DX9 রেনডারার\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

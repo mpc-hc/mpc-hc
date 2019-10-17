@@ -486,6 +486,7 @@
 #define IDC_LISTCHANNELS                12138
 #define IDC_STATUSBAR                   12139
 #define IDC_PPAGECAPTURE_DESC1          12140
+#define IDC_DSMPCVR                     12141
 #define IDS_SRC_VTS                     14002
 #define IDS_SRC_RFS                     14003
 #define IDS_INTERNAL_LAVF               14004
@@ -1397,6 +1398,7 @@
 #define IDS_NAVIGATE_CHAPTERS           41463
 #define IDS_NAVIGATE_TITLES             41464
 #define IDS_NAVIGATE_CHANNELS           41465
+#define IDS_PPAGE_OUTPUT_MPCVR          41466
 #define IDS_PPAGE_CAPTURE_FG0           57345
 #define IDS_PPAGE_CAPTURE_FG1           57346
 #define IDS_PPAGE_CAPTURE_FG2           57347

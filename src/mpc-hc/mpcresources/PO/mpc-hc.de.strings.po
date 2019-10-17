@@ -579,6 +579,10 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
+msgid "MPC Video Renderer"
+msgstr ""
+
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "Programm::Tasten"
@@ -650,6 +654,10 @@ msgstr "Bietet im Unterschied zum EVR eine Unterstützung für Untertitel und Po
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Bietet diverse Optionen für eine bessere Bildqualität. Benötigt eine Grafikkarte, die Direct3D 9 sowie Pixel-Shader 3.0 unterstützt."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -2316,8 +2324,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Die Miniaturbilder wären zu klein. Bitte die angegebene Breite erhöhen oder deren Anzahl durch Korrektur des Layouts verringern."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Untertitel konnten nicht geladen werden. Bitte einen geeigneten Video-Renderer wählen und die Mediendatei erneut öffnen."
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

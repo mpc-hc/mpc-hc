@@ -577,6 +577,10 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
+msgid "MPC Video Renderer"
+msgstr ""
+
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "播放器::按键"
@@ -648,6 +652,10 @@ msgstr ""
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "高质量的渲染器,需要 GPU 支持 D3D9 或更高的版本。"
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -2314,8 +2322,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "缩略图会太小, 而无法创建该文件。\n\n请尝试调低缩略图的数量或增加总大小。"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "要载入字幕,您需要更改视频渲染器类型然后重新打开文件。\n- DirectShow: VMR-9 (未渲染)、EVR (CP)、同步、madVR 或 Haali\n- RealMedia: 用于 RealMedia 的特殊渲染器, 或通过 DirectShow 打开它\n- QuickTime: 用于 QuickTime 的 DX7 或 DX9 渲染器\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

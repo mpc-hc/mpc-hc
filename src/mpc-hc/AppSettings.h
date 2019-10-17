@@ -116,7 +116,8 @@ enum {
     VIDRNDT_DS_EVR,
     VIDRNDT_DS_EVR_CUSTOM,
     VIDRNDT_DS_MADVR,
-    VIDRNDT_DS_SYNC
+    VIDRNDT_DS_SYNC,
+    VIDRNDT_DS_MPCVR,
 };
 
 // Enumeration for MCE remote control (careful : add 0x010000 for all keys!)

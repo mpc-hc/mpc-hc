@@ -470,7 +470,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
         if (CComQIPtr<IVideoWindow> pVW = pCAP) {
             VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
         }
-    } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter) {
+    } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter || m_clsid == CLSID_MPCVRAllocatorPresenter) {
         CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
     } else {
         CComPtr<IBaseFilter> pBF;

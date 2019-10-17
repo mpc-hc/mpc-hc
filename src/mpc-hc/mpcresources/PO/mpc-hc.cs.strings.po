@@ -573,6 +573,10 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
+msgid "MPC Video Renderer"
+msgstr ""
+
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "Přehrávač::Klávesové zkratky"
@@ -644,6 +648,10 @@ msgstr "Stejný jako EVR, ale s titulkovým a efektovým rozšířením MPC-HC. 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Vysoce kvalitní renderer, vyžaduje GPU podporující D3D9 nebo novější."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -2310,8 +2318,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Soubor nelze vytvořit, protože miniatury by byly příliš malé.\n\nSnižte počet miniatur, nebo zadejte větší celkovou velikost."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Aby bylo možné načíst titulky, musíte změnit výstupní video renderer a znovu spustit přehrávání.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR nebo Haali\n- RealMedia: Speciální renderer pro RealMedia, nebo otevřít prostřednictvím DirectShow\n- QuickTime: DX7 nebo DX9 renderer pro QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

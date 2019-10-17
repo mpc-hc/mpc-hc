@@ -2534,6 +2534,7 @@ BEGIN
     IDS_PPAGE_OUTPUT_NULL_COMP "Null (anything)"
     IDS_PPAGE_OUTPUT_NULL_UNCOMP "Null (uncompressed)"
     IDS_PPAGE_OUTPUT_MADVR  "madVR"
+	IDS_PPAGE_OUTPUT_MPCVR  "MPC Video Renderer"
 END
 
 STRINGTABLE
@@ -2568,6 +2569,7 @@ END
 STRINGTABLE
 BEGIN
     IDC_DSMADVR             "High-quality renderer, requires a GPU that supports D3D9 or later."
+	IDC_DSMPCVR             "High-quality renderer, requires a GPU that supports D3D9 or later."
     IDC_DSSYNC              "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
     IDC_RMSYSDEF            "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
     IDC_RMDX9               "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -3188,7 +3190,7 @@ BEGIN
     IDS_THUMBNAILS_INFO_HEADER 
                             "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
     IDS_THUMBNAIL_TOO_SMALL "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-    IDS_CANNOT_LOAD_SUB     "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+    IDS_CANNOT_LOAD_SUB     "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
     IDS_SUBTITLE_FILES_FILTER "Subtitle files"
 END
 

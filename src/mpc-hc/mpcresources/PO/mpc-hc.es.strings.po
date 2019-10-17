@@ -583,6 +583,10 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
+msgid "MPC Video Renderer"
+msgstr ""
+
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
 msgstr "Reproductor::Teclas"
@@ -654,6 +658,10 @@ msgstr ""
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Renderizador de alta calidad, requiere una GPU que soporte D3D9 (interfaz Direct3D del entorno DirectX 9) o superior."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -2320,8 +2328,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "No se puede crear el archivo. Las miniaturas serían demasiado pequeñas.\n\nPruebe a disminuir el número de miniaturas o a aumentar el tamaño total."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Para cargar subtítulos tiene que cambiar el tipo de renderizador de vídeo y reabrir el archivo.\n- DirectShow: VMR-9 (sin renderizado), EVR (CP), Sync, madVR o Haali\n- RealMedia: Renderizador especial para RealMedia, o ábralo mediante DirectShow\n- QuickTime: Renderizador DX7 o DX9 para QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
