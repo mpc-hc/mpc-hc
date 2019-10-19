@@ -24,6 +24,7 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "moreuuids.h"
+#include "FilterInterfaces.h"
 
 using namespace DSObjects;
 
@@ -172,6 +173,27 @@ STDMETHODIMP_(void) CMPCVRAllocatorPresenter::SetPosition(RECT w, RECT v)
     }
 }
 
+STDMETHODIMP CMPCVRAllocatorPresenter::SetRotation(int rotation)
+{
+    HRESULT hr = E_NOTIMPL;
+    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+        hr = pIExFilterConfig->SetInt("rotate", rotation);
+    }
+    return hr;
+}
+
+STDMETHODIMP_(int) CMPCVRAllocatorPresenter::GetRotation()
+{
+    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+        int rotation = 0;
+        if (SUCCEEDED(pIExFilterConfig->GetInt("rotation", &rotation))) {
+            return rotation;
+        }
+    }
+    return 0;
+}
+
+
 STDMETHODIMP_(SIZE) CMPCVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) const
 {
     SIZE size = {0, 0};
@@ -191,7 +213,10 @@ STDMETHODIMP_(SIZE) CMPCVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
 
 STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::Paint(bool bAll)
 {
-    return false; // TODO
+    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+        return SUCCEEDED(pIExFilterConfig->SetBool("cmd_redraw", true));
+    }
+    return false;
 }
 
 STDMETHODIMP CMPCVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
@@ -201,6 +226,17 @@ STDMETHODIMP CMPCVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
         hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
     }
     return hr;
+}
+
+STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::IsRendering()
+{
+    if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+        int playbackState;
+        if (SUCCEEDED(pIExFilterConfig->GetInt("playbackState", &playbackState))) {
+            return playbackState == State_Running;
+        }
+    }
+    return false;
 }
 
 STDMETHODIMP CMPCVRAllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget)
