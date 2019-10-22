@@ -18,6 +18,7 @@ CMPCThemeResizableDialog::~CMPCThemeResizableDialog() {
 }
 
 void CMPCThemeResizableDialog::fulfillThemeReqs(){
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         SetSizeGripBkMode(TRANSPARENT); //fix for gripper in mpc theme
     }

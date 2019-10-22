@@ -598,6 +598,9 @@
     <ClCompile Include="CMPCThemeTitleBarControlButton.cpp">
       <Filter>MPCTheme</Filter>
     </ClCompile>
+    <ClCompile Include="CMPCThemeMiniDockFrameWnd.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1124,6 +1127,12 @@
       <Filter>MPCTheme</Filter>
     </ClInclude>
     <ClInclude Include="CMPCThemeFrameUtil.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeWin10Api.h">
+      <Filter>MPCTheme</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemeMiniDockFrameWnd.h">
       <Filter>MPCTheme</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,7 @@ public:
     CMPCThemeCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = nullptr);
     virtual ~CMPCThemeCmdUIDialog();
     void fulfillThemeReqs() { CMPCThemeUtil::fulfillThemeReqs((CWnd*)this); };
+    BOOL OnInitDialog();
     DECLARE_DYNAMIC(CMPCThemeCmdUIDialog)
     DECLARE_MESSAGE_MAP()
 public:

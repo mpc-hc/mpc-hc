@@ -60,6 +60,7 @@ public:
     static UINT defaultLogo();
     static void fillParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
+    static void enableWindows10DarkFrame(CWnd* window);
 
     enum CheckBoxStyle {
         CheckBoxRegular = 0,
@@ -73,4 +74,5 @@ public:
         RadioHoverSet = 3
     };
 };
+
 

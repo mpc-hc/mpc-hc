@@ -145,6 +145,7 @@
     <ClCompile Include="CMPCThemeButton.cpp" />
     <ClCompile Include="CMPCThemeFrameUtil.cpp" />
     <ClCompile Include="CMPCThemeFrameWnd.cpp" />
+    <ClCompile Include="CMPCThemeMiniDockFrameWnd.cpp" />
     <ClCompile Include="CMPCThemeTitleBarControlButton.cpp" />
     <ClCompile Include="CMPCThemeUtil.cpp" />
     <ClCompile Include="CMPCThemeComboBox.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="CMPCThemeButton.h" />
     <ClInclude Include="CMPCThemeFrameUtil.h" />
     <ClInclude Include="CMPCThemeFrameWnd.h" />
+    <ClInclude Include="CMPCThemeMiniDockFrameWnd.h" />
     <ClInclude Include="CMPCThemeTitleBarControlButton.h" />
     <ClInclude Include="CMPCThemeUtil.h" />
     <ClInclude Include="CMPCThemeComboBox.h" />
@@ -362,6 +364,7 @@
     <ClInclude Include="CMPCThemeResizableDialog.h" />
     <ClInclude Include="CMPCThemeStatusBar.h" />
     <ClInclude Include="CMPCThemeTabCtrl.h" />
+    <ClInclude Include="CMPCThemeWin10Api.h" />
     <ClInclude Include="ColorButton.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />

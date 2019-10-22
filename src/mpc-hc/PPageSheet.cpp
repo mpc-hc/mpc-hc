@@ -99,6 +99,7 @@ CPPageSheet::~CPPageSheet() {
 void CPPageSheet::fulfillThemeReqs() {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
+        CMPCThemeUtil::enableWindows10DarkFrame(this);
     }
 }
 

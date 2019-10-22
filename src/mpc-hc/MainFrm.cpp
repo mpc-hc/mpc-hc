@@ -108,6 +108,7 @@
 #include "YoutubeDL.h"
 #include "CMPCThemeMenu.h"
 #include "CMPCThemeDockBar.h"
+#include "CMPCThemeMiniDockFrameWnd.h"
 
 #include <dwmapi.h>
 #undef SubclassWindow
@@ -157,9 +158,9 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CMPCThemeFrameWnd)
+IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CMPCThemeFrameWnd)
+BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_NCCREATE()
     ON_WM_CREATE()
     ON_WM_DESTROY()
@@ -786,10 +787,10 @@ CMainFrame::CMainFrame()
     , watchingFileDialog(false)
     , fileDialogHookHelper(nullptr)
 {
-    // Don't let CMPCThemeFrameWnd handle automatically the state of the menu items.
+    // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
     // disabled but it avoids some unwanted cases where programmatically
-    // disabled menu items are always re-enabled by CMPCThemeFrameWnd.
+    // disabled menu items are always re-enabled by CFrameWnd.
     m_bAutoMenuEnable = FALSE;
 
     EventRouter::EventSelection receives;
@@ -844,6 +845,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
+
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
 
     if (IsWindows8Point1OrGreater()) {
         m_dpi.Override(m_hWnd);
@@ -989,7 +992,7 @@ void CMainFrame::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStru
         }
     }
     
-    CMPCThemeFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+    CFrameWnd::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }
 
 void CMainFrame::OnDestroy()
@@ -1245,7 +1248,7 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
 void CMainFrame::EnableDocking(DWORD dwDockStyle) {
     ASSERT((dwDockStyle & ~(CBRS_ALIGN_ANY | CBRS_FLOAT_MULTI)) == 0);
 
-    m_pFloatingFrameClass = RUNTIME_CLASS(CMiniDockFrameWnd);
+    m_pFloatingFrameClass = RUNTIME_CLASS(CMPCThemeMiniDockFrameWnd);
     for (int i = 0; i < 4; i++) {
         if (dwDockBarMap[i][1] & dwDockStyle & CBRS_ALIGN_ANY) {
             CMPCThemeDockBar* pDock = (CMPCThemeDockBar*)GetControlBar(dwDockBarMap[i][0]);

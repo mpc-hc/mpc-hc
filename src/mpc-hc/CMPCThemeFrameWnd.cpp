@@ -1,3 +1,5 @@
+//deprecated in favor of setWindowCompositionAttribute--undocumented Windows 10 API
+
 #include "stdafx.h"
 #include "VersionHelpersInternal.h"
 #include "CMPCThemeFrameWnd.h"
@@ -357,7 +359,6 @@ void CMPCThemeFrameWnd::recalcFrame() {
         } else if (0 != (style & WS_BORDER)) {
             borders = { 1,1,1,1 };
         }
-        
         SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
     }
 }

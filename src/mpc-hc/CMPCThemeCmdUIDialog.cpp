@@ -22,6 +22,12 @@ BEGIN_MESSAGE_MAP(CMPCThemeCmdUIDialog, CCmdUIDialog)
     ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
+BOOL CMPCThemeCmdUIDialog::OnInitDialog() {
+    BOOL ret = __super::OnInitDialog();
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
+    return ret;
+}
+
 
 HBRUSH CMPCThemeCmdUIDialog::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
     if (AfxGetAppSettings().bMPCThemeLoaded) {

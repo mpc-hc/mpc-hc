@@ -13,6 +13,7 @@ public:
     explicit CMPCThemeDialog(UINT nIDTemplate, CWnd* pParentWnd = NULL);
     virtual ~CMPCThemeDialog();
     void fulfillThemeReqs() { CMPCThemeUtil::fulfillThemeReqs((CWnd*)this); };
+    BOOL OnInitDialog();
     DECLARE_DYNAMIC(CMPCThemeDialog)
     DECLARE_MESSAGE_MAP()
 public:

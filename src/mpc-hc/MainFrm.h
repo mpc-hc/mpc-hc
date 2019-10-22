@@ -44,7 +44,6 @@
 #include "TimerWrappers.h"
 #include "VMROSD.h"
 #include "CMPCThemeMenu.h"
-#include "CMPCThemeFrameWnd.h"
 
 #define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
@@ -141,7 +140,7 @@ struct SubtitleInput {
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
 
-class CMainFrame : public CMPCThemeFrameWnd, public CDropClient
+class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
 

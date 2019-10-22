@@ -249,6 +249,7 @@ BOOL CComPropertySheet::OnInitDialog()
     }
 
     fulfillThemeReqs();
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
     return bResult;
 }
 

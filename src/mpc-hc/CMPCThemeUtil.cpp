@@ -9,6 +9,7 @@
 #include "CMPCThemeTabCtrl.h"
 #include "VersionHelpersInternal.h"
 #include "CMPCThemeTitleBarControlButton.h"
+#include "CMPCThemeWin10Api.h"
 #undef SubclassWindow
 
 CBrush CMPCThemeUtil::contentBrush = CBrush();
@@ -700,4 +701,21 @@ void CMPCThemeUtil::fulfillThemeReqs(CProgressCtrl* ctl) {
         ctl->SetBkColor(CMPCTheme::ProgressBarBGColor);
     }
     ctl->UpdateWindow();
+}
+
+void CMPCThemeUtil::enableWindows10DarkFrame(CWnd* window) {
+    if (canUseWin10DarkTheme()) {
+        HMODULE hUser = GetModuleHandleA("user32.dll");
+        if (hUser) {
+            pfnSetWindowCompositionAttribute setWindowCompositionAttribute = (pfnSetWindowCompositionAttribute)GetProcAddress(hUser, "SetWindowCompositionAttribute");
+            if (setWindowCompositionAttribute) {
+                ACCENT_POLICY accent = { ACCENT_ENABLE_BLURBEHIND, 0, 0, 0 };
+                WINDOWCOMPOSITIONATTRIBDATA data;
+                data.Attrib = WCA_USEDARKMODECOLORS;
+                data.pvData = &accent;
+                data.cbData = sizeof(accent);
+                setWindowCompositionAttribute(window->GetSafeHwnd(), &data);
+            }
+        }
+    }
 }
