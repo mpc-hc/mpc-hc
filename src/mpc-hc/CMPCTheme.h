@@ -121,6 +121,9 @@ public:
     static const COLORREF SubresyncHLColor2;
     static const COLORREF SubresyncGridSepColor;
 
+    static const COLORREF ActivePlayListItemColor;
+    static const COLORREF ActivePlayListItemHLColor;
+
     static const BYTE GripperBitsH[10];
     static const BYTE GripperBitsV[8];
     static const int gripPatternShort;

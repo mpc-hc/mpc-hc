@@ -124,6 +124,10 @@ const COLORREF CMPCTheme::SubresyncHLColor1 = COLORREF(RGB(100, 100, 100));
 const COLORREF CMPCTheme::SubresyncHLColor2 = COLORREF(RGB(80, 80, 80));
 const COLORREF CMPCTheme::SubresyncGridSepColor = COLORREF(RGB(220, 220, 220));
 
+const COLORREF CMPCTheme::ActivePlayListItemColor = COLORREF(RGB(38, 160, 218));
+const COLORREF CMPCTheme::ActivePlayListItemHLColor = COLORREF(RGB(0, 40, 110));
+
+
 wchar_t* const CMPCTheme::uiTextFont = L"Segoe UI";
 wchar_t* const CMPCTheme::uiStaticTextFont = L"Segoe UI Semilight";
 wchar_t* const CMPCTheme::uiSymbolFont = L"MS UI Gothic";

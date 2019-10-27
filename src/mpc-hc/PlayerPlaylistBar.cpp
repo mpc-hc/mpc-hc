@@ -1134,36 +1134,47 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
-    bool fSelected = pos == m_pl.GetPos();
+    bool itemPlaying = pos == m_pl.GetPos();
+    bool itemSelected = !!m_list.GetItemState(nItem, LVIS_SELECTED);
     CPlaylistItem& pli = m_pl.GetAt(pos);
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+    int oldDC = pDC->SaveDC();
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
+    COLORREF bgColor;
+    
+    if (itemSelected) {
         if (s.bMPCThemeLoaded) {
-            FillRect(pDC->m_hDC, rcItem, CBrush(CMPCTheme::ContentSelectedColor));
+            bgColor = CMPCTheme::ContentSelectedColor;
         } else {
-            FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
+            bgColor = 0xf1dacc;
             FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
         }
     } else {
         if (s.bMPCThemeLoaded) {
-            FillRect(pDC->m_hDC, rcItem, CBrush(CMPCTheme::ContentBGColor));
+            bgColor = CMPCTheme::ContentBGColor;
         } else {
-            FillRect(pDC->m_hDC, rcItem, CBrush(GetSysColor(COLOR_WINDOW)));
+            bgColor = GetSysColor(COLOR_WINDOW);
         }
     }
+    FillRect(pDC->m_hDC, rcItem, CBrush(bgColor));
+    pDC->SetBkColor(bgColor);
 
     COLORREF textcolor;
+    CString bullet = _T("\x25CF ");
+    CSize bulletWidth = pDC->GetTextExtent(bullet);
 
     if (s.bMPCThemeLoaded) {
-        textcolor = CMPCTheme::TextFGColor;
         if (pli.m_fInvalid) {
             textcolor = CMPCTheme::ContentTextDisabledFGColorFade2;
+        } else if (itemPlaying) {
+            textcolor = itemSelected ? CMPCTheme::ActivePlayListItemHLColor : CMPCTheme::ActivePlayListItemColor;
+        } else {
+            textcolor = CMPCTheme::TextFGColor;
         }
     } else {
-        textcolor = fSelected ? 0xff : 0;
+        textcolor = itemPlaying ? 0xff : 0;
         if (pli.m_fInvalid) {
             textcolor |= 0xA0A0A0;
         }
@@ -1185,15 +1196,19 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     fmt.Format(_T("%%0%dd. %%s"), (int)log10(0.1 + m_pl.GetCount()) + 1);
     file.Format(fmt, nItem + 1, m_list.GetItemText(nItem, COL_NAME).GetString());
     CSize filesize = pDC->GetTextExtent(file);
-    while (3 + filesize.cx + 6 > timept.x && file.GetLength() > 3) {
+    while (3 + bulletWidth.cx + filesize.cx + 6 > timept.x && file.GetLength() > 3) {
         file = file.Left(file.GetLength() - 4) + _T("...");
         filesize = pDC->GetTextExtent(file);
     }
 
     if (file.GetLength() > 3) {
         pDC->SetTextColor(textcolor);
-        pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - filesize.cy) / 2, file);
+        pDC->TextOut(rcItem.left + 3 + bulletWidth.cx, (rcItem.top + rcItem.bottom - filesize.cy) / 2, file);
+        if (itemPlaying) {
+            pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - filesize.cy) / 2, bullet);
+        }
     }
+    pDC->RestoreDC(oldDC);
 }
 
 BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
