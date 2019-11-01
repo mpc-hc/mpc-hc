@@ -14,6 +14,7 @@ public:
 	virtual ~CMPCThemeComboBox();
     void themeDropDown();
 	void PreSubclassWindow();
+    void drawComboArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect);
     void checkHover(UINT nFlags, CPoint point, bool invalidate = true);
     DECLARE_MESSAGE_MAP()
     afx_msg void OnPaint();

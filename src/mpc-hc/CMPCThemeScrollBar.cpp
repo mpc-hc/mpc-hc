@@ -20,6 +20,87 @@ CMPCThemeScrollBar::CMPCThemeScrollBar():
 CMPCThemeScrollBar::~CMPCThemeScrollBar() {
 }
 
+void CMPCThemeScrollBar::drawSBArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect, arrowOrientation orientation) {
+    DpiHelper dpiWindow;
+    dpiWindow.Override(GetSafeHwnd());
+
+    Gdiplus::Graphics gfx(dc.m_hDC);
+    Gdiplus::Color clr;
+    clr.SetFromCOLORREF(arrowClr);
+
+    int dpi = dpiWindow.DPIX();
+
+    int xPos;
+    int yPos;
+    int xsign, ysign;
+    int rows, steps;
+
+    if (dpi < 120) {
+        rows = 3;
+        steps = 3;
+    } else if (dpi < 144) {
+        rows = 3;
+        steps = 4;
+    } else if (dpi < 168) {
+        rows = 4;
+        steps = 5;
+    } else if (dpi < 192) {
+        rows = 4;
+        steps = 5;
+    } else {
+        rows = 4;
+        steps = 5;
+    }
+
+    float shortDim = steps + rows;
+    int indent;
+    switch (orientation) {
+    case arrowLeft:
+        indent = ceil((arrowRect.Width() - shortDim) / 2);
+        xPos = arrowRect.right - indent - 1; //left and right arrows are pegged to the inside edge
+        yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
+        xsign = -1;
+        ysign = 1;
+        break;
+    case arrowRight:
+        indent = ceil((arrowRect.Width() - shortDim) / 2);
+        yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
+        xPos = arrowRect.left + indent;  //left and right arrows are pegged to the inside edge
+        xsign = 1;
+        ysign = 1;
+        break;
+    case arrowTop:
+        xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+        indent = ceil((arrowRect.Height() - shortDim) / 2);
+        yPos = arrowRect.top + indent + shortDim - 1;  //top and bottom arrows are pegged to the top edge
+        xsign = 1;
+        ysign = -1;
+        break;
+    case arrowBottom:
+    default:
+        xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+        indent = ceil((arrowRect.Height() - shortDim) / 2);
+        yPos = arrowRect.top + indent; //top and bottom arrows are pegged to the top edge
+        xsign = 1;
+        ysign = 1;
+        break;
+    }
+
+    gfx.SetSmoothingMode(Gdiplus::SmoothingModeNone);
+    Gdiplus::Pen pen(clr, 1);
+    for (int i = 0; i < rows; i++) {
+        if (orientation == arrowLeft || orientation == arrowRight) {
+            gfx.DrawLine(&pen, xPos + i *xsign, yPos, xPos + (steps + i) * xsign, steps * ysign + yPos);
+            gfx.DrawLine(&pen, xPos + (steps + i) * xsign, steps * ysign + yPos, xPos + i * xsign, (steps * 2) * ysign + yPos);
+        } else {
+            gfx.DrawLine(&pen, xPos, yPos + i * ysign, steps * xsign + xPos, yPos + (steps + i) * ysign);
+            gfx.DrawLine(&pen, steps *xsign + xPos, yPos + (steps + i) * ysign, (steps * 2) * xsign + xPos, yPos + i * ysign);
+        }
+    }
+
+}
+
+
 void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC) {
     CRect rcC;
     GetClientRect(&rcC);
@@ -82,43 +163,20 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC) {
             brushButton.CreateSolidBrush(buttonClr);
 
             dcMem.FillRect(butRect, &brushButton);
-            CBitmap arrowBMP;
-            CDC dcArrowBMP;
-            dcArrowBMP.CreateCompatibleDC(pDC);
 
-            COLORREF tT, tB;
-            tT = dcMem.SetTextColor(buttonClr);
-            tB = dcMem.SetBkColor(CMPCTheme::ScrollButtonArrowColor);
-
-            int arrowLeft, arrowTop, arrowWidth, arrowHeight;
             if (m_bHorizontal) {
-                arrowWidth = CMPCTheme::scrollArrowShort;
-                arrowHeight = CMPCTheme::scrollArrowLong; 
-                arrowBMP.CreateBitmap(arrowWidth, arrowHeight, 1, 1, CMPCTheme::ScrollArrowBitsH);
-                arrowLeft = butRect.left + (butRect.Width() - arrowWidth + 1) / 2; //add 1 to force rounding up when odd
-                arrowTop = butRect.top + (butRect.Height() - arrowHeight + 1) / 2; //add 1 to force rounding up when odd -- explorer has 6px on top and 5px on bottom
-                dcArrowBMP.SelectObject(&arrowBMP);
                 if (nElem == eTLbutton) { //top or left
-                    dcMem.BitBlt(arrowLeft, arrowTop, arrowWidth, arrowHeight, &dcArrowBMP, 0, 0, SRCCOPY);
+                    drawSBArrow(dcMem, CMPCTheme::ScrollButtonArrowColor, butRect, arrowOrientation::arrowLeft);
                 } else {
-                    dcMem.StretchBlt(arrowLeft, arrowTop, arrowWidth, arrowHeight, &dcArrowBMP, arrowWidth - 1, 0, -arrowWidth, arrowHeight, SRCCOPY);
+                    drawSBArrow(dcMem, CMPCTheme::ScrollButtonArrowColor, butRect, arrowOrientation::arrowRight);
                 }
             } else {
-                arrowWidth = CMPCTheme::scrollArrowLong;
-                arrowHeight = CMPCTheme::scrollArrowShort;
-                arrowBMP.CreateBitmap(arrowWidth, arrowHeight, 1, 1, CMPCTheme::ScrollArrowBitsV);
-                arrowLeft = butRect.left + (butRect.Width() - arrowWidth + 1) / 2; //add 1 to force rounding up when odd
-                arrowTop = butRect.top + (butRect.Height() - arrowHeight + 1) / 2; //add 1 to force rounding up when odd -- explorer has 6px on top and 5px on bottom
-                dcArrowBMP.SelectObject(&arrowBMP);
                 if (nElem == eTLbutton) { //top or left
-                    dcMem.BitBlt(arrowLeft, arrowTop, arrowWidth, arrowHeight, &dcArrowBMP, 0, 0, SRCCOPY);
+                    drawSBArrow(dcMem, CMPCTheme::ScrollButtonArrowColor, butRect, arrowOrientation::arrowTop);
                 } else {
-                    dcMem.StretchBlt(arrowLeft, arrowTop, arrowWidth, arrowHeight, &dcArrowBMP, 0, arrowHeight-1, arrowWidth, -arrowHeight, SRCCOPY);
+                    drawSBArrow(dcMem, CMPCTheme::ScrollButtonArrowColor, butRect, arrowOrientation::arrowBottom);
                 }
             }
-
-            dcMem.SetTextColor(tT);
-            dcMem.SetBkColor(tB);
 
         } else if (stArea.IsChannel()) {
             if (m_bHorizontal) {

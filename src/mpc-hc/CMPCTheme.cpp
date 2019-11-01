@@ -151,77 +151,8 @@ const BYTE CMPCTheme::GripperBitsV[8] = {
     0x00, 0x00,
 };
 
-const int CMPCTheme::scrollArrowLong = 7;
-const int CMPCTheme::scrollArrowShort = 6;
-
-const BYTE CMPCTheme::ScrollArrowBitsV[12] = {
-    0x10, 0x00,
-    0x38, 0x00,
-    0x7C, 0x00,
-    0xEE, 0x00,
-    0xC6, 0x00,
-    0x82, 0x00,
-};
-const BYTE CMPCTheme::ScrollArrowBitsH[14] = {
-    0x1C, 0x00,
-    0x38, 0x00,
-    0x70, 0x00,
-    0xE0, 0x00,
-    0x70, 0x00,
-    0x38, 0x00,
-    0x1C, 0x00,
-};
-
-const BYTE CMPCTheme::ComboArrowBits[10] = {
-    0x80, 0x40,
-    0x40, 0x80,
-    0x21, 0x00,
-    0x12, 0x00,
-    0x0C, 0x00,
-};
-const int CMPCTheme::ComboArrowWidth = 10;
-const int CMPCTheme::ComboArrowHeight = 5;
-
-const COLORREF CMPCTheme::ComboboxArrowColor[3] = {
-    COLORREF(RGB(113, 113, 113)),
-    COLORREF(RGB(173, 173, 173)),
-    COLORREF(RGB(62, 62, 62)),
-};
-
-const COLORREF CMPCTheme::ComboboxArrowColorHover[3] = {
-    COLORREF(RGB(123, 123, 123)),
-    COLORREF(RGB(177, 177, 177)),
-    COLORREF(RGB(78, 78, 78)),
-};
-
-const COLORREF CMPCTheme::ComboboxArrowColorDisabled[3] = {
-    COLORREF(RGB(75, 75, 75)),
-    COLORREF(RGB(109, 109, 109)),
-    COLORREF(RGB(48, 48, 48)),
-};
-
-
-const COLORREF CMPCTheme::ComboboxArrowColorClick[3] = {
-    COLORREF(RGB(143, 143, 143)),
-    COLORREF(RGB(183, 183, 183)),
-    COLORREF(RGB(109, 109, 109)),
-};
-
-const BYTE CMPCTheme::SpinnerArrowBitsV[6] = {
-    0x20, 0x00,
-    0x70, 0x00,
-    0xF8, 0x00,
-};
-const BYTE CMPCTheme::SpinnerArrowBitsH[10] = {
-    0x20, 0x00,
-    0x60, 0x00,
-    0xE0, 0x00,
-    0x60, 0x00,
-    0x20, 0x00,
-};
-
-const int CMPCTheme::SpinnerArrowWidth = 5;
-const int CMPCTheme::SpinnerArrowHeight = 3;
+const COLORREF CMPCTheme::ComboboxArrowColor = COLORREF(RGB(200, 200, 200));
+const COLORREF CMPCTheme::ComboboxArrowColorDisabled = COLORREF(RGB(100, 100, 100));
 
 const BYTE CMPCTheme::CheckBits[14] = {
     0x02, 0x00,

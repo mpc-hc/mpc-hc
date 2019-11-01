@@ -5,6 +5,14 @@ public:
 	CMPCThemeSpinButtonCtrl();
 	virtual ~CMPCThemeSpinButtonCtrl();
     DECLARE_DYNAMIC(CMPCThemeSpinButtonCtrl)
+    enum arrowOrientation {
+        arrowLeft,
+        arrowRight,
+        arrowTop,
+        arrowBottom
+    };
+
+
     DECLARE_MESSAGE_MAP()
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -12,6 +20,7 @@ public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 protected:
     CPoint downPos;
-    void OnPaint();
+	void drawSpinArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect, arrowOrientation orientation);
+	void OnPaint();
 };
 

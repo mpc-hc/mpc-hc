@@ -68,6 +68,42 @@ void CMPCThemeComboBox::PreSubclassWindow() {
 }
 
 
+void CMPCThemeComboBox::drawComboArrow(CDC &dc, COLORREF arrowClr, CRect arrowRect) {
+    DpiHelper dpiWindow;
+    dpiWindow.Override(GetSafeHwnd());
+
+    Gdiplus::Color clr;
+    clr.SetFromCOLORREF(arrowClr);
+
+    int dpi = dpiWindow.DPIX();
+    float steps;
+
+    if (dpi < 120) steps = 3.5;
+    else if (dpi < 144) steps = 4;
+    else if (dpi < 168) steps = 5;
+    else if (dpi < 192) steps = 5;
+    else steps = 6;
+
+    int xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+    int yPos = arrowRect.top + (arrowRect.Height() - (steps + 1)) / 2;
+
+    Gdiplus::Graphics gfx(dc.m_hDC);
+    gfx.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x4);
+    Gdiplus::Pen pen(clr, 1);
+    for (int i = 0; i < 2; i++) {
+        Gdiplus::GraphicsPath path;
+        Gdiplus::PointF vertices[3];
+
+        vertices[0] = Gdiplus::PointF(xPos, yPos);
+        vertices[1] = Gdiplus::PointF(steps + xPos, yPos + steps);
+        vertices[2] = Gdiplus::PointF(steps * 2 + xPos, yPos);
+
+        path.AddLines(vertices, 3);
+        gfx.DrawPath(&pen, &path);
+    }
+}
+
+
 void CMPCThemeComboBox::OnPaint() {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CPaintDC dc(this);
@@ -75,7 +111,6 @@ void CMPCThemeComboBox::OnPaint() {
         GetClientRect(r);
         CString strText;
         GetWindowText(strText);
-        const COLORREF* arrClr;
 
         CBrush fb;
         bool isFocused = (GetFocus() == this);
@@ -91,21 +126,18 @@ void CMPCThemeComboBox::OnPaint() {
         COMBOBOXINFO info = { sizeof(COMBOBOXINFO) };
         GetComboBoxInfo(&info);
 
-        COLORREF bkColor, fgColor = CMPCTheme::TextFGColor;
-        if (::IsWindowVisible(info.hwndList) || info.stateButton == STATE_SYSTEM_PRESSED) { //always looks the same once the list is open
+        COLORREF bkColor, fgColor = CMPCTheme::TextFGColor, arrowColor = CMPCTheme::ComboboxArrowColor;
+        if ((nullptr != info.hwndList && ::IsWindowVisible(info.hwndList)) || info.stateButton == STATE_SYSTEM_PRESSED) { //always looks the same once the list is open
             bkColor = CMPCTheme::ButtonFillSelectedColor;
             drawDotted = false;
-            arrClr = CMPCTheme::ComboboxArrowColorClick;
         } else if (info.stateButton == 0 && isHover) {  //not pressed and hovered
             bkColor = CMPCTheme::ButtonFillHoverColor;
-            arrClr = CMPCTheme::ComboboxArrowColorHover;
         } else if (!IsWindowEnabled()) {
             bkColor = CMPCTheme::ButtonFillColor;
-            arrClr = CMPCTheme::ComboboxArrowColorDisabled;
             fgColor = CMPCTheme::ButtonDisabledFGColor;
+            arrowColor = CMPCTheme::ComboboxArrowColorDisabled;
         } else {
             bkColor = CMPCTheme::ButtonFillColor;
-            arrClr = CMPCTheme::ComboboxArrowColor;
         }
 
         rBG = r;
@@ -118,19 +150,7 @@ void CMPCThemeComboBox::OnPaint() {
         doDraw(dc, strText, rText, bkColor, fgColor, drawDotted);
 
         rDownArrow = info.rcButton;
-        CBitmap arrowLowerBMP, arrowUpperBMP;
-        int arrowLeft, arrowTop, arrowWidth, arrowHeight, arrowUpperHeight;
-        arrowWidth = CMPCTheme::ComboArrowWidth;
-        arrowHeight = CMPCTheme::ComboArrowHeight;
-        arrowUpperHeight = arrowHeight - 1;
-        arrowLowerBMP.CreateBitmap(arrowWidth, arrowHeight, 1, 1, CMPCTheme::ComboArrowBits);
-        arrowUpperBMP.CreateBitmap(arrowWidth, arrowUpperHeight, 1, 1, CMPCTheme::ComboArrowBits + sizeof(BYTE) * 2);
-        arrowLeft = rDownArrow.left + (rDownArrow.Width() - arrowWidth) / 2;
-        arrowTop = rDownArrow.top + (rDownArrow.Height() - (arrowHeight + 1) + 1) / 2; //add 1 to height because arrow is 1 taller than BMP.  add 1 to force rounding positive
-
-        CMPCThemeUtil::Draw2BitTransparent(dc, arrowLeft, arrowTop, arrowWidth, arrowUpperHeight, arrowUpperBMP, arrClr[0]);
-        CMPCThemeUtil::Draw2BitTransparent(dc, arrowLeft, arrowTop + 1, arrowWidth, arrowUpperHeight, arrowUpperBMP, arrClr[1]);
-        CMPCThemeUtil::Draw2BitTransparent(dc, arrowLeft, arrowTop + 1, arrowWidth, arrowHeight, arrowLowerBMP, arrClr[2]);
+        drawComboArrow(dc, arrowColor, rDownArrow);
 
         rBorder = r;
         dc.FrameRect(rBorder, &fb);

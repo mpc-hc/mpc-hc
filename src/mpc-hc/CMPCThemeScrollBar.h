@@ -8,6 +8,12 @@ class CMPCThemeScrollBar :	public CXeScrollBarBase
 public:
     CMPCThemeScrollBar();
     virtual ~CMPCThemeScrollBar();
+    enum arrowOrientation {
+        arrowLeft,
+        arrowRight,
+        arrowTop,
+        arrowBottom
+    };
     void DrawScrollBar(CDC * pDC);
     virtual void SendScrollMsg(WORD wSBcode, WORD wHiWPARAM);
     void setScrollWindow(CWnd* window);
@@ -20,5 +26,6 @@ protected:
     UINT scrollLines;
     bool haveInitScrollInfo;
     bool disableNoScroll;
+    void drawSBArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect, arrowOrientation orientation);
 };
 
