@@ -49,7 +49,7 @@ void CMPCThemeStaticLink::OnPaint() {
         if (!IsWindowEnabled()) {
             dc.SetTextColor(CMPCTheme::ContentTextDisabledFGColorFade);
         } else {
-            dc.SetTextColor(CMPCTheme::TextFGColor);
+            dc.SetTextColor(CMPCTheme::StaticLinkColor);
         }
         CFont f;
         CMPCThemeUtil::getFontByType(f, &dc, CMPCThemeUtil::MessageFont, true);
@@ -83,6 +83,7 @@ void CMPCThemeStaticLink::OnEnable(BOOL bEnable) {
         __super::OnEnable(bEnable);
         SetRedraw(TRUE);
         Invalidate(); //WM_PAINT not handled when enabling/disabling
+        RedrawWindow();
     } else {
         __super::OnEnable(bEnable);
     }

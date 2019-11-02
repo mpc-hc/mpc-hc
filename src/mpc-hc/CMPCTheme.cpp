@@ -126,7 +126,7 @@ const COLORREF CMPCTheme::SubresyncGridSepColor = COLORREF(RGB(220, 220, 220));
 
 const COLORREF CMPCTheme::ActivePlayListItemColor = COLORREF(RGB(38, 160, 218));
 const COLORREF CMPCTheme::ActivePlayListItemHLColor = COLORREF(RGB(0, 40, 110));
-
+const COLORREF CMPCTheme::StaticLinkColor = COLORREF(RGB(38, 160, 218));
 
 wchar_t* const CMPCTheme::uiTextFont = L"Segoe UI";
 wchar_t* const CMPCTheme::uiStaticTextFont = L"Segoe UI Semilight";
