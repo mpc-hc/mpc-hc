@@ -4269,7 +4269,7 @@ void CMainFrame::OnFileReopen()
     if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
         return;
     }
-    OpenCurPlaylistItem();
+    OpenCurPlaylistItem(0, true);
 }
 
 DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
@@ -14780,7 +14780,7 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
-void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
+void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart, bool reopen)
 {
     if (IsPlaylistEmpty()) {
         return;
@@ -14789,9 +14789,16 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
     CPlaylistItem pli;
     if (!m_wndPlaylistBar.GetCur(pli)) {
         m_wndPlaylistBar.SetFirstSelected();
+        if (!m_wndPlaylistBar.GetCur(pli)) {
+            return;
+        }
     }
-    if (!m_wndPlaylistBar.GetCur(pli)) {
-        return;
+
+    if (reopen && pli.m_bYoutubeDL) {
+        if (ProcessYoutubeDLURL(pli.m_ydlSourceURL, false, true)) {
+            OpenCurPlaylistItem(rtStart, false);
+            return;
+        }
     }
 
     CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD(rtStart));
@@ -17280,7 +17287,7 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
     return false;
 }
 
-bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
+bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
 {
     auto& s = AfxGetAppSettings();
     CAtlList<CYoutubeDLInstance::YDLStreamURL> streams;
@@ -17296,7 +17303,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
         return false;
     }
 
-    if (!append) {
+    if (!append && !replace) {
         m_wndPlaylistBar.Empty();
     }
 
@@ -17311,7 +17318,12 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
         if (!a_url.IsEmpty()) {
             filenames.AddTail(a_url);
         }
-        m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
+        if (replace) {
+            m_wndPlaylistBar.ReplaceCurrentItem(filenames, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
+            break;
+        } else {
+            m_wndPlaylistBar.Append(filenames, false, nullptr, streams.GetAt(streams.FindIndex(i)).title + " (" + url + ")", url);
+        }
     }
 
     if (s.fKeepHistory) {
@@ -17321,7 +17333,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append)
         mru->WriteList();
     }
 
-    if (!append) {
+    if (!append && (!replace || !m_wndPlaylistBar.GetCur())) {
         m_wndPlaylistBar.SetFirst();
     }
     return true;

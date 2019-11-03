@@ -193,6 +193,27 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     m_pl.AddTail(pli);
 }
 
+void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src)
+{
+    CPlaylistItem* pli = GetCur();
+    if (pli == nullptr) {
+        AddItem(fns, subs, label, ydl_src);
+    } else {
+        pli->m_fns.RemoveAll();
+        pli->m_fns.AddTailList(&fns);
+        pli->m_subs.RemoveAll();
+        if (subs) {
+            pli->m_subs.AddTailList(subs);
+        }
+        pli->m_label = label;
+        pli->m_ydlSourceURL = ydl_src;
+        pli->m_bYoutubeDL = !ydl_src.IsEmpty();
+
+        Refresh();
+        SavePlaylist();
+    }
+}
+
 static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 {
     if (mask.Find(_T("://")) >= 0) {

@@ -500,7 +500,7 @@ protected:
     friend class SubtitlesThread;
 
 public:
-    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
+    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false);
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
     void PlayFavoriteFile(CString fav);
     void PlayFavoriteDVD(CString fav);
@@ -1122,7 +1122,7 @@ public:
 
 private:
     bool CanSendToYoutubeDL(const CString url);
-    bool ProcessYoutubeDLURL(CString url, bool append);
+    bool ProcessYoutubeDLURL(CString url, bool append, bool replace = false);
     bool DownloadWithYoutubeDL(CString url, CString filename);
 
     bool watchingFileDialog;
