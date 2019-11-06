@@ -33,6 +33,8 @@ IsWindows10OrGreater()
     return IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WINTHRESHOLD), LOBYTE(_WIN32_WINNT_WINTHRESHOLD), 0);
 }
 
+#endif
+
 typedef LONG NTSTATUS, * PNTSTATUS;
 #define STATUS_SUCCESS (0x00000000)
 
@@ -53,6 +55,3 @@ inline RTL_OSVERSIONINFOW GetRealOSVersion() {
     RTL_OSVERSIONINFOW rovi = { 0 };
     return rovi;
 }
-
-
-#endif
