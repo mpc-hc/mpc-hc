@@ -162,7 +162,7 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, _T("Include current time in filename"));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, _T("When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."));
     addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, false, s.bLoopFolderOnPlayNextFile, _T("Loop back to first file in folder after playing the last file."));
-    addBoolItem(MPCTHEME_FILL_SEEK_BAR_AND_VOLUME, IDS_RS_MODERNSEEKBAR, true, s.bModernSeekbar, _T("Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."));
+    addBoolItem(MPCTHEME_MODERNSEEKBAR, IDS_RS_MODERNSEEKBAR, true, s.bModernSeekbar, _T("Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."));
     addIntItem(SEEKBAR_HEIGHT, IDS_RS_MODERNSEEKBARHEIGHT, DEF_MODERN_SEEKBAR_HEIGHT, s.iModernSeekbarHeight, std::make_pair(MIN_MODERN_SEEKBAR_HEIGHT, MAX_MODERN_SEEKBAR_HEIGHT), _T("Modern seekbar height (at 96dpi, otherwise scaled)"));
 }   
 
