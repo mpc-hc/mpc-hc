@@ -150,12 +150,16 @@ void CPlayerStatusBar::Relayout()
 
     GetClientRect(r);
 
+    #if 0
     if (m_type.GetIcon()) {
         r2.SetRect(6, r.top + 4, 6 + m_pMainFrame->m_dpi.ScaleX(16), r.bottom - 4);
         m_type.MoveWindow(r2);
     }
 
     r.DeflateRect(11 + m_pMainFrame->m_dpi.ScaleX(16), 5, bm.bmWidth + 8, 4);
+    #else
+    r.DeflateRect(8, 5, bm.bmWidth + 8, 4);
+    #endif
 
     if (CDC* pDC = m_time.GetDC()) {
         CFont* pOld = pDC->SelectObject(&m_time.GetFont());
@@ -360,6 +364,7 @@ END_MESSAGE_MAP()
 
 void CPlayerStatusBar::SetMediaTypeIcon()
 {
+    #if 0
     if (m_hIcon) {
         DestroyIcon(m_hIcon);
     }
@@ -369,6 +374,7 @@ void CPlayerStatusBar::SetMediaTypeIcon()
     m_type.SetIcon(m_hIcon);
 
     Relayout();
+    #endif
 }
 
 BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
