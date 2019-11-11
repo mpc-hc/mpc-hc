@@ -31,6 +31,7 @@ public:
     static const COLORREF GripperPatternColor;
 
     static const COLORREF ScrollBGColor;
+    static const COLORREF ScrollProgressColor;
     static const COLORREF ScrollChapterColor;
     static const COLORREF ScrollThumbColor;
     static const COLORREF ScrollThumbHoverColor;
@@ -124,6 +125,7 @@ public:
     static const COLORREF ActivePlayListItemColor;
     static const COLORREF ActivePlayListItemHLColor;
     static const COLORREF StaticLinkColor;
+    static const COLORREF SeekbarCurrentPositionColor;
 
     static const BYTE GripperBitsH[10];
     static const BYTE GripperBitsV[8];

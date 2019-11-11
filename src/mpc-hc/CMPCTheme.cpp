@@ -33,7 +33,8 @@ const COLORREF CMPCTheme::NoBorderColor = COLORREF(RGB(0, 0, 0));
 const COLORREF CMPCTheme::GripperPatternColor = COLORREF(RGB(70, 70, 74)); //visual studio dark, since explorer has no grippers
 
 const COLORREF CMPCTheme::ScrollBGColor = COLORREF(RGB(23, 23, 23));
-const COLORREF CMPCTheme::ScrollChapterColor = COLORREF(RGB(60, 60, 60));
+const COLORREF CMPCTheme::ScrollProgressColor = COLORREF(RGB(60, 60, 60));
+const COLORREF CMPCTheme::ScrollChapterColor = COLORREF(RGB(100, 100, 100));
 const COLORREF CMPCTheme::ScrollThumbColor = COLORREF(RGB(77, 77, 77));
 const COLORREF CMPCTheme::ScrollThumbHoverColor = COLORREF(RGB(144, 144, 144));
 const COLORREF CMPCTheme::ScrollThumbDragColor = COLORREF(RGB(183, 183, 183));
@@ -127,6 +128,8 @@ const COLORREF CMPCTheme::SubresyncGridSepColor = COLORREF(RGB(220, 220, 220));
 const COLORREF CMPCTheme::ActivePlayListItemColor = COLORREF(RGB(38, 160, 218));
 const COLORREF CMPCTheme::ActivePlayListItemHLColor = COLORREF(RGB(0, 40, 110));
 const COLORREF CMPCTheme::StaticLinkColor = COLORREF(RGB(38, 160, 218));
+
+const COLORREF CMPCTheme::SeekbarCurrentPositionColor = COLORREF(RGB(38, 160, 218));
 
 wchar_t* const CMPCTheme::uiTextFont = L"Segoe UI";
 wchar_t* const CMPCTheme::uiStaticTextFont = L"Segoe UI Semilight";

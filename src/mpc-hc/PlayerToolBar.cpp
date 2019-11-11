@@ -93,6 +93,8 @@ void CPlayerToolBar::LoadToolbarImage()
     float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
 
     CImage image, themedImage, origImage;
+    m_pButtonsImages.reset();
+    m_pDisabledButtonsImages.reset();
     if (LoadExternalToolBar(image) || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
         origImage = image;
         const CAppSettings& s = AfxGetAppSettings();

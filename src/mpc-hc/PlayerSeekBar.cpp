@@ -30,6 +30,7 @@
 #define TOOLTIP_HIDE_TIMEOUT 3000
 #define HOVER_CAPTURED_TIMEOUT 100
 #define ADD_TO_BOTTOM_WITHOUT_CONTROLBAR 2
+#define SEEK_DRAGGER_OVERLAP 5
 
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
@@ -118,7 +119,12 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
-    ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded && s.bModernSeekbar) {
+        ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iModernSeekbarHeight); //expand the toolbar if using "fill" mode
+    } else {
+        ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
+    }
     if (!m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         ret.cy += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
@@ -257,8 +263,15 @@ CRect CPlayerSeekBar::GetChannelRect() const
     if (m_pMainFrame->m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         r.bottom += ADD_TO_BOTTOM_WITHOUT_CONTROLBAR;
     }
-    CSize s(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
-    r.DeflateRect(s.cx, s.cy, s.cx, s.cy);
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.bMPCThemeLoaded && s.bModernSeekbar) { //no thumb so we can use all the space
+        r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
+    } else {
+        CSize sz(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
+        r.DeflateRect(sz.cx, sz.cy, sz.cx, sz.cy);
+    }
+
     return r;
 }
 
@@ -267,7 +280,7 @@ CRect CPlayerSeekBar::GetThumbRect() const
     const CRect channelRect(GetChannelRect());
     const long x = channelRect.left + ChannelPointFromPosition(m_rtPos);
     CSize s;
-    s.cy = m_pMainFrame->m_dpi.ScaleFloorY(5);
+    s.cy = m_pMainFrame->m_dpi.ScaleFloorY(SEEK_DRAGGER_OVERLAP);
     s.cx = m_pMainFrame->m_dpi.TransposeScaledY(channelRect.Height()) / 2 + s.cy;
     CRect r(x + 1 - s.cx, channelRect.top - s.cy, x + s.cx, channelRect.bottom + s.cy);
     return r;
@@ -504,7 +517,7 @@ void CPlayerSeekBar::OnPaint()
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCThemeLoaded) {
         // Thumb
-        {
+        if (!s.bModernSeekbar) { //no thumb while showing seek progress
             CRect r(GetThumbRect());
             if (DraggingThumb()) {
                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
@@ -524,6 +537,9 @@ void CPlayerSeekBar::OnPaint()
             ExtSelectClipRgn(dc, rg, RGN_XOR);
 
             m_lastThumbRect = r;
+        } else {
+            CRect r(GetThumbRect());
+            m_lastThumbRect = r;
         }
 
         const CRect channelRect(GetChannelRect());
@@ -536,7 +552,7 @@ void CPlayerSeekBar::OnPaint()
                     REFERENCE_TIME rtChap;
                     if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
                         long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
-                        CRect r(chanPos, channelRect.top, chanPos + 1, channelRect.bottom);
+                        CRect r(chanPos, channelRect.top+1, chanPos + 1, channelRect.bottom-1);
                         if (r.right < channelRect.right) {
                             r.right++;
                         }
@@ -552,7 +568,22 @@ void CPlayerSeekBar::OnPaint()
 
         // Channel
         {
-            dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor: CMPCTheme::ScrollBGColor);
+            if (s.bModernSeekbar) {
+                long seekPos = ChannelPointFromPosition(m_rtPos);
+                CRect r, playedRect, unplayedRect, curPosRect;
+                playedRect = channelRect;
+                playedRect.right = playedRect.left + seekPos - m_pMainFrame->m_dpi.ScaleX(2) + 1;
+                dc.FillSolidRect(&playedRect, CMPCTheme::ScrollProgressColor);
+                unplayedRect = channelRect;
+                unplayedRect.left = playedRect.left + seekPos + m_pMainFrame->m_dpi.ScaleX(2);
+                dc.FillSolidRect(&unplayedRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
+                curPosRect = channelRect;
+                curPosRect.left = playedRect.right;
+                curPosRect.right = unplayedRect.left;
+                dc.FillSolidRect(&curPosRect, CMPCTheme::SeekbarCurrentPositionColor);
+            } else {
+                dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
+            }
             CRect r(channelRect);
             CBrush fb;
             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
