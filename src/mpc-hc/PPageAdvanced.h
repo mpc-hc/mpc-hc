@@ -201,7 +201,7 @@ private:
         INACCURATE_FASTSEEK,
         LOOP_FOLDER_NEXT_FILE,
         MPCTHEME_MODERNSEEKBAR,
-        SEEKBAR_HEIGHT
+        MODERNSEEKBAR_HEIGHT
     };
 
     enum {
