@@ -1824,7 +1824,17 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     pFrame->ActivateFrame(m_nCmdShow);
+
+    /* adipose 2019-11-12:
+        LoadPlayList this used to be performed inside OnCreate,
+        but due to all toolbars being hidden, EnsureVisible does not correctly
+        scroll to the current file in the playlist.  We call after activating
+        the frame to fix this issue.
+    */
+    pFrame->m_wndPlaylistBar.LoadPlaylist(pFrame->GetRecentFile()); 
+    
     pFrame->UpdateWindow();
+
 
     if (bMinimized && bMaximized) {
         WINDOWPLACEMENT wp;

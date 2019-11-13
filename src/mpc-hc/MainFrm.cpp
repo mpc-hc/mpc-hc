@@ -918,7 +918,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
     m_wndPlaylistBar.SetHeight(100);
     m_controls.m_panels[CMainFrameControls::Panel::PLAYLIST] = &m_wndPlaylistBar;
-    m_wndPlaylistBar.LoadPlaylist(GetRecentFile());
+    //m_wndPlaylistBar.LoadPlaylist(GetRecentFile()); //adipose 2019-11-12; do this later after activating the frame
 
     m_wndEditListEditor.Create(this, AFX_IDW_DOCKBAR_RIGHT);
     m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
