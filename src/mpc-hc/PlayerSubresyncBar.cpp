@@ -1440,10 +1440,7 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
 void CPlayerSubresyncBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
     __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
-    if (m_itemHeight == 0) {
-        m_itemHeight = lpMeasureItemStruct->itemHeight;
-    }
-    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
+    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
 }
 
 int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)

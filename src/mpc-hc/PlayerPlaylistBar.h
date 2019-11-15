@@ -50,7 +50,6 @@ private:
     CImageList m_fakeImageList;
     CMPCThemePlayerListCtrl m_list;
 
-    int m_itemHeight = 0;
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
