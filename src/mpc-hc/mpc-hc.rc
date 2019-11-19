@@ -3157,7 +3157,7 @@ BEGIN
     IDS_ADD_TO_PLAYLIST     "Add to MPC-HC Playlist"
     IDS_OPEN_WITH_MPC       "Play with MPC-HC"
     IDS_CANNOT_CHANGE_FORMAT 
-                            "MPC-HC has not enough privileges to change files formats associations. Please click on the ""Run as administrator"" button."
+                            "MPC-HC does not have sufficient privileges to change file associations. Please click on the ""Run as administrator"" button."
     IDS_APP_DESCRIPTION     "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
     IDS_MAINFRM_12          "channel"
     IDS_MAINFRM_13          "channels"

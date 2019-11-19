@@ -2189,7 +2189,7 @@ msgid "Play with MPC-HC"
 msgstr "Воспроизвести в MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
-msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
+msgid "MPC-HC does not have sufficient privileges to change file associations. Please click on the \"Run as administrator\" button."
 msgstr "MPC-HC не имеет достаточно прав для изменения файловых ассоциаций. Нажмите кнопку «Запуск от имени администратора»."
 
 msgctxt "IDS_APP_DESCRIPTION"
