@@ -11,7 +11,8 @@ public:
     virtual ~CMPCThemeMsgBox();
     BOOL OnInitDialog();
     void fulfillThemeReqs() { CMPCThemeUtil::fulfillThemeReqs((CWnd*)this); };
-    static BOOL MessageBox(CWnd * parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
+    static BOOL MessageBox(CWnd* parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
+    static BOOL MessageBox(CWnd* parent, LPCWSTR lpText);
     DECLARE_MESSAGE_MAP()
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);

@@ -20,6 +20,7 @@ CMPCThemeMsgBox::~CMPCThemeMsgBox() {
 BOOL CMPCThemeMsgBox::OnInitDialog() {
     BOOL ret = __super::OnInitDialog();
     fulfillThemeReqs();
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
     return ret;
 }
 
@@ -53,6 +54,10 @@ BOOL CMPCThemeMsgBox::OnEraseBkgnd(CDC* pDC) {
     } else {
         return __super::OnEraseBkgnd(pDC);
     }
+}
+
+BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText) {
+    return CMPCThemeMsgBox::MessageBox(parent, lpText, _T(""), MB_OK);
 }
 
 BOOL CMPCThemeMsgBox::MessageBox(CWnd *parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType) {

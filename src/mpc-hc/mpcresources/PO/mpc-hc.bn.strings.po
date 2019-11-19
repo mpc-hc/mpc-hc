@@ -576,6 +576,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "আপনার পছন্দনীয় ভাষাসমূহ এখানে প্রবেশ করুন।\nউদাহরণস্বরূপ, প্রবেশ করতে পারেন: \"ben eng jap swe\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "বাহিরস্থ স্প্লিটারসমূহের নিজস্ব পছন্দনীয় ভাষার অপশন থাকতে পারে, সেটার জন্য MPC-HCএর ডিফল্ট আচরণ সেসবের প্রাথমিক পছন্দ পরিবর্তন করে না।\nMPC-HC দ্বারা বাহিরস্থ স্প্লিটারসমূহ নিয়ন্ত্রণ করতে চাইলে এই অপশনটি সক্রিয় করুন।"
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-Ray প্লেলিস্টসমূহ"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "প্লেলিস্ট(&P)"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "পরিচ্ছেদসমূহ(&C)"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "টাইটেলসমূহ(&T)"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "চ্যানেলসমূহ(&C)"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -652,10 +680,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "উচ্চ-বৈশিষ্ট্যগুণ সম্পন্ন রেনডারার, ব্যবহার করতে এমন একটি GPUএর প্রয়োজন হবে যা D3D9 বা পরবর্তী সংস্করণসমূহ সমর্থন করে।"
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "EVR (CP)এর মত একই রকমের, তবে বাদ যাওয়া বা পুনরাবৃত্ত ভিডিও ফ্রেমসমূহ বর্জনের জন্য ভিডিও ফ্রেম রেটের সাথে ডিসপ্লে রিফ্রেশ রেটের সিঙ্ক্রোনাইজকরণে কয়েকটি অপশন দেয়।"
@@ -679,6 +703,26 @@ msgstr "QuickTimeএর ইঞ্জিন থেকে প্রাপ্ত �
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "ভিডিও উপরিতলটি একটি সাধারণ বাইরেরস্ক্রীন উপরিতল হিসেবে নির্দেশিত হবে।"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে কিন্তু তারপরও দ্বিমাত্রিক ফাংশনসমূহ সেটা পিছনবাফারে কপি এবং বিস্তৃতি করণে ব্যবহৃত হবে। এমন ভিডিও কার্ড লাগবে যেটা 32bit, RGBA, দুইয়ের-শক্তিতে-নয় এমন সাইজকৃত টেক্সচারসমূহ এবং অন্তত ভিডিওর রেজ্যুলূশন নির্দেশিত করতে পারে।"
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে এবং তিনমাত্রায় দুইটি ত্রিভুজ আকারে আঁকা হবে। ডিসপ্লে সেটিংসমূহে অ্যান্টিএলিয়েসিং সক্রিয় থাকলে সেটা রেনডারকরন গতিতে খারাপ প্রভাব ফেলতে পারে।"
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "যদি পিক্সেল শেইডার 2.0 সমর্থন না করে, তবে সাধারণ বাইলিনিয়ার স্বয়ংক্রিয়ভাবে ব্যবহৃত হবে।"
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "VMR-9 (renderless)কে মিক্সার মোডে নিয়ে যায়, এর মানে হল এটার প্রোপার্টি পেইজের বেশিরভাগ কন্ট্রোলসমূহই কাজ করবে এবং এটা ফ্রেমসমূহ রেনডার করার জন্য একটি আলাদা ওয়ার্কার থ্রেড ব্যবহার করবে।"
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -787,22 +831,6 @@ msgstr "এনক্রিপ্ট করা ফাইলসমূহ সমর
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "সবগুলো আর্কাইভ খন্ড পাওয়া যাচ্ছে না"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে কিন্তু তারপরও দ্বিমাত্রিক ফাংশনসমূহ সেটা পিছনবাফারে কপি এবং বিস্তৃতি করণে ব্যবহৃত হবে। এমন ভিডিও কার্ড লাগবে যেটা 32bit, RGBA, দুইয়ের-শক্তিতে-নয় এমন সাইজকৃত টেক্সচারসমূহ এবং অন্তত ভিডিওর রেজ্যুলূশন নির্দেশিত করতে পারে।"
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে এবং তিনমাত্রায় দুইটি ত্রিভুজ আকারে আঁকা হবে। ডিসপ্লে সেটিংসমূহে অ্যান্টিএলিয়েসিং সক্রিয় থাকলে সেটা রেনডারকরন গতিতে খারাপ প্রভাব ফেলতে পারে।"
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "যদি পিক্সেল শেইডার 2.0 সমর্থন না করে, তবে সাধারণ বাইলিনিয়ার স্বয়ংক্রিয়ভাবে ব্যবহৃত হবে।"
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (renderless)কে মিক্সার মোডে নিয়ে যায়, এর মানে হল এটার প্রোপার্টি পেইজের বেশিরভাগ কন্ট্রোলসমূহই কাজ করবে এবং এটা ফ্রেমসমূহ রেনডার করার জন্য একটি আলাদা ওয়ার্কার থ্রেড ব্যবহার করবে।"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3531,34 +3559,6 @@ msgstr "রং নিয়ন্ত্রণ সমর্থন করে না"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "উজ্জ্বলতা বৃদ্ধি করি"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "আপনার পছন্দনীয় ভাষাসমূহ এখানে প্রবেশ করুন।\nউদাহরণস্বরূপ, প্রবেশ করতে পারেন: \"ben eng jap swe\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "বাহিরস্থ স্প্লিটারসমূহের নিজস্ব পছন্দনীয় ভাষার অপশন থাকতে পারে, সেটার জন্য MPC-HCএর ডিফল্ট আচরণ সেসবের প্রাথমিক পছন্দ পরিবর্তন করে না।\nMPC-HC দ্বারা বাহিরস্থ স্প্লিটারসমূহ নিয়ন্ত্রণ করতে চাইলে এই অপশনটি সক্রিয় করুন।"
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray প্লেলিস্টসমূহ"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "প্লেলিস্ট(&P)"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "পরিচ্ছেদসমূহ(&C)"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "টাইটেলসমূহ(&T)"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "চ্যানেলসমূহ(&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

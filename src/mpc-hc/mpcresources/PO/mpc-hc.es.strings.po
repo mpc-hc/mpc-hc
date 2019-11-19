@@ -583,6 +583,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Proporcione los idiomas que prefiera.\nPor ejemplo, escriba: «spa ita jap»"
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Los demultiplexores (splitters) externos pueden tener opciones en sus propias preferencias de idioma, de modo que el comportamiento por defecto de MPC-HC es no cambiar sus configuraciones iniciales.\nHabilite esta opción si quiere que MPC-HC controle los demultiplexores externos."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Listas de reproducción de &Blu-Ray"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "Lista de &reproducción"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Capítulos"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Títulos"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Canales"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -659,10 +687,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Renderizador de alta calidad, requiere una GPU que soporte D3D9 (interfaz Direct3D del entorno DirectX 9) o superior."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "El renderizador de sincronización es lo mismo que el renderizador EVR (CP), pero ofrece bastantes opciones para sincronizar la tasa de fotogramas con la frecuencia de refresco de pantalla para eliminar fotogramas omitidos o duplicados."
@@ -686,6 +710,26 @@ msgstr "La salida del motor de QuickTime será representada por el componente Al
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "La superficie de vídeo será asignada como una superficie regular fuera de pantalla."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "La superficie de vídeo se asignará como una textura pero todavía se usarán las funciones 2D para copiarla y ajustarla dentro del backbuffer (buffer no visible). Requiere una tarjeta gráfica que pueda asignar profundidades de color de 32 bits, patrón de color RGBA, texturas con dimensiones que no sean potencias de 2, y que pueda hacerlo al menos en la resolución del vídeo."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "La superficie de vídeo se asignará como una textura y se dibujará como una malla de pares de triángulos en 3D. Si el suavizado (antialiasing) está activado en la configuración de pantalla, esto podría reducir la velocidad de renderización."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Si no hay soporte para Pixel Shader 2.0 (PS 2.0), se usará automáticamente el redimensionamiento bilineal simple."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Pone el renderizador VMR-9 (sin renderizado) en modo mezclador, esto significa que la mayoría de los controles de su página de propiedades funcionarán y usará un subproceso de trabajo aparte para renderizar fotogramas."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -794,22 +838,6 @@ msgstr "Los archivos cifrados no están soportados"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "No se encontraron todas las partes del archivo"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "La superficie de vídeo se asignará como una textura pero todavía se usarán las funciones 2D para copiarla y ajustarla dentro del backbuffer (buffer no visible). Requiere una tarjeta gráfica que pueda asignar profundidades de color de 32 bits, patrón de color RGBA, texturas con dimensiones que no sean potencias de 2, y que pueda hacerlo al menos en la resolución del vídeo."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "La superficie de vídeo se asignará como una textura y se dibujará como una malla de pares de triángulos en 3D. Si el suavizado (antialiasing) está activado en la configuración de pantalla, esto podría reducir la velocidad de renderización."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Si no hay soporte para Pixel Shader 2.0 (PS 2.0), se usará automáticamente el redimensionamiento bilineal simple."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pone el renderizador VMR-9 (sin renderizado) en modo mezclador, esto significa que la mayoría de los controles de su página de propiedades funcionarán y usará un subproceso de trabajo aparte para renderizar fotogramas."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3538,34 +3566,6 @@ msgstr "El control de color no está soportado"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Aumentar brillo"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Proporcione los idiomas que prefiera.\nPor ejemplo, escriba: «spa ita jap»"
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Los demultiplexores (splitters) externos pueden tener opciones en sus propias preferencias de idioma, de modo que el comportamiento por defecto de MPC-HC es no cambiar sus configuraciones iniciales.\nHabilite esta opción si quiere que MPC-HC controle los demultiplexores externos."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Listas de reproducción de &Blu-Ray"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "Lista de &reproducción"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Capítulos"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Títulos"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Canales"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

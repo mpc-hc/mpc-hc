@@ -573,6 +573,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "ここに優先言語を入力してください。\n例: \"eng jap swe\" のようにタイプします。"
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "外部スプリッタは独自の優先言語オプションをもつことができるので、MPC-HC の既定の動作ではこれらの初期選択を変更できません。\nMPC-HC で外部スプリッタを制御したい場合、このオプションを有効にしてください。"
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Blu-ray 再生リスト(&B)"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "再生リスト(&P)"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "チャプター(&C)"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "タイトル(&T)"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "チャンネル(&C)"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -649,10 +677,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "高品質のレンダラで Direct3D 9 以降をサポートする GPU が必要になります。"
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "EVR (カスタム プレゼンタ) と同じですが、スキップされた、または重複したビデオ フレームを除去するためにビデオのフレーム レートをディスプレイのリフレッシュ レートに同期させるいくつかのオプションを提供します。"
@@ -676,6 +700,26 @@ msgstr "VMR-9 (レンダーレス) の DirectX 9 ベースのアロケータ プ
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "ビデオ サーフェスを通常のオフスクリーン サーフェスとして割り当てます。"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "ビデオ サーフェスをテクスチャとして割り当てますが、バックバッファへのコピーと伸張には 2D 関数を使用します。少なくともビデオの解像度の表示で、32 ビット、RGBA、2 の累乗でないサイズのテクスチャを割り当てることができるビデオ カードが必要です。"
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "ビデオ サーフェスをテクスチャとして割り当て、3D で二つの三角形として描画します。画面の設定でアンチエイリアスを有効にすると表示速度に悪影響を与える場合があります。"
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "ピクセル シェーダ 2.0 をサポートしていない場合、単純な線形補間が自動的に使用されます。"
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "VMR-9 (レンダーレス) をミキサ モードに設定すると、プロパティ ページのコントロールの大部分が動作してレンダラ フレームに別々のワーカー スレッドを使用します。"
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -784,22 +828,6 @@ msgstr "暗号化されたファイルはサポートされていません"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "すべてのアーカイブ ボリュームを見つけられませんでした"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "ビデオ サーフェスをテクスチャとして割り当てますが、バックバッファへのコピーと伸張には 2D 関数を使用します。少なくともビデオの解像度の表示で、32 ビット、RGBA、2 の累乗でないサイズのテクスチャを割り当てることができるビデオ カードが必要です。"
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "ビデオ サーフェスをテクスチャとして割り当て、3D で二つの三角形として描画します。画面の設定でアンチエイリアスを有効にすると表示速度に悪影響を与える場合があります。"
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "ピクセル シェーダ 2.0 をサポートしていない場合、単純な線形補間が自動的に使用されます。"
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (レンダーレス) をミキサ モードに設定すると、プロパティ ページのコントロールの大部分が動作してレンダラ フレームに別々のワーカー スレッドを使用します。"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3528,34 +3556,6 @@ msgstr "カラー コントロールはサポートされていません"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "明るさを上げる"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "ここに優先言語を入力してください。\n例: \"eng jap swe\" のようにタイプします。"
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "外部スプリッタは独自の優先言語オプションをもつことができるので、MPC-HC の既定の動作ではこれらの初期選択を変更できません。\nMPC-HC で外部スプリッタを制御したい場合、このオプションを有効にしてください。"
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Blu-ray 再生リスト(&B)"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "再生リスト(&P)"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "チャプター(&C)"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "タイトル(&T)"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "チャンネル(&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

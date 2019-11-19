@@ -572,6 +572,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Masukkan bahasa dikehendaki anda di sini.\nContohnya, taip: \"eng ms jap\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Pemisah luaran boleh mempunyai pilihan keutamaan bahasa mereka sendiri maka kelakuan lalai MPC-HC adalah tidak menukar pilihan awal mereka.\nBenarkan pilihan ini jika anda mahu MPC-HC mengawal pemisah luaran."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Senarai main &Blu-ray"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "Senarai &Main"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "B&ab"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Tajuk"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Saluran"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -648,10 +676,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Penerap berkualiti-tinggi, memerlukan GPU yang menyokong D3D9 atau yang terkini."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Sama seperti EVR (CP), tetapi menawarkan pilihan untuk segerakkan kadar bingkai video dengan kadar segar semula paparan untuk elakkan bingkai video berganda atau dilangkau."
@@ -675,6 +699,26 @@ msgstr "Output bagi enjin QuickTime diterap oleh Allocator-Presenter berasaskan-
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Permukaan video akan diperuntuk sebagai permukaan luar-skrin biasa."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Permukaan video akan diperuntuk sebagai tekstur tetapi fungsi 2d masih digunakan untuk menyalin dan meregang ia ke penimbal belakang. Perlukan kad video yang dapat peruntuk 32bit, RGBA, tekstri bersaiz dua-tanpa-kuasa dan sekurang-kurangnya dalam resolusi video."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Permukaan video akan diperuntuk sebagai tekstur dan dilukis sebagai dua segitiga dalam 3d. Antialias dihidupkan pada tetapan paparan mungkin memberi kesan tidak baik terhadap kelajuan penerapan."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Jika tiada sokongan Pelorek Piksel 2.0, dwi-linear mudah akan diguna secara automatik."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Letak VMR-9 (tak diterap) ke dalam mod pengadun, ini bermaksud kebanyakan kawalan pada halaman sifatnya akan berfungsi dan ia akan guna bebenang pekerja berasingan ke bingkai penerap."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -783,22 +827,6 @@ msgstr "Fail tersulit tidak disokong"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Tidak dapat cari semua volum arkib"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Permukaan video akan diperuntuk sebagai tekstur tetapi fungsi 2d masih digunakan untuk menyalin dan meregang ia ke penimbal belakang. Perlukan kad video yang dapat peruntuk 32bit, RGBA, tekstri bersaiz dua-tanpa-kuasa dan sekurang-kurangnya dalam resolusi video."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Permukaan video akan diperuntuk sebagai tekstur dan dilukis sebagai dua segitiga dalam 3d. Antialias dihidupkan pada tetapan paparan mungkin memberi kesan tidak baik terhadap kelajuan penerapan."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Jika tiada sokongan Pelorek Piksel 2.0, dwi-linear mudah akan diguna secara automatik."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Letak VMR-9 (tak diterap) ke dalam mod pengadun, ini bermaksud kebanyakan kawalan pada halaman sifatnya akan berfungsi dan ia akan guna bebenang pekerja berasingan ke bingkai penerap."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3527,34 +3555,6 @@ msgstr "Kawalan warna tidak disokong"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Kecerahan naik"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Masukkan bahasa dikehendaki anda di sini.\nContohnya, taip: \"eng ms jap\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Pemisah luaran boleh mempunyai pilihan keutamaan bahasa mereka sendiri maka kelakuan lalai MPC-HC adalah tidak menukar pilihan awal mereka.\nBenarkan pilihan ini jika anda mahu MPC-HC mengawal pemisah luaran."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Senarai main &Blu-ray"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "Senarai &Main"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "B&ab"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Tajuk"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Saluran"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

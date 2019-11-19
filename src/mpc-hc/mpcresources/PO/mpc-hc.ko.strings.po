@@ -573,6 +573,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr ""
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr ""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr ""
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "블루레이 재생 목록(&B)"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "재생 목록( &P)"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "챕터(&C)"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "타이틀(&T)"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "채널(&C)"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -649,10 +677,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr ""
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr ""
@@ -676,6 +700,26 @@ msgstr "퀵타임의 엔진을 이용해서 DX9기반의 VMR-9 (렌더리스)모
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "재생하는 비디오 표면을 표준 오프스크린으로 위치시킵니다."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "비디오 표면을 텍스쳐처럼 처리하고 2D모드의 버퍼가 가득찰때까지 복사/늘이기를 반복합니다. 이 모드를 사용하기 위해서는 그래픽카드에서 \"32비트, RGBA, 비디오 해상도 크기의 텍스쳐\" 를 2가지 이상 동시에 처리할수 있어야 합니다."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "비디오 표면을 텍스쳐처럼 처리하고 3D상태에서 두개의 삼각형을 렌더링합니다. 안티-앨리어싱이 활성화되었을 경우 속도가 느려집니다."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "그래픽카드에서 픽셸셰이더 2.0 (Pixel Shader 2.0) 를 지원하지 않으면 simple bilinear가 자동으로 선택됩니다."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "VMR-9 (렌더리스) 출력모드에서 VMR-9혼합모드에 체크하면 대부분의 컨트롤에서 속성페이지를 표시하기위해 프레임을 렌더링할때 작업자쓰레드를 별도로 분리시켜 작동하게 됩니다."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -784,22 +828,6 @@ msgstr ""
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr ""
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "비디오 표면을 텍스쳐처럼 처리하고 2D모드의 버퍼가 가득찰때까지 복사/늘이기를 반복합니다. 이 모드를 사용하기 위해서는 그래픽카드에서 \"32비트, RGBA, 비디오 해상도 크기의 텍스쳐\" 를 2가지 이상 동시에 처리할수 있어야 합니다."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "비디오 표면을 텍스쳐처럼 처리하고 3D상태에서 두개의 삼각형을 렌더링합니다. 안티-앨리어싱이 활성화되었을 경우 속도가 느려집니다."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "그래픽카드에서 픽셸셰이더 2.0 (Pixel Shader 2.0) 를 지원하지 않으면 simple bilinear가 자동으로 선택됩니다."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (렌더리스) 출력모드에서 VMR-9혼합모드에 체크하면 대부분의 컨트롤에서 속성페이지를 표시하기위해 프레임을 렌더링할때 작업자쓰레드를 별도로 분리시켜 작동하게 됩니다."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3528,34 +3556,6 @@ msgstr "컬러 컨트롤이 지원되지않습니다."
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "밝기 증가"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr ""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "블루레이 재생 목록(&B)"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "재생 목록( &P)"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "챕터(&C)"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "타이틀(&T)"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "채널(&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

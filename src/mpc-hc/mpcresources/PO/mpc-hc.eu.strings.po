@@ -572,6 +572,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Sartu zure hizkuntza hobetsiak hemen.\nAdibidez, idatzi: \"eng jap baq\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Kanpoko banantzaileek beren hizkuntza hobespen aukerak izan ditzakete, MPC-HC-ren berezko jokabidea hauen hasierako hautapena ez aldatzea da.\nGaitu aukera hau MPC-HCk kanpoko banantzaileak agindu ditzan nahi baduzu."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Bl&u-Ray irakur-zerrendak"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Irakur-zerrenda"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Atalak"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "I&zenburuak"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Bideak"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -648,10 +676,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Ontasun-Handiko aurkezlea, D3D9 edo berriagoa sostengatzen duen GPU behar da."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "EVR (CP) bezalakoa, baina aukera anitz eskaintzen ditu bideo frame neurria aldiberetzeko erakuspen berritze neurriarekin jauzi egindako edo bikoitztutako bideo frameak ezabatzeko."
@@ -675,6 +699,26 @@ msgstr "QuickTime-ren gailuaren irteera VMR-9-ren (aurkezgabe) DX9-ohinarriko Ba
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Bideo azalera ikusleiho-kanpoko azalera arrunt bat bezala izendatuko da."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Bideo azalera egitura bat bezala banatuko da baina oraindik 2d eginkizunak atzebufferrean kopiatzeko eta luzatzeko erabiliko dira. Behar du 32 bit izendatu ditzakeen bideo txartel bat, RGBA, non-power-of-two neurritutako egiturak eta gutxienez bideoaren bereizmenean."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Bideo azalera egitura bat bezala banatuko da eta bi hiruki bezala marraztu 3d-an. Hertzlehunketa gaitzeak erakuspen ezarpenetan eragin kaltegarria izan dezake aurkezpen abiaduran."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Pixel Itzal 2.0 sostengurik ez badago, bilinear arrunta erabiltzen da berezgaitaunez."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "VMR-9 (aurkezgabe) nahastzaile modu barnean jartzen du, honek esanahi du bere ezaugarri orrialdeko aginte gehienek lan egingo dutela eta lan hari bananduak erabiliko ditu frameak aurkezteko."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -783,22 +827,6 @@ msgstr "Enkriptatutako agiriak ez daude sostengaturik"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Ezinezkoa agiritegiko bolumen guztiak aurkitzea"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Bideo azalera egitura bat bezala banatuko da baina oraindik 2d eginkizunak atzebufferrean kopiatzeko eta luzatzeko erabiliko dira. Behar du 32 bit izendatu ditzakeen bideo txartel bat, RGBA, non-power-of-two neurritutako egiturak eta gutxienez bideoaren bereizmenean."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Bideo azalera egitura bat bezala banatuko da eta bi hiruki bezala marraztu 3d-an. Hertzlehunketa gaitzeak erakuspen ezarpenetan eragin kaltegarria izan dezake aurkezpen abiaduran."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Pixel Itzal 2.0 sostengurik ez badago, bilinear arrunta erabiltzen da berezgaitaunez."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (aurkezgabe) nahastzaile modu barnean jartzen du, honek esanahi du bere ezaugarri orrialdeko aginte gehienek lan egingo dutela eta lan hari bananduak erabiliko ditu frameak aurkezteko."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3527,34 +3555,6 @@ msgstr "Margo agintea ez dago sostengatuta"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Gehitu dizdira"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Sartu zure hizkuntza hobetsiak hemen.\nAdibidez, idatzi: \"eng jap baq\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Kanpoko banantzaileek beren hizkuntza hobespen aukerak izan ditzakete, MPC-HC-ren berezko jokabidea hauen hasierako hautapena ez aldatzea da.\nGaitu aukera hau MPC-HCk kanpoko banantzaileak agindu ditzan nahi baduzu."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Bl&u-Ray irakur-zerrendak"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Irakur-zerrenda"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Atalak"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "I&zenburuak"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Bideak"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

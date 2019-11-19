@@ -575,6 +575,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Anna haluamasi kielet tähän.\nEsim. kirjoita \"eng jap swe\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Ulkoisilla splittereillä voi olla omat kieliasetuksensa ja MPC-HC ei oletusasetuksilla vaihda niiden asettamaa alkuperäistä kielivalintaa.\nLaita tämä päälle jos haluat MPC-HC:n ohjaavan ulkoisia splittereitä."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-Ray soittolistat"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Soittolista"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Kappaleet"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Nimikkeet"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kanavat"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -651,10 +679,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Korkealaatuinen muunnin, edellyttää GPU:ta, joka tukee D3D9:ä tai myöhäisempää."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Sama kuin EVR (CP), mutta tarjoaa useita asetuksia videon kuvataajuuden ja näytön virkistystaajuuden synkronointiin ohitettujen tai tuplaantuneiden kuvien estämiseksi."
@@ -678,6 +702,26 @@ msgstr "DX9-pohjaisen Sijoittaja-Esittäjän avulla muunnetun VMR-9 (renderöim�
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Videopinta sijoitetaan kuten tavallinen kuvaruudun ulkopuolinen pinta."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Videotaso sijoitetaan pinnaksi mutta silti 2d-funktioita käytetään kopiointiin ja venyttämiseen taustapuskuriin. Vaatii näytönohjaimen joka kykenee varaamaan 32-bittisiä, RGBA, non-power-of-two -kokoisia pintoja ja vähintään videon resoluutioon."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Videotaso sijoitetaan pinnaksi ja piirretään kuten kaksi kolmiota 3d:ssä. Antialiasoinnin käytöllä näyttöasetuksissa voi olla huono vaikutus muuntonopeuteen."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Jos Pixel Shader 2.0 tukea ei ole, yksinkertaista bilineaarista käytetään automaattisesti."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Asettaa VMR-9 (renderöimätön) sekoitustilaan jossa sen ominaisuussivun säädöt toimivat ja se käyttää erillistä toimintosäiettä kehysrenderöintiin."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -786,22 +830,6 @@ msgstr "Salattuja tiedostoja ei tueta"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Kaikkia arkistonimikkeitä ei löydy"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Videotaso sijoitetaan pinnaksi mutta silti 2d-funktioita käytetään kopiointiin ja venyttämiseen taustapuskuriin. Vaatii näytönohjaimen joka kykenee varaamaan 32-bittisiä, RGBA, non-power-of-two -kokoisia pintoja ja vähintään videon resoluutioon."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Videotaso sijoitetaan pinnaksi ja piirretään kuten kaksi kolmiota 3d:ssä. Antialiasoinnin käytöllä näyttöasetuksissa voi olla huono vaikutus muuntonopeuteen."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Jos Pixel Shader 2.0 tukea ei ole, yksinkertaista bilineaarista käytetään automaattisesti."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Asettaa VMR-9 (renderöimätön) sekoitustilaan jossa sen ominaisuussivun säädöt toimivat ja se käyttää erillistä toimintosäiettä kehysrenderöintiin."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3530,34 +3558,6 @@ msgstr "Värin säätöä ei tueta"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Lisää kirkkautta"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Anna haluamasi kielet tähän.\nEsim. kirjoita \"eng jap swe\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Ulkoisilla splittereillä voi olla omat kieliasetuksensa ja MPC-HC ei oletusasetuksilla vaihda niiden asettamaa alkuperäistä kielivalintaa.\nLaita tämä päälle jos haluat MPC-HC:n ohjaavan ulkoisia splittereitä."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray soittolistat"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Soittolista"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Kappaleet"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Nimikkeet"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Kanavat"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

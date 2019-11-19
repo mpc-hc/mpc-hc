@@ -575,6 +575,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Skriv in dina föredragna språk här.\nTill exempel: \"eng jap swe\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Externa demultiplexer kan ha sina egna språkinställningar, därför är MPC-HC:s standardbeteende att inte ändra deras val.\nAktivera detta alternativ om du vill att MPC-HC ska kontrollera externa demultiplexer."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-ray-spelningslistor"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Spelningslista"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Kapitel"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Titlar"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kanaler"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -651,10 +679,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Högkvalitativ renderare, kräver en grafikprocessor som stödjer D3D9 eller senare."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Samma som EVR (CP), men erbjuder flera val för att synkronisera videons uppdateringsfrekvens med bildskärmens för att eliminera förlorade eller dubblerade bildrutor."
@@ -678,6 +702,26 @@ msgstr "Utmatningen av QuickTimes motor renderad av den DX9-baserade Allokering-
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Videoytan kommer att allokeras som en vanlig offscreen yta."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Videoytan kommer att allokeras som en textur, men 2D-funktionerna kommer fortfarande att användas för att kopiera och sträcka den till bakbufferten. Kräver ett grafikkort som kan allokera 32-bitars-, RGBA-, icke-tvåpotens-upplösta texturer och åtminstone i samma upplösning som videon."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Videoytan kommer att allokeras som en textur och ritas upp som två trianglar i 3D. Kantutjämning påslagen i skärminställningarna kan ha en negativ inverkan på renderingshastigheten."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Om det inte finns något Pixel Shader 2.0-stöd, så används simpel bilinjär automatiskt."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Sätter VMR-9 (renderlös) i blandläge. Detta innebär att de flesta av kontrollerna med sin egen egenskapssida inte kommer att fungera och att det kommer att användas en separat arbetstråd för att rendera bildrutor."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -786,22 +830,6 @@ msgstr "Krypterade filer stödjs inte"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Kunde inte hitta alla arkivets volymer"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Videoytan kommer att allokeras som en textur, men 2D-funktionerna kommer fortfarande att användas för att kopiera och sträcka den till bakbufferten. Kräver ett grafikkort som kan allokera 32-bitars-, RGBA-, icke-tvåpotens-upplösta texturer och åtminstone i samma upplösning som videon."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Videoytan kommer att allokeras som en textur och ritas upp som två trianglar i 3D. Kantutjämning påslagen i skärminställningarna kan ha en negativ inverkan på renderingshastigheten."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Om det inte finns något Pixel Shader 2.0-stöd, så används simpel bilinjär automatiskt."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Sätter VMR-9 (renderlös) i blandläge. Detta innebär att de flesta av kontrollerna med sin egen egenskapssida inte kommer att fungera och att det kommer att användas en separat arbetstråd för att rendera bildrutor."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3530,34 +3558,6 @@ msgstr "Färgkontroll stödjs inte"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Öka Ljusstyrka"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Skriv in dina föredragna språk här.\nTill exempel: \"eng jap swe\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Externa demultiplexer kan ha sina egna språkinställningar, därför är MPC-HC:s standardbeteende att inte ändra deras val.\nAktivera detta alternativ om du vill att MPC-HC ska kontrollera externa demultiplexer."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Blu-ray-spelningslistor"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Spelningslista"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Kapitel"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Titlar"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Kanaler"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

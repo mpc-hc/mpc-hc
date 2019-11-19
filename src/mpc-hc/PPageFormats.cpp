@@ -28,7 +28,7 @@
 #include <psapi.h>
 #include <string>
 #include <atlimage.h>
-
+#include "CMPCThemeMsgBox.h"
 #include "DpiHelper.h"
 
 // CPPageFormats dialog
@@ -240,7 +240,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_CHECK5)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK7)->EnableWindow(FALSE);
-        GetDlgItem(IDC_CHECK8)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_CHECK8)->EnableWindow(FALSE);
 
         GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
@@ -251,45 +251,11 @@ BOOL CPPageFormats::OnInitDialog()
 
         m_bInsufficientPrivileges = true;
     } else {
-        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
     }
 
     if (IsWindows8OrGreater()) {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_SHOW);
-
-        auto offsetControlBottomRight = [this](int nID, int dx, int dy) {
-            CRect r;
-            GetDlgItem(nID)->GetWindowRect(r);
-            ScreenToClient(r);
-            r.BottomRight().Offset(dx, dy);
-            GetDlgItem(nID)->MoveWindow(r);
-        };
-
-        auto moveControl = [this](int nID, int dx, int dy) {
-            CRect r;
-            GetDlgItem(nID)->GetWindowRect(r);
-            ScreenToClient(r);
-            r.OffsetRect(dx, dy);
-            GetDlgItem(nID)->MoveWindow(r);
-        };
-
-        const int dy = DpiHelper().ScaleY(-5); // TODO: use the helper from parent dialog
-
-        offsetControlBottomRight(IDC_STATIC2, 0, dy);
-        offsetControlBottomRight(IDC_LIST1, 0, dy);
-
-        moveControl(IDC_EDIT1, 0, dy);
-        moveControl(IDC_BUTTON2, 0, dy);
-        moveControl(IDC_BUTTON_EXT_SET, 0, dy);
-
-        CRect r;
-        GetDlgItem(IDC_STATIC3)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.TopLeft().Offset(0, dy);
-        GetDlgItem(IDC_STATIC3)->MoveWindow(r);
-
-        moveControl(IDC_CHECK8, 0, dy);
-        moveControl(IDC_BUTTON1, 0, dy);
     } else {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_HIDE);
     }
@@ -375,7 +341,7 @@ void CPPageFormats::OnMediaCategoryClicked(NMHDR* pNMHDR, LRESULT* pResult)
         m_list.GetItemRect(lpnmlv->iItem, r, LVIR_ICON);
         if (r.PtInRect(lpnmlv->ptAction)) {
             if (m_bInsufficientPrivileges) {
-                MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
+                CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_CANNOT_CHANGE_FORMAT));
             } else {
                 SetCheckedMediaCategory(lpnmlv->iItem, (IsCheckedMediaCategory(lpnmlv->iItem) != 1));
                 m_bFileExtChanged = true;
@@ -393,7 +359,7 @@ void CPPageFormats::OnMediaCategoryKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (lpkd->wVKey == VK_SPACE) {
         if (m_bInsufficientPrivileges) {
-            MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
+            CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_CANNOT_CHANGE_FORMAT));
         } else {
             int iItem = m_list.GetSelectionMark();
             SetCheckedMediaCategory(iItem, (IsCheckedMediaCategory(iItem) != 1));
@@ -428,7 +394,7 @@ void CPPageFormats::OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResu
 
     if (pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE) {
         if (m_bInsufficientPrivileges) {
-            MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
+            CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_CANNOT_CHANGE_FORMAT));
             // This isn't technically true, because we have access,
             // but we enforce user to use elevated window for consistency
         } else {

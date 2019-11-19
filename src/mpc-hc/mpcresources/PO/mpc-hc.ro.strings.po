@@ -573,6 +573,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Introduceți aici limba preferată.\nDe exemplu, tastați: „eng jap swe”"
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Separatoarele externe pot avea propriile opțiuni privind preferințele pentru limbă, de aceea comportamentul implicit al MPC-HC este să nu schimbe alegerea inițială a acestora.\nActivați această opțiune dacă doriți ca MPC-HC să controleze separatoarele externe."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Liste de redare &Blu-Ray"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Listă de redare"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Capitole"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Titluri"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Canale"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -649,10 +677,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Randor de calitate ridicată, necesită o placă grafică ce sprijină D3D9 sau mai nou."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Asemănător cu EVR (CP), dar oferă câteva opțiuni pentru a sincroniza rata cadrelor video cu rata de reîmprospătare a dispozitivului de afișare pentru a elimina cadrele video sărite sau duplicate."
@@ -676,6 +700,26 @@ msgstr "Ieșirea motorului QuickTime randată de modulul Allocator-Presenter baz
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Suprafața video va fi alocată ca o suprafață normală offscreen."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Suprafața video va fi alocată ca o textură, dar tot funcțiile 2D vor fi folosite pentru copierea și întinderea în backbuffer. Este necesară o placă video care poate aloca texturi pe 32 de biți RGBA, de mărimi care nu sunt puteri ale lui doi și cel puțin la rezoluția videoului."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din stabilirile de afișare ar putea avea un efect negativ asupra vitezei de randare."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Dacă nu există sprijin pentru Nuanțatorul de pixeli 2.0, biliniară simplă este folosită automat."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Pune VMR-9 (fără randare) în modul amestecător, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuție secundar separat pentru randarea cadrelor."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -784,22 +828,6 @@ msgstr "Fișierele criptate nu sunt compatibile"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Nu s-au găsit toate volumele arhivei"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Suprafața video va fi alocată ca o textură, dar tot funcțiile 2D vor fi folosite pentru copierea și întinderea în backbuffer. Este necesară o placă video care poate aloca texturi pe 32 de biți RGBA, de mărimi care nu sunt puteri ale lui doi și cel puțin la rezoluția videoului."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din stabilirile de afișare ar putea avea un efect negativ asupra vitezei de randare."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Dacă nu există sprijin pentru Nuanțatorul de pixeli 2.0, biliniară simplă este folosită automat."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pune VMR-9 (fără randare) în modul amestecător, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuție secundar separat pentru randarea cadrelor."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3528,34 +3556,6 @@ msgstr "Controalele de culoare nu sunt sprijinite"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Mărire luminozitate"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Introduceți aici limba preferată.\nDe exemplu, tastați: „eng jap swe”"
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Separatoarele externe pot avea propriile opțiuni privind preferințele pentru limbă, de aceea comportamentul implicit al MPC-HC este să nu schimbe alegerea inițială a acestora.\nActivați această opțiune dacă doriți ca MPC-HC să controleze separatoarele externe."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Liste de redare &Blu-Ray"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Listă de redare"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Capitole"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Titluri"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Canale"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

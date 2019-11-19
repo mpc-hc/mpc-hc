@@ -577,6 +577,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Εισάγετε εδώ τις προτιμώμενες γλώσσες σας.\nΓια απαράδειγμα, πληκτρολογήστε: \"ell eng fre\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Οι εξωτερικοί διαχωριστές μπορούν να έχουν τις δικές τους επιλογές προτίμησης γλώσσας, έτσι ώστε η προεπιλεγμένη συμπεριφορά του MPC-HC να μην αλλάξει την αρχική επιλογή.\nΕνεργοποιήστε αυτή την επιλογή εάν θέλετε το MPC-HC να ελέγχει τους εξωτερικούς διαχωριστές."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "Λίστες αναπαραγωγής &Βlue-Ray"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Λίστα αναπαραγωγής"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "Κε&φάλαια"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Τίτλοι"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Κανάλια"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -653,10 +681,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Απόδοση υψηλής ποιότητας. Απαιτείται μια GPU που υποστηρίζει D3D9 ή νεότερη έκδοση."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Ίδιο με το EVR (CP), αλλά προσφέρει πολλές επιλογές για συγχρονισμό του ρυθμού καρέ βίντεο με το ρυθμό ανανέωσης της οθόνης για εξάλειψη της παράλειψης ή διπλοαναπαραγωγής καρέ βίντεο."
@@ -680,6 +704,26 @@ msgstr "Η έξοδος των μηχανών απόδοσης του QuickTime,
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως μια κανονική εκτός οθόνης επιφάνεια."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως υφή, αλλά οι λειτουργίες 2D θα μπορούν να χρησιμοποιηθούν για αντιγραφή και επιμήκυνση στην backbuffer. Απαιτεί μια κάρτα γραφικών που να διαθέσει 32bit, RGBA, υφές διαστάσεων όχι-δυνάμεων του δύο και τουλάχιστον στην ανάλυση του βίντεο."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως υφή και σαν δυό τρίγωνα σε 3D. Η ενεργοποίηση τηε εξομάλυνσης γραφικών στις ρυθμίσεις οθόνης, ενδέχεται να έχει εσφαλμένο αποτέλεσμα σε σχέση με την ταχύτητα απόδοσης."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Εάν δεν υπάρχει υποστήριξη Pixel Shader 2.0, χρησιμοποιείται αυτόματα η απλή διγραμμική."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Θέτει το VMR-9 (χωρίς απόδοση) σε λειτουργία μείκτη. Αυτό σημαίνει ότι τα περισσότερα από τα στοιχεία ελέγχου της σελίδας ιδιοτήτων θα λειτουργούν και θα χρησιμοποιούν ένα ξεχωριστό νήμα εργασίας για την απόδοση των καρέ."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -788,22 +832,6 @@ msgstr "Δεν υποστηρίζονται κρυπτογραφημένα αρ�
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Δεν ήταν δυνατή η εύρεση όλων των τόμων της αρχειοθήκης"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως υφή, αλλά οι λειτουργίες 2D θα μπορούν να χρησιμοποιηθούν για αντιγραφή και επιμήκυνση στην backbuffer. Απαιτεί μια κάρτα γραφικών που να διαθέσει 32bit, RGBA, υφές διαστάσεων όχι-δυνάμεων του δύο και τουλάχιστον στην ανάλυση του βίντεο."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως υφή και σαν δυό τρίγωνα σε 3D. Η ενεργοποίηση τηε εξομάλυνσης γραφικών στις ρυθμίσεις οθόνης, ενδέχεται να έχει εσφαλμένο αποτέλεσμα σε σχέση με την ταχύτητα απόδοσης."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Εάν δεν υπάρχει υποστήριξη Pixel Shader 2.0, χρησιμοποιείται αυτόματα η απλή διγραμμική."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Θέτει το VMR-9 (χωρίς απόδοση) σε λειτουργία μείκτη. Αυτό σημαίνει ότι τα περισσότερα από τα στοιχεία ελέγχου της σελίδας ιδιοτήτων θα λειτουργούν και θα χρησιμοποιούν ένα ξεχωριστό νήμα εργασίας για την απόδοση των καρέ."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3532,34 +3560,6 @@ msgstr "Ο έλεγχος χρώματος δεν υποστηρίζεται"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Αύξηση φωτεινότητας"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Εισάγετε εδώ τις προτιμώμενες γλώσσες σας.\nΓια απαράδειγμα, πληκτρολογήστε: \"ell eng fre\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Οι εξωτερικοί διαχωριστές μπορούν να έχουν τις δικές τους επιλογές προτίμησης γλώσσας, έτσι ώστε η προεπιλεγμένη συμπεριφορά του MPC-HC να μην αλλάξει την αρχική επιλογή.\nΕνεργοποιήστε αυτή την επιλογή εάν θέλετε το MPC-HC να ελέγχει τους εξωτερικούς διαχωριστές."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "Λίστες αναπαραγωγής &Βlue-Ray"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Λίστα αναπαραγωγής"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "Κε&φάλαια"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Τίτλοι"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Κανάλια"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

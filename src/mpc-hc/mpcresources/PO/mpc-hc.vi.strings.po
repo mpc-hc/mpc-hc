@@ -573,6 +573,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Nhập ngôn ngữ của bạn ưa thích ở đây.\nVí dụ, gõ: \"eng jap swe\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Bộ tách bên ngoài có thể có các tùy chọn ngôn ngữ ưu tiên của mình do đó MPC-HC hành vi mặc định không phải là để thay đổi sự lựa chọn ban đầu của họ.\nKích hoạt tùy chọn này nếu bạn muốn MPC-HC để kiểm soát bộ tách bên ngoài."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Danh sách Blu-Ray"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Danh sách"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Chương"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Tựa đề"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kênh"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -649,10 +677,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Render hất lượng cao, đòi hỏi một GPU hỗ trợ D3D9 hoặc mới hơn."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Giống như EVR (CP), nhưng cung cấp nhiều tùy chọn để đồng bộ hóa các tốc độ khung hình với tốc độ làm tươi màn hình hiển thị để loại bỏ các khung hình video bỏ qua, nhân bản."
@@ -676,6 +700,26 @@ msgstr "Đầu ra công cụ của QuickTime kết xuất của DX9 dựa trên 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Bề mặt video sẽ được phân bổ như một bề mặt ngoài đời thường."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Bề mặt video sẽ được phân bổ như một kết cấu nhưng các chức năng 2D vẫn sẽ được sử dụng để sao chép và kéo nó vào bộ đệm nền. Yêu cầu card màn hình có thể phân bổ kết cấu cỡ 32bit, RGBA, \"non-power-of-two\" và có độ phân giải tối thiểu bằng độ phân giải của video."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Bề mặt video sẽ được phân bổ như một kết cấu và vẽ như hai hình tam giác trong 3D. Khử răng cưa bật các thiết lập hiển thị có thể có ảnh hưởng xấu đến tốc độ dựng hình."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Nếu không có hỗ trợ Pixel Shader 2.0, Bilinear đơn giản được sử dụng tự động."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Đặt VMR-9 (dựng hình kém hơn) vào chế độ trộn, điều này có nghĩa là hầu hết việc điều khiển trên trang riêng của nó sẽ sử dụng các luồng riêng biệt để dựng các khung hình."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -784,22 +828,6 @@ msgstr "Các tập tin được mã hóa không được hỗ trợ"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Không thể tìm thấy tất cả các khối lưu trữ"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Bề mặt video sẽ được phân bổ như một kết cấu nhưng các chức năng 2D vẫn sẽ được sử dụng để sao chép và kéo nó vào bộ đệm nền. Yêu cầu card màn hình có thể phân bổ kết cấu cỡ 32bit, RGBA, \"non-power-of-two\" và có độ phân giải tối thiểu bằng độ phân giải của video."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Bề mặt video sẽ được phân bổ như một kết cấu và vẽ như hai hình tam giác trong 3D. Khử răng cưa bật các thiết lập hiển thị có thể có ảnh hưởng xấu đến tốc độ dựng hình."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Nếu không có hỗ trợ Pixel Shader 2.0, Bilinear đơn giản được sử dụng tự động."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Đặt VMR-9 (dựng hình kém hơn) vào chế độ trộn, điều này có nghĩa là hầu hết việc điều khiển trên trang riêng của nó sẽ sử dụng các luồng riêng biệt để dựng các khung hình."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3528,34 +3556,6 @@ msgstr "Điều chỉnh màu sắc không được hỗ trợ"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Tăng độ sáng"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Nhập ngôn ngữ của bạn ưa thích ở đây.\nVí dụ, gõ: \"eng jap swe\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Bộ tách bên ngoài có thể có các tùy chọn ngôn ngữ ưu tiên của mình do đó MPC-HC hành vi mặc định không phải là để thay đổi sự lựa chọn ban đầu của họ.\nKích hoạt tùy chọn này nếu bạn muốn MPC-HC để kiểm soát bộ tách bên ngoài."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Danh sách Blu-Ray"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Danh sách"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Chương"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Tựa đề"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Kênh"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

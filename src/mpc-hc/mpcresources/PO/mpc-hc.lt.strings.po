@@ -577,6 +577,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Įveskite savo pageidaujamas kalbas čia.\nPavyzdžiui, įrašykite \"lit rus eng\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Išoriniai spliteriai gali turėti savus kalbų nustatymus, todėl MPC-HC elgesys pagal nutylėjimą nepakeis jų pradinio pasirinkimo.\nĮjunkite šią funkciją, jei jūs norite, jog MPC-HC valdytų išorinius spliterius."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-Ray grojaraštis"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Grojaraštis"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Skyriai"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Pavadinimai"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kanalai"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -653,10 +681,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Aukštos kokybės renderis, reikalaujantis D3D9 palaikančios vaizdo plokštės ar naujesnės."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Tas pats, kaip ir EVR (CP), bet turi papildomų priemonių sinchronizuoti kadrų dažnį su ekrano naujinimo dažniu."
@@ -680,6 +704,26 @@ msgstr "QuickTime išvestis apdorojama su DX9 Allocator-Presenter VMR-9 (renderl
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Paviršius vaizdui išskiriamas kaip įprastas paviršius ne ekrane."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Paviršius vaizdui išskiriamas kaip tekstūra, bet kopijavimui ir vaizdo ištempimui į buferį naudojamos 2D funkcijos Reikalinga vaizdo plokštė, kuri gali skirti  32bit RGBA tekstūras su rėmeliais ne 2-kartinių, bent vaizdo geboje."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Paviršius vaizdui išskiriamas kaip tekstūra ir piešiamas kaip du trikampiai 3D. Glodinimo (Antialiasing) įjungimas vaizdo plokštės nustatymuose gali žymiai sulėtinti renderinimo greitį."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Jei nėra palaikoma pikselinių tamsinimų 2,0 versija, automatiškai bus naudojamas paprastas bilinijinis metodas."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Perkelia VMR-9 (renderless) režimą į mikšerio režimą, tai reiškia, jog daugumas valdymo elementų savybių puslapyje veiks ir naudos atskirą darbinį srautą kadrų apdorojimui."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -788,22 +832,6 @@ msgstr "Užšifruoti failai nepalaikomi"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Negaliu rasti visų archyvo tomų"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Paviršius vaizdui išskiriamas kaip tekstūra, bet kopijavimui ir vaizdo ištempimui į buferį naudojamos 2D funkcijos Reikalinga vaizdo plokštė, kuri gali skirti  32bit RGBA tekstūras su rėmeliais ne 2-kartinių, bent vaizdo geboje."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Paviršius vaizdui išskiriamas kaip tekstūra ir piešiamas kaip du trikampiai 3D. Glodinimo (Antialiasing) įjungimas vaizdo plokštės nustatymuose gali žymiai sulėtinti renderinimo greitį."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Jei nėra palaikoma pikselinių tamsinimų 2,0 versija, automatiškai bus naudojamas paprastas bilinijinis metodas."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Perkelia VMR-9 (renderless) režimą į mikšerio režimą, tai reiškia, jog daugumas valdymo elementų savybių puslapyje veiks ir naudos atskirą darbinį srautą kadrų apdorojimui."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3532,34 +3560,6 @@ msgstr "Spalvų valdymas nepalaikomas"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Pašviesinti"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Įveskite savo pageidaujamas kalbas čia.\nPavyzdžiui, įrašykite \"lit rus eng\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Išoriniai spliteriai gali turėti savus kalbų nustatymus, todėl MPC-HC elgesys pagal nutylėjimą nepakeis jų pradinio pasirinkimo.\nĮjunkite šią funkciją, jei jūs norite, jog MPC-HC valdytų išorinius spliterius."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray grojaraštis"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Grojaraštis"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Skyriai"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Pavadinimai"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Kanalai"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

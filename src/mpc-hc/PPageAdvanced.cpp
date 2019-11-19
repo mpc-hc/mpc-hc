@@ -80,9 +80,8 @@ BOOL CPPageAdvanced::OnInitDialog()
 
     InitSettings();
 
-    for (int i = m_list.GetHeaderCtrl()->GetItemCount() - 1; i >= 0; --i) {
-        m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
-    }
+    m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+    m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
 
     SetRedraw(TRUE);
     return TRUE;

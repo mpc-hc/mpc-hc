@@ -585,6 +585,34 @@ msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
 msgstr "madVR"
 
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "Voer uw voorkeurstalen hier in.\nBijvoorbeeld: \"eng jap swe\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "Externe splitters kunnen eigen voorkeurstaalinstellingen hebben. MPC-HC verandert deze daarom standaard niet.\nU schakelt deze optie in als u MPC-HC de externe splitters wilt laten controleren."
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "&Blu-Ray afspeellijsten"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&Afspeellijst"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&Hoofdstukken"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&Titels"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&Kanalen"
+
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
 msgstr ""
@@ -661,10 +689,6 @@ msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
 msgstr "Hoge kwaliteit renderer, een GPU dat D3D9 of later ondersteund is vereist."
 
-msgctxt "IDC_DSMPCVR"
-msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
-
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
 msgstr "Zelfde als de EVER (CP), maar biedt verscheidende opties om video framerate te synchroniseren met display refresh rate om dubbele of overgeslagen frames tegen te gaan."
@@ -688,6 +712,26 @@ msgstr "De uitvoervan QuickTime's engine wordt opgebouwd door de op DX7 gebasser
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Video oppervlak is een normaal offscreen oppervlak."
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Video oppervlak is een texture oppervlak, maar de 2Dd functies worden gebruikt om het beeld in de backbuffer te kopiëren en te spreiden. Vereist een grafische kaart die 32bit, RGBA, non-power-of-two textures ondersteunt, binnen de resolutie van de video."
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "Video oppervlak is een texture-oppervlak en wordt getekend als 2 driehoeken in 3D. Bij de display-instellingen geactiveerde antialiasing kan een remmend effect hebben op de renderings-snelheid."
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "Als er geen pixel shader 2.0 ondersteuning is, zal automatisch simpel bilinear gebruikt worden."
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "Zet VMR-9 (opbouwloos) in de mix modus. Dit betekent dat bij eigenschappen de meeste bedieningselementen zullen werken en een in aparte taak gebruikt zal worden om beelden op te bouwen."
+
+msgctxt "IDC_DSMPCVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -796,22 +840,6 @@ msgstr "Gecodeerde bestanden worden niet ondersteund"
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
 msgstr "Kan niet alle gearchiveerde volumes vinden"
-
-msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Video oppervlak is een texture oppervlak, maar de 2Dd functies worden gebruikt om het beeld in de backbuffer te kopiëren en te spreiden. Vereist een grafische kaart die 32bit, RGBA, non-power-of-two textures ondersteunt, binnen de resolutie van de video."
-
-msgctxt "IDC_TEXTURESURF3D"
-msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Video oppervlak is een texture-oppervlak en wordt getekend als 2 driehoeken in 3D. Bij de display-instellingen geactiveerde antialiasing kan een remmend effect hebben op de renderings-snelheid."
-
-msgctxt "IDC_DX9RESIZER_COMBO"
-msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Als er geen pixel shader 2.0 ondersteuning is, zal automatisch simpel bilinear gebruikt worden."
-
-msgctxt "IDC_DSVMR9LOADMIXER"
-msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Zet VMR-9 (opbouwloos) in de mix modus. Dit betekent dat bij eigenschappen de meeste bedieningselementen zullen werken en een in aparte taak gebruikt zal worden om beelden op te bouwen."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -3540,34 +3568,6 @@ msgstr "Kleur control wordt niet ondersteund"
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
 msgstr "Helderheid verhogen"
-
-msgctxt "IDS_LANG_PREF_EXAMPLE"
-msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Voer uw voorkeurstalen hier in.\nBijvoorbeeld: \"eng jap swe\""
-
-msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
-msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Externe splitters kunnen eigen voorkeurstaalinstellingen hebben. MPC-HC verandert deze daarom standaard niet.\nU schakelt deze optie in als u MPC-HC de externe splitters wilt laten controleren."
-
-msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
-msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray afspeellijsten"
-
-msgctxt "IDS_NAVIGATE_PLAYLIST"
-msgid "&Playlist"
-msgstr "&Afspeellijst"
-
-msgctxt "IDS_NAVIGATE_CHAPTERS"
-msgid "&Chapters"
-msgstr "&Hoofdstukken"
-
-msgctxt "IDS_NAVIGATE_TITLES"
-msgid "&Titles"
-msgstr "&Titels"
-
-msgctxt "IDS_NAVIGATE_CHANNELS"
-msgid "&Channels"
-msgstr "&Kanalen"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

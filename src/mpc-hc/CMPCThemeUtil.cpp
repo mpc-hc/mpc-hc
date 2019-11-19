@@ -100,6 +100,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd) {
                 } else if (0 == _tcsicmp(windowClass, WC_EDIT)) {
                     CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
                     makeThemed(pObject, tChild);
+
                 } else if (0 == _tcsicmp(windowClass, UPDOWN_CLASS)) {
                     CMPCThemeSpinButtonCtrl* pObject = DEBUG_NEW CMPCThemeSpinButtonCtrl();
                     makeThemed(pObject, tChild);
@@ -354,8 +355,9 @@ void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underlin
         lf = &m.lfMenuFont;
     } else if (type == StatusFont) {
         lf = &m.lfStatusFont;
-    } else if (type == MessageFont) {
+    } else if (type == MessageFont || type == DialogFont) {
         lf = &m.lfMessageFont;
+#if 0
     } else if (type == DialogFont) { //hack for compatibility with MS SHell Dlg (8) used in dialogs
         DpiHelper dpiWindow;
         dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
@@ -368,6 +370,7 @@ void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underlin
         wcsncpy_s(tlf.lfFaceName, m.lfMessageFont.lfFaceName, LF_FACESIZE);
         //wcsncpy_s(tlf.lfFaceName, _T("MS Shell Dlg"), LF_FACESIZE);
         lf = &tlf;
+#endif
     } else if (type == fixedFont) {
         DpiHelper dpiWindow;
         dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
