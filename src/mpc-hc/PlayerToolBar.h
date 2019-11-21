@@ -55,6 +55,8 @@ public:
     CPlayerToolBar(CMainFrame* pMainFrame);
     virtual ~CPlayerToolBar();
 
+	bool LoadExternalToolBar(CImage& image, bool useColor);
+
     int GetVolume() const;
     int GetMinWidth() const;
     void SetVolume(int volume);

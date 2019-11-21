@@ -51,7 +51,7 @@ CPlayerToolBar::~CPlayerToolBar()
 {
 }
 
-bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
+bool CPlayerToolBar::LoadExternalToolBar(CImage& image, bool useColor)
 {
     // Paths and extensions to try (by order of preference)
     std::vector<CString> paths({ PathUtils::GetProgramPath() });
@@ -65,6 +65,10 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
         basetbname = _T("toolbar_dark.");
     } else {
         basetbname = _T("toolbar.");
+    }
+
+    if (useColor) {
+        basetbname = _T("color_") + basetbname;
     }
 
     // TODO: Find a better solution?
@@ -95,7 +99,16 @@ void CPlayerToolBar::LoadToolbarImage()
     CImage image, themedImage, origImage;
     m_pButtonsImages.reset();
     m_pDisabledButtonsImages.reset();
-    if (LoadExternalToolBar(image) || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
+
+    bool colorToolbar=false, toolbarImageLoaded=false;
+    if (LoadExternalToolBar(image, true)) {
+        colorToolbar = true;
+        toolbarImageLoaded = true;
+    } else if (LoadExternalToolBar(image, false)) {
+        toolbarImageLoaded = true;
+    }
+
+    if (toolbarImageLoaded || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
         origImage = image;
         const CAppSettings& s = AfxGetAppSettings();
         if (s.bMPCThemeLoaded) {
@@ -115,11 +128,15 @@ void CPlayerToolBar::LoadToolbarImage()
                 m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
 
-                CImage imageDisabled;
-                if (ImageGrayer::UpdateColor(origImage, imageDisabled, true, s.bMPCThemeLoaded ? ImageGrayer::mpcMono : ImageGrayer::classicGrayscale)) {
-                    m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
-                    m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-                    m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
+                if (colorToolbar == false) {//if color toolbar, we assume the imagelist can grey itself nicely, rather than using imagegrayer
+                    CImage imageDisabled;
+                    if (ImageGrayer::UpdateColor(origImage, imageDisabled, true, s.bMPCThemeLoaded ? ImageGrayer::mpcMono : ImageGrayer::classicGrayscale)) {
+                        m_pDisabledButtonsImages.reset(DEBUG_NEW CImageList());
+                        m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
+                        m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
+                    } else {
+                        m_pDisabledButtonsImages = nullptr;
+                    }
                 } else {
                     m_pDisabledButtonsImages = nullptr;
                 }
