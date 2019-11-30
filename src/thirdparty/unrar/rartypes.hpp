@@ -18,6 +18,9 @@ typedef wchar_t          wchar;  // Unicode character
 // Make 64 bit integer from two 32 bit.
 #define INT32TO64(high,low) ((((uint64)(high))<<32)+((uint64)low))
 
+// Maximum int64 value.
+#define MAX_INT64 int64(INT32TO64(0x7fffffff,0xffffffff))
+
 // Special int64 value, large enough to never be found in real life.
 // We use it in situations, when we need to indicate that parameter 
 // is not defined and probably should be calculated inside of function.

@@ -98,9 +98,6 @@ class ThreadPool
 #endif
 };
 
-ThreadPool* CreateThreadPool();
-void DestroyThreadPool(ThreadPool *Pool);
-
 #endif // RAR_SMP
 
 #endif // _RAR_THREADPOOL_

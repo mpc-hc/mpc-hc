@@ -13,6 +13,7 @@ File::File()
   OpenShared=false;
   AllowDelete=true;
   AllowExceptions=true;
+  PreserveAtime=false;
 #ifdef _WIN_ALL
   NoSequentialRead=false;
   CreateMode=FMF_UNDEFINED;
@@ -56,6 +57,9 @@ bool File::Open(const wchar *Name,uint Mode)
   if (OpenShared)
     ShareMode|=FILE_SHARE_WRITE;
   uint Flags=NoSequentialRead ? 0:FILE_FLAG_SEQUENTIAL_SCAN;
+  FindData FD;
+  if (PreserveAtime)
+    Access|=FILE_WRITE_ATTRIBUTES; // Needed to preserve atime.
   hNewFile=CreateFile(Name,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
 
   DWORD LastError;
@@ -86,6 +90,11 @@ bool File::Open(const wchar *Name,uint Mode)
   }
   if (hNewFile==FILE_BAD_HANDLE && LastError==ERROR_FILE_NOT_FOUND)
     ErrorType=FILE_NOTFOUND;
+  if (PreserveAtime && hNewFile!=FILE_BAD_HANDLE)
+  {
+    FILETIME ft={0xffffffff,0xffffffff}; // This value prevents atime modification.
+    SetFileTime(hNewFile,NULL,&ft,NULL);
+  }
 
 #else
   int flags=UpdateMode ? O_RDWR:(WriteMode ? O_WRONLY:O_RDONLY);
@@ -94,6 +103,11 @@ bool File::Open(const wchar *Name,uint Mode)
 #if defined(_AIX) && defined(_LARGE_FILE_API)
   flags|=O_LARGEFILE;
 #endif
+#endif
+  // NDK r20 has O_NOATIME, but fails to create files with it in Android 7+.
+#if defined(O_NOATIME)
+  if (PreserveAtime)
+    flags|=O_NOATIME;
 #endif
   char NameA[NM];
   WideToChar(Name,NameA,ASIZE(NameA));
@@ -230,7 +244,7 @@ bool File::Close()
     {
 #ifdef _WIN_ALL
       // We use the standard system handle for stdout in Windows
-      // and it must not  be closed here.
+      // and it must not be closed here.
       if (HandleType==FILE_HANDLENORMAL)
         Success=CloseHandle(hFile)==TRUE;
 #else
@@ -271,7 +285,7 @@ bool File::Rename(const wchar *NewName)
     Success=RenameFile(FileName,NewName);
 
   if (Success)
-    wcscpy(FileName,NewName);
+    wcsncpyz(FileName,NewName,ASIZE(FileName));
 
   return Success;
 }
@@ -692,7 +706,7 @@ bool File::IsDevice()
 #ifndef SFX_MODULE
 int64 File::Copy(File &Dest,int64 Length)
 {
-  Array<char> Buffer(0x40000);
+  Array<byte> Buffer(File::CopyBufferSize());
   int64 CopySize=0;
   bool CopyAll=(Length==INT64NDF);
 
@@ -700,7 +714,7 @@ int64 File::Copy(File &Dest,int64 Length)
   {
     Wait();
     size_t SizeToRead=(!CopyAll && Length<(int64)Buffer.Size()) ? (size_t)Length:Buffer.Size();
-    char *Buf=&Buffer[0];
+    byte *Buf=&Buffer[0];
     int ReadSize=Read(Buf,SizeToRead);
     if (ReadSize==0)
       break;

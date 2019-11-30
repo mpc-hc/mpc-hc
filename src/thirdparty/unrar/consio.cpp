@@ -49,9 +49,14 @@ void InitConsole()
 }
 
 
-void InitConsoleOptions(MESSAGE_TYPE MsgStream,RAR_CHARSET RedirectCharset)
+void SetConsoleMsgStream(MESSAGE_TYPE MsgStream)
 {
   ::MsgStream=MsgStream;
+}
+
+
+void SetConsoleRedirectCharset(RAR_CHARSET RedirectCharset)
+{
   ::RedirectCharset=RedirectCharset;
 }
 

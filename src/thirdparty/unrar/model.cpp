@@ -42,10 +42,14 @@ void ModelPPM::RestartModelRare()
   SubAlloc.InitSubAllocator();
   InitRL=-(MaxOrder < 12 ? MaxOrder:12)-1;
   MinContext = MaxContext = (RARPPM_CONTEXT*) SubAlloc.AllocContext();
+  if (MinContext == NULL)
+    throw std::bad_alloc();
   MinContext->Suffix=NULL;
   OrderFall=MaxOrder;
   MinContext->U.SummFreq=(MinContext->NumStats=256)+1;
   FoundState=MinContext->U.Stats=(RARPPM_STATE*)SubAlloc.AllocUnits(256/2);
+  if (FoundState == NULL)
+    throw std::bad_alloc();
   for (RunLength=InitRL, PrevSuccess=i=0;i < 256;i++) 
   {
     MinContext->U.Stats[i].Symbol=i;      
@@ -166,9 +170,6 @@ void RARPPM_CONTEXT::rescale(ModelPPM *Model)
 
 inline RARPPM_CONTEXT* ModelPPM::CreateSuccessors(bool Skip,RARPPM_STATE* p1)
 {
-#ifdef __ICL
-  static
-#endif
   RARPPM_STATE UpState;
   RARPPM_CONTEXT* pc=MinContext, * UpBranch=FoundState->Successor;
   RARPPM_STATE * p, * ps[MAX_O], ** pps=ps;
@@ -202,7 +203,14 @@ LOOP_ENTRY:
     {
       pc=p->Successor;
       break;
+
     }
+    // We ensure that PPM order input parameter does not exceed MAX_O (64),
+    // so we do not really need this check and added it for extra safety.
+    // See CVE-2017-17969 for details.
+    if (pps>=ps+ASIZE(ps))
+      return NULL;
+
     *pps++ = p;
   } while ( pc->Suffix );
 NO_LOOP:
@@ -492,6 +500,12 @@ inline bool RARPPM_CONTEXT::decodeSymbol2(ModelPPM *Model)
       p++; 
     } while (Model->CharMask[p->Symbol] == Model->EscCount);
     HiCnt += p->Freq;
+
+    // We do not reuse PPMd coder in unstable state, so we do not really need
+    // this check and added it for extra safety. See CVE-2017-17969 for details.
+    if (pps>=ps+ASIZE(ps))
+      return false;
+
     *pps++ = p;
   } while ( --i );
   Model->Coder.SubRange.scale += HiCnt;
@@ -503,7 +517,12 @@ inline bool RARPPM_CONTEXT::decodeSymbol2(ModelPPM *Model)
   {
     HiCnt=0;
     while ((HiCnt += p->Freq) <= count) 
-      p=*++pps;
+    {
+      pps++;
+      if (pps>=ps+ASIZE(ps)) // Extra safety check.
+        return false;
+      p=*pps;
+    }
     Model->Coder.SubRange.LowCount = (Model->Coder.SubRange.HighCount=HiCnt)-p->Freq;
     psee2c->update();
     update2(Model,p);
@@ -516,12 +535,15 @@ inline bool RARPPM_CONTEXT::decodeSymbol2(ModelPPM *Model)
     pps--;
     do 
     { 
-      Model->CharMask[(*++pps)->Symbol]=Model->EscCount; 
+      pps++;
+      if (pps>=ps+ASIZE(ps)) // Extra safety check.
+        return false;
+      Model->CharMask[(*pps)->Symbol]=Model->EscCount; 
     } while ( --i );
     psee2c->Summ += Model->Coder.SubRange.scale;
     Model->NumMasked = NumStats;
   }
-  return(true);
+  return true;
 }
 
 

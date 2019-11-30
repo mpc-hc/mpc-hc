@@ -12,4 +12,6 @@ bool ReadTextFile(
   bool ExpandEnvStr=false
 );
 
+RAR_CHARSET DetectTextEncoding(const byte *Data,size_t DataSize);
+
 #endif

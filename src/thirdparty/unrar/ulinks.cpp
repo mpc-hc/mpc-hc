@@ -50,8 +50,11 @@ bool ExtractUnixLink30(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const w
   char Target[NM];
   if (IsLink(Arc.FileHead.FileAttr))
   {
-    size_t DataSize=Min(Arc.FileHead.PackSize,ASIZE(Target)-1);
-    DataIO.UnpRead((byte *)Target,DataSize);
+    size_t DataSize=(size_t)Arc.FileHead.PackSize;
+    if (DataSize>ASIZE(Target)-1)
+      return false;
+    if ((size_t)DataIO.UnpRead((byte *)Target,DataSize)!=DataSize)
+      return false;
     Target[DataSize]=0;
 
     DataIO.UnpHash.Init(Arc.FileHead.FileHash.Type,1);

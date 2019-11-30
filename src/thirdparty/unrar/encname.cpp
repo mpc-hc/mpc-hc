@@ -11,8 +11,8 @@ EncodeFileName::EncodeFileName()
 
 
 
-void EncodeFileName::Decode(char *Name,byte *EncName,size_t EncSize,wchar *NameW,
-                            size_t MaxDecSize)
+void EncodeFileName::Decode(char *Name,size_t NameSize,byte *EncName,size_t EncSize,
+                            wchar *NameW,size_t MaxDecSize)
 {
   size_t EncPos=0,DecPos=0;
   byte HighByte=EncPos<EncSize ? EncName[EncPos++] : 0;
@@ -53,11 +53,11 @@ void EncodeFileName::Decode(char *Name,byte *EncName,size_t EncSize,wchar *NameW
             if (EncPos>=EncSize)
               break;
             byte Correction=EncName[EncPos++];
-            for (Length=(Length&0x7f)+2;Length>0 && DecPos<MaxDecSize;Length--,DecPos++)
+            for (Length=(Length&0x7f)+2;Length>0 && DecPos<MaxDecSize && DecPos<NameSize;Length--,DecPos++)
               NameW[DecPos]=((Name[DecPos]+Correction)&0xff)+(HighByte<<8);
           }
           else
-            for (Length+=2;Length>0 && DecPos<MaxDecSize;Length--,DecPos++)
+            for (Length+=2;Length>0 && DecPos<MaxDecSize && DecPos<NameSize;Length--,DecPos++)
               NameW[DecPos]=Name[DecPos];
         }
         break;

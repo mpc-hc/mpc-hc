@@ -3,6 +3,7 @@
 
 class CmdAdd;
 class Unpack;
+class ArcFileSearch;
 
 #if 0
 // We use external i/o calls for Benchmark command.
@@ -32,6 +33,7 @@ class ComprDataIO
     bool ShowProgress;
     bool TestMode;
     bool SkipUnpCRC;
+    bool NoFileHeader;
 
     File *SrcFile;
     File *DestFile;
@@ -62,6 +64,7 @@ class ComprDataIO
     void SetPackedSizeToRead(int64 Size) {UnpPackedSize=Size;}
     void SetTestMode(bool Mode) {TestMode=Mode;}
     void SetSkipUnpCRC(bool Skip) {SkipUnpCRC=Skip;}
+    void SetNoFileHeader(bool Mode) {NoFileHeader=Mode;}
     void SetFiles(File *SrcFile,File *DestFile);
     void SetCommand(CmdAdd *Cmd) {Command=Cmd;}
     void SetSubHeader(FileHeader *hd,int64 *Pos) {SubHead=hd;SubHeadPos=Pos;}

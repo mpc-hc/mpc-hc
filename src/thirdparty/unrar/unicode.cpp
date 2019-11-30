@@ -36,7 +36,25 @@ bool WideToChar(const wchar *Src,char *Dest,size_t DestSize)
     mbstate_t ps; // Use thread safe external state based functions.
     memset (&ps, 0, sizeof(ps));
     const wchar *SrcParam=Src; // wcsrtombs can change the pointer.
+
+    // Some implementations of wcsrtombs can cause memory analyzing tools
+    // like valgrind to report uninitialized data access. It happens because
+    // internally these implementations call SSE4 based wcslen function,
+    // which reads 16 bytes at once including those beyond of trailing 0.
     size_t ResultingSize=wcsrtombs(Dest,&SrcParam,DestSize,&ps);
+
+    if (ResultingSize==(size_t)-1 && errno==EILSEQ)
+    {
+      // Aborted on inconvertible character not zero terminating the result.
+      // EILSEQ helps to distinguish it from small output buffer abort.
+      // We want to convert as much as we can, so we clean the output buffer
+      // and repeat conversion.
+      memset (&ps, 0, sizeof(ps));
+      SrcParam=Src; // wcsrtombs can change the pointer.
+      memset(Dest,0,DestSize);
+      ResultingSize=wcsrtombs(Dest,&SrcParam,DestSize,&ps);
+    }
+
     if (ResultingSize==(size_t)-1)
       RetCode=false;
     if (ResultingSize==0 && *Src!=0)
@@ -52,7 +70,7 @@ bool WideToChar(const wchar *Src,char *Dest,size_t DestSize)
 #endif
   if (DestSize>0)
     Dest[DestSize-1]=0;
-  
+
   // We tried to return the empty string if conversion is failed,
   // but it does not work well. WideCharToMultiByte returns 'failed' code
   // and partially converted string even if we wanted to convert only a part
@@ -120,21 +138,21 @@ bool WideToCharMap(const wchar *Src,char *Dest,size_t DestSize,bool &Success)
   if (wcschr(Src,(wchar)MappedStringMark)==NULL)
     return false;
 
+  // Seems to be that wcrtomb in some memory analyzing libraries
+  // can produce uninitilized output while reporting success on garbage input.
+  // So we clean the destination to calm analyzers.
+  memset(Dest,0,DestSize);
+  
   Success=true;
   uint SrcPos=0,DestPos=0;
-  while (DestPos<DestSize-MB_CUR_MAX)
+  while (Src[SrcPos]!=0 && DestPos<DestSize-MB_CUR_MAX)
   {
-    if (Src[SrcPos]==0)
-    {
-      Dest[DestPos]=0;
-      break;
-    }
     if (uint(Src[SrcPos])==MappedStringMark)
     {
       SrcPos++;
       continue;
     }
-    // For security reasons do not retore low ASCII codes, so mapping cannot
+    // For security reasons do not restore low ASCII codes, so mapping cannot
     // be used to hide control codes like path separators.
     if (uint(Src[SrcPos])>=MapAreaStart+0x80 && uint(Src[SrcPos])<MapAreaStart+0x100)
       Dest[DestPos++]=char(uint(Src[SrcPos++])-MapAreaStart);
@@ -142,21 +160,25 @@ bool WideToCharMap(const wchar *Src,char *Dest,size_t DestSize,bool &Success)
     {
       mbstate_t ps;
       memset(&ps,0,sizeof(ps));
-      if (wcrtomb(Dest+DestPos,Src[SrcPos],&ps)==-1)
+      if (wcrtomb(Dest+DestPos,Src[SrcPos],&ps)==(size_t)-1)
+      {
+        Dest[DestPos]='_';
         Success=false;
+      }
       SrcPos++;
       memset(&ps,0,sizeof(ps));
       int Length=mbrlen(Dest+DestPos,MB_CUR_MAX,&ps);
       DestPos+=Max(Length,1);
     }
   }
+  Dest[Min(DestPos,DestSize-1)]=0;
   return true;
 }
 #endif
 
 
 #if defined(_UNIX) && defined(MBFUNCTIONS)
-// Convert and map inconvertible Unicode characters. 
+// Convert and map inconvertible Unicode characters.
 // We use it for extended ASCII names in Unix.
 void CharToWideMap(const char *Src,wchar *Dest,size_t DestSize,bool &Success)
 {
@@ -170,13 +192,13 @@ void CharToWideMap(const char *Src,wchar *Dest,size_t DestSize,bool &Success)
   {
     if (Src[SrcPos]==0)
     {
-      Dest[DestPos]=0;
       Success=true;
       break;
     }
     mbstate_t ps;
     memset(&ps,0,sizeof(ps));
-    if (mbrtowc(Dest+DestPos,Src+SrcPos,MB_CUR_MAX,&ps)==-1)
+    size_t res=mbrtowc(Dest+DestPos,Src+SrcPos,MB_CUR_MAX,&ps);
+    if (res==(size_t)-1 || res==(size_t)-2)
     {
       // For security reasons we do not want to map low ASCII characters,
       // so we do not have additional .. and path separator codes.
@@ -202,6 +224,7 @@ void CharToWideMap(const char *Src,wchar *Dest,size_t DestSize,bool &Success)
       DestPos++;
     }
   }
+  Dest[Min(DestPos,DestSize-1)]=0;
 }
 #endif
 
@@ -281,7 +304,7 @@ size_t WideToUtfSize(const wchar *Src)
       if (*Src<0x800)
         Size+=2;
       else
-        if (*Src<0x10000)
+        if ((uint)*Src<0x10000) //(uint) to avoid Clang/win "always true" warning for 16-bit wchar_t.
         {
           if (Src[0]>=0xd800 && Src[0]<=0xdbff && Src[1]>=0xdc00 && Src[1]<=0xdfff)
           {
@@ -292,13 +315,12 @@ size_t WideToUtfSize(const wchar *Src)
             Size+=3;
         }
         else
-          if (*Src<0x200000)
+          if ((uint)*Src<0x200000) //(uint) to avoid Clang/win "always true" warning for 16-bit wchar_t.
             Size+=4;
   return Size+1; // Include terminating zero.
 }
 
 
-// Dest can be NULL if we only need to check validity of Src.
 bool UtfToWide(const char *Src,wchar *Dest,size_t DestSize)
 {
   bool Success=true;
@@ -347,40 +369,56 @@ bool UtfToWide(const char *Src,wchar *Dest,size_t DestSize)
             Success=false;
             break;
           }
-    if (Dest!=NULL && --dsize<0)
+    if (--dsize<0)
       break;
     if (d>0xffff)
     {
-      if (Dest!=NULL && --dsize<0)
+      if (--dsize<0)
         break;
       if (d>0x10ffff) // UTF-8 must end at 0x10ffff according to RFC 3629.
       {
         Success=false;
         continue;
       }
-      if (Dest!=NULL)
-        if (sizeof(*Dest)==2) // Use the surrogate pair.
-        {
-          *(Dest++)=((d-0x10000)>>10)+0xd800;
-          *(Dest++)=(d&0x3ff)+0xdc00;
-        }
-        else
-          *(Dest++)=d;
+      if (sizeof(*Dest)==2) // Use the surrogate pair.
+      {
+        *(Dest++)=((d-0x10000)>>10)+0xd800;
+        *(Dest++)=(d&0x3ff)+0xdc00;
+      }
+      else
+        *(Dest++)=d;
     }
     else
-      if (Dest!=NULL)
-        *(Dest++)=d;
+      *(Dest++)=d;
   }
-  if (Dest!=NULL)
-    *Dest=0;
+  *Dest=0;
   return Success;
 }
 
 
-// Source data can be both with and without UTF-8 BOM.
-bool IsTextUtf8(const char *Src)
+// For zero terminated strings.
+bool IsTextUtf8(const byte *Src)
 {
-  return UtfToWide(Src,NULL,0);
+  return IsTextUtf8(Src,strlen((const char *)Src));
+}
+
+
+// Source data can be both with and without UTF-8 BOM.
+bool IsTextUtf8(const byte *Src,size_t SrcSize)
+{
+  while (SrcSize-- > 0)
+  {
+    byte C=*(Src++);
+    int HighOne=0; // Number of leftmost '1' bits.
+    for (byte Mask=0x80;Mask!=0 && (C & Mask)!=0;Mask>>=1)
+      HighOne++;
+    if (HighOne==1 || HighOne>6)
+      return false;
+    while (--HighOne > 0)
+      if (SrcSize-- <= 0 || (*(Src++) & 0xc0)!=0x80)
+        return false;
+  }
+  return true;
 }
 
 
@@ -451,6 +489,8 @@ const wchar_t* wcscasestr(const wchar_t *str, const wchar_t *search)
 wchar* wcslower(wchar *s)
 {
 #ifdef _WIN_ALL
+  // _wcslwr requires setlocale and we do not want to depend on setlocale
+  // in Windows. Also CharLower involves less overhead.
   CharLower(s);
 #else
   for (wchar *c=s;*c!=0;c++)
@@ -465,6 +505,8 @@ wchar* wcslower(wchar *s)
 wchar* wcsupper(wchar *s)
 {
 #ifdef _WIN_ALL
+  // _wcsupr requires setlocale and we do not want to depend on setlocale
+  // in Windows. Also CharUpper involves less overhead.
   CharUpper(s);
 #else
   for (wchar *c=s;*c!=0;c++)
@@ -482,8 +524,9 @@ int toupperw(int ch)
 #if defined(_WIN_ALL)
   // CharUpper is more reliable than towupper in Windows, which seems to be
   // C locale dependent even in Unicode version. For example, towupper failed
-  // to convert lowercase Russian characters.
-  return (int)(INT_PTR)CharUpper((wchar *)(INT_PTR)ch);
+  // to convert lowercase Russian characters. Use 0xffff mask to prevent crash
+  // if value larger than 0xffff is passed to this function.
+  return (int)(INT_PTR)CharUpper((wchar *)(INT_PTR)(ch&0xffff));
 #else
   return towupper(ch);
 #endif
@@ -494,8 +537,9 @@ int tolowerw(int ch)
 {
 #if defined(_WIN_ALL)
   // CharLower is more reliable than towlower in Windows.
-  // See comment for towupper above.
-  return (int)(INT_PTR)CharLower((wchar *)(INT_PTR)ch);
+  // See comment for towupper above. Use 0xffff mask to prevent crash
+  // if value larger than 0xffff is passed to this function.
+  return (int)(INT_PTR)CharLower((wchar *)(INT_PTR)(ch&0xffff));
 #else
   return towlower(ch);
 #endif
@@ -511,7 +555,7 @@ int atoiw(const wchar *s)
 int64 atoilw(const wchar *s)
 {
   bool sign=false;
-  if (*s=='-')
+  if (*s=='-') // We do use signed integers here, for example, in GUI SFX.
   {
     s++;
     sign=true;

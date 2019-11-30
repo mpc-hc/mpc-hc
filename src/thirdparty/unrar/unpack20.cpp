@@ -2,7 +2,8 @@
 
 void Unpack::CopyString20(uint Length,uint Distance)
 {
-  LastDist=OldDist[OldDistPtr++ & 3]=Distance;
+  LastDist=OldDist[OldDistPtr++]=Distance;
+  OldDistPtr = OldDistPtr & 3; // Needed if RAR 1.5 file is called after RAR 2.0.
   LastLength=Length;
   DestUnpSize-=Length;
   CopyString(Length,Distance);
@@ -248,7 +249,7 @@ bool Unpack::ReadTables20()
     MakeDecodeTables(&Table[NC20],&BlockTables.DD,DC20);
     MakeDecodeTables(&Table[NC20+DC20],&BlockTables.RD,RC20);
   }
-  memcpy(UnpOldTable20,Table,sizeof(UnpOldTable20));
+  memcpy(UnpOldTable20,Table,TableSize);
   return true;
 }
 

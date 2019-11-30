@@ -41,9 +41,12 @@ void ErrorHandler::CloseError(const wchar *FileName)
     uiMsg(UIERROR_FILECLOSE,FileName);
     SysErrMsg();
   }
-#if !defined(SILENT) || defined(RARDLL)
-  Exit(RARX_FATAL);
-#endif
+  // We must not call Exit and throw an exception here, because this function
+  // is called from File object destructor and can be invoked when stack
+  // unwinding while handling another exception. Throwing a new exception
+  // when stack unwinding is prohibited and terminates a program.
+  // If necessary, we can check std::uncaught_exception() before throw.
+  SetErrorCode(RARX_FATAL);
 }
 
 
@@ -267,6 +270,7 @@ void _stdfunction ProcessSignal(int SigType)
 #endif
 
   ErrHandler.UserBreak=true;
+  ErrHandler.SetDisableShutdown();
   mprintf(St(MBreak));
 
 #ifdef _WIN_ALL
@@ -290,7 +294,7 @@ void _stdfunction ProcessSignal(int SigType)
 #endif
 
 #if defined(_WIN_ALL) && !defined(_MSC_VER)
-  // never reached, just to avoid a compiler warning
+  // Never reached, just to avoid a compiler warning
   return TRUE;
 #endif
 }
@@ -322,36 +326,15 @@ void ErrorHandler::Throw(RAR_EXIT Code)
 }
 
 
-void ErrorHandler::SysErrMsg()
+bool ErrorHandler::GetSysErrMsg(wchar *Msg,size_t Size)
 {
-#if !defined(SFX_MODULE) && !defined(SILENT)
+#ifndef SILENT
 #ifdef _WIN_ALL
-  wchar *lpMsgBuf=NULL;
   int ErrType=GetLastError();
-  if (ErrType!=0 && FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
-              NULL,ErrType,MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-              (LPTSTR)&lpMsgBuf,0,NULL))
-  {
-    wchar *CurMsg=lpMsgBuf;
-    while (CurMsg!=NULL)
-    {
-      while (*CurMsg=='\r' || *CurMsg=='\n')
-        CurMsg++;
-      if (*CurMsg==0)
-        break;
-      wchar *EndMsg=wcschr(CurMsg,'\r');
-      if (EndMsg==NULL)
-        EndMsg=wcschr(CurMsg,'\n');
-      if (EndMsg!=NULL)
-      {
-        *EndMsg=0;
-        EndMsg++;
-      }
-      uiMsg(UIERROR_SYSERRMSG,CurMsg);
-      CurMsg=EndMsg;
-    }
-  }
-  LocalFree( lpMsgBuf );
+  if (ErrType!=0)
+    return FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                         NULL,ErrType,MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),
+                         Msg,(DWORD)Size,NULL)!=0;
 #endif
 
 #if defined(_UNIX) || defined(_EMX)
@@ -360,11 +343,45 @@ void ErrorHandler::SysErrMsg()
     char *err=strerror(errno);
     if (err!=NULL)
     {
-      wchar Msg[1024];
-      CharToWide(err,Msg,ASIZE(Msg));
-      uiMsg(UIERROR_SYSERRMSG,Msg);
+      CharToWide(err,Msg,Size);
+      return true;
     }
   }
+#endif
+#endif
+  return false;
+}
+
+
+void ErrorHandler::SysErrMsg()
+{
+#if !defined(SFX_MODULE) && !defined(SILENT)
+  wchar Msg[1024];
+  if (!GetSysErrMsg(Msg,ASIZE(Msg)))
+    return;
+#ifdef _WIN_ALL
+  wchar *CurMsg=Msg;
+  while (CurMsg!=NULL) // Print string with \r\n as several strings to multiple lines.
+  {
+    while (*CurMsg=='\r' || *CurMsg=='\n')
+      CurMsg++;
+    if (*CurMsg==0)
+      break;
+    wchar *EndMsg=wcschr(CurMsg,'\r');
+    if (EndMsg==NULL)
+      EndMsg=wcschr(CurMsg,'\n');
+    if (EndMsg!=NULL)
+    {
+      *EndMsg=0;
+      EndMsg++;
+    }
+    uiMsg(UIERROR_SYSERRMSG,CurMsg);
+    CurMsg=EndMsg;
+  }
+#endif
+
+#if defined(_UNIX) || defined(_EMX)
+  uiMsg(UIERROR_SYSERRMSG,Msg);
 #endif
 
 #endif

@@ -80,7 +80,7 @@ bool SubAllocator::StartSubAllocator(int SASize)
 {
   uint t=SASize << 20;
   if (SubAllocatorSize == t)
-    return TRUE;
+    return true;
   StopSubAllocator();
 
   // Original algorithm expects FIXED_UNIT_SIZE, but actual structure size
@@ -91,7 +91,7 @@ bool SubAllocator::StartSubAllocator(int SASize)
   if ((HeapStart=(byte *)malloc(AllocSize)) == NULL)
   {
     ErrHandler.MemoryError();
-    return FALSE;
+    return false;
   }
 
   // HeapEnd did not present in original algorithm. We added it to control
@@ -99,7 +99,7 @@ bool SubAllocator::StartSubAllocator(int SASize)
   HeapEnd=HeapStart+AllocSize-UNIT_SIZE;
 
   SubAllocatorSize=t;
-  return TRUE;
+  return true;
 }
 
 
@@ -215,13 +215,13 @@ void* SubAllocator::AllocUnitsRare(int indx)
       GlueCount--;
       i=U2B(Indx2Units[indx]);
       int j=FIXED_UNIT_SIZE*Indx2Units[indx];
-      if (FakeUnitsStart-pText > j)
+      if (FakeUnitsStart - pText > j)
       {
-        FakeUnitsStart-=j;
+        FakeUnitsStart -= j;
         UnitsStart -= i;
-        return(UnitsStart);
+        return UnitsStart;
       }
-      return(NULL);
+      return NULL;
     }
   } while ( !FreeList[i].next );
   void* RetVal=RemoveNode(i);

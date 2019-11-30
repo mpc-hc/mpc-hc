@@ -102,7 +102,7 @@ void Wait()
 
 
 #if defined(_WIN_ALL) && !defined(SFX_MODULE)
-void Shutdown()
+void Shutdown(POWER_MODE Mode)
 {
   HANDLE hToken;
   TOKEN_PRIVILEGES tkp;
@@ -114,7 +114,36 @@ void Shutdown()
 
     AdjustTokenPrivileges(hToken,FALSE,&tkp,0,(PTOKEN_PRIVILEGES)NULL,0);
   }
-  ExitWindowsEx(EWX_SHUTDOWN|EWX_FORCE|EWX_POWEROFF,SHTDN_REASON_FLAG_PLANNED);
+  if (Mode==POWERMODE_OFF)
+    ExitWindowsEx(EWX_SHUTDOWN|EWX_FORCE,SHTDN_REASON_FLAG_PLANNED);
+  if (Mode==POWERMODE_SLEEP)
+    SetSuspendState(FALSE,FALSE,FALSE);
+  if (Mode==POWERMODE_HIBERNATE)
+    SetSuspendState(TRUE,FALSE,FALSE);
+  if (Mode==POWERMODE_RESTART)
+    ExitWindowsEx(EWX_REBOOT|EWX_FORCE,SHTDN_REASON_FLAG_PLANNED);
+}
+
+
+bool ShutdownCheckAnother(bool Open)
+{
+  const wchar *EventName=L"rar -ioff";
+  static HANDLE hEvent=NULL;
+  bool Result=false; // Return false if no other RAR -ioff are running.
+  if (Open) // Create or open the event.
+    hEvent=CreateEvent(NULL,FALSE,FALSE,EventName);
+  else
+  {
+    if (hEvent!=NULL)
+      CloseHandle(hEvent); // Close our event.
+    // Check if other copies still own the event. While race conditions
+    // are possible, they are improbable and their harm is minimal.
+    hEvent=CreateEvent(NULL,FALSE,FALSE,EventName);
+    Result=GetLastError()==ERROR_ALREADY_EXISTS;
+    if (hEvent!=NULL)
+      CloseHandle(hEvent);
+  }
+  return Result;
 }
 #endif
 
@@ -158,18 +187,29 @@ SSE_VERSION _SSE_Version=GetSSEVersion();
 SSE_VERSION GetSSEVersion()
 {
   int CPUInfo[4];
-  __cpuid(CPUInfo, 7);
-  if ((CPUInfo[1] & 0x20)!=0)
-    return SSE_AVX2;
-  __cpuid(CPUInfo, 1);
-  if ((CPUInfo[2] & 0x80000)!=0)
-    return SSE_SSE41;
-  if ((CPUInfo[2] & 0x200)!=0)
-    return SSE_SSSE3;
-  if ((CPUInfo[3] & 0x4000000)!=0)
-    return SSE_SSE2;
-  if ((CPUInfo[3] & 0x2000000)!=0)
-    return SSE_SSE;
+  __cpuid(CPUInfo, 0x80000000);
+
+  // Maximum supported cpuid function. For example, Pentium M 755 returns 4 here.
+  uint MaxSupported=CPUInfo[0] & 0x7fffffff;
+
+  if (MaxSupported>=7)
+  {
+    __cpuid(CPUInfo, 7);
+    if ((CPUInfo[1] & 0x20)!=0)
+      return SSE_AVX2;
+  }
+  if (MaxSupported>=1)
+  {
+    __cpuid(CPUInfo, 1);
+    if ((CPUInfo[2] & 0x80000)!=0)
+      return SSE_SSE41;
+    if ((CPUInfo[2] & 0x200)!=0)
+      return SSE_SSSE3;
+    if ((CPUInfo[3] & 0x4000000)!=0)
+      return SSE_SSE2;
+    if ((CPUInfo[3] & 0x2000000)!=0)
+      return SSE_SSE;
+  }
   return SSE_NONE;
 }
 #endif

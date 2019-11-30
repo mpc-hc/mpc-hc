@@ -66,7 +66,7 @@ uint CRC32(uint StartCRC,const void *Addr,size_t Size)
     uint NextData = Data[4]|(Data[5] << 8)|(Data[6] << 16)|(Data[7] << 24);
 #else
     StartCRC ^= *(uint32 *) Data;
-    uint NextData = *(uint32 *) (Data +4);
+    uint NextData = *(uint32 *) (Data+4);
 #endif
     StartCRC = crc_tables[7][(byte) StartCRC       ] ^
                crc_tables[6][(byte)(StartCRC >> 8) ] ^

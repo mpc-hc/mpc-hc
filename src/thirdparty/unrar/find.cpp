@@ -26,7 +26,7 @@ FindFile::~FindFile()
 
 void FindFile::SetMask(const wchar *Mask)
 {
-  wcscpy(FindMask,Mask);
+  wcsncpyz(FindMask,Mask,ASIZE(FindMask));
   FirstCall=true;
 }
 
@@ -52,7 +52,7 @@ bool FindFile::Next(FindData *fd,bool GetSymLink)
     wcsncpyz(DirName,FindMask,ASIZE(DirName));
     RemoveNameFromPath(DirName);
     if (*DirName==0)
-      wcscpy(DirName,L".");
+      wcsncpyz(DirName,L".",ASIZE(DirName));
     char DirNameA[NM];
     WideToChar(DirName,DirNameA,ASIZE(DirNameA));
     if ((dirp=opendir(DirNameA))==NULL)
@@ -63,32 +63,32 @@ bool FindFile::Next(FindData *fd,bool GetSymLink)
   }
   while (1)
   {
+    wchar Name[NM];
     struct dirent *ent=readdir(dirp);
     if (ent==NULL)
       return false;
     if (strcmp(ent->d_name,".")==0 || strcmp(ent->d_name,"..")==0)
       continue;
-    wchar Name[NM];
     if (!CharToWide(ent->d_name,Name,ASIZE(Name)))
       uiMsg(UIERROR_INVALIDNAME,UINULL,Name);
 
     if (CmpName(FindMask,Name,MATCH_NAMES))
     {
       wchar FullName[NM];
-      wcscpy(FullName,FindMask);
+      wcsncpyz(FullName,FindMask,ASIZE(FullName));
       *PointToName(FullName)=0;
       if (wcslen(FullName)+wcslen(Name)>=ASIZE(FullName)-1)
       {
         uiMsg(UIERROR_PATHTOOLONG,FullName,L"",Name);
         return false;
       }
-      wcscat(FullName,Name);
+      wcsncatz(FullName,Name,ASIZE(FullName));
       if (!FastFind(FullName,fd,GetSymLink))
       {
         ErrHandler.OpenErrorMsg(FullName);
         continue;
       }
-      wcscpy(fd->Name,FullName);
+      wcsncpyz(fd->Name,FullName,ASIZE(fd->Name));
       break;
     }
   }

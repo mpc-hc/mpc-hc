@@ -329,7 +329,7 @@ class Unpack:PackDef
     bool ReadEndOfBlock();
     bool ReadVMCode();
     bool ReadVMCodePPM();
-    bool AddVMCode(uint FirstByte,byte *Code,int CodeSize);
+    bool AddVMCode(uint FirstByte,byte *Code,uint CodeSize);
     int SafePPMDecodeChar();
     bool ReadTables30();
     bool UnpReadBuf30();
@@ -382,10 +382,7 @@ class Unpack:PackDef
     void SetSuspended(bool Suspended) {Unpack::Suspended=Suspended;}
 
 #ifdef RAR_SMP
-    // More than 8 threads are unlikely to provide a noticeable gain
-    // for unpacking, but would use the additional memory.
-    void SetThreads(uint Threads) {MaxUserThreads=Min(Threads,8);}
-
+    void SetThreads(uint Threads);
     void UnpackDecode(UnpackThreadData &D);
 #endif
 
@@ -395,8 +392,12 @@ class Unpack:PackDef
     uint GetChar()
     {
       if (Inp.InAddr>BitInput::MAX_SIZE-30)
+      {
         UnpReadBuf();
-      return(Inp.InBuf[Inp.InAddr++]);
+        if (Inp.InAddr>=BitInput::MAX_SIZE) // If nothing was read.
+          return 0;
+      }
+      return Inp.InBuf[Inp.InAddr++];
     }
 };
 

@@ -22,8 +22,22 @@
 
 #ifdef _WIN_ALL
 
-#define STRICT
+
+// We got a report that just "#define STRICT" is incompatible with
+// "#define STRICT 1" in Windows 10 SDK minwindef.h and depending on the order
+// in which these statements are reached this may cause a compiler warning
+// and build break for other projects incorporating this source.
+// So we changed it to "#define STRICT 1".
+#ifndef STRICT
+#define STRICT 1
+#endif
+
+// 'ifndef' check here is needed for unrar.dll header to avoid macro
+// re-definition warnings in third party projects.
+#ifndef UNICODE
 #define UNICODE
+#endif
+
 #undef WINVER
 #undef _WIN32_WINNT
 #define WINVER 0x0501
@@ -39,6 +53,8 @@
 #include <prsht.h>
 #include <shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
+#include <PowrProf.h>
+#pragma comment(lib, "PowrProf.lib")
 #include <shellapi.h>
 #include <shlobj.h>
 #include <winioctl.h>
@@ -117,7 +133,7 @@
 
 #ifdef _UNIX
 
-#define  NM  2048
+#define NM  2048
 
 #include <unistd.h>
 #include <sys/types.h>

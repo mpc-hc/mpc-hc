@@ -43,7 +43,7 @@ class CmdExtract
 
     wchar ArcName[NM];
 
-    bool PasswordAll;
+    bool GlobalPassword;
     bool PrevProcessed; // If previous file was successfully extracted or tested.
     wchar DestFileName[NM];
     bool PasswordCancelled;

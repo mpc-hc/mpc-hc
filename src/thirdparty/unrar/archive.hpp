@@ -20,13 +20,15 @@ enum ADDSUBDATA_FLAGS
   ASDF_CRYPTIFHEADERS = 8  // Encrypt data after subheader only in -hp mode.
 };
 
+// RAR5 headers must not exceed 2 MB.
+#define MAX_HEADER_SIZE_RAR5 0x200000
+
 class Archive:public File
 {
   private:
     void UpdateLatestTime(FileHeader *CurBlock);
     void ConvertNameCase(wchar *Name);
     void ConvertFileHeader(FileHeader *hd);
-    void WriteBlock50(HEADER_TYPE HeaderType,BaseBlock *wb,bool OnlySetSize,bool NonFinalWrite);
     size_t ReadHeader14();
     size_t ReadHeader15();
     size_t ReadHeader50();
@@ -34,8 +36,7 @@ class Archive:public File
     void RequestArcPassword();
     void UnexpEndArcMsg();
     void BrokenHeaderMsg();
-    void UnkEncVerMsg(const wchar *Name);
-    void UnkEncVerMsg();
+    void UnkEncVerMsg(const wchar *Name,const wchar *Info);
     bool ReadCommentData(Array<wchar> *CmtData);
 
 #if !defined(RAR_NOCRYPT)
@@ -45,8 +46,6 @@ class Archive:public File
     bool DummyCmd;
     RAROptions *Cmd;
 
-    int64 RecoverySize;
-    int RecoveryPercent;
 
     RarTime LatestTime;
     int LastReadBlock;
@@ -55,6 +54,7 @@ class Archive:public File
     bool SilentOpen;
 #ifdef USE_QOPEN
     QuickOpen QOpen;
+    bool ProhibitQOpen;
 #endif
   public:
     Archive(RAROptions *InitCmd=NULL);
@@ -64,8 +64,6 @@ class Archive:public File
     size_t SearchBlock(HEADER_TYPE HeaderType);
     size_t SearchSubBlock(const wchar *Type);
     size_t SearchRR();
-    void WriteBlock(HEADER_TYPE HeaderType,BaseBlock *wb=NULL,bool OnlySetSize=false,bool NonFinalWrite=false);
-    void SetBlockSize(HEADER_TYPE HeaderType,BaseBlock *wb=NULL) {WriteBlock(HeaderType,wb,true);}
     size_t ReadHeader();
     void CheckArc(bool EnableBroken);
     void CheckOpen(const wchar *Name);
@@ -82,8 +80,8 @@ class Archive:public File
     int64 GetStartPos();
     void AddSubData(byte *SrcData,uint64 DataSize,File *SrcFile,
          const wchar *Name,uint Flags);
-    bool ReadSubData(Array<byte> *UnpData,File *DestFile);
-    HEADER_TYPE GetHeaderType() {return CurHeaderType;};
+    bool ReadSubData(Array<byte> *UnpData,File *DestFile,bool TestMode);
+    HEADER_TYPE GetHeaderType() {return CurHeaderType;}
     RAROptions* GetRAROptions() {return Cmd;}
     void SetSilentOpen(bool Mode) {SilentOpen=Mode;}
 #if 0
@@ -95,6 +93,7 @@ class Archive:public File
     void Seek(int64 Offset,int Method);
     int64 Tell();
     void QOpenUnload() {QOpen.Unload();}
+    void SetProhibitQOpen(bool Mode) {ProhibitQOpen=Mode;}
 #endif
 
     BaseBlock ShortBlock;
@@ -107,10 +106,7 @@ class Archive:public File
     FileHeader SubHead;
     CommentHeader CommHead;
     ProtectHeader ProtectHead;
-    AVHeader AVHead;
-    SignHeader SignHead;
     UnixOwnersHeader UOHead;
-    MacFInfoHeader MACHead;
     EAHeader EAHead;
     StreamHeader StreamHead;
 

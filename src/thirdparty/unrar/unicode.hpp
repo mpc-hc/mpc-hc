@@ -12,7 +12,8 @@ wchar* RawToWide(const byte *Src,wchar *Dest,size_t DestSize);
 void WideToUtf(const wchar *Src,char *Dest,size_t DestSize);
 size_t WideToUtfSize(const wchar *Src);
 bool UtfToWide(const char *Src,wchar *Dest,size_t DestSize);
-bool IsTextUtf8(const char *Src);
+bool IsTextUtf8(const byte *Src);
+bool IsTextUtf8(const byte *Src,size_t SrcSize);
 
 int wcsicomp(const wchar *s1,const wchar *s2);
 int wcsnicomp(const wchar *s1,const wchar *s2,size_t n);
