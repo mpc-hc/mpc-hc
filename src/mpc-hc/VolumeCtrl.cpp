@@ -144,7 +144,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
                             dc.FrameRect(r, &fb);
                         } else {
-                            r.DeflateRect(0, dpiWindow.ScaleFloorY(4), 0, dpiWindow.ScaleFloorY(4));
+                            r.DeflateRect(0, dpiWindow.ScaleFloorY(3), 0, dpiWindow.ScaleFloorY(2));
                             CRect filledRect, unfilledRect;
                             filledRect = r;
                             filledRect.right = thumbRect.left + thumbRect.Width() / 2;
