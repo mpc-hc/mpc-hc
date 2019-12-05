@@ -85,6 +85,9 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
         default:
             m_maxSubtitleTextureSize = desktopSize;
             m_SubtitleTextureLimit = DESKTOP;
+            // keep size within sane limits
+            if (m_maxSubtitleTextureSize.cx > 7680) m_maxSubtitleTextureSize.cx = 7680;
+            if (m_maxSubtitleTextureSize.cy > 4320) m_maxSubtitleTextureSize.cx = 4320;
             break;
         case 1:
             m_maxSubtitleTextureSize.SetSize(1024, 768);
@@ -117,6 +120,8 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
             m_SubtitleTextureLimit = VIDEO;
             break;
     }
+
+    m_curSubtitleTextureSize = m_maxSubtitleTextureSize;
 }
 
 void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect,
@@ -151,7 +156,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
 
     if (bVideoSizeChanged || bAspectRatioChanged) {
         if (m_SubtitleTextureLimit == VIDEO) {
-            m_maxSubtitleTextureSize = GetVideoSize();
+            m_maxSubtitleTextureSize = m_curSubtitleTextureSize = GetVideoSize();
             m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
         }
     }
@@ -178,6 +183,15 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
     bool bWindowSizeChanged = !!(m_windowRect.Size() != CRect(w).Size());
 
     m_windowRect = w;
+
+    if (m_SubtitleTextureLimit != VIDEO) {
+        if (m_windowRect.Width() != m_curSubtitleTextureSize.cx || m_windowRect.Height() != m_curSubtitleTextureSize.cy) {
+            if (m_windowRect.Width() * m_windowRect.Height() < m_maxSubtitleTextureSize.cx * m_maxSubtitleTextureSize.cy) {
+                m_curSubtitleTextureSize = CSize(m_windowRect.Width(), m_windowRect.Height());
+                m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+            }
+        }
+    }
 
     CRect videoRect(v);
     videoRect.OffsetRect(-m_windowRect.TopLeft());

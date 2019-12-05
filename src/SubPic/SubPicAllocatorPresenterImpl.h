@@ -42,6 +42,7 @@ protected:
     REFERENCE_TIME m_rtSubtitleDelay;
 
     CSize m_maxSubtitleTextureSize;
+    CSize m_curSubtitleTextureSize;
     CSize m_nativeVideoSize, m_aspectRatio;
     CRect m_videoRect, m_windowRect;
 
