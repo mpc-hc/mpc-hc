@@ -171,6 +171,8 @@ STDMETHODIMP_(void) CMPCVRAllocatorPresenter::SetPosition(RECT w, RECT v)
     if (CComQIPtr<IVideoWindow> pVW = m_pMPCVR) {
         pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
     }
+
+    SetVideoSize(GetVideoSize(), GetVideoSize(true));
 }
 
 STDMETHODIMP CMPCVRAllocatorPresenter::SetRotation(int rotation)

@@ -92,7 +92,7 @@ namespace DSObjects
         STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
         STDMETHODIMP SetRotation(int rotation);
         STDMETHODIMP_(int) GetRotation();
-        STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR) const;
+        STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR = true) const;
         STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);

@@ -170,7 +170,7 @@ STDMETHODIMP_(void) CmadVRAllocatorPresenter::SetPosition(RECT w, RECT v)
 
 STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) const
 {
-    CSize size;
+    CSize size = { 0, 0 };
 
     if (!bCorrectAR) {
         if (CComQIPtr<IBasicVideo> pBV = m_pMVR) {
