@@ -2,6 +2,7 @@
 #include "CMPCThemeHeaderCtrl.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
+#include <lcms2\library\include\lcms2.h>
 
 CMPCThemeHeaderCtrl::CMPCThemeHeaderCtrl() {
     hotItem = -2;
@@ -18,6 +19,47 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_WM_MOUSELEAVE()
     ON_WM_PAINT()
 END_MESSAGE_MAP()
+
+void CMPCThemeHeaderCtrl::drawSortArrow(CDC *dc, COLORREF arrowClr, CRect arrowRect, bool ascending) {
+    DpiHelper dpiWindow;
+    dpiWindow.Override(GetSafeHwnd());
+
+    Gdiplus::Color clr;
+    clr.SetFromCOLORREF(arrowClr);
+
+    int dpi = dpiWindow.DPIX();
+    float steps;
+
+    if (dpi < 120) steps = 3.5;
+    else if (dpi < 144) steps = 4;
+    else if (dpi < 168) steps = 5;
+    else if (dpi < 192) steps = 5;
+    else steps = 6;
+
+    int xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+    int yPos = arrowRect.top;
+
+    Gdiplus::Graphics gfx(dc->m_hDC);
+    gfx.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x4);
+    Gdiplus::Pen pen(clr, 1);
+    for (int i = 0; i < 2; i++) {
+        Gdiplus::GraphicsPath path;
+        Gdiplus::PointF vertices[3];
+
+        if (ascending) {
+            vertices[0] = Gdiplus::PointF(xPos, yPos);
+            vertices[1] = Gdiplus::PointF(steps + xPos, yPos + steps);
+            vertices[2] = Gdiplus::PointF(steps * 2 + xPos, yPos);
+        } else {
+            vertices[0] = Gdiplus::PointF(xPos, yPos + steps);
+            vertices[1] = Gdiplus::PointF(steps + xPos, yPos);
+            vertices[2] = Gdiplus::PointF(steps * 2 + xPos, yPos + steps);
+        }
+
+        path.AddLines(vertices, 3);
+        gfx.DrawPath(&pen, &path);
+    }
+}
 
 void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC) {
 
@@ -85,6 +127,11 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC) {
         pDC->SetBkColor(bgColor);
 
         CMPCThemeUtil::DrawBufferedText(pDC, text, rText, textFormat);
+        if (hditem.fmt & HDF_SORTUP) {
+            drawSortArrow(pDC, CMPCTheme::HeaderCtrlSortArrowColor, rText, true);
+        } else if (hditem.fmt & HDF_SORTDOWN) {
+            drawSortArrow(pDC, CMPCTheme::HeaderCtrlSortArrowColor, rText, false);
+        }
     }
 
     pDC->SetTextColor(oldTextColor);

@@ -6,6 +6,7 @@ class CMPCThemeHeaderCtrl :
 protected:
     int hotItem;
     void checkHot(CPoint point);
+    void drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending);
     void drawItem(int nItem, CRect rText, CDC* pDC);
 public:
 	CMPCThemeHeaderCtrl();

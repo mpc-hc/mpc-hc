@@ -140,6 +140,8 @@ public:
     static const COLORREF ComboboxArrowColor;
     static const COLORREF ComboboxArrowColorDisabled;
 
+    static const COLORREF HeaderCtrlSortArrowColor;
+
     static const BYTE CheckBits[14];
     static const int CheckWidth;
     static const int CheckHeight;

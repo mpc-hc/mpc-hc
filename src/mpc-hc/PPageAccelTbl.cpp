@@ -876,6 +876,7 @@ BEGIN_MESSAGE_MAP(CPPageAccelTbl, CPPageBase)
     ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginListLabelEdit)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDoListLabelEdit)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndListLabelEdit)
+    ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnListColumnClick)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSelectAll)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedReset)
     ON_WM_TIMER()
@@ -1137,8 +1138,67 @@ void CPPageAccelTbl::OnDoListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
-{
+int CPPageAccelTbl::CompareFunc(LPARAM lParam1, LPARAM lParam2) {
+    int result;
+
+    CString strItem1 = m_list.GetItemText(static_cast<int>(lParam1), sortColumn);
+    CString strItem2 = m_list.GetItemText(static_cast<int>(lParam2), sortColumn);
+    if (sortColumn == COL_ID || sortColumn == COL_RMREPCNT) {
+        wmcmd& wc1 = m_wmcmds.GetAt((POSITION)m_list.GetItemData(lParam1));
+        wmcmd& wc2 = m_wmcmds.GetAt((POSITION)m_list.GetItemData(lParam2));
+
+        result = wc1.cmd == wc2.cmd ? 0 : (wc1.cmd < wc2.cmd ? -1 : 1);
+    } else {
+        result = strItem1.Compare(strItem2);
+    }
+
+    if (sortDirection == HDF_SORTUP) {
+        return result;
+    } else {
+        return -result;
+    }
+}
+
+static int CALLBACK StaticCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
+    CPPageAccelTbl *ppAccelTbl = (CPPageAccelTbl*)lParamSort;
+    return ppAccelTbl->CompareFunc(lParam1, lParam2);
+}
+
+void CPPageAccelTbl::UpdateHeaderSort(int column, int sort) {
+    CHeaderCtrl* hdr = m_list.GetHeaderCtrl();
+    HDITEMW hItem = { 0 };
+    hItem.mask = HDI_FORMAT;
+    if (hdr->GetItem(column, &hItem)) {
+        if (sort == HDF_SORTUP) {
+            hItem.fmt |= HDF_SORTUP;
+            hItem.fmt &= ~HDF_SORTDOWN;
+        } else if (sort == HDF_SORTDOWN) {
+            hItem.fmt |= HDF_SORTDOWN;
+            hItem.fmt &= ~HDF_SORTUP;
+        } else { //no sort
+            hItem.fmt &= ~(HDF_SORTUP | HDF_SORTDOWN);
+       }
+        hdr->SetItem(column, &hItem);
+    }
+}
+
+void CPPageAccelTbl::OnListColumnClick(NMHDR* pNMHDR, LRESULT* pResult) {
+    NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+    int colToSort = pNMListView->iSubItem;
+    if (colToSort == sortColumn) {
+        sortDirection = sortDirection == HDF_SORTUP ? HDF_SORTDOWN : HDF_SORTUP;
+    } else {
+        if (sortColumn != -1) {
+            UpdateHeaderSort(sortColumn, 0); //clear old sort
+        }
+        sortColumn = colToSort;
+        sortDirection = HDF_SORTUP;
+    }
+    m_list.SortItemsEx(StaticCompareFunc, (LPARAM)this);
+    UpdateHeaderSort(sortColumn, sortDirection);
+}
+
+void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult) {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 

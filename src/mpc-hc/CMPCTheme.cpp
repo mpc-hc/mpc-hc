@@ -157,6 +157,9 @@ const BYTE CMPCTheme::GripperBitsV[8] = {
 const COLORREF CMPCTheme::ComboboxArrowColor = COLORREF(RGB(200, 200, 200));
 const COLORREF CMPCTheme::ComboboxArrowColorDisabled = COLORREF(RGB(100, 100, 100));
 
+const COLORREF CMPCTheme::HeaderCtrlSortArrowColor = COLORREF(RGB(200, 200, 200));
+
+
 const BYTE CMPCTheme::CheckBits[14] = {
     0x02, 0x00,
     0x06, 0x00,
