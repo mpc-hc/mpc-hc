@@ -141,8 +141,7 @@ BOOL CPPageAccelTbl::PreTranslateMessage(MSG* pMsg)
 }
 
 
-void CPPageAccelTbl::SetupList()
-{
+void CPPageAccelTbl::SetupList(bool allowResize) {
     for (int row = 0; row < m_list.GetItemCount(); row++) {
         wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(row));
 
@@ -167,12 +166,18 @@ void CPPageAccelTbl::SetupList()
         m_list.SetItemText(row, COL_RMREPCNT, repcnt);
     }
 
-    for (int nCol = COL_CMD; nCol <= COL_RMREPCNT; nCol++) {
-        m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
-        int contentSize = m_list.GetColumnWidth(nCol);
-        m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
-        if (contentSize > m_list.GetColumnWidth(nCol)) {
+    if (allowResize) {
+        for (int nCol = COL_CMD; nCol <= COL_RMREPCNT; nCol++) {
             m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
+            int contentSize = m_list.GetColumnWidth(nCol);
+            m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
+            if (contentSize > m_list.GetColumnWidth(nCol)) {
+                m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
+            }
+        }
+        for (int nCol = COL_CMD; nCol <= COL_RMREPCNT; nCol++) {
+            int contentSize = m_list.GetColumnWidth(nCol);
+            m_list.SetColumnWidth(nCol, contentSize);
         }
     }
 }
@@ -867,6 +872,7 @@ void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_fWinLirc);
     DDX_Text(pDX, IDC_EDIT2, m_UIceAddr);
     DDX_Control(pDX, IDC_EDIT2, m_UIceEdit);
+    DDX_Control(pDX, IDC_EDIT3, filterEdit);
     DDX_Control(pDX, IDC_STATICLINK2, m_UIceLink);
     DDX_Check(pDX, IDC_CHECK9, m_fUIce);
     DDX_Check(pDX, IDC_CHECK2, m_fGlobalMedia);
@@ -877,6 +883,7 @@ BEGIN_MESSAGE_MAP(CPPageAccelTbl, CPPageBase)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDoListLabelEdit)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndListLabelEdit)
     ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnListColumnClick)
+    ON_EN_CHANGE(IDC_EDIT3, OnChangeFilterEdit)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSelectAll)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedReset)
     ON_WM_TIMER()
@@ -1038,6 +1045,43 @@ void CPPageAccelTbl::OnBnClickedReset()
     SetupList();
 
     SetModified();
+}
+
+void CPPageAccelTbl::OnChangeFilterEdit() {
+    KillTimer(filterTimerID);
+    filterTimerID = SetTimer(2, 100, NULL);
+}
+
+void  CPPageAccelTbl::FilterList() {
+    CString filter;
+    filterEdit.GetWindowText(filter);
+    filter.MakeLower();
+
+    m_list.SetRedraw(false);
+    m_list.DeleteAllItems();
+    POSITION pos = m_wmcmds.GetHeadPosition();
+    for (int i = 0; pos; i++) {
+        CString hotkey, id, name, sname;
+
+        wmcmd& wc = m_wmcmds.GetAt(pos);
+
+        HotkeyModToString(wc.key, wc.fVirt, hotkey);
+        id.Format(_T("%u"), wc.cmd);
+        sname = wc.GetName();
+
+        sname.MakeLower();
+        id.MakeLower();
+        hotkey.MakeLower();
+
+        if (filter.IsEmpty() || sname.Find(filter) != -1 || hotkey.Find(filter) != -1 || id.Find(filter) != -1) {
+            int row = m_list.InsertItem(m_list.GetItemCount(), wc.GetName(), COL_CMD);
+            m_list.SetItemData(row, (DWORD_PTR)pos);
+        }
+        m_wmcmds.GetNext(pos);
+    }
+    SetupList(false);
+    m_list.SetRedraw(true);
+    m_list.RedrawWindow();
 }
 
 void CPPageAccelTbl::OnBeginListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
@@ -1306,6 +1350,8 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
         m_UIceEdit.Invalidate();
 
         m_counter++;
+    } else if (nIDEvent == filterTimerID) {
+        FilterList();
     } else {
         __super::OnTimer(nIDEvent);
     }

@@ -62,8 +62,9 @@ private:
     BOOL m_fUIce;
     CString m_UIceAddr;
     CMPCThemeEdit m_UIceEdit;
+    CMPCThemeEdit filterEdit;
     CMPCThemeStaticLink m_UIceLink;
-    UINT_PTR m_nStatusTimerID;
+    UINT_PTR m_nStatusTimerID, filterTimerID;
     BOOL m_fGlobalMedia;
 
     static CString MakeAccelModLabel(BYTE fVirt);
@@ -71,7 +72,7 @@ private:
     static CString MakeMouseButtonLabel(UINT mouse);
     static CString MakeAppCommandLabel(UINT id);
 
-    void SetupList();
+    void SetupList(bool allowResize=true);
 
 public:
     DECLARE_DYNAMIC(CPPageAccelTbl)
@@ -93,6 +94,7 @@ protected:
     virtual BOOL OnSetActive();
     virtual BOOL OnKillActive();
     void UpdateHeaderSort(int column, int sort);
+    void FilterList();
 
     DECLARE_MESSAGE_MAP()
 
@@ -102,6 +104,7 @@ protected:
     afx_msg void OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBnClickedSelectAll();
     afx_msg void OnBnClickedReset();
+    afx_msg void OnChangeFilterEdit();
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
 
