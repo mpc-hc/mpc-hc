@@ -13,9 +13,6 @@
 [submodule "rapidjson"]
 	path = src/thirdparty/rapidjson
 	url = https://github.com/tencent/rapidjson.git
-[submodule "RARFileSource"]
-	path = src/thirdparty/RARFileSource/library
-	url = https://github.com/mpc-hc/rarfilesource.git
 [submodule "sanear"]
 	path = src/thirdparty/sanear/sanear
 	url = https://github.com/mpc-hc/sanear.git

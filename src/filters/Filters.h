@@ -35,4 +35,4 @@
 #include "transform/AVI2AC3Filter/AVI2AC3Filter.h"
 #include "transform/BufferFilter/BufferFilter.h"
 #include "transform/DeCSSFilter/DeCSSFilter.h"
-#include "RARFileSource/library/RFS.h"
+#include "RARFileSource/RFS.h"

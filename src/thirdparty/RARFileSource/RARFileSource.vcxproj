@@ -52,33 +52,33 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="library\File.cpp" />
-    <ClCompile Include="library\List.cpp">
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="List.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="library\Mediatype.cpp" />
-    <ClCompile Include="library\OutputPin.cpp" />
-    <ClCompile Include="library\RAR.cpp" />
-    <ClCompile Include="library\RFS.cpp" />
-    <ClCompile Include="library\Utils.cpp" />
+    <ClCompile Include="Mediatype.cpp" />
+    <ClCompile Include="OutputPin.cpp" />
+    <ClCompile Include="RAR.cpp" />
+    <ClCompile Include="RFS.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="library\Anchor.h" />
-    <ClInclude Include="library\File.h" />
-    <ClInclude Include="library\List.h" />
-    <ClInclude Include="library\Mediatype.h" />
-    <ClInclude Include="library\OutputPin.h" />
-    <ClInclude Include="library\RAR.h" />
-    <ClInclude Include="library\RAR_defines.h" />
-    <ClInclude Include="library\resource.h" />
-    <ClInclude Include="library\RFS.h" />
-    <ClInclude Include="library\Utils.h" />
+    <ClInclude Include="Anchor.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Mediatype.h" />
+    <ClInclude Include="OutputPin.h" />
+    <ClInclude Include="RAR.h" />
+    <ClInclude Include="RAR_defines.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RFS.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="library\RFS.def" />
+    <None Include="RFS.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="library\RFS.rc" />
+    <ResourceCompile Include="RFS.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\filters\Filters.vcxproj">

@@ -1,0 +1,62 @@
+
+#include <windows.h>
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#ifdef STANDALONE_FILTER
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,9,3,0
+ PRODUCTVERSION 0,9,3,0
+ FILEFLAGSMASK 0x30003fL
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS VOS_NT
+ FILETYPE VFT_DLL
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "OctaneSnail\0"
+            VALUE "FileDescription", "RAR File Source DirectShow Filter\0"
+            VALUE "FileVersion", "0.9.3\0"
+            VALUE "InternalName", "RARFileSource\0"
+            VALUE "LegalCopyright", "(C) 2008-2012, OctaneSnail"
+            VALUE "OriginalFilename", "RARFileSource.ax\0"
+            VALUE "ProductName", "RAR File Source\0"
+            VALUE "ProductVersion", "0.9.3\0"
+            VALUE "ActiveMovie", "Filter dll\0"
+            VALUE "OLESelfRegister", "AM20\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FILELIST DIALOGEX 0, 0, 316, 115
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "File Selection"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Select",IDOK,204,94,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,94,50,14
+    LISTBOX         IDC_FILELIST,7,7,302,84,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END

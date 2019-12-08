@@ -80,7 +80,7 @@
 
 #include <AllocatorCommon.h>
 #include <NullRenderers.h>
-#include <RARFileSource/library/RFS.h>
+#include <RARFileSource/RFS.h>
 #include <SyncAllocatorPresenter.h>
 
 #include "FullscreenWnd.h"
