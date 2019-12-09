@@ -15415,11 +15415,12 @@ void CMainFrame::SetupVMR9ColorControl()
 void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation)
 {
     CMPlayerCApp* pApp = AfxGetMyApp();
+    HRESULT hr = 0;
 
     static VMR9ProcAmpControl  ClrControl;
     static DXVA2_ProcAmpValues ClrValues;
 
-    COLORPROPERTY_RANGE* cr;
+    COLORPROPERTY_RANGE* cr = 0;
     if (flags & ProcAmp_Brightness) {
         cr = pApp->GetColorControl(ProcAmp_Brightness);
         brightness = std::min(std::max(brightness, cr->MinValue), cr->MaxValue);
@@ -15445,14 +15446,26 @@ void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, in
         ClrControl.Hue        = (float)hue;
         ClrControl.Saturation = (float)(saturation + 100) / 100;
 
-        m_pVMRMC->SetProcAmpControl(0, &ClrControl);
+        hr = m_pVMRMC->SetProcAmpControl(0, &ClrControl);
     } else if (m_pMFVP) {
         ClrValues.Brightness = IntToFixed(brightness);
         ClrValues.Contrast   = IntToFixed(contrast + 100, 100);
         ClrValues.Hue        = IntToFixed(hue);
         ClrValues.Saturation = IntToFixed(saturation + 100, 100);
 
-        m_pMFVP->SetProcAmpValues(flags, &ClrValues);
+        hr = m_pMFVP->SetProcAmpValues(flags, &ClrValues);
+        
+    }
+    // Workaround: with Intel driver the minimum values of the supported range may not actually work
+    if (FAILED(hr)) {
+        if (flags & ProcAmp_Brightness) {
+            cr = pApp->GetColorControl(ProcAmp_Brightness);
+            if (brightness == cr->MinValue) { brightness = cr->MinValue + 1; }
+        }
+        if (flags & ProcAmp_Hue) {
+            cr = pApp->GetColorControl(ProcAmp_Hue);
+            if (hue == cr->MinValue) { hue = cr->MinValue + 1; }
+        }
     }
 }
 
