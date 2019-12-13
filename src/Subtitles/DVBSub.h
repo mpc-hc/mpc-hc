@@ -41,6 +41,7 @@ public:
     STDMETHODIMP_(bool)           IsAnimated(POSITION pos);
     STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
+    STDMETHODIMP                  GetRelativeTo(POSITION pos, RelativeTo& relativeTo);
 
     virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen);
     virtual void    EndOfStream();

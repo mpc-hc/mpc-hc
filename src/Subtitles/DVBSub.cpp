@@ -698,3 +698,8 @@ void CDVBSub::RemoveOldPages(REFERENCE_TIME rt)
         m_pages.RemoveHeadNoReturn();
     }
 }
+
+STDMETHODIMP CDVBSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo) {
+    relativeTo = RelativeTo::BEST_FIT;
+    return S_OK;
+}

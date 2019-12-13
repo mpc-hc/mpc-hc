@@ -139,6 +139,7 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
             videoRect.left += stretch;
             videoRect.right -= stretch;
             CSize szVideo = videoRect.Size();
+            CRect windowRect(rcWindow);
 
             double subtitleAR = double(m_virtualTextureSize.cx) / m_virtualTextureSize.cy;
             double videoAR = double(szVideo.cx) / szVideo.cy;
@@ -147,8 +148,14 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
             double dCRVideoHeight = szVideo.cx / subtitleAR;
 
             if ((dCRVideoHeight > dCRVideoWidth) != (videoAR > subtitleAR)) {
-                scaleFactor = dCRVideoHeight / m_virtualTextureSize.cy;
-                offset.y = lround((szVideo.cy - dCRVideoHeight) / 2.0);
+                if (dCRVideoHeight > windowRect.Height()) { //this must be letterbox cropped, and the window isn't showing the black bars, so subs could get lost
+                    scaleFactor = double(windowRect.Height()) / m_virtualTextureSize.cy;
+                    offset.y = lround((szVideo.cy - double(windowRect.Height())) / 2.0);
+                    offset.x += lround((dCRVideoHeight - windowRect.Height()) * subtitleAR / 2.0);
+                } else {
+                    scaleFactor = dCRVideoHeight / m_virtualTextureSize.cy;
+                    offset.y = lround((szVideo.cy - dCRVideoHeight) / 2.0);
+                }
             } else {
                 scaleFactor = dCRVideoWidth / m_virtualTextureSize.cx;
                 offset.x = lround((szVideo.cx - dCRVideoWidth) / 2.0);
