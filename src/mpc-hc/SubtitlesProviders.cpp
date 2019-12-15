@@ -561,13 +561,23 @@ BOOL SubtitlesProviders::CheckInternetConnection()
     return InternetGetConnectedState(&dwFlags, NULL) == TRUE;
 }
 
-void SubtitlesProviders::Search(bool bAutoDownload)
-{
+void SubtitlesProviders::Search(bool bAutoDownload) {
     Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
     m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
 
     if (CheckInternetConnection()) {
         InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391()));
+    } else if (bAutoDownload == FALSE) {
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
+    }
+}
+
+void SubtitlesProviders::ManualSearch(bool bAutoDownload, CString manualSearch) {
+    Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
+    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
+
+    if (CheckInternetConnection()) {
+        InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391(), manualSearch));
     } else if (bAutoDownload == FALSE) {
         m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
     }
@@ -666,6 +676,25 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
     VERIFY(CreateThread());
 }
 
+SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages, CString manualSearch)
+    : m_pMainFrame(pMainFrame)
+    , m_nType(SubtitlesThreadType(STT_SEARCH | STT_MANUALSEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL)))
+    , m_bAutoDownload(bAutoDownload)
+    , m_bActivate(false)
+    , manualSearch (manualSearch)
+{
+    BYTE i = BYTE(sLanguages.size());
+    for (const auto& iter : sLanguages) {
+        if (bAutoDownload) {
+            m_AutoDownload[iter] = false;
+        }
+        m_LangPriority[iter] = i--;
+    }
+
+    VERIFY(CreateThread());
+}
+
+
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate)
     : m_pMainFrame(pMainFrame)
     , m_pFileInfo(pSubtitlesInfo)
@@ -693,6 +722,9 @@ void SubtitlesTask::ThreadProc()
         // to avoid delaying the video playback.
         SubtitlesInfo pFileInfo;
         pFileInfo.GetFileInfo();
+        if (m_nType & STT_MANUALSEARCH) {
+            pFileInfo.manualSearchString = manualSearch;
+        }
 
         const auto& s = AfxGetAppSettings();
         std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude).GetString();

@@ -100,7 +100,6 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd) {
                 } else if (0 == _tcsicmp(windowClass, WC_EDIT)) {
                     CMPCThemeEdit* pObject = DEBUG_NEW CMPCThemeEdit();
                     makeThemed(pObject, tChild);
-
                 } else if (0 == _tcsicmp(windowClass, UPDOWN_CLASS)) {
                     CMPCThemeSpinButtonCtrl* pObject = DEBUG_NEW CMPCThemeSpinButtonCtrl();
                     makeThemed(pObject, tChild);
@@ -680,7 +679,7 @@ struct AFX_CTLCOLOR {
     UINT nCtlType;
 };
 
-void CMPCThemeUtil::fillParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r) {
+void CMPCThemeUtil::drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill) {
     CBrush brush;
     WPARAM w = (WPARAM)pDC;
     AFX_CTLCOLOR ctl;
@@ -693,7 +692,11 @@ void CMPCThemeUtil::fillParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r) {
     }
     HBRUSH bg = (HBRUSH)parent->SendMessage(WM_CTLCOLORDLG, w, (LPARAM)& ctl);
     brush.Attach(bg);
-    pDC->FillRect(r, &brush);
+    if (fill) {
+        pDC->FillRect(r, &brush);
+    } else {
+        pDC->FrameRect(r, &brush);
+    }
     brush.Detach();
 }
 

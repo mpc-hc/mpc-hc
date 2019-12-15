@@ -133,21 +133,27 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
 {
     const auto languages = LanguagesISO6392();
     XmlRpcValue args, result;
+
     args[0] = token;
     auto& movieInfo = args[1][0];
-    movieInfo["sublanguageid"] = !languages.empty() ? JoinContainer(languages, ",") : "all";
-    movieInfo["moviehash"] = pFileInfo.fileHash;
-    movieInfo["moviebytesize"] = std::to_string(pFileInfo.fileSize);
-    //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
-    //args[1][1]["tag"] = pFileInfo.fileName + "." + pFileInfo.fileExtension;
     args[2]["limit"] = 500;
+    movieInfo["sublanguageid"] = !languages.empty() ? JoinContainer(languages, ",") : "all";
+    if (pFileInfo.manualSearchString.IsEmpty()) {
+        movieInfo["moviehash"] = pFileInfo.fileHash;
+        movieInfo["moviebytesize"] = std::to_string(pFileInfo.fileSize);
+        //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
+        //args[1][1]["tag"] = pFileInfo.fileName + "." + pFileInfo.fileExtension;
 
-    LOG(LOG_INPUT,
-        StringFormat("{ sublanguageid=\"%s\", moviehash=\"%s\", moviebytesize=\"%s\", limit=%d }",
-                     (LPCSTR)movieInfo["sublanguageid"],
-                     (LPCSTR)movieInfo["moviehash"],
-                     (LPCSTR)movieInfo["moviebytesize"],
-                     (int)args[2]["limit"]).c_str());
+        LOG(LOG_INPUT,
+            StringFormat("{ sublanguageid=\"%s\", moviehash=\"%s\", moviebytesize=\"%s\", limit=%d }",
+            (LPCSTR)movieInfo["sublanguageid"],
+                (LPCSTR)movieInfo["moviehash"],
+                (LPCSTR)movieInfo["moviebytesize"],
+                (int)args[2]["limit"]).c_str());
+    } else {
+        CT2CA pszConvertedAnsiString(pFileInfo.manualSearchString);
+        movieInfo["query"] = std::string(pszConvertedAnsiString);
+    }
 
     if (!xmlrpc->execute("SearchSubtitles", args, result)) {
         LOG(_T("search failed"));
@@ -158,7 +164,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
         LOG(_T("search failed (invalid data)"));
         return SR_FAILED;
     }
-
+    
     int nCount = result["data"].size();
     for (int i = 0; i < nCount; ++i) {
         CheckAbortAndReturn();
@@ -466,6 +472,10 @@ SRESULT SubDB::Hash(SubtitlesInfo& pFileInfo)
 
 SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
 {
+    if (!pFileInfo.manualSearchString.IsEmpty()) {
+        return SR_FAILED; //SubDB does not support manual search
+    }
+
     SRESULT searchResult = SR_UNDEFINED;
     std::string url(StringFormat("%s/?action=search&hash=%s", Url().c_str(), pFileInfo.fileHash.c_str()));
     LOG(LOG_INPUT, url.c_str());
@@ -622,24 +632,35 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
     do {
         CheckAbortAndReturn();
 
-        const auto languages = LanguagesISO6391();
-        std::string search(pFileInfo.title);
-        if (!pFileInfo.country.empty()) {
-            search += " " + pFileInfo.country;
-        }
-        search = std::regex_replace(search, std::regex(" and | *[!?&':] *", RegexFlags), " ");
-
         std::string url(Url() + "/ppodnapisi/search");
         url += "?sXML=1";
         url += "&sAKA=1";
-        if (!search.empty()) {
-            url += "&sK=" + UrlEncode(search.c_str());
+
+        if (pFileInfo.manualSearchString.IsEmpty()) {
+            std::string search(pFileInfo.title);
+            if (!pFileInfo.country.empty()) {
+                search += " " + pFileInfo.country;
+            }
+            search = std::regex_replace(search, std::regex(" and | *[!?&':] *", RegexFlags), " ");
+
+            if (!search.empty()) {
+                url += "&sK=" + UrlEncode(search.c_str());
+            }
+            url += (pFileInfo.year != -1 ? "&sY=" + std::to_string(pFileInfo.year) : "");
+            url += (pFileInfo.seasonNumber != -1 ? "&sTS=" + std::to_string(pFileInfo.seasonNumber) : "");
+            url += (pFileInfo.episodeNumber != -1 ? "&sTE=" + std::to_string(pFileInfo.episodeNumber) : "");
+            url += "&sMH=" + pFileInfo.fileHash;
+            //url += "&sR=" + UrlEncode(pFileInfo.fileName.c_str());
+        } else {
+            CT2CA pszConvertedAnsiString(pFileInfo.manualSearchString);
+            std::string search(pszConvertedAnsiString);
+            search = std::regex_replace(search, std::regex(" and | *[!?&':] *", RegexFlags), " ");
+
+            if (!search.empty()) {
+                url += "&sK=" + UrlEncode(search.c_str());
+            }
         }
-        url += (pFileInfo.year != -1 ? "&sY=" + std::to_string(pFileInfo.year) : "");
-        url += (pFileInfo.seasonNumber != -1 ? "&sTS=" + std::to_string(pFileInfo.seasonNumber) : "");
-        url += (pFileInfo.episodeNumber != -1 ? "&sTE=" + std::to_string(pFileInfo.episodeNumber) : "");
-        url += "&sMH=" + pFileInfo.fileHash;
-        //url += "&sR=" + UrlEncode(pFileInfo.fileName.c_str());
+        const auto languages = LanguagesISO6391();
         url += (!languages.empty() ? "&sL=" + JoinContainer(languages, ",") : "");
         url += "&page=" + std::to_string(page);
         LOG(LOG_INPUT, url.c_str());
@@ -1058,6 +1079,9 @@ const std::set<std::string>& ysubs::Languages() const
 
 SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
 {
+    if (!pFileInfo.manualSearchString.IsEmpty()) {
+        return SR_FAILED; //napisys24 does not support manual search
+    }
     stringMap headers({
         { "User-Agent", UserAgent() },
         { "Content-Type", "application/x-www-form-urlencoded" }

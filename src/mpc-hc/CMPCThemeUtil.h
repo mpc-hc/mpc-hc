@@ -58,7 +58,7 @@ public:
     static void drawCheckBox(UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio = false);
     static bool canUseWin10DarkTheme();
     static UINT defaultLogo();
-    static void fillParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r);
+    static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill=true);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
     static void enableWindows10DarkFrame(CWnd* window);
 

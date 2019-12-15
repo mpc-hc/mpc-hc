@@ -132,7 +132,7 @@ BOOL CMPCThemeStatic::OnEraseBkgnd(CDC* pDC) {
             HBRUSH hBrush=CMPCThemeUtil::getCtlColorFileDialog(pDC->GetSafeHdc(), CTLCOLOR_STATIC);
             ::FillRect(pDC->GetSafeHdc(), r, hBrush);
         } else {
-            CMPCThemeUtil::fillParentDialogBGClr(this, pDC, r);
+            CMPCThemeUtil::drawParentDialogBGClr(this, pDC, r);
         }
         return TRUE;
     } else {

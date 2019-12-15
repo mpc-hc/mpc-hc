@@ -101,6 +101,7 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_STATUSBAR, m_status);
+    DDX_Text(pDX, IDC_EDIT1, manualSearch);
     fulfillThemeReqs();
 }
 
@@ -249,6 +250,8 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     AddAnchor(IDC_BUTTON2, BOTTOM_RIGHT);
     AddAnchor(IDC_BUTTON3, BOTTOM_RIGHT);
     AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDC_EDIT1, BOTTOM_RIGHT, BOTTOM_RIGHT);
+    AddAnchor(IDC_BUTTON4, BOTTOM_RIGHT);
     AddAnchor(IDC_STATUSBAR, BOTTOM_LEFT, BOTTOM_RIGHT);
 
     CRect cr;
@@ -309,10 +312,15 @@ void CSubtitleDlDlg::OnCancel()
     ShowWindow(SW_HIDE);
 }
 
-void CSubtitleDlDlg::OnRefresh()
-{
+void CSubtitleDlDlg::OnRefresh() {
     m_list.DeleteAllItems();
     m_pMainFrame->m_pSubtitlesProviders->Search(FALSE);
+}
+
+void CSubtitleDlDlg::OnManualSearch() {
+    m_list.DeleteAllItems();
+    UpdateData(TRUE);
+    m_pMainFrame->m_pSubtitlesProviders->ManualSearch(FALSE, manualSearch);
 }
 
 void CSubtitleDlDlg::OnAbort()
@@ -425,6 +433,7 @@ BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CMPCThemeResizableDialog)
     ON_COMMAND(IDC_BUTTON1, OnRefresh)
     ON_COMMAND(IDC_BUTTON2, OnAbort)
     ON_COMMAND(IDC_BUTTON3, OnOptions)
+    ON_COMMAND(IDC_BUTTON4, OnManualSearch)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRefresh)
     ON_NOTIFY(HDN_ITEMCLICK, 0, OnColumnClick)

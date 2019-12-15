@@ -63,7 +63,8 @@ enum SubtitlesThreadType {
     STT_UNDEFINED = 0x00000000,
     STT_SEARCH    = 0x00000001,
     STT_DOWNLOAD  = 0x00000002,
-    STT_UPLOAD    = 0x00000004
+    STT_UPLOAD    = 0x00000004,
+    STT_MANUALSEARCH = 0x00000008
 };
 
 
@@ -173,6 +174,8 @@ public:
     double frameRate;
     int framesNumber;
     ULONGLONG lengthMs;
+
+    CString manualSearchString;
 };
 
 
@@ -254,6 +257,7 @@ class SubtitlesTask final : public CWinThreadProc
 public:
     // Search
     SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages);
+    SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages, CString manualSearch);
     // Download
     SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate);
     // Upload
@@ -297,6 +301,8 @@ private:
     bool m_bAutoDownload;
     std::unordered_map<std::string, bool> m_AutoDownload;
     std::unordered_map<std::string, BYTE> m_LangPriority;
+
+    CString manualSearch;
 };
 
 class SubtitlesProvider
@@ -409,6 +415,7 @@ public:
     std::string WriteSettings();
 
     void Search(bool bAutoDownload);
+    void ManualSearch(bool bAutoDownload, CString manualSearch);
     void Upload(bool bShowConfirm);
     void Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate);
     void Abort(SubtitlesThreadType nType);

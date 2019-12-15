@@ -109,7 +109,7 @@ BOOL CMPCThemeTabCtrl::OnEraseBkgnd(CDC* pDC) {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CRect r;
         GetClientRect(r);
-        CMPCThemeUtil::fillParentDialogBGClr(this, pDC, r);
+        CMPCThemeUtil::drawParentDialogBGClr(this, pDC, r);
     }
     return TRUE;
 }

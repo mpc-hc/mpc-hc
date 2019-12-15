@@ -72,6 +72,13 @@ void CMPCThemeEdit::OnNcPaint() {
             }
 
             dc.FrameRect(&rect, &brush);
+
+            //added code to draw the inner rect for the border.  we shrunk the draw rect for border spacing earlier
+            //normally, the bg of the dialog is sufficient, but in the case of ResizableDialog, it clips the anchored
+            //windows, which leaves unpainted area just inside our border
+            rect.DeflateRect(1, 1);
+            CMPCThemeUtil::drawParentDialogBGClr(this, &dc, rect, false);
+
             if (nullptr != buddy) buddy->Invalidate();
         }
 
