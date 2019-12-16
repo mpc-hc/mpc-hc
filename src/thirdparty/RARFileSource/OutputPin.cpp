@@ -279,10 +279,6 @@ STDMETHODIMP CRFSOutputPin::Request (IMediaSample* pSample, DWORD_PTR dwUser)
 	LARGE_INTEGER offset;
 	DWORD to_read, acc = 0;
 	LONGLONG offset2;
-	int pos = m_file->FindStartPart (llPosition);
-
-	if (pos == -1)
-		return S_FALSE;
 
 	ReadRequest *request = new ReadRequest ();
 
@@ -293,66 +289,15 @@ STDMETHODIMP CRFSOutputPin::Request (IMediaSample* pSample, DWORD_PTR dwUser)
 
 	request->dwUser = dwUser;
 	request->pSample = pSample;
-	request->count = 0;
 
-	CRFSFilePart *part = m_file->array + pos;
+    CRFSFile::ReadThread *thread = new CRFSFile::ReadThread(m_file, llPosition, lLength, pBuffer);
 
-	offset2 = llPosition - part->in_file_offset;
-	offset.QuadPart = part->in_rar_offset + offset2;
-
-	while (true)
+    request->threadHandle = CreateThread(NULL, 0, CRFSFile::ReadThread::ThreadStartStatic, (void*)this, 0, &request->threadID);
+	if (request->threadHandle != S_OK)
 	{
-		SubRequest *sr = new SubRequest ();
-
-		if (!sr)
-		{
-			ErrorMsg (0, L"Out of memory.");
-			return E_OUTOFMEMORY;
-		}
-
-		request->subreqs.InsertLast (sr);
-		request->count ++;
-
-		to_read = min (lLength, (DWORD) (part->size - offset2));
-
-		sr->file = part->file;
-		sr->expected = to_read;
-		sr->o.hEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
-
-		if (!sr->o.hEvent)
-		{
-			sr->o.hEvent = INVALID_HANDLE_VALUE;
-			return S_FALSE;
-		}
-
-		sr->o.Offset = offset.LowPart;
-		sr->o.OffsetHigh = offset.HighPart;
-
-		if (!ReadFile (part->file, pBuffer + acc, to_read, NULL, &sr->o))
-		{
-			DWORD err = GetLastError ();
-
-			// FIXME: Do something smart in response to EOF.
-			if (err != ERROR_IO_PENDING && err != ERROR_HANDLE_EOF)
-			{
-				ErrorMsg (err, L"CRFSOutputPin::Request - ReadFile");
-				return S_FALSE;
-			}
-		}
-		lLength -= to_read;
-		acc += to_read;
-
-		if (lLength <= 0)
-			break;
-
-		pos ++;
-
-		if (pos >= m_file->parts)
-			return S_FALSE;
-
-		part ++;
-		offset2 = 0;
-		offset.QuadPart = part->in_rar_offset;
+		DWORD err = GetLastError ();
+		ErrorMsg (err, L"CRFSOutputPin::Request - ReadFile");
+		return S_FALSE;
 	}
 
 	m_lock.Lock ();
@@ -368,10 +313,9 @@ STDMETHODIMP CRFSOutputPin::Request (IMediaSample* pSample, DWORD_PTR dwUser)
 	return S_OK;
 }
 
-HRESULT CRFSOutputPin::DoFlush (IMediaSample **ppSample, DWORD_PTR *pdwUser)
+HRESULT CRFSOutputPin::DoFlush (DWORD dwTimeout, IMediaSample **ppSample, DWORD_PTR *pdwUser)
 {
 	ReadRequest *rr;
-	SubRequest *sr;
 
 	DbgLog((LOG_TRACE, 2, L"WaitForNext is flushing..."));
 
@@ -385,14 +329,18 @@ HRESULT CRFSOutputPin::DoFlush (IMediaSample **ppSample, DWORD_PTR *pdwUser)
 		return VFW_E_TIMEOUT;
 	}
 
-	while (sr = rr->subreqs.UnlinkLast ())
-	{
-		CancelIo (sr->file);
-		delete sr;
-	}
-
 	*pdwUser = rr->dwUser;
 	*ppSample = rr->pSample;
+    
+    DWORD r;
+    r = WaitForSingleObject(rr->threadHandle, dwTimeout);
+    if (r == WAIT_TIMEOUT) {
+        // Put it back into the list.
+        m_lock.Lock();
+        m_requests.InsertLast(rr);
+        m_lock.Unlock();
+        return VFW_E_TIMEOUT;
+    }
 
 	delete rr;
 
@@ -404,12 +352,13 @@ STDMETHODIMP CRFSOutputPin::WaitForNext (DWORD dwTimeout, IMediaSample **ppSampl
 	HRESULT ret = S_OK;
 	DWORD r;
 	ReadRequest *rr;
+    DWORD sTime = GetTickCount64(), curTime;
 
 	if (!(ppSample && pdwUser))
 		return E_POINTER;
 
 	if (m_flush)
-		return DoFlush (ppSample, pdwUser);
+		return DoFlush (dwTimeout, ppSample, pdwUser);
 
 	m_lock.Lock ();
 	rr = m_requests.UnlinkLast ();
@@ -420,9 +369,13 @@ STDMETHODIMP CRFSOutputPin::WaitForNext (DWORD dwTimeout, IMediaSample **ppSampl
 	while (!rr)
 	{
 		r = WaitForSingleObject (m_event, dwTimeout);
+        curTime = GetTickCount64();
+        dwTimeout -= (curTime - sTime);
+        if (dwTimeout < 0) dwTimeout = 0;
+        sTime = curTime;
 
 		if (m_flush)
-			return DoFlush (ppSample, pdwUser);
+			return DoFlush (dwTimeout, ppSample, pdwUser);
 
 		if (r == WAIT_TIMEOUT)
 			return VFW_E_TIMEOUT;
@@ -442,22 +395,8 @@ STDMETHODIMP CRFSOutputPin::WaitForNext (DWORD dwTimeout, IMediaSample **ppSampl
 	}
 
 	DWORD count, read, acc = 0;
-	SubRequest *sr = rr->subreqs.First ();
 
-	count = rr->count;
-
-	HANDLE *hArray = new HANDLE [count];
-
-	for (DWORD i = 0; i < count; i ++)
-	{
-		hArray [i] = sr->o.hEvent;
-		sr = rr->subreqs.Next (sr);
-	}
-
-	// FIXME: Any time spent waiting in WaitForSingleObject above should be subtracted from dwTimeout
-	r = WaitForMultipleObjects (count, hArray, TRUE, dwTimeout);
-
-	delete [] hArray;
+	r = WaitForSingleObject (rr->threadHandle, dwTimeout);
 
 	if (r == WAIT_TIMEOUT)
 	{
@@ -478,30 +417,15 @@ STDMETHODIMP CRFSOutputPin::WaitForNext (DWORD dwTimeout, IMediaSample **ppSampl
 		return E_FAIL;
 	}
 
-	while (sr = rr->subreqs.UnlinkFirst ())
+	read = 0;
+
+	acc += rr->threadObj->read;
+
+	// TODO: Try to recover if read != lLength
+	if (read != rr->threadObj->lLength)
 	{
-		read = 0;
-
-		if (!GetOverlappedResult (sr->file, &sr->o, &read, TRUE))
-		{
-			ErrorMsg (GetLastError (), L"CRFSOutputPin::WaitForNext - GetOverlappedResult");
-			acc += read;
-			delete sr;
-			ret = S_FALSE; // FIXME: Should probably return EOF if that's what happened.
-			break;
-		}
-
-		acc += read;
-
-		// TODO: Try to recover if read != sr->expected.
-		if (read != sr->expected)
-		{
-			DbgLog((LOG_TRACE, 2, L"CRFSOutputPin::WaitForNext Got %lu expected %lu!", read, sr->expected));
-			delete sr;
-			ret = S_FALSE;
-			break;
-		}
-		delete sr;
+		DbgLog((LOG_TRACE, 2, L"CRFSOutputPin::WaitForNext Got %lu expected %lu!", read, rr->threadObj->lLength));
+		ret = S_FALSE;
 	}
 
 	rr->pSample->SetActualDataLength (acc);

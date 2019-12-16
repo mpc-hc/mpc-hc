@@ -1,0 +1,9 @@
+*.aps
+*.opensdf
+*.sdf
+*.suo
+*.user
+RARFileSource-*.exe
+Debug
+x64
+ipch

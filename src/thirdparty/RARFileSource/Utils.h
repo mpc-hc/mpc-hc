@@ -22,13 +22,4 @@
 
 void ErrorMsg (DWORD errorCode, const wchar_t *format, ...);
 
-#ifdef _DEBUG
-#include "RAR.h"
-
-void LogHeader (rar_header_t *rh);
-#define LOG_HEADER(rh) LogHeader(rh)
-#else
-#define LOG_HEADER(rh)
-#endif
-
 #endif // UTILS_H

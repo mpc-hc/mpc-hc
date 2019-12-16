@@ -43,8 +43,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>library;..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\thirdparty;..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;RARDLL;SILENT;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
@@ -52,15 +52,15 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="File.cpp" />
-    <ClCompile Include="List.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Mediatype.cpp" />
-    <ClCompile Include="OutputPin.cpp" />
-    <ClCompile Include="RAR.cpp" />
-    <ClCompile Include="RFS.cpp" />
-    <ClCompile Include="Utils.cpp" />
+    <ProjectReference Include="..\..\filters\Filters.vcxproj">
+      <Project>{273b3149-3192-4b75-a791-470320b90812}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseClasses\BaseClasses.vcxproj">
+      <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\unrar\unrar.vcxproj">
+      <Project>{da8461c4-7683-4360-9372-2a9e0f1795c2}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anchor.h" />
@@ -68,25 +68,25 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="Mediatype.h" />
     <ClInclude Include="OutputPin.h" />
-    <ClInclude Include="RAR.h" />
-    <ClInclude Include="RAR_defines.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RFS.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="RFS.def" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="RFS.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\filters\Filters.vcxproj">
-      <Project>{273b3149-3192-4b75-a791-470320b90812}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\BaseClasses\BaseClasses.vcxproj">
-      <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
-    </ProjectReference>
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="List.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Mediatype.cpp" />
+    <ClCompile Include="OutputPin.cpp" />
+    <ClCompile Include="RFS.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

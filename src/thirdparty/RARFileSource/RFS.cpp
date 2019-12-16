@@ -24,7 +24,7 @@
 
 #include "RFS.h"
 #include "Utils.h"
-#include "RAR.h"
+#include "unrar/rar.hpp"
 #include "Anchor.h"
 #include "resource.h"
 #include "Mediatype.h"
@@ -272,450 +272,58 @@ void CRARFileSource::UpdateArchiveName (wchar_t *ext, size_t len, int volume, bo
 	SetFilePointerEx (hFile, rh.bytesRemaining, NULL, FILE_CURRENT); \
 	continue;
 
-HRESULT CRARFileSource::ScanArchive (wchar_t *archive_name, CRFSList<CRFSFile> *file_list, int *files_found, int *ok_files_found)
-{
-	DWORD dwBytesRead;
-	char *filename = NULL;
-	wchar_t *current_rar_filename = NULL, *rar_ext;
-	bool first_archive_file = true, rewind;
-	bool multi_volume = false, new_numbering = false;
-	rar_header_t rh;
-	BYTE marker [7];
-	BYTE expected [7] = { 0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00 };
-	CRFSFilePart *new_part, *prev_part;
-	LONGLONG collected;
-	DWORD ret;
-	DWORD volumes = 0;
-	int volume_digits;
-	CRFSFile *file = NULL;
-
-	*ok_files_found = 0;
-	int compressed_files_found = 0;
-	int encrypted_files_found = 0;
-	LARGE_INTEGER zero = {0};
-
-	MediaType *mType;
-	CRFSList<MediaType> mediaTypeList (true);
-
-	Anchor<CRFSFile> af (&file);
-	ArrayAnchor<wchar_t> acrf (&current_rar_filename);
-
-	HANDLE hFile = INVALID_HANDLE_VALUE;
-	Anchor<HANDLE> ha (&hFile);
-
-	int cch = lstrlen (archive_name) + 1;
-
-	current_rar_filename = new wchar_t [cch];
-	if (!current_rar_filename)
-	{
-		ErrorMsg (0, L"Out of memory.");
-		return E_OUTOFMEMORY;
-	}
-
-	CopyMemory (current_rar_filename, archive_name, cch * sizeof (wchar_t));
-
-	rar_ext = wcsrchr (current_rar_filename, '.');
-
-	if (getMediaTypeList (&mediaTypeList) == -1)
-		return E_OUTOFMEMORY;
-
-	// Scan through archive volume(s)
-	while (true)
-	{
-		ha.Close ();
-		DbgLog((LOG_TRACE, 2, L"Loading file \"%s\".", current_rar_filename));
-		hFile = CreateFile (current_rar_filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-		if (hFile == INVALID_HANDLE_VALUE)
-		{
-			if (first_archive_file || rewind)
-			{
-				ErrorMsg (GetLastError (), L"Could not open file \"%s\".", current_rar_filename);
-				return E_FAIL;
-			}
-			else
-				break;
-		}
-		rewind = false;
-
-		// Read marker.
-		if (!ReadFile (hFile, marker, 7, &dwBytesRead, NULL) || dwBytesRead != 7)
-		{
-			ErrorMsg (GetLastError (), L"Could not read RAR header.");
-			return E_FAIL;
-		}
-
-		if (memcmp (marker, expected, 7))
-		{
-			ErrorMsg (0, L"Incorrect RAR marker.");
-			return E_UNEXPECTED;
-		}
-
-		// Read archive header.
-		if (ret = ReadHeader (hFile, &rh))
-			return ret;
-
-		LOG_HEADER(&rh);
-
-		if (rh.ch.type != HEADER_TYPE_ARCHIVE)
-		{
-			ErrorMsg (0, L"Unexpected RAR header type.");
-			return E_UNEXPECTED;
-		}
-
-		if (rh.ch.flags & MHD_PASSWORD)
-		{
-			ErrorMsg (0, L"Encrypted RAR volumes are not supported.");
-			return RFS_E_ENCRYPTED;
-		}
-
-		if (first_archive_file)
-		{
-			new_numbering = !!(rh.ch.flags & MHD_NEWNUMBERING);
-			multi_volume = !!(rh.ch.flags & MHD_VOLUME);
-
-			if (multi_volume)
-			{
-				if (!rar_ext)
-				{
-					ErrorMsg (0, L"Input file does not end with .rar");
-					return E_UNEXPECTED;
-				}
-
-				// Locate volume counter
-				if (new_numbering)
-				{
-					volume_digits = 0;
-					do
-					{
-						rar_ext --;
-						volume_digits ++;
-					} while (iswdigit (*(rar_ext - 1)));
-				}
-				else
-				{
-					rar_ext += 2;
-					volume_digits = 2;
-				}
-
-				if (!(rh.ch.flags & MHD_FIRSTVOLUME))
-				{
-					DbgLog((LOG_TRACE, 2, L"Rewinding to the first file in the set."));
-					UpdateArchiveName (rar_ext, volume_digits, volumes, new_numbering);
-
-					first_archive_file = false;
-					rewind = true;
-					continue;
-				}
-			}
-		}
-		else
-		{
-			ASSERT (new_numbering == !!(rh.ch.flags & MHD_NEWNUMBERING));
-			ASSERT (rh.ch.flags & MHD_VOLUME);
-		}
-
-		// Find file headers
-		while (true)
-		{
-			// Read file header.
-			if (ret = ReadHeader (hFile, &rh))
-			{
-				if (ret == ERROR_HANDLE_EOF)
-					break;
-				else
-					return ret;
-			}
-
-			LOG_HEADER(&rh);
-
-			if (rh.ch.type == HEADER_TYPE_END)
-			{
-				// TODO: Verify that the volume number in the header matches our volume counter.
-
-				// Check for EARC_NEXT_VOLUME removed as this flag is missing on some archives.
-
-				break;
-			}
-			if (rh.ch.type != HEADER_TYPE_FILE)
-			{
-				SetFilePointerEx (hFile, rh.bytesRemaining, NULL, FILE_CURRENT);
-				DbgLog((LOG_TRACE, 2, L"Skipping unknown header of type %02x.", rh.ch.type));
-				continue;
-			}
-
-			DbgLog((LOG_TRACE, 2, L"SIZE %08lx %08lx  OS %02x  CRC %08lx  TIMESTAMP %08lx  VERSION %d  METHOD %02x  LEN %04lx  ATTRIB %08lx",
-				rh.fh.size.HighPart, rh.fh.size.LowPart, rh.fh.os, rh.fh.crc, rh.fh.timestamp, rh.fh.version, rh.fh.method, rh.fh.name_len, rh.fh.attributes));
-
-			DbgLog((LOG_TRACE, 2, L"FILENAME \"%S\"", rh.fh.filename));
-
-			if ((rh.ch.flags & LHD_WINDOWMASK) == LHD_DIRECTORY)
-			{
-				DbgLog((LOG_TRACE, 2, L"Skipping directory."));
-				HEADER_SKIP_FILE
-			}
-
-			if (filename)
-			{
-				if (strcmp (filename, rh.fh.filename))
-				{
-					// TODO: We should probably dump the old file start fresh with this one
-					// since the lazy error handling at other places may cause us to end up here.
-					DbgLog((LOG_TRACE, 2, L"Incorrect file found."));
-					HEADER_SKIP_FILE
-				}
-
-				if (!(rh.ch.flags & LHD_SPLIT_BEFORE))
-				{
-					// TODO: Decide if it's better to ignore the missing flag.
-					DbgLog((LOG_TRACE, 2, L"LHD_SPLIT_BEFORE flag was not set as expected."));
-					HEADER_SKIP_FILE
-				}
-
-				delete [] rh.fh.filename;
-			}
-			else
-			{
-				if (!multi_volume && rh.ch.flags & (LHD_SPLIT_BEFORE | LHD_SPLIT_AFTER))
-				{
-					ErrorMsg (0, L"Split file in a single volume archive.");
-					delete [] rh.fh.filename;
-					return E_UNEXPECTED;
-				}
-
-				if (rh.ch.flags & LHD_SPLIT_BEFORE)
-				{
-					if (first_archive_file)
-					{
-						// Some archives incorrectly have MHD_FIRSTVOLUME set on all files, attempt rewind.
-						DbgLog((LOG_TRACE, 2, L"Rewinding to the first file in the set."));
-						UpdateArchiveName (rar_ext, volume_digits, volumes, new_numbering);
-
-						rewind = true;
-
-						delete [] rh.fh.filename;
-						break;
-					}
-					else
-					{
-						// TODO: Decide if it's better to just abort the entire scanning process here.
-						DbgLog((LOG_TRACE, 2, L"Not at the beginning of the file."));
-						HEADER_SKIP_FILE
-					}
-				}
-
-				(*files_found) ++;
-				collected = 0;
-
-				ASSERT (!file);
-
-				file = new CRFSFile ();
-
-				if (!file)
-				{
-					ErrorMsg (0, L"Out of memory.");
-					delete [] rh.fh.filename;
-					return E_OUTOFMEMORY;
-				}
-
-				file->media_type.SetType (&MEDIATYPE_Stream);
-				file->media_type.SetSubtype (&MEDIASUBTYPE_NULL);
-				file->filename = rh.fh.filename;
-				file->size = rh.fh.size.QuadPart;
-				filename = rh.fh.filename;
-
-				if (rh.ch.flags & LHD_PASSWORD)
-				{
-					encrypted_files_found++;
-					DbgLog((LOG_TRACE, 2, L"Encrypted files are not supported."));
-					file->unsupported = true;
-				}
-
-				if (rh.fh.method != 0x30)
-				{
-					compressed_files_found++;
-					DbgLog((LOG_TRACE, 2, L"Compressed files are not supported."));
-					file->unsupported = true;
-				}
-			}
-
-			if (!file->unsupported)
-			{
-				new_part = new CRFSFilePart ();
-
-				if (!new_part)
-				{
-					ErrorMsg (0, L"Out of memory.");
-					return E_OUTOFMEMORY;
-				}
-
-				// Is this the 1st part?
-				if (!file->parts)
-				{
-					file->parts = 1;
-					file->list = new_part;
-				}
-				else
-				{
-					file->parts ++;
-					prev_part->next = new_part;
-				}
-				prev_part = new_part;
-
-				SetFilePointerEx (hFile, zero, (LARGE_INTEGER*) &new_part->in_rar_offset, FILE_CURRENT);
-				new_part->in_file_offset = collected;
-				new_part->size = rh.bytesRemaining.QuadPart;
-
-				new_part->file = CreateFile (current_rar_filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
-				if (new_part->file == INVALID_HANDLE_VALUE)
-				{
-					ErrorMsg (GetLastError (), L"Could not open file \"%s\".", current_rar_filename);
-					return E_FAIL;
-				}
-			}
-
-			collected += rh.bytesRemaining.QuadPart;
-			SetFilePointerEx (hFile, rh.bytesRemaining, NULL, FILE_CURRENT);
-
-			// Is file complete?
-			if (!(rh.ch.flags & LHD_SPLIT_AFTER))
-			{
-				if (!file->unsupported && file->size != collected)
-					DbgLog((LOG_TRACE, 2, L"The file is not the sum of it's parts. expected = %lld, actual = %lld", file->size, collected));
-
-				if (file->parts)
-				{
-					file->array = new CRFSFilePart [file->parts];
-
-					if (!file->array)
-					{
-						ErrorMsg (0, L"Out of memory.");
-						return E_OUTOFMEMORY;
-					}
-
-					CRFSFilePart *fp = file->list;
-					file->list = NULL;
-					for (int i = 0; i < file->parts; i ++)
-					{
-						CRFSFilePart *tmp;
-						memcpy (file->array + i, fp, sizeof (CRFSFilePart));
-						tmp = fp;
-						fp = fp->next;
-						tmp->file = INVALID_HANDLE_VALUE;
-						delete tmp;
-					}
-				}
-
-				if (!file->unsupported)
-				{
-					if (!checkFileForMediaType (file, &mediaTypeList, &mType))
-						return E_OUTOFMEMORY;
-
-					if (mType)
-					{
-#ifdef _DEBUG
-						LPOLESTR majorType, subType;
-						StringFromCLSID (mType->majorType, &majorType);
-						StringFromCLSID (mType->subType, &subType);
-						DbgLog((LOG_TRACE, 2, L"Filetype detection determined:"));
-						DbgLog((LOG_TRACE, 2, L"  Major type: %s", majorType));
-						DbgLog((LOG_TRACE, 2, L"  Subtype: %s", subType));
-						CoTaskMemFree (majorType);
-						CoTaskMemFree (subType);
-#endif
-						file->media_type.SetType (&mType->majorType);
-						file->media_type.SetSubtype (&mType->subType);
-						file->type_known = true;
-						(*ok_files_found) ++;
-					}
-				}
-
-				// TODO: Figure out if checking file extensions is necessary anymore.
-				if (!file->type_known)
-				{
-					char *ext = strrchr (file->filename, '.');
-
-					if (ext)
-					{
-						ext ++;
-						int i;
-
-						for (i = 0; s_file_types [i].extension; i ++)
-						{
-							if (!_stricmp (ext, s_file_types [i].extension))
-								break;
-						}
-
-						if (s_file_types [i].extension)
-						{
-							file->media_type.SetSubtype (s_file_types [i].guid);
-							file->type_known = true;
-							if (!file->unsupported)
-								(*ok_files_found) ++;
-						}
-						else
-						{
-							file->unsupported = true;
-							DbgLog((LOG_TRACE, 2, L"Unknown file extension."));
-						}
-					}
-					else
-					{
-						file->unsupported = true;
-						DbgLog((LOG_TRACE, 2, L"No file extension."));
-					}
-				}
-
-				if (filename != file->filename)
-					delete filename;
-
-				filename = NULL;
-
-				file_list->InsertLast (file);
-				file = NULL;
-			}
-		}
-
-		first_archive_file = false;
-
-		if (rewind)
-			continue;
-
-		if (!multi_volume)
-			break;
-
-		// Continue to the next volume.
-		volumes ++;
-		UpdateArchiveName (rar_ext, volume_digits, volumes, new_numbering);
-	}
-
-	if (file)
-	{
-		// TODO: Decide if we should allow playback of truncated files.
-		ErrorMsg (0, L"Couldn't find all archive volumes.");
-		return RFS_E_MISSING_VOLS;
-	}
-
-	// only show error messages if no usable file was found
-	if (*ok_files_found == 0)
-	{
-		if (encrypted_files_found > 0)
-		{
-			ErrorMsg (0, L"Encrypted files are not supported.");
-			return RFS_E_ENCRYPTED;
-		}
-		else if (compressed_files_found > 0)
-		{
-			ErrorMsg (0, L"Compressed files are not supported.");
-			return RFS_E_COMPRESSED;
-		}
-		else
-		{
-			ErrorMsg (0, L"No media files found in the archive.");
-			return RFS_E_NO_FILES;
-		}
-	}
-
-	return S_OK;
+HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* file_list, int* files_found, int* ok_files_found) {
+    Archive rarArchive;
+    rarArchive.Open(archive_name);
+    *ok_files_found = 0;
+    *files_found = 0;
+
+    if (!rarArchive.IsArchive(false)) {
+        ErrorMsg(GetLastError(), L"Could not read RAR header.");
+        return E_FAIL;
+    }
+
+    if (rarArchive.Encrypted) {
+        ErrorMsg(0, L"Encrypted RAR volumes are not supported.");
+        return RFS_E_ENCRYPTED;
+    }
+
+    size_t bytesRead;
+    do {
+        rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //when switching volumes, we may find ourselves mid-block. works first time as well
+        while (bytesRead = rarArchive.SearchBlock(HEAD_FILE)) {
+            if (rarArchive.FileHead.Method != 0) {
+                DbgLog((LOG_TRACE, 2, L"Compressed files are not supported."));
+                (*files_found)++;
+                continue;
+            }
+
+            CRFSFile* file;
+
+            file = new CRFSFile();
+
+            if (!file) {
+                ErrorMsg(0, L"Out of memory.");
+                return E_OUTOFMEMORY;
+            }
+
+            file->media_type.SetType(&MEDIATYPE_Stream);
+            file->media_type.SetSubtype(&MEDIASUBTYPE_NULL);
+            wchar_t* fname = new wchar_t[wcslen(rarArchive.FileHead.FileName) + 1];
+            wcscpy(fname, rarArchive.FileHead.FileName);
+            file->filename = fname;
+            file->size = rarArchive.FileHead.UnpSize;
+            wchar_t* rfname = new wchar_t[wcslen(rarArchive.FileName) + 1];
+            wcscpy(rfname, rarArchive.FileName);
+            file->rarFilename = rfname;
+            file->startingBlockPos = rarArchive.CurBlockPos;
+            file_list->InsertLast(file);
+            (*ok_files_found)++;
+            (*files_found)++;
+        }
+    } while (MergeArchive(rarArchive, NULL, false, 'E'));
+
+    return S_OK;
 }
 
 /* static */
@@ -730,20 +338,11 @@ INT_PTR CALLBACK CRARFileSource::DlgFileList (HWND hwndDlg, UINT uMsg, WPARAM wP
 		int len;
 		CRFSList<CRFSFile> *file_list = (CRFSList<CRFSFile> *) lParam;
 		CRFSFile *file = file_list->First ();
-		wchar_t *tempString;
 
 		while (file)
 		{
-			if (!file->unsupported)
-			{
-				len = (int) strlen (file->filename) + 1;
-				tempString = new wchar_t [len];
-				MultiByteToWideChar (CP_ACP, 0, file->filename, -1, tempString, len);
-				index = ListBox_AddString (GetDlgItem (hwndDlg, IDC_FILELIST), tempString);
-				ListBox_SetItemData (GetDlgItem (hwndDlg, IDC_FILELIST), index, file);
-				delete [] tempString;
-			}
-
+			index = ListBox_AddString (GetDlgItem (hwndDlg, IDC_FILELIST), file->filename);
+			ListBox_SetItemData (GetDlgItem (hwndDlg, IDC_FILELIST), index, file);
 			file = file_list->Next (file);
 		}
 		ListBox_SetCurSel (GetDlgItem (hwndDlg, IDC_FILELIST), 0);
@@ -785,7 +384,7 @@ INT_PTR CALLBACK CRARFileSource::DlgFileList (HWND hwndDlg, UINT uMsg, WPARAM wP
 
 STDMETHODIMP CRARFileSource::Load (LPCOLESTR lpwszFileName, const AM_MEDIA_TYPE *pmt)
 {
-	CRFSList <CRFSFile> file_list;
+    CRFSList <CRFSFile> file_list;
 	int num_files, num_ok_files;
 	CAutoLock lck (&m_lock);
 	HRESULT hr;
@@ -811,7 +410,7 @@ STDMETHODIMP CRARFileSource::Load (LPCOLESTR lpwszFileName, const AM_MEDIA_TYPE 
 		return E_OUTOFMEMORY;
 	}
 
-	CopyMemory (m_file_name, lpwszFileName, cch * sizeof (WCHAR));
+    wcscpy(m_file_name, lpwszFileName);
 
 	hr = ScanArchive ((wchar_t *) lpwszFileName, &file_list, &num_files, &num_ok_files);
 
@@ -826,9 +425,6 @@ STDMETHODIMP CRARFileSource::Load (LPCOLESTR lpwszFileName, const AM_MEDIA_TYPE 
 	if (num_ok_files == 1)
 	{
 		m_file = file_list.First ();
-
-		while (m_file->unsupported)
-			m_file = file_list.Next (m_file);
 	}
 	else
 	{
@@ -864,12 +460,11 @@ STDMETHODIMP CRARFileSource::GetCurFile (LPOLESTR *ppszFileName, AM_MEDIA_TYPE *
 
 	if (m_file)
 	{
-		DWORD n = sizeof (WCHAR) * (strlen (m_file->filename) + 1);
-
-		*ppszFileName = (LPOLESTR) CoTaskMemAlloc (n);
+        DWORD n = sizeof(wchar_t) * (wcslen(m_file->filename) + 1);
+        *ppszFileName = (LPOLESTR) CoTaskMemAlloc(n);
 
 		if (*ppszFileName != NULL)
-			mbstowcs (*ppszFileName, m_file->filename, n);
+			wcscpy (*ppszFileName, m_file->filename);
 		else
 			return E_OUTOFMEMORY;
 	}

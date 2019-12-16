@@ -19,56 +19,42 @@
 #define FILE_H
 
 #include "List.h"
+#include "unrar/rartypes.hpp"
 
-class CRFSFilePart
-{
-public:
-	CRFSFilePart (void) : next (NULL), file (INVALID_HANDLE_VALUE),
-		in_rar_offset (0), in_file_offset (0), size (0) { }
-	~CRFSFilePart (void) { if (file != INVALID_HANDLE_VALUE) CloseHandle (file); }
-
-	CRFSFilePart *next;
-
-	HANDLE file;
-
-	LONGLONG in_rar_offset;
-	LONGLONG in_file_offset;
-	LONGLONG size;
-};
+class Archive;
+class CommandData;
+class CmdExtract;
 
 class CRFSFile : public CRFSNode<CRFSFile>
 {
 public:
-	CRFSFile (void) : size (0), parts (0), list (NULL), array (NULL), m_prev_part (NULL), filename (NULL),
-		type_known (false), unsupported (false) { }
+	CRFSFile (void) : size (0), filename (NULL), rarFilename(NULL), startingBlockPos(0) { }
 
 	~CRFSFile (void)
 	{
-		CRFSFilePart *fp = list;
-		while (fp)
-		{
-			CRFSFilePart *tmp = fp;
-			fp = fp->next;
-			delete tmp;
-		}
-		delete [] array;
 		delete [] filename;
+		delete [] rarFilename;
 	}
 
-	int FindStartPart (LONGLONG position);
-	HRESULT SyncRead (LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LONG *cbActual);
+    class ReadThread {
+    public:
+        ReadThread(CRFSFile* file, LONGLONG llPosition, DWORD lLength, BYTE* pBuffer);
+        DWORD ThreadStart();
+        static DWORD WINAPI ThreadStartStatic(void* param);
+        CRFSFile* file;
+        LONGLONG llPosition;
+        DWORD lLength;
+        BYTE* pBuffer;
+        LONG read;
+    };
+    static HRESULT SyncRead(void *param);
+    HRESULT SyncRead (LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LONG *cbActual);
 
 	CMediaType media_type;
 	LONGLONG size;
-	int parts;
+    int64 startingBlockPos;
 
-	CRFSFilePart *list;
-	CRFSFilePart *array;
-	CRFSFilePart *m_prev_part;
-
-	char *filename;
-	bool type_known;
-	bool unsupported;
+	wchar_t *filename, *rarFilename;
 };
 
 #endif // FILE_H

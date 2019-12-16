@@ -20,122 +20,197 @@
 
 #include "File.h"
 #include "Utils.h"
+#include "unrar/rar.hpp"
 
-static int compare (const void *pos, const void *part)
-{
-	if (*((LONGLONG *) pos) < ((CRFSFilePart *) part)->in_file_offset)
-		return -1;
-
-	if (*((LONGLONG *) pos) >= ((CRFSFilePart *) part)->in_file_offset + ((CRFSFilePart *) part)->size)
-		return 1;
-
-	return 0;
+size_t UnstoreFile(ComprDataIO &DataIO, Array<byte>& output) {
+    size_t bufSize = output.Size() > File::CopyBufferSize() ? File::CopyBufferSize() : output.Size();
+    Array<byte> Buffer(bufSize);
+    size_t totalRead = 0;
+    while (totalRead < output.Size()) {
+        int ReadSize = DataIO.UnpRead(&Buffer[0], Buffer.Size());
+        if (ReadSize <= 0)
+            break;
+        if (ReadSize > 0) {
+            if (ReadSize + totalRead > output.Size()) { //even though it never happens, ensure memcpy cannot copy beyond size of output
+                ReadSize = output.Size() - totalRead;
+            }
+            memcpy(&output[totalRead], &Buffer[0], ReadSize);
+            totalRead += ReadSize;
+        }
+    }
+    return totalRead;
 }
 
-int CRFSFile::FindStartPart (LONGLONG position)
+
+bool ExtractCurrentFile(CmdExtract *cmdExtract, Archive &Arc, int64 extractStartOffset, int64 extractEndOffset, BYTE* pBuffer, size_t &totalRead)
 {
-	if (position > size)
-		return -1;
+  wchar Command='E';
 
-	// Check if the previous lookup up still matches.
-	if (m_prev_part && !compare (&position, m_prev_part))
-		return (int) (m_prev_part - array);
+  ComprDataIO &DataIO = cmdExtract->DataIO;
+  Unpack *Unp = cmdExtract->Unp;
 
-	m_prev_part = (CRFSFilePart *) bsearch (&position, array, parts, sizeof (CRFSFilePart), compare);
+  if (Arc.FileHead.HeadSize ==0)
+    if (DataIO.UnpVolume)
+    {
+      if (!MergeArchive(Arc,&DataIO,false,Command))
+      {
+        ErrHandler.SetErrorCode(RARX_WARNING);
+        return false;
+      }
+    }
+    else
+      return false;
 
-	if (!m_prev_part)
-		return -1;
+  HEADER_TYPE HeaderType=Arc.GetHeaderType();
+  if (HeaderType!=HEAD_FILE)
+  {
+    return false;
+  }
 
-	return (int) (m_prev_part - array);
+  if (Arc.FileHead.PackSize<0)
+    Arc.FileHead.PackSize=0;
+  if (Arc.FileHead.UnpSize<0)
+    Arc.FileHead.UnpSize=0;
+
+  wchar ArcFileName[NM];
+  ConvertPath(Arc.FileHead.FileName,ArcFileName,ASIZE(ArcFileName));
+
+  DataIO.UnpVolume=Arc.FileHead.SplitAfter;
+  DataIO.NextVolumeMissing=false;
+
+  Arc.Seek(Arc.NextBlockPos - Arc.FileHead.PackSize, SEEK_SET);
+
+  if (!cmdExtract->CheckUnpVer(Arc,ArcFileName))
+  {
+      return false;
+  }
+
+  if (Arc.FileHead.Encrypted)
+  {
+    SecPassword FilePassword=cmdExtract->Cmd->Password;
+    cmdExtract->ConvertDosPassword(Arc,FilePassword);
+
+    byte PswCheck[SIZE_PSWCHECK];
+    DataIO.SetEncryption(false,Arc.FileHead.CryptMethod,&FilePassword,
+           Arc.FileHead.SaltSet ? Arc.FileHead.Salt:NULL,
+           Arc.FileHead.InitV,Arc.FileHead.Lg2Count,
+           Arc.FileHead.HashKey,PswCheck);
+    if (Arc.FileHead.Encrypted && Arc.FileHead.UsePswCheck &&
+            memcmp(Arc.FileHead.PswCheck, PswCheck, SIZE_PSWCHECK) != 0) 
+    {
+        return false;
+    }
+  }
+
+  File CurFile;
+
+  DataIO.CurUnpRead=0;
+  DataIO.CurUnpWrite=0;
+  DataIO.UnpHash.Init(Arc.FileHead.FileHash.Type,1);
+  DataIO.PackedDataHash.Init(Arc.FileHead.FileHash.Type,1);
+  DataIO.SetPackedSizeToRead(Arc.FileHead.PackSize);
+  DataIO.SetFiles(&Arc,&CurFile);
+  DataIO.SetTestMode(true);
+  DataIO.SetSkipUnpCRC(false);
+
+  totalRead = 0;
+  if (!Arc.FileHead.SplitBefore)
+    if (Arc.FileHead.Method==0) {
+      int64 lastByte = Arc.FileHead.PackSize - 1;
+      while (extractStartOffset > lastByte) {
+        if (!MergeArchive(Arc, &DataIO, false, Command)) return false;
+        lastByte += Arc.FileHead.PackSize;
+      }
+      int64 curOffset = extractStartOffset;
+      while (curOffset < extractEndOffset) {
+        Arc.Seek(Arc.NextBlockPos + curOffset - (lastByte + 1), SEEK_SET);
+        size_t readSize;
+        if (lastByte > extractEndOffset) {
+          readSize = extractEndOffset - curOffset + 1;
+        } else {
+          readSize = lastByte - curOffset + 1;
+        }
+        Array<byte> output(readSize);
+        size_t bytesRead = UnstoreFile(DataIO, output);
+        if (bytesRead < 0) return false;
+        memcpy(&pBuffer[curOffset-extractStartOffset], &output[0], bytesRead);
+        curOffset += bytesRead;
+        totalRead += bytesRead;
+        if (curOffset > lastByte) {
+            if (!MergeArchive(Arc, &DataIO, false, Command)) break; //no more volumes.  we have read what we can
+            lastByte += Arc.FileHead.PackSize;
+        }
+      }
+    }
+    else
+    {
+      Unp->Init(Arc.FileHead.WinSize,Arc.FileHead.Solid);
+      Unp->SetDestSize(Arc.FileHead.UnpSize);
+      if (Arc.Format!=RARFMT50 && Arc.FileHead.UnpVer<=15)
+        Unp->DoUnpack(15,cmdExtract->FileCount>1 && Arc.Solid);
+      else
+        Unp->DoUnpack(Arc.FileHead.UnpVer,Arc.FileHead.Solid);
+    }
+ 
+  if (DataIO.NextVolumeMissing)
+    return false;
+  return true;
 }
 
-HRESULT CRFSFile::SyncRead (LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LONG *cbActual)
-{
-	OVERLAPPED o;
-	LARGE_INTEGER offset;
-	DWORD to_read, read, acc = 0;
-	LONGLONG offset2;
-	int pos;
-#ifdef _DEBUG
-	static int last_pos = -1;
-#endif
-
-	if (!pBuffer)
-		return E_POINTER;
-
-	pos = FindStartPart (llPosition);
-	if (pos == -1)
-	{
-		DbgLog((LOG_TRACE, 2, L"FindStartPart bailed length = %lu, pos = %lld", lLength, llPosition));
-		return S_FALSE;
-	}
-
-#ifdef _DEBUG
-	if (pos != last_pos)
-	{
-		DbgLog((LOG_TRACE, 2, L"Now reading volume %d.", pos));
-		last_pos = pos;
-	}
-#endif
-	CRFSFilePart *part = array + pos;
-
-	offset2 = llPosition - part->in_file_offset;
-	offset.QuadPart = part->in_rar_offset + offset2;
-
-	memset (&o, 0, sizeof (o));
-
-	if (!(o.hEvent = CreateEvent (NULL, FALSE, FALSE, NULL)))
-	{
-		ErrorMsg (GetLastError (), L"CRFSOutputPin::SyncRead - CreateEvent");
-		return S_FALSE;
-	}
-
-	while (true)
-	{
-		read = 0;
-		to_read = min (lLength, (DWORD) (part->size - offset2));
-
-		o.Offset = offset.LowPart;
-		o.OffsetHigh = offset.HighPart;
-
-		if (!ReadFile (part->file, pBuffer + acc, to_read, NULL, &o))
-		{
-			DWORD err = GetLastError ();
-
-			if (err != ERROR_IO_PENDING)
-			{
-				ErrorMsg (err, L"CRFSOutputPin::SyncRead - ReadFile");
-				break;
-			}
-		}
-		if (!GetOverlappedResult (part->file, &o, &read, TRUE))
-		{
-			ErrorMsg (GetLastError (), L"CRFSOutputPin::SyncRead - GetOverlappedResult");
-			break;
-		}
-		lLength -= read;
-		acc += read;
-
-		if (lLength == 0)
-		{
-			CloseHandle (o.hEvent);
-			if (cbActual)
-				*cbActual = acc;
-			return S_OK;
-		}
-
-		pos ++;
-
-		if (pos >= parts)
-			break;
-
-		part ++;
-		offset2 = 0;
-		offset.QuadPart = part->in_rar_offset;
-	}
-
-	CloseHandle (o.hEvent);
-	if (cbActual)
-		*cbActual = acc;
-	return S_FALSE;
+CRFSFile::ReadThread::ReadThread(CRFSFile* file, LONGLONG llPosition, DWORD lLength, BYTE* pBuffer) {
+    this->file = file;
+    this->llPosition = llPosition;
+    this->lLength = lLength;
+    this->pBuffer = pBuffer;
+    this->read = 0;
 }
+
+DWORD CRFSFile::ReadThread::ThreadStart() {
+    if (file) {
+        return file->SyncRead(llPosition, lLength, pBuffer, &read);
+    } else {
+        return S_FALSE;
+    }
+}
+
+DWORD WINAPI CRFSFile::ReadThread::ThreadStartStatic(void *param) {
+    ReadThread* t = (ReadThread*)param;
+    if (t) {
+        return t->ThreadStart();
+    } else {
+        return S_FALSE;
+    }
+}
+
+HRESULT CRFSFile::SyncRead(LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LONG* cbActual) {
+    Archive rarArchive;
+    CommandData cdata;
+    cdata.Test = true;
+    cdata.FileArgs.AddString(filename);
+    cdata.Threads = 1; 
+    CmdExtract cmd(&cdata);
+
+    rarArchive.Open(rarFilename);
+    if (!rarArchive.IsArchive(false)) {
+        ErrorMsg(GetLastError(), L"CRFSOutputPin::SyncRead - IsArchive");
+        return E_FAIL;
+    }
+    rarArchive.Seek(startingBlockPos, SEEK_SET);
+    if (0 == rarArchive.SearchBlock(HEAD_FILE)) {
+        ErrorMsg(GetLastError(), L"CRFSOutputPin::SyncRead - SearchBlock");
+        return E_FAIL;
+    }
+    cmd.ExtractArchiveInit(rarArchive);
+
+    size_t totalRead;
+    if (ExtractCurrentFile(&cmd, rarArchive, llPosition, llPosition + lLength - 1, pBuffer, totalRead)) {
+        if (cbActual)
+            *cbActual = totalRead;
+        return S_OK;
+    } else {
+        return S_FALSE;
+    }
+
+}
+
+

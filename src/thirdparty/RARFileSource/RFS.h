@@ -61,8 +61,8 @@ public:
 
 private:
 	static void UpdateArchiveName (wchar_t *ext, size_t len, int volume, bool new_numbering);
-	HRESULT ScanArchive (wchar_t *archive_name, CRFSList<CRFSFile> *file_list, int *files_found, int *known_files_found);
-	static INT_PTR CALLBACK DlgFileList (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    HRESULT ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* file_list, int* files_found, int* known_files_found);
+    static INT_PTR CALLBACK DlgFileList (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	CRFSOutputPin m_pin;
 	CCritSec m_lock;

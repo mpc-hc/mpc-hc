@@ -19,33 +19,22 @@
 #define OUTPUT_PIN_H
 
 #include "List.h"
+#include "File.h"
 
 class CRARFileSource;
 class CRFSFile;
 class CRFSFilePart;
 
-class SubRequest : public CRFSNode<SubRequest>
-{
-public:
-	SubRequest (void) : file (INVALID_HANDLE_VALUE), expected (0)
-		{ memset (&o, 0, sizeof (OVERLAPPED)); o.hEvent = INVALID_HANDLE_VALUE; }
-	~SubRequest (void) { if (o.hEvent != INVALID_HANDLE_VALUE) CloseHandle (o.hEvent); }
-
-	HANDLE file;
-	DWORD expected;
-	OVERLAPPED o;
-};
-
 class ReadRequest : public CRFSNode<ReadRequest>
 {
 public:
-	~ReadRequest (void) { subreqs.Clear (); }
+	~ReadRequest (void) {  }
 
 	DWORD_PTR dwUser;
 	IMediaSample *pSample;
-
-	DWORD count;
-	CRFSList<SubRequest> subreqs;
+    CRFSFile::ReadThread *threadObj;
+    DWORD threadID;
+    HANDLE threadHandle;
 };
 
 class CRFSOutputPin :
@@ -98,7 +87,7 @@ private:
 	CCritSec m_lock;
 
 	HRESULT ConvertSample (IMediaSample *sample, LONGLONG *pos, DWORD *length, BYTE **buffer);
-	HRESULT DoFlush (IMediaSample **ppSample, DWORD_PTR *pdwUser);
+    HRESULT DoFlush(DWORD dwTimeout, IMediaSample** ppSample, DWORD_PTR* pdwUser);
 
 	BOOL IsAligned (INT_PTR l) { return !(l & (m_align - 1)); }
 };
