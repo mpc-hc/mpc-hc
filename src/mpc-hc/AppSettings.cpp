@@ -163,6 +163,7 @@ CAppSettings::CAppSettings()
     , bWindows10AccentColorsEnabled(false)
     , bModernSeekbar(true)
     , iModernSeekbarHeight(DEF_MODERN_SEEKBAR_HEIGHT)
+    , iVerticalAlignVideo(verticalAlignVideoType::ALIGN_MIDDLE)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -879,6 +880,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MPCTHEME, bMPCTheme);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, bModernSeekbar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, iModernSeekbarHeight);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VERTICALALIGNVIDEO, static_cast<int>(iVerticalAlignVideo));
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
@@ -1566,6 +1568,12 @@ void CAppSettings::LoadSettings()
     bModernSeekbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBAR, TRUE);
     iModernSeekbarHeight= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MODERNSEEKBARHEIGHT, MIN_MODERN_SEEKBAR_HEIGHT);
     if (iModernSeekbarHeight < MIN_MODERN_SEEKBAR_HEIGHT || iModernSeekbarHeight > MAX_MODERN_SEEKBAR_HEIGHT) iModernSeekbarHeight = DEF_MODERN_SEEKBAR_HEIGHT;
+
+    int tVertAlign = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VERTICALALIGNVIDEO, static_cast<int>(verticalAlignVideoType::ALIGN_MIDDLE));
+    if (tVertAlign < static_cast<int>(verticalAlignVideoType::ALIGN_MIDDLE) || tVertAlign > static_cast<int>(verticalAlignVideoType::ALIGN_BOTTOM)) {
+        tVertAlign = static_cast<int>(verticalAlignVideoType::ALIGN_MIDDLE);
+    }
+    iVerticalAlignVideo = static_cast<verticalAlignVideoType>(tVertAlign);
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);

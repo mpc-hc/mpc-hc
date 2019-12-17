@@ -3920,6 +3920,18 @@ msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
 msgstr ""
 
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
+msgid "Align Top"
+msgstr ""
+
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
+msgid "Align Middle"
+msgstr ""
+
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
+msgid "Align Bottom"
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tHasi ikusleiho-osoko moduan"

@@ -633,6 +633,14 @@ public:
     bool            bWindows10AccentColorsEnabled;
     bool            bModernSeekbar;
     int             iModernSeekbarHeight;
+
+    enum class verticalAlignVideoType {
+        ALIGN_MIDDLE,
+        ALIGN_TOP,
+        ALIGN_BOTTOM
+    } eVerticalAlignVideoType;
+    verticalAlignVideoType iVerticalAlignVideo;
+
     CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
 

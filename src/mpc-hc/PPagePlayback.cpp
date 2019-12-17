@@ -42,6 +42,7 @@ CPPagePlayback::CPPagePlayback()
     , m_nLoops(0)
     , m_iAfterPlayback(0)
     , m_iZoomLevel(0)
+    , verticalAlignVideo(0)
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
     , m_fAutoloadAudio(FALSE)
@@ -61,6 +62,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLIDER1, m_volumectrl);
     DDX_Control(pDX, IDC_SLIDER2, m_balancectrl);
     DDX_Control(pDX, IDC_COMBO1, m_zoomlevelctrl);
+    DDX_Control(pDX, IDC_COMBO4, verticalAlignVideoCombo);
     DDX_Control(pDX, IDC_COMBO2, m_afterPlayback);
     DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
     DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
@@ -69,6 +71,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT1, m_nLoops);
     DDX_CBIndex(pDX, IDC_COMBO2, m_iAfterPlayback);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
+    DDX_CBIndex(pDX, IDC_COMBO4, verticalAlignVideo);
     DDX_Check(pDX, IDC_CHECK5, m_iRememberZoomLevel);
     DDX_Check(pDX, IDC_CHECK2, m_fAutoloadAudio);
     DDX_Check(pDX, IDC_CHECK7, m_fEnableWorkerThreadForOpening);
@@ -124,6 +127,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_nLoops = s.nLoops;
     m_iAfterPlayback = static_cast<int>(s.eAfterPlayback);
     m_iZoomLevel = s.iZoomLevel;
+    verticalAlignVideo = static_cast<int>(s.iVerticalAlignVideo);
     m_iRememberZoomLevel = s.fRememberZoomLevel;
     m_nAutoFitFactor = s.nAutoFitFactor;
     m_AutoFitFactorCtrl.SetPos32(m_nAutoFitFactor);
@@ -141,6 +145,11 @@ BOOL CPPagePlayback::OnInitDialog()
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
     CorrectComboListWidth(m_zoomlevelctrl);
+
+    verticalAlignVideoCombo.AddString(ResStr(IDS_VERTICAL_ALIGN_VIDEO_MIDDLE));
+    verticalAlignVideoCombo.AddString(ResStr(IDS_VERTICAL_ALIGN_VIDEO_TOP));
+    verticalAlignVideoCombo.AddString(ResStr(IDS_VERTICAL_ALIGN_VIDEO_BOTTOM));
+    CorrectComboListWidth(verticalAlignVideoCombo);
 
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_DO_NOTHING));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_PLAY_NEXT));
@@ -197,6 +206,7 @@ BOOL CPPagePlayback::OnApply()
     s.nLoops = m_nLoops;
     s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;
+    s.iVerticalAlignVideo = static_cast<CAppSettings::verticalAlignVideoType>(verticalAlignVideo);
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
     s.nAutoFitFactor = m_nAutoFitFactor = std::min(std::max(m_nAutoFitFactor, 25), 100);
     s.fAutoloadAudio = !!m_fAutoloadAudio;
@@ -303,6 +313,8 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         bRet = FillComboToolTip(m_zoomlevelctrl, pTTT);
     } else if (nID == IDC_COMBO2) {
         bRet = FillComboToolTip(m_afterPlayback, pTTT);
+    } else if (nID == IDC_COMBO4) {
+        bRet = FillComboToolTip(verticalAlignVideoCombo, pTTT);
     }
 
     return bRet;

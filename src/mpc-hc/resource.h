@@ -1595,6 +1595,9 @@
 #define IDS_CMD_VOLUME                  57538
 #define IDS_YOUTUBEDL_NOT_FOUND         57539
 #define IDS_CONTROLS_YOUTUBEDL          57540
+#define IDS_VERTICAL_ALIGN_VIDEO_TOP    57541
+#define IDS_VERTICAL_ALIGN_VIDEO_MIDDLE 57542
+#define IDS_VERTICAL_ALIGN_VIDEO_BOTTOM 57543
 
 // Next default values for new objects
 // 

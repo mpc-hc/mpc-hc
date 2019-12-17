@@ -55,6 +55,7 @@ public:
     int m_nLoops;
     int m_iAfterPlayback;
     int m_iZoomLevel;
+    int verticalAlignVideo;
     BOOL m_iRememberZoomLevel;
     int m_nAutoFitFactor;
     CMPCThemeSpinButtonCtrl m_AutoFitFactorCtrl;
@@ -66,6 +67,7 @@ public:
     BOOL m_fAllowOverridingExternalSplitterChoice;
 
     CMPCThemeComboBox m_zoomlevelctrl;
+    CMPCThemeComboBox verticalAlignVideoCombo;
     CMPCThemeComboBox m_afterPlayback;
 
     // Dialog Data

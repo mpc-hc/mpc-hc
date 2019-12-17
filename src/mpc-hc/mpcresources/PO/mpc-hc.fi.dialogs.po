@@ -433,7 +433,7 @@ msgid "After Playback"
 msgstr "Toiston jälkeen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Default zoom"
+msgid "Zoom and Alignment"
 msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
@@ -495,6 +495,10 @@ msgstr "%"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
 msgstr "Nopeusaskel:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
+msgid "Vertical Alignment:"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"

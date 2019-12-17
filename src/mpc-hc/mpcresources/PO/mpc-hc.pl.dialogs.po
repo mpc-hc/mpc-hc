@@ -431,8 +431,8 @@ msgid "After Playback"
 msgstr "Po zakończeniu odtwarzania"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Default zoom"
-msgstr "Domyślny rozmiar"
+msgid "Zoom and Alignment"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -493,6 +493,10 @@ msgstr "%"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
 msgstr "Zm. prędkości o:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
+msgid "Vertical Alignment:"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"

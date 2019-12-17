@@ -9989,10 +9989,18 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             double dScaledVRWidth  = m_ZoomX * dVRWidth;
             double dScaledVRHeight = m_ZoomY * dVRHeight;
 
+            auto vertAlign = AfxGetAppSettings().iVerticalAlignVideo;
+            double vertAlignOffset = 0;
+            if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_TOP) {
+                vertAlignOffset = -(dWRHeight - dScaledVRHeight) / 2;
+            } else if (vertAlign == CAppSettings::verticalAlignVideoType::ALIGN_BOTTOM) {
+                vertAlignOffset = (dWRHeight - dScaledVRHeight) / 2;
+            }
+
             // Position video frame
             // left and top parts are allowed to be negative
             videoRect.left   = lround(m_PosX * (dWRWidth * 3.0 - dScaledVRWidth) - dWRWidth);
-            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight);
+            videoRect.top    = lround(m_PosY * (dWRHeight * 3.0 - dScaledVRHeight) - dWRHeight + vertAlignOffset);
             // right and bottom parts are always at picture center or beyond, so never negative
             videoRect.right  = lround(videoRect.left + dScaledVRWidth);
             videoRect.bottom = lround(videoRect.top  + dScaledVRHeight);

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-11-19 15:57:59+0000\n"
+"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3915,6 +3915,18 @@ msgstr ""
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
+msgstr ""
+
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
+msgid "Align Top"
+msgstr ""
+
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
+msgid "Align Middle"
+msgstr ""
+
+msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
+msgid "Align Bottom"
 msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"

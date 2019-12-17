@@ -73,6 +73,7 @@
 #define IDS_RS_MPCTHEME                     _T("MPCTheme")
 #define IDS_RS_MODERNSEEKBAR                _T("ModernSeekbar")
 #define IDS_RS_MODERNSEEKBARHEIGHT          _T("ModernSeekbarHeight")
+#define IDS_RS_VERTICALALIGNVIDEO          _T("VerticalAlignVideo")
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
