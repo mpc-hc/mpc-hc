@@ -3402,6 +3402,10 @@ STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
 
         m_hWnd = hwndVideo;
         m_bPendingResetDevice = true;
+        if (m_pSink) {
+            m_pSink->Notify(EC_DISPLAY_CHANGED, 0, 0);
+        }
+
         SendResetRequest();
     }
     return S_OK;
