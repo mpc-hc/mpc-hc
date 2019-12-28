@@ -60,6 +60,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_VSyncMode(0)
     , m_bDesktopCompositionDisabled(false)
     , m_bIsFullscreen(bFullscreen)
+    , fullScreenChanged(false)
     , m_bNeedCheckSample(true)
     , m_MainThreadId(0)
     , m_bIsRendering(false)
@@ -671,7 +672,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         }
 
         HWND hFocusWindow = m_FocusThread->GetFocusWindow();
-        bTryToReset &= m_hFocusWindow == hFocusWindow;
+        bTryToReset &= (m_hFocusWindow == hFocusWindow || fullScreenChanged);
         m_hFocusWindow = hFocusWindow;
 
         if (m_pD3DEx) {
@@ -742,7 +743,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
         }
 
-        bTryToReset &= m_hFocusWindow == m_hWnd;
+        bTryToReset &= (m_hFocusWindow == m_hWnd || fullScreenChanged);
         m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
@@ -2260,6 +2261,7 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTa
 
 STDMETHODIMP CDX9AllocatorPresenter::SetD3DFullscreen(bool fEnabled)
 {
+    fullScreenChanged = (fEnabled != m_bIsFullscreen);
     m_bIsFullscreen = fEnabled;
     return S_OK;
 }

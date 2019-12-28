@@ -59,8 +59,8 @@ CVMROSD::CVMROSD(CMainFrame* pMainFrame)
         m_colors[OSD_BACKGROUND] = CMPCTheme::ContentBGColor;
         m_colors[OSD_BORDER] = CMPCTheme::WindowBorderColorDim;
         m_colors[OSD_TEXT] = CMPCTheme::TextFGColor;
-        m_colors[OSD_BAR] = CMPCTheme::ContentBGColor;
-        m_colors[OSD_CURSOR] = CMPCTheme::TextFGColor;
+        m_colors[OSD_BAR] = CMPCTheme::ScrollBGColor;
+        m_colors[OSD_CURSOR] = CMPCTheme::ScrollThumbColor;
         m_colors[OSD_DEBUGCLR] = CMPCTheme::DebugColorRed;
     } else {
         m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);

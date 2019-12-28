@@ -48,7 +48,7 @@ namespace DSObjects
         int     m_OrderedPaint;
         int     m_VSyncMode;
         bool    m_bDesktopCompositionDisabled;
-        bool    m_bIsFullscreen;
+        bool    m_bIsFullscreen, fullScreenChanged;
         bool    m_bNeedCheckSample;
         DWORD   m_MainThreadId;
 

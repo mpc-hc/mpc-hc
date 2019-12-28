@@ -99,6 +99,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_bCompositionEnabled(false)
     , m_bDesktopCompositionDisabled(false)
     , m_bIsFullscreen(bFullscreen)
+    , fullScreenChanged(false)
     , m_bNeedCheckSample(true)
     , m_dMainThreadId(0)
     , m_ScreenSize(0, 0)
@@ -516,7 +517,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         }
 
         HWND hFocusWindow = m_FocusThread->GetFocusWindow();
-        bTryToReset &= m_hFocusWindow == hFocusWindow;
+        bTryToReset &= (m_hFocusWindow == hFocusWindow || fullScreenChanged);
         m_hFocusWindow = hFocusWindow;
 
         if (m_pD3DEx) {
@@ -588,7 +589,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             m_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
 
-        bTryToReset &= m_hFocusWindow == m_hWnd;
+        bTryToReset &= (m_hFocusWindow == m_hWnd || fullScreenChanged);
         m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
@@ -4615,6 +4616,7 @@ HRESULT CGenlock::UpdateStats(double syncOffset, double frameCycle)
 
 STDMETHODIMP CSyncAP::SetD3DFullscreen(bool fEnabled)
 {
+    fullScreenChanged = (fEnabled != m_bIsFullscreen);
     m_bIsFullscreen = fEnabled;
     return S_OK;
 }
