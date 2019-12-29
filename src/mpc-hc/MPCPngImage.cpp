@@ -82,9 +82,11 @@ BOOL CMPCPngImage::LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize)
 
     memcpy(lpResBuffer, lpBuffer, uiSize);
 
-    HRESULT hResult = ::CreateStreamOnHGlobal(hRes, FALSE, &pStream);
+    HRESULT hResult = ::CreateStreamOnHGlobal(hRes, TRUE, &pStream);
 
     if (hResult != S_OK) {
+        ::GlobalUnlock(hRes);
+        ::GlobalFree(hRes);
         return FALSE;
     }
 
@@ -94,7 +96,7 @@ BOOL CMPCPngImage::LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize)
     }
 
     m_pImage->Load(pStream);
-    pStream->Release();
+    pStream->Release(); //should free hRes due to fDeleteOnRelease=TRUE above
 
     BOOL bRes = Attach(m_pImage->Detach());
 

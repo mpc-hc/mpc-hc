@@ -84,7 +84,10 @@ bool CoverArt::FindEmbedded(CComPtr<IFilterGraph> pFilterGraph, std::vector<BYTE
                         if (score > best_score || internalCover.empty()) {
                             internalCover.assign(pData, pData + len);
                             best_score = score;
-                            if (best_score == 2) break;
+                            if (best_score == 2) {
+                                CoTaskMemFree(pData);
+                                break;
+                            }
                         }
                     } else if (!best_score && CString(mime).MakeLower().Find(_T("image")) != -1) {
                         CString nameLower = CString(name).MakeLower();
