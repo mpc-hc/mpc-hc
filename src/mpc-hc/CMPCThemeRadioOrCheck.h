@@ -19,7 +19,6 @@ private:
     };
     RadioOrCheck buttonType;
 protected:
-    CFont font;
     DECLARE_DYNAMIC(CMPCThemeRadioOrCheck)
     DECLARE_MESSAGE_MAP()
     afx_msg void OnSetFocus(CWnd* pOldWnd);

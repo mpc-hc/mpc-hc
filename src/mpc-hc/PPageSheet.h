@@ -111,7 +111,6 @@ private:
 
     CMPCThemeTreeCtrl* CreatePageTreeObject();
     virtual void SetTreeCtrlTheme(CTreeCtrl * ctrl);
-    virtual void SetTabCtrlFont(CTabCtrl* ctrl);
 public:
     CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
     virtual ~CPPageSheet();

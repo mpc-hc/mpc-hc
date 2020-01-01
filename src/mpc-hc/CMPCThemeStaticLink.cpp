@@ -51,9 +51,8 @@ void CMPCThemeStaticLink::OnPaint() {
         } else {
             dc.SetTextColor(CMPCTheme::StaticLinkColor);
         }
-        CFont f;
-        CMPCThemeUtil::getFontByType(f, &dc, CMPCThemeUtil::MessageFont, true);
-        CFont *oldFont = dc.SelectObject(&f);
+        CFont *font = GetFont();
+        CFont *oldFont = dc.SelectObject(font);
         dc.DrawText(text, r, format | DT_CALCRECT);
         CMPCThemeUtil::drawParentDialogBGClr(this, &dc, r);
         dc.DrawText(text, r, format);

@@ -205,9 +205,8 @@ void CMPCThemeHeaderCtrl::OnPaint() {
     CPaintDC dc(this); // device context for painting
     CMemDC memDC(dc, this);
     CDC* pDC = &memDC.GetDC();
-    CFont font;
-    CMPCThemeUtil::getFontByType(font, pDC, CMPCThemeUtil::DialogFont);
-    CFont* pOldFont = pDC->SelectObject(&font);
+    CFont *font = GetFont();
+    CFont* pOldFont = pDC->SelectObject(font);
 
     CRect rectClip;
     dc.GetClipBox(rectClip);

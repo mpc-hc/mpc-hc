@@ -945,6 +945,10 @@ BOOL CPPageAccelTbl::OnInitDialog()
     //m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES );
     m_list.setAdditionalStyles(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES);
 
+    //this list was created dynamically but lives in a dialog.  if we don't inherit the parent font,
+    //it will be scaled by text zoom settings, which looks bad in an unscaled dialog
+    m_list.SetFont(GetFont());
+
     for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
         m_list.DeleteColumn(0);
     }
@@ -1351,6 +1355,7 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 
         m_counter++;
     } else if (nIDEvent == filterTimerID) {
+        KillTimer(filterTimerID);
         FilterList();
     } else {
         __super::OnTimer(nIDEvent);

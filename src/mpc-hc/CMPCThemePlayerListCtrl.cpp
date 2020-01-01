@@ -38,9 +38,6 @@ void CMPCThemePlayerListCtrl::PreSubclassWindow() {
         if (nullptr != t) {
             lvsToolTip.SubclassWindow(t->m_hWnd);
         }
-        CMPCThemeUtil::getFontByType(listMPCThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont);
-        CMPCThemeUtil::getFontByType(listMPCThemeFontBold, GetWindowDC(), CMPCThemeUtil::MessageFont, false, true);
-        SetFont(&listMPCThemeFont);
         subclassHeader();
     }
     CPlayerListCtrl::PreSubclassWindow();
@@ -405,6 +402,14 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem) {
             }
 
             if (getFlaggedItem(nItem)) { //could be a setting, but flagged items are bold for now
+                if (!listMPCThemeFontBold.m_hObject) {
+                    listMPCThemeFont = GetFont();
+                    LOGFONT lf;
+                    listMPCThemeFont->GetLogFont(&lf);
+                    lf.lfWeight = FW_BOLD;
+                    listMPCThemeFontBold.CreateFontIndirect(&lf);
+                }
+
                 dcMem.SelectObject(listMPCThemeFontBold);
             }
             dcMem.DrawText(text, rText, textFormat);

@@ -78,7 +78,6 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd) {
                 } else if (0 == _tcsicmp(windowClass, WC_STATIC) && SS_BITMAP == staticStyle) { //don't touch BITMAPS for now
                 } else if (0 == _tcsicmp(windowClass, WC_STATIC) && SS_OWNERDRAW == staticStyle) { //don't touch OWNERDRAW for now
                 } else if (0 == _tcsicmp(windowClass, WC_STATIC) && (staticStyle < SS_OWNERDRAW || SS_ETCHEDHORZ == staticStyle || SS_ETCHEDVERT == staticStyle || SS_ETCHEDFRAME == staticStyle)) {
-                    tChild->SetFont(&dialogFont);
                     LITEM li = { 0 };
                     li.mask = LIF_ITEMINDEX | LIF_ITEMID;
                     if (::SendMessage(tChild->GetSafeHwnd(), LM_GETITEM, 0, (LPARAM)& li)) { //we appear to have a linkctrl
@@ -341,7 +340,21 @@ void CMPCThemeUtil::getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int 
     font.CreateFontIndirect(&lf);
 }
 
+void CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC) {
+    DpiHelper dpiWindow;
+    dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
+
+    LOGFONT tlf;
+    memset(&tlf, 0, sizeof(LOGFONT));
+    tlf.lfHeight = -MulDiv(10, dpiWindow.DPIY(), 72);
+    tlf.lfQuality = CLEARTYPE_QUALITY;
+    tlf.lfWeight = FW_REGULAR;
+    wcsncpy_s(tlf.lfFaceName, _T("Consolas"), LF_FACESIZE);
+    font.CreateFontIndirect(&tlf);
+}
+
 void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underline, bool bold) {
+    /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only us for menus and status bars*/
     NONCLIENTMETRICS m;
     GetMetrics(&m);
 
@@ -399,20 +412,27 @@ void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underlin
     }
 }
 
+CSize CMPCThemeUtil::GetTextSize(CString str, CDC* pDC, CFont* font) {
+    CFont* pOldFont = pDC->SelectObject(font);
+
+    CRect r = { 0,0,0,0 };
+    pDC->DrawText(str, r, DT_SINGLELINE | DT_CALCRECT);
+    CSize cs = r.Size();
+    pDC->SelectObject(pOldFont);
+    return cs;
+}
+
+CSize CMPCThemeUtil::GetTextSize(CString str, HDC hDC, CFont *font) {
+    CDC* pDC = CDC::FromHandle(hDC);
+    return GetTextSize(str, pDC, font);
+}
+
 CSize CMPCThemeUtil::GetTextSize(CString str, HDC hDC, int type) {
     CDC* pDC = CDC::FromHandle(hDC);
     CFont font;
     getFontByType(font, pDC, type);
-    CFont* pOldFont = pDC->SelectObject(&font);
 
-    //CSize cs = pDC->GetTextExtent(str);
-    CRect r = { 0 };
-    pDC->DrawText(str, r, DT_SINGLELINE | DT_CALCRECT);
-    CSize cs = r.Size();
-
-    pDC->SelectObject(pOldFont);
-
-    return cs;
+    return GetTextSize(str, pDC, &font);
 }
 
 CSize CMPCThemeUtil::GetTextSizeDiff(CString str, HDC hDC, int type, CFont* curFont) {

@@ -55,9 +55,8 @@ void CMPCThemeListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
     CString strText;
     GetText(lpDrawItemStruct->itemID, strText);
 
-    CFont font;
-    CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::DialogFont);
-    CFont* pOldFont = dc.SelectObject(&font);
+    CFont* font = GetFont();
+    CFont* pOldFont = dc.SelectObject(font);
     dc.DrawText(strText, strText.GetLength(), &lpDrawItemStruct->rcItem, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 
     dc.SetTextColor(crOldTextColor);
@@ -100,7 +99,6 @@ void CMPCThemeListBox::PreSubclassWindow() {
             themedToolTip.Create(this, TTS_ALWAYSTIP);
         }
         themedToolTip.enableFlickerHelper();
-        setIntegralHeight();
     }
 }
 
@@ -163,9 +161,8 @@ void CMPCThemeListBox::OnMouseMove(UINT nFlags, CPoint point) {
 
 void CMPCThemeListBox::setIntegralHeight() {
     CWindowDC dc(this);
-    CFont font;
-    CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::DialogFont);
-    CFont* pOldFont = dc.SelectObject(&font);
+    CFont *font=GetFont();
+    CFont* pOldFont = dc.SelectObject(font);
     CRect r(0, 0, 99, 99);
     CString test = _T("W");
     dc.DrawText(test, test.GetLength(), &r, DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_CALCRECT);

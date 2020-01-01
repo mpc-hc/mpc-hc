@@ -303,7 +303,7 @@ protected:
 
 // Implementation helpers
 protected:
-    CFont tabFont; //mpc-hc to allow scaled fonts in tab--used in classic mode as well
+    //CFont tabFont; //mpc-hc to allow scaled fonts in tab--used in classic mode as well
     /**
     Moves all childs by the specified amount of pixels.
 

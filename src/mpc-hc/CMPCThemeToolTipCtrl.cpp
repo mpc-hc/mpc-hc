@@ -36,9 +36,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeToolTipCtrl, CToolTipCtrl)
 END_MESSAGE_MAP()
 
 void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& rect, bool calcRect) {
-    CFont font;
-    CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::MessageFont);
-    CFont* pOldFont = dc.SelectObject(&font);
+    CFont *font = tt->GetFont();
+    CFont* pOldFont = dc.SelectObject(font);
 
     CString text;
     tt->GetWindowText(text);

@@ -33,17 +33,15 @@ void CMPCThemeGroupBox::OnPaint() {
         fb.CreateSolidBrush(CMPCTheme::GroupBoxBorderColor);
         rborder = r;
 
-        CSize cs = CMPCThemeUtil::GetTextSize(_T("W"), hDC, CMPCThemeUtil::CaptionFont);
+        CFont* font = GetFont();
+        CSize cs = CMPCThemeUtil::GetTextSize(_T("W"), hDC, font);
         rborder.top += cs.cy / 2;
         dc.FrameRect(rborder, &fb);
         if (!text.IsEmpty()) {
 
             COLORREF oldClr = dc.SetTextColor(CMPCTheme::TextFGColor);
             COLORREF oldBkClr = dc.SetBkColor(CMPCTheme::WindowBGColor);
-            //CFont *font = CMPCThemeUtil::getUIFont(dc.GetSafeHdc(), CMPCThemeUtil::uiTextFont, 8);
-            CFont font;
-            CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::CaptionFont);
-            CFont* pOldFont = dc.SelectObject(&font);
+            CFont* pOldFont = dc.SelectObject(font);
 
             rtext = r;
             rtext.left += CMPCTheme::GroupBoxTextIndent;

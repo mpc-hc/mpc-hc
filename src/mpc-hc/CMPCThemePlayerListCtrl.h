@@ -53,7 +53,7 @@ protected:
     bool themeGridLines;
     bool fullRowSelect;
     CMPCThemeHeaderCtrl themedHdrCtrl;
-    CFont listMPCThemeFont, listMPCThemeFontBold;
+    CFont *listMPCThemeFont, listMPCThemeFontBold;
     CMPCThemeListCtrlCustomInterface* customThemeInterface;
     void drawItem(CDC* pDC, int nItem, int nSubItem);
     virtual void PreSubclassWindow();

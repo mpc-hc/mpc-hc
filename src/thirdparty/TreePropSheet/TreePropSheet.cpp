@@ -250,6 +250,9 @@ CTreeCtrl* CTreePropSheet::CreatePageTreeObject()
 }
 
 void CTreePropSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
+        /* adipose: code is broken--changing font zoom in settings 
+        increases NONCLIENTMETRICS font sizes, but dialogs do not grow accordingly  */
+#if 0
     if (nullptr == tabFont.m_hObject) {
         CFont* dialogfont = GetFont();
         LOGFONT lf;
@@ -260,7 +263,9 @@ void CTreePropSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
         lf.lfHeight = ncMetrics.lfCaptionFont.lfHeight;
         tabFont.CreateFontIndirect(&lf);
         ctrl->SetFont(&tabFont);
+        ctrl->SetFont(dialogfont);
     }
+#endif
 }
 
 //added for mpc-hc theming

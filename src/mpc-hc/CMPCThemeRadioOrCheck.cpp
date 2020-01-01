@@ -29,10 +29,6 @@ void CMPCThemeRadioOrCheck::PreSubclassWindow() {
     ASSERT(buttonType != unknownType);
 
     buttonStyle = GetWindowLongPtr(GetSafeHwnd(), GWL_STYLE);
-    if (nullptr == font.m_hObject) {
-        CMPCThemeUtil::getFontByType(font, GetWindowDC(), CMPCThemeUtil::DialogFont);
-    }
-    SetFont(&font); //DSUtil checks metrics and resizes.  if our font is a bit different, things can look funny
     CButton::PreSubclassWindow();
 }
 
@@ -65,8 +61,8 @@ void CMPCThemeRadioOrCheck::OnPaint() {
 
 
         if (0 != (buttonStyle & BS_PUSHLIKE)) {
-            CFont *oFont;
-            oFont = dc.SelectObject(&font);
+            CFont *oFont, *font=GetFont();
+            oFont = dc.SelectObject(font);
             CMPCThemeButton::drawButtonBase(&dc, rectItem, sTitle, checkState != BST_UNCHECKED, isHover, isFocused, checkState == BST_INDETERMINATE, false);
             dc.SelectObject(oFont);
         } else {
@@ -97,7 +93,8 @@ void CMPCThemeRadioOrCheck::OnPaint() {
 
             if (!sTitle.IsEmpty()) {
                 CRect centerRect = rectItem;
-                CFont* pOldFont = dc.SelectObject(&font);
+                CFont* pOldFont, *font = GetFont();
+                pOldFont = dc.SelectObject(font);
 
                 UINT uFormat = 0;
                 if (buttonStyle & BS_MULTILINE) {

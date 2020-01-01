@@ -31,9 +31,8 @@ void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF b
     CRect textRect = rText;
     //textRect.left += 3;
 
-    CFont font;
-    CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::DialogFont);
-    CFont* pOldFont = dc.SelectObject(&font);
+    CFont *font = GetFont();
+    CFont* pOldFont = dc.SelectObject(font);
     dc.DrawText(strText, &textRect, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
     dc.SelectObject(pOldFont);
 

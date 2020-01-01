@@ -30,6 +30,7 @@ protected:
 
 public:
     static void getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
+    static void getFixedFont(CFont& font, CDC* pDC);
     static void getFontByType(CFont& font, CDC* pDC, int type, bool underline = false, bool bold = false);
     enum fontType {
         CaptionFont,
@@ -41,7 +42,9 @@ public:
         fixedFont,
     };
 
-    static CSize GetTextSize(CString str, HDC hDC, int type);
+    static CSize GetTextSize(CString str, HDC hDC, CFont* font);
+    static CSize GetTextSize(CString str, CDC* pDC, CFont* font);
+	static CSize GetTextSize(CString str, HDC hDC, int type);
     static CSize GetTextSizeDiff(CString str, HDC hDC, int type, CFont* curFont);
 
 

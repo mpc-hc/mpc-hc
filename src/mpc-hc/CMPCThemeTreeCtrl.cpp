@@ -40,8 +40,6 @@ void CMPCThemeTreeCtrl::fulfillThemeReqs() {
             SetWindowTheme(GetSafeHwnd(), L"", NULL);
         }
         SetExtendedStyle(TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER); //necessary to prevent significant flicker
-        if (font.m_hObject == nullptr) CMPCThemeUtil::getFontByType(font, GetWindowDC(), CMPCThemeUtil::MenuFont);
-        SetFont(&font);
 
         SetLineColor(CMPCTheme::TreeCtrlLineColor);
         if (nullptr == tvsTooltip.m_hWnd) {

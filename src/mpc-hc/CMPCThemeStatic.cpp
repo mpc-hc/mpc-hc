@@ -36,9 +36,8 @@ void CMPCThemeStatic::OnPaint() {
         UINT style = GetStyle();
 
         if (!sTitle.IsEmpty()) {
-            CFont font;
-            CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::DialogFont);
-            CFont* pOldFont = dc.SelectObject(&font);
+            CFont *font= GetFont();
+            CFont* pOldFont = dc.SelectObject(font);
 
             UINT uFormat = 0;
             if (style & SS_LEFTNOWORDWRAP) {

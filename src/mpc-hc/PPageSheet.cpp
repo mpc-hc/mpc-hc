@@ -127,18 +127,6 @@ void CPPageSheet::SetTreeCtrlTheme(CTreeCtrl * ctrl) {
     }
 }
 
-void CPPageSheet::SetTabCtrlFont(CTabCtrl* ctrl) {
-    if (AfxGetAppSettings().bMPCThemeLoaded) {
-        CDC* pDC = GetDC();
-        CMPCThemeUtil::getFontByType(tabFont, pDC, CMPCThemeUtil::CaptionFont);
-        ctrl->SetFont(&tabFont);
-        ReleaseDC(pDC);
-    } else {
-        __super::SetTabCtrlFont(ctrl);
-    }
-}
-
-
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
     ON_WM_CONTEXTMENU()
     ON_COMMAND(ID_APPLY_NOW, OnApply)

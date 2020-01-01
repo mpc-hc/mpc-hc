@@ -46,7 +46,7 @@ void CMPCThemePropPageFrame::DrawCaption(CDC *pDC, CRect rect, LPCTSTR lpszCapti
 
     LOGFONT lf;
     GetMessageFont(&lf);
-    lf.lfHeight = rect.Height();
+    lf.lfHeight = -.8f * rect.Height();
     lf.lfWeight = FW_BOLD;
     CFont f;
     f.CreateFontIndirect(&lf);
