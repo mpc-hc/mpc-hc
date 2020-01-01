@@ -34,6 +34,7 @@ CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     : m_fSelfDrawn(fSelfDrawn)
     ,m_bDrag(false)
     ,m_bHover(false)
+    ,modernStyle(AfxGetAppSettings().bModernSeekbar)
 {
 }
 
@@ -68,7 +69,10 @@ void CVolumeCtrl::SetPosInternal(int pos)
 {
     SetPos(pos);
     GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(pos), SB_THUMBPOSITION), reinterpret_cast<LPARAM>(m_hWnd)); // this will be reflected back on us
-    m_bDrag = true;
+    POINT p;
+    ::GetCursorPos(&p);
+    ScreenToClient(&p);
+    checkHover(p);
 }
 
 void CVolumeCtrl::IncreaseVolume()
@@ -100,6 +104,15 @@ END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
 
+void CVolumeCtrl::getCustomChannelRect(LPRECT rc) {
+    CRect channelRect;
+    GetChannelRect(channelRect);
+    CRect thumbRect;
+    GetThumbRect(thumbRect);
+
+    CopyRect(rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
+}
+
 void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
@@ -125,19 +138,14 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                         dc.FillSolidRect(&rect, CMPCTheme::PlayerBGColor);
                     }
 
-                    CRect channelRect;
-                    GetChannelRect(channelRect);
-                    CRect thumbRect;
-                    GetThumbRect(thumbRect);
-
-                    CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
+                    getCustomChannelRect(&pNMCD->rc);
 
                     if (s.bMPCThemeLoaded) {
                         DpiHelper dpiWindow;
                         dpiWindow.Override(GetSafeHwnd());
 
                         CRect r(pNMCD->rc);
-                        if (!s.bModernSeekbar) {
+                        if (!modernStyle) {
                             r.DeflateRect(0, dpiWindow.ScaleFloorY(6), 0, dpiWindow.ScaleFloorY(6));
                             dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
                             CBrush fb;
@@ -147,11 +155,13 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                             r.DeflateRect(0, dpiWindow.ScaleFloorY(3), 0, dpiWindow.ScaleFloorY(2));
                             CRect filledRect, unfilledRect;
                             filledRect = r;
-                            filledRect.right = thumbRect.left + thumbRect.Width() / 2;
+                            filledRect.right = r.left + lround(r.Width() * float(GetPos()) / 100);
                             dc.FillSolidRect(&filledRect, CMPCTheme::ScrollProgressColor);
-                            unfilledRect = r;
-                            unfilledRect.left = filledRect.right + 1;
-                            dc.FillSolidRect(&unfilledRect, CMPCTheme::ScrollBGColor);
+                            if (filledRect.right < r.right) { //do not fill bg if already full
+                                unfilledRect = r;
+                                unfilledRect.left = filledRect.right;
+                                dc.FillSolidRect(&unfilledRect, CMPCTheme::ScrollBGColor);
+                            }
 
                             CBrush fb;
                             fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
@@ -183,7 +193,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
                     COLORREF light = GetSysColor(COLOR_3DHILIGHT);
                     if (s.bMPCThemeLoaded) {
-                        if (!s.bModernSeekbar) {
+                        if (!modernStyle) {
                             CBrush fb;
                             if (m_bDrag) {
                                 dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
@@ -229,8 +239,11 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     int start, stop;
     GetRange(start, stop);
 
-    r.left += 3;
-    r.right -= 4;
+    const CAppSettings& s = AfxGetAppSettings();
+    if (!(s.bMPCThemeLoaded && modernStyle)) {
+        r.left += 3;
+        r.right -= 4;
+    }
 
     if (point.x < r.left) {
         SetPosInternal(start);
@@ -239,12 +252,32 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     } else {
         int w = r.right - r.left;
         if (start < stop) {
-            SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w / 2)) / w);
+            if (!(s.bMPCThemeLoaded && modernStyle)) {
+                SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w / 2)) / w);
+            } else {
+                SetPosInternal(start + lround((stop - start) * float(point.x - r.left) / w));
+            }
         }
     }
     m_bDrag = true;
-    invalidateThumb();
-    CSliderCtrl::OnLButtonDown(nFlags, point);
+    if (s.bMPCThemeLoaded && modernStyle) {
+        if (themedToolTip.m_hWnd) {
+            TOOLINFO ti = { sizeof(TOOLINFO) };
+            ti.uFlags = TTF_TRACK | TTF_IDISHWND | TTF_ABSOLUTE;
+            ti.hwnd = m_hWnd;
+            ti.uId = (UINT_PTR)m_hWnd;
+            ti.hinst = AfxGetInstanceHandle();
+            ti.lpszText = LPSTR_TEXTCALLBACK;
+
+            themedToolTip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&ti);
+        }
+
+        updateModernVolCtrl(point);
+        SetCapture();
+    } else {
+        invalidateThumb();
+        CSliderCtrl::OnLButtonDown(nFlags, point);
+    }
 }
 
 void CVolumeCtrl::OnSetFocus(CWnd* pOldWnd)
@@ -296,7 +329,10 @@ BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 }
 
 void CVolumeCtrl::invalidateThumb() {
-    SetRangeMax(100, TRUE);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (!(s.bMPCThemeLoaded && modernStyle)) {
+        SetRangeMax(100, TRUE);
+    }
 }
 
 
@@ -313,17 +349,73 @@ void CVolumeCtrl::checkHover(CPoint point) {
         invalidateThumb();
 }
 
+void CVolumeCtrl::updateModernVolCtrl(CPoint point) {
+    //CSliderCtrl::OnMouseMove yields bad results due to assumption of thumb width
+    //we must do all position calculation ourselves, and send correct position to tooltip
+
+    CRect r;
+    GetChannelRect(&r);
+
+    int start, stop;
+    GetRange(start, stop);
+    int useX;
+    if (point.x < r.left) {
+        SetPosInternal(start);
+        useX = r.left;
+    } else if (point.x >= r.right) {
+        SetPosInternal(stop);
+        useX = r.right;
+    } else {
+        int w = r.right - r.left;
+        if (start < stop) {
+            SetPosInternal(start + lround((stop - start) * float(point.x - r.left) / w));
+        }
+        useX = point.x;
+    }
+    POINT p = { useX, point.y };
+    ClientToScreen(&p);
+    CRect ttRect;
+    if (themedToolTip.m_hWnd) {
+        CRect cr = r;
+        ClientToScreen(cr);
+        themedToolTip.GetWindowRect(ttRect);
+        p.y = cr.top - ttRect.Height();
+        themedToolTip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(p.x, p.y));
+    }
+
+    RECT ur;
+    getCustomChannelRect(&ur);
+    RedrawWindow(&ur, nullptr, RDW_INVALIDATE); //we must redraw the whole channel with the modern volume ctrl. by default only areas where thumb has been are invalidated
+}
+
+
 void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
     checkHover(point);
-    CSliderCtrl::OnMouseMove(nFlags, point);
+
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.bMPCThemeLoaded && modernStyle && m_bDrag) {
+        updateModernVolCtrl(point);
+    } else {
+        CSliderCtrl::OnMouseMove(nFlags, point);
+    }
 }
 
 
 void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
-    m_bDrag = false;
-    invalidateThumb();
-    checkHover(point);
-    CSliderCtrl::OnLButtonUp(nFlags, point);
+    const CAppSettings& s = AfxGetAppSettings();
+    if (s.bMPCThemeLoaded && modernStyle) {
+        if (m_bDrag) ReleaseCapture();
+        m_bDrag = false;
+        if (themedToolTip.m_hWnd) {
+            themedToolTip.SendMessage(TTM_TRACKACTIVATE, FALSE, 0);
+        }
+    } else {
+        m_bDrag = false;
+        invalidateThumb();
+        checkHover(point);
+        CSliderCtrl::OnLButtonUp(nFlags, point);
+    }
 }
 
 
