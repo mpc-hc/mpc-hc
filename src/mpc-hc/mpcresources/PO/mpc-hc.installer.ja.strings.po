@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Asakura, 2017
-# ever_green, 2014-2016
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-31 11:29+0000\n"
-"Last-Translator: Asakura\n"
-"Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "このプログラムはご使用のコンピュータ上に [name] をインストールします。\n\nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。"
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"このプログラムはご使用のコンピュータ上に [name] をインストールします。\n"
+"\n"
+"セットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -34,12 +40,24 @@ msgid "Translations"
 msgstr "翻訳"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "MPC-HC の設定を削除してもよろしいですか？\n\nMPC-HC を再度インストールする場合、設定を削除する必要はありません。"
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"MPC-HC の設定を削除してもよろしいですか？\n"
+"\n"
+"MPC-HC を再度インストールする場合、設定を削除する必要はありません。"
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "MPC-HC のこのビルドには SSE2 拡張機能をサポートする CPU が必要です。\n\nご使用の CPU はこれらの機能を備えていません。"
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"MPC-HC のこのビルドには SSE2 拡張機能をサポートする CPU が必要です。\n"
+"\n"
+"ご使用の CPU はこれらの機能を備えていません。"
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -72,4 +90,3 @@ msgstr "カスタム インストール"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "変更履歴を表示する"
-

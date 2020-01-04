@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sergey <player54@mail.ru>, 2015
-# Kirill Stryaponoff <stryaponoff@gmail.com>, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Russian (https://www.transifex.com/mpchc/teams/106126/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Эта программа установит [name] на ваш компьютер.\n\nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Эта программа установит [name] на ваш компьютер.\n"
+"\n"
+"Перед тем, как продолжить, рекомендуется закрыть все прочие приложения."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -34,12 +40,24 @@ msgid "Translations"
 msgstr "Локализации"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Желаете ли вы также удалить настройки MPC-HC?\n\nЕсли вы собираетесь установить MPC-HC повторно, их не нужно удалять."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Желаете ли вы также удалить настройки MPC-HC?\n"
+"\n"
+"Если вы собираетесь установить MPC-HC повторно, их не нужно удалять."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.\n\nВаш процессор не соответствует данным требованиям."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.\n"
+"\n"
+"Ваш процессор не соответствует данным требованиям."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -72,4 +90,3 @@ msgstr "Выборочная установка"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Посмотреть список изменений"
-

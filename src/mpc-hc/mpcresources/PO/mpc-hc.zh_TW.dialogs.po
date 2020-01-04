@@ -2,24 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# 洪嘉鴻 <jerry9030@gmail.com>, 2015
-# Chien Wei Lin <cwlin0416@gmail.com>, 2016
-# Jeff Huang <s8321414@gmail.com>, 2014
-# kenelin <kenelin@gmail.com>, 2013
-# Ken <ken670128@yahoo.com.tw>, 2015
-# Peter Chen <petercpg@gmail.com>, 2014
-# roytam1 <roytam@gmail.com>, 2014
-# Timo Liu <timoliu@gmail.com>, 2016
-# YukiSakura <nijiko_fukada@163.com>, 2015
-# Zakk <zakk0610@gmail.com>, 2014
-# 洪嘉鴻 <jerry9030@gmail.com>, 2015-2016
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-08-01 21:05+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/mpchc/teams/106126/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -135,7 +126,9 @@ msgid "Go To..."
 msgstr "移至..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+msgid ""
+"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
+" You do not need to enter the separators explicitly."
 msgstr "輸入一組 [hh:]mm:ss.ms 的時間格式來跳至指定的時間。您不一定要明確輸入分隔符號。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
@@ -147,7 +140,9 @@ msgid "Go!"
 msgstr "前往"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
+msgid ""
+"Enter two numbers to jump to a specified frame, the first is the frame "
+"number, the second is the frame rate."
 msgstr "輸入兩組數字來跳至指定的影格。第一個數字指的是影格號碼, 第二個數字指的是影格更新率。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
@@ -163,7 +158,9 @@ msgid "Open"
 msgstr "開啟"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
-msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
+msgid ""
+"Type the address of a movie or audio file (on the Internet or your computer)"
+" and the player will open it for you."
 msgstr "鍵入視訊或是音訊檔的位址 (在網路上或是您的電腦裡)，播放程式就會開啟它。"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
@@ -203,7 +200,8 @@ msgid "Copyright © 2002-2019 see Authors.txt"
 msgstr "Copyright © 2002-2019 請見 Authors.txt 檔案"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "This program is freeware and released under the GNU General Public License."
+msgid ""
+"This program is freeware and released under the GNU General Public License."
 msgstr "本程式是自由軟體, 並依 GNU General Public License 發行。"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
@@ -583,7 +581,10 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid ""
+"If you override and enable fullscreen antialiasing somewhere at your "
+"videocard's settings, subtitles aren't going to look any better but it will "
+"surely eat your CPU."
 msgstr "如果您覆寫並啟用在顯示卡裡的全螢幕反鋸齒 (FSAA) 設定, 字幕不會變得比較好看, 卻會吃更多的 CPU 資源。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -687,7 +688,8 @@ msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "顯示 \"現在播放\" 的資訊於 Skype 心情小語"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
-msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgid ""
+"Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "避免在非預設顯示器全螢幕播放時最小化"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
@@ -695,7 +697,9 @@ msgid "Use enhanced taskbar features"
 msgstr "使用加強的工作列功能"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid ""
+"Open previous/next file in folder on \"Skip back/forward\" when there is "
+"only one item in playlist"
 msgstr "當播放清單中只有一個項目時執行 \"前一段/後一段\" 時開啟前/後一個檔案"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
@@ -907,7 +911,9 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
-msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
+msgid ""
+"MPC-HC could not render some of the pins in the graph, you may not have the "
+"needed codecs or filters installed on the system."
 msgstr "MPC-HC 無法繪製 Filter Graph 裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
@@ -1083,7 +1089,9 @@ msgid "Link alpha channels"
 msgstr "連結 Alpha 通道"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
-msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
+msgid ""
+"If you would like to use the stand-alone versions of these filters or "
+"another replacement, disable them here."
 msgstr "如果您想使用這些篩選器的獨立版本或是其它的替代品，請先在此關閉。"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
@@ -1599,7 +1607,8 @@ msgid "Automatically search and download subtitles if none are found locally"
 msgstr "如於本機找不到字幕，則自動搜尋並下載"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
-msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgid ""
+"Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr "偏好使用聽力受損專用字幕 (當字幕提供者有標示時)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
@@ -1631,7 +1640,9 @@ msgid "&Ignore this update"
 msgstr "忽略此次更新(&I)"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
-msgid "Shaders contain special effects which can be added to the video rendering process."
+msgid ""
+"Shaders contain special effects which can be added to the video rendering "
+"process."
 msgstr "著色器中含有可加入至視訊繪製過程的特效。"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
@@ -1759,7 +1770,9 @@ msgid "Note"
 msgstr "備註"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
-msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgid ""
+"To minimize audio distortion, it is recommended to keep player volume at "
+"around 85% when playing loud lossy-encoded content."
 msgstr "為使音訊失真降至最低，當回放大音量有損編碼內容時，推薦將播放器音量設定為 85% 左右。"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
@@ -1795,7 +1808,9 @@ msgid "Email:"
 msgstr "電子郵件:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
-msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgid ""
+"Your email address is optional and will only be used if the developers need "
+"to contact you for more information."
 msgstr "您可以選擇性填寫電子郵件地址, 然而只有在開發人員需要聯絡您以取得更多資訊時, 才會向您傳送郵件。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
@@ -1809,4 +1824,3 @@ msgstr "重新啟動 MPC-HC"
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
 msgstr "結束 MPC-HC"
-

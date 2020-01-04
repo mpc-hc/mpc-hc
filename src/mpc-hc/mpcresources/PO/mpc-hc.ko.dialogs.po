@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Level ASMer <zx132435@naver.com>, 2014-2017
-# limeburst <me@limeburst.net>, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-08-01 21:06+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Korean (http://www.transifex.com/mpc-hc/mpc-hc/language/ko/)\n"
+"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Korean (https://www.transifex.com/mpchc/teams/106126/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -126,7 +126,9 @@ msgid "Go To..."
 msgstr "이동..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+msgid ""
+"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
+" You do not need to enter the separators explicitly."
 msgstr ""
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
@@ -138,8 +140,12 @@ msgid "Go!"
 msgstr "이동"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "프레임이나 프레임률을 입력하면 위치로 이동하여 재생할수 있습니다.\n예)12345, 20.25 -> 12345프레임 20.25FPS"
+msgid ""
+"Enter two numbers to jump to a specified frame, the first is the frame "
+"number, the second is the frame rate."
+msgstr ""
+"프레임이나 프레임률을 입력하면 위치로 이동하여 재생할수 있습니다.\n"
+"예)12345, 20.25 -> 12345프레임 20.25FPS"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -154,7 +160,9 @@ msgid "Open"
 msgstr "열기"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
-msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
+msgid ""
+"Type the address of a movie or audio file (on the Internet or your computer)"
+" and the player will open it for you."
 msgstr "재생할 파일의 위치(인터넷 또는 로컬컴퓨터)를 입력하세요."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
@@ -194,7 +202,8 @@ msgid "Copyright © 2002-2019 see Authors.txt"
 msgstr "Copyright © 2002-2019 'Authors.txt' 파일 참조"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "This program is freeware and released under the GNU General Public License."
+msgid ""
+"This program is freeware and released under the GNU General Public License."
 msgstr "이 프로그램은 프리웨어이며 GNU GPL 라이센스로 릴리즈됩니다."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
@@ -574,7 +583,10 @@ msgid "Warning"
 msgstr "경고"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid ""
+"If you override and enable fullscreen antialiasing somewhere at your "
+"videocard's settings, subtitles aren't going to look any better but it will "
+"surely eat your CPU."
 msgstr "만약 비디오카드 설정으로 위치설정 및 전체화면 안티앨리어싱을 설정했다면 자막이 잘 표시되지 않을수도 있습니다."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -678,7 +690,8 @@ msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
-msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgid ""
+"Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "전체화면시 최소화 예방 (기본 모니터가 없을시)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
@@ -686,7 +699,9 @@ msgid "Use enhanced taskbar features"
 msgstr "고도화된 작업 표시줄 기능 사용"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid ""
+"Open previous/next file in folder on \"Skip back/forward\" when there is "
+"only one item in playlist"
 msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
@@ -898,7 +913,9 @@ msgid "Warning"
 msgstr "경고"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
-msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
+msgid ""
+"MPC-HC could not render some of the pins in the graph, you may not have the "
+"needed codecs or filters installed on the system."
 msgstr "MPC-HC 가 파일을 렌더하는데 실패했습니다. 추가적인 코덱이나 필터를 설치해야 할수도 있습니다."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
@@ -1074,7 +1091,9 @@ msgid "Link alpha channels"
 msgstr "슬라이더 같이 움직이기"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
-msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
+msgid ""
+"If you would like to use the stand-alone versions of these filters or "
+"another replacement, disable them here."
 msgstr "다음 필터들의 단독실행 버전을 사용하거나 대체하는 다른 필터들을 사용하려면 체크, 또는 체크해제하세요."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
@@ -1590,7 +1609,8 @@ msgid "Automatically search and download subtitles if none are found locally"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
-msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgid ""
+"Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
@@ -1622,7 +1642,9 @@ msgid "&Ignore this update"
 msgstr "이 업데이트를 무시"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
-msgid "Shaders contain special effects which can be added to the video rendering process."
+msgid ""
+"Shaders contain special effects which can be added to the video rendering "
+"process."
 msgstr ""
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
@@ -1750,7 +1772,9 @@ msgid "Note"
 msgstr "참고"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
-msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgid ""
+"To minimize audio distortion, it is recommended to keep player volume at "
+"around 85% when playing loud lossy-encoded content."
 msgstr ""
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
@@ -1786,7 +1810,9 @@ msgid "Email:"
 msgstr "이메일:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
-msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgid ""
+"Your email address is optional and will only be used if the developers need "
+"to contact you for more information."
 msgstr ""
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
@@ -1800,4 +1826,3 @@ msgstr "MPC-HC 재시작"
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
 msgstr "MPC-HC 종료"
-

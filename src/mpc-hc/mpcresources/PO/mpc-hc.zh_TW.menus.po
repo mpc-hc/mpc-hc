@@ -2,20 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# 洪嘉鴻 <jerry9030@gmail.com>, 2015
-# Chien Wei Lin <cwlin0416@gmail.com>, 2016
-# kenelin <kenelin@gmail.com>, 2013
-# Ken <ken670128@yahoo.com.tw>, 2015
-# Peter Chen <petercpg@gmail.com>, 2014
-# wck317 <wck317@pchome.com.tw>, 2017
-# 洪嘉鴻 <jerry9030@gmail.com>, 2015-2016
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2017-08-13 20:50+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2019-08-03 00:05:32+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/mpchc/teams/106126/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -717,4 +712,3 @@ msgstr "捐贈(&D)"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "關於(&A)..."
-

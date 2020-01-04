@@ -2,23 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Abubakr Mohammed <bcs2610@hotmail.com>, 2014
-# Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2015
-# Abubakr Mohammed <bcs2610@hotmail.com>, 2014
-# Khaled Saleem Baleesh <Kbaleesh@gmail.com>, 2016
-# manxx55 <w6txz2@gmail.com>, 2014
-# Mubarak Qahtani <abu-q76@hotmail.com>, 2016
-# Omar Anwar <omaraglan91@yahoo.com>, 2015,2017
-# Tariq <tariq-mz@hotmail.com>, 2014
-# Tariq <tariq-mz@hotmail.com>, 2014
-# manxx55 <w6txz2@gmail.com>, 2014-2015
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-08-01 21:06+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
+"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Arabic (https://www.transifex.com/mpchc/teams/106126/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -134,8 +126,12 @@ msgid "Go To..."
 msgstr "انتقل إلى..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "ادخل الوقت باستعمال الصيغة hh:]mm:ss.ms] للإنتقال إلى الوقت المحدّد. لا تحتاج الى ادخال الفواصل بشكل صريح."
+msgid ""
+"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
+" You do not need to enter the separators explicitly."
+msgstr ""
+"ادخل الوقت باستعمال الصيغة hh:]mm:ss.ms] للإنتقال إلى الوقت المحدّد. لا "
+"تحتاج الى ادخال الفواصل بشكل صريح."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -146,8 +142,12 @@ msgid "Go!"
 msgstr "انتقل!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "ادخل عددين للإنتقال إلى إطار محدّد. العدد الأول هو رقم الإطار، و الثاني هو معدل الإطارات"
+msgid ""
+"Enter two numbers to jump to a specified frame, the first is the frame "
+"number, the second is the frame rate."
+msgstr ""
+"ادخل عددين للإنتقال إلى إطار محدّد. العدد الأول هو رقم الإطار، و الثاني هو "
+"معدل الإطارات"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -162,8 +162,11 @@ msgid "Open"
 msgstr "فتح"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
-msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "أدخل عنوان ملف الفيديو أو الصوت (على الإنترنت أو حاسوبك) والمشغل سيفتحه لك"
+msgid ""
+"Type the address of a movie or audio file (on the Internet or your computer)"
+" and the player will open it for you."
+msgstr ""
+"أدخل عنوان ملف الفيديو أو الصوت (على الإنترنت أو حاسوبك) والمشغل سيفتحه لك"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -202,7 +205,8 @@ msgid "Copyright © 2002-2019 see Authors.txt"
 msgstr "Authors.txt حقوق طبع © 2002-2019 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "This program is freeware and released under the GNU General Public License."
+msgid ""
+"This program is freeware and released under the GNU General Public License."
 msgstr "هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
@@ -582,8 +586,14 @@ msgid "Warning"
 msgstr "تحذير"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "إذا كنت ستتجاوز وتمكّن الشاشة الكاملة ضدّ التعرّج في مكان ضبط كرت الفيديو الخاص بك، فالترجمة لن تشاهدها بفرق أفضل لكنّه سيستهلك وحدة المعالجة المركزية بالتأكيد"
+msgid ""
+"If you override and enable fullscreen antialiasing somewhere at your "
+"videocard's settings, subtitles aren't going to look any better but it will "
+"surely eat your CPU."
+msgstr ""
+"إذا كنت ستتجاوز وتمكّن الشاشة الكاملة ضدّ التعرّج في مكان ضبط كرت الفيديو "
+"الخاص بك، فالترجمة لن تشاهدها بفرق أفضل لكنّه سيستهلك وحدة المعالجة المركزية"
+" بالتأكيد"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -686,7 +696,8 @@ msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "عرض (الآن يشتغل) في معلومات (السكايبي) في شريط الحالة"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
-msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgid ""
+"Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "منع تصغير المشغل عندما يكون في الشاشة الكاملة على غير الضبط الأفتراضي"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
@@ -694,8 +705,12 @@ msgid "Use enhanced taskbar features"
 msgstr "استخدام ميزات شريط المهام المحسنة"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة في قائمة التشغيل"
+msgid ""
+"Open previous/next file in folder on \"Skip back/forward\" when there is "
+"only one item in playlist"
+msgstr ""
+"فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة "
+"وحيدة في قائمة التشغيل"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -906,8 +921,13 @@ msgid "Warning"
 msgstr "تحذير"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
-msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك المطلوب أو أن الفلاتر غير مثبته على النظام"
+msgid ""
+"MPC-HC could not render some of the pins in the graph, you may not have the "
+"needed codecs or filters installed on the system."
+msgstr ""
+"مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في "
+"الرسم البياني، يحتمل أنه لا يوجد عندك الكودك المطلوب أو أن الفلاتر غير مثبته"
+" على النظام"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -1082,8 +1102,11 @@ msgid "Link alpha channels"
 msgstr "ربط قتوات الألفا"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
-msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "اذا اردت استخدام النسخ المستقلة من هذه الفلاتر أو بديل آخر، قم بتعطيلها هنا"
+msgid ""
+"If you would like to use the stand-alone versions of these filters or "
+"another replacement, disable them here."
+msgstr ""
+"اذا اردت استخدام النسخ المستقلة من هذه الفلاتر أو بديل آخر، قم بتعطيلها هنا"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1598,7 +1621,8 @@ msgid "Automatically search and download subtitles if none are found locally"
 msgstr "ابحث بشكل آلي عن الترجمات وحملها إذا لم تكن متوفرة محليا"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
-msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgid ""
+"Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr "يفضل استخدام الترجمة لِضعاف السمع"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
@@ -1630,7 +1654,9 @@ msgid "&Ignore this update"
 msgstr "تجاهل هذا التحديث"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
-msgid "Shaders contain special effects which can be added to the video rendering process."
+msgid ""
+"Shaders contain special effects which can be added to the video rendering "
+"process."
 msgstr "المظللات تحتوي على مؤثرات الخاصة يمكن اضافتها الى عملية عرض الفيديو."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
@@ -1758,8 +1784,12 @@ msgid "Note"
 msgstr "ملحوظه"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
-msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr "لتقليل التشويه فى الصوت،من المفضل ان تبقى صوت المشغل فى حدود 85% \nعندما يتم تشغيل صوت صاخب-محتوى مرمز."
+msgid ""
+"To minimize audio distortion, it is recommended to keep player volume at "
+"around 85% when playing loud lossy-encoded content."
+msgstr ""
+"لتقليل التشويه فى الصوت،من المفضل ان تبقى صوت المشغل فى حدود 85% \n"
+"عندما يتم تشغيل صوت صاخب-محتوى مرمز."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1794,8 +1824,12 @@ msgid "Email:"
 msgstr "الإيميل:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
-msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr "وضع عنوان بريدك الإلكتروني هو اختياري، سوف يستخدم فقط للإتصال بك من قبل المطورين للمزيد من المعلومات."
+msgid ""
+"Your email address is optional and will only be used if the developers need "
+"to contact you for more information."
+msgstr ""
+"وضع عنوان بريدك الإلكتروني هو اختياري، سوف يستخدم فقط للإتصال بك من قبل "
+"المطورين للمزيد من المعلومات."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
@@ -1808,4 +1842,3 @@ msgstr "اعاده تشغيل المشغل."
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
 msgstr "اغلق المشغل"
-

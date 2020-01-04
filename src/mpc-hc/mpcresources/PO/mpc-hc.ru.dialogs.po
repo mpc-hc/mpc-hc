@@ -2,24 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Alexander Gorishnyak <kefir500@gmail.com>, 2014
-# Arkady “KindDragon” Shapkin <arkadiy_s@inbox.ru>, 2015
-# birkoff <birkoff.anarchist@gmail.com>, 2015
-# Evgeniy Kupras <zheka20012@yandex.ru>, 2016
-# Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
-# sayanvd <sayanvd@yandex.ru>, 2014-2015
-# Sergey <player54@mail.ru>, 2015-2016
-# Kirill Stryaponoff <stryaponoff@gmail.com>, 2014,2016
-# SmilyCarrot <twisted-transistor@yandex.ru>, 2014
-# Victor Bychek, 2015-2016
-# Денис <denyspokhylenko@gmail.com>, 2015
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2017-07-29 17:00:42+0000\n"
-"PO-Revision-Date: 2017-08-01 21:05+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Russian (https://www.transifex.com/mpchc/teams/106126/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -135,8 +126,11 @@ msgid "Go To..."
 msgstr "Переход..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Введите время в формате чч:мм:сс.мс, чтобы перейти к указанному моменту."
+msgid ""
+"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
+" You do not need to enter the separators explicitly."
+msgstr ""
+"Введите время в формате чч:мм:сс.мс, чтобы перейти к указанному моменту."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -147,8 +141,12 @@ msgid "Go!"
 msgstr "Готово!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
-msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Введите два числа для перехода к заданному кадру: первое - номер кадра, второе - число кадров в секунду."
+msgid ""
+"Enter two numbers to jump to a specified frame, the first is the frame "
+"number, the second is the frame rate."
+msgstr ""
+"Введите два числа для перехода к заданному кадру: первое - номер кадра, "
+"второе - число кадров в секунду."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -163,8 +161,12 @@ msgid "Open"
 msgstr "Открыть"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
-msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Введите адрес фильма или аудиофайла (в интернете или на вашем компьютере), чтобы проигрыватель открыл его."
+msgid ""
+"Type the address of a movie or audio file (on the Internet or your computer)"
+" and the player will open it for you."
+msgstr ""
+"Введите адрес фильма или аудиофайла (в интернете или на вашем компьютере), "
+"чтобы проигрыватель открыл его."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -203,8 +205,10 @@ msgid "Copyright © 2002-2019 see Authors.txt"
 msgstr "Copyright © 2002-2019, смотрите файл Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
-msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Эта программа бесплатна и распространяется под GNU (General Public License)."
+msgid ""
+"This program is freeware and released under the GNU General Public License."
+msgstr ""
+"Эта программа бесплатна и распространяется под GNU (General Public License)."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -583,8 +587,13 @@ msgid "Warning"
 msgstr "Предупреждение"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "От изменения положения и полноэкранного сглаживания субтитры не станут выглядеть лучше, но это будет чрезмерно нагружать ваш процессор."
+msgid ""
+"If you override and enable fullscreen antialiasing somewhere at your "
+"videocard's settings, subtitles aren't going to look any better but it will "
+"surely eat your CPU."
+msgstr ""
+"От изменения положения и полноэкранного сглаживания субтитры не станут "
+"выглядеть лучше, но это будет чрезмерно нагружать ваш процессор."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -687,16 +696,23 @@ msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "Отображать имя воспроизводимого файла в настроении Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
-msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Предотвращать сворачивание проигрывателя на дополнительном дисплее в полноэкранном режиме"
+msgid ""
+"Prevent minimizing the player when in fullscreen on a non default monitor"
+msgstr ""
+"Предотвращать сворачивание проигрывателя на дополнительном дисплее в "
+"полноэкранном режиме"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
 msgstr "Использовать расширенные функции панели задач"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Открывать следующий/предыдущий файл в папке кнопками «Вперед/Назад», когда в списке воспроизведения только один пункт"
+msgid ""
+"Open previous/next file in folder on \"Skip back/forward\" when there is "
+"only one item in playlist"
+msgstr ""
+"Открывать следующий/предыдущий файл в папке кнопками «Вперед/Назад», когда в"
+" списке воспроизведения только один пункт"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -907,8 +923,12 @@ msgid "Warning"
 msgstr "Предупреждение"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
-msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC не смог воспроизвести некоторые дорожки в графе. Возможно, у вас не установлен нужный кодек или фильтр."
+msgid ""
+"MPC-HC could not render some of the pins in the graph, you may not have the "
+"needed codecs or filters installed on the system."
+msgstr ""
+"MPC-HC не смог воспроизвести некоторые дорожки в графе. Возможно, у вас не "
+"установлен нужный кодек или фильтр."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -1083,8 +1103,12 @@ msgid "Link alpha channels"
 msgstr "Связать альфа-каналы"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
-msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Если вы хотите использовать самостоятельную версию этих фильтров или другую альтернативу, отключите их здесь."
+msgid ""
+"If you would like to use the stand-alone versions of these filters or "
+"another replacement, disable them here."
+msgstr ""
+"Если вы хотите использовать самостоятельную версию этих фильтров или другую "
+"альтернативу, отключите их здесь."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1596,11 +1620,15 @@ msgstr "Онлайн-поиск, загрузка и размещение суб
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "Автоматически искать и загружать субтитры, если они не найдены локально"
+msgstr ""
+"Автоматически искать и загружать субтитры, если они не найдены локально"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
-msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "Приоритет субтитров для людей с нарушениями слуха (если указано источником субтитров)"
+msgid ""
+"Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr ""
+"Приоритет субтитров для людей с нарушениями слуха (если указано источником "
+"субтитров)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
@@ -1612,7 +1640,8 @@ msgstr "Языки в порядке предпочтения:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr "Автоматически размещать активные субтитры после окончания воспроизведения"
+msgstr ""
+"Автоматически размещать активные субтитры после окончания воспроизведения"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1631,8 +1660,12 @@ msgid "&Ignore this update"
 msgstr "Игнорировать это обновление"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
-msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Шейдеры содержат специальные эффекты, которые могут быть добавлены в процесс рендеринга видео."
+msgid ""
+"Shaders contain special effects which can be added to the video rendering "
+"process."
+msgstr ""
+"Шейдеры содержат специальные эффекты, которые могут быть добавлены в процесс"
+" рендеринга видео."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
@@ -1700,7 +1733,8 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Это расширенные настройки. Не изменяйте их, если не знаете, что делаете."
+msgstr ""
+"Это расширенные настройки. Не изменяйте их, если не знаете, что делаете."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1759,8 +1793,12 @@ msgid "Note"
 msgstr "Заметка"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
-msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr "Для сведения звуковых искажений к минимуму, рекомендуется держать уровень громкости около 85% при проигрывании громкого материала, сжатого с потерями."
+msgid ""
+"To minimize audio distortion, it is recommended to keep player volume at "
+"around 85% when playing loud lossy-encoded content."
+msgstr ""
+"Для сведения звуковых искажений к минимуму, рекомендуется держать уровень "
+"громкости около 85% при проигрывании громкого материала, сжатого с потерями."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1795,8 +1833,12 @@ msgid "Email:"
 msgstr "Эл. почта:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
-msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr "Вводить адрес электронной почты не обязательно, но может быть использован для связи разработчиков с вами."
+msgid ""
+"Your email address is optional and will only be used if the developers need "
+"to contact you for more information."
+msgstr ""
+"Вводить адрес электронной почты не обязательно, но может быть использован "
+"для связи разработчиков с вами."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
@@ -1809,4 +1851,3 @@ msgstr "Перезапустить MPC-HC"
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
 msgstr "Выйти из MPC-HC"
-

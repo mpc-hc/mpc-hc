@@ -2,20 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos, 2014
-# Adolfo Jayme Barrientos, 2014
-# papu, 2014-2016
-# Roger <roger.espolet@gmail.com>, 2016
-# Roger <roger.espolet@gmail.com>, 2016
-# Roger <roger.espolet@gmail.com>, 2017
-# papu, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-08-10 22:14+0000\n"
-"Last-Translator: Roger <roger.espolet@gmail.com>\n"
-"Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Catalan (https://www.transifex.com/mpchc/teams/106126/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Aquest auxiliar instal·larà [name] al vostre ordinador.\n\nSe recomana tancar totes les aplicacions abans de continuar."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Aquest auxiliar instal·larà [name] al vostre ordinador.\n"
+"\n"
+"Se recomana tancar totes les aplicacions abans de continuar."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -39,16 +40,29 @@ msgid "Translations"
 msgstr "Traduccions"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Voleu suprimir les preferències de l'MPC-HC?\n\nSi planegeu tornar-lo a instal·lar no cal que les elimineu."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Voleu suprimir les preferències de l'MPC-HC?\n"
+"\n"
+"Si planegeu tornar-lo a instal·lar no cal que les elimineu."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.\n\nLa vostra CPU no compleix aquesta característica."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.\n"
+"\n"
+"La vostra CPU no compleix aquesta característica."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Visita la nostra pàgina Wiki per descarregar imatges de la barra d'eines"
+msgstr ""
+"Visita la nostra pàgina Wiki per descarregar imatges de la barra d'eines"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -77,4 +91,3 @@ msgstr "Instal·lació personalitzada"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Visualitza el Registre de canvis"
-

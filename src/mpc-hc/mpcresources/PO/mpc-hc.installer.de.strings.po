@@ -2,16 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Gaugg_Markus, 2014
-# Gaugg_Markus, 2014
-# Luan <luanmail@gmx.net>, 2016-2017
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-31 21:37+0000\n"
-"Last-Translator: Luan <luanmail@gmx.net>\n"
-"Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: German (https://www.transifex.com/mpchc/teams/106126/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,8 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Hiermit wird der [name] installiert. Bitte alle anderen Anwendungen schließen, bevor Sie mit der Installation fortfahren."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Hiermit wird der [name] installiert. Bitte alle anderen Anwendungen "
+"schließen, bevor Sie mit der Installation fortfahren."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -35,11 +39,20 @@ msgid "Translations"
 msgstr "Übersetzungen (u.a. deutsch)"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Bei Neuinstallation des MPC-HC können verbliebene Einstellungen problemlos übernommen werden.\n\nEinstellungen auch entfernen?"
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Bei Neuinstallation des MPC-HC können verbliebene Einstellungen problemlos übernommen werden.\n"
+"\n"
+"Einstellungen auch entfernen?"
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
 msgstr "Die verwendete CPU muss SSE2 unterstützen."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
@@ -73,4 +86,3 @@ msgstr "Benutzerdefinierte Installation"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Changelog anzeigen"
-

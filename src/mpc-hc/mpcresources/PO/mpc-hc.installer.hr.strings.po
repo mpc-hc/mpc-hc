@@ -2,16 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# schop <aprcel00@fesb.hr>, 2014
-# iivana24 <iivana24@gmail.com>, 2014
-# streger <stjepan.treger@gmail.com>, 2014-2015
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Croatian (https://www.transifex.com/mpchc/teams/106126/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Ovo će instalirati [name] na vaše računalo.\n\nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Ovo će instalirati [name] na vaše računalo.\n"
+"\n"
+"Preporučeno je da zatvorite sve otvorene programe prije nego nastavite."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -35,12 +40,24 @@ msgid "Translations"
 msgstr "Prijevodi"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Želite li obrisati postavke od MPC-HC?\n\nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Želite li obrisati postavke od MPC-HC?\n"
+"\n"
+"Ako planirate ponovno instalirati MPC-HC, ne morate ih brisati."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.\n\nVaš procesor nema te mogućnosti."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.\n"
+"\n"
+"Vaš procesor nema te mogućnosti."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -73,4 +90,3 @@ msgstr "Prilagođena instalacija"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Pogledaj popis promjena"
-

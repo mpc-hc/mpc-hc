@@ -2,18 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Hatta.z, 2014
-# yoga.mardia <made.yoga12@gmail.com>, 2014
-# Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
-# zk, 2017
-# zk, 2015
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-08-02 14:48+0000\n"
-"Last-Translator: zk\n"
-"Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Indonesian (https://www.transifex.com/mpchc/teams/106126/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,12 +18,19 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Ini akan memasang [name] di komputer Anda.\n\nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Ini akan memasang [name] di komputer Anda.\n"
+"\n"
+"Sangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr "[name] membutuhkan Windows Vista atau lebih baru untuk dapat berjalan."
+msgstr ""
+"[name] membutuhkan Windows Vista atau lebih baru untuk dapat berjalan."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -37,12 +41,24 @@ msgid "Translations"
 msgstr "Terjemahan"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Apakah Anda juga ingin menghapus pengaturan MPC-HC?\n\nJika Anda berencana untuk memasang MPC-HC lagi maka Anda tidak perlu menghapusnya."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Apakah Anda juga ingin menghapus pengaturan MPC-HC?\n"
+"\n"
+"Jika Anda berencana untuk memasang MPC-HC lagi maka Anda tidak perlu menghapusnya."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.\n\nCPU Anda tidak memiliki kemampuan tersebut."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.\n"
+"\n"
+"CPU Anda tidak memiliki kemampuan tersebut."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -75,4 +91,3 @@ msgstr "Pemasangan ubahsuai"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Lihat Catatan Perubahan"
-

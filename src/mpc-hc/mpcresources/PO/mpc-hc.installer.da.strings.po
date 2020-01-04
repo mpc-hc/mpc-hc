@@ -2,16 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jatyrael <cbf_x@hotmail.com>, 2014
-# NemoHJ <nemohj@gmail.com>, 2016
-# scootergrisen, 2015-2017
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-31 20:22+0000\n"
-"Last-Translator: scootergrisen\n"
-"Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Danish (https://www.transifex.com/mpchc/teams/106126/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Dette vil installere [name] på din computer.\n\nDet anbefales, at du lukker alle andre programmer, inden du fortsætter."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Dette vil installere [name] på din computer.\n"
+"\n"
+"Det anbefales, at du lukker alle andre programmer, inden du fortsætter."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -35,12 +40,24 @@ msgid "Translations"
 msgstr "Oversættelser"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Vil du også slette MPC-HC indstillinger?\n\nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Vil du også slette MPC-HC indstillinger?\n"
+"\n"
+"Hvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Denne version af MPC-HC kræver en CPU der understøtter SSE2 CPU-anvisninger.\n\nDin CPU understøtter det ikke."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Denne version af MPC-HC kræver en CPU der understøtter SSE2 CPU-anvisninger.\n"
+"\n"
+"Din CPU understøtter det ikke."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -73,4 +90,3 @@ msgstr "Brugerdefineret installation"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Vis ændringslog"
-

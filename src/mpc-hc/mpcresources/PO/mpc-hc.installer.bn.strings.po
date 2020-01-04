@@ -2,18 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Mehzad Galib, 2014
-# Mehedi Hussain, 2014
-# mehzad, 2014
-# Underground78, 2014
-# Underground78, 2014
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-30 21:14+0000\n"
-"Last-Translator: kasper93\n"
-"Language-Team: Bengali (http://www.transifex.com/mpc-hc/mpc-hc/language/bn/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Bengali (https://www.transifex.com/mpchc/teams/106126/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। \n\nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।"
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। \n"
+"\n"
+"প্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -37,12 +40,24 @@ msgid "Translations"
 msgstr "অনুবাদসমূহ"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?\n\nআপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।"
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?\n"
+"\n"
+"আপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।"
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "MPC-HCএর এই নির্মাণটির জন্য SSE2 এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।\n\nআপনার CPUর সেই কর্মক্ষমতা নেই।"
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"MPC-HCএর এই নির্মাণটির জন্য SSE2 এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।\n"
+"\n"
+"আপনার CPUর সেই কর্মক্ষমতা নেই।"
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -75,4 +90,3 @@ msgstr "ব্যক্তি-নির্ধারিত ইনস্টল প
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "পরিবর্তনতালিকা দেখুন"
-

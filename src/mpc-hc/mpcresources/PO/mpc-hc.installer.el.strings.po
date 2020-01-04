@@ -2,16 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <geogeo.gr@gmail.com>, 2013-2014
-# firespin <dartworldgr@hotmail.com>, 2014
-# geogeo.gr <geogeo.gr@gmail.com>, 2015,2017
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-07-31 11:52+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Greek (https://www.transifex.com/mpchc/teams/106126/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,8 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.\n\nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.\n"
+"\n"
+"Σας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -35,16 +40,29 @@ msgid "Translations"
 msgstr "Μεταφράσεις"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;\n\nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;\n"
+"\n"
+"Αν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.\n\nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.\n"
+"\n"
+"Ο επεξεργαστής σας δεν έχει αυτές τις δυνατότητες."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Επισκεφθείτε την Βικι σελίδα μας για να κατεβάσετε εικόνες γραμμής εργαλείων"
+msgstr ""
+"Επισκεφθείτε την Βικι σελίδα μας για να κατεβάσετε εικόνες γραμμής εργαλείων"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -73,4 +91,3 @@ msgstr "Προσαρμοσμένη εγκατάσταση"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Εμφάνιση μητρώου αλλαγών"
-

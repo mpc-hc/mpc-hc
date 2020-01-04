@@ -2,24 +2,30 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Marián Hikaník <podnety@mojepreklady.net>, 2013
-# Marián Hikaník <podnety@mojepreklady.net>, 2014,2017
+# MPC HC <adiposegithub@gmail.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
-"PO-Revision-Date: 2017-08-06 10:37+0000\n"
-"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
-"Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 msgctxt "Messages_WelcomeLabel2"
-msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Teraz sa nainštaluje [name] do Vášho počítača.\n\nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy."
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Teraz sa nainštaluje [name] do Vášho počítača.\n"
+"\n"
+"Predtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
@@ -34,12 +40,24 @@ msgid "Translations"
 msgstr "Preklady"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
-msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Chcete vymazať aj nastavenia programu MPC-HC?\n\nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať."
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Chcete vymazať aj nastavenia programu MPC-HC?\n"
+"\n"
+"Ak plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať."
 
 msgctxt "CustomMessages_msg_simd_sse2"
-msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.\n\nVáš procesor ich nepodporuje."
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.\n"
+"\n"
+"Váš procesor ich nepodporuje."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -72,4 +90,3 @@ msgstr "Vlastná inštalácia"
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
 msgstr "Zobraziť zoznam zmien"
-
