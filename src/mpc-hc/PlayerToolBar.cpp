@@ -111,7 +111,7 @@ void CPlayerToolBar::LoadToolbarImage()
     if (toolbarImageLoaded || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
         origImage = image;
         const CAppSettings& s = AfxGetAppSettings();
-        if (s.bMPCThemeLoaded) {
+        if (s.bMPCThemeLoaded && colorToolbar==false) {
             ImageGrayer::UpdateColor(image, themedImage, false, ImageGrayer::mpcMono);
             image = themedImage;
         }
