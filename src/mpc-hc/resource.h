@@ -601,6 +601,8 @@
 #define IDS_MESSAGEBOX_IGNORE           20062
 #define IDS_MESSAGEBOX_OK               20063
 #define IDS_MESSAGEBOX_CONTINUE         20064
+#define IDS_AG_TOGGLE_DEFAULT_STYLE     20065
+#define IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE 20065
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -703,6 +705,7 @@
 #define IDS_AG_TOGGLE_MPCTHEME          24046
 #define PLAYER_PLAYLIST_LVN_ITEMCHANGED 24048
 #define IDF_LOGO4                       24050
+#define ID_SUBTITLES_DEFAULT_STYLE      24051
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
@@ -1603,9 +1606,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20065
+#define _APS_NEXT_RESOURCE_VALUE        20066
 #define _APS_NEXT_COMMAND_VALUE         33452
 #define _APS_NEXT_CONTROL_VALUE         22087
-#define _APS_NEXT_SYMED_VALUE           24051
+#define _APS_NEXT_SYMED_VALUE           24052
 #endif
 #endif

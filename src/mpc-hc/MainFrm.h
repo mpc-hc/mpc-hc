@@ -935,6 +935,7 @@ public:
     afx_msg void OnPlayShadersPresetPrev();
     afx_msg void OnPlayShadersPresets(UINT nID);
     afx_msg void OnPlayAudio(UINT nID);
+    afx_msg void OnSubtitlesDefaultStyle();
     afx_msg void OnPlaySubtitles(UINT nID);
     afx_msg void OnPlayVideoStreams(UINT nID);
     afx_msg void OnPlayFiltersStreams(UINT nID);
