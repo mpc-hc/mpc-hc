@@ -25,7 +25,7 @@ from datetime import datetime
 
 
 def xstr(s):
-    return '' if s is None else str(s)
+    return '' if s is None else s
 
 
 def detectEncoding(filename):
