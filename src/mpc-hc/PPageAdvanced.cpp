@@ -163,7 +163,8 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(LOOP_FOLDER_NEXT_FILE, IDS_RS_LOOP_FOLDER_NEXT_FILE, false, s.bLoopFolderOnPlayNextFile, _T("Loop back to first file in folder after playing the last file."));
     addBoolItem(MPCTHEME_MODERNSEEKBAR, IDS_RS_MODERNSEEKBAR, true, s.bModernSeekbar, _T("Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."));
     addIntItem(MODERNSEEKBAR_HEIGHT, IDS_RS_MODERNSEEKBARHEIGHT, DEF_MODERN_SEEKBAR_HEIGHT, s.iModernSeekbarHeight, std::make_pair(MIN_MODERN_SEEKBAR_HEIGHT, MAX_MODERN_SEEKBAR_HEIGHT), _T("Modern seekbar height (at 96dpi, otherwise scaled)"));
-}   
+    addIntItem(FULLSCREEN_DELAY, IDS_RS_FULLSCREEN_DELAY, MIN_FULLSCREEN_DELAY, s.iFullscreenDelay, std::make_pair(MIN_FULLSCREEN_DELAY, MAX_FULLSCREEN_DELAY), _T("Delay before showing fullscreen video, to prevent visual glitches."));
+}
 
 BOOL CPPageAdvanced::OnApply()
 {

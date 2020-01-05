@@ -787,6 +787,7 @@ CMainFrame::CMainFrame()
     , m_bIsBDPlay(false)
     , watchingFileDialog(false)
     , fileDialogHookHelper(nullptr)
+    , delayingFullScreen(false)
     , restoringWindowRect(false)
 {
     // Don't let CFrameWnd handle automatically the state of the menu items.
@@ -1783,7 +1784,15 @@ bool g_bExternalSubtitleTime = false;
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
     switch (nIDEvent) {
-        case TIMER_STREAMPOSPOLLER:
+    case TIMER_WINDOW_FULLSCREEN:
+        if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+            BOOL setEnabled = FALSE;
+            ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
+        }
+        KillTimer(TIMER_WINDOW_FULLSCREEN);
+        delayingFullScreen = false;
+        break;
+    case TIMER_STREAMPOSPOLLER:
             if (GetLoadState() == MLS::LOADED) {
                 REFERENCE_TIME rtNow = 0, rtDur = 0;
                 switch (GetPlaybackMode()) {
@@ -9579,10 +9588,20 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 
     CAppSettings& s = AfxGetAppSettings();
+
+    if (delayingFullScreen) {
+        return; //swallow request if we are in the delay period
+    }
+
     CMonitor currentMonitor = CMonitors::GetNearestMonitor(this);
     const CWnd* pInsertAfter = nullptr;
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
+
+    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+        BOOL setEnabled = TRUE;
+        ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
+    }
 
     if (!m_fFullScreen) {
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
@@ -9704,6 +9723,20 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
     } else {
         m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
+    }
+
+    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+        UINT_PTR timerID = 0;
+        if (s.iFullscreenDelay > 0) {
+            timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
+        }
+        if (0 == timerID) {
+            BOOL setEnabled = FALSE;
+            ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
+        } else {
+            delayingFullScreen = true;
+        }
+        RedrawWindow(nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
     }
 }
 

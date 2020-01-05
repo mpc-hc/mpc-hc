@@ -633,6 +633,7 @@ public:
     bool            bWindows10AccentColorsEnabled;
     bool            bModernSeekbar;
     int             iModernSeekbarHeight;
+    int             iFullscreenDelay;
 
     enum class verticalAlignVideoType {
         ALIGN_MIDDLE,
