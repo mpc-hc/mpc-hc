@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "ไ&ฟล์"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "เปิดไ&ฟล์ด่วน..."
@@ -712,3 +716,4 @@ msgstr "&บริจาค"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&เกี่ยวกับ..."
+

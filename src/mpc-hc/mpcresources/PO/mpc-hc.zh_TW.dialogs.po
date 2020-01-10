@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Peter Chen <petercpg@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-16 07:58:37+0000\n"
+"POT-Creation-Date: 2020-01-10 07:26:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Peter Chen <petercpg@gmail.com>, 2020\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/mpchc/teams/106126/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,7 +144,7 @@ msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
-msgstr "輸入兩組數字來跳至指定的影格。第一個數字指的是影格號碼, 第二個數字指的是影格更新率。"
+msgstr "輸入兩組數字來跳至指定的影格。第一個數字指的是影格號碼，第二個數字指的是影格更新率。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -181,7 +182,7 @@ msgstr "瀏覽..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
-msgstr "確認"
+msgstr "確定"
 
 msgctxt "IDD_OPEN_DLG_IDCANCEL"
 msgid "Cancel"
@@ -202,7 +203,7 @@ msgstr "Copyright © 2002-2019 請見 Authors.txt 檔案"
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
-msgstr "本程式是自由軟體, 並依 GNU General Public License 發行。"
+msgstr "本程式是自由軟體，依照 GNU General Public License 發行。"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -306,7 +307,7 @@ msgstr "儲存設定到 .ini 檔"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "關閉 \"開啟光碟\" 選單"
+msgstr "關閉「開啟光碟」選單"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -438,7 +439,7 @@ msgstr "播放完後"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr ""
+msgstr "縮放與對齊"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -502,7 +503,7 @@ msgstr "速度步進:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr ""
+msgstr "垂直對齊："
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -585,7 +586,7 @@ msgid ""
 "If you override and enable fullscreen antialiasing somewhere at your "
 "videocard's settings, subtitles aren't going to look any better but it will "
 "surely eat your CPU."
-msgstr "如果您覆寫並啟用在顯示卡裡的全螢幕反鋸齒 (FSAA) 設定, 字幕不會變得比較好看, 卻會吃更多的 CPU 資源。"
+msgstr "如果您覆寫並啟用在顯示卡裡的全螢幕反鋸齒 (FSAA) 設定，字幕不會變得比較好看，卻會吃掉更多 CPU 資源。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -669,7 +670,7 @@ msgstr "音樂 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "跳躍距離 (分別為小, 中, 大, 以毫秒為單位)"
+msgstr "跳躍距離（分別為小、中、大，以毫秒為單位）"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -700,7 +701,7 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
 "Open previous/next file in folder on \"Skip back/forward\" when there is "
 "only one item in playlist"
-msgstr "當播放清單中只有一個項目時執行 \"前一段/後一段\" 時開啟前/後一個檔案"
+msgstr "當播放清單中只有一個項目時，點擊「前一段/後一段」時自動開啟前/後一個檔案"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -732,7 +733,7 @@ msgstr "偏好"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
-msgstr "攔阻"
+msgstr "封鎖"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
@@ -824,7 +825,7 @@ msgstr "取消"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
-msgstr "確認"
+msgstr "確定"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -832,7 +833,7 @@ msgstr "相對磁碟機"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "組織我的最愛"
+msgstr "管理我的最愛"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -852,7 +853,7 @@ msgstr "刪除"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
-msgstr "確認"
+msgstr "確定"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan & Scan Presets"
@@ -894,6 +895,10 @@ msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
 msgstr "縮放: 0.2 -> 3.0"
 
+msgctxt "IDD_PPAGEACCELTBL_CAPTION"
+msgid "Shortcut Keys"
+msgstr "快速鍵"
+
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
 msgstr "全域媒體鍵"
@@ -914,7 +919,7 @@ msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid ""
 "MPC-HC could not render some of the pins in the graph, you may not have the "
 "needed codecs or filters installed on the system."
-msgstr "MPC-HC 無法繪製 Filter Graph 裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
+msgstr "MPC-HC 無法繪製 Filter Graph 裡的某些腳位，您的系統可能沒有安裝需要的編解碼器或篩選器。"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -986,7 +991,7 @@ msgstr "瀏覽..."
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
-msgstr "確認"
+msgstr "確定"
 
 msgctxt "IDD_ADDREGFILTER_IDCANCEL"
 msgid "Cancel"
@@ -1148,7 +1153,7 @@ msgstr "音訊譜製器"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-9 (renderless) 與 EVR (CP) 設定"
+msgstr "VMR-9（無轉換）與 EVR（自訂呈現）設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1232,7 +1237,7 @@ msgstr "開啟預覽"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "列印偵錯資訊"
+msgstr "列印除錯資訊"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
@@ -1280,7 +1285,7 @@ msgstr "選項"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
-msgstr ""
+msgstr "搜尋"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
@@ -1304,7 +1309,7 @@ msgstr "儲存為..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "色彩控制項 (VMR-9, EVR 及 madVR)"
+msgstr "色彩控制項（VMR-9、EVR 及 madVR）"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1508,7 +1513,7 @@ msgstr "毫秒"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "要關閉或是重新啟動播放後, 變更才會有效。"
+msgstr "要關閉或是重新啟動播放後，變更才會生效。"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
@@ -1580,7 +1585,7 @@ msgstr "掃瞄"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "優先使用強迫和/或預設字幕軌道"
+msgstr "優先使用強制顯示和/或預設字幕軌道"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
@@ -1687,11 +1692,11 @@ msgstr "使用中的 Post-resize 著色器"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "著色器偵錯"
+msgstr "著色器除錯"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "偵錯資訊"
+msgstr "除錯資訊"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1711,7 +1716,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "進階設定, 除非您已了解項目的功能, 否則請不要編輯任何項目。"
+msgstr "下列是進階設定。除非您了解項目的功能，否則請不要編輯任何項目。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1759,11 +1764,11 @@ msgstr "切斷："
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr "層級:"
+msgstr "層級："
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
-msgstr ""
+msgstr "忽略系統混音器（WASAPI 獨佔模式中會永遠忽略）"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
@@ -1785,7 +1790,7 @@ msgstr "命令列說明"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
-msgstr "確認"
+msgstr "確定"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
@@ -1811,7 +1816,7 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid ""
 "Your email address is optional and will only be used if the developers need "
 "to contact you for more information."
-msgstr "您可以選擇性填寫電子郵件地址, 然而只有在開發人員需要聯絡您以取得更多資訊時, 才會向您傳送郵件。"
+msgstr "您可以選擇性填寫電子郵件地址，然而只有在開發人員需要聯絡您以取得更多資訊時，才會向您傳送郵件。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"

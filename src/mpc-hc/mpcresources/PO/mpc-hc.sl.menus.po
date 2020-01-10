@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Datoteka"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Hitro odpri datoteko..."
@@ -712,3 +716,4 @@ msgstr "D&oniraj"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "O progr&amu..."
+

@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Файл"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Файлны тиз ачарга..."
@@ -712,3 +716,4 @@ msgstr "Иганә бирү"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Программа турында..."
+

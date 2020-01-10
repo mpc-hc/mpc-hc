@@ -68,7 +68,8 @@ msgstr ""
 
 class TranslationData:
     poLine = re.compile(ur'^\s*(?:(msgctxt|msgid|msgstr)\s+)?"((?:[^"]|\\")*)"\r?\n', re.UNICODE)
-    potHeader = potHeader.replace('\n', '\r\n')
+#    potHeader = potHeader.replace('\n', '\r\n')
+    potHeader = potHeader
 
     def __init__(self):
         self.empty()
@@ -112,15 +113,15 @@ class TranslationData:
         line = f.readline()
         if line.startswith(u'#'):
             header = []
-            header.append(line.rstrip(u'\r\n'))
+            header.append(line.rstrip(u'\n'))
             for line in f:
-                line = line.rstrip(u'\r\n')
+                line = line.rstrip(u'\n')
                 header.append(line)
                 if not line:
                     # Ensure a final line-break is added
                     header.append('')
                     break
-            header = '\r\n'.join(header)
+            header = '\n'.join(header)
         else:
             f.seek(0)
         return header
@@ -183,18 +184,18 @@ class TranslationData:
     def writePOData(self, filename, data, header=None):
         with codecs.open(filename, 'w', 'utf8') as f:
             if header:
-                f.write(header)
+                f.write(header.replace('\r\n','\n'))
 
             for dataID in data:
                 f.write('msgctxt "')
                 f.write(dataID[0].replace('""', '\\"'))     # msgctxt
-                f.write('"\r\n')
+                f.write('"\n')
                 f.write('msgid "')
                 f.write(dataID[1].replace('""', '\\"'))     # msgid
-                f.write('"\r\n')
+                f.write('"\n')
                 f.write('msgstr "')
                 f.write(data[dataID].replace('""', '\\"'))  # msgstr
-                f.write('"\r\n\r\n')
+                f.write('"\n\n')
 
     def areEqualsSections(self, translationData):
         return (self.dialogs == translationData.dialogs,

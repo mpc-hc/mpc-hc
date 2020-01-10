@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Ֆայլ"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Արագ բացել ֆայլ..."
@@ -712,3 +716,4 @@ msgstr "Աջակցեք!"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Ծրագրի մասին..."
+

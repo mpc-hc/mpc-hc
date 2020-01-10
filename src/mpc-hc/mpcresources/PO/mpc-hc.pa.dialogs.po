@@ -20,6 +20,10 @@ msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
 msgstr "ਮੀਡਿਆ ਕਿਸਮ ਚੁਣੋ"
 
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Select Media Type"
+msgstr ""
+
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
 msgstr "ਠੀਕ ਹੈ"
@@ -879,6 +883,10 @@ msgstr ""
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
 msgstr "ਜ਼ੂਮ: 0.2 -> 3.0"
+
+msgctxt "IDD_PPAGEACCELTBL_CAPTION"
+msgid "Shortcut Keys"
+msgstr ""
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"

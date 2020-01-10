@@ -20,6 +20,10 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "ਟਿਕਾਣਾ:"
 
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Location"
+msgstr ""
+
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "ਵਿਡੀਓ"
@@ -4018,6 +4022,10 @@ msgstr ""
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
+msgstr ""
+
+msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
+msgid "Toggle Default Subtitle Style"
 msgstr ""
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"

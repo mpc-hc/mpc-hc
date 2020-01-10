@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Датотека"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Брзо отвори датотеку…"
@@ -712,3 +716,4 @@ msgstr "&Донирај"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&О програму…"
+

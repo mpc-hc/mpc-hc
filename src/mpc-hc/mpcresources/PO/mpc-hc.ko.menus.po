@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "파일(&F)"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "파일 바로 열기(&Q)..."
@@ -712,3 +716,4 @@ msgstr "기부하기"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "MPC-HC 정보(&A)..."
+

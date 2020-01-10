@@ -21,6 +21,10 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "&Αρχείο"
 
+msgctxt "POPUP"
+msgid "&File"
+msgstr ""
+
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "&Γρήγορο άνοιγμα αρχείου..."
@@ -712,3 +716,4 @@ msgstr "&Δωρεά"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Περί..."
+
