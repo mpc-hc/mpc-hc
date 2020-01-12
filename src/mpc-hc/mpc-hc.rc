@@ -3767,7 +3767,7 @@ BEGIN
     IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
     IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
     IDS_SUB_CREDENTIALS_ERROR 
-                            "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+                            "Failed to log in on ""%1"" with username ""%2"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
     IDS_SUB_AUTODL_IGNORE_TOOLTIP 
                             "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
     IDS_CMD_PATHNAME        """pathname""\tThe main file or directory to be loaded\n\t\t(wildcards allowed, ""-"" denotes standard input)"

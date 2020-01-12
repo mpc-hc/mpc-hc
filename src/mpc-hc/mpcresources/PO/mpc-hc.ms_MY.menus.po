@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# abuyop <abuyop@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2019-08-03 00:05:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: abuyop <abuyop@gmail.com>, 2020\n"
 "Language-Team: Malay (Malaysia) (https://www.transifex.com/mpchc/teams/106126/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,10 +21,6 @@ msgstr ""
 msgctxt "POPUP"
 msgid "&File"
 msgstr "&Fail"
-
-msgctxt "POPUP"
-msgid "&File"
-msgstr ""
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
@@ -147,7 +144,7 @@ msgstr "N&yahpepijat Pelorek"
 
 msgctxt "ID_VIEW_MPCTHEME"
 msgid "Dark Theme (restart)"
-msgstr ""
+msgstr "Tema Gelap (mula semula)"
 
 msgctxt "POPUP"
 msgid "&Presets..."

@@ -21,10 +21,6 @@ msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
 msgstr "미디어 유형 선택"
 
-msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
-msgid "Select Media Type"
-msgstr ""
-
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
 msgstr "확인"

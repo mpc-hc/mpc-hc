@@ -21,10 +21,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Пазіцыя"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "Відэа"
@@ -3814,8 +3810,8 @@ msgid "Fetching supported languages..."
 msgstr "Запыт даступных моў"
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Не атрымалася ўвасці ў \"%S\" пад уліковым запісам \"%S\".\n\nУвядзіце правільна імя карыстальніка і пароль або скіньце ўліковыя дадзеныя, каб увайсці ананімна."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Не атрымалася ўвасці ў \"%1\" пад уліковым запісам \"%2\".\n\nУвядзіце правільна імя карыстальніка і пароль або скіньце ўліковыя дадзеныя, каб увайсці ананімна."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."

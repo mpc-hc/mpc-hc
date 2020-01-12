@@ -21,10 +21,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Vị trí lưu"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "Video"
@@ -3814,7 +3810,7 @@ msgid "Fetching supported languages..."
 msgstr "Đang tìm và nạp ngôn ngữ được hỗ trợ..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
 msgstr "Không thể đăng nhập vào \"% S\" bằng tên người dùng \"% S\".\n\nVui lòng nhập tên người dùng và mật khẩu chính xác hoặc thiết lập lại các thông tin đăng nhập như một người dùng vô danh."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"

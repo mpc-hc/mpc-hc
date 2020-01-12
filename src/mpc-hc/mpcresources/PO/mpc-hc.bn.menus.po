@@ -21,10 +21,6 @@ msgctxt "POPUP"
 msgid "&File"
 msgstr "ফাইল (&F)"
 
-msgctxt "POPUP"
-msgid "&File"
-msgstr ""
-
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
 msgstr "দ্রুত ফাইল খুলি... (&Q)"

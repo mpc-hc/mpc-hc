@@ -713,3 +713,4 @@ msgstr "&Bağış yap"
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
 msgstr "&Hakkında..."
+

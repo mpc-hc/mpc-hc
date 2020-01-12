@@ -21,10 +21,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Umístění"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "Video"
@@ -3814,8 +3810,8 @@ msgid "Fetching supported languages..."
 msgstr "Načítají se podporované jazyky..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Přihlášení k „%S“ pod uživatelským jménem „%S“ se nezdařilo.\n\nZadejte správné uživatelské jméno a heslo, nebo nastavte výchozí přihlašovací údaje a přihlaste se jako anonymní uživatel."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Přihlášení k „%1“ pod uživatelským jménem „%2“ se nezdařilo.\n\nZadejte správné uživatelské jméno a heslo, nebo nastavte výchozí přihlašovací údaje a přihlaste se jako anonymní uživatel."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."

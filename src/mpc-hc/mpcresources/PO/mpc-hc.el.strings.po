@@ -21,10 +21,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Θέση"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "Βίντεο"
@@ -3814,8 +3810,8 @@ msgid "Fetching supported languages..."
 msgstr "Λήψη υποστηριζόμενων γλωσσών..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Απέτυχε η σύνδεση στο \"%S\" με όνομα χρήστη  \"%S\".\n\nΠαρακαλώ εισάγετε το σωστό όνομα χρήστη και κωδικό ή ακυρώστε τα διαπιστευτήρια για να συνδεθείτε ως ανώνυμος χρήστης."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Απέτυχε η σύνδεση στο \"%1\" με όνομα χρήστη  \"%2\".\n\nΠαρακαλώ εισάγετε το σωστό όνομα χρήστη και κωδικό ή ακυρώστε τα διαπιστευτήρια για να συνδεθείτε ως ανώνυμος χρήστης."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."

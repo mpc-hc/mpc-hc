@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Marián Hikaník <podnety@mojepreklady.net>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"POT-Creation-Date: 2020-01-10 07:05:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2020\n"
 "Language-Team: Slovak (https://www.transifex.com/mpchc/teams/106126/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,10 +21,6 @@ msgstr ""
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "Umiestnenie"
-
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -151,15 +148,15 @@ msgstr "Opakovať neustále"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Len pri prepínaní rôznych typov videa"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
-msgstr ""
+msgstr "Vždy (predvolené)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -175,7 +172,7 @@ msgstr "Nikdy, ak je to možné (najrýchlejšie, ale nepodporované väčšinou
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Len pri prepínaní rôznych typov videa"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -607,7 +604,7 @@ msgstr "Ka&nály"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr ""
+msgstr "Vykresľovač videa MPC"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -723,7 +720,7 @@ msgstr "Nastaví VMR-9 (bez vykreslenia) na mixovací režim, v ktorom funguje v
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
+msgstr "Vysokokvalitné vykresľovanie, vyžaduje grafický čip s podporou D3D9 alebo novší."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -2351,7 +2348,7 @@ msgstr "Náhľady by boli príliš malé, nie je možné vytvoriť súbor.\n\nSk
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr ""
+msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znovu otvoriť súbor.\n- DirectShow: EVR (Custom Presenter), synch., VMR-9 (bez vykreslenia), madVR, MPC VR, alebo Haali VR\n- RealMedia: Špeciálny vykresľovač pre RealMedia, alebo otvorte cez DirectShow\n- QuickTime: vykresľovač DX7 alebo DX9 pre QuickTime\n- ShockWave: neudáva sa"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -3814,8 +3811,8 @@ msgid "Fetching supported languages..."
 msgstr "Preberanie podporovaných jazykov..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Nepodarilo sa prihlásiť na \"%S\" pomocou mena používateľa \"%S\".\n\nProsím zadajte správne meno používateľa a heslo alebo resetujte prihlasovacie údaje, ak sa chcete prihlásiť ako anonymný používateľ."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Nepodarilo sa prihlásiť na \"%1\" s menom používateľa \"%2\".\n\nProsím zadajte správne meno používateľa alebo vykonajte reset prihlasovacích údajov, ak sa chcete prihlásiť ako anonymný používateľ."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -3919,23 +3916,23 @@ msgstr "/volume N\tNastaviť hlasitosť, pričom N je z rozsahu 0 až 100"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr ""
+msgstr "Nepodarilo sa spustiť Youtube-dl. Uistite sa, že youtube-dl je obsiahnuté v CESTE."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
-msgstr ""
+msgstr "Volanie youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr ""
+msgstr "Zarovnať nahor"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
-msgstr ""
+msgstr "Zarovnať do stredu"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
-msgstr ""
+msgstr "Zarovnať nadol"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -4003,33 +4000,33 @@ msgstr "/shaderpreset \"Pr\"\tSpustiť s použitím prednastavením shadera \"Pr
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr ""
+msgstr "P&rerušiť"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
-msgstr ""
+msgstr "Opa&kovať"
 
 msgctxt "IDS_MESSAGEBOX_IGNORE"
 msgid "&Ignore"
-msgstr ""
+msgstr "&Ignorovať"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
-msgstr ""
+msgstr "Pokra&čovať"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr ""
+msgstr "Prepnúť predvolený štýl titulkov"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr ""
+msgstr "Prepnúť tmavú tému"
 

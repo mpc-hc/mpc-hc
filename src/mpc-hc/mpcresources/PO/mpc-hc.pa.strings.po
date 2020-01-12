@@ -20,10 +20,6 @@ msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
 msgstr "ਟਿਕਾਣਾ:"
 
-msgctxt "IDS_INFOBAR_LOCATION"
-msgid "Location"
-msgstr ""
-
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
 msgstr "ਵਿਡੀਓ"
@@ -3813,7 +3809,7 @@ msgid "Fetching supported languages..."
 msgstr ""
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
-msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
 msgstr ""
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
