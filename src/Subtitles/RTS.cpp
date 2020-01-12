@@ -214,9 +214,16 @@ bool CWord::CreateOpaqueBox()
 
     STSStyle style = m_style;
     style.borderStyle = 0;
+
     // We don't want to apply the outline and the scaling twice
     style.outlineWidthX = style.outlineWidthY = 0.0;
-    style.fontScaleX = style.fontScaleY = 100.0;
+    if (m_str.GetLength() > 2) {
+        // some SSA subs use an opaque box to draw text backgrounds for translated signs
+        // these use single character with a large fontscale
+        // don't adjust scale in that case
+        style.fontScaleX = style.fontScaleY = 100.0;
+    }
+
     style.colors[0] = m_style.colors[2];
     style.alpha[0] = m_style.alpha[2];
 
