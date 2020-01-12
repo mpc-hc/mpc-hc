@@ -17315,7 +17315,7 @@ static const CString ydl_blacklist[] = {
 
 bool CMainFrame::CanSendToYoutubeDL(const CString url)
 {
-    if (url.Left(4).MakeLower() == _T("http")) {
+    if (url.Left(4).MakeLower() == _T("http") && AfxGetAppSettings().bUseYDL) {
         // Blacklist: don't use for IP addresses
         std::wcmatch regmatch;
         std::wregex regexp(LR"(https?:\/\/(\d{1,3}\.){3}\d{1,3}.*)");
@@ -17338,19 +17338,23 @@ bool CMainFrame::CanSendToYoutubeDL(const CString url)
         }
 
         // Blacklist: URL points to a file
+        CString baseurl;
         int q = url.Find(_T('?'));
         if (q > 0) {
-            CString baseurl = url.Left(q);
-            int p = baseurl.ReverseFind(_T('.'));
-            if (p > 0 && (q - p <= 6)) {
-                CString ext = baseurl.Mid(p);
-                if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
-                    return false;
-                }
+            baseurl = url.Left(q);
+        } else {
+            baseurl = url;
+            q = url.GetLength();
+        }
+        int p = baseurl.ReverseFind(_T('.'));
+        if (p > 0 && (q - p <= 6)) {
+            CString ext = baseurl.Mid(p);
+            if (AfxGetAppSettings().m_Formats.FindExt(ext)) {
+                return false;
             }
         }
 
-        return AfxGetAppSettings().bUseYDL;
+        return true;
     }
     return false;
 }
