@@ -186,7 +186,15 @@ BOOL CPPageSubtitles::OnInitDialog()
 
     UpdateData(FALSE);
 
-    EnableToolTips(TRUE);
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        themedToolTip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+        themedToolTip.Activate(TRUE);
+        themedToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
+        //must add manually the ones we support.
+        themedToolTip.AddTool(GetDlgItem(IDC_EDIT4), LPSTR_TEXTCALLBACK);
+    } else {
+        EnableToolTips(TRUE);
+    }
     CreateToolTip();
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -292,4 +300,13 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     return bRet;
+}
+
+BOOL CPPageSubtitles::PreTranslateMessage(MSG* pMsg) {
+    if (AfxGetAppSettings().bMPCThemeLoaded) {
+        if (IsWindow(themedToolTip)) {
+            themedToolTip.RelayEvent(pMsg);
+        }
+    }
+    return __super::PreTranslateMessage(pMsg);
 }

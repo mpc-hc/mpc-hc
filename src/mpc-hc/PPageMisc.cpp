@@ -26,7 +26,7 @@
 #include "PPageMisc.h"
 #include <psapi.h>
 #include "PPageSheet.h"
-
+#include "CMPCThemeMsgBox.h"
 
 // CPPageMisc dialog
 
@@ -215,7 +215,7 @@ void CPPageMisc::OnUpdateDelayEditBox(CCmdUI* pCmdUI)
 
 void CPPageMisc::OnResetSettings()
 {
-    if (MessageBox(ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+    if (CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
         AfxGetAppSettings().SetAsUninitialized(); // Consider the settings as initialized
 
         // Exit the Options dialog and inform the caller that we want to reset the settings
@@ -226,7 +226,7 @@ void CPPageMisc::OnResetSettings()
 void CPPageMisc::OnExportSettings()
 {
     if (GetParent()->GetDlgItem(ID_APPLY_NOW)->IsWindowEnabled()) {
-        int ret = MessageBox(ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
+        int ret = CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
 
         if (ret == IDCANCEL) {
             return;
@@ -240,9 +240,9 @@ void CPPageMisc::OnExportSettings()
 
     if (fileSaveDialog.DoModal() == IDOK) {
         if (AfxGetMyApp()->ExportSettings(fileSaveDialog.GetPathName())) {
-            MessageBox(ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+            CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
         } else {
-            MessageBox(ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
+            CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
         }
     }
 }
@@ -250,7 +250,7 @@ void CPPageMisc::OnExportSettings()
 void CPPageMisc::OnExportKeys()
 {
     if (GetParent()->GetDlgItem(ID_APPLY_NOW)->IsWindowEnabled()) {
-        int ret = MessageBox(ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
+        int ret = CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
 
         if (ret == IDCANCEL) {
             return;
@@ -263,12 +263,12 @@ void CPPageMisc::OnExportKeys()
 
     if (fileSaveDialog.DoModal() == IDOK) {
         if (AfxGetMyApp()->ExportSettings(fileSaveDialog.GetPathName(), _T("Commands2"))) {
-            MessageBox(ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+            CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
         } else {
             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-                MessageBox(ResStr(IDS_EXPORT_SETTINGS_NO_KEYS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+                CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_NO_KEYS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
             } else {
-                MessageBox(ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
+                CMPCThemeMsgBox::MessageBox(this, ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
             }
         }
     }
