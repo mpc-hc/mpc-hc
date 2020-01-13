@@ -1386,6 +1386,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF = DEBUG_NEW CFGFilterInternal<CRARFileSource>();
         pFGF->m_chkbytes.AddTail(_T("0,7,,526172211A0700"));
         pFGF->m_extensions.AddTail(_T(".rar"));
+        pFGF->m_extensions.AddTail(_T(".r00")); //.r00 sorts to the top of explorer, so to be kind we recognize this extension of RAR, too
         m_source.AddTail(pFGF);
     }
 #endif

@@ -274,13 +274,40 @@ void CRARFileSource::UpdateArchiveName (wchar_t *ext, size_t len, int volume, bo
 
 HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* file_list, int* files_found, int* ok_files_found) {
     Archive rarArchive;
-    rarArchive.Open(archive_name);
     *ok_files_found = 0;
     *files_found = 0;
+    bool rewound = false;
 
-    if (!rarArchive.IsArchive(false)) {
-        ErrorMsg(GetLastError(), L"Could not read RAR header.");
-        return E_FAIL;
+    while (!rarArchive.IsOpened()) {
+        rarArchive.Open(archive_name);
+
+        if (!rarArchive.IsArchive(false)) {
+            ErrorMsg(GetLastError(), L"Could not read RAR header.");
+            return E_FAIL;
+        }
+
+        if (!rewound) {
+            if (rarArchive.NewNumbering && CmpExt(archive_name, L"rar")) { //make sure has .rar, or else it could have been renamed to .rNN, despite the NewNumbering header
+                wchar* Num = GetVolNumPart(archive_name); //last digit of vol num
+
+                uint VolNum = 0;
+                for (uint K = 1; Num >= archive_name && IsDigit(*Num); K *= 10, Num--) {
+                    VolNum += (*Num - '0') * K;
+                    *Num = K == 1 ? '1' : '0'; //replacing with 00001 in case not on first volume
+                }
+                if (VolNum != 1) { //not first volume
+                    rarArchive.Close();
+                    rewound = true;
+                }
+            } else if (!CmpExt(archive_name, L"rar") && wcslen(archive_name) > 4) { //if it is r00, r01, etc,. make it rar
+                wchar* Num = archive_name + wcslen(archive_name) - 1;
+                *Num-- = L'r';
+                *Num-- = L'a';
+                *Num-- = L'r';
+                rarArchive.Close();
+                rewound = true;
+            }
+        }
     }
 
     if (rarArchive.Encrypted) {
