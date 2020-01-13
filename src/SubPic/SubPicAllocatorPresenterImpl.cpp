@@ -184,13 +184,14 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 
     m_windowRect = w;
 
-    if (m_SubtitleTextureLimit != VIDEO) {
+    if (bWindowSizeChanged && m_pAllocator && m_SubtitleTextureLimit != VIDEO) {
         if (m_windowRect.Width() != m_curSubtitleTextureSize.cx || m_windowRect.Height() != m_curSubtitleTextureSize.cy) {
             if (m_windowRect.Width() * m_windowRect.Height() <= m_maxSubtitleTextureSize.cx * m_maxSubtitleTextureSize.cy) {
                 m_curSubtitleTextureSize = CSize(m_windowRect.Width(), m_windowRect.Height());
-                if (m_pAllocator) { //can be null when stopping video
-                    m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
-                }
+                m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+            } else if (m_curSubtitleTextureSize.cx * m_curSubtitleTextureSize.cy < m_maxSubtitleTextureSize.cx * m_maxSubtitleTextureSize.cy) {
+                m_curSubtitleTextureSize = CSize(m_maxSubtitleTextureSize.cx, m_maxSubtitleTextureSize.cy);
+                m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
             }
         }
     }
