@@ -276,18 +276,21 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
     Archive rarArchive;
     *ok_files_found = 0;
     *files_found = 0;
-    bool rewound = false;
+    bool redirectedToFirstVolume = false;
 
-    while (!rarArchive.IsOpened()) {
-        rarArchive.Open(archive_name);
+    do {
+        if (!rarArchive.Open(archive_name)) {
+            ErrorMsg(GetLastError(), L"Could not open archive.");
+            return E_FAIL;
+        }
 
         if (!rarArchive.IsArchive(false)) {
             ErrorMsg(GetLastError(), L"Could not read RAR header.");
             return E_FAIL;
         }
 
-        if (!rewound) {
-            if (rarArchive.NewNumbering && CmpExt(archive_name, L"rar")) { //make sure has .rar, or else it could have been renamed to .rNN, despite the NewNumbering header
+        if (!redirectedToFirstVolume && !rarArchive.FirstVolume) {
+            if (rarArchive.NewNumbering && nullptr != wcsstr(archive_name,L".part")) { //verify ".part" exists in case the files have been renamed
                 wchar* Num = GetVolNumPart(archive_name); //last digit of vol num
 
                 uint VolNum = 0;
@@ -297,18 +300,21 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
                 }
                 if (VolNum != 1) { //not first volume
                     rarArchive.Close();
-                    rewound = true;
+                    redirectedToFirstVolume = true;
                 }
             } else if (!CmpExt(archive_name, L"rar") && wcslen(archive_name) > 4) { //if it is r00, r01, etc,. make it rar
                 wchar* Num = archive_name + wcslen(archive_name) - 1;
                 *Num-- = L'r';
                 *Num-- = L'a';
                 *Num-- = L'r';
+                *Num = L'.'; //presumably was a 3 char extension if we are here, but set the '.' anyway
                 rarArchive.Close();
-                rewound = true;
+                redirectedToFirstVolume = true;
             }
+        } else {
+            break; //we have redirected once, or we already have the first volume, so exit the loop now
         }
-    }
+    } while (redirectedToFirstVolume); //only loop if we are redirecting to the first volume
 
     if (rarArchive.Encrypted) {
         ErrorMsg(0, L"Encrypted RAR volumes are not supported.");

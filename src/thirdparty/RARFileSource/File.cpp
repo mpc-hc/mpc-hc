@@ -190,7 +190,11 @@ HRESULT CRFSFile::SyncRead(LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LO
     cdata.Threads = 1; 
     CmdExtract cmd(&cdata);
 
-    rarArchive.Open(rarFilename);
+    if (!rarArchive.Open(rarFilename)) {
+        ErrorMsg(GetLastError(), L"CRFSOutputPin::SyncRead - Archive Open");
+        return E_FAIL;
+    }
+    
     if (!rarArchive.IsArchive(false)) {
         ErrorMsg(GetLastError(), L"CRFSOutputPin::SyncRead - IsArchive");
         return E_FAIL;
