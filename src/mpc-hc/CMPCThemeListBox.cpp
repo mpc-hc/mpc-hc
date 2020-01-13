@@ -26,7 +26,7 @@ BEGIN_MESSAGE_MAP(CMPCThemeListBox, CListBox)
     ON_WM_MOUSEWHEEL()
     ON_WM_TIMER()
     ON_WM_VSCROLL()
-    ON_CONTROL_REFLECT(LBN_SELCHANGE, &CMPCThemeListBox::OnLbnSelchange)
+    ON_CONTROL_REFLECT_EX(LBN_SELCHANGE, &CMPCThemeListBox::OnLbnSelchange)
     ON_WM_MOUSEMOVE()
     ON_WM_SIZE()
 END_MESSAGE_MAP()
@@ -120,10 +120,11 @@ void CMPCThemeListBox::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
     }
 }
 
-void CMPCThemeListBox::OnLbnSelchange() {
+BOOL CMPCThemeListBox::OnLbnSelchange() {
     if (nullptr != themedSBHelper) {
         themedSBHelper->updateScrollInfo();
     }
+    return FALSE; //allow non-reflection handling
 }
 
 
