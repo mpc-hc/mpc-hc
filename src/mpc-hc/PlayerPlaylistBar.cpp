@@ -897,6 +897,8 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
     CString base;
 
+    m_list.SetRedraw(FALSE);
+
     if (AfxGetMyApp()->GetAppSavePath(base)) {
         CPath p;
         p.Combine(base, _T("default.mpcpl"));
@@ -911,6 +913,8 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
             }
         }
     }
+    m_list.SetRedraw(TRUE);
+    m_list.RedrawWindow(NULL, NULL, RDW_ERASE | RDW_INVALIDATE);
 }
 
 void CPlayerPlaylistBar::SavePlaylist()
