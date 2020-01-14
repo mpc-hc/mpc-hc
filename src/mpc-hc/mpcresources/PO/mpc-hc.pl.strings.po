@@ -4,13 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Michał Trzebiatowski <michtrz@gmail.com>, 2020
+# Dawid Lyceus <lyceus666@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"POT-Creation-Date: 2020-01-10 07:05:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Michał Trzebiatowski <michtrz@gmail.com>, 2020\n"
+"Last-Translator: Dawid Lyceus <lyceus666@gmail.com>, 2020\n"
 "Language-Team: Polish (https://www.transifex.com/mpchc/teams/106126/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3812,7 +3813,7 @@ msgstr "Pobieranie obsługiwanych języków..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Nie udało się zalogować na \"%1\" z nazwą użytkownika \"%2\".\n\nProszę podać poprawną nazwę użytkownika i hasło lub zresetować dane aby zalogować się jako użytkownik anonimowy."
+msgstr "Nie udało się zalogować \"%1\" przy użyciu nazwy użytkownika \"%2\". Wprowadź poprawną nazwę użytkownika i hasło lub zresetuj dane, aby zalogować się użytkownik anonimowy."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -4024,7 +4025,7 @@ msgstr "&Kontyntynuj"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr ""
+msgstr "Przełącz na domyślny styl napisów"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"

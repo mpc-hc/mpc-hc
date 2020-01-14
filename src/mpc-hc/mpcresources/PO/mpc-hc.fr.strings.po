@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"POT-Creation-Date: 2020-01-10 07:05:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2020\n"
 "Language-Team: French (https://www.transifex.com/mpchc/teams/106126/fr/)\n"
@@ -3812,7 +3812,7 @@ msgstr "Chargement de la liste des langages supportés..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Impossible de se connecter à \"%1\" avec le nom d'utilisateur \"%2\".\n\nVeuillez corriger le mot d'utilisateur et le mot de passe ou réinitialiser les identifiants pour vous connecter en tant qu'utilisateur anonyme."
+msgstr "Impossible de se connecter à \"%1\" avec le nom d'utilisateur \"%2\".\n\nVeuillez corriger le nom d'utilisateur et le mot de passe ou réinitialiser les identifiants pour vous connecter en tant qu'utilisateur anonyme."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -4024,7 +4024,7 @@ msgstr "&Continuer"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr ""
+msgstr "Activer/désactiver le style par défaut des sous-titres"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"

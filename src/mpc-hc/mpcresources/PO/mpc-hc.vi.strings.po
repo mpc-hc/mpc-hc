@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Trần Anh Minh <anhminhvks@yahoo.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2019-12-17 06:27:41+0000\n"
+"POT-Creation-Date: 2020-01-10 07:05:47+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Trần Anh Minh <anhminhvks@yahoo.com>, 2020\n"
 "Language-Team: Vietnamese (https://www.transifex.com/mpchc/teams/106126/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,15 +148,15 @@ msgstr "Lặp lại mãi"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never"
-msgstr ""
+msgstr "Không bao giờ"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Chỉ khi chuyển đổi loại video khác"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
-msgstr ""
+msgstr "Luôn luôn (mặc định)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -171,7 +172,7 @@ msgstr "Không bao giờ nếu có thể (nhanh nhất, nhưng không được h
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr ""
+msgstr "Chỉ khi chuyển đổi loại video khác"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -603,7 +604,7 @@ msgstr "&Kênh"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr ""
+msgstr "Bộ dựng Video MPC"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -639,7 +640,7 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason."
-msgstr ""
+msgstr "Mặc định bộ lọc dựng video cho DirectShow. Bộ lọc này sẽ được sử dụng nếu những bộ lọc khác không thể nạp vì lý do nào đó."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -655,7 +656,7 @@ msgstr "Chỉ có giá trị nếu bạn đã cài đặt DirectX 9. Rất ổn 
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended."
-msgstr ""
+msgstr "Giống như VMR-9 (chế dộ cửa sổ), nhưng với trình cắm Bộ trình diễn chỉ định của MPC-HC dành cho phụ đề. Việc theo dõi lớp phủ video sẽ được kich hoạt. Không gian màu \"True Color\" trên màn hình desktop được yêu cầu."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -671,7 +672,7 @@ msgstr "Giống như Null render bình thường, nhưng điều này sẽ chỉ
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended."
-msgstr ""
+msgstr "Giống như EVR, nhưng với Bộ trình diễn chỉ định của MPC-HC dành cho phụ đề và chuyển xử lý. Được yêu cầu."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -719,7 +720,7 @@ msgstr "Đặt VMR-9 (dựng hình kém hơn) vào chế độ trộn, điều n
 
 msgctxt "IDC_DSMPCVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
+msgstr "Bộ dựng hình chất lượng cao, yêu cầu GPU hỗ trợ D3D9 hoặc mới hơn."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -2347,7 +2348,7 @@ msgstr "Các hình ảnh thu nhỏ sẽ quá nhỏ, không thể tạo tập tin
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: EVR (Custom Presenter), Sync, VMR-9 (renderless), madVR, MPC VR, or Haali VR\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr ""
+msgstr "Dể nạp phụ để, bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: EVR (Bộ trình diễn tùy chỉnh), Sync, VMR-9 (kết xuất), madVR, MPC VR, hoặc Haali VR\n- RealMedia: Bộ dựng hình đặc biệt cho RealMedia, hoặc mở nó thông qua DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -3811,7 +3812,7 @@ msgstr "Đang tìm và nạp ngôn ngữ được hỗ trợ..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%1\" with username \"%2\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr "Không thể đăng nhập vào \"% S\" bằng tên người dùng \"% S\".\n\nVui lòng nhập tên người dùng và mật khẩu chính xác hoặc thiết lập lại các thông tin đăng nhập như một người dùng vô danh."
+msgstr "Không thể đăng nhập vào \"%1\" với tên đăng nhập \"%2\".\n\nVui lòng nhập chính xác tên đăng nhập và mật khẩu hoặc thiết lập lại thông tin đăng nhập để đăng nhập như một người dùng vô danh."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
@@ -3903,35 +3904,35 @@ msgstr "/playnext\t\tMở tập tin kế tiếp trong thư mục sau khi phát x
 
 msgctxt "IDS_CMD_VIEWPRESET"
 msgid "/viewpreset N\tStart with specific preset,\n\t\twhere N is either \"1\" Minimal, \"2\" Compact or \"3\" Normal"
-msgstr ""
+msgstr "/viewpreset N\tKhởi động với cài đặt sẵn được chỉ định,\n\t\thoặc N là \"1\" Tối thiểu, \"2\" Gọn nhẹ hoặc \"3\" Bình thường"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
-msgstr ""
+msgstr "/mute\t\tTắt tiếng"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tCài đặt âm lượng, N trong khoảng từ 0 đến 100"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
-msgstr ""
+msgstr "Không thể khởi chạy youtube-dl. Hãy chắc chắn rằng youtube-dl đang ở trong PATH."
 
 msgctxt "IDS_CONTROLS_YOUTUBEDL"
 msgid "Calling youtube-dl..."
-msgstr ""
+msgstr "Đang khởi chạy youtube-dl..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr ""
+msgstr "Căn chỉnh trên"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
-msgstr ""
+msgstr "Căn chỉnh giữa"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
-msgstr ""
+msgstr "Căn chỉnh dưới"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3999,33 +4000,33 @@ msgstr "/shaderpreset \"Pr\"\tKhởi động sử dụng thiết lập đổ bó
 
 msgctxt "IDS_MESSAGEBOX_CANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy bỏ"
 
 msgctxt "IDS_MESSAGEBOX_ABORT"
 msgid "&Abort"
-msgstr ""
+msgstr "&Hủy"
 
 msgctxt "IDS_MESSAGEBOX_RETRY"
 msgid "&Retry"
-msgstr ""
+msgstr "&Thử lại"
 
 msgctxt "IDS_MESSAGEBOX_IGNORE"
 msgid "&Ignore"
-msgstr ""
+msgstr "&Bỏ qua"
 
 msgctxt "IDS_MESSAGEBOX_OK"
 msgid "OK"
-msgstr ""
+msgstr "Đồng ý"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
-msgstr ""
+msgstr "&Tiếp tục"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr ""
+msgstr "Chuyển đổi kiểu phụ đề mặc định"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr ""
+msgstr "Chuyển đổi chủ đề tối"
 
