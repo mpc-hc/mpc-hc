@@ -112,10 +112,12 @@ void CMPCThemeToolTipCtrl::makeHelper() {
     if (!useFlickerHelper) return;
 
     if (nullptr != helper) {
+		helper = nullptr;
         delete helper;
     }
     CRect r;
     GetClientRect(r);
+	if (r.Size() == CSize(0, 0)) return;
     ClientToScreen(r);
 
     helper = new CMPCThemeToolTipCtrlHelper(this);
