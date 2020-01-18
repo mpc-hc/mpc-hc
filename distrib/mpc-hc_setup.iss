@@ -255,7 +255,7 @@ Source: ..\COPYING.txt;                         DestDir: {app}; Components: main
 Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
+Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: onlyifdoesntexist
 #if USE_DRDUMP_CRASH_REPORTER
 #ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
 Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
