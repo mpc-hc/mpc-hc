@@ -33,12 +33,10 @@ System Requirements
 
 Links
 -----
-Website:            https://mpc-hc.org/
-Source code:        https://github.com/mpc-hc
+Website:            https://github.com/clsid2/mpc-hc
+Source code:        https://github.com/clsid2/mpc-hc
 Support Trac:       https://trac.mpc-hc.org/
-IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (https://webchat.freenode.net/)
-Donations:          https://mpc-hc.org/donate/
-Translations:       https://www.transifex.com/mpc-hc/mpc-hc/
+Translations:       https://www.transifex.com/mpchc/mpchc/
 
 
 For the people involved in the development, see Authors.txt.
