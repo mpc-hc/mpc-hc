@@ -184,6 +184,7 @@
     <ClCompile Include="CMPCThemeStatusBar.cpp" />
     <ClCompile Include="CMPCThemeTabCtrl.cpp" />
     <ClCompile Include="ColorButton.cpp" />
+    <ClCompile Include="ColorProfileUtil.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CoverArt.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="CMPCThemeTabCtrl.h" />
     <ClInclude Include="CMPCThemeWin10Api.h" />
     <ClInclude Include="ColorButton.h" />
+    <ClInclude Include="ColorProfileUtil.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CoverArt.h" />

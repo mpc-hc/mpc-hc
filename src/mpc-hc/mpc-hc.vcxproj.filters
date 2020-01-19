@@ -601,6 +601,7 @@
     <ClCompile Include="CMPCThemeMiniDockFrameWnd.cpp">
       <Filter>MPCTheme</Filter>
     </ClCompile>
+    <ClCompile Include="ColorProfileUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1135,6 +1136,7 @@
     <ClInclude Include="CMPCThemeMiniDockFrameWnd.h">
       <Filter>MPCTheme</Filter>
     </ClInclude>
+    <ClInclude Include="ColorProfileUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">

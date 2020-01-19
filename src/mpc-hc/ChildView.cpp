@@ -25,6 +25,7 @@
 #include "MainFrm.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
+#include "ColorProfileUtil.h"
 
 CChildView::CChildView(CMainFrame* pMainFrame)
     : m_vrect(0, 0, 0, 0)
@@ -240,6 +241,8 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
                 SetStretchBltMode(hDC, STRETCH_HALFTONE);
                 img.StretchBlt(hDC, 0, 0, r.Width(), r.Height(), SRCCOPY);
                 m_resizedImg.ReleaseDC();
+
+                ColorProfileUtil::applyColorProfile(m_hWnd, m_resizedImg);
             }
 
             m_resizedImg.BitBlt(*pDC, r.TopLeft());

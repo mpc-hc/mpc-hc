@@ -24,6 +24,7 @@
 #include "../../../mpc-hc/resource.h"
 #include "Dither.h"
 #include "DX9RenderingEngine.h"
+#include "../../../mpc-hc/ColorProfileUtil.h"
 
 // UUID for vorpX hack
 static const IID IID_D3D9VorpVideoCaptureTexture = { 0x8a49d79, 0x8646, 0x4867, { 0xb9, 0x34, 0x13, 0x12, 0xe4, 0x4b, 0x23, 0xdb } };
@@ -1056,25 +1057,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     // Initialize the color management if necessary
     if (bColorManagement) {
         // Get the ICC profile path
-        TCHAR* iccProfilePath = 0;
-
-        HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-        MONITORINFOEX miex;
-        miex.cbSize = sizeof(miex);
-        GetMonitorInfo(hMonitor, &miex);
-        HDC hDC = CreateDC(_T("DISPLAY"), miex.szDevice, nullptr, nullptr);
-
-        if (hDC != nullptr) {
-            DWORD icmProfilePathSize = 0;
-            GetICMProfile(hDC, &icmProfilePathSize, nullptr);
-            iccProfilePath = DEBUG_NEW TCHAR[icmProfilePathSize];
-            if (!GetICMProfile(hDC, &icmProfilePathSize, iccProfilePath)) {
-                delete [] iccProfilePath;
-                iccProfilePath = 0;
-            }
-
-            DeleteDC(hDC);
-        }
+        TCHAR* iccProfilePath = ColorProfileUtil::getIccProfilePath(m_hWnd);
 
         // Create the 3D LUT texture
         m_Lut3DSize = 64; // 64x64x64 LUT is enough for high-quality color management
