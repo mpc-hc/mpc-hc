@@ -4,7 +4,7 @@
 
 
 class CMPCThemePropertySheet :
-	public CPropertySheet
+    public CPropertySheet
     , public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CMPCThemePropertySheet)

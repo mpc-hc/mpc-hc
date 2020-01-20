@@ -210,7 +210,8 @@ struct YDLStreamDetails {
     int fps;
 };
 
-bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
+bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details)
+{
     details.protocol = format.HasMember(_T("protocol")) && !format[_T("protocol")].IsNull() ? format[_T("protocol")].GetString() : nullptr;
     if (details.protocol && details.protocol != _T("http_dash_segments")) {
         details.url       = format[_T("url")].GetString();
@@ -250,7 +251,8 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details) {
 #define YDL_FORMAT_AV1_30    7
 #define YDL_FORMAT_AV1_60    8
 
-bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate, int preferred_format) {  
+bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate, int preferred_format)
+{
     if (first.has_video) {
         // We want separate audio/video streams
         if (separate && first.has_audio && !second.has_audio) {
@@ -285,8 +287,7 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             if ((preferred_format == YDL_FORMAT_VP9P2_30 || preferred_format == YDL_FORMAT_VP9P2_60)) {
                 if (first.vcodec == _T("vp9.2")) {
                     return false;
-                }
-                else {
+                } else {
                     if (second.vcodec == _T("vp9.2")) {
                         return true;
                     }
@@ -304,8 +305,7 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             if ((preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9_60)) {
                 if (first.vcodec == _T("vp9") || first.vcodec == _T("vp9.0")) {
                     return false;
-                }
-                else {
+                } else {
                     if (second.vcodec == _T("vp9") || second.vcodec == _T("vp9.0")) {
                         return true;
                     }

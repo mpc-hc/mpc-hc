@@ -1,14 +1,16 @@
 #pragma once
 #include <algorithm>
-namespace Gdiplus { //avoid GDIPLUS min/max issues when including atlimage
-	using std::min;
-	using std::max;
+namespace Gdiplus   //avoid GDIPLUS min/max issues when including atlimage
+{
+    using std::min;
+    using std::max;
 }
 #include <atlimage.h>
 
-class ColorProfileUtil {
+class ColorProfileUtil
+{
 public:
-	static TCHAR* getIccProfilePath(HWND wnd);
-	static bool applyColorProfile(HWND wnd, CImage &image);
+    static TCHAR* getIccProfilePath(HWND wnd);
+    static bool applyColorProfile(HWND wnd, CImage& image);
 };
 

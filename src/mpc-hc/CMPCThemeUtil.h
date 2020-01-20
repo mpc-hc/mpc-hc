@@ -9,22 +9,22 @@ class CMPCThemeUtil
 {
 public:
     CMPCThemeUtil();
-	virtual ~CMPCThemeUtil();
-    static bool ModifyTemplates(CPropertySheet * sheet, CRuntimeClass* pageClass, DWORD id, DWORD addStyle, DWORD removeStyle = 0);
+    virtual ~CMPCThemeUtil();
+    static bool ModifyTemplates(CPropertySheet* sheet, CRuntimeClass* pageClass, DWORD id, DWORD addStyle, DWORD removeStyle = 0);
 
     void enableFileDialogHook();
 
     static HBRUSH getCtlColorFileDialog(HDC hDC, UINT nCtlColor);
-    HBRUSH getCtlColor(CDC * pDC, CWnd * pWnd, UINT nCtlColor);
+    HBRUSH getCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     static bool MPCThemeEraseBkgnd(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     void subClassFileDialog(CWnd* wnd, HWND hwnd, bool findSink = true);
 
 protected:
     static CBrush contentBrush, windowBrush, controlAreaBrush, W10DarkThemeFileDialogInjectedBGBrush;
     static CFont dialogFont;
-    std::vector<CWnd *> allocatedWindows;
+    std::vector<CWnd*> allocatedWindows;
 
-    void fulfillThemeReqs(CWnd *wnd);
+    void fulfillThemeReqs(CWnd* wnd);
     void initHelperObjects(CWnd* wnd);
     void makeThemed(CWnd* pObject, CWnd* tChild);
 
@@ -44,11 +44,11 @@ public:
 
     static CSize GetTextSize(CString str, HDC hDC, CFont* font);
     static CSize GetTextSize(CString str, CDC* pDC, CFont* font);
-	static CSize GetTextSize(CString str, HDC hDC, int type);
+    static CSize GetTextSize(CString str, HDC hDC, int type);
     static CSize GetTextSizeDiff(CString str, HDC hDC, int type, CFont* curFont);
 
 
-    static void GetMetrics(NONCLIENTMETRICS *ncMetrics);
+    static void GetMetrics(NONCLIENTMETRICS* ncMetrics);
     static void initMemDC(CDC* pDC, CDC& dcMem, CBitmap& bmMem, CRect rect);
     static void flushMemDC(CDC* pDC, CDC& dcMem, CRect rect);
     static void DrawBufferedText(CDC* pDC, CString text, CRect rect, UINT format);
@@ -61,7 +61,7 @@ public:
     static void drawCheckBox(UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio = false);
     static bool canUseWin10DarkTheme();
     static UINT defaultLogo();
-    static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill=true);
+    static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill = true);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
     static void enableWindows10DarkFrame(CWnd* window);
 

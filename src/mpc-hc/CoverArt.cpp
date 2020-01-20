@@ -30,7 +30,9 @@ CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& pa
         FindFiles(filename_no_ext + _T(".png"), files);
         FindFiles(filename_no_ext + _T(".jp*g"), files);
         FindFiles(filename_no_ext + _T(".bmp"), files);
-        if (!files.IsEmpty()) return files.GetHead();
+        if (!files.IsEmpty()) {
+            return files.GetHead();
+        }
 
         FindFiles(path + _T("\\*front*.png"), files);
         FindFiles(path + _T("\\*front*.jp*g"), files);
@@ -55,7 +57,9 @@ CString CoverArt::FindExternal(const CString& filename_no_ext, const CString& pa
             FindFiles(path + _T("\\*") + author + _T("*.png"), files);
             FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
             FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
-            if (!files.IsEmpty()) return files.GetHead();
+            if (!files.IsEmpty()) {
+                return files.GetHead();
+            }
         }
     }
     return _T("");

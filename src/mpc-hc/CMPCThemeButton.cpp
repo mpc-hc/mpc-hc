@@ -4,17 +4,20 @@
 #include "CMPCThemeUtil.h"
 #include "mplayerc.h"
 
-CMPCThemeButton::CMPCThemeButton() {
+CMPCThemeButton::CMPCThemeButton()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         m_nFlatStyle = CMFCButton::BUTTONSTYLE_FLAT; //just setting this to get hovering working
     }
     drawShield = false;
 }
 
-CMPCThemeButton::~CMPCThemeButton() {
+CMPCThemeButton::~CMPCThemeButton()
+{
 }
 
-void CMPCThemeButton::PreSubclassWindow() { //bypass CMFCButton impl since it will enable ownerdraw. also clear CS_DBLCLKS class style, due to mfcbutton requirements
+void CMPCThemeButton::PreSubclassWindow()   //bypass CMFCButton impl since it will enable ownerdraw. also clear CS_DBLCLKS class style, due to mfcbutton requirements
+{
     InitStyle(GetStyle());
     CButton::PreSubclassWindow();
     DWORD classStyle = ::GetClassLongPtr(m_hWnd, GCL_STYLE);
@@ -22,9 +25,10 @@ void CMPCThemeButton::PreSubclassWindow() { //bypass CMFCButton impl since it wi
     ::SetClassLongPtr(m_hWnd, GCL_STYLE, classStyle);
 }
 
-BOOL CMPCThemeButton::PreCreateWindow(CREATESTRUCT& cs) {//bypass CMFCButton impl since it will enable ownerdraw. also clear CS_DBLCLKS class style, due to mfcbutton requirements
+BOOL CMPCThemeButton::PreCreateWindow(CREATESTRUCT& cs)  //bypass CMFCButton impl since it will enable ownerdraw. also clear CS_DBLCLKS class style, due to mfcbutton requirements
+{
     InitStyle(cs.style);
-    if (!CButton::PreCreateWindow(cs)){
+    if (!CButton::PreCreateWindow(cs)) {
         return FALSE;
     }
     DWORD classStyle = ::GetClassLongPtr(m_hWnd, GCL_STYLE);
@@ -42,12 +46,14 @@ BEGIN_MESSAGE_MAP(CMPCThemeButton, CMFCButton)
     ON_MESSAGE(BCM_SETSHIELD, &setShieldIcon)
 END_MESSAGE_MAP()
 
-LRESULT CMPCThemeButton::setShieldIcon(WPARAM wParam, LPARAM lParam) {
+LRESULT CMPCThemeButton::setShieldIcon(WPARAM wParam, LPARAM lParam)
+{
     drawShield = (BOOL)lParam;
     return 1; //pass it along
 }
 
-void CMPCThemeButton::drawButtonBase(CDC* pDC, CRect rect, CString strText, bool selected, bool highLighted, bool focused, bool disabled, bool thin, bool shield) {
+void CMPCThemeButton::drawButtonBase(CDC* pDC, CRect rect, CString strText, bool selected, bool highLighted, bool focused, bool disabled, bool thin, bool shield)
+{
     CBrush fb, fb2;
     fb.CreateSolidBrush(CMPCTheme::ButtonBorderOuterColor);
 
@@ -80,7 +86,7 @@ void CMPCThemeButton::drawButtonBase(CDC* pDC, CRect rect, CString strText, bool
         rect.DeflateRect(1, 1);
         COLORREF oldTextFGColor = pDC->SetTextColor(dottedClr);
         COLORREF oldBGColor = pDC->SetBkColor(bg);
-        CBrush *dotted = pDC->GetHalftoneBrush();
+        CBrush* dotted = pDC->GetHalftoneBrush();
         pDC->FrameRect(rect, dotted);
         DeleteObject(dotted);
         pDC->SetTextColor(oldTextFGColor);
@@ -91,10 +97,11 @@ void CMPCThemeButton::drawButtonBase(CDC* pDC, CRect rect, CString strText, bool
         int nMode = pDC->SetBkMode(TRANSPARENT);
 
         COLORREF oldTextFGColor;
-        if (disabled)
+        if (disabled) {
             oldTextFGColor = pDC->SetTextColor(CMPCTheme::ButtonDisabledFGColor);
-        else
+        } else {
             oldTextFGColor = pDC->SetTextColor(CMPCTheme::TextFGColor);
+        }
 
         UINT format = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
         if (shield) {
@@ -120,7 +127,8 @@ void CMPCThemeButton::drawButtonBase(CDC* pDC, CRect rect, CString strText, bool
 }
 
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
-void CMPCThemeButton::drawButton(HDC hdc, CRect rect, UINT state) {
+void CMPCThemeButton::drawButton(HDC hdc, CRect rect, UINT state)
+{
     CDC* pDC = CDC::FromHandle(hdc);
 
     CString strText;
@@ -131,7 +139,7 @@ void CMPCThemeButton::drawButton(HDC hdc, CRect rect, UINT state) {
 
     BUTTON_IMAGELIST imgList;
     GetImageList(&imgList);
-    CImageList *images = CImageList::FromHandlePermanent(imgList.himl);
+    CImageList* images = CImageList::FromHandlePermanent(imgList.himl);
     //bool thin = (images != nullptr); //thin borders for image buttons
     bool thin = true;
 
@@ -145,7 +153,9 @@ void CMPCThemeButton::drawButton(HDC hdc, CRect rect, UINT state) {
 
     if (images != nullptr) { //assume centered
         IMAGEINFO ii;
-        if (images->GetImageCount() <= imageIndex) imageIndex = 0;
+        if (images->GetImageCount() <= imageIndex) {
+            imageIndex = 0;
+        }
         images->GetImageInfo(imageIndex, &ii);
         int width = ii.rcImage.right - ii.rcImage.left;
         int height = ii.rcImage.bottom - ii.rcImage.top;
@@ -154,7 +164,8 @@ void CMPCThemeButton::drawButton(HDC hdc, CRect rect, UINT state) {
     }
 }
 
-void CMPCThemeButton::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
+void CMPCThemeButton::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
+{
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
     *pResult = CDRF_DODEFAULT;
     if (AfxGetAppSettings().bMPCThemeLoaded) {
@@ -164,10 +175,12 @@ void CMPCThemeButton::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
         }
     }
 }
-void CMPCThemeButton::OnSetFont(CFont* pFont, BOOL bRedraw) {
+void CMPCThemeButton::OnSetFont(CFont* pFont, BOOL bRedraw)
+{
     Default(); //bypass the MFCButton font impl since we don't always draw this button ourselves (classic mode)
 }
 
-HFONT CMPCThemeButton::OnGetFont() {
+HFONT CMPCThemeButton::OnGetFont()
+{
     return (HFONT)Default();
 }

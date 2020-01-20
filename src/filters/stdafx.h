@@ -31,7 +31,8 @@
 #include <afxwin.h>                         // MFC core and standard components
 
 #include <algorithm>
-namespace Gdiplus {
+namespace Gdiplus
+{
     using std::min;
     using std::max;
 };

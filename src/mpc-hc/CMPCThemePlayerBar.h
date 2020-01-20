@@ -1,6 +1,7 @@
 #pragma once
 #include "PlayerBar.h"
-class CMPCThemePlayerBar :	public CPlayerBar {
+class CMPCThemePlayerBar :  public CPlayerBar
+{
 public:
     CMPCThemePlayerBar();
     virtual ~CMPCThemePlayerBar();

@@ -12,19 +12,20 @@ struct MenuObject {
 
 
 
-class CMPCThemeMenu :public CMenu {
+class CMPCThemeMenu : public CMenu
+{
     DECLARE_DYNCREATE(CMPCThemeMenu)
 public:
-	CMPCThemeMenu();
-	virtual ~CMPCThemeMenu();
+    CMPCThemeMenu();
+    virtual ~CMPCThemeMenu();
 
     void fulfillThemeReqs(bool menubar = false);
-    void fulfillThemeReqsItem(UINT i, bool byCommand=false);
-    static void fulfillThemeReqsItem(CMenu* parent, UINT i, bool byCommand=false);
+    void fulfillThemeReqsItem(UINT i, bool byCommand = false);
+    static void fulfillThemeReqsItem(CMenu* parent, UINT i, bool byCommand = false);
     static UINT getPosFromID(CMenu* parent, UINT nID);
     static CMPCThemeMenu* getParentMenu(UINT itemID);
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
-	void GetStrings(MenuObject* mo, CString& left, CString& right);
+    void GetStrings(MenuObject* mo, CString& left, CString& right);
     virtual void MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct);
     virtual BOOL AppendMenu(UINT nFlags, UINT_PTR nIDNewItem = 0, LPCTSTR lpszNewItem = NULL);
     virtual BOOL DeleteMenu(UINT nPosition, UINT nFlags);
@@ -37,7 +38,7 @@ protected:
     std::vector<MenuObject*> allocatedItems;
     std::vector<CMPCThemeMenu*> allocatedMenus;
     void initDimensions();
-    UINT findID(UINT &i, bool byCommand);
+    UINT findID(UINT& i, bool byCommand);
     void cleanupItem(UINT nPosition, UINT nFlags);
 
 

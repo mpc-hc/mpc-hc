@@ -3,11 +3,13 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeEdit.h"
 
-CMPCThemeSpinButtonCtrl::CMPCThemeSpinButtonCtrl() {
+CMPCThemeSpinButtonCtrl::CMPCThemeSpinButtonCtrl()
+{
 }
 
 
-CMPCThemeSpinButtonCtrl::~CMPCThemeSpinButtonCtrl() {
+CMPCThemeSpinButtonCtrl::~CMPCThemeSpinButtonCtrl()
+{
 }
 
 IMPLEMENT_DYNAMIC(CMPCThemeSpinButtonCtrl, CSpinButtonCtrl)
@@ -20,7 +22,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeSpinButtonCtrl, CSpinButtonCtrl)
 END_MESSAGE_MAP()
 
 
-void CMPCThemeSpinButtonCtrl::drawSpinArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect, arrowOrientation orientation) {
+void CMPCThemeSpinButtonCtrl::drawSpinArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect, arrowOrientation orientation)
+{
     DpiHelper dpiWindow;
     dpiWindow.Override(GetSafeHwnd());
 
@@ -31,41 +34,47 @@ void CMPCThemeSpinButtonCtrl::drawSpinArrow(CDC& dc, COLORREF arrowClr, CRect ar
     int dpi = dpiWindow.DPIX();
     float steps;
 
-    if (dpi < 120) steps = 2;
-    else if (dpi < 144) steps = 3;
-    else if (dpi < 168) steps = 4;
-    else if (dpi < 192) steps = 4;
-    else steps = 4.5;
+    if (dpi < 120) {
+        steps = 2;
+    } else if (dpi < 144) {
+        steps = 3;
+    } else if (dpi < 168) {
+        steps = 4;
+    } else if (dpi < 192) {
+        steps = 4;
+    } else {
+        steps = 4.5;
+    }
 
     int xPos;
     int yPos;
     int xsign, ysign;
     switch (orientation) {
-    case arrowLeft:
-        xPos = arrowRect.right - (arrowRect.Width() - (steps)) / 2;
-        yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
-        xsign = -1;
-        ysign = 1;
-        break;
-    case arrowRight:
-        xPos = arrowRect.left + (arrowRect.Width() - (steps + 1)) / 2;
-        yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
-        xsign = 1;
-        ysign = 1;
-        break;
-    case arrowTop:
-        xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
-        yPos = arrowRect.bottom - (arrowRect.Height() - (steps)) / 2;
-        xsign = 1;
-        ysign = -1;
-        break;
-    case arrowBottom:
-    default:
-        xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
-        yPos = arrowRect.top + (arrowRect.Height() - (steps + 1)) / 2;
-        xsign = 1;
-        ysign = 1;
-        break;
+        case arrowLeft:
+            xPos = arrowRect.right - (arrowRect.Width() - (steps)) / 2;
+            yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
+            xsign = -1;
+            ysign = 1;
+            break;
+        case arrowRight:
+            xPos = arrowRect.left + (arrowRect.Width() - (steps + 1)) / 2;
+            yPos = arrowRect.top + (arrowRect.Height() - (steps * 2 + 1)) / 2;
+            xsign = 1;
+            ysign = 1;
+            break;
+        case arrowTop:
+            xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+            yPos = arrowRect.bottom - (arrowRect.Height() - (steps)) / 2;
+            xsign = 1;
+            ysign = -1;
+            break;
+        case arrowBottom:
+        default:
+            xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
+            yPos = arrowRect.top + (arrowRect.Height() - (steps + 1)) / 2;
+            xsign = 1;
+            ysign = 1;
+            break;
     }
 
     Gdiplus::PointF vertices[3];
@@ -94,9 +103,10 @@ void CMPCThemeSpinButtonCtrl::drawSpinArrow(CDC& dc, COLORREF arrowClr, CRect ar
     gfx.FillPolygon(&brush, vertices, 3);
 }
 
-void CMPCThemeSpinButtonCtrl::OnPaint() {
+void CMPCThemeSpinButtonCtrl::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
-        CWnd *buddy = GetBuddy();
+        CWnd* buddy = GetBuddy();
         bool hasBuddy = false;
         CMPCThemeEdit* buddyEdit;
         if (nullptr != buddy && nullptr != (buddyEdit = DYNAMIC_DOWNCAST(CMPCThemeEdit, buddy))) {
@@ -182,7 +192,8 @@ void CMPCThemeSpinButtonCtrl::OnPaint() {
 }
 
 
-void CMPCThemeSpinButtonCtrl::OnMouseMove(UINT nFlags, CPoint point) {
+void CMPCThemeSpinButtonCtrl::OnMouseMove(UINT nFlags, CPoint point)
+{
     CSpinButtonCtrl::OnMouseMove(nFlags, point);
     if (MK_LBUTTON & nFlags) {
         downPos = point;
@@ -192,19 +203,22 @@ void CMPCThemeSpinButtonCtrl::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 
-void CMPCThemeSpinButtonCtrl::OnLButtonDown(UINT nFlags, CPoint point) {
+void CMPCThemeSpinButtonCtrl::OnLButtonDown(UINT nFlags, CPoint point)
+{
     CSpinButtonCtrl::OnLButtonDown(nFlags, point);
     downPos = point;
 }
 
 
-void CMPCThemeSpinButtonCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
+void CMPCThemeSpinButtonCtrl::OnLButtonUp(UINT nFlags, CPoint point)
+{
     CSpinButtonCtrl::OnLButtonUp(nFlags, point);
     downPos = CPoint(-1, -1);
 }
 
 
-BOOL CMPCThemeSpinButtonCtrl::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeSpinButtonCtrl::OnEraseBkgnd(CDC* pDC)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return TRUE;
     } else {

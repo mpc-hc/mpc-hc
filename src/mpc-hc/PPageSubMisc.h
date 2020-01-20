@@ -74,7 +74,7 @@ protected:
 
     static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 
-    BOOL PreTranslateMessage(MSG * pMsg);
+    BOOL PreTranslateMessage(MSG* pMsg);
 
     DECLARE_MESSAGE_MAP()
 

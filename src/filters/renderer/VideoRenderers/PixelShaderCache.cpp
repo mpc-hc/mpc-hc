@@ -102,8 +102,7 @@ void CPixelShaderCache::SavePixelShader(
         if (!res) {
             try {
                 CFile::Remove(cacheFilePath);
-            }
-            catch (...) {}
+            } catch (...) {}
         }
     }
 }
@@ -121,8 +120,7 @@ void CPixelShaderCache::LoadCache()
                 if (!LoadCache(finder.GetFileName(), finder.GetFilePath())) {
                     try {
                         CFile::Remove(finder.GetFilePath());
-                    }
-                    catch (...) {}
+                    } catch (...) {}
                 }
             }
         }
@@ -210,8 +208,7 @@ void CPixelShaderCache::DeleteCache(uint64_t Hash)
     if (GetCacheFilePath(cacheFilePath, Hash)) {
         try {
             CFile::Remove(cacheFilePath);
-        }
-        catch (...) {}
+        } catch (...) {}
     }
 }
 

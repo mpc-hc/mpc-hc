@@ -1047,14 +1047,14 @@ public:
     HRESULT UpdateThumbarButton(MPC_PLAYSTATE iPlayState);
     HRESULT UpdateThumbnailClip();
     BOOL Create(LPCTSTR lpszClassName,
-        LPCTSTR lpszWindowName,
-        DWORD dwStyle = WS_OVERLAPPEDWINDOW,
-        const RECT& rect = rectDefault,
-        CWnd* pParentWnd = NULL,        // != NULL for popups
-        LPCTSTR lpszMenuName = NULL,
-        DWORD dwExStyle = 0,
-        CCreateContext* pContext = NULL);
-    CMPCThemeMenu *defaultMPCThemeMenu = nullptr;
+                LPCTSTR lpszWindowName,
+                DWORD dwStyle = WS_OVERLAPPEDWINDOW,
+                const RECT& rect = rectDefault,
+                CWnd* pParentWnd = NULL,        // != NULL for popups
+                LPCTSTR lpszMenuName = NULL,
+                DWORD dwExStyle = 0,
+                CCreateContext* pContext = NULL);
+    CMPCThemeMenu* defaultMPCThemeMenu = nullptr;
     void enableFileDialogHook(CMPCThemeUtil* helper);
 
 protected:
@@ -1134,5 +1134,5 @@ private:
     HWND fileDialogHandle;
     CMPCThemeUtil* fileDialogHookHelper;
 public:
-	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+    afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 };

@@ -156,7 +156,7 @@ void CChildView::LoadImgInternal(HGDIOBJ hImg)
         s.fLogoExternal = false;               // use the built-in logo instead
         s.strLogoFileName.Empty();             // clear logo file name
         UINT useLogoId = s.nLogoId;
-        if ((UINT)-1 == useLogoId) { //if the user has never chosen a logo, we can try loading a theme default logo
+        if ((UINT) - 1 == useLogoId) { //if the user has never chosen a logo, we can try loading a theme default logo
             if (s.bMPCThemeLoaded) {
                 useLogoId = CMPCThemeUtil::defaultLogo();
             } else {
@@ -164,7 +164,7 @@ void CChildView::LoadImgInternal(HGDIOBJ hImg)
             }
         }
         if (!m_img.Load(useLogoId)) {          // try the latest selected build-in logo
-            s.nLogoId = (UINT)-1; //-1 == never selected, will default
+            s.nLogoId = (UINT) - 1; //-1 == never selected, will default
             m_img.Load(DEF_LOGO);  // if fail then use the default logo, should and must never fail
         }
     }

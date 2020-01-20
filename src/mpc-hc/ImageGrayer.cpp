@@ -141,7 +141,7 @@ bool ImageGrayer::UpdateColor(const CImage& imgSource, CImage& imgDest, bool dis
 {
     // Force to 32-bit
     CImage img32;
-    CImage const *imgSrc;
+    CImage const* imgSrc;
     if (imgSource.GetBPP() != 32) {
         if (!img32.Create(imgSource.GetWidth(), imgSource.GetHeight(), 32, CImage::createAlphaChannel)) {
             return false;

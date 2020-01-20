@@ -312,7 +312,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     CPoint screenPoint;
     //VERIFY(GetCursorPos(&screenPoint));
-    if (!GetCursorPos(&screenPoint)) screenPoint = { 100,100 };
+    if (!GetCursorPos(&screenPoint)) screenPoint = { 100, 100 };
     CPoint clientPoint(screenPoint);
     m_pMainFrame->ScreenToClient(&clientPoint);
 

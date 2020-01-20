@@ -158,7 +158,7 @@ public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
-    afx_msg void OnLvnBeginlabeleditList(NMHDR * pNMHDR, LRESULT * pResult);
+    afx_msg void OnLvnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLvnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnXButtonDown(UINT nFlags, UINT nButton, CPoint point);
     afx_msg void OnXButtonUp(UINT nFlags, UINT nButton, CPoint point);

@@ -3,12 +3,14 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
 
-CMPCThemeStatic::CMPCThemeStatic() {
+CMPCThemeStatic::CMPCThemeStatic()
+{
     isFileDialogChild = false;
 }
 
 
-CMPCThemeStatic::~CMPCThemeStatic() {
+CMPCThemeStatic::~CMPCThemeStatic()
+{
 }
 IMPLEMENT_DYNAMIC(CMPCThemeStatic, CStatic)
 BEGIN_MESSAGE_MAP(CMPCThemeStatic, CStatic)
@@ -19,7 +21,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeStatic, CStatic)
 END_MESSAGE_MAP()
 
 
-void CMPCThemeStatic::OnPaint() {
+void CMPCThemeStatic::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CPaintDC dc(this);
 
@@ -36,7 +39,7 @@ void CMPCThemeStatic::OnPaint() {
         UINT style = GetStyle();
 
         if (!sTitle.IsEmpty()) {
-            CFont *font= GetFont();
+            CFont* font = GetFont();
             CFont* pOldFont = dc.SelectObject(font);
 
             UINT uFormat = 0;
@@ -49,7 +52,7 @@ void CMPCThemeStatic::OnPaint() {
             if (0 != (style & SS_CENTERIMAGE) && sTitle.Find(_T("\n")) == -1) {
                 //If the static control contains a single line of text, the text is centered vertically in the client area of the control. msdn
                 uFormat |= DT_SINGLELINE;
-                uFormat |= DT_VCENTER; 
+                uFormat |= DT_VCENTER;
             } else {
                 uFormat |= DT_TOP;
             }
@@ -80,7 +83,8 @@ void CMPCThemeStatic::OnPaint() {
 }
 
 
-void CMPCThemeStatic::OnNcPaint() {
+void CMPCThemeStatic::OnNcPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CDC* pDC = GetWindowDC();
 
@@ -104,12 +108,13 @@ void CMPCThemeStatic::OnNcPaint() {
     }
 }
 
-void CMPCThemeStatic::OnEnable(BOOL bEnable) {
+void CMPCThemeStatic::OnEnable(BOOL bEnable)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         SetRedraw(FALSE);
         __super::OnEnable(bEnable);
         SetRedraw(TRUE);
-        CWnd *parent = GetParent();
+        CWnd* parent = GetParent();
         if (nullptr != parent) {
             CRect wr;
             GetWindowRect(wr);
@@ -123,12 +128,13 @@ void CMPCThemeStatic::OnEnable(BOOL bEnable) {
     }
 }
 
-BOOL CMPCThemeStatic::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeStatic::OnEraseBkgnd(CDC* pDC)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CRect r;
         GetClientRect(r);
         if (isFileDialogChild) {
-            HBRUSH hBrush=CMPCThemeUtil::getCtlColorFileDialog(pDC->GetSafeHdc(), CTLCOLOR_STATIC);
+            HBRUSH hBrush = CMPCThemeUtil::getCtlColorFileDialog(pDC->GetSafeHdc(), CTLCOLOR_STATIC);
             ::FillRect(pDC->GetSafeHdc(), r, hBrush);
         } else {
             CMPCThemeUtil::drawParentDialogBGClr(this, pDC, r);

@@ -5,17 +5,19 @@
 #include "CMPCThemeUtil.h"
 #include "CMPCThemeHeaderCtrl.h"
 
-class CMPCThemeListCtrlCustomInterface {
+class CMPCThemeListCtrlCustomInterface
+{
 public:
     virtual void GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) = 0;
     virtual void DoCustomPrePaint() = 0;
     virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) = 0;
 };
 
-class CMPCThemePlayerListCtrl :	public CPlayerListCtrl, CMPCThemeUtil, CMPCThemeScrollable {
+class CMPCThemePlayerListCtrl : public CPlayerListCtrl, CMPCThemeUtil, CMPCThemeScrollable
+{
 public:
-	CMPCThemePlayerListCtrl(int tStartEditingDelay = 500);
-	virtual ~CMPCThemePlayerListCtrl();
+    CMPCThemePlayerListCtrl(int tStartEditingDelay = 500);
+    virtual ~CMPCThemePlayerListCtrl();
     DECLARE_DYNAMIC(CMPCThemePlayerListCtrl)
 
     void updateSB();
@@ -35,15 +37,15 @@ public:
     DECLARE_MESSAGE_MAP()
     afx_msg void OnNcPaint();
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-    afx_msg BOOL OnLvnEndScroll(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg BOOL OnLvnEndScroll(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
     afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
-    afx_msg BOOL OnCustomDraw(NMHDR * pNMHDR, LRESULT * pResult);
+    afx_msg BOOL OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 protected:
-    CMPCThemeScrollBarHelper *themedSBHelper;
+    CMPCThemeScrollBarHelper* themedSBHelper;
     CMPCThemeToolTipCtrl themedToolTip, lvsToolTip;
     UINT_PTR themedToolTipCid;
     COLORREF checkedBGClr, checkedTextClr, uncheckedTextClr;
@@ -53,13 +55,13 @@ protected:
     bool themeGridLines;
     bool fullRowSelect;
     CMPCThemeHeaderCtrl themedHdrCtrl;
-    CFont *listMPCThemeFont, listMPCThemeFontBold;
+    CFont* listMPCThemeFont, listMPCThemeFontBold;
     CMPCThemeListCtrlCustomInterface* customThemeInterface;
     void drawItem(CDC* pDC, int nItem, int nSubItem);
     virtual void PreSubclassWindow();
 public:
     void doDefault() { Default(); };
-    afx_msg void OnHdnEndtrack(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg LRESULT OnDelayed_updateListCtrl(WPARAM, LPARAM);
     afx_msg BOOL OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult);
 };

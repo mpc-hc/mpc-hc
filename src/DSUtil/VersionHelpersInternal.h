@@ -40,7 +40,8 @@ typedef LONG NTSTATUS, * PNTSTATUS;
 
 typedef NTSTATUS(WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
 
-inline RTL_OSVERSIONINFOW GetRealOSVersion() {
+inline RTL_OSVERSIONINFOW GetRealOSVersion()
+{
     HMODULE hMod = ::GetModuleHandleW(L"ntdll.dll");
     if (hMod) {
         RtlGetVersionPtr fxPtr = (RtlGetVersionPtr)::GetProcAddress(hMod, "RtlGetVersion");

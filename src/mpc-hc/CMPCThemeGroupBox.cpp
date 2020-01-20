@@ -5,12 +5,14 @@
 
 IMPLEMENT_DYNAMIC(CMPCThemeGroupBox, CStatic)
 
-CMPCThemeGroupBox::CMPCThemeGroupBox() {
+CMPCThemeGroupBox::CMPCThemeGroupBox()
+{
 
 }
 
 
-CMPCThemeGroupBox::~CMPCThemeGroupBox() {
+CMPCThemeGroupBox::~CMPCThemeGroupBox()
+{
 }
 
 BEGIN_MESSAGE_MAP(CMPCThemeGroupBox, CStatic)
@@ -18,7 +20,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeGroupBox, CStatic)
 END_MESSAGE_MAP()
 
 
-void CMPCThemeGroupBox::OnPaint() {
+void CMPCThemeGroupBox::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
 
         CPaintDC dc(this);

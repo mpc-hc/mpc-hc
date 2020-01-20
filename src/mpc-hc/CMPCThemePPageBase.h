@@ -4,7 +4,7 @@
 #include "CMPCThemeUtil.h"
 #include "ImageGrayer.h"
 class CMPCThemePPageBase :
-	public CPPageBase, public CMPCThemeUtil
+    public CPPageBase, public CMPCThemeUtil
 {
     DECLARE_DYNAMIC(CMPCThemePPageBase)
 public:

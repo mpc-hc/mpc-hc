@@ -3,10 +3,12 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
 
-CMPCThemeStaticLink::CMPCThemeStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy) : CStaticLink(lpText, bDeleteOnDestroy) {
+CMPCThemeStaticLink::CMPCThemeStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy) : CStaticLink(lpText, bDeleteOnDestroy)
+{
 }
 
-CMPCThemeStaticLink::~CMPCThemeStaticLink() {
+CMPCThemeStaticLink::~CMPCThemeStaticLink()
+{
 }
 
 
@@ -21,7 +23,8 @@ END_MESSAGE_MAP()
 
 
 
-void CMPCThemeStaticLink::OnPaint() {
+void CMPCThemeStaticLink::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {  //only reason for custom paint is disabled statics do not honor ctlcolor and draw greyed text which looks terrible on other bgs
         CPaintDC dc(this); // device context for painting
         COLORREF oldBkClr = dc.GetBkColor();
@@ -51,8 +54,8 @@ void CMPCThemeStaticLink::OnPaint() {
         } else {
             dc.SetTextColor(CMPCTheme::StaticLinkColor);
         }
-        CFont *font = GetFont();
-        CFont *oldFont = dc.SelectObject(font);
+        CFont* font = GetFont();
+        CFont* oldFont = dc.SelectObject(font);
         dc.DrawText(text, r, format | DT_CALCRECT);
         CMPCThemeUtil::drawParentDialogBGClr(this, &dc, r);
         dc.DrawText(text, r, format);
@@ -67,7 +70,8 @@ void CMPCThemeStaticLink::OnPaint() {
 }
 
 
-HBRUSH CMPCThemeStaticLink::CtlColor(CDC* pDC, UINT nCtlColor) { //avoid overridden cstaticlink ctlcolor
+HBRUSH CMPCThemeStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)   //avoid overridden cstaticlink ctlcolor
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return NULL;
     } else {
@@ -76,7 +80,8 @@ HBRUSH CMPCThemeStaticLink::CtlColor(CDC* pDC, UINT nCtlColor) { //avoid overrid
 }
 
 
-void CMPCThemeStaticLink::OnEnable(BOOL bEnable) {
+void CMPCThemeStaticLink::OnEnable(BOOL bEnable)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         SetRedraw(FALSE);
         __super::OnEnable(bEnable);

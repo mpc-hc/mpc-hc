@@ -9,9 +9,11 @@ BEGIN_MESSAGE_MAP(CMPCThemeMiniDockFrameWnd, CMiniDockFrameWnd)
 END_MESSAGE_MAP()
 
 
-int CMPCThemeMiniDockFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-    if (CMiniDockFrameWnd::OnCreate(lpCreateStruct) == -1)
+int CMPCThemeMiniDockFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+    if (CMiniDockFrameWnd::OnCreate(lpCreateStruct) == -1) {
         return -1;
+    }
 
     CMPCThemeUtil::enableWindows10DarkFrame(this);
 

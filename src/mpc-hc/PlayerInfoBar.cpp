@@ -258,8 +258,7 @@ BOOL CPlayerInfoBar::OnEraseBkgnd(CDC* pDC)
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCThemeLoaded) {
         pDC->FillSolidRect(&r, CMPCTheme::NoBorderColor);
-    }
-    else {
+    } else {
         pDC->Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT));
     }
 

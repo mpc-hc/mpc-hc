@@ -506,7 +506,7 @@ int CPlayerListCtrl::HitTestEx(const CPoint& point, int* col) const
     }
 
     int row;
-    if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT) { 
+    if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT) {
         row = HitTest(point, nullptr);//adipose to keep from breaking list view, use point.x
         return row;
     } else {
@@ -1038,7 +1038,9 @@ INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
     }
 
     CHeaderCtrl* pHeader = (CHeaderCtrl*)GetDlgItem(0);
-    if (nullptr == pHeader) return -1; //no header ctrl
+    if (nullptr == pHeader) {
+        return -1;    //no header ctrl
+    }
     int nColumnCount = pHeader->GetItemCount();
 
     CRect rect;

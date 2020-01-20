@@ -49,7 +49,8 @@ CSaveImageDialog::~CSaveImageDialog()
 {
 }
 
-INT_PTR CSaveImageDialog::DoModal() {
+INT_PTR CSaveImageDialog::DoModal()
+{
     enableFileDialogHook();
     return __super::DoModal();
 }

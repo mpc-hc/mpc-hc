@@ -4,20 +4,24 @@
 #include "mplayerc.h"
 
 
-CMPCThemeMsgBox::CMPCThemeMsgBox(CWnd * pParent, CString strMessage, CString strTitle, UINT nStyle, UINT nHelp)
-    :CMessageBoxDialog(pParent, strMessage, strTitle, nStyle, nHelp) {
+CMPCThemeMsgBox::CMPCThemeMsgBox(CWnd* pParent, CString strMessage, CString strTitle, UINT nStyle, UINT nHelp)
+    : CMessageBoxDialog(pParent, strMessage, strTitle, nStyle, nHelp)
+{
 }
 
-CMPCThemeMsgBox::CMPCThemeMsgBox(CWnd * pParent, UINT nMessageID, UINT nTitleID, UINT nStyle, UINT nHelp)
-    : CMessageBoxDialog(pParent, nMessageID, nTitleID, nStyle, nHelp) {
+CMPCThemeMsgBox::CMPCThemeMsgBox(CWnd* pParent, UINT nMessageID, UINT nTitleID, UINT nStyle, UINT nHelp)
+    : CMessageBoxDialog(pParent, nMessageID, nTitleID, nStyle, nHelp)
+{
 }
 
 IMPLEMENT_DYNAMIC(CMPCThemeMsgBox, CMessageBoxDialog)
 
-CMPCThemeMsgBox::~CMPCThemeMsgBox() {
+CMPCThemeMsgBox::~CMPCThemeMsgBox()
+{
 }
 
-BOOL CMPCThemeMsgBox::OnInitDialog() {
+BOOL CMPCThemeMsgBox::OnInitDialog()
+{
     BOOL ret = __super::OnInitDialog();
     fulfillThemeReqs();
     CMPCThemeUtil::enableWindows10DarkFrame(this);
@@ -30,7 +34,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeMsgBox, CMessageBoxDialog)
 END_MESSAGE_MAP()
 
 
-HBRUSH CMPCThemeMsgBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CMPCThemeMsgBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return getCtlColor(pDC, pWnd, nCtlColor);
     } else {
@@ -40,7 +45,8 @@ HBRUSH CMPCThemeMsgBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
 }
 
 
-BOOL CMPCThemeMsgBox::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeMsgBox::OnEraseBkgnd(CDC* pDC)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CRect rect, messageArea, buttonArea;
         GetClientRect(&rect);
@@ -56,11 +62,13 @@ BOOL CMPCThemeMsgBox::OnEraseBkgnd(CDC* pDC) {
     }
 }
 
-BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText) {
+BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText)
+{
     return CMPCThemeMsgBox::MessageBox(parent, lpText, _T(""), MB_OK);
 }
 
-BOOL CMPCThemeMsgBox::MessageBox(CWnd *parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType) {
+BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CMPCThemeMsgBox dlgMessage(parent, lpText, lpCaption, uType, NULL);
         return (BOOL)dlgMessage.DoModal();

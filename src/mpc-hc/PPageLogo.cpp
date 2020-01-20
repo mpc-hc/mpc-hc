@@ -78,7 +78,7 @@ BOOL CPPageLogo::OnInitDialog()
 
     m_logoidpos = m_logoids.GetHeadPosition();
     UINT useLogoId = s.nLogoId;
-    if ((UINT)-1 == useLogoId) { //if the user has never chosen a logo, we can try loading a theme default logo
+    if ((UINT) - 1 == useLogoId) { //if the user has never chosen a logo, we can try loading a theme default logo
         if (s.bMPCThemeLoaded) {
             useLogoId = CMPCThemeUtil::defaultLogo();
         } else {

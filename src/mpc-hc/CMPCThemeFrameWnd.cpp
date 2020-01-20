@@ -13,13 +13,13 @@
 IMPLEMENT_DYNAMIC(CMPCThemeFrameWnd, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMPCThemeFrameWnd, CFrameWnd)
-	ON_WM_CREATE()
-	ON_WM_ACTIVATE()
-	ON_WM_PAINT()
-	ON_WM_NCCALCSIZE()
-	ON_WM_SHOWWINDOW()
-	ON_WM_NCHITTEST()
-	ON_WM_NCMOUSELEAVE()
+    ON_WM_CREATE()
+    ON_WM_ACTIVATE()
+    ON_WM_PAINT()
+    ON_WM_NCCALCSIZE()
+    ON_WM_SHOWWINDOW()
+    ON_WM_NCHITTEST()
+    ON_WM_NCMOUSELEAVE()
 END_MESSAGE_MAP()
 
 CMPCThemeFrameWnd::CMPCThemeFrameWnd():
@@ -28,13 +28,17 @@ CMPCThemeFrameWnd::CMPCThemeFrameWnd():
     maximizeButton(SC_MAXIMIZE),
     closeButton(SC_CLOSE),
     currentFrameState(frameNormal),
-    titleBarInfo({ 0 }),
-    drawCustomFrame(false),
-    titlebarHeight(30) //sane default, should be updated as soon as created
+    titleBarInfo(
+{
+    0
+}),
+drawCustomFrame(false),
+titlebarHeight(30) //sane default, should be updated as soon as created
 {
 }
 
-CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
+CMPCThemeFrameWnd::~CMPCThemeFrameWnd()
+{
     if (closeButton.m_hWnd) {
         closeButton.DestroyWindow();
     }
@@ -46,11 +50,12 @@ CMPCThemeFrameWnd::~CMPCThemeFrameWnd() {
     }
 }
 
-LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
     if (drawCustomFrame) {
         if (uMsg == WM_WINDOWPOSCHANGING &&
-            (WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME | WS_CAPTION)) &&
-            currentFrameState != frameThemedTopBorder) {
+                (WS_THICKFRAME) == (GetStyle() & (WS_THICKFRAME | WS_CAPTION)) &&
+                currentFrameState != frameThemedTopBorder) {
             WINDOWPOS* wp = (WINDOWPOS*)lParam;
             if (nullptr != wp) {
                 wp->flags |= SWP_NOREDRAW; //prevents corruption of the border when disabling caption
@@ -60,7 +65,8 @@ LRESULT CMPCThemeFrameWnd::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     return __super::WindowProc(uMsg, wParam, lParam);
 }
 
-void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
+void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify)
+{
     if (drawCustomFrame) {
         recalcTitleBar();
         int clientTop = 0;
@@ -101,29 +107,32 @@ void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
         }
 
         //begin standard CFrameWnd::RecalcLayout code
-        if (m_bInRecalcLayout)
+        if (m_bInRecalcLayout) {
             return;
+        }
 
         m_bInRecalcLayout = TRUE;
         // clear idle flags for recalc layout if called elsewhere
-        if (m_nIdleFlags & idleNotify)
+        if (m_nIdleFlags & idleNotify) {
             bNotify = TRUE;
+        }
         m_nIdleFlags &= ~(idleLayout | idleNotify);
 
         // call the layout hook -- OLE support uses this hook
-        if (bNotify && m_pNotifyHook != NULL)
+        if (bNotify && m_pNotifyHook != NULL) {
             m_pNotifyHook->OnRecalcLayout();
+        }
 
         // reposition all the child windows (regardless of ID)
         if (GetStyle() & FWS_SNAPTOBARS) {
             CRect rect(0, 0, 32767, 32767);
             RepositionBars(0, 0xffff, AFX_IDW_PANE_FIRST, reposQuery,
-                &rect, &rect, FALSE);
+                           &rect, &rect, FALSE);
             RepositionBars(0, 0xffff, AFX_IDW_PANE_FIRST, reposExtra,
-                &m_rectBorder, &rect, TRUE);
+                           &m_rectBorder, &rect, TRUE);
             CalcWindowRect(&rect);
             SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height(),
-                SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
+                         SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
         } else {
             //begin mpc-hc code to to position inside virtual client rect
             CRect cr;
@@ -143,7 +152,8 @@ void CMPCThemeFrameWnd::RecalcLayout(BOOL bNotify) {
     }
 }
 
-void CMPCThemeFrameWnd::SetMenuBarVisibility(DWORD dwStyle) {
+void CMPCThemeFrameWnd::SetMenuBarVisibility(DWORD dwStyle)
+{
     __super::SetMenuBarVisibility(dwStyle);
     if (currentFrameState == frameThemedCaption && 0 != (dwStyle & AFX_MBS_VISIBLE)) {
         Invalidate();
@@ -151,7 +161,8 @@ void CMPCThemeFrameWnd::SetMenuBarVisibility(DWORD dwStyle) {
     }
 }
 
-BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
+BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState)
+{
     BOOL ret = __super::SetMenuBarState(dwState);
     if (ret && currentFrameState == frameThemedCaption) {
         RecalcLayout();
@@ -160,7 +171,8 @@ BOOL CMPCThemeFrameWnd::SetMenuBarState(DWORD dwState) {
     return ret;
 }
 
-CRect CMPCThemeFrameWnd::getTitleBarRect() {
+CRect CMPCThemeFrameWnd::getTitleBarRect()
+{
     CRect cr;
     GetClientRect(cr);
     CRect wr;
@@ -176,7 +188,8 @@ CRect CMPCThemeFrameWnd::getTitleBarRect() {
     return cr;
 }
 
-CRect CMPCThemeFrameWnd::getSysMenuIconRect() {
+CRect CMPCThemeFrameWnd::getSysMenuIconRect()
+{
     CRect sysMenuIconRect, cr;
     cr = getTitleBarRect();
 
@@ -190,7 +203,8 @@ CRect CMPCThemeFrameWnd::getSysMenuIconRect() {
     return sysMenuIconRect;
 }
 
-bool CMPCThemeFrameWnd::checkFrame(LONG style) {
+bool CMPCThemeFrameWnd::checkFrame(LONG style)
+{
     frameState oldState = currentFrameState;
     currentFrameState = frameNormal;
     if (drawCustomFrame) {
@@ -203,14 +217,16 @@ bool CMPCThemeFrameWnd::checkFrame(LONG style) {
     return (oldState == currentFrameState);
 }
 
-int CMPCThemeFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) {
+int CMPCThemeFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
     if (drawCustomFrame) {
         int res = CWnd::OnCreate(lpCreateStruct);
 
-        if (res == -1)
+        if (res == -1) {
             return -1;
+        }
 
-        RECT r = { 0,0,0,0 };
+        RECT r = { 0, 0, 0, 0 };
 
         closeButton.Create(_T("Close Button"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, r, this, 1001);
         closeButton.setParentFrame(this);
@@ -227,7 +243,8 @@ int CMPCThemeFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     }
 }
 
-void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect& maximizeRect, CRect& minimizeRect) {
+void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect& maximizeRect, CRect& minimizeRect)
+{
     DpiHelper dpi;
     dpi.Override(AfxGetMainWnd()->GetSafeHwnd());
 
@@ -252,8 +269,9 @@ void CMPCThemeFrameWnd::GetIconRects(CRect titlebarRect, CRect& closeRect, CRect
     minimizeRect = CRect(maximizeRect.left - buttonSpacing - buttonDimRect.Width(), titlebarRect.top, maximizeRect.left - buttonSpacing, titlebarRect.top + buttonDimRect.Height());
 }
 
-void CMPCThemeFrameWnd::OnPaint() {
-	if (currentFrameState != frameNormal) {
+void CMPCThemeFrameWnd::OnPaint()
+{
+    if (currentFrameState != frameNormal) {
         CRect closeRect, maximizeRect, minimizeRect;
         CRect titleBarRect = getTitleBarRect();
         GetIconRects(titleBarRect, closeRect, maximizeRect, minimizeRect);
@@ -262,7 +280,7 @@ void CMPCThemeFrameWnd::OnPaint() {
 
         CDC dcMem;
         CBitmap bmMem;
-        CRect memRect = { 0,0,titleBarRect.right, titleBarRect.bottom };
+        CRect memRect = { 0, 0, titleBarRect.right, titleBarRect.bottom };
         CMPCThemeUtil::initMemDC(&dc, dcMem, bmMem, memRect);
 
         CRect topBorderRect = { titleBarRect.left, titleBarRect.top - 1, titleBarRect.right, titleBarRect.top };
@@ -308,17 +326,18 @@ void CMPCThemeFrameWnd::OnPaint() {
 
         CMPCThemeUtil::flushMemDC(&dc, dcMem, memRect);
 
-		if (m_pCtrlCont != NULL) {
-			m_pCtrlCont->OnPaint(&dc);
-		}
-		Default();
-	} else {
+        if (m_pCtrlCont != NULL) {
+            m_pCtrlCont->OnPaint(&dc);
+        }
         Default();
-	}
+    } else {
+        Default();
+    }
 
 }
 
-void CMPCThemeFrameWnd::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp) {
+void CMPCThemeFrameWnd::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded && IsWindows10OrGreater() && !AfxGetAppSettings().bWindows10AccentColorsEnabled) {
         drawCustomFrame = true;
     } else {
@@ -348,22 +367,24 @@ void CMPCThemeFrameWnd::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lp
     }
 }
 
-void CMPCThemeFrameWnd::recalcFrame() {
-    if ( !checkFrame(GetStyle()) ) {
-        borders = { 0,0,0,0 };
+void CMPCThemeFrameWnd::recalcFrame()
+{
+    if (!checkFrame(GetStyle())) {
+        borders = { 0, 0, 0, 0 };
         UINT style = GetStyle();
         if (0 != (style & WS_THICKFRAME)) {
             AdjustWindowRectEx(&borders, style & ~WS_CAPTION, FALSE, NULL);
             borders.left = abs(borders.left);
             borders.top = abs(borders.top);
         } else if (0 != (style & WS_BORDER)) {
-            borders = { 1,1,1,1 };
+            borders = { 1, 1, 1, 1 };
         }
         SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
     }
 }
 
-void CMPCThemeFrameWnd::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized) {
+void CMPCThemeFrameWnd::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
+{
     if (drawCustomFrame) {
         if (titleBarInfo.cbSize == 0) { //only check this once, as it can be wrong later
             titleBarInfo = { sizeof(TITLEBARINFO) };
@@ -377,13 +398,14 @@ void CMPCThemeFrameWnd::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized
     }
 }
 
-LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point) {
-	if (currentFrameState == frameThemedCaption) {
-		LRESULT result = 0;
+LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point)
+{
+    if (currentFrameState == frameThemedCaption) {
+        LRESULT result = 0;
 
         result = CWnd::OnNcHitTest(point);
-		if (result == HTCLIENT) {
-			ScreenToClient(&point);
+        if (result == HTCLIENT) {
+            ScreenToClient(&point);
             if (point.y < borders.top) {
                 return HTTOP;
             } else if (point.y < titlebarHeight) {
@@ -402,22 +424,24 @@ LRESULT CMPCThemeFrameWnd::OnNcHitTest(CPoint point) {
             } else if (point.y < titlebarHeight + GetSystemMetrics(SM_CYMENU)) {
                 return HTMENU;
             }
-		}
-		return result;
-	} else {
-		return __super::OnNcHitTest(point);
-	}
+        }
+        return result;
+    } else {
+        return __super::OnNcHitTest(point);
+    }
 }
 
-void CMPCThemeFrameWnd::OnNcMouseLeave() {
+void CMPCThemeFrameWnd::OnNcMouseLeave()
+{
     if (currentFrameState == frameThemedCaption) {
         CWnd::OnNcMouseLeave();
-	} else {
-		__super::OnNcMouseLeave();
-	}
+    } else {
+        __super::OnNcMouseLeave();
+    }
 }
 
-void CMPCThemeFrameWnd::recalcTitleBar() {
+void CMPCThemeFrameWnd::recalcTitleBar()
+{
     titlebarHeight = CRect(titleBarInfo.rcTitleBar).Height() + borders.top;
     if (IsZoomed()) {
         titlebarHeight -= borders.top;

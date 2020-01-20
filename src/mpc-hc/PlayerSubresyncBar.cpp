@@ -1227,7 +1227,8 @@ void CPlayerSubresyncBar::OnLvnKeydownList(NMHDR* pNMHDR, LRESULT* pResult)
 static CUIntArray m_itemGroups;
 static int m_totalGroups;
 
-void CPlayerSubresyncBar::DoCustomPrePaint() {
+void CPlayerSubresyncBar::DoCustomPrePaint()
+{
     m_itemGroups.SetSize(m_list.GetItemCount());
     m_totalGroups = 0;
     for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
@@ -1238,7 +1239,8 @@ void CPlayerSubresyncBar::DoCustomPrePaint() {
     }
 }
 
-void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk) {
+void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLORREF& clrText, COLORREF& clrTextBk)
+{
     COLORREF fadeText, normalText, activeNormalText, activeFadeText;
     COLORREF bgNormalOdd, bgNormalEven, bgMod, bgAdjust;
     bool useFadeText;
@@ -1264,11 +1266,11 @@ void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLOR
     }
 
     if ((iSubItem == COL_START || iSubItem == COL_END || iSubItem == COL_TEXT || iSubItem == COL_STYLE
-        || iSubItem == COL_LAYER || iSubItem == COL_ACTOR || iSubItem == COL_EFFECT)
-        && m_mode == TEXTSUB) {
+            || iSubItem == COL_LAYER || iSubItem == COL_ACTOR || iSubItem == COL_EFFECT)
+            && m_mode == TEXTSUB) {
         useFadeText = false;
     } else if ((iSubItem == COL_START)
-        && m_mode == VOBSUB) {
+               && m_mode == VOBSUB) {
         useFadeText = false;
     } else {
         useFadeText = true;
@@ -1297,7 +1299,8 @@ void CPlayerSubresyncBar::GetCustomTextColors(INT_PTR nItem, int iSubItem, COLOR
     }
 }
 
-void CPlayerSubresyncBar::GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) {
+void CPlayerSubresyncBar::GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor)
+{
     bool bSeparator = nItem < m_list.GetItemCount() - 1 && (m_displayData[nItem + 1].flags & TSEP);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         horzGridColor = bSeparator ? CMPCTheme::SubresyncGridSepColor : CMPCTheme::ListCtrlGridColor;

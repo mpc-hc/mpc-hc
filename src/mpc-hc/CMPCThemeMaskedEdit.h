@@ -1,7 +1,8 @@
 #pragma once
 #include <afxmaskededit.h>
 class CMPCThemeMaskedEdit :
-	public CMFCMaskedEdit {
+    public CMFCMaskedEdit
+{
     DECLARE_DYNAMIC(CMPCThemeMaskedEdit)
 public:
     CMPCThemeMaskedEdit();

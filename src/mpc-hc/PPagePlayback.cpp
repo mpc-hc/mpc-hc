@@ -335,7 +335,8 @@ void CPPagePlayback::OnCancel()
 }
 
 
-BOOL CPPagePlayback::PreTranslateMessage(MSG* pMsg) {
+BOOL CPPagePlayback::PreTranslateMessage(MSG* pMsg)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (IsWindow(themedToolTip)) {
             themedToolTip.RelayEvent(pMsg);

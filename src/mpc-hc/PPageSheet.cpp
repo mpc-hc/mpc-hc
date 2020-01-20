@@ -93,10 +93,12 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 
 }
 
-CPPageSheet::~CPPageSheet() {
+CPPageSheet::~CPPageSheet()
+{
 }
 
-void CPPageSheet::fulfillThemeReqs() {
+void CPPageSheet::fulfillThemeReqs()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
         CMPCThemeUtil::enableWindows10DarkFrame(this);
@@ -119,7 +121,8 @@ CMPCThemeTreeCtrl* CPPageSheet::CreatePageTreeObject()
     return DEBUG_NEW CMPCThemeTreeCtrl();
 }
 
-void CPPageSheet::SetTreeCtrlTheme(CTreeCtrl * ctrl) {
+void CPPageSheet::SetTreeCtrlTheme(CTreeCtrl* ctrl)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         ((CMPCThemeTreeCtrl*)ctrl)->fulfillThemeReqs();
     } else {
@@ -170,7 +173,8 @@ void CPPageSheet::OnApply()
     }
 }
 
-TreePropSheet::CPropPageFrame* CPPageSheet::CreatePageFrame() {
+TreePropSheet::CPropPageFrame* CPPageSheet::CreatePageFrame()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return DEBUG_NEW CMPCThemePropPageFrame;
     } else {
@@ -179,7 +183,8 @@ TreePropSheet::CPropPageFrame* CPPageSheet::CreatePageFrame() {
 }
 
 
-HBRUSH CPPageSheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CPPageSheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         LRESULT lResult;
         if (pWnd->SendChildNotifyLastMsg(&lResult)) {

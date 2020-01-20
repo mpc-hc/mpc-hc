@@ -5,21 +5,21 @@
 #include "CMPCThemeScrollBarHelper.h"
 
 class CMPCThemeListBox :
-	public CListBox, public CMPCThemeScrollable
+    public CListBox, public CMPCThemeScrollable
 {
     DECLARE_DYNAMIC(CMPCThemeListBox)
 private:
     CMPCThemeScrollBar vertSB;
     CMPCThemeToolTipCtrl themedToolTip;
     UINT_PTR themedToolTipCid;
-    CMPCThemeScrollBarHelper *themedSBHelper;
+    CMPCThemeScrollBarHelper* themedSBHelper;
 protected:
     virtual void PreSubclassWindow();
 public:
-	CMPCThemeListBox();
-	virtual ~CMPCThemeListBox();
+    CMPCThemeListBox();
+    virtual ~CMPCThemeListBox();
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
-    BOOL PreTranslateMessage(MSG * pMsg);
+    BOOL PreTranslateMessage(MSG* pMsg);
     DECLARE_MESSAGE_MAP()
     afx_msg void OnNcPaint();
 public:

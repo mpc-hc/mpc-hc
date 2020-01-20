@@ -91,5 +91,5 @@ public:
     afx_msg void OnBalanceTextDblClk();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnCancel();
-    BOOL PreTranslateMessage(MSG * pMsg);
+    BOOL PreTranslateMessage(MSG* pMsg);
 };

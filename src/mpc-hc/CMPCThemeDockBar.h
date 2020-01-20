@@ -1,11 +1,11 @@
 #pragma once
 #include <afxpriv.h>
-class CMPCThemeDockBar : public CDockBar 
+class CMPCThemeDockBar : public CDockBar
 {
     DECLARE_DYNAMIC(CMPCThemeDockBar)
 public:
-	CMPCThemeDockBar();
-	virtual ~CMPCThemeDockBar();
+    CMPCThemeDockBar();
+    virtual ~CMPCThemeDockBar();
 protected:
     DECLARE_MESSAGE_MAP()
 public:

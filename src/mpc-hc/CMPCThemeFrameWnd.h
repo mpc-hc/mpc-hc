@@ -5,13 +5,13 @@
 #include "CMPCThemeTitleBarControlButton.h"
 
 class CMPCThemeFrameWnd :
-	public CFrameWnd,
+    public CFrameWnd,
     public CMPCThemeFrameUtil
 {
 public:
-	CMPCThemeFrameWnd();
+    CMPCThemeFrameWnd();
 protected:
-	DECLARE_DYNAMIC(CMPCThemeFrameWnd)
+    DECLARE_DYNAMIC(CMPCThemeFrameWnd)
 public:
     virtual ~CMPCThemeFrameWnd();
     LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -21,8 +21,8 @@ public:
     CRect getTitleBarRect();
     CRect getSysMenuIconRect();
 protected:
-	CRect   borders;
-	int     titlebarHeight;
+    CRect   borders;
+    int     titlebarHeight;
     void recalcTitleBar();
     CMPCThemeTitleBarControlButton minimizeButton, maximizeButton, closeButton;
     void GetIconRects(CRect titlebarRect, CRect& closeRect, CRect& maximizeRect, CRect& minimizeRect);
@@ -38,12 +38,12 @@ private:
     frameState currentFrameState;
     bool drawCustomFrame;
 public:
-	DECLARE_MESSAGE_MAP()
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
-	afx_msg void OnPaint();
-	afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
-	afx_msg LRESULT OnNcHitTest(CPoint point);
-	afx_msg void OnNcMouseLeave();
+    DECLARE_MESSAGE_MAP()
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
+    afx_msg void OnPaint();
+    afx_msg void OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp);
+    afx_msg LRESULT OnNcHitTest(CPoint point);
+    afx_msg void OnNcMouseLeave();
 };
 

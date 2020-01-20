@@ -95,5 +95,5 @@ protected:
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnCancel();
-    BOOL PreTranslateMessage(MSG * pMsg);
+    BOOL PreTranslateMessage(MSG* pMsg);
 };

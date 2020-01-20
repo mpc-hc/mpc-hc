@@ -5,14 +5,17 @@
 #undef SubclassWindow
 
 
-CMPCThemeDialog::CMPCThemeDialog() {
+CMPCThemeDialog::CMPCThemeDialog()
+{
 }
 
-CMPCThemeDialog::CMPCThemeDialog(UINT nIDTemplate, CWnd * pParentWnd) : CDialog(nIDTemplate, pParentWnd) {
+CMPCThemeDialog::CMPCThemeDialog(UINT nIDTemplate, CWnd* pParentWnd) : CDialog(nIDTemplate, pParentWnd)
+{
 }
 
 
-CMPCThemeDialog::~CMPCThemeDialog() {
+CMPCThemeDialog::~CMPCThemeDialog()
+{
 }
 
 IMPLEMENT_DYNAMIC(CMPCThemeDialog, CDialog)
@@ -21,13 +24,15 @@ BEGIN_MESSAGE_MAP(CMPCThemeDialog, CDialog)
     ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
-BOOL CMPCThemeDialog::OnInitDialog() {
+BOOL CMPCThemeDialog::OnInitDialog()
+{
     BOOL ret = __super::OnInitDialog();
     CMPCThemeUtil::enableWindows10DarkFrame(this);
     return ret;
 }
 
-HBRUSH CMPCThemeDialog::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CMPCThemeDialog::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return getCtlColor(pDC, pWnd, nCtlColor);
     } else {

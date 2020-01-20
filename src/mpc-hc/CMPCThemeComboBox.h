@@ -1,7 +1,7 @@
 #pragma once
 #include <afxwin.h>
 class CMPCThemeComboBox :
-	public CComboBox
+    public CComboBox
 {
     DECLARE_DYNAMIC(CMPCThemeComboBox)
 private:
@@ -9,11 +9,11 @@ private:
     bool isThemedDropDown;
     CBrush bgBrush;
 public:
-	CMPCThemeComboBox();
-    void doDraw(CDC & dc, CString strText, CRect r, COLORREF bkColor, COLORREF fgColor, bool drawDotted);
-	virtual ~CMPCThemeComboBox();
+    CMPCThemeComboBox();
+    void doDraw(CDC& dc, CString strText, CRect r, COLORREF bkColor, COLORREF fgColor, bool drawDotted);
+    virtual ~CMPCThemeComboBox();
     void themeDropDown();
-	void PreSubclassWindow();
+    void PreSubclassWindow();
     void drawComboArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect);
     void checkHover(UINT nFlags, CPoint point, bool invalidate = true);
     DECLARE_MESSAGE_MAP()

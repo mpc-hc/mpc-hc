@@ -6,20 +6,24 @@
 IMPLEMENT_DYNAMIC(CMPCThemePPageBase, CPPageBase)
 
 CMPCThemePPageBase::CMPCThemePPageBase(UINT nIDTemplate, UINT nIDCaption)
-    : CPPageBase(nIDTemplate, nIDCaption) {
+    : CPPageBase(nIDTemplate, nIDCaption)
+{
 }
 
 
-CMPCThemePPageBase::~CMPCThemePPageBase() {
+CMPCThemePPageBase::~CMPCThemePPageBase()
+{
 }
 
-BOOL CMPCThemePPageBase::OnInitDialog() {
+BOOL CMPCThemePPageBase::OnInitDialog()
+{
     __super::OnInitDialog();
     fulfillThemeReqs();
     return 0;
 }
 
-void CMPCThemePPageBase::SetMPCThemeButtonIcon(UINT nIDButton, UINT nIDIcon, ImageGrayer::mpcColorStyle colorStyle) {
+void CMPCThemePPageBase::SetMPCThemeButtonIcon(UINT nIDButton, UINT nIDIcon, ImageGrayer::mpcColorStyle colorStyle)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (!m_buttonIcons.count(nIDIcon)) {
             CImage img, imgEnabled, imgDisabled;
@@ -51,7 +55,8 @@ BEGIN_MESSAGE_MAP(CMPCThemePPageBase, CPPageBase)
 END_MESSAGE_MAP()
 
 
-HBRUSH CMPCThemePPageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CMPCThemePPageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     HBRUSH ret;
     ret = getCtlColor(pDC, pWnd, nCtlColor);
     if (nullptr != ret) {

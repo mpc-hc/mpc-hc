@@ -443,7 +443,8 @@ void CPPageAudioSwitcher::OnCancel()
     __super::OnCancel();
 }
 
-BOOL CPPageAudioSwitcher::PreTranslateMessage(MSG* pMsg) {
+BOOL CPPageAudioSwitcher::PreTranslateMessage(MSG* pMsg)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (IsWindow(themedToolTip)) {
             themedToolTip.RelayEvent(pMsg);

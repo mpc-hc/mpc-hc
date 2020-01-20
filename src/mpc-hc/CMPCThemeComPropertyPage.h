@@ -1,7 +1,8 @@
 #pragma once
 #include "ComPropertyPage.h"
 #include "CMPCThemeUtil.h"
-class CMPCThemeComPropertyPage : public CComPropertyPage, public CMPCThemeUtil {
+class CMPCThemeComPropertyPage : public CComPropertyPage, public CMPCThemeUtil
+{
 public:
     CMPCThemeComPropertyPage(IPropertyPage* pPage);
     virtual ~CMPCThemeComPropertyPage();

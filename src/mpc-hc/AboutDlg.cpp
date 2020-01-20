@@ -40,7 +40,8 @@ CAboutDlg::CAboutDlg() : CMPCThemeDialog(CAboutDlg::IDD)
     //}}AFX_DATA_INIT
 }
 
-CAboutDlg::~CAboutDlg() {
+CAboutDlg::~CAboutDlg()
+{
 }
 
 BOOL CAboutDlg::OnInitDialog()

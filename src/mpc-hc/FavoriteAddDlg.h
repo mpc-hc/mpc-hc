@@ -22,7 +22,7 @@
 #pragma once
 
 #include "CMPCThemeCmdUIDialog.h"
-#include "CMPCThemeComboBox.h" 
+#include "CMPCThemeComboBox.h"
 
 
 // CFavoriteAddDlg dialog

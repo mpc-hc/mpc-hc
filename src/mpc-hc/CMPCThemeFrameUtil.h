@@ -1,10 +1,11 @@
 #pragma once
 #include "stdafx.h"
 #include "CMPCTheme.h"
-class CMPCThemeFrameUtil {
+class CMPCThemeFrameUtil
+{
 
 public:
-    CWnd *self;
+    CWnd* self;
     CMPCThemeFrameUtil(CWnd* self);
     bool IsWindowForeground() { return self == self->GetActiveWindow(); };
     bool IsWindowZoomed() { return self->IsZoomed(); };

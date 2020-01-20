@@ -4,16 +4,19 @@
 #include "CMPCThemeButton.h"
 #include "CMPCThemeUtil.h"
 
-CMPCThemeRadioOrCheck::CMPCThemeRadioOrCheck() {
+CMPCThemeRadioOrCheck::CMPCThemeRadioOrCheck()
+{
     isHover = false;
     buttonType = unknownType;
 }
 
 
-CMPCThemeRadioOrCheck::~CMPCThemeRadioOrCheck() {
+CMPCThemeRadioOrCheck::~CMPCThemeRadioOrCheck()
+{
 }
 
-void CMPCThemeRadioOrCheck::PreSubclassWindow() {
+void CMPCThemeRadioOrCheck::PreSubclassWindow()
+{
     DWORD winButtonType = (GetButtonStyle() & BS_TYPEMASK);
 
     if (BS_RADIOBUTTON == winButtonType || BS_AUTORADIOBUTTON == winButtonType) {
@@ -42,7 +45,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeRadioOrCheck, CButton)
 END_MESSAGE_MAP()
 
 
-void CMPCThemeRadioOrCheck::OnPaint() {
+void CMPCThemeRadioOrCheck::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CPaintDC dc(this);
         CRect   rectItem;
@@ -61,7 +65,7 @@ void CMPCThemeRadioOrCheck::OnPaint() {
 
 
         if (0 != (buttonStyle & BS_PUSHLIKE)) {
-            CFont *oFont, *font=GetFont();
+            CFont* oFont, *font = GetFont();
             oFont = dc.SelectObject(font);
             CMPCThemeButton::drawButtonBase(&dc, rectItem, sTitle, checkState != BST_UNCHECKED, isHover, isFocused, checkState == BST_INDETERMINATE, false);
             dc.SelectObject(oFont);
@@ -111,12 +115,12 @@ void CMPCThemeRadioOrCheck::OnPaint() {
                     uFormat |= DT_CENTER;
                     dc.DrawText(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);
                     rectItem.OffsetRect((centerRect.Width() - rectItem.Width()) / 2,
-                        (centerRect.Height() - rectItem.Height()) / 2);
+                                        (centerRect.Height() - rectItem.Height()) / 2);
                 } else if ((buttonStyle & BS_RIGHT) == BS_RIGHT) {
                     uFormat |= DT_RIGHT;
                     dc.DrawText(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);
                     rectItem.OffsetRect(centerRect.Width() - rectItem.Width(),
-                        (centerRect.Height() - rectItem.Height()) / 2);
+                                        (centerRect.Height() - rectItem.Height()) / 2);
                 } else { // if ((buttonStyle & BS_LEFT) == BS_LEFT) {
                     uFormat |= DT_LEFT;
                     dc.DrawText(sTitle, -1, &rectItem, uFormat | DT_CALCRECT);
@@ -137,7 +141,7 @@ void CMPCThemeRadioOrCheck::OnPaint() {
                     CRect focusRect = rectItem;
                     focusRect.InflateRect(0, 0);
                     dc.SetTextColor(CMPCTheme::ButtonBorderKBFocusColor); //no example of this in explorer, but white seems too harsh
-                    CBrush *dotted = dc.GetHalftoneBrush();
+                    CBrush* dotted = dc.GetHalftoneBrush();
                     dc.FrameRect(focusRect, dotted);
                     DeleteObject(dotted);
                 }
@@ -152,12 +156,14 @@ void CMPCThemeRadioOrCheck::OnPaint() {
     }
 }
 
-void CMPCThemeRadioOrCheck::OnSetFocus(CWnd* pOldWnd) {
+void CMPCThemeRadioOrCheck::OnSetFocus(CWnd* pOldWnd)
+{
     CButton::OnSetFocus(pOldWnd);
     Invalidate();
 }
 
-void CMPCThemeRadioOrCheck::checkHover(UINT nFlags, CPoint point, bool invalidate) {
+void CMPCThemeRadioOrCheck::checkHover(UINT nFlags, CPoint point, bool invalidate)
+{
     CRect r;
     GetClientRect(r);
     bool oldHover = isHover;
@@ -175,32 +181,37 @@ void CMPCThemeRadioOrCheck::checkHover(UINT nFlags, CPoint point, bool invalidat
 
 }
 
-void CMPCThemeRadioOrCheck::OnMouseMove(UINT nFlags, CPoint point) {
+void CMPCThemeRadioOrCheck::OnMouseMove(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point);
     CButton::OnMouseMove(nFlags, point);
 }
 
 
-void CMPCThemeRadioOrCheck::OnMouseLeave() {
+void CMPCThemeRadioOrCheck::OnMouseLeave()
+{
     checkHover(0, CPoint(-1, -1));
     CButton::OnMouseLeave();
 }
 
 
-void CMPCThemeRadioOrCheck::OnLButtonUp(UINT nFlags, CPoint point) {
+void CMPCThemeRadioOrCheck::OnLButtonUp(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point, false);
     CButton::OnLButtonUp(nFlags, point);
 }
 
 
-void CMPCThemeRadioOrCheck::OnLButtonDown(UINT nFlags, CPoint point) {
+void CMPCThemeRadioOrCheck::OnLButtonDown(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point);
     CButton::OnLButtonDown(nFlags, point);
 }
 
 
 
-void CMPCThemeRadioOrCheck::OnEnable(BOOL bEnable) {
+void CMPCThemeRadioOrCheck::OnEnable(BOOL bEnable)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         SetRedraw(FALSE);
         __super::OnEnable(bEnable);
@@ -212,7 +223,8 @@ void CMPCThemeRadioOrCheck::OnEnable(BOOL bEnable) {
 }
 
 
-BOOL CMPCThemeRadioOrCheck::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeRadioOrCheck::OnEraseBkgnd(CDC* pDC)
+{
     CRect r;
     GetClientRect(r);
     pDC->FillSolidRect(r, CMPCTheme::CMPCTheme::WindowBGColor);

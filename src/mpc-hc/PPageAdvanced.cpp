@@ -53,7 +53,7 @@ BOOL CPPageAdvanced::OnInitDialog()
     }
 
     SetRedraw(FALSE);
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ | LVS_EX_AUTOSIZECOLUMNS /*| LVS_EX_DOUBLEBUFFER */| LVS_EX_INFOTIP);
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() /* | LVS_EX_FULLROWSELECT */ | LVS_EX_AUTOSIZECOLUMNS /*| LVS_EX_DOUBLEBUFFER */ | LVS_EX_INFOTIP);
     m_list.setAdditionalStyles(LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT);
     m_list.InsertColumn(COL_NAME, ResStr(IDS_PPAGEADVANCED_COL_NAME), LVCFMT_LEFT);
     m_list.InsertColumn(COL_VALUE, ResStr(IDS_PPAGEADVANCED_COL_VALUE), LVCFMT_RIGHT);
@@ -275,7 +275,7 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             pItemBool->Toggle();
             m_list.setItemTextWithDefaultFlag(pNMItemActivate->iItem, COL_VALUE,
-                               pItemBool->GetValue() ? m_strTrue : m_strFalse, !IsDefault(eSetting));
+                                              pItemBool->GetValue() ? m_strTrue : m_strFalse, !IsDefault(eSetting));
             if (pItemBool->GetValue()) {
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
             } else {

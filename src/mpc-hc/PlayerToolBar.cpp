@@ -100,7 +100,7 @@ void CPlayerToolBar::LoadToolbarImage()
     m_pButtonsImages.reset();
     m_pDisabledButtonsImages.reset();
 
-    bool colorToolbar=false, toolbarImageLoaded=false;
+    bool colorToolbar = false, toolbarImageLoaded = false;
     if (LoadExternalToolBar(image, true)) {
         colorToolbar = true;
         toolbarImageLoaded = true;
@@ -111,7 +111,7 @@ void CPlayerToolBar::LoadToolbarImage()
     if (toolbarImageLoaded || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
         origImage = image;
         const CAppSettings& s = AfxGetAppSettings();
-        if (s.bMPCThemeLoaded && colorToolbar==false) {
+        if (s.bMPCThemeLoaded && colorToolbar == false) {
             ImageGrayer::UpdateColor(image, themedImage, false, ImageGrayer::mpcMono);
             image = themedImage;
         }
@@ -314,7 +314,8 @@ END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
 
-void drawButtonBG(NMCUSTOMDRAW nmcd, COLORREF c) {
+void drawButtonBG(NMCUSTOMDRAW nmcd, COLORREF c)
+{
     CDC dc;
     dc.Attach(nmcd.hdc);
     CRect br;
@@ -341,22 +342,21 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             m_volctrl.Invalidate();
             lr = CDRF_DODEFAULT;
             break;
-        case CDDS_PREPAINT:
-            {
-                // paint the control background, this is needed for XP
-                CDC dc;
-                dc.Attach(pTBCD->nmcd.hdc);
-                RECT r;
-                GetClientRect(&r);
-                if (s.bMPCThemeLoaded) {
-                    dc.FillSolidRect(&r, CMPCTheme::PlayerBGColor);
-                } else {
-                    dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
-                }
-                dc.Detach();
+        case CDDS_PREPAINT: {
+            // paint the control background, this is needed for XP
+            CDC dc;
+            dc.Attach(pTBCD->nmcd.hdc);
+            RECT r;
+            GetClientRect(&r);
+            if (s.bMPCThemeLoaded) {
+                dc.FillSolidRect(&r, CMPCTheme::PlayerBGColor);
+            } else {
+                dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
             }
-            lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
-            break;
+            dc.Detach();
+        }
+        lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
+        break;
         case CDDS_ITEMPREPAINT:
             lr |= CDRF_NOTIFYPOSTPAINT;
             {
@@ -533,7 +533,8 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     return TRUE;    // message was handled
 }
 
-void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point) {
+void CPlayerToolBar::OnLButtonUp(UINT nFlags, CPoint point)
+{
     mouseDown = false;
     CToolBar::OnLButtonUp(nFlags, point);
 }

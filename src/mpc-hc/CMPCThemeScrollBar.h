@@ -2,7 +2,7 @@
 #include <afxwin.h>
 #include "XeScrollBar/XeScrollBarBase.h"
 
-class CMPCThemeScrollBar :	public CXeScrollBarBase
+class CMPCThemeScrollBar :  public CXeScrollBarBase
 {
     DECLARE_DYNAMIC(CMPCThemeScrollBar)
 public:
@@ -14,7 +14,7 @@ public:
         arrowTop,
         arrowBottom
     };
-    void DrawScrollBar(CDC * pDC);
+    void DrawScrollBar(CDC* pDC);
     virtual void SendScrollMsg(WORD wSBcode, WORD wHiWPARAM);
     void setScrollWindow(CWnd* window);
     void updateScrollInfo();

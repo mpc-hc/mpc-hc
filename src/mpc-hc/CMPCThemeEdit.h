@@ -8,14 +8,14 @@ class CMPCThemeEdit :
 public:
     DECLARE_DYNAMIC(CMPCThemeEdit)
     CMPCThemeEdit();
-	virtual ~CMPCThemeEdit();
+    virtual ~CMPCThemeEdit();
     void PreSubclassWindow();
     void setBuddy(CWnd* buddyWindow) { this->buddy = buddyWindow; };
     void setFileDialogChild(bool set) { isFileDialogChild = set; };
     void SetFixedWidthFont(CFont& f);
 protected:
-    CWnd *buddy;
-    CMPCThemeScrollBarHelper *themedSBHelper;
+    CWnd* buddy;
+    CMPCThemeScrollBarHelper* themedSBHelper;
     CFont font;
     bool isFileDialogChild;
 

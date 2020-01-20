@@ -561,7 +561,8 @@ BOOL SubtitlesProviders::CheckInternetConnection()
     return InternetGetConnectedState(&dwFlags, NULL) == TRUE;
 }
 
-void SubtitlesProviders::Search(bool bAutoDownload) {
+void SubtitlesProviders::Search(bool bAutoDownload)
+{
     Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
     m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
 
@@ -572,7 +573,8 @@ void SubtitlesProviders::Search(bool bAutoDownload) {
     }
 }
 
-void SubtitlesProviders::ManualSearch(bool bAutoDownload, CString manualSearch) {
+void SubtitlesProviders::ManualSearch(bool bAutoDownload, CString manualSearch)
+{
     Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
     m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
 
@@ -604,7 +606,7 @@ void SubtitlesProviders::Upload(bool bShowConfirm)
             msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()).GetString());
 
             if (!bShowConfirm
-                || IDYES == CMPCThemeMsgBox::MessageBox(&m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
+                    || IDYES == CMPCThemeMsgBox::MessageBox(&m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
                 InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo));
             }
         }
@@ -681,7 +683,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
     , m_nType(SubtitlesThreadType(STT_SEARCH | STT_MANUALSEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL)))
     , m_bAutoDownload(bAutoDownload)
     , m_bActivate(false)
-    , manualSearch (manualSearch)
+    , manualSearch(manualSearch)
 {
     BYTE i = BYTE(sLanguages.size());
     for (const auto& iter : sLanguages) {

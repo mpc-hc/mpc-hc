@@ -6,10 +6,10 @@
 #include "CMPCThemeUtil.h"
 
 class CMPCThemeDialog :
-	public CDialog, public CMPCThemeUtil
+    public CDialog, public CMPCThemeUtil
 {
 public:
-	CMPCThemeDialog();
+    CMPCThemeDialog();
     explicit CMPCThemeDialog(UINT nIDTemplate, CWnd* pParentWnd = NULL);
     virtual ~CMPCThemeDialog();
     void fulfillThemeReqs() { CMPCThemeUtil::fulfillThemeReqs((CWnd*)this); };

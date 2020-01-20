@@ -104,7 +104,7 @@ protected:
     afx_msg void OnUpdateRefresh(CCmdUI* pCmdUI);
     afx_msg void OnAbort();
     afx_msg void OnRefresh();
-	afx_msg void OnManualSearch();
+    afx_msg void OnManualSearch();
     afx_msg void OnOptions();
     afx_msg void OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDestroy();

@@ -2,14 +2,17 @@
 #include "CMPCThemePropertyPage.h"
 
 CMPCThemePropertyPage::CMPCThemePropertyPage(UINT nIDTemplate, UINT nIDCaption)
-    : CPropertyPage(nIDTemplate, nIDCaption) {
+    : CPropertyPage(nIDTemplate, nIDCaption)
+{
 
 }
 
-CMPCThemePropertyPage::~CMPCThemePropertyPage() {
+CMPCThemePropertyPage::~CMPCThemePropertyPage()
+{
 }
 
-BOOL CMPCThemePropertyPage::OnInitDialog() {
+BOOL CMPCThemePropertyPage::OnInitDialog()
+{
     __super::OnInitDialog();
     fulfillThemeReqs();
     return 0;
@@ -21,7 +24,8 @@ BEGIN_MESSAGE_MAP(CMPCThemePropertyPage, CPropertyPage)
 END_MESSAGE_MAP()
 
 
-HBRUSH CMPCThemePropertyPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CMPCThemePropertyPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     HBRUSH ret;
     ret = getCtlColor(pDC, pWnd, nCtlColor);
     if (nullptr != ret) {

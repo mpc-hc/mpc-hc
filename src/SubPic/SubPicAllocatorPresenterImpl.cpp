@@ -86,8 +86,12 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
             m_maxSubtitleTextureSize = desktopSize;
             m_SubtitleTextureLimit = DESKTOP;
             // keep size within sane limits
-            if (m_maxSubtitleTextureSize.cx > 7680) m_maxSubtitleTextureSize.cx = 7680;
-            if (m_maxSubtitleTextureSize.cy > 4320) m_maxSubtitleTextureSize.cx = 4320;
+            if (m_maxSubtitleTextureSize.cx > 7680) {
+                m_maxSubtitleTextureSize.cx = 7680;
+            }
+            if (m_maxSubtitleTextureSize.cy > 4320) {
+                m_maxSubtitleTextureSize.cx = 4320;
+            }
             break;
         case 1:
             m_maxSubtitleTextureSize.SetSize(1024, 768);

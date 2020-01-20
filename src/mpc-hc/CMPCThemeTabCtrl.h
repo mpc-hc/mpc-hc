@@ -2,7 +2,8 @@
 #include "stdafx.h"
 #include "CMPCThemeUtil.h"
 
-class CMPCThemeTabCtrl : public CTabCtrl, public CMPCThemeUtil {
+class CMPCThemeTabCtrl : public CTabCtrl, public CMPCThemeUtil
+{
 public:
     CMPCThemeTabCtrl();
     virtual ~CMPCThemeTabCtrl();

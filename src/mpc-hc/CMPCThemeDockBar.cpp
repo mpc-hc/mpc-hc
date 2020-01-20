@@ -9,15 +9,18 @@ BEGIN_MESSAGE_MAP(CMPCThemeDockBar, CDockBar)
     ON_WM_NCPAINT()
 END_MESSAGE_MAP()
 
-CMPCThemeDockBar::CMPCThemeDockBar() {
+CMPCThemeDockBar::CMPCThemeDockBar()
+{
 }
 
 
-CMPCThemeDockBar::~CMPCThemeDockBar() {
+CMPCThemeDockBar::~CMPCThemeDockBar()
+{
 }
 
 
-BOOL CMPCThemeDockBar::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeDockBar::OnEraseBkgnd(CDC* pDC)
+{
     const CAppSettings& s = AfxGetAppSettings();
     if (!s.bMPCThemeLoaded) {
         return __super::OnEraseBkgnd(pDC);
@@ -36,7 +39,8 @@ BOOL CMPCThemeDockBar::OnEraseBkgnd(CDC* pDC) {
 }
 
 
-void CMPCThemeDockBar::OnNcPaint() {
+void CMPCThemeDockBar::OnNcPaint()
+{
     const CAppSettings& s = AfxGetAppSettings();
     if (!s.bMPCThemeLoaded) {
         __super::OnNcPaint();

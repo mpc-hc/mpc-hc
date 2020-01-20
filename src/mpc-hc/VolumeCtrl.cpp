@@ -32,9 +32,9 @@
 IMPLEMENT_DYNAMIC(CVolumeCtrl, CSliderCtrl)
 CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     : m_fSelfDrawn(fSelfDrawn)
-    ,m_bDrag(false)
-    ,m_bHover(false)
-    ,modernStyle(AfxGetAppSettings().bModernSeekbar)
+    , m_bDrag(false)
+    , m_bHover(false)
+    , modernStyle(AfxGetAppSettings().bModernSeekbar)
 {
 }
 
@@ -104,7 +104,8 @@ END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
 
-void CVolumeCtrl::getCustomChannelRect(LPRECT rc) {
+void CVolumeCtrl::getCustomChannelRect(LPRECT rc)
+{
     CRect channelRect;
     GetChannelRect(channelRect);
     CRect thumbRect;
@@ -328,7 +329,8 @@ BOOL CVolumeCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
     return TRUE;
 }
 
-void CVolumeCtrl::invalidateThumb() {
+void CVolumeCtrl::invalidateThumb()
+{
     const CAppSettings& s = AfxGetAppSettings();
     if (!(s.bMPCThemeLoaded && modernStyle)) {
         SetRangeMax(100, TRUE);
@@ -336,7 +338,8 @@ void CVolumeCtrl::invalidateThumb() {
 }
 
 
-void CVolumeCtrl::checkHover(CPoint point) {
+void CVolumeCtrl::checkHover(CPoint point)
+{
     CRect thumbRect;
     GetThumbRect(thumbRect);
     bool oldHover = m_bHover;
@@ -345,11 +348,13 @@ void CVolumeCtrl::checkHover(CPoint point) {
         m_bHover = true;
     }
 
-    if (m_bHover != oldHover)
+    if (m_bHover != oldHover) {
         invalidateThumb();
+    }
 }
 
-void CVolumeCtrl::updateModernVolCtrl(CPoint point) {
+void CVolumeCtrl::updateModernVolCtrl(CPoint point)
+{
     //CSliderCtrl::OnMouseMove yields bad results due to assumption of thumb width
     //we must do all position calculation ourselves, and send correct position to tooltip
 
@@ -389,7 +394,8 @@ void CVolumeCtrl::updateModernVolCtrl(CPoint point) {
 }
 
 
-void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
+void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point)
+{
     checkHover(point);
 
     const CAppSettings& s = AfxGetAppSettings();
@@ -402,10 +408,13 @@ void CVolumeCtrl::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 
-void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
+void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
+{
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCThemeLoaded && modernStyle) {
-        if (m_bDrag) ReleaseCapture();
+        if (m_bDrag) {
+            ReleaseCapture();
+        }
         m_bDrag = false;
         if (themedToolTip.m_hWnd) {
             themedToolTip.SendMessage(TTM_TRACKACTIVATE, FALSE, 0);
@@ -419,7 +428,8 @@ void CVolumeCtrl::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 
-void CVolumeCtrl::OnMouseLeave() {
+void CVolumeCtrl::OnMouseLeave()
+{
     checkHover(CPoint(-1 - 1));
     CSliderCtrl::OnMouseLeave();
 }

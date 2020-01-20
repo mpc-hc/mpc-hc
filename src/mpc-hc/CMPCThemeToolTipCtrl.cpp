@@ -5,20 +5,23 @@
 #include <afxglobals.h>
 
 
-CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrl() {
+CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrl()
+{
     this->useFlickerHelper = false;
     this->helper = nullptr;
 }
 
 
-CMPCThemeToolTipCtrl::~CMPCThemeToolTipCtrl() {
+CMPCThemeToolTipCtrl::~CMPCThemeToolTipCtrl()
+{
     if (nullptr != helper) {
         helper->DestroyWindow();
         delete helper;
     }
 }
 
-void CMPCThemeToolTipCtrl::enableFlickerHelper() {
+void CMPCThemeToolTipCtrl::enableFlickerHelper()
+{
     if (IsAppThemed() && IsThemeActive()) { //in classic mode, the helper gets wiped out by the fade, so we disable it
         this->useFlickerHelper = true;
     }
@@ -35,8 +38,9 @@ BEGIN_MESSAGE_MAP(CMPCThemeToolTipCtrl, CToolTipCtrl)
     ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 
-void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& rect, bool calcRect) {
-    CFont *font = tt->GetFont();
+void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& rect, bool calcRect)
+{
+    CFont* font = tt->GetFont();
     CFont* pOldFont = dc.SelectObject(font);
 
     CString text;
@@ -62,7 +66,8 @@ void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& re
     dc.SelectObject(pOldFont);
 }
 
-void CMPCThemeToolTipCtrl::paintTT(CDC& dc, CMPCThemeToolTipCtrl* tt) {
+void CMPCThemeToolTipCtrl::paintTT(CDC& dc, CMPCThemeToolTipCtrl* tt)
+{
     CRect r;
     tt->GetClientRect(r);
 
@@ -76,7 +81,8 @@ void CMPCThemeToolTipCtrl::paintTT(CDC& dc, CMPCThemeToolTipCtrl* tt) {
     dc.SetTextColor(oldClr);
 }
 
-void CMPCThemeToolTipCtrl::OnPaint() {
+void CMPCThemeToolTipCtrl::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CPaintDC dc(this);
         if (useFlickerHelper) { //helper will paint
@@ -89,7 +95,8 @@ void CMPCThemeToolTipCtrl::OnPaint() {
 }
 
 
-BOOL CMPCThemeToolTipCtrl::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeToolTipCtrl::OnEraseBkgnd(CDC* pDC)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         return TRUE;
     } else {
@@ -98,9 +105,11 @@ BOOL CMPCThemeToolTipCtrl::OnEraseBkgnd(CDC* pDC) {
 }
 
 
-int CMPCThemeToolTipCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-    if (CToolTipCtrl::OnCreate(lpCreateStruct) == -1)
+int CMPCThemeToolTipCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+    if (CToolTipCtrl::OnCreate(lpCreateStruct) == -1) {
         return -1;
+    }
 
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         makeHelper();
@@ -108,8 +117,11 @@ int CMPCThemeToolTipCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     return 0;
 }
 
-void CMPCThemeToolTipCtrl::makeHelper() {
-    if (!useFlickerHelper) return;
+void CMPCThemeToolTipCtrl::makeHelper()
+{
+    if (!useFlickerHelper) {
+        return;
+    }
 
     if (nullptr != helper) {
         delete helper;
@@ -117,14 +129,16 @@ void CMPCThemeToolTipCtrl::makeHelper() {
     }
     CRect r;
     GetClientRect(r);
-	if (r.Size() == CSize(0, 0)) return;
+    if (r.Size() == CSize(0, 0)) {
+        return;
+    }
     ClientToScreen(r);
 
     helper = new CMPCThemeToolTipCtrlHelper(this);
     //do it the long way since no menu for parent
     helper->CreateEx(NULL, AfxRegisterWndClass(0), NULL, WS_POPUP | WS_DISABLED,
-        r.left, r.top, r.right - r.left, r.bottom - r.top,
-        GetParent()->GetSafeHwnd(), NULL, NULL);
+                     r.left, r.top, r.right - r.left, r.bottom - r.top,
+                     GetParent()->GetSafeHwnd(), NULL, NULL);
     helper->Invalidate();
     helper->ShowWindow(SW_SHOWNOACTIVATE);
 }
@@ -137,25 +151,30 @@ BEGIN_MESSAGE_MAP(CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper, CWnd)
 END_MESSAGE_MAP()
 
 
-CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::CMPCThemeToolTipCtrlHelper(CMPCThemeToolTipCtrl * tt) {
+CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::CMPCThemeToolTipCtrlHelper(CMPCThemeToolTipCtrl* tt)
+{
     this->tt = tt;
 }
 
-CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::~CMPCThemeToolTipCtrlHelper() {
+CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::~CMPCThemeToolTipCtrlHelper()
+{
     DestroyWindow();
 }
 
-void CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::OnPaint() {
+void CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::OnPaint()
+{
     CPaintDC dc(this);
     CMPCThemeToolTipCtrl::paintTT(dc, tt);
 }
 
 
-BOOL CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrlHelper::OnEraseBkgnd(CDC* pDC)
+{
     return TRUE;
 }
 
-void CMPCThemeToolTipCtrl::OnMove(int x, int y) {
+void CMPCThemeToolTipCtrl::OnMove(int x, int y)
+{
     CToolTipCtrl::OnMove(x, y);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         makeHelper();
@@ -163,7 +182,8 @@ void CMPCThemeToolTipCtrl::OnMove(int x, int y) {
 }
 
 
-void CMPCThemeToolTipCtrl::OnShowWindow(BOOL bShow, UINT nStatus) {
+void CMPCThemeToolTipCtrl::OnShowWindow(BOOL bShow, UINT nStatus)
+{
 
     CToolTipCtrl::OnShowWindow(bShow, nStatus);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
@@ -176,7 +196,8 @@ void CMPCThemeToolTipCtrl::OnShowWindow(BOOL bShow, UINT nStatus) {
     }
 }
 
-void CMPCThemeToolTipCtrl::OnSize(UINT nType, int cx, int cy) {
+void CMPCThemeToolTipCtrl::OnSize(UINT nType, int cx, int cy)
+{
     CToolTipCtrl::OnSize(nType, cx, cy);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         makeHelper();
@@ -184,7 +205,8 @@ void CMPCThemeToolTipCtrl::OnSize(UINT nType, int cx, int cy) {
 }
 
 
-void CMPCThemeToolTipCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos) {
+void CMPCThemeToolTipCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos)
+{
     CToolTipCtrl::OnWindowPosChanging(lpwndpos);
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         //hack to make it fit if fonts differ from parent. can be manually avoided

@@ -498,7 +498,8 @@ void CPGSSub::RemoveOldSegments(REFERENCE_TIME rt)
     }
 }
 
-STDMETHODIMP CPGSSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo) {
+STDMETHODIMP CPGSSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
     relativeTo = RelativeTo::BEST_FIT;
     return S_OK;
 }

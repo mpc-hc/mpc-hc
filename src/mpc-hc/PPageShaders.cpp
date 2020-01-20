@@ -574,6 +574,7 @@ BEGIN_MESSAGE_MAP(CPPageShaders, CMPCThemePPageBase)
 END_MESSAGE_MAP()
 
 
-void CPPageShaders::OnLbnSelchangeList1() {
+void CPPageShaders::OnLbnSelchangeList1()
+{
     // TODO: Add your control notification handler code here
 }

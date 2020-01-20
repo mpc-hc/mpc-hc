@@ -302,7 +302,8 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     return bRet;
 }
 
-BOOL CPPageSubtitles::PreTranslateMessage(MSG* pMsg) {
+BOOL CPPageSubtitles::PreTranslateMessage(MSG* pMsg)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (IsWindow(themedToolTip)) {
             themedToolTip.RelayEvent(pMsg);

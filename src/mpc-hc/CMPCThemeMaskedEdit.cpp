@@ -3,11 +3,13 @@
 #include "mplayerc.h"
 #include "CMPCTheme.h"
 
-CMPCThemeMaskedEdit::CMPCThemeMaskedEdit() {
+CMPCThemeMaskedEdit::CMPCThemeMaskedEdit()
+{
 }
 
 
-CMPCThemeMaskedEdit::~CMPCThemeMaskedEdit() {
+CMPCThemeMaskedEdit::~CMPCThemeMaskedEdit()
+{
 }
 
 IMPLEMENT_DYNAMIC(CMPCThemeMaskedEdit, CMFCMaskedEdit)
@@ -16,7 +18,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeMaskedEdit, CMFCMaskedEdit)
 END_MESSAGE_MAP()
 
 
-void CMPCThemeMaskedEdit::PreSubclassWindow() {
+void CMPCThemeMaskedEdit::PreSubclassWindow()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);
         CRect r;
@@ -28,7 +31,8 @@ void CMPCThemeMaskedEdit::PreSubclassWindow() {
     }
 }
 
-void CMPCThemeMaskedEdit::OnNcPaint() {
+void CMPCThemeMaskedEdit::OnNcPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CWindowDC dc(this);
 

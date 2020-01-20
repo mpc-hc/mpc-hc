@@ -552,7 +552,7 @@ void CPlayerSeekBar::OnPaint()
                     REFERENCE_TIME rtChap;
                     if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
                         long chanPos = channelRect.left + ChannelPointFromPosition(rtChap);
-                        CRect r(chanPos, channelRect.top+1, chanPos + 1, channelRect.bottom-1);
+                        CRect r(chanPos, channelRect.top + 1, chanPos + 1, channelRect.bottom - 1);
                         if (r.right < channelRect.right) {
                             r.right++;
                         }
@@ -728,7 +728,8 @@ void CPlayerSeekBar::OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point)
     OnXButtonDown(nFlags, nButton, point);
 }
 
-void CPlayerSeekBar::checkHover(CPoint point) {
+void CPlayerSeekBar::checkHover(CPoint point)
+{
     CRect tRect(GetThumbRect());
     bool oldHover = m_bHoverThumb;
     m_bHoverThumb = false;
@@ -736,10 +737,13 @@ void CPlayerSeekBar::checkHover(CPoint point) {
         m_bHoverThumb = true;
     }
 
-    if (m_bHoverThumb != oldHover) invalidateThumb();
+    if (m_bHoverThumb != oldHover) {
+        invalidateThumb();
+    }
 }
 
-void CPlayerSeekBar::invalidateThumb() {
+void CPlayerSeekBar::invalidateThumb()
+{
     CRect tRect(GetThumbRect());
     InvalidateRect(tRect);
 }

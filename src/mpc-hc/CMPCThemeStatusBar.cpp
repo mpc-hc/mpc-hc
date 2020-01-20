@@ -3,14 +3,17 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeUtil.h"
 
-CMPCThemeStatusBar::CMPCThemeStatusBar() {
+CMPCThemeStatusBar::CMPCThemeStatusBar()
+{
 }
 
 
-CMPCThemeStatusBar::~CMPCThemeStatusBar() {
+CMPCThemeStatusBar::~CMPCThemeStatusBar()
+{
 }
 
-void CMPCThemeStatusBar::PreSubclassWindow() {
+void CMPCThemeStatusBar::PreSubclassWindow()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         ModifyStyleEx(WS_BORDER, WS_EX_STATICEDGE, 0);
     } else {
@@ -24,8 +27,9 @@ BEGIN_MESSAGE_MAP(CMPCThemeStatusBar, CStatusBar)
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
-void CMPCThemeStatusBar::SetText(LPCTSTR lpszText, int nPane, int nType) {
-    CStatusBarCtrl &ctrl = GetStatusBarCtrl();
+void CMPCThemeStatusBar::SetText(LPCTSTR lpszText, int nPane, int nType)
+{
+    CStatusBarCtrl& ctrl = GetStatusBarCtrl();
 
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         ctrl.SetText(_T(""), nPane, SBT_OWNERDRAW);
@@ -36,24 +40,28 @@ void CMPCThemeStatusBar::SetText(LPCTSTR lpszText, int nPane, int nType) {
     }
 }
 
-BOOL CMPCThemeStatusBar::SetParts(int nParts, int * pWidths) {
-    CStatusBarCtrl &ctrl = GetStatusBarCtrl();
+BOOL CMPCThemeStatusBar::SetParts(int nParts, int* pWidths)
+{
+    CStatusBarCtrl& ctrl = GetStatusBarCtrl();
     numParts = nParts;
     return ctrl.SetParts(nParts, pWidths);
 }
 
-int CMPCThemeStatusBar::GetParts(int nParts, int * pParts) {
-    CStatusBarCtrl &ctrl = GetStatusBarCtrl();
+int CMPCThemeStatusBar::GetParts(int nParts, int* pParts)
+{
+    CStatusBarCtrl& ctrl = GetStatusBarCtrl();
     return ctrl.GetParts(nParts, pParts);
 }
 
-BOOL CMPCThemeStatusBar::GetRect(int nPane, LPRECT lpRect) {
-    CStatusBarCtrl &ctrl = GetStatusBarCtrl();
+BOOL CMPCThemeStatusBar::GetRect(int nPane, LPRECT lpRect)
+{
+    CStatusBarCtrl& ctrl = GetStatusBarCtrl();
     return ctrl.GetRect(nPane, lpRect);
 }
 
 
-void CMPCThemeStatusBar::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
+void CMPCThemeStatusBar::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
+{
     CDC dc;
     dc.Attach(lpDrawItemStruct->hDC);
     CRect rect(&lpDrawItemStruct->rcItem);
@@ -75,7 +83,8 @@ void CMPCThemeStatusBar::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
 }
 
 
-void CMPCThemeStatusBar::OnNcPaint() {
+void CMPCThemeStatusBar::OnNcPaint()
+{
     if (!AfxGetAppSettings().bMPCThemeLoaded) {
         return __super::OnNcPaint();
     } else {
@@ -90,7 +99,8 @@ void CMPCThemeStatusBar::OnNcPaint() {
 }
 
 
-BOOL CMPCThemeStatusBar::OnEraseBkgnd(CDC* pDC) {
+BOOL CMPCThemeStatusBar::OnEraseBkgnd(CDC* pDC)
+{
     if (!AfxGetAppSettings().bMPCThemeLoaded) {
         return __super::OnEraseBkgnd(pDC);
     } else {

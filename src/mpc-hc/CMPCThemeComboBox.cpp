@@ -16,12 +16,14 @@ BEGIN_MESSAGE_MAP(CMPCThemeComboBox, CComboBox)
     ON_WM_CREATE()
 END_MESSAGE_MAP()
 
-CMPCThemeComboBox::CMPCThemeComboBox() {
+CMPCThemeComboBox::CMPCThemeComboBox()
+{
     isHover = false;
     isThemedDropDown = false;
 }
 
-void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF bkColor, COLORREF fgColor, bool drawDotted) {
+void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF bkColor, COLORREF fgColor, bool drawDotted)
+{
     COLORREF crOldTextColor = dc.GetTextColor();
     COLORREF crOldBkColor = dc.GetBkColor();
 
@@ -31,14 +33,14 @@ void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF b
     CRect textRect = rText;
     //textRect.left += 3;
 
-    CFont *font = GetFont();
+    CFont* font = GetFont();
     CFont* pOldFont = dc.SelectObject(font);
     dc.DrawText(strText, &textRect, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
     dc.SelectObject(pOldFont);
 
     if (drawDotted) {
         dc.SetTextColor(bkColor ^ 0xffffff);
-        CBrush *dotted = dc.GetHalftoneBrush();
+        CBrush* dotted = dc.GetHalftoneBrush();
         dc.FrameRect(rText, dotted);
         DeleteObject(dotted);
     }
@@ -47,10 +49,12 @@ void CMPCThemeComboBox::doDraw(CDC& dc, CString strText, CRect rText, COLORREF b
     dc.SetBkColor(crOldBkColor);
 }
 
-CMPCThemeComboBox::~CMPCThemeComboBox() {
+CMPCThemeComboBox::~CMPCThemeComboBox()
+{
 }
 
-void CMPCThemeComboBox::themeDropDown() {
+void CMPCThemeComboBox::themeDropDown()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (CMPCThemeUtil::canUseWin10DarkTheme() && false == isThemedDropDown) {
             COMBOBOXINFO info = { sizeof(COMBOBOXINFO) };
@@ -62,12 +66,14 @@ void CMPCThemeComboBox::themeDropDown() {
     }
 }
 
-void CMPCThemeComboBox::PreSubclassWindow() {
+void CMPCThemeComboBox::PreSubclassWindow()
+{
     themeDropDown();
 }
 
 
-void CMPCThemeComboBox::drawComboArrow(CDC &dc, COLORREF arrowClr, CRect arrowRect) {
+void CMPCThemeComboBox::drawComboArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect)
+{
     DpiHelper dpiWindow;
     dpiWindow.Override(GetSafeHwnd());
 
@@ -77,11 +83,17 @@ void CMPCThemeComboBox::drawComboArrow(CDC &dc, COLORREF arrowClr, CRect arrowRe
     int dpi = dpiWindow.DPIX();
     float steps;
 
-    if (dpi < 120) steps = 3.5;
-    else if (dpi < 144) steps = 4;
-    else if (dpi < 168) steps = 5;
-    else if (dpi < 192) steps = 5;
-    else steps = 6;
+    if (dpi < 120) {
+        steps = 3.5;
+    } else if (dpi < 144) {
+        steps = 4;
+    } else if (dpi < 168) {
+        steps = 5;
+    } else if (dpi < 192) {
+        steps = 5;
+    } else {
+        steps = 6;
+    }
 
     int xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
     int yPos = arrowRect.top + (arrowRect.Height() - (steps + 1)) / 2;
@@ -103,7 +115,8 @@ void CMPCThemeComboBox::drawComboArrow(CDC &dc, COLORREF arrowClr, CRect arrowRe
 }
 
 
-void CMPCThemeComboBox::OnPaint() {
+void CMPCThemeComboBox::OnPaint()
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CPaintDC dc(this);
         CRect r, rBorder, rText, rBG, rSelect, rDownArrow;
@@ -159,12 +172,14 @@ void CMPCThemeComboBox::OnPaint() {
 }
 
 
-void CMPCThemeComboBox::OnSetFocus(CWnd* pOldWnd) {
+void CMPCThemeComboBox::OnSetFocus(CWnd* pOldWnd)
+{
     CComboBox::OnSetFocus(pOldWnd);
     //Invalidate();
 }
 
-void CMPCThemeComboBox::checkHover(UINT nFlags, CPoint point, bool invalidate) {
+void CMPCThemeComboBox::checkHover(UINT nFlags, CPoint point, bool invalidate)
+{
     CRect r;
     GetClientRect(r);
     bool oldHover = isHover;
@@ -182,33 +197,39 @@ void CMPCThemeComboBox::checkHover(UINT nFlags, CPoint point, bool invalidate) {
 
 }
 
-void CMPCThemeComboBox::OnMouseMove(UINT nFlags, CPoint point) {
+void CMPCThemeComboBox::OnMouseMove(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point);
     CComboBox::OnMouseMove(nFlags, point);
 }
 
 
-void CMPCThemeComboBox::OnMouseLeave() {
-    checkHover(0, CPoint(-1,-1));
+void CMPCThemeComboBox::OnMouseLeave()
+{
+    checkHover(0, CPoint(-1, -1));
     CComboBox::OnMouseLeave();
 }
 
 
-void CMPCThemeComboBox::OnLButtonUp(UINT nFlags, CPoint point) {
+void CMPCThemeComboBox::OnLButtonUp(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point, false);
     CComboBox::OnLButtonUp(nFlags, point);
 }
 
 
-void CMPCThemeComboBox::OnLButtonDown(UINT nFlags, CPoint point) {
+void CMPCThemeComboBox::OnLButtonDown(UINT nFlags, CPoint point)
+{
     checkHover(nFlags, point);
     CComboBox::OnLButtonDown(nFlags, point);
 }
 
 
-int CMPCThemeComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-    if (__super::OnCreate(lpCreateStruct) == -1)
+int CMPCThemeComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+    if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
+    }
 
     themeDropDown();
 

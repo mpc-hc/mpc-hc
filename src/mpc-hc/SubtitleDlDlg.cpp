@@ -312,12 +312,14 @@ void CSubtitleDlDlg::OnCancel()
     ShowWindow(SW_HIDE);
 }
 
-void CSubtitleDlDlg::OnRefresh() {
+void CSubtitleDlDlg::OnRefresh()
+{
     m_list.DeleteAllItems();
     m_pMainFrame->m_pSubtitlesProviders->Search(FALSE);
 }
 
-void CSubtitleDlDlg::OnManualSearch() {
+void CSubtitleDlDlg::OnManualSearch()
+{
     m_list.DeleteAllItems();
     UpdateData(TRUE);
     m_pMainFrame->m_pSubtitlesProviders->ManualSearch(FALSE, manualSearch);

@@ -146,10 +146,10 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
 
         LOG(LOG_INPUT,
             StringFormat("{ sublanguageid=\"%s\", moviehash=\"%s\", moviebytesize=\"%s\", limit=%d }",
-            (LPCSTR)movieInfo["sublanguageid"],
-                (LPCSTR)movieInfo["moviehash"],
-                (LPCSTR)movieInfo["moviebytesize"],
-                (int)args[2]["limit"]).c_str());
+                         (LPCSTR)movieInfo["sublanguageid"],
+                         (LPCSTR)movieInfo["moviehash"],
+                         (LPCSTR)movieInfo["moviebytesize"],
+                         (int)args[2]["limit"]).c_str());
     } else {
         CT2CA pszConvertedAnsiString(pFileInfo.manualSearchString);
         movieInfo["query"] = std::string(pszConvertedAnsiString);
@@ -164,7 +164,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
         LOG(_T("search failed (invalid data)"));
         return SR_FAILED;
     }
-    
+
     int nCount = result["data"].size();
     for (int i = 0; i < nCount; ++i) {
         CheckAbortAndReturn();
@@ -378,7 +378,7 @@ const std::set<std::string>& OpenSubtitles::Languages() const
     static std::once_flag initialized;
     static std::set<std::string> result;
 #if 1
-    result = {"af","an","ar","at","az","be","bg","bn","br","bs","ca","cs","da","de","el","en","eo","es","et","eu","ex","fa","fi","fr","ga","gd","gl","he","hi","hr","hu","hy","id","ig","is","it","ja","ka","kk","km","kn","ko","ku","lb","lt","lv","ma","me","mk","ml","mn","ms","my","nl","no","oc","pb","pl","pm","pt","ro","ru","sd","se","si","sk","sl","so","sq","sr","sv","sw","sy","ta","te","th","tl","tr","tt","uk","ur","vi","ze","zh","zt"};
+    result = {"af", "an", "ar", "at", "az", "be", "bg", "bn", "br", "bs", "ca", "cs", "da", "de", "el", "en", "eo", "es", "et", "eu", "ex", "fa", "fi", "fr", "ga", "gd", "gl", "he", "hi", "hr", "hu", "hy", "id", "ig", "is", "it", "ja", "ka", "kk", "km", "kn", "ko", "ku", "lb", "lt", "lv", "ma", "me", "mk", "ml", "mn", "ms", "my", "nl", "no", "oc", "pb", "pl", "pm", "pt", "ro", "ru", "sd", "se", "si", "sk", "sl", "so", "sq", "sr", "sv", "sw", "sy", "ta", "te", "th", "tl", "tr", "tt", "uk", "ur", "vi", "ze", "zh", "zt"};
 #else
 
     try {
@@ -553,7 +553,7 @@ const std::set<std::string>& SubDB::Languages() const
     static std::once_flag initialized;
     static std::set<std::string> result;
 #if 1
-    result = {"en","es","fr","it","nl","pl","pt","ro","sv","tr"};
+    result = {"en", "es", "fr", "it", "nl", "pl", "pt", "ro", "sv", "tr"};
 #else
     try {
         std::call_once(initialized, [this]() {

@@ -136,7 +136,7 @@ public:
     CMPlayerCApp();
     ~CMPlayerCApp();
 
-	int DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt);
+    int DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt);
 
     EventRouter m_eventd;
 

@@ -653,7 +653,8 @@ CMPlayerCApp::~CMPlayerCApp()
 }
 
 int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
-    UINT nIDPrompt) {
+                               UINT nIDPrompt)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
 
         CWnd* pParentWnd = CWnd::GetActiveWindow();
@@ -662,7 +663,7 @@ int CMPlayerCApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType,
         }
 
         CMPCThemeMsgBox dlgMessage(pParentWnd, lpszPrompt, _T(""), nType,
-            nIDPrompt);
+                                   nIDPrompt);
 
         return (int)dlgMessage.DoModal();
     } else {
@@ -1494,7 +1495,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     bool bHookingSuccessful = MH_Initialize() == MH_OK;
 
-#ifndef _DEBUG 
+#ifndef _DEBUG
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 #endif
 
@@ -1637,8 +1638,7 @@ BOOL CMPlayerCApp::InitInstance()
             if (playlistPath.FileExists()) {
                 try {
                     CFile::Remove(playlistPath);
-                }
-                catch (...) {}
+                } catch (...) {}
             }
         }
     }
@@ -1831,8 +1831,8 @@ BOOL CMPlayerCApp::InitInstance()
         scroll to the current file in the playlist.  We call after activating
         the frame to fix this issue.
     */
-    pFrame->m_wndPlaylistBar.LoadPlaylist(pFrame->GetRecentFile()); 
-    
+    pFrame->m_wndPlaylistBar.LoadPlaylist(pFrame->GetRecentFile());
+
     pFrame->UpdateWindow();
 
 

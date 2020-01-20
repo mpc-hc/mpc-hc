@@ -36,7 +36,7 @@ interface ISubStream;
 
 
 class CPlayerSubresyncBar : public CMPCThemePlayerBar
-    ,public CMPCThemeListCtrlCustomInterface
+    , public CMPCThemeListCtrlCustomInterface
 {
     DECLARE_DYNAMIC(CPlayerSubresyncBar)
 

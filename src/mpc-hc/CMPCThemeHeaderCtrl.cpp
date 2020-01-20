@@ -4,12 +4,14 @@
 #include "CMPCThemeUtil.h"
 #include <lcms2\library\include\lcms2.h>
 
-CMPCThemeHeaderCtrl::CMPCThemeHeaderCtrl() {
+CMPCThemeHeaderCtrl::CMPCThemeHeaderCtrl()
+{
     hotItem = -2;
 }
 
 
-CMPCThemeHeaderCtrl::~CMPCThemeHeaderCtrl() {
+CMPCThemeHeaderCtrl::~CMPCThemeHeaderCtrl()
+{
 }
 BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, &CMPCThemeHeaderCtrl::OnNMCustomdraw)
@@ -20,7 +22,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeHeaderCtrl, CHeaderCtrl)
     ON_WM_PAINT()
 END_MESSAGE_MAP()
 
-void CMPCThemeHeaderCtrl::drawSortArrow(CDC *dc, COLORREF arrowClr, CRect arrowRect, bool ascending) {
+void CMPCThemeHeaderCtrl::drawSortArrow(CDC* dc, COLORREF arrowClr, CRect arrowRect, bool ascending)
+{
     DpiHelper dpiWindow;
     dpiWindow.Override(GetSafeHwnd());
 
@@ -30,11 +33,17 @@ void CMPCThemeHeaderCtrl::drawSortArrow(CDC *dc, COLORREF arrowClr, CRect arrowR
     int dpi = dpiWindow.DPIX();
     float steps;
 
-    if (dpi < 120) steps = 3.5;
-    else if (dpi < 144) steps = 4;
-    else if (dpi < 168) steps = 5;
-    else if (dpi < 192) steps = 5;
-    else steps = 6;
+    if (dpi < 120) {
+        steps = 3.5;
+    } else if (dpi < 144) {
+        steps = 4;
+    } else if (dpi < 168) {
+        steps = 5;
+    } else if (dpi < 192) {
+        steps = 5;
+    } else {
+        steps = 6;
+    }
 
     int xPos = arrowRect.left + (arrowRect.Width() - (steps * 2 + 1)) / 2;
     int yPos = arrowRect.top;
@@ -61,7 +70,8 @@ void CMPCThemeHeaderCtrl::drawSortArrow(CDC *dc, COLORREF arrowClr, CRect arrowR
     }
 }
 
-void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC) {
+void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC)
+{
 
     COLORREF textColor = CMPCTheme::TextFGColor;
     COLORREF bgColor = CMPCTheme::ContentBGColor;
@@ -113,9 +123,9 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC) {
         GetItem(nItem, &hditem);
         int align = hditem.fmt & HDF_JUSTIFYMASK;
         UINT textFormat = DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS;
-        if (align == HDF_CENTER)
+        if (align == HDF_CENTER) {
             textFormat |= DT_CENTER;
-        else if (align == HDF_LEFT) {
+        } else if (align == HDF_LEFT) {
             textFormat |= DT_LEFT;
             rText.left += 6;
         } else {
@@ -139,7 +149,8 @@ void CMPCThemeHeaderCtrl::drawItem(int nItem, CRect rText, CDC* pDC) {
 }
 
 /* custom draw doesn't handle empty areas! code is no longer used in favor of OnPaint() */
-void CMPCThemeHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
+void CMPCThemeHeaderCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
+{
     NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
     *pResult = CDRF_DODEFAULT;
@@ -159,12 +170,14 @@ void CMPCThemeHeaderCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 
-void CMPCThemeHeaderCtrl::OnHdnTrack(NMHDR *pNMHDR, LRESULT *pResult) {
-//    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
+void CMPCThemeHeaderCtrl::OnHdnTrack(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    //    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
     *pResult = 0;
 }
 
-void CMPCThemeHeaderCtrl::checkHot(CPoint point) {
+void CMPCThemeHeaderCtrl::checkHot(CPoint point)
+{
     HDHITTESTINFO hdHitTestInfo;
     hdHitTestInfo.pt = point;
 
@@ -174,11 +187,14 @@ void CMPCThemeHeaderCtrl::checkHot(CPoint point) {
     if ((hdHitTestInfo.flags & HHT_ONHEADER) == 0) {
         hotItem = -2;
     }
-    if (hotItem != prevHotItem) RedrawWindow();
+    if (hotItem != prevHotItem) {
+        RedrawWindow();
+    }
 }
 
 
-void CMPCThemeHeaderCtrl::OnMouseMove(UINT nFlags, CPoint point) {
+void CMPCThemeHeaderCtrl::OnMouseMove(UINT nFlags, CPoint point)
+{
     if ((nFlags & MK_LBUTTON) == 0) {
         checkHot(point);
     }
@@ -186,7 +202,8 @@ void CMPCThemeHeaderCtrl::OnMouseMove(UINT nFlags, CPoint point) {
     __super::OnMouseMove(nFlags, point);
 }
 
-void CMPCThemeHeaderCtrl::OnMouseLeave() {
+void CMPCThemeHeaderCtrl::OnMouseLeave()
+{
     if (hotItem >= 0) {
         hotItem = -1;
         RedrawWindow();
@@ -196,7 +213,8 @@ void CMPCThemeHeaderCtrl::OnMouseLeave() {
 
 
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
-void CMPCThemeHeaderCtrl::OnPaint() {
+void CMPCThemeHeaderCtrl::OnPaint()
+{
     if (GetStyle() & HDS_FILTERBAR) {
         Default();
         return;
@@ -205,7 +223,7 @@ void CMPCThemeHeaderCtrl::OnPaint() {
     CPaintDC dc(this); // device context for painting
     CMemDC memDC(dc, this);
     CDC* pDC = &memDC.GetDC();
-    CFont *font = GetFont();
+    CFont* font = GetFont();
     CFont* pOldFont = pDC->SelectObject(font);
 
     CRect rectClip;

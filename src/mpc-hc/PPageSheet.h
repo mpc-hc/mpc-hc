@@ -110,7 +110,7 @@ private:
     void EventCallback(MpcEvent ev);
 
     CMPCThemeTreeCtrl* CreatePageTreeObject();
-    virtual void SetTreeCtrlTheme(CTreeCtrl * ctrl);
+    virtual void SetTreeCtrlTheme(CTreeCtrl* ctrl);
 public:
     CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
     virtual ~CPPageSheet();
@@ -127,7 +127,7 @@ protected:
 
     afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
     afx_msg void OnApply();
-    virtual TreePropSheet::CPropPageFrame * CreatePageFrame();
+    virtual TreePropSheet::CPropPageFrame* CreatePageFrame();
 public:
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

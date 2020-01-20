@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "CMPCThemeComPropertyPage.h"
 
-CMPCThemeComPropertyPage::CMPCThemeComPropertyPage(IPropertyPage* pPage) : CComPropertyPage(pPage) {
+CMPCThemeComPropertyPage::CMPCThemeComPropertyPage(IPropertyPage* pPage) : CComPropertyPage(pPage)
+{
 
 }
 
-CMPCThemeComPropertyPage::~CMPCThemeComPropertyPage() {
+CMPCThemeComPropertyPage::~CMPCThemeComPropertyPage()
+{
 }
 
-BOOL CMPCThemeComPropertyPage::OnInitDialog() {
+BOOL CMPCThemeComPropertyPage::OnInitDialog()
+{
     __super::OnInitDialog();
     fulfillThemeReqs();
     return 0;
@@ -20,7 +23,8 @@ BEGIN_MESSAGE_MAP(CMPCThemeComPropertyPage, CComPropertyPage)
 END_MESSAGE_MAP()
 
 
-HBRUSH CMPCThemeComPropertyPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) {
+HBRUSH CMPCThemeComPropertyPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
     HBRUSH ret;
     ret = getCtlColor(pDC, pWnd, nCtlColor);
     if (nullptr != ret) {

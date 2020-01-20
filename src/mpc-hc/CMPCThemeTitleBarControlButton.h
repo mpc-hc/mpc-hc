@@ -2,7 +2,8 @@
 #include "CMPCThemeFrameUtil.h"
 
 class CMPCThemeTitleBarControlButton :
-    public CMFCButton {
+    public CMFCButton
+{
 public:
     CMPCThemeTitleBarControlButton(WPARAM _buttonType);
     void setParentFrame(CMPCThemeFrameUtil* parent);

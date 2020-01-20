@@ -699,7 +699,8 @@ void CDVBSub::RemoveOldPages(REFERENCE_TIME rt)
     }
 }
 
-STDMETHODIMP CDVBSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo) {
+STDMETHODIMP CDVBSub::GetRelativeTo(POSITION pos, RelativeTo& relativeTo)
+{
     relativeTo = RelativeTo::BEST_FIT;
     return S_OK;
 }

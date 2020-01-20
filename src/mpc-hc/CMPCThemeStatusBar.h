@@ -1,11 +1,11 @@
 #pragma once
 #include <afxext.h>
 class CMPCThemeStatusBar :
-	public CStatusBar
+    public CStatusBar
 {
 public:
-	CMPCThemeStatusBar();
-	virtual ~CMPCThemeStatusBar();
+    CMPCThemeStatusBar();
+    virtual ~CMPCThemeStatusBar();
     void PreSubclassWindow();
     void SetText(LPCTSTR lpszText, int nPane, int nType);
     BOOL SetParts(int nParts, int* pWidths);

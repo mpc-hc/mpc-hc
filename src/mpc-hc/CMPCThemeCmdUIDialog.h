@@ -7,7 +7,7 @@
 class CMPCThemeCmdUIDialog : public CCmdUIDialog, public CMPCThemeUtil
 {
 public:
-	CMPCThemeCmdUIDialog();
+    CMPCThemeCmdUIDialog();
     CMPCThemeCmdUIDialog(UINT nIDTemplate, CWnd* pParent = nullptr);
     CMPCThemeCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = nullptr);
     virtual ~CMPCThemeCmdUIDialog();

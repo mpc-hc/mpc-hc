@@ -97,7 +97,9 @@ CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 bool CFGFilterLAV::CheckVersion(CString filterPath)
 {
     QWORD fversion = FileVersionInfo::GetFileVersionNum(filterPath);
-    if (fversion >= 0 && (lav_version == 0 || lav_version > fversion)) lav_version = fversion;
+    if (fversion >= 0 && (lav_version == 0 || lav_version > fversion)) {
+        lav_version = fversion;
+    }
 
     return fversion >= LAV_FILTERS_VERSION(0, 68, 0, 0);
 }

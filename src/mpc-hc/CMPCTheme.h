@@ -1,7 +1,8 @@
 #pragma once
 #include "mplayerc.h"
 
-class CMPCTheme {
+class CMPCTheme
+{
 public:
     static const COLORREF MenuBGColor;
     static const COLORREF WindowBGColor;  //used in explorer for left nav

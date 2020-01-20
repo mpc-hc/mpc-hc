@@ -72,7 +72,7 @@ private:
     static CString MakeMouseButtonLabel(UINT mouse);
     static CString MakeAppCommandLabel(UINT id);
 
-    void SetupList(bool allowResize=true);
+    void SetupList(bool allowResize = true);
 
 public:
     DECLARE_DYNAMIC(CPPageAccelTbl)

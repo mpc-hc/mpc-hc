@@ -138,7 +138,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     CheckDlgButton(IDC_CHECK6, FALSE);
     GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
 
-//    EnableToolTips(TRUE);
+    //    EnableToolTips(TRUE);
     CreateToolTip();
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_SUB_AUTODL_IGNORE_TOOLTIP));
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
@@ -337,7 +337,8 @@ int CALLBACK CPPageSubMisc::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM l
     return int(left - right);
 }
 
-BOOL CPPageSubMisc::PreTranslateMessage(MSG* pMsg) {
+BOOL CPPageSubMisc::PreTranslateMessage(MSG* pMsg)
+{
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         if (IsWindow(themedToolTip)) {
             themedToolTip.RelayEvent(pMsg);

@@ -7,7 +7,7 @@
 class CMPCThemeResizableDialog : public CResizableDialog, public CMPCThemeUtil
 {
 public:
-	CMPCThemeResizableDialog();
+    CMPCThemeResizableDialog();
     CMPCThemeResizableDialog(UINT nIDTemplate, CWnd* pParent = nullptr);
     CMPCThemeResizableDialog(LPCTSTR lpszTemplateName, CWnd* pParent = nullptr);
     virtual ~CMPCThemeResizableDialog();

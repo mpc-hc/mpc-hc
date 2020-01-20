@@ -3,8 +3,8 @@
 class CMPCThemeRadioOrCheck : public CButton
 {
 public:
-	CMPCThemeRadioOrCheck();
-	virtual ~CMPCThemeRadioOrCheck();
+    CMPCThemeRadioOrCheck();
+    virtual ~CMPCThemeRadioOrCheck();
     void PreSubclassWindow();
 private:
     bool isHover;

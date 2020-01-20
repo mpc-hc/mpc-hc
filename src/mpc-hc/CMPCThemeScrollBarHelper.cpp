@@ -2,35 +2,39 @@
 #include "CMPCThemeScrollBarHelper.h"
 #include "CMPCTheme.h"
 
-CMPCThemeScrollBarHelper::CMPCThemeScrollBarHelper(CWnd* scrollWindow) {
+CMPCThemeScrollBarHelper::CMPCThemeScrollBarHelper(CWnd* scrollWindow)
+{
     window = scrollWindow;
     pParent = nullptr;
 }
 
 
-CMPCThemeScrollBarHelper::~CMPCThemeScrollBarHelper() {
+CMPCThemeScrollBarHelper::~CMPCThemeScrollBarHelper()
+{
 }
 
-void CMPCThemeScrollBarHelper::createSB() {
+void CMPCThemeScrollBarHelper::createSB()
+{
     pParent = window->GetParent();
     hasVSB = 0 != (window->GetStyle() & WS_VSCROLL);
     hasHSB = 0 != (window->GetStyle() & WS_HSCROLL);
     if (nullptr != pParent && IsWindow(pParent->m_hWnd)) {
         if (hasVSB && !IsWindow(vertSB.m_hWnd)) {
             VERIFY(vertSB.Create(SBS_VERT | WS_CHILD |
-                WS_VISIBLE, CRect(0, 0, 0, 0), pParent, 0));
+                                 WS_VISIBLE, CRect(0, 0, 0, 0), pParent, 0));
             vertSB.setScrollWindow(window); //we want messages from this SB
         }
 
         if (hasHSB && !IsWindow(horzSB.m_hWnd)) {
             VERIFY(horzSB.Create(SBS_HORZ | WS_CHILD |
-                WS_VISIBLE, CRect(0, 0, 0, 0), pParent, 0));
+                                 WS_VISIBLE, CRect(0, 0, 0, 0), pParent, 0));
             horzSB.setScrollWindow(window); //we want messages from this SB
         }
     }
 }
 
-void CMPCThemeScrollBarHelper::setDrawingArea(CRect &cr, CRect &wr, bool clipping) {
+void CMPCThemeScrollBarHelper::setDrawingArea(CRect& cr, CRect& wr, bool clipping)
+{
     window->GetClientRect(&cr);
     window->ClientToScreen(&cr);
     window->GetWindowRect(&wr);
@@ -81,13 +85,15 @@ void CMPCThemeScrollBarHelper::setDrawingArea(CRect &cr, CRect &wr, bool clippin
     window->SetWindowRgn(iehrgn, false);
 }
 
-void CMPCThemeScrollBarHelper::hideSB() {
+void CMPCThemeScrollBarHelper::hideSB()
+{
     CRect wr, cr;
     setDrawingArea(cr, wr, true);
 }
 
 
-void CMPCThemeScrollBarHelper::updateScrollInfo() {
+void CMPCThemeScrollBarHelper::updateScrollInfo()
+{
     if (IsWindow(vertSB.m_hWnd)) {
         vertSB.updateScrollInfo();
     }
@@ -101,7 +107,8 @@ void CMPCThemeScrollBarHelper::updateScrollInfo() {
 //this will allow the scrollbar to update as well
 //inspired by flyhigh https://www.codeproject.com/Articles/14724/Replace-a-Window-s-Internal-Scrollbar-with-a-custo
 //changed to avoid glitchy redraws and only update the scrollbar that has been changed
-bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM wParam, LPARAM lParam) {
+bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl* list, UINT message, WPARAM wParam, LPARAM lParam)
+{
     if (message == WM_VSCROLL || message == WM_HSCROLL) {
         WORD sbCode = LOWORD(wParam);
         if (sbCode == SB_THUMBTRACK || sbCode == SB_THUMBPOSITION) {
@@ -114,7 +121,7 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
             list->GetClientRect(&rcClient);
 
             SIZE sizeAll;
-            SIZE size = { 0,0 };
+            SIZE size = { 0, 0 };
             if (WM_VSCROLL == message) {
                 list->GetScrollInfo(SB_VERT, &siv);
                 if (siv.nPage == 0) {
@@ -122,7 +129,7 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
                 } else {
                     sizeAll.cy = rcClient.bottom * (siv.nMax + 1) / siv.nPage;
                 }
-                size.cy = sizeAll.cy*(nPos - siv.nPos) / (siv.nMax + 1);
+                size.cy = sizeAll.cy * (nPos - siv.nPos) / (siv.nMax + 1);
             } else {
                 list->GetScrollInfo(SB_HORZ, &sih);
                 if (sih.nPage == 0) {
@@ -130,7 +137,7 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
                 } else {
                     sizeAll.cx = rcClient.right * (sih.nMax + 1) / sih.nPage;
                 }
-                size.cx = sizeAll.cx*(nPos - sih.nPos) / (sih.nMax + 1);
+                size.cx = sizeAll.cx * (nPos - sih.nPos) / (sih.nMax + 1);
             }
             //adipose: this code is needed to prevent listctrl glitchy drawing.
             //scroll sends a cascade of redraws which are untenable during a thumb drag
@@ -151,7 +158,8 @@ bool CMPCThemeScrollBarHelper::WindowProc(CListCtrl *list, UINT message, WPARAM 
     return false;
 }
 
-bool CMPCThemeScrollBarHelper::WindowProc(CTreeCtrl* tree, UINT message, WPARAM wParam, LPARAM lParam) {
+bool CMPCThemeScrollBarHelper::WindowProc(CTreeCtrl* tree, UINT message, WPARAM wParam, LPARAM lParam)
+{
     if (message == WM_VSCROLL || message == WM_HSCROLL) {
         WORD sbCode = LOWORD(wParam);
         if (sbCode == SB_THUMBTRACK || sbCode == SB_THUMBPOSITION) {
@@ -165,7 +173,7 @@ bool CMPCThemeScrollBarHelper::WindowProc(CTreeCtrl* tree, UINT message, WPARAM 
             tree->GetScrollInfo(SB_VERT, &siv);
             tree->GetScrollInfo(SB_HORZ, &sih);
 
-            WPARAM wp = (WPARAM)-1;
+            WPARAM wp = (WPARAM) - 1;
             int lines = 0;
             if (WM_VSCROLL == message) {
                 wp = nPos < siv.nPos ? SB_LINEUP : SB_LINEDOWN;
@@ -189,7 +197,8 @@ bool CMPCThemeScrollBarHelper::WindowProc(CTreeCtrl* tree, UINT message, WPARAM 
     return false;
 }
 
-void CMPCThemeScrollBarHelper::themedNcPaintWithSB() {
+void CMPCThemeScrollBarHelper::themedNcPaintWithSB()
+{
     createSB();
     if (IsWindow(vertSB.m_hWnd) || IsWindow(horzSB.m_hWnd)) {
         CRect wr, cr;
@@ -203,7 +212,8 @@ void CMPCThemeScrollBarHelper::themedNcPaintWithSB() {
     hideSB(); //set back scrollbar clipping window
 }
 
-void CMPCThemeScrollBarHelper::themedNcPaint(CWnd *window, CMPCThemeScrollable *swindow) {
+void CMPCThemeScrollBarHelper::themedNcPaint(CWnd* window, CMPCThemeScrollable* swindow)
+{
     if (window->GetStyle() & WS_HSCROLL) {
         SCROLLBARINFO sbHorz = { sizeof(SCROLLBARINFO) };
         if (window->GetScrollBarInfo(OBJID_HSCROLL, &sbHorz)) {
@@ -219,7 +229,8 @@ void CMPCThemeScrollBarHelper::themedNcPaint(CWnd *window, CMPCThemeScrollable *
     }
 }
 
-void CMPCThemeScrollBarHelper::doNcPaint(CWnd * window) {
+void CMPCThemeScrollBarHelper::doNcPaint(CWnd* window)
+{
     CWindowDC dc(window);
     int oldDC = dc.SaveDC();
 
@@ -240,7 +251,7 @@ void CMPCThemeScrollBarHelper::doNcPaint(CWnd * window) {
     dc.RestoreDC(oldDC);
     if ((window->GetStyle() & (WS_VSCROLL | WS_HSCROLL)) == (WS_VSCROLL | WS_HSCROLL)) {
         int sbThickness = GetSystemMetrics(SM_CXVSCROLL);
-        corner = { wr.right - sbThickness - borderThickness, wr.bottom - sbThickness - borderThickness,  wr.right-borderThickness, wr.bottom-borderThickness};
+        corner = { wr.right - sbThickness - borderThickness, wr.bottom - sbThickness - borderThickness,  wr.right - borderThickness, wr.bottom - borderThickness};
         dc.FillSolidRect(corner, CMPCTheme::ContentBGColor);
     }
 }
