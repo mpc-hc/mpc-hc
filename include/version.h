@@ -59,7 +59,7 @@
 #endif // NO_VERSION_REV_NEEDED
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
-#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2019 all contributors, see Authors.txt")
+#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2020 all contributors, see Authors.txt")
 #define MPC_VERSION_COMMENTS    WEBSITE_URL
 
 
