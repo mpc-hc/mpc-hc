@@ -112,8 +112,8 @@ void CMPCThemeToolTipCtrl::makeHelper() {
     if (!useFlickerHelper) return;
 
     if (nullptr != helper) {
-		helper = nullptr;
         delete helper;
+        helper = nullptr;
     }
     CRect r;
     GetClientRect(r);
