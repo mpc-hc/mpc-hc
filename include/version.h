@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2010-2018 see Authors.txt
+ * (C) 2010-2020 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,7 +46,7 @@
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       9
-#define MPC_VERSION_PATCH       0
+#define MPC_VERSION_PATCH       1
 
 #ifndef NO_VERSION_REV_NEEDED
 
