@@ -47,6 +47,7 @@ CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     , m_nDropIndex(0)
     , m_bHiddenDueToFullscreen(false)
     , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
+    , createdWindow(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -85,6 +86,8 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
 
     m_dropTarget.Register(this);
+
+	createdWindow = true;
 
     return TRUE;
 }
@@ -1099,8 +1102,19 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPlayerPlaylistBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
-    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	__super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+
+	if (createdWindow) {
+		//after creation, measureitem is called once for every window resize.  we will cache the default before DPI scaling
+        if (m_itemHeight == 0) {
+			m_itemHeight = lpMeasureItemStruct->itemHeight;
+		}
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
+	} else { 
+		//before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
+		//we cannot cache this value as it may be different from that calculated after font has been set
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	}
 }
 
 /*

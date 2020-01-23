@@ -51,6 +51,9 @@ private:
     CFont m_font;
     void ScaleFont();
 
+	int m_itemHeight = 0;
+	bool createdWindow;
+
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 

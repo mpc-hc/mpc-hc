@@ -38,6 +38,7 @@ CPlayerSubresyncBar::CPlayerSubresyncBar(CMainFrame* pMainFrame)
     , m_lastSegment(-1)
     , m_rt(0)
     , m_mode(NONE)
+	, createdWindow(false)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -70,6 +71,8 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
     m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);
     m_strYes.Remove(_T('&'));
     m_strNo.Remove(_T('&'));
+
+	createdWindow = true;
 
     return TRUE;
 }
@@ -1442,8 +1445,19 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
 
 void CPlayerSubresyncBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
-    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	__super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+
+	if (createdWindow) {
+		//after creation, measureitem is called once for every window resize.  we will cache the default before DPI scaling
+		if (m_itemHeight == 0) {
+			m_itemHeight = lpMeasureItemStruct->itemHeight;
+		}
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
+	} else {
+		//before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
+		//we cannot cache this value as it may be different from that calculated after font has been set
+		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+	}
 }
 
 int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
