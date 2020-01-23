@@ -10413,9 +10413,6 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
     LONG width = wa.right - wa.left;
     LONG height = wa.bottom - wa.top;
-    if (bLargerOnly && (arxy.cx + decorationsSize.cx <= width && arxy.cy + decorationsSize.cy <= height)) {
-        return 1.0;
-    }
 
     double sx = ((double)width  * s.nAutoFitFactor / 100 - decorationsSize.cx) / arxy.cx;
     double sy = ((double)height * s.nAutoFitFactor / 100 - decorationsSize.cy) / arxy.cy;
@@ -10427,6 +10424,10 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
     if (sy < 0.0) {
         ASSERT(FALSE);
         sy = 0.0;
+    }
+
+    if (bLargerOnly && sy >= 1.0) {
+        return 1.0;
     }
 
     return sy;
