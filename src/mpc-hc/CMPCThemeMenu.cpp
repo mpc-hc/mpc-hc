@@ -338,9 +338,9 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     if (menuObject->isMenubar) {
         if (menuObject->isFirstMenuInMenuBar) { //clean up white borders
             CRect wndSize;
-            GetWindowRect(AfxGetMainWnd()->m_hWnd, &wndSize);
+            ::GetClientRect(AfxGetMainWnd()->m_hWnd, &wndSize);
 
-            CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.right - wndSize.left, rectM.bottom + 1);
+            CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.Width(), rectM.bottom + 1);
             pDC->FillSolidRect(&rectBorder, CMPCTheme::MenuItemDisabledColor);
             ExcludeClipRect(lpDrawItemStruct->hDC, rectBorder.left, rectBorder.top, rectBorder.right, rectBorder.bottom);
         }
