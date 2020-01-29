@@ -51,7 +51,8 @@ bool ColorProfileUtil::applyColorProfile(HWND wnd, CImage& image)
     }
 
     cmsHTRANSFORM hTransform;
-    hTransform = cmsCreateTransform(hInputProfile, TYPE_BGR_8, hOutputProfile, TYPE_BGR_8, INTENT_PERCEPTUAL, 0);
+    cmsUInt32Number type = image.GetBPP() == 32 ? TYPE_BGRA_8 : TYPE_BGR_8;
+    hTransform = cmsCreateTransform(hInputProfile, type, hOutputProfile, type, INTENT_PERCEPTUAL, 0);
 
     if (hTransform) {
         BYTE* bits = static_cast<BYTE*>(image.GetBits());
