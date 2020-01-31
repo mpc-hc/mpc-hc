@@ -1789,7 +1789,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
     switch (nIDEvent) {
         case TIMER_WINDOW_FULLSCREEN:
-            if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+            if (AfxGetAppSettings().iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
                 BOOL setEnabled = FALSE;
                 ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
             }
@@ -9607,7 +9607,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
 
-    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         BOOL setEnabled = TRUE;
         ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
     }
@@ -9734,11 +9734,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_eventc.FireEvent(MpcEvent::SWITCHED_FROM_FULLSCREEN);
     }
 
-    if (IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
+    if (s.iFullscreenDelay > 0 && IsWindows8OrGreater()) {//DWMWA_CLOAK not supported on 7
         UINT_PTR timerID = 0;
-        if (s.iFullscreenDelay > 0) {
-            timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
-        }
+        timerID = SetTimer(TIMER_WINDOW_FULLSCREEN, s.iFullscreenDelay, nullptr);
         if (0 == timerID) {
             BOOL setEnabled = FALSE;
             ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
