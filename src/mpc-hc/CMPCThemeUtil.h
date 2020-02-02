@@ -29,9 +29,9 @@ protected:
     void makeThemed(CWnd* pObject, CWnd* tChild);
 
 public:
-    static void getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
-    static void getFixedFont(CFont& font, CDC* pDC);
-    static void getFontByType(CFont& font, CDC* pDC, int type, bool underline = false, bool bold = false);
+    static bool getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
+    static bool getFixedFont(CFont& font, CDC* pDC);
+    static bool getFontByType(CFont& font, CDC* pDC, int type, bool underline = false, bool bold = false);
     enum fontType {
         CaptionFont,
         SmallCaptionFont,

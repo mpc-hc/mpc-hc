@@ -355,7 +355,7 @@ bool CMPCThemeUtil::MPCThemeEraseBkgnd(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     }
 }
 
-void CMPCThemeUtil::getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int size, LONG weight)
+bool CMPCThemeUtil::getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int size, LONG weight)
 {
     LOGFONT lf;
     memset(&lf, 0, sizeof(LOGFONT));
@@ -370,10 +370,10 @@ void CMPCThemeUtil::getFontByFace(CFont& font, CDC* pDC, wchar_t* fontName, int 
     lf.lfWeight = weight;
     wcsncpy_s(lf.lfFaceName, fontName, LF_FACESIZE);
 
-    font.CreateFontIndirect(&lf);
+    return font.CreateFontIndirect(&lf);
 }
 
-void CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC)
+bool CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC)
 {
     DpiHelper dpiWindow;
     dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
@@ -384,12 +384,12 @@ void CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC)
     tlf.lfQuality = CLEARTYPE_QUALITY;
     tlf.lfWeight = FW_REGULAR;
     wcsncpy_s(tlf.lfFaceName, _T("Consolas"), LF_FACESIZE);
-    font.CreateFontIndirect(&tlf);
+    return font.CreateFontIndirect(&tlf);
 }
 
-void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underline, bool bold)
+bool CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underline, bool bold)
 {
-    /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only us for menus and status bars*/
+    /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only use for menus and status bars*/
     NONCLIENTMETRICS m;
     GetMetrics(&m);
 
@@ -443,9 +443,9 @@ void CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, int type, bool underlin
         if (bold) {
             tlf.lfWeight = FW_BOLD;
         }
-        font.CreateFontIndirect(&tlf);
+        return font.CreateFontIndirect(&tlf);
     } else {
-        font.CreateFontIndirect(lf);
+        return font.CreateFontIndirect(lf);
     }
 }
 

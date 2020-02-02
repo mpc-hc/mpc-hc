@@ -68,8 +68,9 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
     }
 
     if (!AfxGetAppSettings().bMPCThemeLoaded) {
-        CMPCThemeUtil::getFontByType(mpcThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont);
-        SetFont(&mpcThemeFont);
+        if (CMPCThemeUtil::getFontByType(mpcThemeFont, GetWindowDC(), CMPCThemeUtil::MessageFont)) {
+            SetFont(&mpcThemeFont);
+        }
     }
 
     // Should never be RTLed

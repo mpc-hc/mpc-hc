@@ -70,8 +70,9 @@ void CMPCThemeStatusBar::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     dc.SetBkColor(CMPCTheme::StatusBarBGColor);
     dc.SetTextColor(CMPCTheme::TextFGColor);
     CFont font;
-    CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::MessageFont);
-    dc.SelectObject(&font);
+    if (CMPCThemeUtil::getFontByType(font, &dc, CMPCThemeUtil::MessageFont)) {
+        dc.SelectObject(&font);
+    }
     dc.FillSolidRect(rect, CMPCTheme::StatusBarBGColor);
     dc.DrawText(texts[item], rect, 0);
     if (item < numParts - 1) { //draw a separator

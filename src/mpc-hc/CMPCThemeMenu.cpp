@@ -358,9 +358,12 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 
         COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
+
+        CFont* pOldFont = pDC->GetCurrentFont();
         CFont font;
-        CMPCThemeUtil::getFontByType(font, pDC, CMPCThemeUtil::MenuFont);
-        CFont* pOldFont = pDC->SelectObject(&font);
+        if (CMPCThemeUtil::getFontByType(font, pDC, CMPCThemeUtil::MenuFont)) {
+            pDC->SelectObject(&font);
+        }
 
 
         if ((lpDrawItemStruct->itemState & ODS_SELECTED) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
@@ -388,9 +391,9 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
             if (mInfo.hSubMenu) {
                 CFont sfont;
-                CMPCThemeUtil::getFontByFace(sfont, pDC, CMPCTheme::uiSymbolFont, 14, FW_BOLD); //this seems right but explorer has subpixel hints and we don't. why (directdraw)?
-
-                pDC->SelectObject(&sfont);
+                if (CMPCThemeUtil::getFontByFace(sfont, pDC, CMPCTheme::uiSymbolFont, 14, FW_BOLD)) {
+                    pDC->SelectObject(&sfont);
+                }
                 pDC->SetTextColor(ArrowColor);
                 pDC->DrawText(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
@@ -406,8 +409,9 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
                     size = 10;
                 }
                 CFont bFont;
-                CMPCThemeUtil::getFontByFace(bFont, pDC, CMPCTheme::uiSymbolFont, size, FW_REGULAR); //this seems right but explorer has subpixel hints and we don't. why (directdraw)?
-                pDC->SelectObject(&bFont);
+                if (CMPCThemeUtil::getFontByFace(bFont, pDC, CMPCTheme::uiSymbolFont, size, FW_REGULAR)) {
+                    pDC->SelectObject(&bFont);
+                }
                 pDC->SetTextColor(TextFGColor);
                 pDC->DrawText(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }

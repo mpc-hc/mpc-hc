@@ -821,9 +821,11 @@ void CMessageBoxDialog::CreateMessageControl ( )
 	// Select the new font and store the old one.
     //mpc-hc use theme font for metrics
     //CFont* pOldFont = dcDisplay.SelectObject(GetFont());
+    CFont* pOldFont = dcDisplay.GetCurrentFont();
     CFont font;
-    CMPCThemeUtil::getFontByType(font, &dcDisplay, CMPCThemeUtil::MessageFont);
-	CFont* pOldFont = dcDisplay.SelectObject(&font);
+    if (CMPCThemeUtil::getFontByType(font, &dcDisplay, CMPCThemeUtil::MessageFont)) {
+        dcDisplay.SelectObject(&font);
+    }
 
 	// Define the maximum width of the message.
     int nMaxWidth = GetSystemMetrics(SM_CXSCREEN) - 2 * XDialogUnitToPixel(CX_BORDER);

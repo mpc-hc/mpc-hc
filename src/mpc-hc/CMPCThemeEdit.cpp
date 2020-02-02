@@ -97,8 +97,11 @@ void CMPCThemeEdit::SetFixedWidthFont(CFont& f)
 {
     if (AfxGetAppSettings().bMPCThemeLoaded) {
         CWindowDC dc(this);
-        CMPCThemeUtil::getFixedFont(font, &dc);
-        SetFont(&font);
+        if (CMPCThemeUtil::getFixedFont(font, &dc)) {
+            SetFont(&font);
+        } else {
+            SetFont(&f);
+        }
     } else {
         SetFont(&f);
     }
