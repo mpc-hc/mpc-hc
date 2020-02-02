@@ -466,10 +466,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
         if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
             VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
         }
-        // madVR supports calling IVideoWindow::put_Owner before the pins are connected
-        if (CComQIPtr<IVideoWindow> pVW = pCAP) {
-            VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
-        }
     } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter || m_clsid == CLSID_MPCVRAllocatorPresenter) {
         CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
     } else {
@@ -502,6 +498,13 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     if (pCAP) {
         CComPtr<IUnknown> pRenderer;
         CheckNoLog(pCAP->CreateRenderer(&pRenderer));
+
+        if (m_clsid == CLSID_madVRAllocatorPresenter) {
+            // madVR supports calling IVideoWindow::put_Owner before the pins are connected
+            if (CComQIPtr<IVideoWindow> pVW = pCAP) {
+                VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
+            }
+        }
 
         *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
         pUnks.AddTail(pCAP);
