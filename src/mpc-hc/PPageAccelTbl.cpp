@@ -948,7 +948,10 @@ BOOL CPPageAccelTbl::OnInitDialog()
 
     //this list was created dynamically but lives in a dialog.  if we don't inherit the parent font,
     //it will be scaled by text zoom settings, which looks bad in an unscaled dialog
-    m_list.SetFont(GetFont());
+    CFont* dialogFont = GetFont();
+    if (dialogFont && dialogFont->m_hObject) {
+        m_list.SetFont(dialogFont);
+    }
 
     for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
         m_list.DeleteColumn(0);
