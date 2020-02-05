@@ -353,6 +353,7 @@ HRESULT CRARFileSource::ScanArchive(wchar_t* archive_name, CRFSList<CRFSFile>* f
             file_list->InsertLast(file);
             (*ok_files_found)++;
             (*files_found)++;
+            rarArchive.Seek(rarArchive.NextBlockPos, SEEK_SET); //seek to next block before continuing
         }
     } while (MergeArchive(rarArchive, NULL, false, 'E'));
 
