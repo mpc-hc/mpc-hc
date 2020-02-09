@@ -427,7 +427,9 @@ public:
 
     void RemoveTask(SubtitlesTask* pTask) {
         CAutoLock cAutoLock(&m_csTasks);
-        m_pTasks.remove(pTask);
+        if(!m_pTasks.empty()) {
+            m_pTasks.remove(pTask);
+        }
         delete pTask;
     }
 
