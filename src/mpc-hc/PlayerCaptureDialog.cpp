@@ -729,9 +729,12 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
 
         int i = m_viddimension.GetCurSel();
         if (i >= 0) {
-            pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-            CopyMediaType(pmt, &((CVidFormatElem*)m_viddimension.GetItemData(i))->mt);
-            pcaps = &((CVidFormatElem*)m_viddimension.GetItemData(i))->caps;
+            AM_MEDIA_TYPE* pmtcur = &((CVidFormatElem*)m_viddimension.GetItemData(i))->mt;
+            if (pmtcur) {
+                pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
+                CopyMediaType(pmt, pmtcur);
+                pcaps = &((CVidFormatElem*)m_viddimension.GetItemData(i))->caps;
+            }
         } else if (m_pAMVSC) {
             m_pAMVSC->GetFormat(&pmt);
         }
@@ -776,8 +779,11 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
 
         int i = m_auddimension.GetCurSel();
         if (i >= 0) {
-            pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-            CopyMediaType(pmt, &((CAudFormatElem*)m_auddimension.GetItemData(i))->mt);
+            AM_MEDIA_TYPE* pmtcur = &((CAudFormatElem*)m_auddimension.GetItemData(i))->mt;
+            if (pmtcur) {
+                pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
+                CopyMediaType(pmt, pmtcur);
+            }
         } else if (m_pAMASC) {
             m_pAMASC->GetFormat(&pmt);
         }
