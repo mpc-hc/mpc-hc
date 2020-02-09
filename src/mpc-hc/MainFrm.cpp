@@ -10113,9 +10113,13 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             m_pCAP->SetVideoAngle(v);
             UpdateSubAspectRatioCompensation();
         } else  {
-            m_pBV->SetDefaultSourcePosition();
-            m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
-            m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
+            if (m_pBV) {
+                m_pBV->SetDefaultSourcePosition();
+                m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
+            }
+            if (m_pVW) {
+                m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
+            }
 
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoPosition(nullptr, &windowRect);
