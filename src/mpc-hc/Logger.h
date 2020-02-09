@@ -75,18 +75,22 @@ struct Logger final {
 private:
     Logger() {
         const auto& s = AfxGetAppSettings();
+        m_file = nullptr;
         // Check if logging is enabled only during initialization to avoid incomplete logs
-        ASSERT(s.IsInitialized());
-        CString savePath;
-        if (s.bEnableLogging && AfxGetMyApp()->GetAppSavePath(savePath)) {
-            if (!PathUtils::Exists(savePath)) {
-                ::CreateDirectory(savePath, nullptr);
+        if (s.IsInitialized()) {
+            if (s.bEnableLogging) {
+                CString savePath;
+                if (AfxGetMyApp()->GetAppSavePath(savePath)) {
+                    if (!PathUtils::Exists(savePath)) {
+                        ::CreateDirectory(savePath, nullptr);
+                    }
+                    m_file = _tfsopen(PathUtils::CombinePaths(savePath, GetFileName<TARGET>()), _T("at"), SH_DENYWR);
+                }
+                ASSERT(m_file);
             }
-            m_file = _tfsopen(PathUtils::CombinePaths(savePath, GetFileName<TARGET>()), _T("at"), SH_DENYWR);
         } else {
-            m_file = nullptr;
+            ASSERT(false);
         }
-        ASSERT(!s.bEnableLogging || m_file);
     }
 
     ~Logger() {

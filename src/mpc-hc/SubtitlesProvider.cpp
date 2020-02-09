@@ -29,7 +29,7 @@
 #include "rapidjson/include/rapidjson/document.h"
 #include <wincrypt.h>
 
-#define LOG if (AfxGetAppSettings().bEnableLogging) SUBTITLES_LOG
+#define LOG SUBTITLES_LOG
 #define LOG_NONE    _T("()")
 #define LOG_INPUT   _T("(\"%S\")")
 #define LOG_OUTPUT  _T("()=%S")
