@@ -1850,3 +1850,28 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
     r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + ::GetSystemMetrics(SM_CXEDGE) + szText.cx + tm.tmAveCharWidth;
     pComboBox->MoveWindow(r);
 }
+
+CString NormalizeUnicodeStrForSearch(CString srcStr) {
+    if (srcStr.IsEmpty()) return srcStr;
+    wchar_t* src = srcStr.GetBuffer();
+    int dstLen = wcslen(src) * 4;
+    wchar_t* dest = DEBUG_NEW wchar_t[dstLen];
+
+    int cchActual = NormalizeString(NormalizationKD, src, -1, dest, dstLen);
+    if (cchActual <= 0) dest[0] = 0;
+    WORD* rgType = DEBUG_NEW WORD[dstLen];
+    GetStringTypeW(CT_CTYPE3, dest, -1, rgType);
+    PWSTR pszWrite = dest;
+    for (int i = 0; dest[i]; i++) {
+        if (!(rgType[i] & C3_NONSPACING)) {
+            *pszWrite++ = dest[i];
+        }
+    }
+    *pszWrite = 0;
+    delete[] rgType;
+
+    CString ret = dest;
+    delete[] dest;
+    ret.MakeLower();
+    return ret;
+}

@@ -948,9 +948,9 @@ BOOL CPPageAccelTbl::OnInitDialog()
 
     //this list was created dynamically but lives in a dialog.  if we don't inherit the parent font,
     //it will be scaled by text zoom settings, which looks bad in an unscaled dialog
-    CFont* dialogFont = GetFont();
-    if (dialogFont && dialogFont->m_hObject) {
-        m_list.SetFont(dialogFont);
+    CFont* curDialogFont = GetFont();
+    if (curDialogFont && curDialogFont->m_hObject) {
+        m_list.SetFont(curDialogFont);
     }
 
     for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
@@ -1065,7 +1065,7 @@ void  CPPageAccelTbl::FilterList()
 {
     CString filter;
     filterEdit.GetWindowText(filter);
-    filter.MakeLower();
+    filter = NormalizeUnicodeStrForSearch(filter);
 
     m_list.SetRedraw(false);
     m_list.DeleteAllItems();
@@ -1079,9 +1079,9 @@ void  CPPageAccelTbl::FilterList()
         id.Format(_T("%u"), wc.cmd);
         sname = wc.GetName();
 
-        sname.MakeLower();
-        id.MakeLower();
-        hotkey.MakeLower();
+        sname = NormalizeUnicodeStrForSearch(sname);
+        id = NormalizeUnicodeStrForSearch(id);
+        hotkey = NormalizeUnicodeStrForSearch(hotkey);
 
         if (filter.IsEmpty() || sname.Find(filter) != -1 || hotkey.Find(filter) != -1 || id.Find(filter) != -1) {
             int row = m_list.InsertItem(m_list.GetItemCount(), wc.GetName(), COL_CMD);
