@@ -253,8 +253,7 @@ Source: {#platform}\mediainfo.dll;              DestDir: {app}; Components: main
 #endif
 Source: ..\COPYING.txt;                         DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: onlyifdestfileexists
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: onlyifdoesntexist
 #if USE_DRDUMP_CRASH_REPORTER
 #ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
