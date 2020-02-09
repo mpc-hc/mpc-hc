@@ -1802,35 +1802,37 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 switch (GetPlaybackMode()) {
                     case PM_FILE:
                         g_bExternalSubtitleTime = false;
-                        m_pMS->GetCurrentPosition(&rtNow);
-                        m_pMS->GetDuration(&rtDur);
+                        if (m_pMS) {
+                            m_pMS->GetCurrentPosition(&rtNow);
+                            m_pMS->GetDuration(&rtDur);
 
-                        if (m_bRememberFilePos && !m_fEndOfStream) {
-                            CFilePositionList& fp = AfxGetAppSettings().filePositions;
-                            FILE_POSITION* filePosition = fp.GetLatestEntry();
-                            if (filePosition) {
-                                bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
-                                filePosition->llPosition = rtNow;
-                                if (bSave) {
-                                    fp.SaveLatestEntry();
+                            if (m_bRememberFilePos && !m_fEndOfStream) {
+                                CFilePositionList& fp = AfxGetAppSettings().filePositions;
+                                FILE_POSITION* filePosition = fp.GetLatestEntry();
+                                if (filePosition) {
+                                    bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
+                                    filePosition->llPosition = rtNow;
+                                    if (bSave) {
+                                        fp.SaveLatestEntry();
+                                    }
                                 }
                             }
-                        }
 
-                        // Casimir666 : autosave subtitle sync after play
-                        if (m_nCurSubtitle >= 0 && m_rtCurSubPos != rtNow) {
-                            if (m_lSubtitleShift) {
-                                if (m_wndSubresyncBar.SaveToDisk()) {
-                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
-                                } else {
-                                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
+                            // Casimir666 : autosave subtitle sync after play
+                            if (m_nCurSubtitle >= 0 && m_rtCurSubPos != rtNow) {
+                                if (m_lSubtitleShift) {
+                                    if (m_wndSubresyncBar.SaveToDisk()) {
+                                        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_AG_SUBTITLES_SAVED), 500);
+                                    } else {
+                                        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_MAINFRM_4));
+                                    }
                                 }
+                                m_nCurSubtitle = -1;
+                                m_lSubtitleShift = 0;
                             }
-                            m_nCurSubtitle = -1;
-                            m_lSubtitleShift = 0;
-                        }
 
-                        m_wndStatusBar.SetStatusTimer(rtNow, rtDur, IsSubresyncBarVisible(), GetTimeFormat());
+                            m_wndStatusBar.SetStatusTimer(rtNow, rtDur, IsSubresyncBarVisible(), GetTimeFormat());
+                        }
                         break;
                     case PM_DVD:
                         g_bExternalSubtitleTime = true;
@@ -1861,7 +1863,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             if (m_wndCaptureBar.m_capdlg.m_pMux) {
                                 CComQIPtr<IMediaSeeking> pMuxMS = m_wndCaptureBar.m_capdlg.m_pMux;
                                 if (!pMuxMS || FAILED(pMuxMS->GetCurrentPosition(&rtNow))) {
-                                    m_pMS->GetCurrentPosition(&rtNow);
+                                    if (m_pMS) {
+                                        m_pMS->GetCurrentPosition(&rtNow);
+                                    }
                                 }
                             }
                             if (m_rtDurationOverride >= 0) {
