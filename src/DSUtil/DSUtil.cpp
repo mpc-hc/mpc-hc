@@ -34,6 +34,7 @@
 #include "moreuuids.h"
 #include <dxva.h>
 #include <dxva2api.h>
+#include <locale.h>
 
 int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 {
@@ -1851,9 +1852,22 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
     pComboBox->MoveWindow(r);
 }
 
-CString NormalizeUnicodeStrForSearch(CString srcStr) {
+CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid) {
     if (srcStr.IsEmpty()) return srcStr;
-    wchar_t* src = srcStr.GetBuffer();
+    wchar_t* src;
+
+    _locale_t locale;
+    LCID lcid = MAKELCID(MAKELANGID(langid, SUBLANG_DEFAULT), SORT_DEFAULT);
+    wchar_t localeName[32];
+    if (0 == LCIDToLocaleName(lcid, localeName, 32, LOCALE_ALLOW_NEUTRAL_NAMES)) { //try to lowercase by locale, but if not, do a regular MakeLower()
+        srcStr.MakeLower();
+        src = srcStr.GetBuffer();
+    } else {
+        src = srcStr.GetBuffer();
+        locale = _wcreate_locale(LC_ALL, localeName);
+        _wcslwr_s_l(src, wcslen(src) + 1, locale);
+    }
+
     int dstLen = wcslen(src) * 4;
     wchar_t* dest = DEBUG_NEW wchar_t[dstLen];
 
@@ -1872,6 +1886,5 @@ CString NormalizeUnicodeStrForSearch(CString srcStr) {
 
     CString ret = dest;
     delete[] dest;
-    ret.MakeLower();
     return ret;
 }

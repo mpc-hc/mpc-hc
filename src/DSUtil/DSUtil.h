@@ -119,7 +119,7 @@ extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
 extern void CorrectComboBoxHeaderWidth(CWnd* pComboBox);
 extern CString FindCoverArt(const CString& path, const CString& author);
-extern CString NormalizeUnicodeStrForSearch(CString srcStr);
+extern CString NormalizeUnicodeStrForSearch(CString srcStr, LANGID langid);
 
 enum FF_FIELD_TYPE {
     PICT_NONE,
