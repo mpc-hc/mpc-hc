@@ -144,7 +144,9 @@ void CWinHotkeyCtrl::DrawButton(CRect rectButton)
         bool disabled = 0 != (GetStyle() & (ES_READONLY | WS_DISABLED));
         bool selected = GetButtonThemeState() == PBS_PRESSED;
         bool highlighted = GetButtonThemeState() == PBS_HOT;
+        CFont* pOldFont = dc.SelectObject(GetFont());
         CMPCThemeButton::drawButtonBase(&dc, rectButton, GetButtonText(), selected, highlighted, false, disabled, true);
+        dc.SelectObject(pOldFont);
     } else {
         __super::DrawButton(rectButton);
     }
