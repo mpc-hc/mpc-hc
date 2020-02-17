@@ -9,6 +9,9 @@ CMPCThemeToolTipCtrl::CMPCThemeToolTipCtrl()
 {
     this->useFlickerHelper = false;
     this->helper = nullptr;
+    BOOL notBasicMode;
+    DwmIsCompositionEnabled(&notBasicMode);
+    basicMode = !notBasicMode;
 }
 
 
@@ -22,7 +25,7 @@ CMPCThemeToolTipCtrl::~CMPCThemeToolTipCtrl()
 
 void CMPCThemeToolTipCtrl::enableFlickerHelper()
 {
-    if (IsAppThemed() && IsThemeActive()) { //in classic mode, the helper gets wiped out by the fade, so we disable it
+    if (IsAppThemed() && IsThemeActive() && !basicMode) { //in classic/basic mode, the helper gets wiped out by the fade, so we disable it
         this->useFlickerHelper = true;
     }
 }

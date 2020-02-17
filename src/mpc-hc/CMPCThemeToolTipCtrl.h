@@ -21,7 +21,7 @@ class CMPCThemeToolTipCtrl : public CToolTipCtrl
 
     DECLARE_DYNAMIC(CMPCThemeToolTipCtrl)
 private:
-    bool useFlickerHelper;
+    bool useFlickerHelper, basicMode;
     CMPCThemeToolTipCtrlHelper* helper;
     void makeHelper();
 public:
