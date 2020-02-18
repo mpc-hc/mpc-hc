@@ -161,6 +161,7 @@
 #define ID_PLAY_PLAY                    887
 #define ID_PLAY_PAUSE                   888
 #define ID_PLAY_PLAYPAUSE               889
+#define IDS_AG_OPEN_FILE_LOCATION       889
 #define ID_PLAY_STOP                    890
 #define ID_PLAY_FRAMESTEP               891
 #define ID_PLAY_FRAMESTEPCANCEL         892
@@ -601,8 +602,8 @@
 #define IDS_MESSAGEBOX_IGNORE           20062
 #define IDS_MESSAGEBOX_OK               20063
 #define IDS_MESSAGEBOX_CONTINUE         20064
-#define IDS_AG_TOGGLE_DEFAULT_STYLE     20065
 #define IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE 20065
+#define ID_FILE_OPEN_LOCATION           20066
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -1618,7 +1619,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20066
+#define _APS_NEXT_RESOURCE_VALUE        20067
 #define _APS_NEXT_COMMAND_VALUE         33452
 #define _APS_NEXT_CONTROL_VALUE         22087
 #define _APS_NEXT_SYMED_VALUE           24052

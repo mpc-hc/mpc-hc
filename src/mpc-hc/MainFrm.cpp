@@ -265,6 +265,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_DOWNLOAD, OnUpdateFileSubtitlesDownload)
     ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
     ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES, OnUpdateFileProperties)
+    ON_COMMAND(ID_FILE_OPEN_LOCATION, OnFileOpenLocation)
+    ON_UPDATE_COMMAND_UI(ID_FILE_OPEN_LOCATION, OnUpdateFileProperties)
     ON_COMMAND(ID_FILE_CLOSE_AND_RESTORE, OnFileCloseAndRestore)
     ON_UPDATE_COMMAND_UI(ID_FILE_CLOSE_AND_RESTORE, OnUpdateFileClose)
     ON_COMMAND(ID_FILE_CLOSEMEDIA, OnFileCloseMedia)
@@ -5364,6 +5366,11 @@ void CMainFrame::OnFileProperties()
 void CMainFrame::OnUpdateFileProperties(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && GetPlaybackMode() != PM_ANALOG_CAPTURE);
+}
+
+void CMainFrame::OnFileOpenLocation() {
+    CString filePath = m_wndPlaylistBar.GetCurFileName();
+    ExploreToFile(filePath);
 }
 
 void CMainFrame::OnFileCloseMedia()

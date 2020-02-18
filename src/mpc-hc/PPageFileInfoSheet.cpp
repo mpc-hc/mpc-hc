@@ -82,6 +82,8 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 
     GetTabControl()->SetFocus();
 
+    CMPCThemeUtil::enableWindows10DarkFrame(this);
+
     return FALSE;  // return TRUE unless you set the focus to a control
 }
 

@@ -766,6 +766,7 @@ public:
     afx_msg void OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI);
     afx_msg void OnFileProperties();
     afx_msg void OnUpdateFileProperties(CCmdUI* pCmdUI);
+    afx_msg void OnFileOpenLocation();
     afx_msg void OnFileCloseAndRestore();
     afx_msg void OnFileCloseMedia(); // no menu item
     afx_msg void OnUpdateFileClose(CCmdUI* pCmdUI);

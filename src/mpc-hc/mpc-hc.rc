@@ -560,7 +560,7 @@ BEGIN
 END
 
 IDD_PPAGEACCELTBL DIALOGEX 0, 0, 355, 289
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CAPTION
 CAPTION "Shortcut Keys"
 FONT 9, "Segoe UI", 400, 0, 0x1
 BEGIN
@@ -1509,6 +1509,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
+        MENUITEM "Open File &Location",         ID_FILE_OPEN_LOCATION
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
@@ -1760,6 +1761,7 @@ BEGIN
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
+            MENUITEM "Open File &Location",         ID_FILE_OPEN_LOCATION
             MENUITEM SEPARATOR
             MENUITEM "E&xit",                       ID_FILE_EXIT
         END
@@ -2000,6 +2002,7 @@ BEGIN
             END
             MENUITEM SEPARATOR
             MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
+            MENUITEM "Open File &Location",         ID_FILE_OPEN_LOCATION
         END
         POPUP "&View"
         BEGIN
@@ -2725,6 +2728,7 @@ STRINGTABLE
 BEGIN
     ID_PLAY_PLAY            "Play\nPlay"
     ID_PLAY_PAUSE           "Pause\nPause"
+    IDS_AG_OPEN_FILE_LOCATION "Open File Location"
     ID_PLAY_STOP            "Stop\nStop"
     ID_PLAY_FRAMESTEP       "Step\nStep"
     ID_PLAY_DECRATE         "Decrease speed\nDecrease speed"
@@ -3807,6 +3811,20 @@ BEGIN
     IDS_VERTICAL_ALIGN_VIDEO_TOP "Align Top"
     IDS_VERTICAL_ALIGN_VIDEO_MIDDLE "Align Middle"
     IDS_VERTICAL_ALIGN_VIDEO_BOTTOM "Align Bottom"
+    IDS_PPAGEADVANCED_USE_YDL 
+                            "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
+    IDS_PPAGEADVANCED_YDL_MAX_HEIGHT 
+                            "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
+    IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT 
+                            "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+    IDS_PPAGEADVANCED_YDL_AUDIO_ONLY 
+                            "Instructs Youtube-DL to prefer an audio-only stream (if available)"
+    IDS_PPAGEADVANCED_YDL_COMMAND_LINE 
+                            "Command line parameters for downloading (""save a copy"") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
+    IDS_PPAGEADVANCED_SAVEIMAGE_POSITION "Include video position in filename"
+    IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME "Include current time in filename"
+    IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK 
+                            "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
 END
 
 STRINGTABLE
@@ -3851,18 +3869,14 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPAGEADVANCED_USE_YDL                   "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
-    IDS_PPAGEADVANCED_YDL_MAX_HEIGHT            "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
-    IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT          "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
-    IDS_PPAGEADVANCED_YDL_AUDIO_ONLY            "Instructs Youtube-DL to prefer an audio-only stream (if available)"
-    IDS_PPAGEADVANCED_YDL_COMMAND_LINE          "Command line parameters for downloading (""save a copy"") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o ""C:\\downloads\\%(title)s.%(ext)s"""
-    IDS_PPAGEADVANCED_SAVEIMAGE_POSITION        "Include video position in filename"
-    IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME     "Include current time in filename"
-    IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
-    IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE     "Loop back to first file in folder after playing the last file."
-    IDS_PPAGEADVANCED_MODERNSEEKBAR             "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
-    IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT       "Modern seekbar height (at 96dpi, otherwise scaled)"
-    IDS_PPAGEADVANCED_FULLSCREEN_DELAY          "Delay before showing fullscreen video, to prevent visual glitches."
+    IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE 
+                            "Loop back to first file in folder after playing the last file."
+    IDS_PPAGEADVANCED_MODERNSEEKBAR 
+                            "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
+    IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT 
+                            "Modern seekbar height (at 96dpi, otherwise scaled)"
+    IDS_PPAGEADVANCED_FULLSCREEN_DELAY 
+                            "Delay before showing fullscreen video, to prevent visual glitches."
 END
 
 #endif    // English (United States) resources
