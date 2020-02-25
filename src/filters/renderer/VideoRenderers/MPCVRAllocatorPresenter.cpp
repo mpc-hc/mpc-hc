@@ -126,8 +126,7 @@ HRESULT CMPCVRAllocatorPresenter::Render(
     if (atpf > 0 && m_pSubPicQueue) {
         m_pSubPicQueue->SetFPS(10000000.0 / atpf);
     }
-    AlphaBltSubPic(wndRect, videoRect);
-    return S_OK;
+    return AlphaBltSubPic(wndRect, videoRect);
 }
 
 // ISubPicAllocatorPresenter

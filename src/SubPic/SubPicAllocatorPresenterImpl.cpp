@@ -139,9 +139,11 @@ void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect,
         CRect rcSource, rcDest;
         if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest,
                                                 videoStretchFactor, xOffsetInPixels))) {
-            pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
+            return pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
     }
+
+    return E_FAIL;
 }
 
 // ISubPicAllocatorPresenter

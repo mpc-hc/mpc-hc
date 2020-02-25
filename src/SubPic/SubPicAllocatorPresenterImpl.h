@@ -67,11 +67,11 @@ protected:
     SubtitleTextureLimit m_SubtitleTextureLimit;
     void InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize);
 
-    void AlphaBltSubPic(const CRect& windowRect,
-                        const CRect& videoRect,
-                        SubPicDesc* pTarget = nullptr,
-                        const double videoStretchFactor = 1.0,
-                        int xOffsetInPixels = 0);
+    HRESULT AlphaBltSubPic(const CRect& windowRect,
+                           const CRect& videoRect,
+                           SubPicDesc* pTarget = nullptr,
+                           const double videoStretchFactor = 1.0,
+                           int xOffsetInPixels = 0);
 
     void UpdateXForm();
     HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;
