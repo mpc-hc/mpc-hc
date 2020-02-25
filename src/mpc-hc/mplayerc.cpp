@@ -1755,7 +1755,9 @@ BOOL CMPlayerCApp::InitInstance()
                 } else {
                     ASSERT(FALSE);
                 }
-                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd)) {
+                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
+                    (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
+                    ) {
                     ShowWindow(hWnd, SW_RESTORE);
                 }
                 if (SendCommandLine(hWnd)) {
