@@ -901,6 +901,10 @@ msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
 msgstr "Pauza\nPauza"
 
+msgctxt "IDS_AG_OPEN_FILE_LOCATION"
+msgid "Open File Location"
+msgstr ""
+
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
 msgstr "Zaustavi\nZaustavi"
@@ -3933,6 +3937,38 @@ msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_USE_YDL"
+msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
+msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
+msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
+msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
+msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
+msgid "Include video position in filename"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
+msgid "Include current time in filename"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
+msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
+msgstr ""
+
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tPokreni u načinu cijelog ekrana"
@@ -4027,38 +4063,6 @@ msgstr ""
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_USE_YDL"
-msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
-msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
-msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
-msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
-msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s\""
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
-msgid "Include video position in filename"
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
-msgid "Include current time in filename"
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
-msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"

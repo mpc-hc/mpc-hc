@@ -89,6 +89,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "E&genskaper"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "&Avsluta"
@@ -492,6 +496,22 @@ msgstr "Flytta &ned"
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
 msgstr "Centrera"
+
+msgctxt "ID_PANSCAN_ROTATEZM"
+msgid "Rotate Cloc&kwise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZ270"
+msgid "Rotate Counter-Clock&wise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEXM"
+msgid "&Flip Vertically"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYM"
+msgid "&Mirror"
+msgstr ""
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"

@@ -89,6 +89,10 @@ msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
 msgstr "প্রোপার্টিস (&R)"
 
+msgctxt "ID_FILE_OPEN_LOCATION"
+msgid "Open File &Location"
+msgstr ""
+
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
 msgstr "প্রোগ্রাম বন্ধ করি (&X)"
@@ -492,6 +496,22 @@ msgstr "নিচে সরাই (&D)"
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
 msgstr "কেন্দ্রে সরাই (&T)"
+
+msgctxt "ID_PANSCAN_ROTATEZM"
+msgid "Rotate Cloc&kwise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEZ270"
+msgid "Rotate Counter-Clock&wise"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEXM"
+msgid "&Flip Vertically"
+msgstr ""
+
+msgctxt "ID_PANSCAN_ROTATEYM"
+msgid "&Mirror"
+msgstr ""
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"

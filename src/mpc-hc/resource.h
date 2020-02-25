@@ -262,6 +262,7 @@
 #define ID_NORMALIZE                    994
 #define ID_REGAIN_VOLUME                995
 #define ID_PLAY_SEEKSET                 996
+#define ID_PANSCAN_ROTATEZ270           997
 #define ID_FILTERS_COPY_TO_CLIPBOARD    1999
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099

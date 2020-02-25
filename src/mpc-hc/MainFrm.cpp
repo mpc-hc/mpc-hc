@@ -321,6 +321,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANNSCAN_PRESETS_START, ID_PANNSCAN_PRESETS_END, OnUpdateViewPanNScanPresets)
     ON_COMMAND_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnViewRotate)
     ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEXP, ID_PANSCAN_ROTATEZM, OnUpdateViewRotate)
+    ON_COMMAND_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnViewRotate)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_PANSCAN_ROTATEZ270, ID_PANSCAN_ROTATEZ270, OnUpdateViewRotate)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
@@ -6837,6 +6839,7 @@ void CMainFrame::OnViewRotate(UINT nID)
 
         switch (nID) {
             case ID_PANSCAN_ROTATEZP:
+            case ID_PANSCAN_ROTATEZ270:
                 rotation += 270;
                 break;
             case ID_PANSCAN_ROTATEZM:
@@ -6871,6 +6874,19 @@ void CMainFrame::OnViewRotate(UINT nID)
                     m_AngleY = 0;
                 } else {
                     m_AngleY = 180;
+                }
+                break;
+            case ID_PANSCAN_ROTATEZ270:
+                if (m_AngleZ > 270) {
+                    m_AngleZ = 270;
+                } else if (m_AngleZ > 180) {
+                    m_AngleZ = 180;
+                } else if (m_AngleZ > 90) {
+                    m_AngleZ = 90;
+                } else if (m_AngleZ > 0) {
+                    m_AngleZ = 0;
+                } else {
+                    m_AngleZ = 270;
                 }
                 break;
             case ID_PANSCAN_ROTATEZP:
