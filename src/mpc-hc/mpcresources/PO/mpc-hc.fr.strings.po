@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-01-10 07:05:47+0000\n"
+"POT-Creation-Date: 2020-02-16 05:57:19+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2020\n"
 "Language-Team: French (https://www.transifex.com/mpchc/teams/106126/fr/)\n"
@@ -3940,7 +3940,7 @@ msgstr "Aligner en bas"
 
 msgctxt "IDS_PPAGEADVANCED_USE_YDL"
 msgid "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal whitelist/blacklist for URLs that are always/never processed."
-msgstr ""
+msgstr "Traiter les URL HTTP avec Youtube-DL (si disponible). Il existe une liste blanche / liste noire interne des URL qui sont toujours / ne sont jamais traitées ainsi."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
 msgid "Can be used to limit the video resolution that is chosen by Youtube-DL by the given height. Value 0 means it will choose the highest resolution available."
@@ -3960,7 +3960,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_POSITION"
 msgid "Include video position in filename"
-msgstr ""
+msgstr "Inclure la position de lecture de la vidéo dans le nom de fichier."
 
 msgctxt "IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME"
 msgid "Include current time in filename"
@@ -4068,17 +4068,17 @@ msgstr "Activer/désactiver le thème sombre"
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."
-msgstr ""
+msgstr "Reboucler sur le premier fichier du répertoire après avoir fini de lire le dernier fichier."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBAR"
 msgid "Requires Dark Theme. When enabled, the time seekbar and volume indicator don't show a dragger at current position, but instead are filled from left to right."
-msgstr ""
+msgstr "Cette option requiert le thème sombre. Quand elle est activée, la barre de progression de la vidéo et l'indicateur de volume, au lieu d'afficher un curseur, se remplissent de la gauche vers la droite."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr ""
+msgstr "Hauteur de la barre de progression (à 96dpi, sinon, mis à l'échelle)."
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
-msgstr ""
+msgstr "Temporiser le basculement en plein écran de la vidéo, afin d'éviter les artéfacts visuels."
 

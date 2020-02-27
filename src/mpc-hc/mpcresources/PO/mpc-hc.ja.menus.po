@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-01-10 07:26:08+0000\n"
+"POT-Creation-Date: 2020-02-23 05:32:01+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ever_green, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
@@ -92,7 +92,7 @@ msgstr "プロパティ(&R)"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr ""
+msgstr "ファイルの場所を開く(&L)"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -208,7 +208,7 @@ msgstr "統計情報を表示(&D)"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr "現在の再生時間を表示(&I)"
+msgstr "再生位置を表示(&I)"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
@@ -232,19 +232,19 @@ msgstr "表示(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Direct3D フルスクリーン モード(&M)"
+msgstr "D3D フルスクリーン モード(&M)"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Direct3D フルスクリーン GUI 対応(&G)"
+msgstr "D3D フルスクリーン GUI 対応(&G)"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10 ビット RGB 出力(&R)"
+msgstr "10-bit RGB 出力(&R)"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "強制的に 10 ビット RGB 入力(&I)"
+msgstr "強制的に 10-bit RGB 入力(&I)"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
@@ -264,7 +264,7 @@ msgstr "フレーム時間の補正を有効にする(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "カラー調整(&C)"
+msgstr "色の管理(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
@@ -420,7 +420,7 @@ msgstr "縦横比(&A)"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "標準 (DAR)(&D)"
+msgstr "標準 (&DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -444,7 +444,7 @@ msgstr "185:100(&8)"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr "正方形ピクセルを想定 (SAR)(&S)"
+msgstr "正方形ピクセルを想定 (&SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -624,7 +624,7 @@ msgstr "ミュート(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "再生終了後の動作(&T)"
+msgstr "再生終了後(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
@@ -676,7 +676,7 @@ msgstr "次へ(&N)"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "指定位置に移動(&G)..."
+msgstr "移動(&G)..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"

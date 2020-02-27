@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2020-02-16 05:57:19+0000\n"
+"POT-Creation-Date: 2020-02-23 05:32:01+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ever_green, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/mpchc/teams/106126/ja/)\n"
@@ -1320,7 +1320,7 @@ msgstr "値"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "「最近使ったファイル」のメニューに表示され、再生位置が保存される可能性のあるファイルの最大数です。"
+msgstr "「最近使ったファイル」 のメニューに表示され、再生位置が保存される可能性のあるファイルの最大数です。"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -2180,7 +2180,7 @@ msgstr "MPC-HC で再生する"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC does not have sufficient privileges to change file associations. Please click on the \"Run as administrator\" button."
-msgstr "MPC-HC はファイル形式の関連付けを変更する十分な権限をもっていません。 「管理者として実行」ボタンをクリックしてください。"
+msgstr "MPC-HC はファイル形式の関連付けを変更する十分な権限をもっていません。 「管理者として実行」 ボタンをクリックしてください。"
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3564,7 +3564,7 @@ msgstr "明るさを上げる"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "「直前のキーフレーム」を選択した場合、実際のシーク ポイントより前にある最初のキーフレームをシークします。\n「最も近いキーフレーム」を選択した場合、どちらが最も近いかに応じて、シーク ポイントの前または後にある最初のキーフレームをシークします。"
+msgstr "「直前のキーフレーム」 を選択した場合、実際のシーク ポイントより前にある最初のキーフレームをシークします。\n「最も近いキーフレーム」 を選択した場合、どちらが最も近いかに応じて、シーク ポイントの前または後にある最初のキーフレームをシークします。"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
@@ -3948,11 +3948,11 @@ msgstr "Youtube-DL が選択したビデオ解像度を高さによって制限�
 
 msgctxt "IDS_PPAGEADVANCED_YDL_VIDEO_FORMAT"
 msgid "Preferred video format for stream that is selected from Youtube-DL results.\n0: Automatic\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
-msgstr "Youtube-DL の結果から選択されたストリームの優先ビデオ形式。\n0: 自動\n1: H.264 30fps\n2: H.264 60fps\n3: VP9 30fps\n4: VP9 60fps\n5: VP9 Profile2 30fps\n6: VP9 Profile2 60fps\n7: AV1 30fps\n8: AV1 60fps"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_YDL_AUDIO_ONLY"
 msgid "Instructs Youtube-DL to prefer an audio-only stream (if available)"
-msgstr "YouTube-DL にオーディオのみのストリームを優先するように指示します (使用可能な場合)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_YDL_COMMAND_LINE"
 msgid "Command line parameters for downloading (\"save a copy\") with youtube-dl.exe\nExamples:\n-f best[height<=1080]\n-f bestvideo+bestaudio\n-o \"C:\\downloads\\%(title)s.%(ext)s"
@@ -3968,7 +3968,7 @@ msgstr "ファイル名に現在の時刻を含めます"
 
 msgctxt "IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK"
 msgid "When enabled, fast seek (to keyframe) has a maximum inaccuracy of 20 seconds. When disabled, a smaller inaccuracy is allowed when deciding between a fast and a normal seek. For example 30% of jump size."
-msgstr "有効にすると、高速シーク (キーフレームへ) の最大精度は20秒になります。無効にすると、高速シークと通常シークの間で決定する際に、より小さな不正確さが許されます。例えば、ジャンプサイズの 30% です。"
+msgstr "有効にすると、高速シーク (キーフレームに) の最大精度は20秒になります。無効にすると、高速シークと通常シークの間で決定する際に、より小さな不正確さが許されます。例えば、ジャンプサイズの 30% です。"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
