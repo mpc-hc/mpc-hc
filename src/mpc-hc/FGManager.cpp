@@ -32,7 +32,7 @@
 #include "PathUtils.h"
 #include "SyncAllocatorPresenter.h"
 #include "mplayerc.h"
-#include "sanear/sanear/src/Factory.h"
+#include "sanear/src/Factory.h"
 #include <d3d9.h>
 #include <evr.h>
 #include <evr9.h>

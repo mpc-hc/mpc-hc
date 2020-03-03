@@ -26,7 +26,7 @@
 
 #include <FunctionDiscoveryKeys_devpkey.h>
 #include <Mmdeviceapi.h>
-#include <sanear/sanear/src/Settings.h>
+#include <sanear/src/Settings.h>
 #include "AppSettings.h"
 
 namespace

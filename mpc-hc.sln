@@ -118,7 +118,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundTouch", "src\thirdpart
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zita-resampler", "src\thirdparty\zita-resampler\zita-resampler.vcxproj", "{F3D02050-F39A-4103-8343-09285359A495}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sanear", "src\thirdparty\sanear\sanear\sanear.vcxproj", "{BB2B61AF-734A-4DAD-9326-07F4F9EA088F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sanear", "src\thirdparty\sanear\sanear.vcxproj", "{BB2B61AF-734A-4DAD-9326-07F4F9EA088F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildConfig", "build\BuildConfig.vcxproj", "{981574AE-5A5E-4F27-BDF1-1B841E374CFF}"
 EndProject

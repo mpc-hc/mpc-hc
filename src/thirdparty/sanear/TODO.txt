@@ -1,0 +1,5 @@
+ - design and implement "guided reclock" interface
+ - don't recreate the device when media type changes during playback and the old one can be used
+ - override advise portion of IReferenceClock interface
+ - add "excessive precision processing" option
+ - play silence during pause in exclusive mode (for ati hdmi)

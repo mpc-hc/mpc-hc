@@ -13,10 +13,6 @@
 [submodule "rapidjson"]
 	path = src/thirdparty/rapidjson
 	url = https://github.com/tencent/rapidjson.git
-[submodule "sanear"]
-	path = src/thirdparty/sanear/sanear
-	url = https://github.com/mpc-hc/sanear.git
-	branch = core
 [submodule "soundtouch"]
 	path = src/thirdparty/SoundTouch/soundtouch
 	url = https://github.com/alexmarsev/soundtouch.git

@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\MyClock.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyFilter.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyPin.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspMatrix.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspChunk.cpp">
+      <Filter>Processors\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspRate.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspCrossfeed.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspVolume.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyBasicAudio.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspTempo.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspLimiter.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspDither.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Factory.cpp" />
+    <ClCompile Include="src\Settings.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspBalance.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyPropertyPage.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyTestClock.cpp">
+      <Filter>DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SampleCorrection.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioDeviceManager.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioDevicePush.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioDeviceEvent.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DspTempo2.cpp">
+      <Filter>Processors</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\DspMatrix.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyClock.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyFilter.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyPin.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspFormat.h">
+      <Filter>Processors\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspChunk.h">
+      <Filter>Processors\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspRate.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspCrossfeed.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspVolume.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyBasicAudio.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspTempo.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspLimiter.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspDither.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interfaces.h" />
+    <ClInclude Include="src\Factory.h" />
+    <ClInclude Include="src\Settings.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspBalance.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyPropertyPage.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyTestClock.h">
+      <Filter>DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspBase.h">
+      <Filter>Processors\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SampleCorrection.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="IGuidedReclock.h" />
+    <ClInclude Include="src\AudioDeviceManager.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioDevicePush.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioDevice.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioDeviceEvent.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DspTempo2.h">
+      <Filter>Processors</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectShow">
+      <UniqueIdentifier>{1cc808ed-f91c-45a4-9c82-d6a6d422a8eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{3f58a259-0add-4551-8143-2356eb53a71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{0dffffd5-d64c-40fb-b287-a85fd25a01ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors">
+      <UniqueIdentifier>{e8ae44fa-1f63-44d6-b082-9b38edb6f5e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors\Base">
+      <UniqueIdentifier>{a3828985-2937-4570-8aa1-110935fd6227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{0fcfb96b-d55e-4bd8-9a08-2f45801291ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

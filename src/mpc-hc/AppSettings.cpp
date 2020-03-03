@@ -32,7 +32,7 @@
 #include "WinAPIUtils.h"
 #include "moreuuids.h"
 #include "mplayerc.h"
-#include "../thirdparty/sanear/sanear/src/Factory.h"
+#include "../thirdparty/sanear/src/Factory.h"
 #include <VersionHelpersInternal.h>
 #include <mvrInterfaces.h>
 

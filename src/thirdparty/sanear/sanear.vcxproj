@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB2B61AF-734A-4DAD-9326-07F4F9EA088F}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Choose>
+    <When Condition="'$(SanearPlatformPropsPath)' != ''" />
+    <When Condition="'$(SolutionDir)' != '' And Exists('$(SolutionDir)sanear-platform.props')">
+      <PropertyGroup>
+        <SanearPlatformPropsPath>$(SolutionDir)sanear-platform.props</SanearPlatformPropsPath>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <SanearPlatformPropsPath>sanear-platform.props</SanearPlatformPropsPath>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <Import Project="$(SanearPlatformPropsPath)" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <Choose>
+    <When Condition="'$(SanearPropsPath)' != ''" />
+    <When Condition="'$(SolutionDir)' != '' And Exists('$(SolutionDir)sanear.props')">
+      <PropertyGroup>
+        <SanearPropsPath>$(SolutionDir)sanear.props</SanearPropsPath>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <SanearPropsPath>sanear.props</SanearPropsPath>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <Import Project="$(SanearPropsPath)" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="IGuidedReclock.h" />
+    <ClInclude Include="src\AudioDeviceEvent.h" />
+    <ClInclude Include="src\AudioDevicePush.h" />
+    <ClInclude Include="src\AudioDevice.h" />
+    <ClInclude Include="src\AudioDeviceManager.h" />
+    <ClInclude Include="src\DspBalance.h" />
+    <ClInclude Include="src\DspBase.h" />
+    <ClInclude Include="src\DspCrossfeed.h" />
+    <ClInclude Include="src\DspDither.h" />
+    <ClInclude Include="src\DspFormat.h" />
+    <ClInclude Include="src\DspTempo2.h" />
+    <ClInclude Include="src\DspLimiter.h" />
+    <ClInclude Include="src\DspMatrix.h" />
+    <ClInclude Include="src\DspChunk.h" />
+    <ClInclude Include="src\AudioRenderer.h" />
+    <ClInclude Include="src\DspTempo.h" />
+    <ClInclude Include="src\DspVolume.h" />
+    <ClInclude Include="src\Interfaces.h" />
+    <ClInclude Include="src\MyBasicAudio.h" />
+    <ClInclude Include="src\MyPropertyPage.h" />
+    <ClInclude Include="src\MyTestClock.h" />
+    <ClInclude Include="src\Settings.h" />
+    <ClInclude Include="src\SampleCorrection.h" />
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\MyFilter.h" />
+    <ClInclude Include="src\MyClock.h" />
+    <ClInclude Include="src\Factory.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\MyPin.h" />
+    <ClInclude Include="src\DspRate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AudioDeviceEvent.cpp" />
+    <ClCompile Include="src\AudioDevicePush.cpp" />
+    <ClCompile Include="src\AudioDeviceManager.cpp" />
+    <ClCompile Include="src\DspBalance.cpp" />
+    <ClCompile Include="src\DspCrossfeed.cpp" />
+    <ClCompile Include="src\DspDither.cpp" />
+    <ClCompile Include="src\DspTempo2.cpp" />
+    <ClCompile Include="src\DspLimiter.cpp" />
+    <ClCompile Include="src\DspMatrix.cpp" />
+    <ClCompile Include="src\DspChunk.cpp" />
+    <ClCompile Include="src\DspTempo.cpp" />
+    <ClCompile Include="src\DspVolume.cpp" />
+    <ClCompile Include="src\MyBasicAudio.cpp" />
+    <ClCompile Include="src\MyFilter.cpp" />
+    <ClCompile Include="src\MyClock.cpp" />
+    <ClCompile Include="src\Factory.cpp" />
+    <ClCompile Include="src\MyPropertyPage.cpp" />
+    <ClCompile Include="src\MyTestClock.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\MyPin.cpp" />
+    <ClCompile Include="src\DspRate.cpp" />
+    <ClCompile Include="src\AudioRenderer.cpp" />
+    <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\SampleCorrection.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

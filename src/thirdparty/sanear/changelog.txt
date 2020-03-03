@@ -1,0 +1,20 @@
+Sanear, a robust DirectShow audio renderer
+==========================================
+
+v0.3 - 2015/08/08
+* Bugfixing release
+* Improves status page compatibility with certain players
+
+v0.2 - 2015/08/02
+* Bugfixing release
+* Fixes audible noise in dithering
+
+v0.1 - 2015/07/22
+* Initial release
+* Outputs sound through WASAPI (shared or exclusive)
+* Employs automatic channel downmixing (as per standard)
+* Provides stereo crossfeed processing option (for headphones)
+* Tries to preserve signal pitch when playing at custom rate (time stretching)
+* Uses audio device clock as clock source
+* Comes in 32-bit and 64-bit versions
+* Supports bitstreaming

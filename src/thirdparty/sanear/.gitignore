@@ -1,0 +1,9 @@
+/dll/bin
+/dll/ipch
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.user
+*.aps
+*.vspx
+*.opendb

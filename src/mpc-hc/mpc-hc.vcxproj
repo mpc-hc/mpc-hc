@@ -706,7 +706,7 @@
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\sanear\sanear\sanear.vcxproj">
+    <ProjectReference Include="..\thirdparty\sanear\sanear.vcxproj">
       <Project>{bb2b61af-734a-4dad-9326-07f4f9ea088f}</Project>
       <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
